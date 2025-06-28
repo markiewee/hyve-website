@@ -1,36 +1,4 @@
 {
-  "functions": {
-    "api/properties.py": {
-      "runtime": "python3.9"
-    },
-    "api/property/[id].py": {
-      "runtime": "python3.9"
-    },
-    "api/property/[id]/rooms.py": {
-      "runtime": "python3.9"
-    },
-    "api/rooms.py": {
-      "runtime": "python3.9"
-    }
-  },
-  "rewrites": [
-    {
-      "source": "/api/properties",
-      "destination": "/api/properties.py"
-    },
-    {
-      "source": "/api/property/(.*)",
-      "destination": "/api/property/$1.py"
-    },
-    {
-      "source": "/api/property/(.*)/rooms",
-      "destination": "/api/property/$1/rooms.py"
-    },
-    {
-      "source": "/api/rooms",
-      "destination": "/api/rooms.py"
-    }
-  ],
   "headers": [
     {
       "source": "/api/(.*)",
