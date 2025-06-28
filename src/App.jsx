@@ -9,7 +9,6 @@ import PropertiesPage from './components/PropertiesPage';
 import PropertyDetailPage from './components/PropertyDetailPage';
 import LocationsPage from './components/LocationsPage';
 import AboutPage from './components/AboutPage';
-import ContactPage from './components/ContactPage';
 import FAQsPage from './components/FAQsPage';
 
 function App() {
@@ -46,7 +45,6 @@ function App() {
           <Route path="/property/:id" element={<PropertyDetailPage />} />
           <Route path="/locations" element={<LocationsPage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
           <Route path="/faqs" element={<FAQsPage />} />
         </Routes>
       </div>

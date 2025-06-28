@@ -14,13 +14,12 @@ const Navbar = () => {
     { name: 'Locations', href: '/locations' },
     { name: 'About', href: '/about' },
     { name: 'FAQs', href: '/faqs' },
-    { name: 'Contact', href: '/contact' },
   ];
 
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 transition-all duration-300">
+    <nav className="bg-white/50 backdrop-blur-lg shadow-sm sticky top-0 z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
