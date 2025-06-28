@@ -1,0 +1,2 @@
+# No external dependencies needed for basic serverless functions
+# All required modules are part of Python standard library
