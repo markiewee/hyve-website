@@ -145,7 +145,7 @@ const PropertyDetailPage = () => {
   };
 
   const getCurrentImageSrc = () => {
-    if (!property?.images?.length) return '/modern_coliving_space.jpg';
+    if (!property?.images?.length) return '/stock_apart1.png';
     
     const currentImage = property.images[currentImageIndex];
     if (currentImage?.image) {
@@ -418,7 +418,7 @@ const PropertyDetailPage = () => {
                                 ? urlFor(room.images[0].image).width(1920).height(1280).url()
                                 : room.images?.[0] 
                                 ? `/${room.images[0]}`
-                                : '/modern_coliving_space.jpg'
+                                : '/stock_apart1.png'
                             }
                             alt={room.images?.[0]?.alt || `Room ${room.roomNumber}`}
                             className="w-full h-full object-cover"
@@ -790,7 +790,7 @@ const PropertyDetailPage = () => {
                         ? urlFor(selectedRoom.images[0].image).width(1920).height(1280).url()
                         : selectedRoom.images?.[0] 
                         ? `/${selectedRoom.images[0]}`
-                        : '/modern_coliving_space.jpg'
+                        : '/stock_apart1.png'
                     }
                     alt={selectedRoom.images?.[0]?.alt || `Room ${selectedRoom.roomNumber}`}
                     className="w-full h-full object-cover"

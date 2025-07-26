@@ -148,7 +148,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
       // Fallback if no images
       if (images.length === 0) {
         images.push({
-          src: '/modern_coliving_space.jpg',
+          src: '/stock_apart1.png',
           alt: property.name
         });
       }

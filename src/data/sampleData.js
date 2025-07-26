@@ -10,7 +10,7 @@ export const properties = [
     propertyType: "Condominium",
     totalRooms: 8,
     amenities: ["Swimming Pool", "Gym", "24/7 Security", "Parking", "WiFi", "Housekeeping", "Laundry"],
-    images: ["hero_coliving_interior.jpg", "modern_coliving_space.jpg", "singapore_apartment_living.jpg"],
+    images: ["hero_coliving_interior.jpg", "stock_apart1.png", "modern_coliving_space.jpg"],
     startingPrice: 900,
     availableRooms: 2,
     nearbyMRT: ["Lentor MRT (5 min walk)", "Mayflower MRT (8 min walk)"],
@@ -29,7 +29,7 @@ export const properties = [
     propertyType: "Penthouse",
     totalRooms: 6,
     amenities: ["Rooftop Terrace", "City Views", "Premium Furnishing", "Concierge", "WiFi", "Housekeeping"],
-    images: ["river_valley_exterior.jpg", "modern_coliving_space.jpg", "shared_kitchen.jpg"],
+    images: ["river_valley_exterior.jpg", "stock_apart2.png", "shared_kitchen.jpg"],
     startingPrice: 1200,
     availableRooms: 1,
     nearbyMRT: ["Great World MRT (3 min walk)", "Orchard MRT (10 min walk)"],
@@ -48,7 +48,7 @@ export const properties = [
     propertyType: "Apartment",
     totalRooms: 5,
     amenities: ["Shopping Access", "MRT Nearby", "Restaurants", "WiFi", "Housekeeping", "Flexible Terms"],
-    images: ["orchard_building.jpg", "singapore_apartment_living.jpg", "modern_bedroom.jpg"],
+    images: ["orchard_building.jpg", "stock_apart1.png", "singapore_apartment_living.jpg"],
     startingPrice: 1100,
     availableRooms: 3,
     nearbyMRT: ["Orchard MRT (2 min walk)", "Somerset MRT (5 min walk)"],
@@ -67,7 +67,7 @@ export const properties = [
     propertyType: "Heritage Building",
     totalRooms: 4,
     amenities: ["Heritage Architecture", "Local Cafes", "Art Scene", "WiFi", "Housekeeping", "Community Events"],
-    images: ["tiong_bahru_neighborhood.jpg", "modern_coliving_space.jpg", "shared_kitchen.jpg"],
+    images: ["tiong_bahru_neighborhood.jpg", "stock_apart2.png", "shared_kitchen.jpg"],
     startingPrice: 950,
     availableRooms: 2,
     nearbyMRT: ["Tiong Bahru MRT (3 min walk)", "Outram Park MRT (8 min walk)"],
@@ -88,7 +88,7 @@ export const rooms = [
     isAvailable: true,
     availableFrom: "2025-07-15",
     amenities: ["Private Bathroom", "Balcony", "Air Conditioning", "Study Desk"],
-    images: ["modern_bedroom.jpg"]
+    images: ["modern_bedroom.jpg", "stock_apart1.png"]
   },
   {
     id: 2,
@@ -100,7 +100,7 @@ export const rooms = [
     isAvailable: true,
     availableFrom: "2025-08-01",
     amenities: ["Shared Bathroom", "Air Conditioning", "Study Desk"],
-    images: ["modern_bedroom.jpg"]
+    images: ["modern_bedroom.jpg", "stock_apart1.png"]
   },
   {
     id: 3,
@@ -111,7 +111,7 @@ export const rooms = [
     sizeSqm: 15,
     isAvailable: false,
     amenities: ["Shared Bathroom", "Air Conditioning", "Study Desk"],
-    images: ["modern_bedroom.jpg"]
+    images: ["modern_bedroom.jpg", "stock_apart1.png"]
   },
   {
     id: 4,
@@ -123,7 +123,7 @@ export const rooms = [
     isAvailable: true,
     availableFrom: "2025-07-01",
     amenities: ["Private Bathroom", "City View", "Balcony", "Premium Furnishing"],
-    images: ["modern_bedroom.jpg"]
+    images: ["modern_bedroom.jpg", "stock_apart1.png"]
   },
   {
     id: 5,
@@ -135,7 +135,7 @@ export const rooms = [
     isAvailable: true,
     availableFrom: "2025-07-10",
     amenities: ["Shared Bathroom", "Air Conditioning", "Study Desk"],
-    images: ["modern_bedroom.jpg"]
+    images: ["modern_bedroom.jpg", "stock_apart1.png"]
   }
 ];
 

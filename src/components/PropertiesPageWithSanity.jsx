@@ -94,7 +94,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
           src={
             property.images?.[0]?.image 
               ? urlFor(property.images[0].image).width(1920).height(1280).url()
-              : `/${property.images?.[0] || 'modern_coliving_space.jpg'}`
+              : `/${property.images?.[0] || 'stock_apart1.png'}`
           }
           alt={property.images?.[0]?.alt || property.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
