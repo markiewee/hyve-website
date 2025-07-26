@@ -30,10 +30,11 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
         
         setHomePageContent(sanityHomePage);
         
-        // Use Sanity properties if available, otherwise fall back to API/sample data
-        if (sanityProperties && sanityProperties.length > 0) {
-          setProperties(sanityProperties);
-        } else {
+        // Use sample data for now (temporarily disable Sanity for properties)
+        // TODO: Update Sanity CMS properties to have correct images, then re-enable this
+        // if (sanityProperties && sanityProperties.length > 0) {
+        //   setProperties(sanityProperties);
+        // } else {
           // Fallback to existing API/sample data
           try {
             const data = await ApiService.getProperties();
@@ -42,7 +43,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
             const { properties: sampleProperties } = await import('../data/sampleData');
             setProperties(sampleProperties);
           }
-        }
+        // }
       } catch (error) {
         console.error('Error fetching Sanity content:', error);
         // Fallback to existing behavior
