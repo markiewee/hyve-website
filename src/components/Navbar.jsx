@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, MessageCircle } from 'lucide-react';
 import { Button } from './ui/button';
-import hyveGreenLogo from '../assets/hyve_green.png';
+// Using header.png from public folder
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,9 +25,9 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img 
-              src={hyveGreenLogo} 
+              src="/header.png" 
               alt="Hyve Logo" 
-              className="w-8 h-8"
+              className="h-8 w-auto"
             />
           </Link>
 
@@ -58,9 +58,11 @@ const Navbar = () => {
                 <span>WhatsApp</span>
               </Button>
             </a>
-            <Button size="sm" className="bg-teal-600 hover:bg-teal-700">
-              Find a Home
-            </Button>
+            <Link to="/properties">
+              <Button size="sm" className="bg-teal-600 hover:bg-teal-700">
+                Find a Home
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -103,9 +105,11 @@ const Navbar = () => {
                     WhatsApp
                   </Button>
                 </a>
-                <Button className="w-full bg-teal-600 hover:bg-teal-700">
-                  Find a Home
-                </Button>
+                <Link to="/properties">
+                  <Button className="w-full bg-teal-600 hover:bg-teal-700">
+                    Find a Home
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

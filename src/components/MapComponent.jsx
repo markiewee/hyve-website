@@ -15,8 +15,8 @@ const MapComponent = ({
   const [viewMode, setViewMode] = useState('2d'); // '2d' or '3d'
   const [showAmenities, setShowAmenities] = useState(showNearbyAmenities);
 
-  // Google Maps API key - In production, this should be in environment variables
-  const GOOGLE_MAPS_API_KEY = 'AIzaSyB3cHdRaUsbf_HtV4t8CFfCcK0bdpDGzMA';
+  // Google Maps API key - Use environment variable or fallback to hardcoded key
+  const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyB3cHdRaUsbf_HtV4t8CFfCcK0bdpDGzMA';
 
   useEffect(() => {
     // Load Google Maps API
@@ -39,8 +39,8 @@ const MapComponent = ({
 
       const mapOptions = {
         center: { 
-          lat: property.latitude || 1.3521, 
-          lng: property.longitude || 103.8198 
+          lat: property.location?.latitude || property.latitude || 1.3521, 
+          lng: property.location?.longitude || property.longitude || 103.8198 
         },
         zoom: 16,
         mapTypeId: 'roadmap',
@@ -68,8 +68,8 @@ const MapComponent = ({
       // Add property marker
       const propertyMarker = new window.google.maps.Marker({
         position: { 
-          lat: property.latitude || 1.3521, 
-          lng: property.longitude || 103.8198 
+          lat: property.location?.latitude || property.latitude || 1.3521, 
+          lng: property.location?.longitude || property.longitude || 103.8198 
         },
         map: newMap,
         title: property.name,
@@ -115,60 +115,120 @@ const MapComponent = ({
   const addNearbyAmenities = (map, property) => {
     const service = new window.google.maps.places.PlacesService(map);
     const location = new window.google.maps.LatLng(
-      property.latitude || 1.3521, 
-      property.longitude || 103.8198
+      property.location?.latitude || property.latitude || 1.3521, 
+      property.location?.longitude || property.longitude || 103.8198
     );
 
-    // Search for nearby MRT stations
-    service.nearbySearch({
-      location: location,
-      radius: 1000,
-      type: 'transit_station'
-    }, (results, status) => {
-      if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        results.slice(0, 3).forEach(place => {
-          new window.google.maps.Marker({
-            position: place.geometry.location,
-            map: map,
-            title: place.name,
-            icon: {
-              url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="10" fill="#f59e0b" stroke="white" stroke-width="2"/>
-                  <path d="M8 12h8M12 8v8" stroke="white" stroke-width="2"/>
-                </svg>
-              `),
-              scaledSize: new window.google.maps.Size(24, 24)
-            }
-          });
-        });
+    // Define amenity types with their configs
+    const amenityTypes = [
+      {
+        type: 'transit_station',
+        radius: 1000,
+        limit: 5,
+        color: '#f59e0b',
+        icon: 'M8 12h8M12 8v8',
+        category: 'Transport'
+      },
+      {
+        type: 'shopping_mall',
+        radius: 1500,
+        limit: 3,
+        color: '#8b5cf6',
+        icon: 'M7 9l5 5 5-5',
+        category: 'Shopping'
+      },
+      {
+        type: 'restaurant',
+        radius: 800,
+        limit: 8,
+        color: '#ef4444',
+        icon: 'M12 2l1 7h4l-3 5-1-7H9l3-5z',
+        category: 'Dining'
+      },
+      {
+        type: 'hospital',
+        radius: 2000,
+        limit: 2,
+        color: '#22c55e',
+        icon: 'M12 2v8m-4-4h8',
+        category: 'Healthcare'
+      },
+      {
+        type: 'gym',
+        radius: 1200,
+        limit: 4,
+        color: '#f97316',
+        icon: 'M6 12h12M12 6v12',
+        category: 'Fitness'
+      },
+      {
+        type: 'bank',
+        radius: 1000,
+        limit: 3,
+        color: '#3b82f6',
+        icon: 'M3 21h18M12 21V7l-8 4v10l8-4 8 4V11l-8-4z',
+        category: 'Banking'
+      },
+      {
+        type: 'supermarket',
+        radius: 1000,
+        limit: 5,
+        color: '#10b981',
+        icon: 'M3 3h2l.4 2M7 13h10l4-8H5.4m1.6 8L6 5H4m3 8v6a1 1 0 001 1h1a1 1 0 001-1v-6m-6 0h8',
+        category: 'Grocery'
+      },
+      {
+        type: 'pharmacy',
+        radius: 1500,
+        limit: 3,
+        color: '#06b6d4',
+        icon: 'M12 2v8m-4-4h8',
+        category: 'Pharmacy'
       }
-    });
+    ];
 
-    // Search for nearby shopping centers
-    service.nearbySearch({
-      location: location,
-      radius: 1500,
-      type: 'shopping_mall'
-    }, (results, status) => {
-      if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        results.slice(0, 2).forEach(place => {
-          new window.google.maps.Marker({
-            position: place.geometry.location,
-            map: map,
-            title: place.name,
-            icon: {
-              url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="10" fill="#8b5cf6" stroke="white" stroke-width="2"/>
-                  <path d="M7 9l5 5 5-5" stroke="white" stroke-width="2"/>
-                </svg>
-              `),
-              scaledSize: new window.google.maps.Size(24, 24)
-            }
+    // Search for each amenity type
+    amenityTypes.forEach(amenity => {
+      service.nearbySearch({
+        location: location,
+        radius: amenity.radius,
+        type: amenity.type
+      }, (results, status) => {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+          results.slice(0, amenity.limit).forEach((place, index) => {
+            const marker = new window.google.maps.Marker({
+              position: place.geometry.location,
+              map: map,
+              title: `${place.name} (${amenity.category})`,
+              icon: {
+                url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" fill="${amenity.color}" stroke="white" stroke-width="2"/>
+                    <path d="${amenity.icon}" stroke="white" stroke-width="1.5" fill="none"/>
+                  </svg>
+                `),
+                scaledSize: new window.google.maps.Size(24, 24)
+              }
+            });
+
+            // Add info window for each amenity
+            const infoWindow = new window.google.maps.InfoWindow({
+              content: `
+                <div style="padding: 8px; max-width: 200px;">
+                  <h4 style="margin: 0 0 4px 0; color: ${amenity.color}; font-size: 14px;">${place.name}</h4>
+                  <p style="margin: 0 0 4px 0; color: #666; font-size: 12px;">${amenity.category}</p>
+                  ${place.rating ? `<p style="margin: 0; color: #f59e0b; font-size: 12px;">★ ${place.rating}/5</p>` : ''}
+                  ${place.vicinity ? `<p style="margin: 4px 0 0 0; color: #666; font-size: 11px;">${place.vicinity}</p>` : ''}
+                </div>
+              `
+            });
+
+            marker.addListener('click', () => {
+              infoWindow.open(map, marker);
+            });
           });
-        });
-      }
+        }
+      });
     });
   };
 
@@ -192,8 +252,8 @@ const MapComponent = ({
     if (!map || !property) return;
 
     map.setCenter({ 
-      lat: property.latitude || 1.3521, 
-      lng: property.longitude || 103.8198 
+      lat: property.location?.latitude || property.latitude || 1.3521, 
+      lng: property.location?.longitude || property.longitude || 103.8198 
     });
     map.setZoom(16);
     map.setTilt(0);
@@ -281,20 +341,40 @@ const MapComponent = ({
 
         {/* Map Legend */}
         {isLoaded && showAmenities && (
-          <div className="absolute bottom-4 left-4 bg-white/90 rounded-lg p-3 shadow-md">
+          <div className="absolute bottom-4 left-4 bg-white/90 rounded-lg p-3 shadow-md max-w-48">
             <h4 className="font-semibold text-sm mb-2">Legend</h4>
-            <div className="space-y-1 text-xs">
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-teal-600"></div>
+            <div className="grid grid-cols-2 gap-1 text-xs">
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full bg-teal-600"></div>
                 <span>Property</span>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-amber-500"></div>
-                <span>MRT Station</span>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <span>Transport</span>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-purple-500"></div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full bg-purple-500"></div>
                 <span>Shopping</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                <span>Dining</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                <span>Healthcare</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                <span>Fitness</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                <span>Banking</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
+                <span>Grocery</span>
               </div>
             </div>
           </div>

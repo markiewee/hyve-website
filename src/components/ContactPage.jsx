@@ -30,27 +30,6 @@ const ContactPage = () => {
 
   const contactMethods = [
     {
-      icon: Phone,
-      title: 'Phone',
-      description: 'Call us for immediate assistance',
-      value: '+65 6123 4567',
-      action: 'Call Now'
-    },
-    {
-      icon: MessageCircle,
-      title: 'WhatsApp',
-      description: 'Quick responses via WhatsApp',
-      value: '+65 9123 4567',
-      action: 'Message Us'
-    },
-    {
-      icon: Mail,
-      title: 'Email',
-      description: 'Send us a detailed message',
-      value: 'hello@hyve.sg',
-      action: 'Send Email'
-    },
-    {
       icon: MapPin,
       title: 'Office',
       description: 'Visit our office in person',
@@ -279,16 +258,6 @@ const ContactPage = () => {
               </CardHeader>
               
               <CardContent className="space-y-3">
-                <a href="https://wa.me/6580885410?text=I%20would%20love%20to%20join%20the%20hyve%20community" target="_blank" rel="noopener noreferrer">
-                  <Button className="w-full bg-teal-600 hover:bg-teal-700">
-                    <MessageCircle className="w-4 h-4 mr-2" />
-                    WhatsApp Us Now
-                  </Button>
-                </a>
-                <Button variant="outline" className="w-full">
-                  <Phone className="w-4 h-4 mr-2" />
-                  Schedule a Call
-                </Button>
                 <Button variant="outline" className="w-full">
                   <MapPin className="w-4 h-4 mr-2" />
                   Book Office Visit

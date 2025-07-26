@@ -33,7 +33,6 @@ const AboutPage = () => {
   const stats = [
     { number: '500+', label: 'Happy Residents' },
     { number: '25+', label: 'Premium Properties' },
-    { number: '4.8', label: 'Average Rating' },
     { number: '15+', label: 'Nationalities' }
   ];
 
@@ -73,11 +72,7 @@ const AboutPage = () => {
                 creating spaces where young professionals and students can thrive, connect, 
                 and call home in one of the world's most vibrant cities.
               </p>
-              <div className="flex items-center space-x-6">
-                <div className="flex items-center space-x-2">
-                  <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                  <span className="font-semibold">4.8/5 Rating</span>
-                </div>
+              <div className="flex items-center justify-center">
                 <div className="flex items-center space-x-2">
                   <Award className="w-5 h-5 text-teal-600" />
                   <span className="font-semibold">Best Coliving 2024</span>
@@ -239,20 +234,12 @@ const AboutPage = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
             <Card className="text-center">
               <CardHeader>
                 <Award className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
                 <CardTitle>Best Coliving Provider 2024</CardTitle>
                 <CardDescription>Singapore Property Awards</CardDescription>
-              </CardHeader>
-            </Card>
-            
-            <Card className="text-center">
-              <CardHeader>
-                <Star className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
-                <CardTitle>Top Rated Community</CardTitle>
-                <CardDescription>Resident Choice Awards</CardDescription>
               </CardHeader>
             </Card>
             
@@ -267,26 +254,6 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 bg-gray-900 text-white">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold mb-6">
-            Ready to Join Our Community?
-          </h2>
-          <p className="text-xl text-gray-300 mb-8">
-            Experience the difference of thoughtful coliving designed for your success
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-teal-600 hover:bg-teal-700">
-              Find Your Home
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-gray-900">
-              Schedule a Tour
-            </Button>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
