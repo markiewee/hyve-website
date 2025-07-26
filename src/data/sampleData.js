@@ -203,6 +203,10 @@ export const neighborhoods = [
   {
     name: "River Valley",
     description: "One of Singapore's most prestigious residential areas, known for its proximity to Orchard Road and the Singapore River. Perfect blend of urban convenience and tranquil living.",
+    location: {
+      latitude: 1.2966,
+      longitude: 103.8449
+    },
     highlights: ["Close to Orchard Road", "Riverside dining", "Premium shopping", "Great connectivity"],
     transport: ["Great World MRT", "Orchard MRT", "Multiple bus routes"],
     amenities: ["UE Square", "Great World City", "Robertson Quay", "Clarke Quay"]
@@ -210,6 +214,10 @@ export const neighborhoods = [
   {
     name: "Orchard",
     description: "Singapore's premier shopping and entertainment district. The heart of the city with world-class shopping, dining, and entertainment options.",
+    location: {
+      latitude: 1.3048,
+      longitude: 103.8318
+    },
     highlights: ["Shopping paradise", "Fine dining", "Entertainment", "Business district"],
     transport: ["Orchard MRT", "Somerset MRT", "Dhoby Ghaut MRT"],
     amenities: ["ION Orchard", "Takashimaya", "Paragon", "Ngee Ann City"]
@@ -217,6 +225,10 @@ export const neighborhoods = [
   {
     name: "Tiong Bahru",
     description: "Singapore's hippest neighborhood with a perfect blend of heritage charm and modern lifestyle. Known for its art deco architecture and vibrant cafe culture.",
+    location: {
+      latitude: 1.2859,
+      longitude: 103.8267
+    },
     highlights: ["Heritage architecture", "Hipster cafes", "Local markets", "Art scene"],
     transport: ["Tiong Bahru MRT", "Outram Park MRT"],
     amenities: ["Tiong Bahru Market", "Independent bookstores", "Art galleries", "Boutique shops"]
@@ -224,6 +236,10 @@ export const neighborhoods = [
   {
     name: "Lentor",
     description: "One of Singapore's greenest and most premium neighborhoods. Quiet residential area with excellent connectivity and proximity to nature.",
+    location: {
+      latitude: 1.3521,
+      longitude: 103.8198
+    },
     highlights: ["Green environment", "Premium living", "Quiet neighborhood", "Good connectivity"],
     transport: ["Lentor MRT", "Mayflower MRT"],
     amenities: ["Thomson Nature Park", "Shopping centers", "Local eateries", "Recreation facilities"]

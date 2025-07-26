@@ -84,74 +84,26 @@ const LocationsMapComponent = ({
         updateMarkersBasedOnZoom(newMap, zoom);
       });
 
-      // Add neighborhood markers
-      if (neighborhoods.length > 0) {
-        addNeighborhoodMarkers(newMap);
-      }
-
-      // Initially hide property markers (they'll show when zoomed in)
-      if (properties.length > 0) {
-        addPropertyMarkers(newMap, false); // false = initially hidden
-      }
-
       setMap(newMap);
       setIsLoaded(true);
+      
+      // Create all markers after map is set
+      createAllMarkers(newMap);
     };
 
     loadGoogleMaps();
   }, [properties, neighborhoods]);
 
-  const addPropertyMarkers = (map, visible = true) => {
-    const newPropertyMarkers = [];
+  const createAllMarkers = (map) => {
+    // Clear existing markers
+    neighborhoodMarkers.forEach(marker => marker.setMap(null));
+    propertyMarkers.forEach(marker => marker.setMap(null));
     
-    properties.forEach((property) => {
-      const lat = property.location?.latitude || property.latitude;
-      const lng = property.location?.longitude || property.longitude;
-      
-      if (!lat || !lng) return;
-
-      const marker = new window.google.maps.Marker({
-        position: { lat, lng },
-        map: visible ? map : null, // Only show if visible is true
-        title: property.name,
-        icon: {
-          url: '/hyve_map_pin_orange.png',
-          scaledSize: new window.google.maps.Size(40, 40),
-          anchor: new window.google.maps.Point(20, 40)
-        }
-      });
-
-      const infoWindow = new window.google.maps.InfoWindow({
-        content: `
-          <div style="padding: 12px; max-width: 300px;">
-            <h3 style="margin: 0 0 8px 0; color: #0d9488; font-size: 16px; font-weight: bold;">${property.name}</h3>
-            <p style="margin: 0 0 8px 0; color: #666; font-size: 14px;">${property.address}</p>
-            <p style="margin: 0 0 8px 0; color: #666; font-size: 13px;">${property.neighborhood?.name || property.neighborhood || ''}</p>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <p style="margin: 0; color: #0d9488; font-weight: bold; font-size: 15px;">From $${property.startingPrice}/month</p>
-              <p style="margin: 0; color: #666; font-size: 12px;">${property.availableRooms} available</p>
-            </div>
-          </div>
-        `
-      });
-
-      marker.addListener('click', () => {
-        infoWindow.open(map, marker);
-        setSelectedProperty(property);
-        if (onPropertySelect) {
-          onPropertySelect(property);
-        }
-      });
-
-      newPropertyMarkers.push(marker);
-    });
+    const currentZoom = map.getZoom();
+    const showProperties = currentZoom >= 14;
     
-    setPropertyMarkers(newPropertyMarkers);
-  };
-
-  const addNeighborhoodMarkers = (map) => {
+    // Create neighborhood markers
     const newNeighborhoodMarkers = [];
-    
     neighborhoods.forEach(neighborhood => {
       const lat = neighborhood.location?.latitude;
       const lng = neighborhood.location?.longitude;
@@ -167,7 +119,7 @@ const LocationsMapComponent = ({
       // Add neighborhood center marker with property count
       const marker = new window.google.maps.Marker({
         position: { lat, lng },
-        map,
+        map: showProperties ? null : map, // Show only when not showing properties
         title: neighborhood.name,
         icon: {
           url: '/hyve_map_pin_green.png',
@@ -179,7 +131,7 @@ const LocationsMapComponent = ({
       const infoWindow = new window.google.maps.InfoWindow({
         content: `
           <div style="padding: 12px; max-width: 280px;">
-            <h4 style="margin: 0 0 8px 0; color: #8b5cf6; font-size: 16px; font-weight: bold;">${neighborhood.name}</h4>
+            <h4 style="margin: 0 0 8px 0; color: #22c55e; font-size: 16px; font-weight: bold;">${neighborhood.name}</h4>
             <p style="margin: 0 0 8px 0; color: #666; font-size: 14px;">${neighborhood.description || 'Popular neighborhood'}</p>
             <p style="margin: 0 0 8px 0; color: #0d9488; font-weight: bold;">${propertiesInNeighborhood} ${propertiesInNeighborhood === 1 ? 'property' : 'properties'} available</p>
             ${neighborhood.highlights ? `
@@ -201,7 +153,55 @@ const LocationsMapComponent = ({
       newNeighborhoodMarkers.push(marker);
     });
     
+    // Create property markers
+    const newPropertyMarkers = [];
+    properties.forEach((property) => {
+      const lat = property.location?.latitude || property.latitude;
+      const lng = property.location?.longitude || property.longitude;
+      
+      if (!lat || !lng) {
+        console.warn('Property missing coordinates:', property.name, { lat, lng });
+        return;
+      }
+
+      const marker = new window.google.maps.Marker({
+        position: { lat: parseFloat(lat), lng: parseFloat(lng) },
+        map: showProperties ? map : null, // Show only when zoomed in
+        title: property.name,
+        icon: {
+          url: '/hyve_map_pin_orange.png',
+          scaledSize: new window.google.maps.Size(40, 40),
+          anchor: new window.google.maps.Point(20, 40)
+        }
+      });
+
+      const infoWindow = new window.google.maps.InfoWindow({
+        content: `
+          <div style="padding: 12px; max-width: 300px;">
+            <h3 style="margin: 0 0 8px 0; color: #f97316; font-size: 16px; font-weight: bold;">${property.name}</h3>
+            <p style="margin: 0 0 8px 0; color: #666; font-size: 14px;">${property.address || ''}</p>
+            <p style="margin: 0 0 8px 0; color: #666; font-size: 13px;">${property.neighborhood?.name || property.neighborhood || ''}</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <p style="margin: 0; color: #0d9488; font-weight: bold; font-size: 15px;">From $${property.startingPrice || property.priceMonthly || 'N/A'}/month</p>
+              <p style="margin: 0; color: #666; font-size: 12px;">${property.availableRooms || property.totalRooms || 'N/A'} available</p>
+            </div>
+          </div>
+        `
+      });
+
+      marker.addListener('click', () => {
+        infoWindow.open(map, marker);
+        setSelectedProperty(property);
+        if (onPropertySelect) {
+          onPropertySelect(property);
+        }
+      });
+
+      newPropertyMarkers.push(marker);
+    });
+    
     setNeighborhoodMarkers(newNeighborhoodMarkers);
+    setPropertyMarkers(newPropertyMarkers);
   };
 
   // Function to update marker visibility based on zoom level
