@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Calendar, DollarSign, Users, Wifi, Shield, Car, Wrench, Coffee, Star } from 'lucide-react';
+import { Search, MapPin, Calendar, DollarSign, Users, Wifi, Shield, Car, Wrench, Coffee, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
@@ -114,6 +114,176 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
   };
 
   const featuredProperties = properties.slice(0, 3);
+
+  // Property card component with carousel
+  const PropertyCard = ({ property }) => {
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    
+    // Get all available images for this property
+    const getPropertyImages = (property) => {
+      const images = [];
+      
+      // Add Sanity images if available
+      if (property.images && property.images.length > 0) {
+        property.images.forEach(img => {
+          if (img.image) {
+            images.push({
+              src: urlFor(img.image).width(1920).height(1280).url(),
+              alt: img.alt || property.name
+            });
+          }
+        });
+      }
+      
+      // Add fallback images from property.images array (for sample data)
+      if (property.images && property.images.length > 0 && typeof property.images[0] === 'string') {
+        property.images.forEach(imgPath => {
+          images.push({
+            src: `/${imgPath}`,
+            alt: property.name
+          });
+        });
+      }
+      
+      // Fallback if no images
+      if (images.length === 0) {
+        images.push({
+          src: '/modern_coliving_space.jpg',
+          alt: property.name
+        });
+      }
+      
+      return images;
+    };
+    
+    const images = getPropertyImages(property);
+    const currentImage = images[currentImageIndex] || images[0];
+    
+    const nextImage = () => {
+      setCurrentImageIndex((prev) => 
+        prev === images.length - 1 ? 0 : prev + 1
+      );
+    };
+
+    const prevImage = () => {
+      setCurrentImageIndex((prev) => 
+        prev === 0 ? images.length - 1 : prev - 1
+      );
+    };
+
+    return (
+      <Card className="overflow-hidden hover:shadow-xl transition-shadow group">
+        <div className="relative aspect-[3/2] overflow-hidden">
+          <img
+            src={currentImage.src}
+            alt={currentImage.alt}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          
+          {/* Carousel Controls - only show if multiple images */}
+          {images.length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevImage();
+                }}
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextImage();
+                }}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+              
+              {/* Image indicators */}
+              <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 flex space-x-1.5 z-10">
+                {images.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentImageIndex(index);
+                    }}
+                    className={`w-2 h-2 rounded-full transition-colors ${
+                      index === currentImageIndex ? 'bg-white' : 'bg-white/50'
+                    }`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+          
+          <div className="absolute top-4 left-4">
+            <Badge className="bg-teal-600 text-white">
+              {property.availableRooms || '1'} rooms available
+            </Badge>
+          </div>
+          <div className="absolute top-4 right-4">
+            <Badge variant="secondary" className="bg-white/90 text-gray-900">
+              From ${property.startingPrice}/mo
+            </Badge>
+          </div>
+          
+          {/* Image counter */}
+          {images.length > 1 && (
+            <div className="absolute top-4 left-1/2 transform -translate-x-1/2">
+              <Badge className="bg-black/50 text-white">
+                {currentImageIndex + 1} / {images.length}
+              </Badge>
+            </div>
+          )}
+        </div>
+        
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-xl">{property.name}</CardTitle>
+            <div className="flex items-center space-x-1">
+              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+              <span className="text-sm text-gray-600">4.8</span>
+            </div>
+          </div>
+          <div className="flex items-center text-gray-600">
+            <MapPin className="w-4 h-4 mr-1" />
+            <span className="text-sm">
+              {property.neighborhood?.name || property.neighborhood}
+            </span>
+          </div>
+        </CardHeader>
+        
+        <CardContent>
+          <CardDescription className="mb-4">
+            {property.description?.substring(0, 120) || 'Beautiful coliving space'}...
+          </CardDescription>
+          
+          <div className="flex flex-wrap gap-2 mb-4">
+            {(property.amenities || []).slice(0, 3).map((amenity, index) => (
+              <Badge key={index} variant="outline" className="text-xs">
+                {amenity}
+              </Badge>
+            ))}
+            {(property.amenities || []).length > 3 && (
+              <Badge variant="outline" className="text-xs">
+                +{property.amenities.length - 3} more
+              </Badge>
+            )}
+          </div>
+          
+          <Link to={`/property/${property.id || property.slug?.current || property._id}`}>
+            <Button className="w-full bg-teal-600 hover:bg-teal-700">
+              Explore This Home
+            </Button>
+          </Link>
+        </CardContent>
+      </Card>
+    );
+  };
 
   return (
     <div className="min-h-screen">
@@ -258,70 +428,10 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
               ))
             ) : (
               featuredProperties.map((property) => (
-              <Card key={property.id || property._id} className="overflow-hidden hover:shadow-xl transition-shadow group">
-                <div className="relative aspect-[3/2] overflow-hidden">
-                  <img
-                    src={
-                      property.images?.[0]?.image 
-                        ? urlFor(property.images[0].image).width(1920).height(1280).url()
-                        : `/${property.images?.[0] || 'modern_coliving_space.jpg'}`
-                    }
-                    alt={property.images?.[0]?.alt || property.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <Badge className="bg-teal-600 text-white">
-                      {property.availableRooms || '1'} rooms available
-                    </Badge>
-                  </div>
-                  <div className="absolute top-4 right-4">
-                    <Badge variant="secondary" className="bg-white/90 text-gray-900">
-                      From ${property.startingPrice}/mo
-                    </Badge>
-                  </div>
-                </div>
-                
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-xl">{property.name}</CardTitle>
-                    <div className="flex items-center space-x-1">
-                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      <span className="text-sm text-gray-600">4.8</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center text-gray-600">
-                    <MapPin className="w-4 h-4 mr-1" />
-                    <span className="text-sm">
-                      {property.neighborhood?.name || property.neighborhood}
-                    </span>
-                  </div>
-                </CardHeader>
-                
-                <CardContent>
-                  <CardDescription className="mb-4">
-                    {property.description?.substring(0, 120) || 'Beautiful coliving space'}...
-                  </CardDescription>
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {(property.amenities || []).slice(0, 3).map((amenity, index) => (
-                      <Badge key={index} variant="outline" className="text-xs">
-                        {amenity}
-                      </Badge>
-                    ))}
-                    {(property.amenities || []).length > 3 && (
-                      <Badge variant="outline" className="text-xs">
-                        +{property.amenities.length - 3} more
-                      </Badge>
-                    )}
-                  </div>
-                  
-                  <Link to={`/property/${property.id || property.slug?.current || property._id}`}>
-                    <Button className="w-full bg-teal-600 hover:bg-teal-700">
-                      Explore This Home
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
+                <PropertyCard 
+                  key={property.id || property._id} 
+                  property={property} 
+                />
               ))
             )}
           </div>
