@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Filter, Grid, List, Star, Users, Calendar } from 'lucide-react';
+import { Search, MapPin, Filter, Users, Calendar } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
@@ -9,7 +9,6 @@ import { client, QUERIES, urlFor } from '../lib/sanity';
 import ApiService from '../services/api';
 
 const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
-  const [viewMode, setViewMode] = useState('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [localFilters, setLocalFilters] = useState(searchFilters);
   const [properties, setProperties] = useState([]);
@@ -70,10 +69,10 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
     }
 
     // Price range filter
-    if (localFilters.priceRange && localFilters.priceRange.length === 2) {
-      const [minPrice, maxPrice] = localFilters.priceRange;
+    if (localFilters.maxBudget && localFilters.maxBudget !== '') {
+      const maxBudget = parseInt(localFilters.maxBudget);
       const propertyPrice = property.startingPrice || 0;
-      if (propertyPrice < minPrice || propertyPrice > maxPrice) {
+      if (propertyPrice > maxBudget) {
         return false;
       }
     }
@@ -87,9 +86,9 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
     setSearchFilters(newFilters);
   };
 
-  const PropertyCard = ({ property, isListView = false }) => (
-    <Card className={`overflow-hidden hover:shadow-xl transition-all duration-300 group ${isListView ? 'flex' : ''}`}>
-      <div className={`relative overflow-hidden ${isListView ? 'w-80 flex-shrink-0 aspect-[3/2]' : 'aspect-[3/2]'}`}>
+  const PropertyCard = ({ property }) => (
+    <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 group">
+      <div className="relative aspect-[3/2] overflow-hidden">
         <img
           src={
             property.images?.[0]?.image 
@@ -109,25 +108,11 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
             From ${property.startingPrice}/mo
           </Badge>
         </div>
-        {property.featured && (
-          <div className="absolute bottom-4 left-4">
-            <Badge className="bg-yellow-500 text-white">
-              <Star className="w-3 h-3 mr-1" />
-              Featured
-            </Badge>
-          </div>
-        )}
       </div>
       
-      <div className={`${isListView ? 'flex-1' : ''}`}>
+      <div>
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-xl">{property.name}</CardTitle>
-            <div className="flex items-center space-x-1">
-              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-              <span className="text-sm text-gray-600">4.8</span>
-            </div>
-          </div>
+          <CardTitle className="text-xl">{property.name}</CardTitle>
           <div className="flex items-center text-gray-600">
             <MapPin className="w-4 h-4 mr-1" />
             <span className="text-sm">
@@ -240,11 +225,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
                 <Input
                   placeholder="Max Budget"
                   value={localFilters.maxBudget || ''}
-                  onChange={(e) => {
-                    const maxBudget = e.target.value;
-                    handleFilterChange('priceRange', [0, parseInt(maxBudget) || 2000]);
-                    handleFilterChange('maxBudget', maxBudget);
-                  }}
+                  onChange={(e) => handleFilterChange('maxBudget', e.target.value)}
                   className="pl-8"
                 />
               </div>
@@ -271,25 +252,6 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
                 <Filter className="w-4 h-4" />
                 Filters
               </Button>
-              
-              <div className="flex border border-gray-300 rounded-md">
-                <Button
-                  variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('grid')}
-                  className="rounded-r-none border-r"
-                >
-                  <Grid className="w-4 h-4" />
-                </Button>
-                <Button
-                  variant={viewMode === 'list' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('list')}
-                  className="rounded-l-none"
-                >
-                  <List className="w-4 h-4" />
-                </Button>
-              </div>
             </div>
           </div>
         </div>
@@ -301,17 +263,13 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
           </div>
         </div>
 
-        {/* Properties Grid/List */}
+        {/* Properties Grid */}
         {filteredProperties.length > 0 ? (
-          <div className={viewMode === 'grid' 
-            ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8' 
-            : 'space-y-6'
-          }>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProperties.map((property) => (
               <PropertyCard 
                 key={property.id || property._id} 
                 property={property} 
-                isListView={viewMode === 'list'} 
               />
             ))}
           </div>

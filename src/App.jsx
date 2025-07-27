@@ -11,6 +11,8 @@ import PropertyDetailPage from './components/PropertyDetailPageWithSanity';
 import LocationsPage from './components/LocationsPageWithSanity';
 import AboutPage from './components/AboutPage';
 import FAQsPage from './components/FAQsPageWithSanity';
+import BlogPage from './components/BlogPage';
+import BlogPostPage from './components/BlogPostPage';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import CookiePolicy from './components/CookiePolicy';
@@ -49,6 +51,8 @@ function App() {
           <Route path="/property/:id" element={<PropertyDetailPage />} />
           <Route path="/locations" element={<LocationsPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/faqs" element={<FAQsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />

@@ -246,3 +246,253 @@ export const neighborhoods = [
   }
 ];
 
+export const blogPosts = [
+  {
+    id: 1,
+    title: "The Ultimate Guide to Coliving in Singapore",
+    slug: "ultimate-guide-coliving-singapore",
+    excerpt: "Everything you need to know about finding, choosing, and thriving in Singapore's coliving spaces.",
+    content: `Singapore's coliving scene has exploded in recent years, offering young professionals and digital nomads an affordable and community-focused way to live in one of the world's most expensive cities.
+
+## What is Coliving?
+
+Coliving is a modern approach to living that combines private bedrooms with shared common spaces. Unlike traditional flat-sharing, coliving spaces are professionally managed and designed to foster community connections.
+
+## Benefits of Coliving in Singapore
+
+### Cost-Effective Living
+- All-inclusive rent covering utilities, WiFi, and cleaning
+- No need for large security deposits or furniture purchases
+- Flexible lease terms from 3 months
+
+### Built-in Community
+- Regular social events and networking opportunities
+- Like-minded residents from diverse backgrounds
+- Professional community management
+
+### Prime Locations
+- Properties in central neighborhoods
+- Easy access to MRT stations and amenities
+- Walk to work opportunities in CBD areas
+
+## How to Choose the Right Coliving Space
+
+1. **Location**: Consider your work commute and lifestyle preferences
+2. **Community**: Look for spaces with residents who share your interests
+3. **Amenities**: Check what's included in your rent
+4. **Management**: Professional management makes all the difference
+
+Ready to start your coliving journey? Explore our properties across Singapore's most vibrant neighborhoods.`,
+    author: "Sarah Chen",
+    authorRole: "Community Manager",
+    publishedAt: "2025-01-15",
+    readTime: 8,
+    tags: ["Coliving", "Singapore", "Guide"],
+    featuredImage: "/stock_apart1.png",
+    category: "Guides"
+  },
+  {
+    id: 2,
+    title: "Best Neighborhoods for Young Professionals in Singapore",
+    slug: "best-neighborhoods-young-professionals-singapore",
+    excerpt: "Discover the top areas in Singapore that offer the perfect blend of work, life, and play for young professionals.",
+    content: `Singapore offers diverse neighborhoods, each with its unique character and advantages for young professionals. Here's our guide to the best areas to call home.
+
+## River Valley: Urban Sophistication
+
+River Valley consistently ranks as one of Singapore's most desirable neighborhoods for young professionals.
+
+### Why Choose River Valley?
+- **Proximity to CBD**: 15-minute commute to the financial district
+- **Dining Scene**: World-class restaurants along Robertson Quay
+- **Transportation**: Multiple MRT lines and bus connections
+- **Lifestyle**: Perfect blend of urban convenience and riverside tranquility
+
+## Orchard: Right in the Heart of It All
+
+Living in Orchard means being at the center of Singapore's retail and business hub.
+
+### Orchard Advantages:
+- **Shopping**: World-class malls at your doorstep
+- **Networking**: Close to major corporate offices
+- **Entertainment**: Cinemas, bars, and cultural venues
+- **Convenience**: Everything you need within walking distance
+
+## Tiong Bahru: The Creative Quarter
+
+For professionals in creative industries, Tiong Bahru offers an inspiring environment.
+
+### Creative Professional Benefits:
+- **Art Scene**: Galleries, independent bookstores, and creative spaces
+- **Cafe Culture**: Perfect for remote work and networking
+- **Heritage Charm**: Beautiful Art Deco architecture
+- **Community**: Tight-knit neighborhood feel
+
+## Making Your Choice
+
+Consider these factors when choosing your neighborhood:
+1. Commute time to your office
+2. Lifestyle preferences (nightlife vs. quiet living)
+3. Budget considerations
+4. Access to amenities important to you
+
+Each neighborhood offers unique advantages - the key is finding the one that aligns with your professional goals and personal preferences.`,
+    author: "Marcus Johnson",
+    authorRole: "Area Specialist",
+    publishedAt: "2025-01-12",
+    readTime: 6,
+    tags: ["Neighborhoods", "Professionals", "Lifestyle"],
+    featuredImage: "/stock_apart2.png",
+    category: "Lifestyle"
+  },
+  {
+    id: 3,
+    title: "5 Tips for Building Community in Your Coliving Space",
+    slug: "building-community-coliving-space-tips",
+    excerpt: "Learn how to make meaningful connections and create lasting friendships in your coliving environment.",
+    content: `One of the biggest advantages of coliving is the built-in community, but meaningful connections don't happen automatically. Here are our top tips for building strong relationships in your coliving space.
+
+## 1. Be Proactive in Common Areas
+
+Don't just retreat to your room after work. Spend time in shared spaces where natural interactions happen.
+
+### Ways to Be Present:
+- Cook dinner in the shared kitchen
+- Work from the common area occasionally
+- Watch movies in the living room
+- Use shared amenities like the gym or rooftop
+
+## 2. Organize or Join Group Activities
+
+Take initiative in creating shared experiences that bring residents together.
+
+### Activity Ideas:
+- Weekly dinner parties
+- Movie nights
+- Workout sessions
+- Game tournaments
+- Cultural exchange events
+
+## 3. Respect Shared Spaces
+
+Good community starts with being a considerate housemate.
+
+### Community Guidelines:
+- Clean up after yourself immediately
+- Be mindful of noise levels
+- Share common resources fairly
+- Communicate openly about any issues
+
+## 4. Embrace Cultural Diversity
+
+Coliving spaces often house residents from various countries and backgrounds.
+
+### Ways to Connect:
+- Share your cultural traditions
+- Try foods from different cultures
+- Learn basic phrases in other languages
+- Attend cultural celebrations
+
+## 5. Use Technology to Stay Connected
+
+Many coliving spaces have resident groups or apps to facilitate communication.
+
+### Digital Community Building:
+- Join WhatsApp or Slack groups
+- Share resources and recommendations
+- Coordinate group activities
+- Stay updated on community events
+
+Remember, building community takes time and effort from everyone. Be patient, stay open-minded, and don't be afraid to make the first move in forming new friendships.`,
+    author: "Priya Sharma",
+    authorRole: "Resident Experience Coordinator",
+    publishedAt: "2025-01-10",
+    readTime: 5,
+    tags: ["Community", "Tips", "Social"],
+    featuredImage: "/stock_apart1.png",
+    category: "Community"
+  },
+  {
+    id: 4,
+    title: "Working from Home in a Coliving Space: A Complete Guide",
+    slug: "working-from-home-coliving-space-guide",
+    excerpt: "Master the art of remote work while living in a shared coliving environment with these practical tips.",
+    content: `The rise of remote work has made coliving an even more attractive option for digital nomads and remote workers. Here's how to create the perfect work-life balance in a shared living environment.
+
+## Creating Your Workspace
+
+Even in a coliving environment, having a dedicated workspace is crucial for productivity.
+
+### In Your Private Room:
+- **Desk Setup**: Invest in a good desk and ergonomic chair
+- **Lighting**: Ensure adequate lighting for video calls
+- **Storage**: Keep work materials organized and separate
+- **Noise Control**: Use noise-canceling headphones
+
+### Utilizing Common Areas:
+- **Kitchen Counter**: Great for standing meetings
+- **Living Room**: Comfortable seating for creative work
+- **Rooftop/Balcony**: Fresh air and natural light
+- **Study Rooms**: Many coliving spaces offer dedicated work areas
+
+## Managing Noise and Distractions
+
+Shared living comes with its challenges when you're trying to focus.
+
+### Noise Management Strategies:
+- Communicate your schedule with housemates
+- Use white noise apps or background music
+- Schedule important calls during quieter hours
+- Create "do not disturb" signals
+
+## Building Professional Relationships
+
+Your coliving space can become a valuable networking hub.
+
+### Professional Networking:
+- Host informal industry meetups
+- Share professional resources and opportunities
+- Collaborate on projects with skilled housemates
+- Exchange referrals and recommendations
+
+## Maintaining Work-Life Balance
+
+Living and working in the same space requires clear boundaries.
+
+### Balance Strategies:
+- Set fixed working hours
+- Take lunch breaks away from your workspace
+- Join housemates for evening activities
+- Use weekends for social and personal time
+
+## Technology and Infrastructure
+
+Ensure your coliving space supports your professional needs.
+
+### Essential Requirements:
+- High-speed, reliable internet
+- Backup internet options (mobile hotspot)
+- Sufficient power outlets
+- Good mobile coverage for calls
+
+## Creating Professional Video Call Backgrounds
+
+Your room setup should be video-call ready at all times.
+
+### Professional Setup Tips:
+- Position your camera at eye level
+- Use good lighting (natural light works best)
+- Keep a clean, uncluttered background
+- Test your setup before important calls
+
+Working from a coliving space offers unique advantages - embrace the community while maintaining your professional standards.`,
+    author: "David Kim",
+    authorRole: "Remote Work Consultant",
+    publishedAt: "2025-01-08",
+    readTime: 7,
+    tags: ["Remote Work", "Productivity", "Coliving"],
+    featuredImage: "/stock_apart2.png",
+    category: "Work"
+  }
+];
+

@@ -185,5 +185,76 @@ export const QUERIES = {
     socialMedia,
     footer,
     seo
+  }`,
+
+  // Get all blog posts
+  blogPosts: `*[_type == "blogPost" && status == "published"] | order(publishedAt desc){
+    _id,
+    title,
+    slug,
+    excerpt,
+    content,
+    featuredImage,
+    category,
+    tags,
+    author->{
+      name,
+      role,
+      bio,
+      avatar
+    },
+    publishedAt,
+    readTime,
+    featured
+  }`,
+
+  // Get featured blog posts
+  featuredBlogPosts: `*[_type == "blogPost" && status == "published" && featured == true] | order(publishedAt desc){
+    _id,
+    title,
+    slug,
+    excerpt,
+    featuredImage,
+    category,
+    tags,
+    author->{
+      name,
+      role
+    },
+    publishedAt,
+    readTime
+  }`,
+
+  // Get single blog post by slug
+  blogPostBySlug: `*[_type == "blogPost" && slug.current == $slug && status == "published"][0]{
+    _id,
+    title,
+    slug,
+    excerpt,
+    content,
+    featuredImage,
+    category,
+    tags,
+    author->{
+      name,
+      role,
+      bio,
+      avatar,
+      socialMedia
+    },
+    publishedAt,
+    readTime,
+    seo
+  }`,
+
+  // Get authors
+  authors: `*[_type == "author" && status == "active"]{
+    _id,
+    name,
+    slug,
+    role,
+    bio,
+    avatar,
+    featured
   }`
 }

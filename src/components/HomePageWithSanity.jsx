@@ -483,16 +483,12 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
             
             <div className="grid grid-cols-2 gap-4">
               <img
-                src={
-                  communityContent.image 
-                    ? urlFor(communityContent.image).width(1920).height(1280).url()
-                    : modernSpace
-                }
+                src="/stock_apart1.png"
                 alt="Modern coliving space"
                 className="rounded-lg shadow-lg"
               />
               <img
-                src={sharedKitchen}
+                src="/stock_apart2.png"
                 alt="Shared kitchen"
                 className="rounded-lg shadow-lg mt-8"
               />

@@ -233,36 +233,6 @@ const FAQsPage = () => {
                 </Button>
               </a>
             </div>
-
-            {/* Contact Information */}
-            <div className="border-t border-teal-200 pt-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
-                {contactInfo.email && (
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">Email</h4>
-                    <a 
-                      href={`mailto:${contactInfo.email}`}
-                      className="text-teal-600 hover:text-teal-700"
-                    >
-                      {contactInfo.email}
-                    </a>
-                  </div>
-                )}
-                {contactInfo.whatsapp && (
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">WhatsApp</h4>
-                    <a 
-                      href={`https://wa.me/${contactInfo.whatsapp.replace(/\D/g, '')}`}
-                      className="text-teal-600 hover:text-teal-700"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {contactInfo.whatsapp}
-                    </a>
-                  </div>
-                )}
-              </div>
-            </div>
           </CardContent>
         </Card>
       </div>

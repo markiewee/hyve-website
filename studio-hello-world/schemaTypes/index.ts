@@ -5,6 +5,8 @@ import homePage from './homePage'
 import aboutPage from './aboutPage'
 import faqPage from './faqPage'
 import siteSettings from './siteSettings'
+import blogPost from './blogPost'
+import author from './author'
 
 export const schemaTypes = [
   property,
@@ -14,4 +16,6 @@ export const schemaTypes = [
   aboutPage,
   faqPage,
   siteSettings,
+  blogPost,
+  author,
 ]

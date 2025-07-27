@@ -81,12 +81,12 @@ const AboutPage = () => {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <img
-                src={modernSpace}
+                src="/stock_apart1.png"
                 alt="Modern coliving space"
                 className="rounded-lg shadow-lg"
               />
               <img
-                src={sharedKitchen}
+                src="/stock_apart2.png"
                 alt="Shared kitchen"
                 className="rounded-lg shadow-lg mt-8"
               />
@@ -216,7 +216,7 @@ const AboutPage = () => {
           </p>
           <div className="relative">
             <img
-              src={singaporeApartment}
+              src="/stock_apart1.png"
               alt="Singapore apartment living"
               className="rounded-2xl shadow-xl mx-auto"
             />
