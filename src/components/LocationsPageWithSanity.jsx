@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Train, ShoppingBag, Coffee, Star, Building, Users, TrendingUp, ChevronLeft, ChevronRight } from 'lucide-react';
+import { MapPin, Train, ShoppingBag, Coffee, Building, Users, TrendingUp, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
@@ -193,20 +193,8 @@ const LocationsPage = () => {
               <Badge className="bg-white/20 text-white border-white/30">
                 {neighborhoodProperties.length} properties
               </Badge>
-              <div className="flex items-center space-x-1">
-                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                <span className="text-sm">4.8</span>
-              </div>
             </div>
           </div>
-          {neighborhood.featured && (
-            <div className="absolute top-4 right-4">
-              <Badge className="bg-yellow-500 text-white">
-                <Star className="w-3 h-3 mr-1" />
-                Featured
-              </Badge>
-            </div>
-          )}
           
           {/* Image counter */}
           {images.length > 1 && (
@@ -256,7 +244,7 @@ const LocationsPage = () => {
             <div className="mb-4">
               <div className="flex items-center gap-1 text-sm text-gray-600 mb-2">
                 <Users className="w-4 h-4" />
-                <span>Popular with:</span>
+                <span>Neighbourhood traits:</span>
               </div>
               <div className="flex flex-wrap gap-1">
                 {neighborhood.demographics.vibe.slice(0, 2).map((vibe, index) => (
