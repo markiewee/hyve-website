@@ -238,20 +238,28 @@ const AboutPage = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <Card className="text-center">
               <CardHeader>
-                <Award className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
-                <CardTitle>Best Coliving Provider 2024</CardTitle>
-                <CardDescription>Singapore Property Awards</CardDescription>
+                <Award className="w-12 h-12 text-red-500 mx-auto mb-4" />
+                <CardTitle>Airbnb Superhost</CardTitle>
+                <CardDescription>2023</CardDescription>
               </CardHeader>
             </Card>
             
             <Card className="text-center">
               <CardHeader>
-                <Users className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
-                <CardTitle>Innovation in Housing</CardTitle>
-                <CardDescription>Urban Living Excellence</CardDescription>
+                <Award className="w-12 h-12 text-red-500 mx-auto mb-4" />
+                <CardTitle>Airbnb Superhost</CardTitle>
+                <CardDescription>2024</CardDescription>
+              </CardHeader>
+            </Card>
+            
+            <Card className="text-center">
+              <CardHeader>
+                <Award className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+                <CardTitle>Preferred Plus Partner</CardTitle>
+                <CardDescription>Booking.com 2024</CardDescription>
               </CardHeader>
             </Card>
           </div>

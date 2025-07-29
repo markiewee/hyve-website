@@ -478,7 +478,7 @@ const BlogPostPage = () => {
             </p>
             <Button 
               className="bg-teal-600 hover:bg-teal-700"
-              onClick={() => window.open('https://t.me/hyvesg', '_blank', 'noopener,noreferrer')}
+              onClick={() => window.open('https://t.me/hyve_sg', '_blank', 'noopener,noreferrer')}
             >
               Join our Telegram Community
             </Button>

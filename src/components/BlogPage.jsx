@@ -293,24 +293,21 @@ const BlogPage = () => {
           </Card>
         )}
 
-        {/* Newsletter CTA */}
+        {/* Telegram Community CTA */}
         <Card className="mt-12 bg-teal-50 border-teal-200">
           <CardContent className="text-center py-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Stay Updated
+              Join Our Community
             </h2>
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              Get the latest insights about coliving, Singapore neighborhoods, and community tips delivered to your inbox.
+              Connect with fellow residents and get the latest updates about coliving, Singapore neighborhoods, and community events.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-              <Input
-                placeholder="Enter your email"
-                className="flex-1"
-              />
-              <Button className="bg-teal-600 hover:bg-teal-700">
-                Subscribe
-              </Button>
-            </div>
+            <Button 
+              className="bg-teal-600 hover:bg-teal-700"
+              onClick={() => window.open('https://t.me/hyve_sg', '_blank', 'noopener,noreferrer')}
+            >
+              Join our Telegram Community
+            </Button>
           </CardContent>
         </Card>
       </div>
