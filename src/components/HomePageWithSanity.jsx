@@ -329,28 +329,28 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
         {/* Video Overlay */}
         <div className="absolute inset-0 bg-black/40"></div>
         
-        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
+        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4 pb-8 sm:pb-0">
           {/* Hyve Logo */}
-          <div className="mb-8 animate-fade-in">
+          <div className="mb-4 sm:mb-8 animate-fade-in">
             <img 
               src={hyveGreenLogo} 
               alt="Hyve Logo" 
-              className="w-60 h-60 mx-auto mb-4"
+              className="w-40 h-40 sm:w-52 sm:h-52 md:w-60 md:h-60 mx-auto mb-2 sm:mb-4"
             />
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 animate-fade-in">
             {heroContent.headline.split(' ').slice(0, 3).join(' ')}
             <span className="block text-teal-400">
               {heroContent.headline.split(' ').slice(3).join(' ')}
             </span>
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-gray-200 animate-fade-in-delay">
+          <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-gray-200 animate-fade-in-delay">
             {heroContent.subtitle}
           </p>
           
           {/* Search Bar */}
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto animate-slide-up">
+          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 sm:p-6 max-w-2xl mx-auto animate-slide-up mb-4 sm:mb-0">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="relative">
                 <MapPin className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
@@ -432,12 +432,21 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               {featuredPropertiesContent.title}
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-gray-600 mb-4">
               {featuredPropertiesContent.subtitle}
             </p>
+            {/* Mobile scroll hint */}
+            <div className="block sm:hidden">
+              <p className="text-sm text-gray-500 flex items-center justify-center gap-2">
+                <ChevronLeft className="w-4 h-4" />
+                Swipe to see more properties
+                <ChevronRight className="w-4 h-4" />
+              </p>
+            </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Desktop Grid */}
+          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {loading ? (
               // Loading skeleton
               Array.from({ length: 3 }).map((_, index) => (
@@ -464,6 +473,44 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                 />
               ))
             )}
+          </div>
+          
+          {/* Mobile Horizontal Scroll */}
+          <div className="md:hidden relative">
+            <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}>
+              {loading ? (
+                // Loading skeleton for mobile
+                Array.from({ length: 3 }).map((_, index) => (
+                  <Card key={index} className="flex-none w-80 snap-start overflow-hidden">
+                    <div className="h-64 bg-gray-200 animate-pulse"></div>
+                    <CardHeader>
+                      <div className="h-6 bg-gray-200 animate-pulse rounded mb-2"></div>
+                      <div className="h-4 bg-gray-200 animate-pulse rounded w-3/4"></div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="h-4 bg-gray-200 animate-pulse rounded mb-4"></div>
+                      <div className="flex gap-2 mb-4">
+                        <div className="h-6 bg-gray-200 animate-pulse rounded w-16"></div>
+                        <div className="h-6 bg-gray-200 animate-pulse rounded w-20"></div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              ) : (
+                featuredProperties.map((property) => (
+                  <div key={property.id || property._id} className="flex-none w-80 snap-start">
+                    <PropertyCard property={property} />
+                  </div>
+                ))
+              )}
+            </div>
+            
+            {/* Scroll indicators */}
+            <div className="flex justify-center mt-4 gap-2">
+              {featuredProperties.map((_, index) => (
+                <div key={index} className="w-2 h-2 rounded-full bg-gray-300"></div>
+              ))}
+            </div>
           </div>
           
           <div className="text-center mt-12">
