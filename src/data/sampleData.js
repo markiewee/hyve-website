@@ -14,9 +14,7 @@ export const properties = [
     startingPrice: 900,
     availableRooms: 2,
     nearbyMRT: ["Lentor MRT (5 min walk)", "Mayflower MRT (8 min walk)"],
-    nearbyAmenities: ["Thomson Plaza", "Yishun Park", "Lower Seletar Reservoir"],
-    walkScore: 85,
-    transitScore: 90
+    nearbyAmenities: ["Thomson Plaza", "Yishun Park", "Lower Seletar Reservoir"]
   },
   {
     id: 2,
@@ -33,9 +31,7 @@ export const properties = [
     startingPrice: 1200,
     availableRooms: 1,
     nearbyMRT: ["Great World MRT (3 min walk)", "Orchard MRT (10 min walk)"],
-    nearbyAmenities: ["Great World City", "UE Square", "Robertson Quay", "Clarke Quay"],
-    walkScore: 95,
-    transitScore: 95
+    nearbyAmenities: ["Great World City", "UE Square", "Robertson Quay", "Clarke Quay"]
   },
   {
     id: 3,
@@ -52,9 +48,7 @@ export const properties = [
     startingPrice: 1100,
     availableRooms: 3,
     nearbyMRT: ["Orchard MRT (2 min walk)", "Somerset MRT (5 min walk)"],
-    nearbyAmenities: ["ION Orchard", "Takashimaya", "Paragon", "Ngee Ann City"],
-    walkScore: 100,
-    transitScore: 100
+    nearbyAmenities: ["ION Orchard", "Takashimaya", "Paragon", "Ngee Ann City"]
   },
   {
     id: 4,
@@ -71,9 +65,7 @@ export const properties = [
     startingPrice: 950,
     availableRooms: 2,
     nearbyMRT: ["Tiong Bahru MRT (3 min walk)", "Outram Park MRT (8 min walk)"],
-    nearbyAmenities: ["Tiong Bahru Market", "BooksActually", "Tiong Bahru Bakery", "Yong Siak Street"],
-    walkScore: 88,
-    transitScore: 85
+    nearbyAmenities: ["Tiong Bahru Market", "BooksActually", "Tiong Bahru Bakery", "Yong Siak Street"]
   }
 ];
 

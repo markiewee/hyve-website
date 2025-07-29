@@ -76,8 +76,6 @@ export const QUERIES = {
     amenities,
     nearbyMRT[],
     nearbyAmenities[],
-    walkScore,
-    transitScore,
     featured,
     status
   }`,
@@ -128,8 +126,6 @@ export const QUERIES = {
     amenities,
     nearbyMRT[],
     nearbyAmenities[],
-    walkScore,
-    transitScore,
     status
   }`,
 

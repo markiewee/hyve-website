@@ -145,11 +145,6 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
                 <Users className="w-4 h-4 mr-1" />
                 <span>{property.totalRooms || '1'} rooms</span>
               </div>
-              {property.walkScore && (
-                <div className="flex items-center">
-                  <span>Walk Score: {property.walkScore}</span>
-                </div>
-              )}
             </div>
           </div>
           

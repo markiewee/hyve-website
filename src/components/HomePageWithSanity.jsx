@@ -41,8 +41,6 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
         
         // Use Sanity properties first, then fallback to API/sample data
         if (sanityProperties && sanityProperties.length > 0) {
-          console.log('Sanity Properties:', sanityProperties);
-          console.log('First property images:', sanityProperties[0]?.images);
           setProperties(sanityProperties);
         } else {
           // Fallback to existing API/sample data
@@ -135,16 +133,12 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
     const getPropertyImages = (property) => {
       const images = [];
       
-      console.log('Processing property:', property.name, 'images:', property.images);
-      
       // Add Sanity images if available
       if (property.images && property.images.length > 0) {
         property.images.forEach(img => {
           if (img.image) {
-            const imageUrl = urlFor(img.image).width(1920).height(1280).url();
-            console.log('Generated Sanity image URL:', imageUrl);
             images.push({
-              src: imageUrl,
+              src: urlFor(img.image).width(1920).height(1280).url(),
               alt: img.alt || property.name
             });
           }
@@ -163,14 +157,12 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
       
       // Final fallback if no images available
       if (images.length === 0) {
-        console.log('No images found, using fallback for:', property.name);
         images.push({
           src: '/stock_apart1.png',
           alt: property.name
         });
       }
       
-      console.log('Final images array:', images);
       return images;
     };
     

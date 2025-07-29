@@ -75,8 +75,6 @@ const PropertyDetailPage = () => {
               amenities,
               nearbyMRT[],
               nearbyAmenities[],
-              walkScore,
-              transitScore,
               status,
               featured
             }
@@ -359,11 +357,6 @@ const PropertyDetailPage = () => {
                   <Calendar className="w-4 h-4 mr-1" />
                   <span>{propertyRooms?.filter(room => room.isAvailable)?.length || '0'} available</span>
                 </div>
-                {property.walkScore && (
-                  <div className="flex items-center">
-                    <span>Walk Score: {property.walkScore}</span>
-                  </div>
-                )}
               </div>
             </div>
 
