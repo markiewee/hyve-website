@@ -89,12 +89,18 @@ export const QUERIES = {
     slug,
     description,
     address,
-    startingPrice,
-    images[0]{
-      image,
-      alt
+    neighborhood->{
+      name,
+      slug
     },
-    amenities[0...3]
+    startingPrice,
+    availableRooms,
+    images[]{
+      image,
+      alt,
+      caption
+    },
+    amenities
   }`,
 
   // Get single property by slug
