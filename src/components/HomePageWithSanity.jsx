@@ -311,8 +311,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
             : heroImage
           }
         >
-          <source src="/hero-video.mp4" type="video/mp4" />
-          <source src="/hero-video.webm" type="video/webm" />
+          <source src="/hyve_vid.mp4" type="video/mp4" />
           {/* Fallback message for browsers that don't support video */}
           Your browser does not support the video tag.
         </video>
