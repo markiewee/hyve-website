@@ -582,7 +582,7 @@ const PropertyDetailPage = () => {
               </CardHeader>
               <CardContent>
                 <a 
-                  href="https://wa.me/6580885410?text=Hi! I'm interested in ${property.name} starting from $${property.startingPrice}/month. Could you please provide more information about availability and viewing arrangements? Thank you!"
+                  href={`https://wa.me/6580885410?text=Hi! I'm interested in ${property.name} starting from $${property.startingPrice}/month. Could you please provide more information about availability and viewing arrangements? Thank you!`}
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-full"
