@@ -16,6 +16,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
   const [searchLocation, setSearchLocation] = useState('');
   const [searchBudget, setSearchBudget] = useState('');
   const [properties, setProperties] = useState([]);
+  const [neighborhoods, setNeighborhoods] = useState([]);
   const [homePageContent, setHomePageContent] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -23,12 +24,20 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
     const fetchData = async () => {
       try {
         // Try to fetch content from Sanity
-        const [sanityHomePage, sanityProperties] = await Promise.all([
+        const [sanityHomePage, sanityProperties, sanityNeighborhoods] = await Promise.all([
           client.fetch(QUERIES.homePage),
-          client.fetch(QUERIES.featuredProperties)
+          client.fetch(QUERIES.featuredProperties),
+          client.fetch(`
+            *[_type == "neighborhood"]{
+              _id,
+              name,
+              slug
+            } | order(name asc)
+          `)
         ]);
         
         setHomePageContent(sanityHomePage);
+        setNeighborhoods(sanityNeighborhoods || []);
         
         // Use Sanity properties first, then fallback to API/sample data
         if (sanityProperties && sanityProperties.length > 0) {
@@ -50,8 +59,9 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
           const data = await ApiService.getProperties();
           setProperties(data);
         } catch (apiError) {
-          const { properties: sampleProperties } = await import('../data/sampleData');
+          const { properties: sampleProperties, neighborhoods: sampleNeighborhoods } = await import('../data/sampleData');
           setProperties(sampleProperties);
+          setNeighborhoods(sampleNeighborhoods);
         }
       } finally {
         setLoading(false);
@@ -331,10 +341,11 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-gray-900 bg-white appearance-none"
                 >
                   <option value="">All Locations</option>
-                  <option value="Lentor">Lentor</option>
-                  <option value="Orchard">Orchard</option>
-                  <option value="River Valley">River Valley</option>
-                  <option value="Tiong Bahru">Tiong Bahru</option>
+                  {neighborhoods.map((neighborhood) => (
+                    <option key={neighborhood._id || neighborhood.name} value={neighborhood.name}>
+                      {neighborhood.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="relative">
