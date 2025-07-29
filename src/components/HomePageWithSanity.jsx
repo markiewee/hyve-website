@@ -136,7 +136,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
       }
       
       // Add fallback images from property.images array (for sample data)
-      if (property.images && property.images.length > 0 && typeof property.images[0] === 'string') {
+      if (images.length === 0 && property.images && property.images.length > 0 && typeof property.images[0] === 'string') {
         property.images.forEach(imgPath => {
           images.push({
             src: `/${imgPath}`,
@@ -145,23 +145,10 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
         });
       }
       
-      // Fallback if no images - use property-specific images
+      // Final fallback if no images available
       if (images.length === 0) {
-        // Try to use property-specific images based on property name or neighborhood
-        let fallbackImage = '/stock_apart1.png';
-        
-        if (property.name && property.name.includes('Thomson')) {
-          fallbackImage = '/hero_coliving_interior.jpg';
-        } else if (property.name && property.name.includes('River Valley')) {
-          fallbackImage = '/river_valley_exterior.jpg';
-        } else if (property.name && property.name.includes('Orchard')) {
-          fallbackImage = '/orchard_building.jpg';
-        } else if (property.name && property.name.includes('Tiong Bahru')) {
-          fallbackImage = '/tiong_bahru_neighborhood.jpg';
-        }
-        
         images.push({
-          src: fallbackImage,
+          src: '/stock_apart1.png',
           alt: property.name
         });
       }
