@@ -38,22 +38,24 @@ const AboutPage = () => {
 
   const team = [
     {
-      name: 'Sarah Lim',
-      role: 'Founder & CEO',
-      bio: 'Former property developer with 10+ years experience in Singapore real estate.',
-      initials: 'SL'
+      name: 'Mark Wee',
+      role: 'Co-Founder',
+      bio: 'Visionary leader driving Hyve\'s growth and strategic direction in Singapore\'s coliving market.',
+      initials: 'MW',
+      photo: '/mark.jpeg'
     },
     {
-      name: 'Marcus Chen',
-      role: 'Head of Community',
-      bio: 'Community building expert passionate about creating meaningful connections.',
-      initials: 'MC'
+      name: 'Matthew Mbarek',
+      role: 'Co-Founder',
+      bio: 'Innovation-focused co-founder dedicated to creating exceptional resident experiences.',
+      initials: 'MM',
+      photo: '/matt.jpeg'
     },
     {
-      name: 'Priya Patel',
-      role: 'Operations Director',
-      bio: 'Ensures every resident has a seamless and comfortable living experience.',
-      initials: 'PP'
+      name: 'Haron Hussman',
+      role: 'Operations Executive',
+      bio: 'Operations expert ensuring seamless day-to-day management and resident satisfaction.',
+      initials: 'HH'
     }
   ];
 
@@ -72,12 +74,6 @@ const AboutPage = () => {
                 creating spaces where young professionals and students can thrive, connect, 
                 and call home in one of the world's most vibrant cities.
               </p>
-              <div className="flex items-center justify-center">
-                <div className="flex items-center space-x-2">
-                  <Award className="w-5 h-5 text-teal-600" />
-                  <span className="font-semibold">Best Coliving 2024</span>
-                </div>
-              </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <img
@@ -189,8 +185,16 @@ const AboutPage = () => {
             {team.map((member, index) => (
               <Card key={index} className="text-center hover:shadow-lg transition-shadow">
                 <CardHeader>
-                  <div className="w-24 h-24 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold text-teal-600">{member.initials}</span>
+                  <div className="w-24 h-24 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4 overflow-hidden">
+                    {member.photo ? (
+                      <img
+                        src={member.photo}
+                        alt={member.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-2xl font-bold text-teal-600">{member.initials}</span>
+                    )}
                   </div>
                   <CardTitle className="text-xl">{member.name}</CardTitle>
                   <Badge variant="secondary" className="mx-auto">{member.role}</Badge>

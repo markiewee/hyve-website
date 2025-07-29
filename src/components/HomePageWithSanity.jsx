@@ -198,7 +198,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                   e.stopPropagation();
                   prevImage();
                 }}
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-1.5 rounded-full opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity z-10"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -207,7 +207,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                   e.stopPropagation();
                   nextImage();
                 }}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-1.5 rounded-full opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity z-10"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
