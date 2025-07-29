@@ -299,16 +299,36 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          poster={homePageContent?.hero?.backgroundImage 
+            ? urlFor(homePageContent.hero.backgroundImage).width(1920).height(1080).url()
+            : heroImage
+          }
+        >
+          <source src="/hero-video.mp4" type="video/mp4" />
+          <source src="/hero-video.webm" type="video/webm" />
+          {/* Fallback message for browsers that don't support video */}
+          Your browser does not support the video tag.
+        </video>
+        
+        {/* Fallback background image for when video is loading or fails */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-0"
           style={{ 
             backgroundImage: homePageContent?.hero?.backgroundImage 
               ? `url(${urlFor(homePageContent.hero.backgroundImage).width(1920).height(1080).url()})`
               : `url(${heroImage})`
           }}
-        >
-          <div className="absolute inset-0 bg-black/40"></div>
-        </div>
+        />
+        
+        {/* Video Overlay */}
+        <div className="absolute inset-0 bg-black/40"></div>
         
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
           {/* Hyve Logo */}
