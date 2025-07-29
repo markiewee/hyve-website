@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Calendar, Clock, User, Tag, ArrowLeft, Share2, Heart, MessageCircle } from 'lucide-react';
+import { Calendar, Clock, User, Tag, ArrowLeft, Share2, MessageCircle, Copy, Twitter, Facebook, Linkedin } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
@@ -11,6 +11,10 @@ const BlogPostPage = () => {
   const [post, setPost] = useState(null);
   const [relatedPosts, setRelatedPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showShareMenu, setShowShareMenu] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
+  const shareMenuRef = useRef(null);
+  const shareMenuRef2 = useRef(null);
 
   useEffect(() => {
     const loadPost = async () => {
@@ -42,12 +46,56 @@ const BlogPostPage = () => {
     loadPost();
   }, [slug]);
 
+  // Close share menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (shareMenuRef.current && !shareMenuRef.current.contains(event.target) &&
+          shareMenuRef2.current && !shareMenuRef2.current.contains(event.target)) {
+        setShowShareMenu(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
     });
+  };
+
+  const shareUrl = window.location.href;
+  const shareTitle = post ? `${post.title} - Hyve Blog` : 'Hyve Blog';
+  const shareText = post ? post.excerpt : 'Check out this article from Hyve';
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy link:', err);
+    }
+  };
+
+  const handleShareTwitter = () => {
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleShareFacebook = () => {
+    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleShareLinkedIn = () => {
+    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   // Function to render markdown-like content
@@ -268,15 +316,58 @@ const BlogPostPage = () => {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2">
-                <Button variant="outline" size="sm">
-                  <Heart className="w-4 h-4 mr-2" />
-                  Like
-                </Button>
-                <Button variant="outline" size="sm">
+              <div className="relative" ref={shareMenuRef}>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => setShowShareMenu(!showShareMenu)}
+                >
                   <Share2 className="w-4 h-4 mr-2" />
                   Share
                 </Button>
+                
+                {showShareMenu && (
+                  <div className="absolute right-0 top-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-10 min-w-48">
+                    <div className="space-y-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={handleCopyLink}
+                      >
+                        <Copy className="w-4 h-4 mr-2" />
+                        {copySuccess ? 'Copied!' : 'Copy Link'}
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={handleShareTwitter}
+                      >
+                        <Twitter className="w-4 h-4 mr-2" />
+                        Share on Twitter
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={handleShareFacebook}
+                      >
+                        <Facebook className="w-4 h-4 mr-2" />
+                        Share on Facebook
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={handleShareLinkedIn}
+                      >
+                        <Linkedin className="w-4 h-4 mr-2" />
+                        Share on LinkedIn
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -301,15 +392,58 @@ const BlogPostPage = () => {
           {/* Article Footer */}
           <div className="p-6 bg-gray-50 border-t border-gray-200">
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <Button variant="outline" size="sm">
-                  <Heart className="w-4 h-4 mr-2" />
-                  Like this article
+              <div className="relative" ref={shareMenuRef2}>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => setShowShareMenu(!showShareMenu)}
+                >
+                  <Share2 className="w-4 h-4 mr-2" />
+                  Share this article
                 </Button>
-                <Button variant="outline" size="sm">
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Comment
-                </Button>
+                
+                {showShareMenu && (
+                  <div className="absolute left-0 bottom-full mb-2 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-10 min-w-48">
+                    <div className="space-y-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={handleCopyLink}
+                      >
+                        <Copy className="w-4 h-4 mr-2" />
+                        {copySuccess ? 'Copied!' : 'Copy Link'}
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={handleShareTwitter}
+                      >
+                        <Twitter className="w-4 h-4 mr-2" />
+                        Share on Twitter
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={handleShareFacebook}
+                      >
+                        <Facebook className="w-4 h-4 mr-2" />
+                        Share on Facebook
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={handleShareLinkedIn}
+                      >
+                        <Linkedin className="w-4 h-4 mr-2" />
+                        Share on LinkedIn
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
               
               <div className="text-sm text-gray-500">
