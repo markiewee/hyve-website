@@ -96,7 +96,7 @@ const PropertyDetailPage = () => {
     const roomOccupant = occupants.find(o => o.roomId === room.id);
     
     return (
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setSelectedRoom(room)}>
+      <Card className={`hover:shadow-lg transition-shadow cursor-pointer ${!room.isAvailable ? 'opacity-60 grayscale' : ''}`} onClick={() => setSelectedRoom(room)}>
         {/* Room Image */}
         {room.images && room.images.length > 0 && (
           <div className="relative h-48 overflow-hidden rounded-t-lg">
@@ -107,7 +107,7 @@ const PropertyDetailPage = () => {
             />
             <div className="absolute top-2 right-2">
               <Badge variant={room.isAvailable ? "default" : "secondary"} className={room.isAvailable ? "bg-green-600" : "bg-gray-600"}>
-                {room.isAvailable ? "Available" : "Occupied"}
+                {room.isAvailable ? "Available" : room.availableFrom ? `Available from: ${room.availableFrom}` : "Occupied"}
               </Badge>
             </div>
           </div>
@@ -452,33 +452,6 @@ const PropertyDetailPage = () => {
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Nearby Amenities</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Shopping Mall</span>
-                    <span className="font-medium">3 min walk</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Supermarket</span>
-                    <span className="font-medium">5 min walk</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Restaurants</span>
-                    <span className="font-medium">1 min walk</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Gym</span>
-                    <span className="font-medium">2 min walk</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Park</span>
-                    <span className="font-medium">8 min walk</span>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </div>

@@ -372,37 +372,16 @@ const PropertyDetailPage = () => {
               </CardContent>
             </Card>
 
-            {/* Amenities */}
-            {property.amenities && property.amenities.length > 0 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Amenities</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {property.amenities.map((amenity, index) => (
-                      <div key={index} className="flex items-center space-x-2">
-                        <div className="w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center">
-                          <Wifi className="w-4 h-4 text-teal-600" />
-                        </div>
-                        <span className="text-gray-700">{amenity}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
             {/* Available Rooms */}
             {propertyRooms && propertyRooms.length > 0 && (
               <Card>
                 <CardHeader>
-                  <CardTitle>Available Rooms</CardTitle>
+                  <CardTitle>Rooms</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {propertyRooms.map((room) => (
-                      <Card key={room._id || room.id} className={`border hover:shadow-md transition-shadow overflow-hidden ${!room.isAvailable ? 'opacity-50 grayscale' : ''}`}>
+                      <Card key={room._id || room.id} className={`border hover:shadow-md transition-shadow overflow-hidden ${!room.isAvailable ? 'opacity-60 grayscale' : ''}`}>
                         {/* Room Image */}
                         <div className="relative aspect-[3/2] overflow-hidden">
                           <img
@@ -420,7 +399,7 @@ const PropertyDetailPage = () => {
                           {/* Room Status Badge */}
                           <div className="absolute top-3 right-3">
                             <Badge variant={room.isAvailable ? 'default' : 'secondary'} className="bg-white/90 text-gray-900">
-                              {room.isAvailable ? 'Available' : 'Occupied'}
+                              {room.isAvailable ? 'Available' : room.availableFrom ? `Available from: ${room.availableFrom}` : 'Occupied'}
                             </Badge>
                           </div>
                           
@@ -849,7 +828,7 @@ const PropertyDetailPage = () => {
                       <div className="flex justify-between">
                         <span className="text-gray-600">Status:</span>
                         <Badge variant={selectedRoom.isAvailable ? 'default' : 'secondary'}>
-                          {selectedRoom.isAvailable ? 'Available' : 'Occupied'}
+                          {selectedRoom.isAvailable ? 'Available' : selectedRoom.availableFrom ? `Available from: ${selectedRoom.availableFrom}` : 'Occupied'}
                         </Badge>
                       </div>
                       {selectedRoom.availableFrom && (

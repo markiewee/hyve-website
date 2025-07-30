@@ -117,7 +117,7 @@ const AboutPage = () => {
           
           <div className="prose prose-lg mx-auto text-gray-600">
             <p>
-              Founded in 2020, Hyve was born from a simple observation: young professionals 
+              Founded in 2023, Hyve was born from a simple observation: young professionals 
               and students in Singapore were struggling to find quality, affordable housing 
               that also provided a sense of community and belonging.
             </p>
