@@ -65,7 +65,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
           // Fallback to API/sample data with rooms
           try {
             const [propertiesData, roomsData] = await Promise.all([
-              ApiService.getProperties(localFilters),
+              ApiService.getProperties(),
               ApiService.getRooms()
             ]);
             
@@ -94,7 +94,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
         // Fallback to existing API/sample data with rooms
         try {
           const [propertiesData, roomsData] = await Promise.all([
-            ApiService.getProperties(localFilters),
+            ApiService.getProperties(),
             ApiService.getRooms()
           ]);
           
@@ -123,7 +123,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
     };
 
     fetchProperties();
-  }, [localFilters]);
+  }, []); // Only fetch once on mount
 
   // Filter properties based on local filters and room availability
   const filteredProperties = properties.filter(property => {
@@ -173,7 +173,10 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
   const handleFilterChange = (key, value) => {
     const newFilters = { ...localFilters, [key]: value };
     setLocalFilters(newFilters);
-    setSearchFilters(newFilters);
+    // Update search filters in parent component
+    if (setSearchFilters) {
+      setSearchFilters(newFilters);
+    }
   };
 
   const PropertyCard = ({ property }) => (
@@ -238,7 +241,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
               <div className="flex items-center">
                 <Calendar className="w-4 h-4 mr-1" />
                 <span>
-                  {property.rooms ? 
+                  {property.rooms && property.rooms.length > 0 ? 
                     `${property.rooms.filter(r => r.isAvailable).length} available now` :
                     `${property.availableRooms || 0} available`
                   }
@@ -297,7 +300,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
         {/* Search and Filter Bar */}
         <div className="bg-white rounded-2xl p-6 shadow-lg mb-8">
           <div className="flex flex-col lg:flex-row gap-4">
-            <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="relative">
                 <MapPin className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
                 <select

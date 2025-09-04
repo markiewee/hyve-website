@@ -6,7 +6,7 @@ import {
   User, Globe, Briefcase, Heart, Home, Utensils, Dumbbell, 
   ShowerHead, AirVent, Tv, Bed, Bath, Send, CheckCircle
 } from 'lucide-react';
-import { format, parseISO } from 'date-fns';
+// Removed date-fns import to fix Vercel build issues
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
@@ -270,7 +270,13 @@ const PropertyDetailPage = () => {
   const formatAvailableDate = (dateString) => {
     if (!dateString) return null;
     try {
-      return format(parseISO(dateString), 'MMM dd, yyyy');
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return dateString; // Invalid date fallback
+      return date.toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric', 
+        year: 'numeric' 
+      });
     } catch (error) {
       return dateString; // Fallback to original string if parsing fails
     }
