@@ -541,8 +541,8 @@ ${requestFormData.message || 'No additional message provided'}
                             ) : (
                               <Button 
                                 size="sm" 
-                                variant="outline"
-                                className="w-full"
+                                variant={room.availableFrom ? "default" : "outline"}
+                                className={`w-full ${room.availableFrom ? 'bg-green-600 hover:bg-green-700 text-white' : ''}`}
                                 onClick={() => handleRoomRequest(room)}
                               >
                                 {room.availableFrom ? 'Join Waitlist' : 'Request This Room'}
@@ -577,7 +577,7 @@ ${requestFormData.message || 'No additional message provided'}
                                   return (a.roomNumber || '').localeCompare(b.roomNumber || '');
                                 })
                                 .map((room) => (
-                      <Card key={room._id || room.id} className={`border hover:shadow-md transition-shadow overflow-hidden ${!room.availableFrom ? 'opacity-60 grayscale' : ''}`}>
+                      <Card key={room._id || room.id} className="border hover:shadow-md transition-shadow overflow-hidden">
                         {/* Room Image */}
                         <div className="relative aspect-[3/2] overflow-hidden">
                           <img
@@ -589,7 +589,7 @@ ${requestFormData.message || 'No additional message provided'}
                                 : '/stock_apart1.png'
                             }
                             alt={room.images?.[0]?.alt || `Room ${room.roomNumber}`}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover grayscale"
                           />
                           
                           {/* Room Status Badge */}
