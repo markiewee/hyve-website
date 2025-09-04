@@ -176,35 +176,49 @@ const PropertyDetailPage = () => {
     setRequestLoading(true);
 
     try {
-      const response = await fetch('/api/send-room-request', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          propertyName: property.name,
-          roomNumber: selectedRoom.roomNumber,
-          userName: requestFormData.name,
-          userEmail: requestFormData.email,
-          userPhone: requestFormData.phone,
-          message: requestFormData.message,
-          propertyId: property._id || property.id
-        }),
-      });
+      // Create WhatsApp message
+      const roomType = selectedRoom.availableFrom ? 'Waitlist Request' : 'Room Request';
+      const availabilityInfo = selectedRoom.availableFrom 
+        ? `Available from: ${formatAvailableDate(selectedRoom.availableFrom)}`
+        : 'Currently occupied';
+      
+      const message = `🏠 *${roomType}* from Hyve Website
 
-      if (response.ok) {
-        setRequestSubmitted(true);
-        setTimeout(() => {
-          setShowRequestDialog(false);
-          setRequestSubmitted(false);
-          setRequestFormData({ name: '', email: '', phone: '', message: '' });
-        }, 3000);
-      } else {
-        alert('Failed to send request. Please try again.');
-      }
+*Property:* ${property.name}
+*Room:* ${selectedRoom.roomNumber} (${selectedRoom.roomType})
+*Monthly Rent:* $${selectedRoom.priceMonthly}
+*Availability:* ${availabilityInfo}
+
+*Prospect Details:*
+👤 *Name:* ${requestFormData.name}
+📧 *Email:* ${requestFormData.email}
+📱 *Phone:* ${requestFormData.phone}
+
+*Message:*
+${requestFormData.message || 'No additional message provided'}
+
+*Submitted via:* Hyve Website
+*Time:* ${new Date().toLocaleString()}`;
+
+      // WhatsApp Web URL
+      const phoneNumber = '6580885410';
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+      
+      // Open WhatsApp in new tab
+      window.open(whatsappUrl, '_blank');
+      
+      // Show success message
+      setRequestSubmitted(true);
+      setTimeout(() => {
+        setShowRequestDialog(false);
+        setRequestSubmitted(false);
+        setRequestFormData({ name: '', email: '', phone: '', message: '' });
+      }, 3000);
+      
     } catch (error) {
-      console.error('Error sending request:', error);
-      alert('Failed to send request. Please try again.');
+      console.error('Error creating WhatsApp message:', error);
+      alert('There was an error creating your request. Please try again.');
     } finally {
       setRequestLoading(false);
     }
@@ -413,7 +427,7 @@ const PropertyDetailPage = () => {
                               {availableRooms
                                 .sort((a, b) => (a.roomNumber || '').localeCompare(b.roomNumber || ''))
                                 .map((room) => (
-                      <Card key={room._id || room.id} className={`border hover:shadow-md transition-shadow overflow-hidden ${!room.isAvailable ? 'opacity-60 grayscale' : ''}`}>
+                      <Card key={room._id || room.id} className="border hover:shadow-md transition-shadow overflow-hidden">
                         {/* Room Image */}
                         <div className="relative aspect-[3/2] overflow-hidden">
                           <img
@@ -563,7 +577,7 @@ const PropertyDetailPage = () => {
                                   return (a.roomNumber || '').localeCompare(b.roomNumber || '');
                                 })
                                 .map((room) => (
-                      <Card key={room._id || room.id} className="border hover:shadow-md transition-shadow overflow-hidden opacity-60 grayscale">
+                      <Card key={room._id || room.id} className={`border hover:shadow-md transition-shadow overflow-hidden ${!room.availableFrom ? 'opacity-60 grayscale' : ''}`}>
                         {/* Room Image */}
                         <div className="relative aspect-[3/2] overflow-hidden">
                           <img
@@ -836,9 +850,9 @@ const PropertyDetailPage = () => {
             {requestSubmitted ? (
               <div className="text-center py-8">
                 <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Request Sent!</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">WhatsApp Opened!</h3>
                 <p className="text-gray-600">
-                  We'll contact you as soon as this room or similar rooms become available.
+                  Your request details have been prepared. Send the message on WhatsApp to complete your inquiry.
                 </p>
               </div>
             ) : (

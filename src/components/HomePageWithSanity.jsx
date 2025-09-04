@@ -381,7 +381,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                 <Calendar className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
                 <Input
                   type="date"
-                  placeholder="Available From"
+                  placeholder="Start Date"
                   value={searchFilters.availableFrom || ''}
                   onChange={(e) => setSearchFilters({...searchFilters, availableFrom: e.target.value})}
                   className="pl-10 text-gray-900"

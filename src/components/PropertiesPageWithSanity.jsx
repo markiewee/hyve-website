@@ -241,10 +241,19 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
               <div className="flex items-center">
                 <Calendar className="w-4 h-4 mr-1" />
                 <span>
-                  {property.rooms && property.rooms.length > 0 ? 
-                    `${property.rooms.filter(r => r.isAvailable).length} available now` :
-                    `${property.availableRooms || 0} available`
-                  }
+                  {(() => {
+                    // Check if we have room data with availability info
+                    if (property.rooms && Array.isArray(property.rooms) && property.rooms.length > 0) {
+                      const availableCount = property.rooms.filter(room => room.isAvailable === true).length;
+                      return `${availableCount} available now`;
+                    }
+                    // Fallback to property-level availability
+                    if (typeof property.availableRooms === 'number') {
+                      return `${property.availableRooms} available`;
+                    }
+                    // Default fallback
+                    return '0 available';
+                  })()}
                 </span>
               </div>
             </div>
@@ -331,7 +340,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
                 <Calendar className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
                 <Input
                   type="date"
-                  placeholder="Available From"
+                  placeholder="Start Date"
                   value={localFilters.availableFrom || ''}
                   onChange={(e) => handleFilterChange('availableFrom', e.target.value)}
                   className="pl-10"
