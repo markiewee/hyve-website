@@ -74,7 +74,7 @@ export default function handler(req, res) {
   }
 
   if (req.method === 'GET') {
-    const { neighborhood, min_price, max_price, property_type, available_only } = req.query;
+    const { neighborhood, min_price, max_price, property_type, available_only, available_from } = req.query;
     
     let filteredProperties = [...SAMPLE_PROPERTIES];
     
@@ -108,6 +108,16 @@ export default function handler(req, res) {
     // Filter by availability
     if (available_only === 'true') {
       filteredProperties = filteredProperties.filter(p => p.availableRooms > 0);
+    }
+
+    // Filter by available from date
+    if (available_from) {
+      const requestedDate = new Date(available_from);
+      filteredProperties = filteredProperties.filter(p => {
+        // For now, assume properties are available if requested date is in the future
+        // In a real implementation, you'd check room availability dates
+        return true; // This would need room data integration
+      });
     }
     
     res.status(200).json(filteredProperties);

@@ -21,7 +21,7 @@ const SAMPLE_ROOMS = [
     priceMonthly: 1200,
     sizeSqm: 18,
     isAvailable: false,
-    availableFrom: null,
+    availableFrom: "2025-02-15",
     images: ["modern_coliving_space.jpg"],
     amenities: ["Shared Bathroom", "Single Bed", "Study Desk", "Wardrobe", "Air Conditioning"]
   },
@@ -82,7 +82,7 @@ const SAMPLE_ROOMS = [
     priceMonthly: 1600,
     sizeSqm: 19,
     isAvailable: false,
-    availableFrom: null,
+    availableFrom: "2025-01-20",
     images: ["modern_coliving_space.jpg"],
     amenities: ["Shared Bathroom", "Queen Bed", "Study Desk", "Wardrobe", "Air Conditioning"]
   },

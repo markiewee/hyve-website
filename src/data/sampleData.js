@@ -89,8 +89,8 @@ export const rooms = [
     roomType: "Standard Room",
     priceMonthly: 900,
     sizeSqm: 15,
-    isAvailable: true,
-    availableFrom: "2025-08-01",
+    isAvailable: false,
+    availableFrom: "2025-02-15",
     amenities: ["Shared Bathroom", "Air Conditioning", "Study Desk"],
     images: ["modern_bedroom.jpg", "stock_apart1.png"]
   },
@@ -102,6 +102,7 @@ export const rooms = [
     priceMonthly: 900,
     sizeSqm: 15,
     isAvailable: false,
+    availableFrom: "2025-03-01",
     amenities: ["Shared Bathroom", "Air Conditioning", "Study Desk"],
     images: ["modern_bedroom.jpg", "stock_apart1.png"]
   },

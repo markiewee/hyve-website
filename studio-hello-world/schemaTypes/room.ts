@@ -49,12 +49,25 @@ export default defineType({
       name: 'isAvailable',
       title: 'Available',
       type: 'boolean',
-      initialValue: true
+      initialValue: true,
+      description: 'Is this room currently available for immediate move-in?'
     }),
     defineField({
       name: 'availableFrom',
       title: 'Available From',
-      type: 'date'
+      type: 'date',
+      description: 'If not currently available, when will this room become available? Leave empty if availability is unknown.',
+      hidden: ({document}) => document?.isAvailable === true,
+      validation: Rule => Rule.custom((date, context) => {
+        const isAvailable = context.document?.isAvailable;
+        if (!isAvailable && !date) {
+          return 'Please specify when this room will be available, or mark it as available now';
+        }
+        if (date && new Date(date) < new Date()) {
+          return 'Available date should be in the future';
+        }
+        return true;
+      })
     }),
     defineField({
       name: 'images',

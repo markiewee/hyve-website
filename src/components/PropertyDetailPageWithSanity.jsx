@@ -6,6 +6,7 @@ import {
   User, Globe, Briefcase, Heart, Home, Utensils, Dumbbell, 
   ShowerHead, AirVent, Tv, Bed, Bath, Send, CheckCircle
 } from 'lucide-react';
+import { format, parseISO } from 'date-fns';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
@@ -14,6 +15,7 @@ import { Separator } from './ui/separator';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import { InlineWidget } from 'react-calendly';
 import { client, QUERIES, urlFor } from '../lib/sanity';
 import ApiService from '../services/api';
 import PropertyMapComponent from './PropertyMapComponent';
@@ -265,6 +267,15 @@ const PropertyDetailPage = () => {
 
   const neighborhoodName = property.neighborhood?.name || property.neighborhood;
 
+  const formatAvailableDate = (dateString) => {
+    if (!dateString) return null;
+    try {
+      return format(parseISO(dateString), 'MMM dd, yyyy');
+    } catch (error) {
+      return dateString; // Fallback to original string if parsing fails
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -399,7 +410,7 @@ const PropertyDetailPage = () => {
                           {/* Room Status Badge */}
                           <div className="absolute top-3 right-3">
                             <Badge variant={room.isAvailable ? 'default' : 'secondary'} className="bg-white/90 text-gray-900">
-                              {room.isAvailable ? 'Available' : room.availableFrom ? `Available from: ${room.availableFrom}` : 'Occupied'}
+                              {room.isAvailable ? 'Available Now' : room.availableFrom ? `Available ${formatAvailableDate(room.availableFrom)}` : 'Contact for Availability'}
                             </Badge>
                           </div>
                           
@@ -489,7 +500,7 @@ const PropertyDetailPage = () => {
                                 className="w-full"
                                 onClick={() => handleRoomRequest(room)}
                               >
-                                Request This Room
+                                {room.availableFrom ? 'Join Waitlist' : 'Request This Room'}
                               </Button>
                             )}
                           </div>
@@ -647,7 +658,9 @@ const PropertyDetailPage = () => {
             <DialogHeader>
               <DialogTitle>Request {selectedRoom?.roomName || selectedRoom?.roomNumber} @ {property?.name}</DialogTitle>
               <DialogDescription>
-                This room is currently occupied, but we'll notify you when it becomes available or if similar rooms open up.
+                {selectedRoom?.availableFrom 
+                  ? `This room will be available from ${formatAvailableDate(selectedRoom.availableFrom)}. Join our waitlist to be notified!`
+                  : 'This room is currently occupied, but we\'ll notify you when it becomes available or if similar rooms open up.'}
               </DialogDescription>
             </DialogHeader>
             
@@ -828,13 +841,13 @@ const PropertyDetailPage = () => {
                       <div className="flex justify-between">
                         <span className="text-gray-600">Status:</span>
                         <Badge variant={selectedRoom.isAvailable ? 'default' : 'secondary'}>
-                          {selectedRoom.isAvailable ? 'Available' : selectedRoom.availableFrom ? `Available from: ${selectedRoom.availableFrom}` : 'Occupied'}
+                          {selectedRoom.isAvailable ? 'Available Now' : selectedRoom.availableFrom ? `Available ${formatAvailableDate(selectedRoom.availableFrom)}` : 'Contact for Availability'}
                         </Badge>
                       </div>
-                      {selectedRoom.availableFrom && (
+                      {selectedRoom.availableFrom && !selectedRoom.isAvailable && (
                         <div className="flex justify-between">
                           <span className="text-gray-600">Available from:</span>
-                          <span className="font-medium">{selectedRoom.availableFrom}</span>
+                          <span className="font-medium">{formatAvailableDate(selectedRoom.availableFrom)}</span>
                         </div>
                       )}
                       {selectedRoom.leaseTerm && (
@@ -868,6 +881,26 @@ const PropertyDetailPage = () => {
                     <p className="text-gray-600 leading-relaxed">{selectedRoom.description}</p>
                   </div>
                 )}
+
+                {/* Calendly Scheduling */}
+                <div>
+                  <h4 className="font-semibold text-lg mb-3">Schedule a Tour</h4>
+                  <p className="text-gray-600 mb-4">Book a time to view this room and ask any questions you have.</p>
+                  <div className="border rounded-lg overflow-hidden bg-white">
+                    <InlineWidget
+                      url="https://calendly.com/hello-hyve/30min"
+                      styles={{
+                        height: '600px',
+                        width: '100%'
+                      }}
+                      prefill={{
+                        customAnswers: {
+                          a1: `${selectedRoom?.roomName || selectedRoom?.roomNumber || 'Room'} at ${property?.name || 'Hyve Property'}` // "Which room are you interested in?"
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
 
                 {/* Action Buttons */}
                 <div className="flex space-x-3 pt-4 border-t">

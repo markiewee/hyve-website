@@ -19,9 +19,42 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        // Try to fetch from Sanity first
+        // Try to fetch from Sanity first with room data
         const [sanityProperties, sanityNeighborhoods] = await Promise.all([
-          client.fetch(QUERIES.properties),
+          client.fetch(`*[_type == "property"] | order(_createdAt desc){
+            _id,
+            name,
+            slug,
+            description,
+            address,
+            neighborhood->{
+              name,
+              slug
+            },
+            location,
+            propertyType,
+            startingPrice,
+            totalRooms,
+            availableRooms,
+            images[]{
+              image,
+              alt,
+              caption
+            },
+            amenities,
+            nearbyMRT[],
+            nearbyAmenities[],
+            featured,
+            status,
+            "rooms": *[_type == "room" && property._ref == ^._id]{
+              _id,
+              roomNumber,
+              roomType,
+              priceMonthly,
+              isAvailable,
+              availableFrom
+            }
+          }`),
           client.fetch(`*[_type == "neighborhood"]{name, slug, _id}`)
         ]);
 
@@ -29,25 +62,59 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
           setProperties(sanityProperties);
           setNeighborhoods(sanityNeighborhoods || []);
         } else {
-          // Fallback to API/sample data
+          // Fallback to API/sample data with rooms
           try {
-            const data = await ApiService.getProperties(localFilters);
-            setProperties(data);
+            const [propertiesData, roomsData] = await Promise.all([
+              ApiService.getProperties(localFilters),
+              ApiService.getRooms()
+            ]);
+            
+            // Attach rooms to properties
+            const propertiesWithRooms = propertiesData.map(property => ({
+              ...property,
+              rooms: roomsData.filter(room => room.propertyId === property.id)
+            }));
+            
+            setProperties(propertiesWithRooms);
           } catch (error) {
-            const { properties: sampleProperties, neighborhoods: sampleNeighborhoods } = await import("../data/sampleData");
-            setProperties(sampleProperties);
+            const { properties: sampleProperties, neighborhoods: sampleNeighborhoods, rooms: sampleRooms } = await import("../data/sampleData");
+            
+            // Attach rooms to sample properties
+            const propertiesWithRooms = sampleProperties.map(property => ({
+              ...property,
+              rooms: sampleRooms.filter(room => room.propertyId === property.id)
+            }));
+            
+            setProperties(propertiesWithRooms);
             setNeighborhoods(sampleNeighborhoods);
           }
         }
       } catch (error) {
         console.error("Error fetching properties from Sanity:", error);
-        // Fallback to existing API/sample data
+        // Fallback to existing API/sample data with rooms
         try {
-          const data = await ApiService.getProperties(localFilters);
-          setProperties(data);
+          const [propertiesData, roomsData] = await Promise.all([
+            ApiService.getProperties(localFilters),
+            ApiService.getRooms()
+          ]);
+          
+          // Attach rooms to properties
+          const propertiesWithRooms = propertiesData.map(property => ({
+            ...property,
+            rooms: roomsData.filter(room => room.propertyId === property.id)
+          }));
+          
+          setProperties(propertiesWithRooms);
         } catch (apiError) {
-          const { properties: sampleProperties, neighborhoods: sampleNeighborhoods } = await import("../data/sampleData");
-          setProperties(sampleProperties);
+          const { properties: sampleProperties, neighborhoods: sampleNeighborhoods, rooms: sampleRooms } = await import("../data/sampleData");
+          
+          // Attach rooms to sample properties
+          const propertiesWithRooms = sampleProperties.map(property => ({
+            ...property,
+            rooms: sampleRooms.filter(room => room.propertyId === property.id)
+          }));
+          
+          setProperties(propertiesWithRooms);
           setNeighborhoods(sampleNeighborhoods);
         }
       } finally {
@@ -58,7 +125,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
     fetchProperties();
   }, [localFilters]);
 
-  // Filter properties based on local filters
+  // Filter properties based on local filters and room availability
   const filteredProperties = properties.filter(property => {
     // Location filter
     if (localFilters.location && localFilters.location !== '') {
@@ -74,6 +141,29 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
       const propertyPrice = property.startingPrice || 0;
       if (propertyPrice > maxBudget) {
         return false;
+      }
+    }
+
+    // Available from date filter
+    if (localFilters.availableFrom && localFilters.availableFrom !== '') {
+      const requestedDate = new Date(localFilters.availableFrom);
+      
+      // Check if property has any rooms available on or before the requested date
+      if (property.rooms && property.rooms.length > 0) {
+        const hasAvailableRoom = property.rooms.some(room => {
+          if (room.isAvailable) return true; // Available now
+          if (room.availableFrom) {
+            const roomAvailableDate = new Date(room.availableFrom);
+            return roomAvailableDate <= requestedDate;
+          }
+          return false; // No availability date set
+        });
+        if (!hasAvailableRoom) return false;
+      } else {
+        // For properties without detailed room data, assume available if no date constraints
+        if (!property.availableFrom) return true;
+        const propertyAvailableDate = new Date(property.availableFrom);
+        if (propertyAvailableDate > requestedDate) return false;
       }
     }
 
@@ -143,7 +233,16 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
             <div className="flex items-center space-x-4 text-sm text-gray-600">
               <div className="flex items-center">
                 <Users className="w-4 h-4 mr-1" />
-                <span>{property.totalRooms || '1'} rooms</span>
+                <span>{property.totalRooms || property.rooms?.length || '1'} rooms</span>
+              </div>
+              <div className="flex items-center">
+                <Calendar className="w-4 h-4 mr-1" />
+                <span>
+                  {property.rooms ? 
+                    `${property.rooms.filter(r => r.isAvailable).length} available now` :
+                    `${property.availableRooms || 0} available`
+                  }
+                </span>
               </div>
             </div>
           </div>

@@ -45,6 +45,9 @@ class ApiService {
         } else if (key === 'neighborhood') {
           // Direct neighborhood mapping
           params.append('neighborhood', value);
+        } else if (key === 'availableFrom') {
+          // Map availableFrom for API
+          params.append('available_from', value);
         } else {
           // Keep other parameters as-is
           params.append(key, value);
