@@ -330,8 +330,8 @@ const PropertyDetailPage = () => {
 
           {/* Property Status */}
           <div className="absolute top-4 left-4">
-            <Badge className="bg-teal-600 text-white">
-              {propertyRooms?.filter(room => room.isAvailable)?.length || '0'} available
+            <Badge className="bg-orange-500 text-white">
+              {propertyRooms?.filter(room => room.isAvailable)?.length || '0'} available now
             </Badge>
           </div>
           
@@ -390,8 +390,23 @@ const PropertyDetailPage = () => {
                   <CardTitle>Rooms</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {propertyRooms.map((room) => (
+                  {(() => {
+                    const availableRooms = propertyRooms.filter(room => room.isAvailable);
+                    const unavailableRooms = propertyRooms.filter(room => !room.isAvailable);
+                    
+                    return (
+                      <div className="space-y-8">
+                        {/* Available Rooms Section */}
+                        {availableRooms.length > 0 && (
+                          <div>
+                            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                              <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
+                              Available Rooms ({availableRooms.length})
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                              {availableRooms
+                                .sort((a, b) => (a.roomNumber || '').localeCompare(b.roomNumber || ''))
+                                .map((room) => (
                       <Card key={room._id || room.id} className={`border hover:shadow-md transition-shadow overflow-hidden ${!room.isAvailable ? 'opacity-60 grayscale' : ''}`}>
                         {/* Room Image */}
                         <div className="relative aspect-[3/2] overflow-hidden">
@@ -409,9 +424,19 @@ const PropertyDetailPage = () => {
                           
                           {/* Room Status Badge */}
                           <div className="absolute top-3 right-3">
-                            <Badge variant={room.isAvailable ? 'default' : 'secondary'} className="bg-white/90 text-gray-900">
-                              {room.isAvailable ? 'Available Now' : room.availableFrom ? `Available ${formatAvailableDate(room.availableFrom)}` : 'Contact for Availability'}
-                            </Badge>
+                            {room.isAvailable ? (
+                              <Badge variant="default" className="bg-green-600 text-white">
+                                Available Now
+                              </Badge>
+                            ) : room.availableFrom ? (
+                              <Badge className="bg-orange-500 text-white">
+                                Available {formatAvailableDate(room.availableFrom)}
+                              </Badge>
+                            ) : (
+                              <Badge variant="secondary" className="bg-gray-500 text-white">
+                                Contact for Availability
+                              </Badge>
+                            )}
                           </div>
                           
                           {/* Price Badge */}
@@ -506,8 +531,146 @@ const PropertyDetailPage = () => {
                           </div>
                         </CardContent>
                       </Card>
-                    ))}
-                  </div>
+                                ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Unavailable Rooms Section */}
+                        {unavailableRooms.length > 0 && (
+                          <div>
+                            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                              <span className="w-3 h-3 bg-orange-500 rounded-full mr-2"></span>
+                              Upcoming Availability ({unavailableRooms.length})
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                              {unavailableRooms
+                                .sort((a, b) => {
+                                  // Sort by available date, then by room number
+                                  if (a.availableFrom && b.availableFrom) {
+                                    const dateA = new Date(a.availableFrom);
+                                    const dateB = new Date(b.availableFrom);
+                                    if (dateA.getTime() !== dateB.getTime()) {
+                                      return dateA - dateB;
+                                    }
+                                  }
+                                  return (a.roomNumber || '').localeCompare(b.roomNumber || '');
+                                })
+                                .map((room) => (
+                      <Card key={room._id || room.id} className="border hover:shadow-md transition-shadow overflow-hidden opacity-60 grayscale">
+                        {/* Room Image */}
+                        <div className="relative aspect-[3/2] overflow-hidden">
+                          <img
+                            src={
+                              room.images?.[0]?.image 
+                                ? urlFor(room.images[0].image).width(1920).height(1280).url()
+                                : room.images?.[0] 
+                                ? `/${room.images[0]}`
+                                : '/stock_apart1.png'
+                            }
+                            alt={room.images?.[0]?.alt || `Room ${room.roomNumber}`}
+                            className="w-full h-full object-cover"
+                          />
+                          
+                          {/* Room Status Badge */}
+                          <div className="absolute top-3 right-3">
+                            {room.availableFrom ? (
+                              <Badge className="bg-orange-500 text-white">
+                                Available {formatAvailableDate(room.availableFrom)}
+                              </Badge>
+                            ) : (
+                              <Badge className="bg-gray-500 text-white">
+                                Contact for Availability
+                              </Badge>
+                            )}
+                          </div>
+                          
+                          {/* Price Badge */}
+                          <div className="absolute top-3 left-3">
+                            <Badge className="bg-teal-600 text-white">
+                              ${room.priceMonthly}/month
+                            </Badge>
+                          </div>
+                        </div>
+                        
+                        <CardContent className="p-4">
+                          <div className="mb-3">
+                            <h4 className="font-semibold text-lg mb-1">{room.roomName || room.roomNumber} @ {property.name}</h4>
+                            <p className="text-sm text-gray-600">{room.roomType}</p>
+                          </div>
+                          
+                          {/* Room Details */}
+                          <div className="space-y-2 mb-4">
+                            {room.sizeSqm && (
+                              <div className="flex items-center justify-between text-sm">
+                                <span className="text-gray-600">Size:</span>
+                                <span className="font-medium">{room.sizeSqm} sqm</span>
+                              </div>
+                            )}
+                            {room.floor && (
+                              <div className="flex items-center justify-between text-sm">
+                                <span className="text-gray-600">Floor:</span>
+                                <span className="font-medium">{room.floor}</span>
+                              </div>
+                            )}
+                            {room.facing && (
+                              <div className="flex items-center justify-between text-sm">
+                                <span className="text-gray-600">Facing:</span>
+                                <span className="font-medium">{room.facing}</span>
+                              </div>
+                            )}
+                            {room.window && (
+                              <div className="flex items-center justify-between text-sm">
+                                <span className="text-gray-600">Window:</span>
+                                <span className="font-medium">{room.window ? 'Yes' : 'No'}</span>
+                              </div>
+                            )}
+                            {(room.bathType || room.bathroom) && (
+                              <div className="flex items-center justify-between text-sm">
+                                <span className="text-gray-600">Bathroom:</span>
+                                <span className="font-medium">{room.bathType || room.bathroom || 'Shared'}</span>
+                              </div>
+                            )}
+                          </div>
+                          
+                          {/* Room Amenities */}
+                          {room.amenities && room.amenities.length > 0 && (
+                            <div className="mb-4">
+                              <p className="text-sm font-medium text-gray-700 mb-2">Amenities:</p>
+                              <div className="flex flex-wrap gap-1">
+                                {room.amenities.slice(0, 3).map((amenity, index) => (
+                                  <Badge key={index} variant="outline" className="text-xs">
+                                    {amenity}
+                                  </Badge>
+                                ))}
+                                {room.amenities.length > 3 && (
+                                  <Badge variant="outline" className="text-xs">
+                                    +{room.amenities.length - 3} more
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                          
+                          <div className="space-y-2">
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              className="w-full"
+                              onClick={() => handleRoomRequest(room)}
+                            >
+                              {room.availableFrom ? 'Join Waitlist' : 'Request This Room'}
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                                ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </CardContent>
               </Card>
             )}
@@ -840,9 +1003,19 @@ const PropertyDetailPage = () => {
                     <div className="space-y-2">
                       <div className="flex justify-between">
                         <span className="text-gray-600">Status:</span>
-                        <Badge variant={selectedRoom.isAvailable ? 'default' : 'secondary'}>
-                          {selectedRoom.isAvailable ? 'Available Now' : selectedRoom.availableFrom ? `Available ${formatAvailableDate(selectedRoom.availableFrom)}` : 'Contact for Availability'}
-                        </Badge>
+                        {selectedRoom.isAvailable ? (
+                          <Badge className="bg-green-600 text-white">
+                            Available Now
+                          </Badge>
+                        ) : selectedRoom.availableFrom ? (
+                          <Badge className="bg-orange-500 text-white">
+                            Available {formatAvailableDate(selectedRoom.availableFrom)}
+                          </Badge>
+                        ) : (
+                          <Badge className="bg-gray-500 text-white">
+                            Contact for Availability
+                          </Badge>
+                        )}
                       </div>
                       {selectedRoom.availableFrom && !selectedRoom.isAvailable && (
                         <div className="flex justify-between">

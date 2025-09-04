@@ -123,6 +123,31 @@ const SAMPLE_ROOMS = [
     availableFrom: "2024-08-15",
     images: ["tiong_bahru_neighborhood.jpg", "modern_condo_exterior.jpg"],
     amenities: ["Private Bathroom", "Queen Bed", "Study Desk", "Vintage Wardrobe", "Air Conditioning", "Heritage Features"]
+  },
+  // Additional Double Rooms across properties
+  {
+    id: 11,
+    propertyId: 1,
+    roomNumber: "A5",
+    roomType: "Double Room",
+    priceMonthly: 1350,
+    sizeSqm: 22,
+    isAvailable: true,
+    availableFrom: "2024-07-01",
+    images: ["hero_coliving_interior.jpg", "singapore_apartment_living.jpg"],
+    amenities: ["Shared Bathroom", "Double Bed", "Study Desk", "Wardrobe", "Air Conditioning", "Large Window"]
+  },
+  {
+    id: 12,
+    propertyId: 2,
+    roomNumber: "B4",
+    roomType: "Double Room",
+    priceMonthly: 1900,
+    sizeSqm: 26,
+    isAvailable: false,
+    availableFrom: "2025-03-15",
+    images: ["orchard_building.jpg", "hero_coliving_interior.jpg"],
+    amenities: ["Private Bathroom", "Double Bed", "Study Desk", "Walk-in Wardrobe", "Air Conditioning", "City View", "Balcony"]
   }
 ];
 

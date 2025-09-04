@@ -25,6 +25,7 @@ export default defineType({
       options: {
         list: [
           {title: 'Single Room', value: 'single'},
+          {title: 'Double Room', value: 'double'},
           {title: 'Master Room', value: 'master'},
           {title: 'Common Room', value: 'common'},
           {title: 'Studio', value: 'studio'},

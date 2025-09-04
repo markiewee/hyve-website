@@ -129,6 +129,42 @@ export const rooms = [
     availableFrom: "2025-07-10",
     amenities: ["Shared Bathroom", "Air Conditioning", "Study Desk"],
     images: ["modern_bedroom.jpg", "stock_apart1.png"]
+  },
+  {
+    id: 6,
+    propertyId: 1,
+    roomNumber: "A5",
+    roomType: "Double Room",
+    priceMonthly: 1300,
+    sizeSqm: 22,
+    isAvailable: true,
+    availableFrom: "2025-01-15",
+    amenities: ["Shared Bathroom", "Double Bed", "Study Desk", "Air Conditioning", "Large Window"],
+    images: ["modern_bedroom.jpg", "stock_apart1.png"]
+  },
+  {
+    id: 7,
+    propertyId: 2,
+    roomNumber: "B4",
+    roomType: "Double Room",
+    priceMonthly: 1600,
+    sizeSqm: 26,
+    isAvailable: false,
+    availableFrom: "2025-03-10",
+    amenities: ["Private Bathroom", "Double Bed", "Study Desk", "Air Conditioning", "City View", "Balcony"],
+    images: ["modern_bedroom.jpg", "stock_apart2.png"]
+  },
+  {
+    id: 8,
+    propertyId: 3,
+    roomNumber: "C3",
+    roomType: "Double Room",
+    priceMonthly: 1450,
+    sizeSqm: 24,
+    isAvailable: true,
+    availableFrom: "2025-02-01",
+    amenities: ["Shared Bathroom", "Double Bed", "Study Desk", "Air Conditioning", "Garden View"],
+    images: ["modern_bedroom.jpg", "stock_apart1.png"]
   }
 ];
 

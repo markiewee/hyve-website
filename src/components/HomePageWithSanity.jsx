@@ -75,7 +75,8 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
     setSearchFilters({
       ...searchFilters,
       location: searchLocation,
-      priceRange: searchBudget ? [0, parseInt(searchBudget)] : [0, 2000]
+      maxBudget: searchBudget,
+      availableFrom: searchFilters.availableFrom
     });
   };
 
@@ -350,8 +351,8 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
           </p>
           
           {/* Search Bar */}
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 sm:p-6 max-w-2xl mx-auto animate-slide-up mb-4 sm:mb-0">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 sm:p-6 max-w-4xl mx-auto animate-slide-up mb-4 sm:mb-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="relative">
                 <MapPin className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
                 <select
@@ -373,6 +374,16 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                   placeholder="Max Budget"
                   value={searchBudget}
                   onChange={(e) => setSearchBudget(e.target.value)}
+                  className="pl-10 text-gray-900"
+                />
+              </div>
+              <div className="relative">
+                <Calendar className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                <Input
+                  type="date"
+                  placeholder="Available From"
+                  value={searchFilters.availableFrom || ''}
+                  onChange={(e) => setSearchFilters({...searchFilters, availableFrom: e.target.value})}
                   className="pl-10 text-gray-900"
                 />
               </div>
