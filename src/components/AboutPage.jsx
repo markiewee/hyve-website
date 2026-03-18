@@ -50,6 +50,13 @@ const AboutPage = () => {
       bio: 'Operations-driven co-founder managing day-to-day property operations and resident experience across all Hyve properties.',
       initials: 'JP',
       photo: '/jason.jpeg'
+    },
+    {
+      name: 'Matthew Mbarek',
+      role: 'Co-Founder',
+      bio: 'Innovation-focused co-founder dedicated to creating exceptional resident experiences.',
+      initials: 'MM',
+      photo: '/matt.jpeg'
     }
   ];
 
