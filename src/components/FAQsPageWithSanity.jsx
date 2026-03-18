@@ -220,7 +220,7 @@ const FAQsPage = () => {
                 </Button>
               </a>
               <a 
-                href={`https://wa.me/${contactInfo.whatsapp?.replace(/\\D/g, '')}`}
+                href={`https://wa.me/${contactInfo.whatsapp?.replace(/\D/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >

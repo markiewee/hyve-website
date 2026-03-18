@@ -85,7 +85,7 @@ const LocationsPage = () => {
 
   const getNeighborhoodImage = (neighborhood) => {
     if (neighborhood.images?.[0]?.image) {
-      return urlFor(neighborhood.images[0].image).width(1920).height(1280).url();
+      return urlFor(neighborhood.images[0].image).width(800).height(600).url();
     }
     return neighborhoodImages[neighborhood.name] || modernCondoImg;
   };
@@ -102,7 +102,7 @@ const LocationsPage = () => {
       if (neighborhood.images && neighborhood.images.length > 0) {
         neighborhood.images.forEach(img => {
           images.push({
-            src: urlFor(img.image).width(1920).height(1280).url(),
+            src: urlFor(img.image).width(800).height(600).url(),
             alt: img.alt || neighborhood.name,
             caption: img.caption
           });
@@ -458,11 +458,12 @@ const LocationsPage = () => {
                         <div className="relative aspect-[3/2]">
                           <img
                             src={
-                              property.images?.[0]?.image 
-                                ? urlFor(property.images[0].image).width(1920).height(1280).url()
+                              property.images?.[0]?.image
+                                ? urlFor(property.images[0].image).width(800).height(600).url()
                                 : `/${property.images?.[0] || 'stock_apart1.png'}`
                             }
                             alt={property.name}
+                            loading="lazy"
                             className="w-full h-full object-cover"
                           />
                           <Badge className="absolute top-2 right-2 bg-teal-600 text-white">

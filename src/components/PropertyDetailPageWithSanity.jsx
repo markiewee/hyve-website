@@ -150,7 +150,7 @@ const PropertyDetailPage = () => {
     const currentImage = property.images[currentImageIndex];
     if (currentImage?.image) {
       // Sanity image
-      return urlFor(currentImage.image).width(1920).height(1280).url();
+      return urlFor(currentImage.image).width(1200).height(800).url();
     }
     // Sample data image
     return `/${currentImage}`;
@@ -350,6 +350,7 @@ ${requestFormData.message || 'No additional message provided'}
           <img
             src={getCurrentImageSrc()}
             alt={getCurrentImageAlt()}
+            loading="lazy"
             className="w-full h-full object-cover"
           />
           
@@ -467,13 +468,14 @@ ${requestFormData.message || 'No additional message provided'}
                         <div className="relative aspect-[3/2] overflow-hidden">
                           <img
                             src={
-                              room.images?.[0]?.image 
-                                ? urlFor(room.images[0].image).width(1920).height(1280).url()
-                                : room.images?.[0] 
+                              room.images?.[0]?.image
+                                ? urlFor(room.images[0].image).width(800).height(600).url()
+                                : room.images?.[0]
                                 ? `/${room.images[0]}`
                                 : '/stock_apart1.png'
                             }
                             alt={room.images?.[0]?.alt || `Room ${room.roomNumber}`}
+                            loading="lazy"
                             className="w-full h-full object-cover"
                           />
                           
@@ -617,13 +619,14 @@ ${requestFormData.message || 'No additional message provided'}
                         <div className="relative aspect-[3/2] overflow-hidden">
                           <img
                             src={
-                              room.images?.[0]?.image 
-                                ? urlFor(room.images[0].image).width(1920).height(1280).url()
-                                : room.images?.[0] 
+                              room.images?.[0]?.image
+                                ? urlFor(room.images[0].image).width(800).height(600).url()
+                                : room.images?.[0]
                                 ? `/${room.images[0]}`
                                 : '/stock_apart1.png'
                             }
                             alt={room.images?.[0]?.alt || `Room ${room.roomNumber}`}
+                            loading="lazy"
                             className="w-full h-full object-cover grayscale"
                           />
                           
@@ -989,13 +992,14 @@ ${requestFormData.message || 'No additional message provided'}
                 <div className="relative aspect-[3/2] overflow-hidden rounded-lg">
                   <img
                     src={
-                      selectedRoom.images?.[0]?.image 
-                        ? urlFor(selectedRoom.images[0].image).width(1920).height(1280).url()
-                        : selectedRoom.images?.[0] 
+                      selectedRoom.images?.[0]?.image
+                        ? urlFor(selectedRoom.images[0].image).width(1200).height(800).url()
+                        : selectedRoom.images?.[0]
                         ? `/${selectedRoom.images[0]}`
                         : '/stock_apart1.png'
                     }
                     alt={selectedRoom.images?.[0]?.alt || `Room ${selectedRoom.roomNumber}`}
+                    loading="lazy"
                     className="w-full h-full object-cover"
                   />
                   

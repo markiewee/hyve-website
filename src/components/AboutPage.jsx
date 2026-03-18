@@ -31,8 +31,8 @@ const AboutPage = () => {
   ];
 
   const stats = [
-    { number: '500+', label: 'Happy Residents' },
-    { number: '25+', label: 'Premium Properties' },
+    { number: '100+', label: 'Happy Residents' },
+    { number: '3', label: 'Properties' },
     { number: '15+', label: 'Nationalities' }
   ];
 
@@ -130,8 +130,8 @@ const AboutPage = () => {
             </p>
             
             <p>
-              Today, we're proud to house over 500 residents across 25+ premium properties 
-              in Singapore's most desirable neighborhoods. Our community spans 15+ nationalities, 
+              Today, we're proud to have housed over 100 residents across 3 properties
+              in Singapore's most desirable neighborhoods. Our community spans 15+ nationalities,
               creating a truly global living experience right in the heart of Southeast Asia.
             </p>
           </div>
