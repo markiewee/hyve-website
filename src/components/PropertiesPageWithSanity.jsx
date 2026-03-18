@@ -55,7 +55,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
               availableFrom
             }
           }`),
-          client.fetch(`*[_type == "neighborhood"]{name, slug, _id}`)
+          client.fetch(`*[_type == "neighborhood" && _id in *[_type == "property"].neighborhood._ref]{name, slug, _id}`)
         ]);
 
         if (sanityProperties && sanityProperties.length > 0) {

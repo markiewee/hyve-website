@@ -53,7 +53,7 @@ const Navbar = () => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <a href="https://wa.me/6580885410?text=I%20would%20love%20to%20join%20the%20hyve%20community" target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/6580885410?text=Hi!%20I'm%20interested%20in%20a%20room%20at%20Hyve." target="_blank" rel="noopener noreferrer">
               <Button variant="outline" size="sm" className="flex items-center space-x-2">
                 <MessageCircle className="w-4 h-4" />
                 <span>WhatsApp</span>
@@ -100,7 +100,7 @@ const Navbar = () => {
                 );
               })}
               <div className="pt-4 space-y-2">
-                <a href="https://wa.me/6580885410?text=I%20would%20love%20to%20join%20the%20hyve%20community" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/6580885410?text=Hi!%20I'm%20interested%20in%20a%20room%20at%20Hyve." target="_blank" rel="noopener noreferrer">
                   <Button variant="outline" className="w-full justify-center">
                     <MessageCircle className="w-4 h-4 mr-2" />
                     WhatsApp

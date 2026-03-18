@@ -23,7 +23,7 @@ const LocationsPage = () => {
         // Try to fetch from Sanity first
         const [sanityNeighborhoods, sanityProperties] = await Promise.all([
           client.fetch(`
-            *[_type == "neighborhood"]{
+            *[_type == "neighborhood" && _id in *[_type == "property"].neighborhood._ref]{
               _id,
               name,
               slug,

@@ -297,6 +297,41 @@ ${requestFormData.message || 'No additional message provided'}
   };
 
   return (
+    <>
+      {property && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Apartment",
+          "name": `${property.name} — Hyve Coliving`,
+          "description": property.description,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": property.address,
+            "addressLocality": property.neighborhood?.name,
+            "addressCountry": "SG"
+          },
+          "geo": property.location ? {
+            "@type": "GeoCoordinates",
+            "latitude": property.location.latitude,
+            "longitude": property.location.longitude
+          } : undefined,
+          "numberOfRooms": property.totalRooms,
+          "amenityFeature": (property.amenities || []).map(a => ({
+            "@type": "LocationFeatureSpecification",
+            "name": a,
+            "value": true
+          })),
+          "offers": {
+            "@type": "AggregateOffer",
+            "lowPrice": property.startingPrice,
+            "priceCurrency": "SGD",
+            "unitText": "MONTH",
+            "availability": property.availableRooms > 0
+              ? "https://schema.org/InStock"
+              : "https://schema.org/OutOfStock"
+          }
+        })}} />
+      )}
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
@@ -1122,6 +1157,7 @@ ${requestFormData.message || 'No additional message provided'}
         </Dialog>
       </div>
     </div>
+    </>
   );
 };
 
