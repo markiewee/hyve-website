@@ -24,6 +24,7 @@ import { AuthProvider } from './hooks/useAuth';
 import AuthGuard from './components/portal/AuthGuard';
 import LoginPage from './pages/portal/LoginPage';
 import SignupPage from './pages/portal/SignupPage';
+import DashboardPage from './pages/portal/DashboardPage';
 
 function App() {
   const [searchFilters, setSearchFilters] = useState({
@@ -74,9 +75,7 @@ function App() {
             path="/portal/dashboard"
             element={
               <AuthGuard>
-                <div className="min-h-screen flex items-center justify-center">
-                  <p className="text-muted-foreground">Dashboard coming soon</p>
-                </div>
+                <DashboardPage />
               </AuthGuard>
             }
           />
