@@ -1,4 +1,4 @@
-const RATE_PER_HOUR = 0.5; // SGD per hour over free allowance
+const RATE_PER_HOUR = 0.3; // SGD per hour over free allowance
 
 export default function UsageProgressBar({ totalHours, freeHours = 300 }) {
   const hours = totalHours ?? 0;
