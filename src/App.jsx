@@ -28,6 +28,11 @@ import DashboardPage from './pages/portal/DashboardPage';
 import BillingPage from './pages/portal/BillingPage';
 import IssuesPage from './pages/portal/IssuesPage';
 import NewIssuePage from './pages/portal/NewIssuePage';
+import PropertyOverviewPage from './pages/portal/PropertyOverviewPage';
+import PropertyTicketsPage from './pages/portal/PropertyTicketsPage';
+import PropertyTenantsPage from './pages/portal/PropertyTenantsPage';
+import AdminDashboardPage from './pages/portal/AdminDashboardPage';
+import AdminDevicesPage from './pages/portal/AdminDevicesPage';
 
 function App() {
   const [searchFilters, setSearchFilters] = useState({
@@ -103,6 +108,48 @@ function App() {
             element={
               <AuthGuard>
                 <NewIssuePage />
+              </AuthGuard>
+            }
+          />
+          {/* House Captain routes */}
+          <Route
+            path="/portal/property"
+            element={
+              <AuthGuard requiredRole="HOUSE_CAPTAIN">
+                <PropertyOverviewPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/property/tickets"
+            element={
+              <AuthGuard requiredRole="HOUSE_CAPTAIN">
+                <PropertyTicketsPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/property/tenants"
+            element={
+              <AuthGuard requiredRole="HOUSE_CAPTAIN">
+                <PropertyTenantsPage />
+              </AuthGuard>
+            }
+          />
+          {/* Admin routes */}
+          <Route
+            path="/portal/admin"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminDashboardPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/devices"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminDevicesPage />
               </AuthGuard>
             }
           />

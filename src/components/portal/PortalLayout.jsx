@@ -13,8 +13,8 @@ const HOUSE_CAPTAIN_NAV = [
   { label: "Billing", to: "/portal/billing" },
   { label: "Issues", to: "/portal/issues" },
   { label: "Property Overview", to: "/portal/property" },
-  { label: "Tickets", to: "/portal/tickets" },
-  { label: "Tenants", to: "/portal/tenants" },
+  { label: "Tickets", to: "/portal/property/tickets" },
+  { label: "Tenants", to: "/portal/property/tenants" },
 ];
 
 const ADMIN_NAV = [
@@ -22,7 +22,7 @@ const ADMIN_NAV = [
   { label: "Billing", to: "/portal/billing" },
   { label: "Issues", to: "/portal/issues" },
   { label: "Admin", to: "/portal/admin" },
-  { label: "Devices", to: "/portal/devices" },
+  { label: "Devices", to: "/portal/admin/devices" },
 ];
 
 function getNavLinks(role) {
