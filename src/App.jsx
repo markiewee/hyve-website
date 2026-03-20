@@ -25,6 +25,9 @@ import AuthGuard from './components/portal/AuthGuard';
 import LoginPage from './pages/portal/LoginPage';
 import SignupPage from './pages/portal/SignupPage';
 import DashboardPage from './pages/portal/DashboardPage';
+import BillingPage from './pages/portal/BillingPage';
+import IssuesPage from './pages/portal/IssuesPage';
+import NewIssuePage from './pages/portal/NewIssuePage';
 
 function App() {
   const [searchFilters, setSearchFilters] = useState({
@@ -76,6 +79,30 @@ function App() {
             element={
               <AuthGuard>
                 <DashboardPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/billing"
+            element={
+              <AuthGuard>
+                <BillingPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/issues"
+            element={
+              <AuthGuard>
+                <IssuesPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/issues/new"
+            element={
+              <AuthGuard>
+                <NewIssuePage />
               </AuthGuard>
             }
           />
