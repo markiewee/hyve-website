@@ -19,6 +19,12 @@ import TermsOfService from './components/TermsOfService';
 import CookiePolicy from './components/CookiePolicy';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
 
+// Auth
+import { AuthProvider } from './hooks/useAuth';
+import AuthGuard from './components/portal/AuthGuard';
+import LoginPage from './pages/portal/LoginPage';
+import SignupPage from './pages/portal/SignupPage';
+
 function App() {
   const [searchFilters, setSearchFilters] = useState({
     location: '',
@@ -29,6 +35,7 @@ function App() {
 
   return (
     <Router>
+      <AuthProvider>
       <div className="min-h-screen bg-background">
         <Navbar />
         <Routes>
@@ -60,6 +67,19 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/cookie-policy" element={<CookiePolicy />} />
+          {/* Portal routes — no Navbar/Footer */}
+          <Route path="/portal/login" element={<LoginPage />} />
+          <Route path="/portal/signup" element={<SignupPage />} />
+          <Route
+            path="/portal/dashboard"
+            element={
+              <AuthGuard>
+                <div className="min-h-screen flex items-center justify-center">
+                  <p className="text-muted-foreground">Dashboard coming soon</p>
+                </div>
+              </AuthGuard>
+            }
+          />
           <Route path="*" element={
             <div className="min-h-screen flex flex-col items-center justify-center py-20">
               <h1 className="text-4xl font-bold text-gray-900 mb-4">Page not found</h1>
@@ -71,6 +91,7 @@ function App() {
         <Footer />
         <FloatingWhatsApp />
       </div>
+      </AuthProvider>
     </Router>
   );
 }
