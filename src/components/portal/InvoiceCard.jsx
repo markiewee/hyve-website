@@ -60,6 +60,17 @@ export default function InvoiceCard({ invoice }) {
             Pay Now
           </a>
         )}
+
+        {status === "PAID" && stripe_hosted_url && (
+          <a
+            href={stripe_hosted_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-3 py-1 rounded text-xs font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors"
+          >
+            View Receipt
+          </a>
+        )}
       </div>
     </div>
   );
