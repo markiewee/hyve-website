@@ -40,7 +40,7 @@ module.exports = async function handler(req, res) {
     return res.status(403).json({ error: "Admin role required" });
   }
 
-  const { room_id, property_id, role = "TENANT" } = req.body || {};
+  const { room_id, property_id, role = "TENANT", deposit_amount } = req.body || {};
 
   if (!room_id || !property_id) {
     return res.status(400).json({ error: "room_id and property_id are required" });
@@ -65,6 +65,27 @@ module.exports = async function handler(req, res) {
   if (insertError) {
     console.error("Error creating invite profile:", insertError);
     return res.status(500).json({ error: "Failed to create invite" });
+  }
+
+  // Create onboarding_progress record for this tenant
+  const onboardingPayload = {
+    tenant_profile_id: newProfile.id,
+    room_id,
+    current_step: "PERSONAL_DETAILS",
+    status: "IN_PROGRESS",
+  };
+
+  if (deposit_amount != null) {
+    onboardingPayload.deposit_amount = deposit_amount;
+  }
+
+  const { error: onboardingError } = await supabase
+    .from("onboarding_progress")
+    .insert(onboardingPayload);
+
+  if (onboardingError) {
+    console.error("Error creating onboarding_progress:", onboardingError);
+    // Don't fail the invite — onboarding can be created manually if needed
   }
 
   const invite_url = `https://hyve.sg/portal/signup?token=${invite_token}`;

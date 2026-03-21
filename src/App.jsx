@@ -33,6 +33,8 @@ import PropertyTicketsPage from './pages/portal/PropertyTicketsPage';
 import PropertyTenantsPage from './pages/portal/PropertyTenantsPage';
 import AdminDashboardPage from './pages/portal/AdminDashboardPage';
 import AdminDevicesPage from './pages/portal/AdminDevicesPage';
+import AdminOnboardingPage from './pages/portal/AdminOnboardingPage';
+import AdminOnboardingDetailPage from './pages/portal/AdminOnboardingDetailPage';
 import OnboardingPage from './pages/portal/OnboardingPage';
 
 function App() {
@@ -159,6 +161,22 @@ function App() {
             element={
               <AuthGuard requiredRole="ADMIN">
                 <AdminDevicesPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/onboarding"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminOnboardingPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/onboarding/:id"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminOnboardingDetailPage />
               </AuthGuard>
             }
           />

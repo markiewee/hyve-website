@@ -60,5 +60,18 @@ module.exports = async function handler(req, res) {
     }
   }
 
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object;
+    await supabase
+      .from("onboarding_progress")
+      .update({
+        deposit_completed_at: new Date().toISOString(),
+        deposit_verified: true,
+        deposit_method: "STRIPE",
+        current_step: "HOUSE_RULES",
+      })
+      .eq("deposit_stripe_session_id", session.id);
+  }
+
   return res.status(200).json({ received: true });
 };
