@@ -1,11 +1,11 @@
 import { useAuth } from "../../hooks/useAuth";
 import { useAcStatus } from "../../hooks/useAcStatus";
 import { useAcUsage } from "../../hooks/useAcUsage";
-import { useDailyUsage } from "../../hooks/useDailyUsage";
+import { useUsageData } from "../../hooks/useUsageData";
 import PortalLayout from "../../components/portal/PortalLayout";
 import AcStatusIndicator from "../../components/portal/AcStatusIndicator";
 import UsageProgressBar from "../../components/portal/UsageProgressBar";
-import DailyUsageChart from "../../components/portal/DailyUsageChart";
+import UsageChart from "../../components/portal/UsageChart";
 import {
   Card,
   CardContent,
@@ -32,7 +32,7 @@ export default function DashboardPage() {
 
   const { status, loading: statusLoading } = useAcStatus(roomId);
   const { usage, todayHours, loading: usageLoading } = useAcUsage(roomId);
-  const { dailyData, loading: dailyLoading } = useDailyUsage(roomId);
+  const usageChart = useUsageData(roomId);
 
   const totalHours = usage?.total_hours ?? 0;
   const dayOfMonth = getDayOfMonth();
@@ -50,7 +50,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         {/* AC Status */}
         <Card>
           <CardHeader>
@@ -110,24 +110,24 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Daily usage bar chart */}
+      {/* Usage chart — Day / Month / Year toggle */}
       <Card className="mb-4">
         <CardHeader>
-          <CardTitle className="text-base">Daily AC Usage</CardTitle>
+          <CardTitle className="text-base">AC Usage</CardTitle>
         </CardHeader>
         <CardContent>
-          {dailyLoading ? (
-            <div className="h-[220px] bg-gray-100 animate-pulse rounded" />
+          {usageChart.loading ? (
+            <div className="h-[320px] bg-gray-100 animate-pulse rounded" />
           ) : (
-            <DailyUsageChart data={dailyData} />
+            <UsageChart {...usageChart} />
           )}
         </CardContent>
       </Card>
 
-      {/* Monthly usage section */}
+      {/* Monthly usage progress bar */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Monthly Usage</CardTitle>
+          <CardTitle className="text-base">Monthly Allowance</CardTitle>
         </CardHeader>
         <CardContent>
           {usageLoading ? (
