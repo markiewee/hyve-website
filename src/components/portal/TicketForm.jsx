@@ -4,12 +4,14 @@ import { useAuth } from "../../hooks/useAuth";
 import { supabase } from "../../lib/supabase";
 
 const CATEGORIES = ["AC", "PLUMBING", "ELECTRICAL", "FURNITURE", "CLEANING", "OTHER"];
+const LOCATIONS = ["My Room", "Kitchen", "Living Room", "Bathroom (Shared)", "Corridor", "Laundry Area", "Other"];
 
 export default function TicketForm() {
   const { user, profile } = useAuth();
   const navigate = useNavigate();
 
   const [category, setCategory] = useState(null);
+  const [location, setLocation] = useState("My Room");
   const [description, setDescription] = useState("");
   const [photos, setPhotos] = useState([]);
   const [submitting, setSubmitting] = useState(false);
@@ -38,7 +40,7 @@ export default function TicketForm() {
           property_id: profile.rooms?.property_id ?? profile.room?.property_id ?? null,
           reported_by: user.id,
           category,
-          description: description.trim(),
+          description: `[${location}] ${description.trim()}`,
           status: "OPEN",
         })
         .select()
@@ -102,6 +104,27 @@ export default function TicketForm() {
               }`}
             >
               {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Location */}
+      <div>
+        <label className="block text-sm font-medium text-foreground mb-2">Location</label>
+        <div className="flex flex-wrap gap-2">
+          {LOCATIONS.map((loc) => (
+            <button
+              key={loc}
+              type="button"
+              onClick={() => setLocation(loc)}
+              className={`py-1.5 px-3 rounded-md text-xs font-medium border transition-colors ${
+                location === loc
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-background text-foreground border-border hover:bg-accent"
+              }`}
+            >
+              {loc}
             </button>
           ))}
         </div>
