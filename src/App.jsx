@@ -33,6 +33,7 @@ import PropertyTicketsPage from './pages/portal/PropertyTicketsPage';
 import PropertyTenantsPage from './pages/portal/PropertyTenantsPage';
 import AdminDashboardPage from './pages/portal/AdminDashboardPage';
 import AdminDevicesPage from './pages/portal/AdminDevicesPage';
+import OnboardingPage from './pages/portal/OnboardingPage';
 
 function App() {
   const [searchFilters, setSearchFilters] = useState({
@@ -79,6 +80,14 @@ function App() {
           {/* Portal routes — no Navbar/Footer */}
           <Route path="/portal/login" element={<LoginPage />} />
           <Route path="/portal/signup" element={<SignupPage />} />
+          <Route
+            path="/portal/onboarding"
+            element={
+              <AuthGuard>
+                <OnboardingPage />
+              </AuthGuard>
+            }
+          />
           <Route
             path="/portal/dashboard"
             element={

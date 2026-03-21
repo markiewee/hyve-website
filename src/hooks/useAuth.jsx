@@ -6,7 +6,7 @@ const AuthContext = createContext(null);
 async function fetchProfile(userId) {
   const { data, error } = await supabase
     .from("tenant_profiles")
-    .select("*, rooms(name, unit_code, property_id), properties(name, code)")
+    .select("*, rooms(name, unit_code, property_id), properties(name, code), onboarding_progress(*)")
     .eq("user_id", userId)
     .eq("is_active", true)
     .single();

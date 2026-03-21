@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 const ROLE_HIERARCHY = {
@@ -7,12 +7,15 @@ const ROLE_HIERARCHY = {
   ADMIN: 2,
 };
 
+const ONBOARDING_COMPLETE_STEPS = ["ACTIVE", "END_OF_TENANCY", "MOVE_IN_CHECKLIST"];
+
 function roleLevel(role) {
   return ROLE_HIERARCHY[role] ?? -1;
 }
 
 export default function AuthGuard({ children, requiredRole }) {
   const { user, profile, loading } = useAuth();
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -24,6 +27,16 @@ export default function AuthGuard({ children, requiredRole }) {
 
   if (!user || !profile) {
     return <Navigate to="/portal/login" replace />;
+  }
+
+  // Redirect tenants who haven't completed onboarding
+  const onboarding = profile.onboarding_progress;
+  if (
+    onboarding &&
+    !ONBOARDING_COMPLETE_STEPS.includes(onboarding.current_step) &&
+    !location.pathname.startsWith("/portal/onboarding")
+  ) {
+    return <Navigate to="/portal/onboarding" replace />;
   }
 
   if (requiredRole && roleLevel(profile.role) < roleLevel(requiredRole)) {
