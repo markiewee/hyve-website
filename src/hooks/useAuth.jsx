@@ -11,11 +11,26 @@ async function fetchProfile(userId) {
     .eq("is_active", true)
     .single();
 
+  if (!error && data) {
+    return data;
+  }
+
+  // Fallback: check if this user is an investor
+  const { data: investor, error: invError } = await supabase
+    .from("investors")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("is_active", true)
+    .single();
+
+  if (!invError && investor) {
+    return { ...investor, _type: "INVESTOR", role: "INVESTOR" };
+  }
+
   if (error) {
     console.error("Error fetching profile:", error);
-    return null;
   }
-  return data;
+  return null;
 }
 
 export function AuthProvider({ children }) {

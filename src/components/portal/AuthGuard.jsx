@@ -29,6 +29,14 @@ export default function AuthGuard({ children, requiredRole }) {
     return <Navigate to="/portal/login" replace />;
   }
 
+  // Investor routing: investors can only access /portal/investor/* paths
+  if (profile._type === "INVESTOR" || profile.role === "INVESTOR") {
+    if (!location.pathname.startsWith("/portal/investor")) {
+      return <Navigate to="/portal/investor/dashboard" replace />;
+    }
+    return children;
+  }
+
   // Redirect tenants who haven't completed onboarding
   const onboarding = profile.onboarding_progress;
   if (

@@ -37,6 +37,11 @@ import AdminOnboardingPage from './pages/portal/AdminOnboardingPage';
 import AdminOnboardingDetailPage from './pages/portal/AdminOnboardingDetailPage';
 import AdminAnnouncementsPage from './pages/portal/AdminAnnouncementsPage';
 import AdminRentPage from './pages/portal/AdminRentPage';
+import AdminInvestorsPage from './pages/portal/AdminInvestorsPage';
+import AdminExpensesPage from './pages/portal/AdminExpensesPage';
+import AdminFinancialsPage from './pages/portal/AdminFinancialsPage';
+import InvestorDashboardPage from './pages/portal/InvestorDashboardPage';
+import InvestorSignupPage from './pages/portal/InvestorSignupPage';
 import OnboardingPage from './pages/portal/OnboardingPage';
 
 function App() {
@@ -195,6 +200,40 @@ function App() {
             element={
               <AuthGuard requiredRole="ADMIN">
                 <AdminRentPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/investors"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminInvestorsPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/expenses"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminExpensesPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/financials"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminFinancialsPage />
+              </AuthGuard>
+            }
+          />
+          {/* Investor routes */}
+          <Route path="/portal/investor/signup" element={<InvestorSignupPage />} />
+          <Route
+            path="/portal/investor/dashboard"
+            element={
+              <AuthGuard>
+                <InvestorDashboardPage />
               </AuthGuard>
             }
           />
