@@ -23,6 +23,7 @@ const ADMIN_NAV = [
   { label: "Issues", to: "/portal/issues" },
   { label: "Admin", to: "/portal/admin" },
   { label: "Devices", to: "/portal/admin/devices" },
+  { label: "Announcements", to: "/portal/admin/announcements" },
 ];
 
 function getNavLinks(role) {

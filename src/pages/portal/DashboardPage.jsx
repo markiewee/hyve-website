@@ -11,6 +11,7 @@ import UsageChart from "../../components/portal/UsageChart";
 import TenantProfileCard from "../../components/portal/TenantProfileCard";
 import DocumentsList from "../../components/portal/DocumentsList";
 import CheckoutStatusCard from "../../components/portal/CheckoutStatusCard";
+import AnnouncementBanner from "../../components/portal/AnnouncementBanner";
 import {
   Card,
   CardContent,
@@ -47,6 +48,9 @@ export default function DashboardPage() {
 
   return (
     <PortalLayout>
+      {/* Announcements */}
+      <AnnouncementBanner propertyId={profile?.property_id} />
+
       {/* Profile card */}
       <div className="mb-6">
         <TenantProfileCard profile={profile} />
