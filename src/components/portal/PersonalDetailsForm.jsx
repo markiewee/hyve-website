@@ -5,16 +5,39 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 
+const COUNTRY_CODES = [
+  { code: "+65", label: "🇸🇬 +65", country: "Singapore" },
+  { code: "+60", label: "🇲🇾 +60", country: "Malaysia" },
+  { code: "+62", label: "🇮🇩 +62", country: "Indonesia" },
+  { code: "+63", label: "🇵🇭 +63", country: "Philippines" },
+  { code: "+66", label: "🇹🇭 +66", country: "Thailand" },
+  { code: "+84", label: "🇻🇳 +84", country: "Vietnam" },
+  { code: "+91", label: "🇮🇳 +91", country: "India" },
+  { code: "+86", label: "🇨🇳 +86", country: "China" },
+  { code: "+81", label: "🇯🇵 +81", country: "Japan" },
+  { code: "+82", label: "🇰🇷 +82", country: "South Korea" },
+  { code: "+852", label: "🇭🇰 +852", country: "Hong Kong" },
+  { code: "+886", label: "🇹🇼 +886", country: "Taiwan" },
+  { code: "+44", label: "🇬🇧 +44", country: "UK" },
+  { code: "+1", label: "🇺🇸 +1", country: "US/Canada" },
+  { code: "+61", label: "🇦🇺 +61", country: "Australia" },
+  { code: "+33", label: "🇫🇷 +33", country: "France" },
+  { code: "+49", label: "🇩🇪 +49", country: "Germany" },
+  { code: "+95", label: "🇲🇲 +95", country: "Myanmar" },
+];
+
 export default function PersonalDetailsForm({ onboarding, advanceStep }) {
   const { profile } = useAuth();
 
   const [form, setForm] = useState({
     full_name: "",
-    phone: "+65 ",
+    phone_code: "+65",
+    phone_number: "",
     nationality: "",
     date_of_birth: "",
     emergency_contact_name: "",
-    emergency_contact_phone: "",
+    emergency_contact_code: "+65",
+    emergency_contact_number: "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -29,7 +52,7 @@ export default function PersonalDetailsForm({ onboarding, advanceStep }) {
       setError("Full name is required.");
       return;
     }
-    if (!form.phone.trim()) {
+    if (!form.phone_number.trim()) {
       setError("Phone number is required.");
       return;
     }
@@ -44,12 +67,13 @@ export default function PersonalDetailsForm({ onboarding, advanceStep }) {
           {
             tenant_profile_id: profile.id,
             full_name: form.full_name.trim(),
-            phone: form.phone.trim(),
+            phone: `${form.phone_code} ${form.phone_number.trim()}`,
             nationality: form.nationality.trim() || null,
             date_of_birth: form.date_of_birth || null,
             emergency_contact_name: form.emergency_contact_name.trim() || null,
-            emergency_contact_phone:
-              form.emergency_contact_phone.trim() || null,
+            emergency_contact_phone: form.emergency_contact_number.trim()
+              ? `${form.emergency_contact_code} ${form.emergency_contact_number.trim()}`
+              : null,
             updated_at: new Date().toISOString(),
           },
           { onConflict: "tenant_profile_id" }
@@ -82,15 +106,28 @@ export default function PersonalDetailsForm({ onboarding, advanceStep }) {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="phone">Phone Number</Label>
-          <Input
-            id="phone"
-            name="phone"
-            value={form.phone}
-            onChange={handleChange}
-            placeholder="+65 9123 4567"
-            required
-          />
+          <Label htmlFor="phone_number">Phone Number</Label>
+          <div className="flex gap-1.5">
+            <select
+              name="phone_code"
+              value={form.phone_code}
+              onChange={handleChange}
+              className="w-[100px] rounded-md border border-border bg-background px-2 py-2 text-sm"
+            >
+              {COUNTRY_CODES.map((c) => (
+                <option key={c.code} value={c.code}>{c.label}</option>
+              ))}
+            </select>
+            <Input
+              id="phone_number"
+              name="phone_number"
+              value={form.phone_number}
+              onChange={handleChange}
+              placeholder="9123 4567"
+              required
+              className="flex-1"
+            />
+          </div>
         </div>
 
         <div className="space-y-1.5">
@@ -127,16 +164,29 @@ export default function PersonalDetailsForm({ onboarding, advanceStep }) {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="emergency_contact_phone">
+          <Label htmlFor="emergency_contact_number">
             Emergency Contact Phone
           </Label>
-          <Input
-            id="emergency_contact_phone"
-            name="emergency_contact_phone"
-            value={form.emergency_contact_phone}
-            onChange={handleChange}
-            placeholder="+65 9123 4567"
-          />
+          <div className="flex gap-1.5">
+            <select
+              name="emergency_contact_code"
+              value={form.emergency_contact_code}
+              onChange={handleChange}
+              className="w-[100px] rounded-md border border-border bg-background px-2 py-2 text-sm"
+            >
+              {COUNTRY_CODES.map((c) => (
+                <option key={c.code} value={c.code}>{c.label}</option>
+              ))}
+            </select>
+            <Input
+              id="emergency_contact_number"
+              name="emergency_contact_number"
+              value={form.emergency_contact_number}
+              onChange={handleChange}
+              placeholder="9123 4567"
+              className="flex-1"
+            />
+          </div>
         </div>
       </div>
 
