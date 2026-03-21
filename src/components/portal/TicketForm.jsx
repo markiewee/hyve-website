@@ -38,7 +38,7 @@ export default function TicketForm() {
         .insert({
           room_id: profile.room_id,
           property_id: profile.rooms?.property_id ?? profile.room?.property_id ?? null,
-          reported_by: user.id,
+          submitted_by: user.id,
           category,
           description: `[${location}] ${description.trim()}`,
           status: "OPEN",
