@@ -1,6 +1,7 @@
 import { useAuth } from "../../hooks/useAuth";
 import { useTickets } from "../../hooks/useTickets";
 import { supabase } from "../../lib/supabase";
+import { notifyTicketStatusChange } from "../../lib/notify";
 import PortalLayout from "../../components/portal/PortalLayout";
 import TicketCard from "../../components/portal/TicketCard";
 
@@ -40,6 +41,17 @@ export default function PropertyTicketsPage() {
 
     if (error) {
       console.error("Error updating ticket:", error);
+      return;
+    }
+
+    // Fire-and-forget email notification to the tenant
+    const ticket = tickets.find((t) => t.id === ticketId);
+    if (ticket && updates.status) {
+      await notifyTicketStatusChange(
+        ticket,
+        updates.status,
+        updates.resolution_note
+      );
     }
   }
 

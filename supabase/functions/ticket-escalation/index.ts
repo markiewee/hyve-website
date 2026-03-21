@@ -1,3 +1,18 @@
+// NOTE: The pending_notifications table must be created before this function
+// will insert WhatsApp notifications. Run this SQL once in Supabase:
+//
+// CREATE TABLE IF NOT EXISTS pending_notifications (
+//   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+//   channel TEXT NOT NULL CHECK (channel IN ('WHATSAPP', 'EMAIL')),
+//   recipient TEXT NOT NULL,
+//   message TEXT NOT NULL,
+//   status TEXT NOT NULL DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'SENT', 'FAILED')),
+//   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+// );
+// ALTER TABLE pending_notifications ENABLE ROW LEVEL SECURITY;
+// CREATE POLICY "Admin full access notifications" ON pending_notifications FOR ALL
+//   USING (get_user_role(auth.uid()) = 'ADMIN');
+
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const supabase = createClient(
@@ -16,7 +31,9 @@ Deno.serve(async (_req) => {
   // Find open tickets older than 48 hours
   const { data: tickets, error: fetchError } = await supabase
     .from("maintenance_tickets")
-    .select("id, room_id, subject, created_at")
+    .select(
+      "id, room_id, category, description, subject, created_at, rooms(unit_code, properties(name))"
+    )
     .eq("status", "OPEN")
     .lt("created_at", escalationCutoff);
 
@@ -47,6 +64,34 @@ Deno.serve(async (_req) => {
       JSON.stringify({ error: "Failed to escalate tickets", detail: updateError }),
       { status: 500 }
     );
+  }
+
+  // Store WhatsApp notifications for Claudine's cron to pick up and send to Momo
+  for (const ticket of tickets) {
+    const unitCode = (ticket as any).rooms?.unit_code ?? `room ${ticket.room_id}`;
+    const propertyName = (ticket as any).rooms?.properties?.name ?? "Unknown Property";
+    const category = (ticket as any).category ?? ticket.subject ?? "Issue";
+    const description = ((ticket as any).description ?? ticket.subject ?? "")
+      .slice(0, 100);
+
+    const { error: notifError } = await supabase
+      .from("pending_notifications")
+      .insert({
+        channel: "WHATSAPP",
+        recipient: "+6591340889", // Momo
+        message:
+          `⚠️ Ticket auto-escalated (48h no action)\n` +
+          `${unitCode} (${propertyName})\n` +
+          `${category}: ${description}`,
+        status: "PENDING",
+      });
+
+    if (notifError) {
+      console.error(
+        `Failed to insert pending_notification for ticket ${ticket.id}:`,
+        notifError
+      );
+    }
   }
 
   // Build WhatsApp-friendly summary

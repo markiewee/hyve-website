@@ -48,7 +48,7 @@ Deno.serve(async (_req) => {
   }
 
   const now = new Date();
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
   const monthLabel = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 
   const results: { room_id: string; total_hours: number; month: string }[] = [];
@@ -58,7 +58,7 @@ Deno.serve(async (_req) => {
       .from("ac_events")
       .select("state, timestamp")
       .eq("room_id", room.id)
-      .gte("timestamp", monthStart)
+      .gte("timestamp", monthStart.toISOString())
       .order("timestamp", { ascending: true });
 
     if (eventsError) {
@@ -85,6 +85,45 @@ Deno.serve(async (_req) => {
         `Failed to upsert ac_monthly_usage for room ${room.id}:`,
         upsertError
       );
+    }
+
+    // Check 250h threshold (83% of free hours) — send warning email once per month
+    const FREE_HOURS = 300;
+    const THRESHOLD = 250;
+
+    if (totalHours >= THRESHOLD && totalHours < FREE_HOURS) {
+      // Get active tenant profile for this room
+      const { data: tenant } = await supabase
+        .from("tenant_profiles")
+        .select("id")
+        .eq("room_id", room.id)
+        .eq("is_active", true)
+        .single();
+
+      if (tenant) {
+        try {
+          await fetch(
+            `${Deno.env.get("SUPABASE_URL")}/functions/v1/notify-tenant`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+              },
+              body: JSON.stringify({
+                event_type: "AC_THRESHOLD_WARNING",
+                tenant_profile_id: tenant.id,
+                details: { hours_used: totalHours, free_hours: FREE_HOURS },
+              }),
+            }
+          );
+        } catch (e) {
+          console.error(
+            `Failed to send AC threshold alert for room ${room.id}:`,
+            e
+          );
+        }
+      }
     }
 
     results.push({ room_id: room.id, total_hours: totalHours, month: monthLabel });
