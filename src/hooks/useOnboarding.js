@@ -69,7 +69,7 @@ export function useOnboarding(profileId) {
 
     const updates = {
       current_step: nextStep,
-      status: isComplete ? "ACTIVE" : "IN_PROGRESS",
+      status: isComplete ? "ACTIVE" : "ONBOARDING",
       updated_at: new Date().toISOString(),
     };
 
