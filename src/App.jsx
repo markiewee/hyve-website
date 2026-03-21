@@ -36,6 +36,7 @@ import AdminDevicesPage from './pages/portal/AdminDevicesPage';
 import AdminOnboardingPage from './pages/portal/AdminOnboardingPage';
 import AdminOnboardingDetailPage from './pages/portal/AdminOnboardingDetailPage';
 import AdminAnnouncementsPage from './pages/portal/AdminAnnouncementsPage';
+import AdminRentPage from './pages/portal/AdminRentPage';
 import OnboardingPage from './pages/portal/OnboardingPage';
 
 function App() {
@@ -186,6 +187,14 @@ function App() {
             element={
               <AuthGuard requiredRole="ADMIN">
                 <AdminAnnouncementsPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/rent"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminRentPage />
               </AuthGuard>
             }
           />

@@ -24,6 +24,7 @@ const ADMIN_NAV = [
   { label: "Admin", to: "/portal/admin" },
   { label: "Devices", to: "/portal/admin/devices" },
   { label: "Announcements", to: "/portal/admin/announcements" },
+  { label: "Rent", to: "/portal/admin/rent" },
 ];
 
 function getNavLinks(role) {
