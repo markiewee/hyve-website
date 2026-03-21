@@ -1,9 +1,11 @@
 import { useAuth } from "../../hooks/useAuth";
 import { useAcStatus } from "../../hooks/useAcStatus";
 import { useAcUsage } from "../../hooks/useAcUsage";
+import { useDailyUsage } from "../../hooks/useDailyUsage";
 import PortalLayout from "../../components/portal/PortalLayout";
 import AcStatusIndicator from "../../components/portal/AcStatusIndicator";
 import UsageProgressBar from "../../components/portal/UsageProgressBar";
+import DailyUsageChart from "../../components/portal/DailyUsageChart";
 import {
   Card,
   CardContent,
@@ -30,6 +32,7 @@ export default function DashboardPage() {
 
   const { status, loading: statusLoading } = useAcStatus(roomId);
   const { usage, todayHours, loading: usageLoading } = useAcUsage(roomId);
+  const { dailyData, loading: dailyLoading } = useDailyUsage(roomId);
 
   const totalHours = usage?.total_hours ?? 0;
   const dayOfMonth = getDayOfMonth();
@@ -106,6 +109,20 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Daily usage bar chart */}
+      <Card className="mb-4">
+        <CardHeader>
+          <CardTitle className="text-base">Daily AC Usage</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {dailyLoading ? (
+            <div className="h-[220px] bg-gray-100 animate-pulse rounded" />
+          ) : (
+            <DailyUsageChart data={dailyData} />
+          )}
+        </CardContent>
+      </Card>
 
       {/* Monthly usage section */}
       <Card>
