@@ -68,6 +68,7 @@ module.exports = async function handler(req, res) {
   const updatePayload = {
     user_id: userId,
     invite_token: null,
+    is_active: true,
   };
   if (stripeCustomerId) {
     updatePayload.stripe_customer_id = stripeCustomerId;

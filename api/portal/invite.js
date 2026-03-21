@@ -72,7 +72,7 @@ module.exports = async function handler(req, res) {
     tenant_profile_id: newProfile.id,
     room_id,
     current_step: "PERSONAL_DETAILS",
-    status: "IN_PROGRESS",
+    status: "ONBOARDING",
   };
 
   if (deposit_amount != null) {
