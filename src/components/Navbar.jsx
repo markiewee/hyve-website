@@ -1,125 +1,110 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, MessageCircle } from 'lucide-react';
-import { Button } from './ui/button';
-// Using header.png from public folder
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
   const navigation = [
-    { name: 'Home', href: '/' },
     { name: 'Properties', href: '/properties' },
     { name: 'Locations', href: '/locations' },
     { name: 'About', href: '/about' },
     { name: 'Blog', href: '/blog' },
-    { name: 'FAQs', href: '/faqs' },
-    { name: 'Contact', href: '/contact' },
   ];
 
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="bg-white/50 backdrop-blur-lg shadow-sm sticky top-0 z-50 transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <img 
-              src="/header.png" 
-              alt="Hyve Logo" 
-              className="h-8 w-auto"
-            />
+    <nav className="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-sm">
+      <div className="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+        {/* Left: Logo + Links */}
+        <div className="flex items-center gap-12">
+          <Link to="/" className="text-2xl font-black text-teal-600 tracking-tighter font-['Plus_Jakarta_Sans']">
+            Hyve
           </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navigation.map((item) => {
-              return (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    isActive(item.href)
-                      ? 'text-teal-600'
-                      : 'text-gray-700 hover:text-teal-600'
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <a href="https://wa.me/6580885410?text=Hi!%20I'm%20interested%20in%20a%20room%20at%20Hyve." target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" size="sm" className="flex items-center space-x-2">
-                <MessageCircle className="w-4 h-4" />
-                <span>WhatsApp</span>
-              </Button>
-            </a>
-            <Link to="/properties">
-              <Button size="sm" className="bg-teal-600 hover:bg-teal-700">
-                Find a Home
-              </Button>
-            </Link>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2"
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </Button>
+          <div className="hidden md:flex items-center gap-8">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={`font-['Plus_Jakarta_Sans'] font-bold tracking-tight transition-colors duration-300 ${
+                  isActive(item.href)
+                    ? 'text-teal-700 border-b-2 border-teal-600 pb-1'
+                    : 'text-slate-600 hover:text-teal-500'
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200">
-              {navigation.map((item) => {
-                return (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className={`block px-3 py-2 rounded-md text-base font-medium ${
-                      isActive(item.href)
-                        ? 'text-teal-600'
-                        : 'text-gray-700 hover:text-teal-600'
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                );
-              })}
-              <div className="pt-4 space-y-2">
-                <a href="https://wa.me/6580885410?text=Hi!%20I'm%20interested%20in%20a%20room%20at%20Hyve." target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" className="w-full justify-center">
-                    <MessageCircle className="w-4 h-4 mr-2" />
-                    WhatsApp
-                  </Button>
-                </a>
-                <Link to="/properties">
-                  <Button className="w-full bg-teal-600 hover:bg-teal-700">
-                    Find a Home
-                  </Button>
-                </Link>
-              </div>
+        {/* Right: Actions */}
+        <div className="hidden md:flex items-center gap-4">
+          <Link
+            to="/portal/login"
+            className="font-['Plus_Jakarta_Sans'] font-bold tracking-tight text-slate-600 hover:text-teal-600 px-4 py-2 transition-all text-sm"
+          >
+            Resident Login
+          </Link>
+          <Link
+            to="/contact"
+            className="bg-[#006b5f] text-white font-['Plus_Jakarta_Sans'] font-bold tracking-tight px-6 py-2.5 rounded-xl hover:opacity-90 active:scale-95 transition-all shadow-sm text-sm"
+          >
+            Get in Touch
+          </Link>
+        </div>
+
+        {/* Mobile menu button */}
+        <button
+          className="md:hidden p-2 text-slate-600 active:scale-95 transition-transform"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span className="material-symbols-outlined">
+            {isOpen ? 'close' : 'menu'}
+          </span>
+        </button>
+      </div>
+
+      {/* Mobile Navigation */}
+      {isOpen && (
+        <div className="md:hidden bg-white/95 backdrop-blur-xl border-t border-slate-100">
+          <div className="px-6 py-4 space-y-1">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                onClick={() => setIsOpen(false)}
+                className={`block px-4 py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold tracking-tight transition-colors ${
+                  isActive(item.href)
+                    ? 'text-teal-700 bg-teal-50'
+                    : 'text-slate-600 hover:text-teal-500 hover:bg-slate-50'
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
+            <div className="pt-4 space-y-3 border-t border-slate-100 mt-2">
+              <Link
+                to="/portal/login"
+                onClick={() => setIsOpen(false)}
+                className="block text-center px-4 py-3 text-slate-600 font-['Plus_Jakarta_Sans'] font-bold rounded-xl hover:bg-slate-50"
+              >
+                Resident Login
+              </Link>
+              <Link
+                to="/contact"
+                onClick={() => setIsOpen(false)}
+                className="block text-center bg-[#006b5f] text-white font-['Plus_Jakarta_Sans'] font-bold px-6 py-3 rounded-xl"
+              >
+                Get in Touch
+              </Link>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </nav>
   );
 };
 
 export default Navbar;
-

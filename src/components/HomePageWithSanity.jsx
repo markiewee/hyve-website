@@ -1,20 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Calendar, DollarSign, Users, Wifi, Shield, Car, Wrench, Coffee, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Badge } from './ui/badge';
 import { client, QUERIES, urlFor } from '../lib/sanity';
 import ApiService from '../services/api';
-import heroImage from '../assets/hero_coliving_interior.jpg';
-import modernSpace from '../assets/modern_coliving_space.jpg';
-import sharedKitchen from '../assets/shared_kitchen.jpg';
-import hyveGreenLogo from '../assets/hyve_green.png';
 
 const HomePage = ({ searchFilters, setSearchFilters }) => {
   const [searchLocation, setSearchLocation] = useState('');
-  const [searchBudget, setSearchBudget] = useState('');
   const [properties, setProperties] = useState([]);
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [homePageContent, setHomePageContent] = useState(null);
@@ -23,7 +13,6 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Try to fetch content from Sanity
         const [sanityHomePage, sanityProperties, sanityNeighborhoods] = await Promise.all([
           client.fetch(QUERIES.homePage),
           client.fetch(QUERIES.featuredProperties),
@@ -35,15 +24,13 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
             } | order(name asc)
           `)
         ]);
-        
+
         setHomePageContent(sanityHomePage);
         setNeighborhoods(sanityNeighborhoods || []);
-        
-        // Use Sanity properties first, then fallback to API/sample data
+
         if (sanityProperties && sanityProperties.length > 0) {
           setProperties(sanityProperties);
         } else {
-          // Fallback to existing API/sample data
           try {
             const data = await ApiService.getProperties();
             setProperties(data);
@@ -54,7 +41,6 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
         }
       } catch (error) {
         console.error('Error fetching Sanity content:', error);
-        // Fallback to existing behavior
         try {
           const data = await ApiService.getProperties();
           setProperties(data);
@@ -75,325 +61,86 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
     setSearchFilters({
       ...searchFilters,
       location: searchLocation,
-      maxBudget: searchBudget,
-      availableFrom: searchFilters.availableFrom
     });
   };
 
-  // Default benefits (fallback if no Sanity content)
-  const defaultBenefits = [
-    { icon: Wifi, title: 'High-Speed WiFi', description: 'Reliable internet for work and entertainment' },
-    { icon: Shield, title: '24/7 Security', description: 'Safe and secure living environment' },
-    { icon: Car, title: 'Parking Available', description: 'Convenient parking spaces for residents' },
-    { icon: Wrench, title: 'Maintenance', description: 'Quick response to all maintenance requests' },
-    { icon: Coffee, title: 'Housekeeping', description: 'Regular cleaning of common areas' },
-    { icon: Users, title: 'Community Events', description: 'Regular social activities and networking' }
-  ];
-
-  // Use Sanity content or fallback to defaults
   const heroContent = homePageContent?.hero || {
-    headline: 'Stylish and Convenient Coliving for Everyone',
-    subtitle: 'Experience comfort and community in Singapore\'s premier coliving spaces with excellent connectivity'
-  };
-
-  const benefitsContent = homePageContent?.benefits || {
-    title: 'Join Singapore\'s Most Vibrant Coliving Community',
-    subtitle: 'Everything you need for comfortable living, all included in one convenient package',
-    benefitsList: defaultBenefits
-  };
-
-  const featuredPropertiesContent = homePageContent?.featuredProperties || {
-    title: 'Discover Your New Home',
-    subtitle: 'Beautifully designed spaces in Singapore\'s most desirable neighborhoods'
-  };
-
-  const communityContent = homePageContent?.community || {
-    title: 'More Than Just a Place to Stay',
-    description: 'Join a vibrant community of like-minded individuals from around the world. Our coliving spaces are designed to foster connections, creativity, and personal growth.',
-    features: [
-      { feature: 'Regular community events and networking' },
-      { feature: 'Shared spaces designed for collaboration' },
-      { feature: 'Flexible lease terms to fit your lifestyle' }
-    ]
-  };
-
-  const ctaContent = homePageContent?.cta || {
-    title: 'Ready to Find Your Perfect Home?',
-    subtitle: 'Join hundreds of residents who have found their ideal coliving space with us',
-    primaryButton: { text: 'Browse Properties', link: '/properties' },
-    secondaryButton: { text: 'Schedule a Tour' }
+    headline: 'The Sanctuary of Shared Living.',
+    subtitle: 'Hyve is more than a residence. It\'s an architecturally curated collective where private tranquility meets intentional community.'
   };
 
   const featuredProperties = properties.slice(0, 3);
 
-  // Property card component with carousel
-  const PropertyCard = ({ property }) => {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    
-    // Get all available images for this property
-    const getPropertyImages = (property) => {
-      const images = [];
-      
-      // Add Sanity images if available
-      if (property.images && property.images.length > 0) {
-        property.images.forEach(img => {
-          if (img.image) {
-            images.push({
-              src: urlFor(img.image).width(800).height(600).url(),
-              alt: img.alt || property.name
-            });
-          }
-        });
-      }
-      
-      // Add fallback images from property.images array (for sample data)
-      if (images.length === 0 && property.images && property.images.length > 0 && typeof property.images[0] === 'string') {
-        property.images.forEach(imgPath => {
-          images.push({
-            src: `/${imgPath}`,
-            alt: property.name
-          });
-        });
-      }
-      
-      // Final fallback if no images available
-      if (images.length === 0) {
-        images.push({
-          src: '/stock_apart1.png',
-          alt: property.name
-        });
-      }
-      
-      return images;
-    };
-    
-    const images = getPropertyImages(property);
-    const currentImage = images[currentImageIndex] || images[0];
-    
-    const nextImage = () => {
-      setCurrentImageIndex((prev) => 
-        prev === images.length - 1 ? 0 : prev + 1
-      );
-    };
-
-    const prevImage = () => {
-      setCurrentImageIndex((prev) => 
-        prev === 0 ? images.length - 1 : prev - 1
-      );
-    };
-
-    return (
-      <Card className="overflow-hidden hover:shadow-xl transition-shadow group">
-        <div className="relative aspect-[3/2] overflow-hidden">
-          <img
-            src={currentImage.src}
-            alt={currentImage.alt}
-            loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-          
-          {/* Carousel Controls - only show if multiple images */}
-          {images.length > 1 && (
-            <>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  prevImage();
-                }}
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-1.5 rounded-full opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity z-10"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  nextImage();
-                }}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-1.5 rounded-full opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity z-10"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-              
-              {/* Image indicators */}
-              <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 flex space-x-1.5 z-10">
-                {images.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrentImageIndex(index);
-                    }}
-                    className={`w-2 h-2 rounded-full transition-colors ${
-                      index === currentImageIndex ? 'bg-white' : 'bg-white/50'
-                    }`}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-          
-          <div className="absolute top-4 left-4">
-            <Badge className="bg-teal-600 text-white">
-              {property.availableRooms || '1'} rooms available
-            </Badge>
-          </div>
-          <div className="absolute top-4 right-4">
-            <Badge variant="secondary" className="bg-white/90 text-gray-900">
-              From ${property.startingPrice}/mo
-            </Badge>
-          </div>
-          
-          {/* Image counter */}
-          {images.length > 1 && (
-            <div className="absolute top-4 left-1/2 transform -translate-x-1/2">
-              <Badge className="bg-black/50 text-white">
-                {currentImageIndex + 1} / {images.length}
-              </Badge>
-            </div>
-          )}
-        </div>
-        
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-xl">{property.name}</CardTitle>
-          </div>
-          <div className="flex items-center text-gray-600">
-            <MapPin className="w-4 h-4 mr-1" />
-            <span className="text-sm">
-              {property.neighborhood?.name || property.neighborhood}
-            </span>
-          </div>
-        </CardHeader>
-        
-        <CardContent>
-          <CardDescription className="mb-4">
-            {property.description?.substring(0, 120) || 'Beautiful coliving space'}...
-          </CardDescription>
-          
-          <div className="flex flex-wrap gap-2 mb-4">
-            {(property.amenities || []).slice(0, 3).map((amenity, index) => (
-              <Badge key={index} variant="outline" className="text-xs">
-                {amenity}
-              </Badge>
-            ))}
-            {(property.amenities || []).length > 3 && (
-              <Badge variant="outline" className="text-xs">
-                +{property.amenities.length - 3} more
-              </Badge>
-            )}
-          </div>
-          
-          <Link to={`/property/${property.id || property.slug?.current || property._id}`}>
-            <Button className="w-full bg-teal-600 hover:bg-teal-700">
-              Explore This Home
-            </Button>
-          </Link>
-        </CardContent>
-      </Card>
-    );
+  const getPropertyImage = (property) => {
+    if (property.images?.[0]?.image) {
+      return urlFor(property.images[0].image).width(800).height(600).url();
+    }
+    if (property.images?.[0] && typeof property.images[0] === 'string') {
+      return `/${property.images[0]}`;
+    }
+    return '/stock_apart1.png';
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#f8f9ff]">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* Video Background */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          poster={homePageContent?.hero?.backgroundImage 
-            ? urlFor(homePageContent.hero.backgroundImage).width(1200).height(800).url()
-            : heroImage
-          }
-        >
-          <source src="/hyve_vid.mp4" type="video/mp4" />
-          {/* Fallback message for browsers that don't support video */}
-          Your browser does not support the video tag.
-        </video>
-
-        {/* Fallback background image for when video is loading or fails */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-0"
-          style={{
-            backgroundImage: homePageContent?.hero?.backgroundImage
-              ? `url(${urlFor(homePageContent.hero.backgroundImage).width(1200).height(800).url()})`
-              : `url(${heroImage})`
-          }}
-        />
-        
-        {/* Video Overlay */}
-        <div className="absolute inset-0 bg-black/40"></div>
-        
-        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4 pb-8 sm:pb-0">
-          {/* Hyve Logo */}
-          <div className="mb-4 sm:mb-8 animate-fade-in">
-            <img 
-              src={hyveGreenLogo} 
-              alt="Hyve Logo" 
-              className="w-40 h-40 sm:w-52 sm:h-52 md:w-60 md:h-60 mx-auto mb-2 sm:mb-4"
-            />
-          </div>
-          
-          <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 animate-fade-in">
-            {heroContent.headline.split(' ').slice(0, 3).join(' ')}
-            <span className="block text-teal-400">
-              {heroContent.headline.split(' ').slice(3).join(' ')}
+      <section className="relative px-6 md:px-8 py-20 lg:py-32 pt-28 lg:pt-40 overflow-hidden">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-6 z-10">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#71f8e4] text-[#005048] font-['Inter'] text-xs uppercase tracking-widest font-bold mb-6">
+              Redefining Home
             </span>
-          </h1>
-          <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-gray-200 animate-fade-in-delay">
-            {heroContent.subtitle}
-          </p>
-          
-          {/* Search Bar */}
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 sm:p-6 max-w-4xl mx-auto animate-slide-up mb-4 sm:mb-0">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="relative">
-                <MapPin className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                <select
-                  value={searchLocation}
-                  onChange={(e) => setSearchLocation(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-gray-900 bg-white appearance-none"
-                >
-                  <option value="">All Locations</option>
-                  {neighborhoods.map((neighborhood) => (
-                    <option key={neighborhood._id || neighborhood.name} value={neighborhood.name}>
-                      {neighborhood.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="relative">
-                <DollarSign className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                <Input
-                  placeholder="Max Budget"
-                  value={searchBudget}
-                  onChange={(e) => setSearchBudget(e.target.value)}
-                  className="pl-10 text-gray-900"
-                />
-              </div>
-              <div className="relative">
-                <Calendar className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                <Input
-                  type="date"
-                  placeholder="Start Date"
-                  value={searchFilters.availableFrom || ''}
-                  onChange={(e) => setSearchFilters({...searchFilters, availableFrom: e.target.value})}
-                  className="pl-10 text-gray-900"
-                />
-              </div>
-              <Link to="/properties">
-                <Button 
-                  onClick={handleSearch}
-                  className="w-full bg-teal-600 hover:bg-teal-700 text-white"
-                >
-                  <Search className="w-4 h-4 mr-2" />
-                  {heroContent.ctaButton?.text || 'Find a Home'}
-                </Button>
+            <h1 className="font-['Plus_Jakarta_Sans'] text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tighter text-[#121c2a] leading-[1.1] mb-8">
+              The Sanctuary of <br />
+              <span className="text-[#14b8a6]">Shared Living.</span>
+            </h1>
+            <p className="text-lg text-[#3c4947] font-['Manrope'] leading-relaxed mb-10 max-w-lg">
+              {heroContent.subtitle}
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                to="/properties"
+                className="bg-[#006b5f] text-white px-8 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:shadow-lg transition-all inline-block"
+              >
+                Explore Locations
+              </Link>
+              <Link
+                to="/about"
+                className="bg-[#14b8a6]/20 text-[#006b5f] px-8 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#14b8a6]/30 transition-all inline-block"
+              >
+                Our Story
               </Link>
             </div>
+          </div>
+          <div className="lg:col-span-6 relative">
+            <div className="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden shadow-[0_20px_40px_rgba(18,28,42,0.06)]">
+              {featuredProperties[0] ? (
+                <img
+                  className="w-full h-full object-cover"
+                  src={getPropertyImage(featuredProperties[0])}
+                  alt={featuredProperties[0].name || 'Modern coliving space'}
+                  loading="lazy"
+                />
+              ) : (
+                <img
+                  className="w-full h-full object-cover"
+                  src="/stock_apart1.png"
+                  alt="Modern coliving space"
+                  loading="lazy"
+                />
+              )}
+              <div className="absolute bottom-8 left-8 right-8 bg-[rgba(20,184,166,0.7)] backdrop-blur-[20px] p-6 rounded-2xl text-white">
+                <p className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-1">
+                  {featuredProperties[0]?.name || 'Hyve Living'}
+                </p>
+                <p className="font-['Manrope'] opacity-90 text-sm">
+                  {featuredProperties[0]?.neighborhood?.name
+                    ? `${featuredProperties[0].neighborhood.name} • From $${featuredProperties[0].startingPrice}/mo`
+                    : 'Modern Coliving in Singapore'}
+                </p>
+              </div>
+            </div>
+            <div className="absolute -top-12 -right-12 w-64 h-64 bg-[#89f5e7]/30 rounded-full blur-3xl -z-10"></div>
           </div>
         </div>
       </section>
@@ -403,237 +150,221 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
         <h2>Hyve Coliving Singapore — Affordable Room Rental Near MRT</h2>
         <p>
           Looking for affordable co-living in Singapore? Hyve offers furnished rooms from S$800/month
-          in three locations: Thomson Grove near Lentor MRT (perfect for NTU students),
-          Ivory Heights near Jurong East MRT (5 minutes to NUS), and Chiltern Park near
-          Lorong Chuan MRT in Serangoon. All rooms include WiFi, utilities, weekly cleaning,
-          and air conditioning. Cats are welcome. Couples are welcome in Master and Premium rooms.
-          No agent fees. Minimum 3-month stay with flexible extensions.
-          Virtual and in-person viewings available. Contact us on WhatsApp at +65 8088 5410.
-        </p>
-        <p>
-          Best co-living option for: international interns, NUS students, NTU students, SMU students,
-          expats relocating to Singapore, digital nomads, young professionals, couples looking for
-          affordable housing in Singapore. All properties are within 2-5 minutes walk from MRT stations
-          on the Thomson-East Coast Line, North-South Line, East-West Line, and Circle Line.
+          in three locations: Thomson Grove near Lentor MRT, Ivory Heights near Jurong East MRT,
+          and Chiltern Park near Lorong Chuan MRT in Serangoon. All rooms include WiFi, utilities,
+          weekly cleaning, and air conditioning. Cats welcome. Couples welcome in Master and Premium rooms.
+          No agent fees. Minimum 3-month stay. Contact us on WhatsApp at +65 8088 5410.
         </p>
       </div>
 
-      {/* Benefits Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              {benefitsContent.title}
+      {/* Why Hyve */}
+      <section className="bg-[#eff4ff] py-24 px-6 md:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16 text-center max-w-2xl mx-auto">
+            <h2 className="font-['Plus_Jakarta_Sans'] text-4xl font-extrabold tracking-tight text-[#121c2a] mb-4">
+              Why Hyve
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {benefitsContent.subtitle}
+            <p className="text-[#3c4947] text-lg">
+              We&apos;ve stripped away the friction of traditional renting to focus on what matters: your experience.
             </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {benefitsContent.benefitsList.map((benefit, index) => {
-              const Icon = benefit.icon || Users; // Default icon if none provided
-              return (
-                <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Icon className="w-8 h-8 text-teal-600" />
-                    </div>
-                    <CardTitle className="text-xl">{benefit.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-gray-600">
-                      {benefit.description}
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-              );
-            })}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: 'diversity_3',
+                title: 'Community First',
+                description: 'Curated resident events, shared spaces, and a digital community designed to turn neighbors into lifelong friends.',
+                bgColor: 'bg-[#71f8e4]',
+                textColor: 'text-[#005048]'
+              },
+              {
+                icon: 'fluid',
+                title: 'Serene Design',
+                description: 'Thoughtfully designed interiors that balance private acoustic sanctuaries with vibrant, light-filled social hubs.',
+                bgColor: 'bg-[#89f5e7]',
+                textColor: 'text-[#005049]'
+              },
+              {
+                icon: 'bolt',
+                title: 'All-Inclusive Living',
+                description: 'WiFi, utilities, cleaning, maintenance — everything handled through our resident concierge. Just move in.',
+                bgColor: 'bg-[#d9e3f6]',
+                textColor: 'text-[#3d4756]'
+              }
+            ].map((feature, index) => (
+              <div
+                key={index}
+                className="bg-white p-10 rounded-[2rem] shadow-[0_20px_40px_rgba(18,28,42,0.06)] transition-transform hover:-translate-y-2"
+              >
+                <div className={`w-14 h-14 ${feature.bgColor} flex items-center justify-center rounded-2xl mb-8`}>
+                  <span className={`material-symbols-outlined ${feature.textColor} text-3xl`}>
+                    {feature.icon}
+                  </span>
+                </div>
+                <h3 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#121c2a] mb-4">
+                  {feature.title}
+                </h3>
+                <p className="text-[#3c4947] leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Featured Properties */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              {featuredPropertiesContent.title}
-            </h2>
-            <p className="text-xl text-gray-600 mb-4">
-              {featuredPropertiesContent.subtitle}
-            </p>
-            {/* Mobile scroll hint */}
-            <div className="block sm:hidden">
-              <p className="text-sm text-gray-500 flex items-center justify-center gap-2">
-                <ChevronLeft className="w-4 h-4" />
-                Swipe to see more properties
-                <ChevronRight className="w-4 h-4" />
-              </p>
+      <section className="py-24 px-6 md:px-8 bg-[#f8f9ff]">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div>
+              <h2 className="font-['Plus_Jakarta_Sans'] text-4xl font-extrabold tracking-tight text-[#121c2a] mb-4">
+                Featured Properties
+              </h2>
+              <p className="text-[#3c4947] text-lg">Our curated coliving spaces across Singapore.</p>
             </div>
-          </div>
-          
-          {/* Desktop Grid */}
-          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {loading ? (
-              // Loading skeleton
-              Array.from({ length: 3 }).map((_, index) => (
-                <Card key={index} className="overflow-hidden">
-                  <div className="h-64 bg-gray-200 animate-pulse"></div>
-                  <CardHeader>
-                    <div className="h-6 bg-gray-200 animate-pulse rounded mb-2"></div>
-                    <div className="h-4 bg-gray-200 animate-pulse rounded w-3/4"></div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="h-4 bg-gray-200 animate-pulse rounded mb-4"></div>
-                    <div className="flex gap-2 mb-4">
-                      <div className="h-6 bg-gray-200 animate-pulse rounded w-16"></div>
-                      <div className="h-6 bg-gray-200 animate-pulse rounded w-20"></div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))
-            ) : (
-              featuredProperties.map((property) => (
-                <PropertyCard 
-                  key={property.id || property._id} 
-                  property={property} 
-                />
-              ))
-            )}
-          </div>
-          
-          {/* Mobile Horizontal Scroll */}
-          <div className="md:hidden relative">
-            <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}>
-              {loading ? (
-                // Loading skeleton for mobile
-                Array.from({ length: 3 }).map((_, index) => (
-                  <Card key={index} className="flex-none w-80 snap-start overflow-hidden">
-                    <div className="h-64 bg-gray-200 animate-pulse"></div>
-                    <CardHeader>
-                      <div className="h-6 bg-gray-200 animate-pulse rounded mb-2"></div>
-                      <div className="h-4 bg-gray-200 animate-pulse rounded w-3/4"></div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="h-4 bg-gray-200 animate-pulse rounded mb-4"></div>
-                      <div className="flex gap-2 mb-4">
-                        <div className="h-6 bg-gray-200 animate-pulse rounded w-16"></div>
-                        <div className="h-6 bg-gray-200 animate-pulse rounded w-20"></div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))
-              ) : (
-                featuredProperties.map((property) => (
-                  <div key={property.id || property._id} className="flex-none w-80 snap-start">
-                    <PropertyCard property={property} />
-                  </div>
-                ))
-              )}
-            </div>
-            
-            {/* Scroll indicators */}
-            <div className="flex justify-center mt-4 gap-2">
-              {featuredProperties.map((_, index) => (
-                <div key={index} className="w-2 h-2 rounded-full bg-gray-300"></div>
-              ))}
-            </div>
-          </div>
-          
-          <div className="text-center mt-12">
-            <Link to="/properties">
-              <Button variant="outline" size="lg" className="border-teal-600 text-teal-600 hover:bg-teal-50">
-                View All Properties
-              </Button>
+            <Link
+              to="/properties"
+              className="font-['Plus_Jakarta_Sans'] font-bold text-[#006b5f] flex items-center gap-2 hover:translate-x-1 transition-all"
+            >
+              View All Locations <span className="material-symbols-outlined">arrow_forward</span>
             </Link>
           </div>
+
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[600px]">
+              <div className="md:col-span-8 rounded-[2.5rem] bg-slate-200 animate-pulse"></div>
+              <div className="md:col-span-4 grid grid-rows-2 gap-6">
+                <div className="rounded-[2.5rem] bg-slate-200 animate-pulse"></div>
+                <div className="rounded-[2.5rem] bg-slate-200 animate-pulse"></div>
+              </div>
+            </div>
+          ) : featuredProperties.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[600px]">
+              {/* Large card */}
+              <Link
+                to={`/property/${featuredProperties[0].id || featuredProperties[0].slug?.current || featuredProperties[0]._id}`}
+                className="md:col-span-8 group relative rounded-[2.5rem] overflow-hidden outline-1 outline-[rgba(187,202,198,0.15)]"
+              >
+                <img
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 min-h-[300px]"
+                  src={getPropertyImage(featuredProperties[0])}
+                  alt={featuredProperties[0].name}
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#121c2a]/80 to-transparent"></div>
+                <div className="absolute bottom-10 left-10 text-white">
+                  <div className="flex gap-2 mb-4">
+                    <span className="px-3 py-1 bg-[#14b8a6] text-[10px] font-['Inter'] font-black uppercase tracking-widest rounded-full">
+                      {featuredProperties[0].neighborhood?.name || 'Singapore'}
+                    </span>
+                    {featuredProperties[0].availableRooms > 0 && (
+                      <span className="px-3 py-1 bg-white/20 backdrop-blur-md text-[10px] font-['Inter'] font-black uppercase tracking-widest rounded-full">
+                        {featuredProperties[0].availableRooms} Rooms Available
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="font-['Plus_Jakarta_Sans'] text-3xl font-bold mb-2">{featuredProperties[0].name}</h3>
+                  <p className="font-['Manrope'] text-white/80 max-w-sm">
+                    From ${featuredProperties[0].startingPrice}/mo
+                  </p>
+                </div>
+              </Link>
+
+              {/* Side cards */}
+              <div className="md:col-span-4 grid grid-rows-2 gap-6">
+                {featuredProperties.slice(1, 3).map((property) => (
+                  <Link
+                    key={property.id || property._id}
+                    to={`/property/${property.id || property.slug?.current || property._id}`}
+                    className="group relative rounded-[2.5rem] overflow-hidden outline-1 outline-[rgba(187,202,198,0.15)] min-h-[200px]"
+                  >
+                    <img
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      src={getPropertyImage(property)}
+                      alt={property.name}
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-[#121c2a]/30 group-hover:bg-[#121c2a]/10 transition-colors"></div>
+                    <div className="absolute bottom-6 left-6 text-white">
+                      <p className="font-['Plus_Jakarta_Sans'] font-bold text-xl">{property.name}</p>
+                      <p className="font-['Inter'] text-xs uppercase tracking-widest opacity-80">
+                        {property.neighborhood?.name || 'Singapore'} &bull; From ${property.startingPrice}/mo
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="text-center py-20 text-slate-400">
+              <p className="text-lg">Properties coming soon.</p>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Community Section */}
-      <section className="py-20 bg-teal-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">
-                {communityContent.title}
-              </h2>
-              <p className="text-lg text-gray-600 mb-8">
-                {communityContent.description}
+      {/* Testimonial */}
+      <section className="py-24 px-6 md:px-8 bg-[#dee9fc] relative overflow-hidden">
+        <div className="max-w-7xl mx-auto flex flex-col items-center">
+          <span
+            className="material-symbols-outlined text-[#006b5f] text-6xl mb-8"
+            style={{ fontVariationSettings: "'FILL' 1" }}
+          >
+            format_quote
+          </span>
+          <div className="relative w-full max-w-4xl text-center">
+            <h2 className="font-['Plus_Jakarta_Sans'] text-2xl sm:text-3xl lg:text-4xl font-bold text-[#121c2a] italic leading-snug mb-12">
+              &ldquo;I moved to Singapore for work and found a community. The balance of private space with incredible social events at Hyve made my transition seamless.&rdquo;
+            </h2>
+            <div className="flex flex-col items-center">
+              <div className="w-20 h-20 rounded-full border-4 border-white shadow-[0_20px_40px_rgba(18,28,42,0.06)] overflow-hidden mb-4 bg-teal-100 flex items-center justify-center">
+                <span className="material-symbols-outlined text-teal-600 text-3xl">person</span>
+              </div>
+              <p className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-lg">Happy Resident</p>
+              <p className="font-['Inter'] text-xs text-[#3c4947] uppercase tracking-widest">
+                Resident since 2024 &bull; Singapore
               </p>
-
-              <div className="space-y-4">
-                {communityContent.features.map((feature, index) => (
-                  <div key={index} className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-teal-600 rounded-full flex items-center justify-center">
-                      <Users className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-gray-700">
-                      {feature.feature || feature.description}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-8">
-                <Link to="/faqs">
-                  <Button size="lg" className="bg-teal-600 hover:bg-teal-700">
-                    Learn More About Our Community
-                  </Button>
-                </Link>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <img
-                src="/stock_apart1.png"
-                alt="Modern coliving space"
-                loading="lazy"
-                className="rounded-lg shadow-lg"
-              />
-              <img
-                src="/stock_apart2.png"
-                alt="Shared kitchen"
-                loading="lazy"
-                className="rounded-lg shadow-lg mt-8"
-              />
             </div>
           </div>
         </div>
+        <div className="absolute -bottom-48 -left-48 w-96 h-96 bg-[#006b5f]/5 rounded-full blur-3xl"></div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-teal-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            {ctaContent.title}
-          </h2>
-          <p className="text-xl text-teal-100 mb-8">
-            {ctaContent.subtitle}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to={ctaContent.primaryButton?.link || '/properties'}>
-              <Button size="lg" className="bg-white text-teal-600 hover:bg-teal-50 w-full sm:w-auto">
-                {ctaContent.primaryButton?.text || 'Browse Properties'}
-              </Button>
-            </Link>
-            <a
-              href="https://wa.me/6580885410?text=Hi!%20I'm%20interested%20in%20a%20room%20at%20Hyve."
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-teal-700 w-full sm:w-auto">
-                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                </svg>
+      <section className="py-24 px-6 md:px-8">
+        <div className="max-w-5xl mx-auto bg-[#006b5f] rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-[0_20px_40px_rgba(18,28,42,0.06)]">
+          <div className="relative z-10">
+            <h2 className="font-['Plus_Jakarta_Sans'] text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-6">
+              Start your Hyve journey today.
+            </h2>
+            <p className="text-white/80 text-lg mb-10 max-w-xl mx-auto">
+              Join a community of professionals and creatives living intentionally. All-inclusive. No stress.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link
+                to="/properties"
+                className="bg-white text-[#006b5f] px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-slate-50 transition-all inline-block"
+              >
+                Find a Home
+              </Link>
+              <a
+                href="https://wa.me/6580885410?text=Hi!%20I'm%20interested%20in%20a%20room%20at%20Hyve."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-white/30 text-white px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-white/10 transition-all inline-block"
+              >
                 WhatsApp Us
-              </Button>
-            </a>
+              </a>
+            </div>
+          </div>
+          {/* Abstract visual noise */}
+          <div className="absolute inset-0 opacity-20 pointer-events-none">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-white blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2"></div>
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#14b8a6] blur-[120px] rounded-full -translate-x-1/2 translate-y-1/2"></div>
           </div>
         </div>
       </section>
-
     </div>
   );
 };

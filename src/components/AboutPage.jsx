@@ -1,275 +1,200 @@
-import { Users, Heart, Shield, Star, Award, Globe } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Badge } from './ui/badge';
-import { Button } from './ui/button';
-import modernSpace from '../assets/modern_coliving_space.jpg';
-import sharedKitchen from '../assets/shared_kitchen.jpg';
-import singaporeApartment from '../assets/singapore_apartment_living.jpg';
+import { Link } from 'react-router-dom';
 
 const AboutPage = () => {
-  const values = [
-    {
-      icon: Users,
-      title: 'Community First',
-      description: 'We believe that great living experiences come from meaningful connections with like-minded individuals.'
-    },
-    {
-      icon: Heart,
-      title: 'Comfort & Care',
-      description: 'Every detail is designed with your comfort in mind, from premium furnishings to responsive support.'
-    },
-    {
-      icon: Shield,
-      title: 'Trust & Safety',
-      description: 'Your safety and security are our top priorities, with 24/7 support and verified community members.'
-    },
-    {
-      icon: Globe,
-      title: 'Global Community',
-      description: 'Connect with residents from around the world and build lasting international friendships.'
-    }
-  ];
-
-  const stats = [
-    { number: '100+', label: 'Happy Residents' },
-    { number: '3', label: 'Properties' },
-    { number: '15+', label: 'Nationalities' }
-  ];
-
   const team = [
     {
       name: 'Mark Wee',
-      role: 'Co-Founder',
+      role: 'Co-Founder & CEO',
       bio: 'Visionary leader driving Hyve\'s growth and strategic direction in Singapore\'s coliving market.',
-      initials: 'MW',
       photo: '/mark.jpeg'
     },
     {
       name: 'Jason Park',
-      role: 'Co-Founder',
-      bio: 'Operations-driven co-founder managing day-to-day property operations and resident experience across all Hyve properties.',
-      initials: 'JP',
+      role: 'Co-Founder & CTO',
+      bio: 'Operations-driven co-founder managing technology and resident experience across all Hyve properties.',
       photo: '/jason.jpeg'
     },
     {
       name: 'Matthew Mbarek',
       role: 'Co-Founder',
-      bio: 'Innovation-focused co-founder dedicated to creating exceptional resident experiences.',
-      initials: 'MM',
+      bio: 'Innovation-focused co-founder dedicated to creating exceptional community experiences.',
       photo: '/matt.jpeg'
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
+    <div className="min-h-screen bg-[#f8f9ff] pt-24">
       {/* Hero Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-5xl font-bold text-gray-900 mb-6">
-                Redefining Coliving in Singapore
-              </h1>
-              <p className="text-xl text-gray-600 mb-8">
-                At Hyve, we're more than just a coliving provider. We're community builders, 
-                creating spaces where young professionals and students can thrive, connect, 
-                and call home in one of the world's most vibrant cities.
-              </p>
+      <section className="relative px-6 md:px-8 py-20 lg:py-32 max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+        <div className="z-10">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-[#71f8e4] text-[#00201c] font-['Inter'] text-xs font-bold uppercase tracking-widest mb-6">
+            Our Philosophy
+          </span>
+          <h1 className="font-['Plus_Jakarta_Sans'] text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tighter text-[#121c2a] leading-[1.1] mb-8">
+            Architecting the <span className="text-[#006b5f] italic">future</span> of urban sanctuary.
+          </h1>
+          <p className="text-[#3c4947] text-lg lg:text-xl leading-relaxed max-w-xl font-['Manrope']">
+            We believe living spaces should be more than a residence. Hyve is a movement toward intentional, community-driven living that honors design and connection.
+          </p>
+        </div>
+        <div className="relative">
+          <div className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl">
+            <img
+              className="w-full h-full object-cover"
+              src="/stock_apart1.png"
+              alt="Modern architectural coliving space"
+              loading="lazy"
+            />
+          </div>
+          <div className="absolute -bottom-10 -left-10 hidden lg:block w-64 h-64 bg-[#14b8a6]/20 rounded-3xl backdrop-blur-3xl -z-10 border border-white/20"></div>
+        </div>
+      </section>
+
+      {/* Company Story */}
+      <section className="bg-[#eff4ff] py-24 lg:py-32">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="grid lg:grid-cols-12 gap-12">
+            <div className="lg:col-span-5">
+              <h2 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold tracking-tight text-[#121c2a] mb-6">
+                The Hyve Story
+              </h2>
+              <div className="w-20 h-1.5 bg-[#006b5f] rounded-full mb-8"></div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <img
-                src="/stock_apart1.png"
-                alt="Modern coliving space"
-                className="rounded-lg shadow-lg"
-              />
-              <img
-                src="/stock_apart2.png"
-                alt="Shared kitchen"
-                className="rounded-lg shadow-lg mt-8"
-              />
+            <div className="lg:col-span-7 space-y-6 text-[#3c4947] text-lg font-['Manrope'] leading-loose">
+              <p>
+                Founded in 2023, Hyve was born from a simple observation: young professionals and students in Singapore were seeking connection, not just square footage.
+              </p>
+              <p>
+                Our journey began with a small team sketching a model for living that balanced private sanctuary with vibrant shared ecosystems. Today, we operate 3 properties across Singapore&apos;s most vibrant neighborhoods, housing over 100 residents from 15+ nationalities.
+              </p>
+              <p>
+                Everything is designed to foster connection while respecting personal space. From sun-drenched common areas to private, well-appointed rooms, Hyve isn&apos;t just a place to stay &mdash; it&apos;s a curated lifestyle for the modern professional.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-teal-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-4xl font-bold mb-2">{stat.number}</div>
-                <div className="text-teal-100">{stat.label}</div>
+      {/* Values */}
+      <section className="py-24 lg:py-32 px-6 md:px-8 max-w-7xl mx-auto">
+        <div className="text-center mb-20">
+          <h2 className="font-['Plus_Jakarta_Sans'] text-4xl font-extrabold tracking-tight mb-4">Core Pillars</h2>
+          <p className="font-['Manrope'] text-[#3c4947]">The foundation of every Hyve residence.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            {
+              icon: 'groups',
+              title: 'Community',
+              description: 'Fostering genuine human connection through curated events and shared experiences that turn neighbors into lifelong collaborators.'
+            },
+            {
+              icon: 'architecture',
+              title: 'Design',
+              description: 'Thoughtfully designed environments that optimize light, flow, and wellness, creating physical sanctuaries for the soul.'
+            },
+            {
+              icon: 'hub',
+              title: 'Technology',
+              description: 'A seamless digital layer that handles everything from access control to maintenance requests with absolute precision.'
+            }
+          ].map((value, index) => (
+            <div
+              key={index}
+              className="bg-white p-10 rounded-[2rem] flex flex-col gap-6 group hover:-translate-y-1 transition-transform duration-300 shadow-[0_20px_40px_rgba(18,28,42,0.06)]"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-[#14b8a6]/20 flex items-center justify-center text-[#006b5f]">
+                <span className="material-symbols-outlined text-3xl">{value.icon}</span>
+              </div>
+              <h3 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold">{value.title}</h3>
+              <p className="text-[#3c4947] leading-relaxed font-['Manrope']">{value.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Leadership */}
+      <section className="bg-[#e6eeff] py-24 lg:py-32 px-6 md:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16">
+            <h2 className="font-['Plus_Jakarta_Sans'] text-4xl font-extrabold tracking-tight mb-4">The Team</h2>
+            <p className="font-['Manrope'] text-[#3c4947]">Led by visionaries in property and community.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+            {team.map((member, index) => (
+              <div key={index} className="flex flex-col items-center text-center">
+                <div className="w-48 h-48 rounded-[2rem] overflow-hidden bg-slate-200 mb-6">
+                  {member.photo ? (
+                    <img
+                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                      src={member.photo}
+                      alt={member.name}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-teal-100">
+                      <span className="text-3xl font-bold text-teal-600">{member.name.split(' ').map(n => n[0]).join('')}</span>
+                    </div>
+                  )}
+                </div>
+                <span className="font-['Inter'] text-xs font-bold text-[#006b5f] uppercase tracking-widest block mb-2">
+                  {member.role}
+                </span>
+                <h3 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold mb-4">{member.name}</h3>
+                <p className="text-[#3c4947] leading-relaxed font-['Manrope'] max-w-xs">
+                  {member.bio}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Our Story */}
-      <section className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Story</h2>
-            <p className="text-xl text-gray-600">
-              How we started and where we're going
-            </p>
-          </div>
-          
-          <div className="prose prose-lg mx-auto text-gray-600">
-            <p>
-              Founded in 2023, Hyve was born from a simple observation: young professionals 
-              and students in Singapore were struggling to find quality, affordable housing 
-              that also provided a sense of community and belonging.
-            </p>
-            
-            <p>
-              Our founders, having experienced the challenges of relocating to a new city 
-              firsthand, set out to create something different. Not just a place to sleep, 
-              but a home where residents could build meaningful relationships, advance their 
-              careers, and truly enjoy their time in Singapore.
-            </p>
-            
-            <p>
-              Today, we're proud to have housed over 100 residents across 3 properties
-              in Singapore's most desirable neighborhoods. Our community spans 15+ nationalities,
-              creating a truly global living experience right in the heart of Southeast Asia.
-            </p>
-          </div>
+      {/* Stats */}
+      <section className="py-20 px-6 md:px-8 bg-[#f8f9ff]">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          {[
+            { number: '100+', label: 'Happy Residents' },
+            { number: '3', label: 'Properties' },
+            { number: '15+', label: 'Nationalities' },
+            { number: '4.9', label: 'Average Rating' }
+          ].map((stat, index) => (
+            <div key={index}>
+              <div className="text-4xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f] mb-2">{stat.number}</div>
+              <div className="text-[#3c4947] font-['Manrope']">{stat.label}</div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Values */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Values</h2>
-            <p className="text-xl text-gray-600">
-              The principles that guide everything we do
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => {
-              const Icon = value.icon;
-              return (
-                <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Icon className="w-8 h-8 text-teal-600" />
-                    </div>
-                    <CardTitle className="text-xl">{value.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-gray-600">
-                      {value.description}
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-              );
-            })}
+      {/* CTA Section */}
+      <section className="py-24 lg:py-32 px-6 md:px-8 max-w-5xl mx-auto text-center">
+        <div className="bg-[#006b5f] p-12 lg:p-20 rounded-[3rem] shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#14b8a6]/20 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#006a61]/20 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2"></div>
+          <h2 className="font-['Plus_Jakarta_Sans'] text-3xl lg:text-5xl font-extrabold text-white mb-8 relative z-10">
+            Ready to find your sanctuary?
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
+            <Link
+              to="/properties"
+              className="bg-white text-[#006b5f] px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-extrabold hover:scale-95 transition-transform duration-200 shadow-lg inline-block"
+            >
+              Explore Locations
+            </Link>
+            <a
+              href="https://wa.me/6580885410?text=Hi!%20I'm%20interested%20in%20a%20room%20at%20Hyve."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#14b8a6]/20 text-white border border-[#71f8e4]/30 backdrop-blur-md px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-extrabold hover:bg-[#14b8a6]/30 transition-colors inline-block"
+            >
+              Contact Us
+            </a>
           </div>
         </div>
       </section>
-
-      {/* Team */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Meet Our Team</h2>
-            <p className="text-xl text-gray-600">
-              The people behind your exceptional coliving experience
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {team.map((member, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="w-24 h-24 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4 overflow-hidden">
-                    {member.photo ? (
-                      <img
-                        src={member.photo}
-                        alt={member.name}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <span className="text-2xl font-bold text-teal-600">{member.initials}</span>
-                    )}
-                  </div>
-                  <CardTitle className="text-xl">{member.name}</CardTitle>
-                  <Badge variant="secondary" className="mx-auto">{member.role}</Badge>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-600">
-                    {member.bio}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Mission */}
-      <section className="py-20 bg-teal-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Mission</h2>
-          <p className="text-2xl text-gray-700 mb-8 font-light">
-            "To create exceptional coliving experiences that foster community, 
-            personal growth, and lasting connections in Singapore's most vibrant neighborhoods."
-          </p>
-          <div className="relative">
-            <img
-              src="/stock_apart1.png"
-              alt="Singapore apartment living"
-              className="rounded-2xl shadow-xl mx-auto"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Awards & Recognition */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Awards & Recognition</h2>
-            <p className="text-xl text-gray-600">
-              Recognized for excellence in coliving and community building
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <Card className="text-center">
-              <CardHeader>
-                <Award className="w-12 h-12 text-red-500 mx-auto mb-4" />
-                <CardTitle>Airbnb Superhost</CardTitle>
-                <CardDescription>2023</CardDescription>
-              </CardHeader>
-            </Card>
-            
-            <Card className="text-center">
-              <CardHeader>
-                <Award className="w-12 h-12 text-red-500 mx-auto mb-4" />
-                <CardTitle>Airbnb Superhost</CardTitle>
-                <CardDescription>2024</CardDescription>
-              </CardHeader>
-            </Card>
-            
-            <Card className="text-center">
-              <CardHeader>
-                <Award className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                <CardTitle>Preferred Plus Partner</CardTitle>
-                <CardDescription>Booking.com 2024</CardDescription>
-              </CardHeader>
-            </Card>
-          </div>
-        </div>
-      </section>
-
     </div>
   );
 };
 
 export default AboutPage;
-
