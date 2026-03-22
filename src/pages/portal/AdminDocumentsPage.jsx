@@ -332,17 +332,24 @@ export default function AdminDocumentsPage() {
 
     try {
       // 1. Generate PDF blob via html2pdf
-      const element = document.getElementById("doc-preview");
-      if (!element) throw new Error("Preview element not found. Click Preview first.");
+      // Clone the preview into an isolated container to avoid oklch CSS errors
+      const source = document.getElementById("doc-preview");
+      if (!source) throw new Error("Preview element not found. Click Render Preview first.");
+
+      const isolated = document.createElement("div");
+      isolated.style.cssText = "position:fixed;top:-9999px;left:-9999px;width:700px;background:white;color:black;font-family:Arial,sans-serif;font-size:14px;line-height:1.6;padding:40px;";
+      isolated.innerHTML = source.innerHTML;
+      document.body.appendChild(isolated);
 
       const opt = {
         margin: 10,
         filename: "document.pdf",
         image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2 },
+        html2canvas: { scale: 2, useCORS: true },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
       };
-      const pdfBlob = await html2pdf().set(opt).from(element).outputPdf("blob");
+      const pdfBlob = await html2pdf().set(opt).from(isolated).outputPdf("blob");
+      document.body.removeChild(isolated);
 
       // 2. Upload to Supabase Storage
       const tpId = selectedTenant.id;
