@@ -1,11 +1,19 @@
 const { createClient } = require("@supabase/supabase-js");
-const { PDFDocument, rgb, StandardFonts } = require("pdf-lib");
 const crypto = require("crypto");
 
-const supabase = createClient(
-  process.env.VITE_IOT_SUPABASE_URL,
-  process.env.IOT_SUPABASE_SERVICE_ROLE_KEY
-);
+// Vercel config — extend timeout
+module.exports.config = { maxDuration: 30 };
+
+let supabase;
+function getSupabase() {
+  if (!supabase) {
+    supabase = createClient(
+      process.env.VITE_IOT_SUPABASE_URL,
+      process.env.IOT_SUPABASE_SERVICE_ROLE_KEY
+    );
+  }
+  return supabase;
+}
 
 module.exports = async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
@@ -15,7 +23,8 @@ module.exports = async function handler(req, res) {
   const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
   if (!token) return res.status(401).json({ error: "Missing authorization token" });
 
-  const { data: authData, error: authError } = await supabase.auth.getUser(token);
+  const sb = getSupabase();
+  const { data: authData, error: authError } = await sb.auth.getUser(token);
   if (authError || !authData?.user) return res.status(401).json({ error: "Invalid token" });
 
   const { signature_image_base64, onboarding_id } = req.body || {};
@@ -64,7 +73,7 @@ module.exports = async function handler(req, res) {
     storagePath = storagePath.split("?")[0];
 
     // Download unsigned PDF
-    const { data: fileData, error: dlErr } = await supabase.storage
+    const { data: fileData, error: dlErr } = await sb.storage
       .from("tenant-documents")
       .download(storagePath);
 
@@ -74,6 +83,9 @@ module.exports = async function handler(req, res) {
 
     const pdfBytes = Buffer.from(await fileData.arrayBuffer());
     const documentHash = crypto.createHash("sha256").update(pdfBytes).digest("hex");
+
+    // Lazy-load pdf-lib (avoid cold start crash)
+    const { PDFDocument, rgb, StandardFonts } = require("pdf-lib");
 
     // Load and modify PDF
     const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -160,7 +172,7 @@ module.exports = async function handler(req, res) {
     const ts = Date.now();
     const signedPath = `tenants/${tenantProfileId}/ta-signed-${ts}.pdf`;
 
-    const { error: uploadErr } = await supabase.storage
+    const { error: uploadErr } = await sb.storage
       .from("tenant-documents")
       .upload(signedPath, signedBuffer, {
         contentType: "application/pdf",
@@ -172,7 +184,7 @@ module.exports = async function handler(req, res) {
     }
 
     // Insert tenant_documents record
-    await supabase.from("tenant_documents").insert({
+    await sb.from("tenant_documents").insert({
       tenant_profile_id: tenantProfileId,
       room_id: onboarding.room_id,
       doc_type: "LICENCE_AGREEMENT",
