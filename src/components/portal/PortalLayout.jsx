@@ -22,13 +22,19 @@ const ADMIN_NAV = [
   { label: "Billing", to: "/portal/billing" },
   { label: "Issues", to: "/portal/issues" },
   { label: "Admin", to: "/portal/admin" },
-  { label: "Devices", to: "/portal/admin/devices" },
-  { label: "Announcements", to: "/portal/admin/announcements" },
-  { label: "Rent", to: "/portal/admin/rent" },
-  { label: "Investors", to: "/portal/admin/investors" },
-  { label: "Expenses", to: "/portal/admin/expenses" },
-  { label: "Financials", to: "/portal/admin/financials" },
-  { label: "Documents", to: "/portal/admin/documents" },
+  {
+    label: "Manage",
+    children: [
+      { label: "Onboarding", to: "/portal/admin/onboarding" },
+      { label: "Rent", to: "/portal/admin/rent" },
+      { label: "Documents", to: "/portal/admin/documents" },
+      { label: "Announcements", to: "/portal/admin/announcements" },
+      { label: "Devices", to: "/portal/admin/devices" },
+      { label: "Investors", to: "/portal/admin/investors" },
+      { label: "Expenses", to: "/portal/admin/expenses" },
+      { label: "Financials", to: "/portal/admin/financials" },
+    ],
+  },
 ];
 
 function getNavLinks(role) {
@@ -58,6 +64,43 @@ export default function PortalLayout({ children }) {
           {/* Nav */}
           <nav className="hidden sm:flex items-center gap-1 flex-1 overflow-x-auto">
             {navLinks.map((link) => {
+              if (link.children) {
+                // Dropdown menu for grouped links
+                const isChildActive = link.children.some(
+                  (c) => location.pathname === c.to
+                );
+                return (
+                  <div key={link.label} className="relative group">
+                    <button
+                      className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                        isChildActive
+                          ? "bg-primary text-primary-foreground"
+                          : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                      }`}
+                    >
+                      {link.label} ▾
+                    </button>
+                    <div className="absolute top-full left-0 mt-1 bg-card border rounded-lg shadow-lg py-1 min-w-[160px] hidden group-hover:block z-50">
+                      {link.children.map((child) => {
+                        const childActive = location.pathname === child.to;
+                        return (
+                          <Link
+                            key={child.to}
+                            to={child.to}
+                            className={`block px-3 py-1.5 text-sm transition-colors ${
+                              childActive
+                                ? "bg-accent font-medium text-foreground"
+                                : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                            }`}
+                          >
+                            {child.label}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              }
               const isActive = location.pathname === link.to;
               return (
                 <Link
@@ -88,9 +131,12 @@ export default function PortalLayout({ children }) {
           </div>
         </div>
 
-        {/* Mobile nav */}
+        {/* Mobile nav — flatten all links including children */}
         <nav className="sm:hidden flex items-center gap-1 overflow-x-auto px-4 pb-2">
-          {navLinks.map((link) => {
+          {navLinks.flatMap((link) => {
+            if (link.children) return link.children;
+            return [link];
+          }).map((link) => {
             const isActive = location.pathname === link.to;
             return (
               <Link
