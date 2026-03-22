@@ -21,7 +21,7 @@ function formatDate(dateStr) {
   });
 }
 
-export default function OnboardingTimeline({ currentStep, onboarding }) {
+export default function OnboardingTimeline({ currentStep, onboarding, onStepClick }) {
   const currentIndex = VISIBLE_STEPS.indexOf(currentStep);
 
   return (
@@ -63,8 +63,14 @@ export default function OnboardingTimeline({ currentStep, onboarding }) {
               ? formatDate(onboarding[completionField])
               : null;
 
+          const canClick = isDone && onStepClick && !isCurrent;
+
           return (
-            <li key={step} className="flex items-start gap-3 pb-6 last:pb-0">
+            <li
+              key={step}
+              className={`flex items-start gap-3 pb-6 last:pb-0 ${canClick ? "cursor-pointer hover:bg-[#eff4ff] rounded-lg -mx-2 px-2 py-1 transition-colors" : ""}`}
+              onClick={canClick ? () => onStepClick(step) : undefined}
+            >
               <div className={dotClass}>
                 {isDone ? (
                   <svg

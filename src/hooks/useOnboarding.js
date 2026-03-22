@@ -59,6 +59,51 @@ export function useOnboarding(profileId) {
   const hasDashboardAccess = DASHBOARD_ACCESS_STEPS.includes(currentStep);
   const needsOnboarding = !hasDashboardAccess;
 
+  // Check which steps are completed (have a completion timestamp)
+  const completionFields = {
+    PERSONAL_DETAILS: "personal_details_completed_at",
+    ID_VERIFICATION: "id_verification_completed_at",
+    SIGN_TA: "ta_signed_at",
+    DEPOSIT: "deposit_completed_at",
+    HOUSE_RULES: "house_rules_acknowledged_at",
+    MOVE_IN_CHECKLIST: "move_in_checklist_completed_at",
+  };
+
+  function isStepCompleted(step) {
+    const field = completionFields[step];
+    return field ? !!onboarding?.[field] : false;
+  }
+
+  const currentIndex = STEPS.indexOf(currentStep);
+  const canGoBack = currentIndex > 0;
+
+  async function goToStep(targetStep) {
+    if (!onboarding) return;
+    const targetIndex = STEPS.indexOf(targetStep);
+    // Can only go back to completed steps or forward to the current step
+    if (targetIndex > currentIndex) return;
+
+    const { data, error: updateError } = await supabase
+      .from("onboarding_progress")
+      .update({ current_step: targetStep, updated_at: new Date().toISOString() })
+      .eq("id", onboarding.id)
+      .select()
+      .single();
+
+    if (updateError) {
+      console.error("Error navigating step:", updateError);
+      throw updateError;
+    }
+    setOnboarding(data);
+    return data;
+  }
+
+  async function goBack() {
+    if (!canGoBack) return;
+    const prevStep = STEPS[currentIndex - 1];
+    return goToStep(prevStep);
+  }
+
   async function advanceStep(completionField) {
     if (!onboarding) return;
 
@@ -121,6 +166,10 @@ export function useOnboarding(profileId) {
     needsOnboarding,
     advanceStep,
     updateOnboarding,
+    goBack,
+    goToStep,
+    canGoBack,
+    isStepCompleted,
     refetch: fetchOnboarding,
   };
 }

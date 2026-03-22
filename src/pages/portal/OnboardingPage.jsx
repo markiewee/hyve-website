@@ -138,6 +138,10 @@ function OnboardingContent() {
     currentStep,
     advanceStep,
     updateOnboarding,
+    goBack,
+    goToStep,
+    canGoBack,
+    isStepCompleted,
     refetch,
   } = useOnboarding(profile?.id);
 
@@ -261,7 +265,13 @@ function OnboardingContent() {
                     const isPending = stepIdx > currentStepIndex;
 
                     return (
-                      <div key={step} className="flex items-start gap-3 py-2">
+                      <div
+                        key={step}
+                        className={`flex items-start gap-3 py-2 rounded-lg px-1 transition-colors ${
+                          isCompleted && !isCurrent ? "cursor-pointer hover:bg-[#eff4ff]" : ""
+                        }`}
+                        onClick={isCompleted && !isCurrent ? () => goToStep(step) : undefined}
+                      >
                         <div className="relative flex flex-col items-center">
                           <div
                             className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
@@ -382,6 +392,26 @@ function OnboardingContent() {
                   updateOnboarding={updateOnboarding}
                   refetch={refetch}
                 />
+
+                {/* Back / Forward navigation */}
+                {currentStep !== "ACTIVE" && (
+                  <div className="flex items-center justify-between mt-8 pt-6 border-t border-[#bbcac6]/20">
+                    {canGoBack ? (
+                      <button
+                        onClick={goBack}
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#bbcac6]/30 text-[#555f6f] font-['Manrope'] font-medium text-sm hover:bg-[#eff4ff] transition-colors"
+                      >
+                        <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+                        Back
+                      </button>
+                    ) : (
+                      <div />
+                    )}
+                    <p className="text-[10px] font-['Inter'] text-[#bbcac6] uppercase tracking-widest">
+                      Step {STEP_ORDER.indexOf(currentStep) + 1} of {STEP_ORDER.length - 1}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
