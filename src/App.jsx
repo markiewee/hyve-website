@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import './App.css';
 
@@ -45,7 +45,10 @@ import InvestorDashboardPage from './pages/portal/InvestorDashboardPage';
 import InvestorSignupPage from './pages/portal/InvestorSignupPage';
 import OnboardingPage from './pages/portal/OnboardingPage';
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const isPortal = location.pathname.startsWith('/portal');
+
   const [searchFilters, setSearchFilters] = useState({
     location: '',
     priceRange: [0, 2500],
@@ -54,10 +57,8 @@ function App() {
   });
 
   return (
-    <Router>
-      <AuthProvider>
       <div className="min-h-screen bg-background">
-        <Navbar />
+        {!isPortal && <Navbar />}
         <Routes>
           <Route 
             path="/" 
@@ -254,9 +255,17 @@ function App() {
             </div>
           } />
         </Routes>
-        <Footer />
-        <FloatingWhatsApp />
+        {!isPortal && <Footer />}
+        {!isPortal && <FloatingWhatsApp />}
       </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AuthProvider>
+        <AppContent />
       </AuthProvider>
     </Router>
   );
