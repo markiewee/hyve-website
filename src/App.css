@@ -42,38 +42,39 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: #ffffff;
-  --foreground: #1a1a1a;
+  --radius: 0.5rem;
+  /* Stitch Design System — "The Digital Sanctuary" */
+  --background: #f8f9ff;
+  --foreground: #121c2a;
   --card: #ffffff;
-  --card-foreground: #1a1a1a;
+  --card-foreground: #121c2a;
   --popover: #ffffff;
-  --popover-foreground: #1a1a1a;
-  --primary: #2d2d2d;
-  --primary-foreground: #fbfbfb;
-  --secondary: #f5f5f5;
-  --secondary-foreground: #2d2d2d;
-  --muted: #f5f5f5;
-  --muted-foreground: #737373;
-  --accent: #f5f5f5;
-  --accent-foreground: #2d2d2d;
-  --destructive: #dc2626;
-  --border: #e5e5e5;
-  --input: #e5e5e5;
-  --ring: #a3a3a3;
-  --chart-1: #e76f00;
-  --chart-2: #0d9488;
-  --chart-3: #334155;
-  --chart-4: #eab308;
-  --chart-5: #f59e0b;
-  --sidebar: #fbfbfb;
-  --sidebar-foreground: #1a1a1a;
-  --sidebar-primary: #2d2d2d;
-  --sidebar-primary-foreground: #fbfbfb;
-  --sidebar-accent: #f5f5f5;
-  --sidebar-accent-foreground: #2d2d2d;
-  --sidebar-border: #e5e5e5;
-  --sidebar-ring: #a3a3a3;
+  --popover-foreground: #121c2a;
+  --primary: #006b5f;
+  --primary-foreground: #ffffff;
+  --secondary: #eff4ff;
+  --secondary-foreground: #555f6f;
+  --muted: #eff4ff;
+  --muted-foreground: #6c7a77;
+  --accent: #e6eeff;
+  --accent-foreground: #121c2a;
+  --destructive: #ba1a1a;
+  --border: #bbcac6;
+  --input: #bbcac6;
+  --ring: #14b8a6;
+  --chart-1: #14b8a6;
+  --chart-2: #006a61;
+  --chart-3: #555f6f;
+  --chart-4: #71f8e4;
+  --chart-5: #4fdbc8;
+  --sidebar: #eff4ff;
+  --sidebar-foreground: #121c2a;
+  --sidebar-primary: #006b5f;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e6eeff;
+  --sidebar-accent-foreground: #121c2a;
+  --sidebar-border: #bbcac6;
+  --sidebar-ring: #14b8a6;
 }
 
 .dark {
@@ -116,6 +117,15 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Manrope', system-ui, sans-serif;
+  }
+  /* Stitch typography system */
+  h1, h2, h3, .font-display {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+  .font-data, .font-mono, table th, table td {
+    font-family: 'Inter', system-ui, sans-serif;
   }
 }
 
