@@ -1,12 +1,12 @@
-const { createClient } = require("@supabase/supabase-js");
-const crypto = require("crypto");
+import { createClient } from "@supabase/supabase-js";
+import crypto from "crypto";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
   process.env.IOT_SUPABASE_SERVICE_ROLE_KEY
 );
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }

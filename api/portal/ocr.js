@@ -1,5 +1,5 @@
-const { createClient } = require("@supabase/supabase-js");
-const Anthropic = require("@anthropic-ai/sdk").default;
+import { createClient } from "@supabase/supabase-js";
+import Anthropic from "@anthropic-ai/sdk";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -25,7 +25,7 @@ function buildPrompt(id_type) {
   }
 }
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }

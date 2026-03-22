@@ -1,5 +1,5 @@
-const { createClient } = require("@supabase/supabase-js");
-const Stripe = require("stripe");
+import { createClient } from "@supabase/supabase-js";
+import Stripe from "stripe";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -8,7 +8,7 @@ const supabase = createClient(
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }

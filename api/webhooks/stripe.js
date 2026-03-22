@@ -1,5 +1,5 @@
-const Stripe = require("stripe");
-const { createClient } = require("@supabase/supabase-js");
+import Stripe from "stripe";
+import { createClient } from "@supabase/supabase-js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -11,7 +11,7 @@ const supabase = createClient(
 
 // Disable Vercel's built-in body parser so we can read the raw body for
 // Stripe signature verification.
-module.exports.config = {
+export const config = {
   api: {
     bodyParser: false,
   },
@@ -26,7 +26,7 @@ async function getRawBody(req) {
   });
 }
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
