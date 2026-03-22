@@ -28,6 +28,7 @@ const ADMIN_NAV = [
   { label: "Investors", to: "/portal/admin/investors" },
   { label: "Expenses", to: "/portal/admin/expenses" },
   { label: "Financials", to: "/portal/admin/financials" },
+  { label: "Documents", to: "/portal/admin/documents" },
 ];
 
 function getNavLinks(role) {
