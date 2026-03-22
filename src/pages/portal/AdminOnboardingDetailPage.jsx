@@ -1,8 +1,9 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 import OnboardingTimeline from "../../components/portal/OnboardingTimeline";
+import SignatureCanvas from "../../components/portal/SignatureCanvas";
 import { Button } from "../../components/ui/button";
 import { STEPS, STEP_LABELS } from "../../hooks/useOnboarding";
 
@@ -193,6 +194,50 @@ export default function AdminOnboardingDetailPage() {
     setActionLoading(false);
   }
 
+  const adminSignatureRef = useRef(null);
+  const [counterSigning, setCounterSigning] = useState(false);
+
+  async function handleCounterSign() {
+    const sigData = adminSignatureRef.current?.getSignatureData();
+    if (!sigData) {
+      setMessage({ type: "error", text: "Please provide your signature before counter-signing." });
+      return;
+    }
+
+    setCounterSigning(true);
+    setMessage(null);
+
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const accessToken = sessionData?.session?.access_token;
+
+      const res = await fetch("/api/portal/counter-sign", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          signature_image_base64: sigData.split(",")[1] ?? sigData,
+          onboarding_id: id,
+        }),
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error ?? "Counter-signing failed");
+      }
+
+      setMessage({ type: "success", text: "Agreement fully executed. Tenant advanced to deposit step." });
+      await fetchData();
+    } catch (err) {
+      console.error("Counter-sign error:", err);
+      setMessage({ type: "error", text: err.message ?? "Something went wrong. Please try again." });
+    } finally {
+      setCounterSigning(false);
+    }
+  }
+
   async function handleOverrideStep() {
     if (!overrideStep) return;
     setActionLoading(true);
@@ -365,6 +410,102 @@ export default function AdminOnboardingDetailPage() {
             </div>
           </SectionCard>
 
+          {/* Counter-Sign — shown only when tenant has signed but admin hasn't yet */}
+          {onboarding.signing_status === "TENANT_SIGNED" && (
+            <SectionCard title="Counter-Sign Agreement">
+              <div className="space-y-4">
+                {/* Status badge */}
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500" />
+                  </span>
+                  <p className="text-sm text-amber-700 font-medium">
+                    Tenant has signed — waiting for your counter-signature
+                  </p>
+                </div>
+
+                {/* Tenant-signed PDF link */}
+                {onboarding.ta_signed_url && (
+                  <div>
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        const path = onboarding.ta_signed_url.includes("/tenant-documents/")
+                          ? onboarding.ta_signed_url.split("/tenant-documents/")[1].split("?")[0]
+                          : onboarding.ta_signed_url;
+                        const { data } = await supabase.storage
+                          .from("tenant-documents")
+                          .createSignedUrl(path, 3600);
+                        if (data?.signedUrl) window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+                      }}
+                      className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                      </svg>
+                      View tenant-signed document
+                    </button>
+                  </div>
+                )}
+
+                {/* Admin signature pad */}
+                <div>
+                  <p className="text-sm font-medium text-foreground mb-2">Your Signature</p>
+                  <SignatureCanvas signatureRef={adminSignatureRef} />
+                </div>
+
+                <Button
+                  onClick={handleCounterSign}
+                  disabled={counterSigning || actionLoading}
+                  className="w-full sm:w-auto bg-[#006b5f] hover:bg-[#005a50] text-white"
+                >
+                  {counterSigning ? "Executing…" : "Counter-Sign & Execute"}
+                </Button>
+              </div>
+            </SectionCard>
+          )}
+
+          {/* Fully executed — show confirmation */}
+          {onboarding.signing_status === "FULLY_EXECUTED" && (
+            <SectionCard title="Agreement Status">
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
+                  <svg className="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-green-800">Fully Executed</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    Tenant signed: {formatDateTime(onboarding.ta_signed_at)} ·
+                    Admin counter-signed: {formatDateTime(onboarding.admin_signed_at)}
+                  </p>
+                  {onboarding.admin_signed_url && (
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        const path = onboarding.admin_signed_url.includes("/tenant-documents/")
+                          ? onboarding.admin_signed_url.split("/tenant-documents/")[1].split("?")[0]
+                          : onboarding.admin_signed_url;
+                        const { data } = await supabase.storage
+                          .from("tenant-documents")
+                          .createSignedUrl(path, 3600);
+                        if (data?.signedUrl) window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+                      }}
+                      className="mt-2 inline-flex items-center gap-1.5 text-sm text-primary hover:underline font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download fully executed agreement
+                    </button>
+                  )}
+                </div>
+              </div>
+            </SectionCard>
+          )}
+
           {/* Set Deposit Amount */}
           <SectionCard title="Deposit Amount">
             <div className="flex items-center gap-3">
@@ -526,8 +667,28 @@ export default function AdminOnboardingDetailPage() {
                 </dd>
               </div>
               <div>
-                <dt className="text-muted-foreground">TA Signed At</dt>
+                <dt className="text-muted-foreground">Signing Status</dt>
+                <dd className="font-medium">
+                  <span
+                    className={`inline-flex px-1.5 py-0.5 rounded text-xs font-semibold ${
+                      onboarding.signing_status === "FULLY_EXECUTED"
+                        ? "bg-green-100 text-green-700"
+                        : onboarding.signing_status === "TENANT_SIGNED"
+                        ? "bg-amber-100 text-amber-700"
+                        : "bg-gray-100 text-gray-600"
+                    }`}
+                  >
+                    {onboarding.signing_status ?? "UNSIGNED"}
+                  </span>
+                </dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground">Tenant Signed At</dt>
                 <dd className="font-medium">{formatDateTime(onboarding.ta_signed_at)}</dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground">Admin Counter-Signed At</dt>
+                <dd className="font-medium">{formatDateTime(onboarding.admin_signed_at)}</dd>
               </div>
               <div>
                 <dt className="text-muted-foreground">Deposit Paid At</dt>

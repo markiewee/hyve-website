@@ -5,6 +5,7 @@ import { useRentPayments } from "../../hooks/useRentPayments";
 import PortalLayout from "../../components/portal/PortalLayout";
 import InvoiceCard from "../../components/portal/InvoiceCard";
 import RentPaymentCard from "../../components/portal/RentPaymentCard";
+import ReceiptModal from "../../components/portal/ReceiptModal";
 
 export default function BillingPage() {
   const { profile } = useAuth();
@@ -15,6 +16,7 @@ export default function BillingPage() {
 
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [receiptPayment, setReceiptPayment] = useState(null);
 
   useEffect(() => {
     if (!roomId) {
@@ -42,6 +44,13 @@ export default function BillingPage() {
   const totalOwed = rentPayments
     .filter((p) => p.status !== "PAID")
     .reduce((sum, p) => sum + (Number(p.amount_due) || 0), 0);
+
+  const tenantInfo = {
+    name: profile?.full_name ?? profile?.name ?? "Tenant",
+    email: profile?.email ?? null,
+    room: profile?.rooms?.unit_code ?? profile?.rooms?.name ?? "—",
+    property: profile?.properties?.name ?? null,
+  };
 
   return (
     <PortalLayout>
@@ -113,11 +122,22 @@ export default function BillingPage() {
         ) : (
           <div className="divide-y divide-[#bbcac6]/10">
             {rentPayments.map((payment) => (
-              <RentPaymentCard
-                key={payment.id}
-                payment={payment}
-                lateFeePerDay={lateFeePerDay}
-              />
+              <div key={payment.id} className="relative group">
+                <RentPaymentCard
+                  payment={payment}
+                  lateFeePerDay={lateFeePerDay}
+                />
+                {payment.status === "PAID" && (
+                  <div className="absolute right-8 top-1/2 -translate-y-1/2">
+                    <button
+                      onClick={() => setReceiptPayment({ ...payment, _type: "rent" })}
+                      className="text-xs font-medium text-[#006b5f] hover:underline whitespace-nowrap"
+                    >
+                      Receipt
+                    </button>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         )}
@@ -151,11 +171,31 @@ export default function BillingPage() {
         ) : (
           <div className="divide-y divide-[#bbcac6]/10">
             {invoices.map((invoice) => (
-              <InvoiceCard key={invoice.id} invoice={invoice} />
+              <div key={invoice.id} className="relative group">
+                <InvoiceCard invoice={invoice} />
+                {invoice.status === "PAID" && (
+                  <div className="absolute right-8 top-1/2 -translate-y-1/2">
+                    <button
+                      onClick={() => setReceiptPayment({ ...invoice, _type: "ac" })}
+                      className="text-xs font-medium text-[#006b5f] hover:underline whitespace-nowrap"
+                    >
+                      Receipt
+                    </button>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         )}
       </section>
+      {/* Receipt modal */}
+      {receiptPayment && (
+        <ReceiptModal
+          payment={receiptPayment}
+          tenantInfo={tenantInfo}
+          onClose={() => setReceiptPayment(null)}
+        />
+      )}
     </PortalLayout>
   );
 }
