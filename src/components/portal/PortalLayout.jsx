@@ -1,38 +1,39 @@
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { Button } from "../ui/button";
 
 const TENANT_NAV = [
-  { label: "Dashboard", to: "/portal/dashboard" },
-  { label: "Billing", to: "/portal/billing" },
-  { label: "Issues", to: "/portal/issues" },
+  { label: "Dashboard", to: "/portal/dashboard", icon: "dashboard" },
+  { label: "Billing", to: "/portal/billing", icon: "payments" },
+  { label: "Issues", to: "/portal/issues", icon: "build" },
 ];
 
 const HOUSE_CAPTAIN_NAV = [
-  { label: "Dashboard", to: "/portal/dashboard" },
-  { label: "Billing", to: "/portal/billing" },
-  { label: "Issues", to: "/portal/issues" },
-  { label: "Property Overview", to: "/portal/property" },
-  { label: "Tickets", to: "/portal/property/tickets" },
-  { label: "Tenants", to: "/portal/property/tenants" },
+  { label: "Dashboard", to: "/portal/dashboard", icon: "dashboard" },
+  { label: "Billing", to: "/portal/billing", icon: "payments" },
+  { label: "Issues", to: "/portal/issues", icon: "build" },
+  { label: "Property Overview", to: "/portal/property", icon: "apartment" },
+  { label: "Tickets", to: "/portal/property/tickets", icon: "confirmation_number" },
+  { label: "Tenants", to: "/portal/property/tenants", icon: "group" },
 ];
 
 const ADMIN_NAV = [
-  { label: "Dashboard", to: "/portal/dashboard" },
-  { label: "Billing", to: "/portal/billing" },
-  { label: "Issues", to: "/portal/issues" },
-  { label: "Admin", to: "/portal/admin" },
+  { label: "Dashboard", to: "/portal/dashboard", icon: "dashboard" },
+  { label: "Billing", to: "/portal/billing", icon: "payments" },
+  { label: "Issues", to: "/portal/issues", icon: "build" },
+  { label: "Admin", to: "/portal/admin", icon: "admin_panel_settings" },
   {
     label: "Manage",
+    icon: "manage_accounts",
     children: [
-      { label: "Onboarding", to: "/portal/admin/onboarding" },
-      { label: "Rent", to: "/portal/admin/rent" },
-      { label: "Documents", to: "/portal/admin/documents" },
-      { label: "Announcements", to: "/portal/admin/announcements" },
-      { label: "Devices", to: "/portal/admin/devices" },
-      { label: "Investors", to: "/portal/admin/investors" },
-      { label: "Expenses", to: "/portal/admin/expenses" },
-      { label: "Financials", to: "/portal/admin/financials" },
+      { label: "Onboarding", to: "/portal/admin/onboarding", icon: "how_to_reg" },
+      { label: "Rent", to: "/portal/admin/rent", icon: "receipt_long" },
+      { label: "Documents", to: "/portal/admin/documents", icon: "description" },
+      { label: "Announcements", to: "/portal/admin/announcements", icon: "campaign" },
+      { label: "Devices", to: "/portal/admin/devices", icon: "router" },
+      { label: "Investors", to: "/portal/admin/investors", icon: "trending_up" },
+      { label: "Expenses", to: "/portal/admin/expenses", icon: "account_balance" },
+      { label: "Financials", to: "/portal/admin/financials", icon: "bar_chart" },
     ],
   },
 ];
@@ -43,122 +44,223 @@ function getNavLinks(role) {
   return TENANT_NAV;
 }
 
+function NavLink({ link, location, onClick }) {
+  const isActive = location.pathname === link.to;
+  return (
+    <Link
+      to={link.to}
+      onClick={onClick}
+      className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 ${
+        isActive
+          ? "bg-white text-[#006b5f] font-bold rounded-l-full shadow-sm translate-x-0"
+          : "text-[#6c7a77] hover:bg-[#eff4ff] hover:translate-x-1"
+      }`}
+    >
+      <span
+        className="material-symbols-outlined text-[20px] shrink-0"
+        style={isActive ? { fontVariationSettings: "'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24" } : {}}
+      >
+        {link.icon}
+      </span>
+      <span className="font-['Manrope']">{link.label}</span>
+    </Link>
+  );
+}
+
+function AdminDropdown({ link, location, onLinkClick }) {
+  const isChildActive = link.children.some((c) => location.pathname === c.to);
+  const [open, setOpen] = useState(isChildActive);
+
+  return (
+    <div>
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 ${
+          isChildActive
+            ? "text-[#006b5f] font-bold"
+            : "text-[#6c7a77] hover:bg-[#eff4ff] hover:translate-x-1"
+        }`}
+      >
+        <span className="material-symbols-outlined text-[20px] shrink-0">{link.icon}</span>
+        <span className="font-['Manrope'] flex-1 text-left">{link.label}</span>
+        <span className="material-symbols-outlined text-[16px] transition-transform duration-200" style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}>
+          expand_more
+        </span>
+      </button>
+      {open && (
+        <div className="ml-4 space-y-0.5 border-l border-[#bbcac6]/30 pl-4 mb-1">
+          {link.children.map((child) => (
+            <NavLink key={child.to} link={child} location={location} onClick={onLinkClick} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Sidebar({ profile, navLinks, location, onLinkClick, signOut }) {
+  const unitCode = profile?.rooms?.unit_code ?? profile?.room_id ?? "";
+  const propertyName = profile?.properties?.name ?? profile?.rooms?.name ?? "Hyve";
+  const displayName = profile?.full_name ?? profile?.email ?? "Resident";
+  const firstName = displayName.split(" ")[0];
+
+  return (
+    <aside className="h-screen w-64 fixed left-0 top-0 bg-slate-50 flex flex-col py-8 pl-4 z-40 border-r border-[#bbcac6]/20">
+      {/* Logo + user profile */}
+      <div className="mb-10 px-4">
+        <h1 className="font-['Plus_Jakarta_Sans'] font-black text-2xl text-[#006b5f] tracking-tighter mb-8">
+          Hyve
+        </h1>
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#006b5f] font-bold text-sm shrink-0">
+            {firstName.slice(0, 2).toUpperCase()}
+          </div>
+          <div className="min-w-0">
+            <p className="font-['Manrope'] font-bold text-[#121c2a] text-sm truncate">
+              Welcome, {firstName}
+            </p>
+            <p className="font-['Manrope'] text-[#6c7a77] text-xs truncate">
+              {unitCode ? `${unitCode} · ` : ""}{propertyName}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Nav links */}
+      <nav className="flex-1 space-y-1 overflow-y-auto scrollbar-hide pr-0">
+        {navLinks.map((link) => {
+          if (link.children) {
+            return (
+              <AdminDropdown
+                key={link.label}
+                link={link}
+                location={location}
+                onLinkClick={onLinkClick}
+              />
+            );
+          }
+          return (
+            <NavLink key={link.to} link={link} location={location} onClick={onLinkClick} />
+          );
+        })}
+      </nav>
+
+      {/* CTA + footer */}
+      <div className="mt-auto pr-4 space-y-4 pt-4">
+        <Link
+          to="/portal/issues/new"
+          onClick={onLinkClick}
+          className="w-full py-3 px-4 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+        >
+          <span className="material-symbols-outlined text-[18px]">support_agent</span>
+          Quick Support
+        </Link>
+        <div className="space-y-1">
+          <a
+            href="mailto:hello@hyve.sg"
+            className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#006b5f] text-sm transition-colors"
+          >
+            <span className="material-symbols-outlined text-[18px]">help</span>
+            <span className="font-['Manrope']">Help</span>
+          </a>
+          <button
+            onClick={signOut}
+            className="w-full flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-red-500 text-sm transition-colors"
+          >
+            <span className="material-symbols-outlined text-[18px]">logout</span>
+            <span className="font-['Manrope']">Logout</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+function MobileBottomNav({ navLinks, location }) {
+  const flatLinks = navLinks.flatMap((link) =>
+    link.children ? link.children.slice(0, 1) : [link]
+  ).slice(0, 5);
+
+  return (
+    <div className="md:hidden fixed bottom-0 w-full bg-white border-t border-[#bbcac6]/20 px-6 py-3 flex justify-between items-center z-50">
+      {flatLinks.map((link) => {
+        const isActive = location.pathname === link.to;
+        return (
+          <Link
+            key={link.to}
+            to={link.to}
+            className={`flex flex-col items-center gap-1 ${isActive ? "text-[#006b5f]" : "text-[#6c7a77]"}`}
+          >
+            <span
+              className="material-symbols-outlined text-[22px]"
+              style={isActive ? { fontVariationSettings: "'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24" } : {}}
+            >
+              {link.icon}
+            </span>
+            <span className="text-[10px] font-['Inter'] font-medium">{link.label}</span>
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function PortalLayout({ children }) {
   const { profile, signOut } = useAuth();
   const location = useLocation();
   const navLinks = getNavLinks(profile?.role);
-  const unitCode = profile?.rooms?.unit_code ?? profile?.room_id ?? "";
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
-      <header className="border-b bg-card">
-        <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
-          <Link
-            to="/portal/dashboard"
-            className="text-base font-semibold text-foreground hover:text-primary transition-colors"
-          >
-            Hyve Portal
-          </Link>
+    <div className="min-h-screen bg-[#f8f9ff]">
+      {/* Desktop Sidebar */}
+      <div className="hidden md:block">
+        <Sidebar
+          profile={profile}
+          navLinks={navLinks}
+          location={location}
+          onLinkClick={() => {}}
+          signOut={signOut}
+        />
+      </div>
 
-          {/* Nav */}
-          <nav className="hidden sm:flex items-center gap-1 flex-1 overflow-x-auto">
-            {navLinks.map((link) => {
-              if (link.children) {
-                // Dropdown menu for grouped links
-                const isChildActive = link.children.some(
-                  (c) => location.pathname === c.to
-                );
-                return (
-                  <div key={link.label} className="relative group">
-                    <button
-                      className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                        isChildActive
-                          ? "bg-primary text-primary-foreground"
-                          : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                      }`}
-                    >
-                      {link.label} ▾
-                    </button>
-                    <div className="absolute top-full left-0 mt-1 bg-card border rounded-lg shadow-lg py-1 min-w-[160px] hidden group-hover:block z-50">
-                      {link.children.map((child) => {
-                        const childActive = location.pathname === child.to;
-                        return (
-                          <Link
-                            key={child.to}
-                            to={child.to}
-                            className={`block px-3 py-1.5 text-sm transition-colors ${
-                              childActive
-                                ? "bg-accent font-medium text-foreground"
-                                : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                            }`}
-                          >
-                            {child.label}
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              }
-              const isActive = location.pathname === link.to;
-              return (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                    isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-          </nav>
+      {/* Mobile: hamburger button */}
+      <button
+        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-white rounded-xl shadow-sm border border-[#bbcac6]/20 flex items-center justify-center text-[#006b5f]"
+        onClick={() => setSidebarOpen(true)}
+        aria-label="Open menu"
+      >
+        <span className="material-symbols-outlined text-[22px]">menu</span>
+      </button>
 
-          {/* Right side: unit code + sign out */}
-          <div className="flex items-center gap-3 shrink-0">
-            {unitCode && (
-              <span className="text-xs font-mono bg-secondary text-secondary-foreground px-2 py-1 rounded">
-                {unitCode}
-              </span>
-            )}
-            <Button variant="outline" size="sm" onClick={signOut}>
-              Sign Out
-            </Button>
+      {/* Mobile sidebar overlay */}
+      {sidebarOpen && (
+        <>
+          <div
+            className="md:hidden fixed inset-0 bg-black/30 z-40"
+            onClick={() => setSidebarOpen(false)}
+          />
+          <div className="md:hidden fixed inset-y-0 left-0 z-50 w-64">
+            <Sidebar
+              profile={profile}
+              navLinks={navLinks}
+              location={location}
+              onLinkClick={() => setSidebarOpen(false)}
+              signOut={() => { setSidebarOpen(false); signOut(); }}
+            />
           </div>
-        </div>
-
-        {/* Mobile nav — flatten all links including children */}
-        <nav className="sm:hidden flex items-center gap-1 overflow-x-auto px-4 pb-2">
-          {navLinks.flatMap((link) => {
-            if (link.children) return link.children;
-            return [link];
-          }).map((link) => {
-            const isActive = location.pathname === link.to;
-            return (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                  isActive
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                }`}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
-        </nav>
-      </header>
+        </>
+      )}
 
       {/* Main content */}
-      <main className="flex-1">
-        <div className="max-w-5xl mx-auto px-4 py-8">{children}</div>
+      <main className="md:ml-64 min-h-screen">
+        <div className="px-6 py-8 lg:px-12 lg:py-10 pb-24 md:pb-10">
+          {children}
+        </div>
       </main>
+
+      {/* Mobile bottom nav */}
+      <MobileBottomNav navLinks={navLinks} location={location} />
     </div>
   );
 }
