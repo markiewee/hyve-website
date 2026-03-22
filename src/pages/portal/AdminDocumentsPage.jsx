@@ -167,6 +167,14 @@ export default function AdminDocumentsPage() {
   useEffect(() => {
     fetchTemplates();
     fetchTenants();
+
+    // Suppress oklch CSS parse warnings from html2pdf/html2canvas
+    const origConsoleError = console.error;
+    console.error = (...args) => {
+      if (typeof args[0] === 'string' && args[0].includes('oklch')) return;
+      origConsoleError.apply(console, args);
+    };
+    return () => { console.error = origConsoleError; };
   }, [fetchTemplates, fetchTenants]);
 
   // ── Editor helpers ───────────────────────────────────────────
