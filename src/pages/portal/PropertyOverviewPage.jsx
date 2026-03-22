@@ -4,12 +4,6 @@ import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 import AcStatusIndicator from "../../components/portal/AcStatusIndicator";
 import UsageProgressBar from "../../components/portal/UsageProgressBar";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../../components/ui/card";
 
 function getCurrentMonthRange() {
   const now = new Date();
@@ -33,7 +27,6 @@ export default function PropertyOverviewPage() {
     }
 
     async function fetchRooms() {
-      // Fetch all rooms for this property
       const { data: roomData, error: roomError } = await supabase
         .from("rooms")
         .select("id, name, unit_code")
@@ -54,7 +47,6 @@ export default function PropertyOverviewPage() {
       const roomIds = roomData.map((r) => r.id);
       const { start, end } = getCurrentMonthRange();
 
-      // Fetch monthly AC usage for all rooms
       const { data: usageData } = await supabase
         .from("ac_monthly_usage")
         .select("room_id, total_hours")
@@ -62,7 +54,6 @@ export default function PropertyOverviewPage() {
         .gte("period_start", start)
         .lte("period_start", end);
 
-      // Fetch device status for all rooms
       const { data: deviceData } = await supabase
         .from("device_status")
         .select("room_id, ac_state")
@@ -84,7 +75,6 @@ export default function PropertyOverviewPage() {
         acState: deviceMap[room.id] ?? null,
       }));
 
-      // Sort by usage, highest first
       enriched.sort((a, b) => b.totalHours - a.totalHours);
 
       setRooms(enriched);
@@ -94,45 +84,105 @@ export default function PropertyOverviewPage() {
     fetchRooms();
   }, [propertyId]);
 
+  const acOnCount = rooms.filter((r) => r.acState === "on" || r.acState === "cool").length;
+  const totalHoursAll = rooms.reduce((sum, r) => sum + r.totalHours, 0);
+
   return (
     <PortalLayout>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-foreground">Property Overview</h1>
+      {/* Page header */}
+      <div className="mb-10">
+        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+          Property Overview
+        </h1>
         {propertyName && (
-          <p className="text-muted-foreground text-sm mt-1">{propertyName}</p>
+          <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">{propertyName}</p>
         )}
       </div>
 
+      {/* Stat cards */}
+      {!loading && (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10">
+          <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Total Rooms</p>
+            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">{rooms.length}</p>
+          </div>
+          <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">AC Running</p>
+            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-blue-600">{acOnCount}</p>
+          </div>
+          <div className="bg-[#006b5f] rounded-2xl p-6">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#71f8e4]/80 font-bold mb-3">Total AC Hours</p>
+            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-white">
+              {totalHoursAll.toFixed(0)}
+              <span className="text-base font-['Manrope'] font-normal text-white/70 ml-1">h</span>
+            </p>
+          </div>
+          <div className="bg-[#ffdad6]/30 rounded-2xl p-6 border border-[#ba1a1a]/10">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#ba1a1a] font-bold mb-3">Alerts</p>
+            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">0</p>
+          </div>
+        </div>
+      )}
+
+      {/* Room grid */}
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="border rounded-lg p-4 space-y-3">
-              <div className="h-5 w-24 bg-gray-100 animate-pulse rounded" />
-              <div className="h-4 w-32 bg-gray-100 animate-pulse rounded" />
-              <div className="h-2 w-full bg-gray-100 animate-pulse rounded-full" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="bg-white rounded-2xl p-5 border border-[#bbcac6]/15 shadow-sm space-y-4">
+              <div className="flex justify-between items-start">
+                <div className="space-y-2">
+                  <div className="h-5 w-32 bg-[#eff4ff] animate-pulse rounded" />
+                  <div className="h-3 w-20 bg-[#eff4ff] animate-pulse rounded" />
+                </div>
+                <div className="h-6 w-12 bg-[#eff4ff] animate-pulse rounded" />
+              </div>
+              <div className="h-1.5 w-full bg-[#eff4ff] animate-pulse rounded-full" />
             </div>
           ))}
         </div>
       ) : rooms.length === 0 ? (
-        <p className="text-sm text-muted-foreground">No rooms found for this property.</p>
+        <div className="bg-white rounded-2xl p-12 border border-[#bbcac6]/15 shadow-sm text-center">
+          <p className="text-[#6c7a77] font-['Manrope'] text-sm">No rooms found for this property.</p>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {rooms.map((room) => (
-            <Card key={room.id}>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base flex items-center justify-between">
-                  <span>{room.name}</span>
-                  <span className="text-xs font-mono bg-muted text-muted-foreground px-2 py-0.5 rounded">
-                    {room.unit_code}
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <AcStatusIndicator status={room.acState} />
-                <UsageProgressBar totalHours={room.totalHours} />
-              </CardContent>
-            </Card>
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {rooms.map((room) => {
+            const acOn = room.acState === "on" || room.acState === "cool";
+            return (
+              <div
+                key={room.id}
+                className="bg-white rounded-2xl p-5 border border-[#bbcac6]/10 hover:border-[#006b5f]/30 transition-all group shadow-sm"
+              >
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a] group-hover:text-[#006b5f] transition-colors">
+                      {room.name}
+                    </h4>
+                    <span className="font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#006b5f] px-2 py-0.5 rounded">
+                      {room.unit_code}
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <span className={`material-symbols-outlined text-[22px] ${acOn ? "text-blue-500" : "text-[#bbcac6]"}`}>
+                      ac_unit
+                    </span>
+                    <p className={`text-[10px] font-bold ${acOn ? "text-blue-500" : "text-[#bbcac6]"}`}>
+                      {acOn ? "ON" : "OFF"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <AcStatusIndicator status={room.acState} />
+                  <UsageProgressBar totalHours={room.totalHours} />
+                  <div className="flex justify-between text-xs font-['Inter']">
+                    <span className="text-[#6c7a77]">Monthly Usage</span>
+                    <span className="font-bold text-[#121c2a]">{room.totalHours.toFixed(1)}h</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </PortalLayout>

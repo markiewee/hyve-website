@@ -1,10 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
 
 const EXPENSE_CATEGORIES = [
   "MASTER_LEASE",
@@ -19,14 +15,16 @@ const EXPENSE_CATEGORIES = [
 
 const CATEGORY_BADGE = {
   MASTER_LEASE: "bg-blue-100 text-blue-700",
-  UTILITIES: "bg-yellow-100 text-yellow-700",
+  UTILITIES: "bg-amber-100 text-amber-700",
   MAINTENANCE: "bg-orange-100 text-orange-700",
-  CLEANING: "bg-teal-100 text-teal-700",
+  CLEANING: "bg-[#d1fae5] text-[#065f46]",
   INSURANCE: "bg-purple-100 text-purple-700",
   MANAGEMENT_FEE: "bg-indigo-100 text-indigo-700",
   MARKETING: "bg-pink-100 text-pink-700",
-  SUPPLIES: "bg-gray-100 text-gray-700",
-  OTHER: "bg-gray-100 text-gray-600",
+  SUPPLIES: "bg-[#e6eeff] text-[#555f6f]",
+  STAFF: "bg-violet-100 text-violet-700",
+  PLATFORM_FEES: "bg-cyan-100 text-cyan-700",
+  OTHER: "bg-[#eff4ff] text-[#6c7a77]",
 };
 
 function formatSGD(amount) {
@@ -53,7 +51,6 @@ export default function AdminExpensesPage() {
   const [expenses, setExpenses] = useState([]);
   const [loadingExpenses, setLoadingExpenses] = useState(false);
 
-  // Add expense form
   const [form, setForm] = useState({
     category: EXPENSE_CATEGORIES[0],
     description: "",
@@ -139,7 +136,6 @@ export default function AdminExpensesPage() {
     if (!selectedProperty) return;
     setCopying(true);
 
-    // Calculate previous month
     const [year, month] = selectedMonth.split("-").map(Number);
     const prevDate = new Date(year, month - 2, 1);
     const prevMonthFirst = `${prevDate.getFullYear()}-${String(prevDate.getMonth() + 1).padStart(2, "0")}-01`;
@@ -174,24 +170,55 @@ export default function AdminExpensesPage() {
   }
 
   const total = expenses.reduce((sum, e) => sum + Number(e.amount ?? 0), 0);
+  const recurringTotal = expenses
+    .filter((e) => e.is_recurring)
+    .reduce((sum, e) => sum + Number(e.amount ?? 0), 0);
 
   return (
     <PortalLayout>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-foreground">Expenses</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Track and manage property expenses by month.
+      {/* Page header */}
+      <div className="mb-10">
+        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+          Expense Tracking
+        </h1>
+        <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
+          Log and review property expenses by month.
         </p>
       </div>
 
-      {/* Selectors */}
-      <Card className="mb-6">
-        <CardContent className="pt-4 pb-4">
-          <div className="flex flex-col sm:flex-row gap-3">
-            <div className="flex-1 flex flex-col gap-1.5">
-              <Label>Property</Label>
+      {/* Metric cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Total Expenses</p>
+          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">
+            {formatSGD(total)}
+          </p>
+        </div>
+        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Recurring</p>
+          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#006b5f]">
+            {formatSGD(recurringTotal)}
+          </p>
+        </div>
+        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Line Items</p>
+          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">
+            {expenses.length}
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left: expense form + selectors */}
+        <div className="lg:col-span-5 space-y-6">
+          {/* Selectors */}
+          <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm space-y-4">
+            <div>
+              <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                Property
+              </label>
               <select
-                className="w-full text-sm border border-border rounded-md px-3 py-2 bg-background"
+                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
                 value={selectedProperty}
                 onChange={(e) => setSelectedProperty(e.target.value)}
               >
@@ -202,145 +229,53 @@ export default function AdminExpensesPage() {
                 ))}
               </select>
             </div>
-            <div className="flex-1 flex flex-col gap-1.5">
-              <Label>Month</Label>
-              <Input
+            <div>
+              <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                Month
+              </label>
+              <input
                 type="month"
                 value={selectedMonth}
                 onChange={(e) => setSelectedMonth(e.target.value)}
+                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
               />
             </div>
-            <div className="flex items-end">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleCopyLastMonth}
-                disabled={copying || !selectedProperty}
-              >
-                {copying ? "Copying…" : "Copy Last Month's Recurring"}
-              </Button>
-            </div>
+            <button
+              onClick={handleCopyLastMonth}
+              disabled={copying || !selectedProperty}
+              className="w-full py-3 border border-[#bbcac6]/30 rounded-xl font-['Manrope'] font-bold text-sm text-[#555f6f] hover:bg-[#eff4ff] disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+            >
+              <span className="material-symbols-outlined text-[18px]">content_copy</span>
+              {copying ? "Copying…" : "Copy Last Month's Recurring"}
+            </button>
           </div>
-        </CardContent>
-      </Card>
 
-      {/* Existing expenses */}
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle className="text-base">Expenses for Month</CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
-          {loadingExpenses ? (
-            <div className="p-6 space-y-3">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="h-8 bg-gray-100 animate-pulse rounded" />
-              ))}
-            </div>
-          ) : expenses.length === 0 ? (
-            <p className="text-sm text-muted-foreground p-6">
-              No expenses recorded for this property/month.
-            </p>
-          ) : (
-            <>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead className="bg-muted/50 border-b border-border">
-                    <tr>
-                      <th className="text-left px-4 py-3 font-medium text-muted-foreground">
-                        Category
-                      </th>
-                      <th className="text-left px-4 py-3 font-medium text-muted-foreground">
-                        Description
-                      </th>
-                      <th className="text-right px-4 py-3 font-medium text-muted-foreground">
-                        Amount
-                      </th>
-                      <th className="text-center px-4 py-3 font-medium text-muted-foreground">
-                        Recurring
-                      </th>
-                      <th className="px-4 py-3" />
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-border">
-                    {expenses.map((e) => {
-                      const badge = CATEGORY_BADGE[e.category] ?? CATEGORY_BADGE.OTHER;
-                      return (
-                        <tr key={e.id} className="hover:bg-muted/30 transition-colors">
-                          <td className="px-4 py-3">
-                            <span
-                              className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${badge}`}
-                            >
-                              {e.category}
-                            </span>
-                          </td>
-                          <td className="px-4 py-3 text-muted-foreground">
-                            {e.description || "—"}
-                          </td>
-                          <td className="px-4 py-3 text-right tabular-nums font-medium">
-                            {formatSGD(e.amount)}
-                          </td>
-                          <td className="px-4 py-3 text-center">
-                            {e.is_recurring ? (
-                              <span className="text-xs text-green-600 font-medium">Yes</span>
-                            ) : (
-                              <span className="text-xs text-muted-foreground">—</span>
-                            )}
-                          </td>
-                          <td className="px-4 py-3 text-right">
-                            <button
-                              onClick={() => handleDelete(e.id)}
-                              className="text-xs text-red-600 hover:text-red-700 hover:underline"
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                  <tfoot className="border-t border-border bg-muted/30">
-                    <tr>
-                      <td colSpan={2} className="px-4 py-3 text-sm font-semibold text-right">
-                        Total
-                      </td>
-                      <td className="px-4 py-3 text-right font-bold tabular-nums">
-                        {formatSGD(total)}
-                      </td>
-                      <td colSpan={2} />
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-            </>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Add Expense */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Add Expense</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleAdd} className="space-y-3">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="flex flex-col gap-1.5">
-                <Label>Category</Label>
+          {/* Add expense form */}
+          <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
+            <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-5 flex items-center gap-2">
+              <span className="material-symbols-outlined text-[#006b5f] text-[20px]">add_circle</span>
+              Log Expense
+            </h2>
+            <form onSubmit={handleAdd} className="space-y-4">
+              <div>
+                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                  Category
+                </label>
                 <select
-                  className="w-full text-sm border border-border rounded-md px-3 py-2 bg-background"
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
                   value={form.category}
                   onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
                 >
                   {EXPENSE_CATEGORIES.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
+                    <option key={c} value={c}>{c}</option>
                   ))}
                 </select>
               </div>
-              <div className="flex flex-col gap-1.5">
-                <Label>Amount (SGD)</Label>
-                <Input
+              <div>
+                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                  Amount (SGD)
+                </label>
+                <input
                   type="number"
                   min="0"
                   step="0.01"
@@ -348,37 +283,135 @@ export default function AdminExpensesPage() {
                   value={form.amount}
                   onChange={(e) => setForm((f) => ({ ...f, amount: e.target.value }))}
                   required
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
                 />
               </div>
+              <div>
+                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                  Description
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Monthly master lease payment"
+                  value={form.description}
+                  onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                />
+              </div>
+              <div className="flex items-center gap-3 py-1">
+                <input
+                  id="is-recurring"
+                  type="checkbox"
+                  checked={form.is_recurring}
+                  onChange={(e) => setForm((f) => ({ ...f, is_recurring: e.target.checked }))}
+                  className="rounded border-[#bbcac6] text-[#006b5f] focus:ring-[#14b8a6] w-4 h-4"
+                />
+                <label htmlFor="is-recurring" className="font-['Manrope'] text-sm text-[#555f6f] cursor-pointer font-medium">
+                  Recurring expense (copy to next month)
+                </label>
+              </div>
+              <button
+                type="submit"
+                disabled={adding || !selectedProperty}
+                className="w-full py-4 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+              >
+                <span className="material-symbols-outlined text-[18px]">add</span>
+                {adding ? "Adding…" : "Add Expense"}
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* Right: expenses table */}
+        <div className="lg:col-span-7">
+          <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
+            <div className="px-6 py-5 border-b border-[#bbcac6]/15 flex items-center justify-between">
+              <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
+                Expenses for Month
+              </h2>
+              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
+                {expenses.length} items
+              </span>
             </div>
-            <div className="flex flex-col gap-1.5">
-              <Label>Description</Label>
-              <Input
-                placeholder="e.g. Monthly master lease payment"
-                value={form.description}
-                onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-              />
-            </div>
-            <div className="flex items-center gap-2">
-              <input
-                id="is-recurring"
-                type="checkbox"
-                checked={form.is_recurring}
-                onChange={(e) =>
-                  setForm((f) => ({ ...f, is_recurring: e.target.checked }))
-                }
-                className="rounded border-gray-300"
-              />
-              <Label htmlFor="is-recurring" className="cursor-pointer">
-                Recurring expense (copy to next month)
-              </Label>
-            </div>
-            <Button type="submit" disabled={adding || !selectedProperty}>
-              {adding ? "Adding…" : "Add Expense"}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+
+            {loadingExpenses ? (
+              <div className="divide-y divide-[#bbcac6]/10">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="px-6 py-4 flex items-center justify-between">
+                    <div className="space-y-2">
+                      <div className="h-4 w-20 bg-[#eff4ff] animate-pulse rounded" />
+                      <div className="h-3 w-32 bg-[#eff4ff] animate-pulse rounded" />
+                    </div>
+                    <div className="h-4 w-16 bg-[#eff4ff] animate-pulse rounded" />
+                  </div>
+                ))}
+              </div>
+            ) : expenses.length === 0 ? (
+              <div className="p-8 text-center">
+                <p className="text-[#6c7a77] font-['Manrope'] text-sm">
+                  No expenses recorded for this property/month.
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className="divide-y divide-[#bbcac6]/10">
+                  {expenses.map((e) => {
+                    const badge = CATEGORY_BADGE[e.category] ?? CATEGORY_BADGE.OTHER;
+                    return (
+                      <div key={e.id} className="px-6 py-4 flex items-center justify-between hover:bg-[#f8f9ff] transition-colors">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest shrink-0 ${badge}`}>
+                            {e.category}
+                          </span>
+                          <span className="font-['Manrope'] text-sm text-[#6c7a77] truncate">
+                            {e.description || "—"}
+                          </span>
+                          {e.is_recurring && (
+                            <span className="material-symbols-outlined text-[14px] text-[#006b5f] shrink-0" title="Recurring">
+                              autorenew
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-3 shrink-0 ml-4">
+                          <span className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a] tabular-nums">
+                            {formatSGD(e.amount)}
+                          </span>
+                          <button
+                            onClick={() => handleDelete(e.id)}
+                            className="material-symbols-outlined text-[18px] text-[#bbcac6] hover:text-[#ba1a1a] transition-colors"
+                          >
+                            delete
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Total footer */}
+                <div className="px-6 py-4 bg-[#eff4ff] flex items-center justify-between border-t border-[#bbcac6]/15">
+                  <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold">Total</span>
+                  <span className="font-['Plus_Jakarta_Sans'] font-extrabold text-[#121c2a]">
+                    {formatSGD(total)}
+                  </span>
+                </div>
+
+                {/* Recurring audit banner */}
+                {expenses.filter((e) => e.is_recurring).length > 0 && (
+                  <div className="bg-[#006b5f] px-6 py-4 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <span className="material-symbols-outlined text-[#71f8e4] text-[20px]">autorenew</span>
+                      <span className="font-['Manrope'] text-white text-sm font-medium">
+                        {expenses.filter((e) => e.is_recurring).length} recurring expense{expenses.filter((e) => e.is_recurring).length !== 1 ? "s" : ""} — {formatSGD(recurringTotal)}/month
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+      </div>
     </PortalLayout>
   );
 }

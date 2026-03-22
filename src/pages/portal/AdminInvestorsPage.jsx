@@ -1,11 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
-import { Alert, AlertDescription } from "../../components/ui/alert";
 
 function formatSGD(amount) {
   if (amount == null) return "—";
@@ -14,11 +9,6 @@ function formatSGD(amount) {
     maximumFractionDigits: 2,
   })}`;
 }
-
-const STATUS_BADGE = {
-  true: "bg-green-100 text-green-700",
-  false: "bg-gray-100 text-gray-500",
-};
 
 const INVITE_BASE_URL =
   typeof window !== "undefined"
@@ -30,17 +20,14 @@ export default function AdminInvestorsPage() {
   const [loading, setLoading] = useState(true);
   const [properties, setProperties] = useState([]);
   const [expandedId, setExpandedId] = useState(null);
-  const [investorInvestments, setInvestorInvestments] = useState({});
 
-  // Invite form
   const [inviteName, setInviteName] = useState("");
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviting, setInviting] = useState(false);
   const [inviteError, setInviteError] = useState(null);
   const [inviteUrl, setInviteUrl] = useState(null);
 
-  // Add investment form
-  const [addInvForm, setAddInvForm] = useState({}); // keyed by investor id
+  const [addInvForm, setAddInvForm] = useState({});
 
   const fetchInvestors = useCallback(async () => {
     const { data, error } = await supabase
@@ -115,7 +102,6 @@ export default function AdminInvestorsPage() {
 
     const capitalNum = Number(capital);
 
-    // Get all existing investors for this property
     const { data: existing } = await supabase
       .from("investments")
       .select("id, investor_id, capital_contributed")
@@ -127,7 +113,6 @@ export default function AdminInvestorsPage() {
       0
     ) + capitalNum;
 
-    // Insert new investment
     const { error: insertError } = await supabase.from("investments").insert({
       investor_id: investorId,
       property_id: propertyId,
@@ -140,212 +125,281 @@ export default function AdminInvestorsPage() {
       return;
     }
 
-    // Recalculate share_percentage for all investors in this property
     const updatedList = [
       ...existingList,
       { investor_id: investorId, capital_contributed: capitalNum },
     ];
 
     for (const inv of updatedList) {
-      const share =
-        totalCapital > 0
-          ? (Number(inv.capital_contributed) / totalCapital) * 100
-          : 0;
+      const share = totalCapital > 0 ? (Number(inv.capital_contributed) / totalCapital) * 100 : 0;
       if (inv.id) {
-        await supabase
-          .from("investments")
-          .update({ share_percentage: share })
-          .eq("id", inv.id);
+        await supabase.from("investments").update({ share_percentage: share }).eq("id", inv.id);
       }
     }
 
-    // Reset form and refetch
     setAddInvForm((prev) => ({ ...prev, [investorId]: {} }));
     fetchInvestors();
   }
 
+  const totalCapitalAll = investors.reduce(
+    (sum, inv) => sum + (inv.investments ?? []).reduce((s, i) => s + Number(i.capital_contributed ?? 0), 0),
+    0
+  );
+  const activeCount = investors.filter((i) => i.is_active).length;
+
   return (
     <PortalLayout>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-foreground">Investors</h1>
-        <p className="text-sm text-muted-foreground mt-1">
+      {/* Page header */}
+      <div className="mb-10">
+        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+          Investor Management
+        </h1>
+        <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
           Manage investor profiles, track capital, and send invitations.
         </p>
       </div>
 
-      {/* Invite Investor */}
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle className="text-base">Invite Investor</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleInvite} className="flex flex-col sm:flex-row gap-3">
-            <div className="flex-1 flex flex-col gap-1.5">
-              <Label htmlFor="inv-name">Full Name</Label>
-              <Input
-                id="inv-name"
-                value={inviteName}
-                onChange={(e) => setInviteName(e.target.value)}
-                placeholder="Jane Tan"
-                required
-              />
-            </div>
-            <div className="flex-1 flex flex-col gap-1.5">
-              <Label htmlFor="inv-email">Email</Label>
-              <Input
-                id="inv-email"
-                type="email"
-                value={inviteEmail}
-                onChange={(e) => setInviteEmail(e.target.value)}
-                placeholder="jane@example.com"
-                required
-              />
-            </div>
-            <div className="flex items-end">
-              <Button type="submit" disabled={inviting}>
-                {inviting ? "Sending…" : "Send Invite"}
-              </Button>
-            </div>
-          </form>
+      {/* Summary stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Total Investors</p>
+          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">{investors.length}</p>
+        </div>
+        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Active</p>
+          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#006b5f]">{activeCount}</p>
+        </div>
+        <div className="bg-[#006b5f] rounded-2xl p-6">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#71f8e4]/80 font-bold mb-3">Total Capital</p>
+          <p className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-white">
+            {formatSGD(totalCapitalAll)}
+          </p>
+        </div>
+      </div>
 
-          {inviteError && (
-            <Alert variant="destructive" className="mt-3">
-              <AlertDescription>{inviteError}</AlertDescription>
-            </Alert>
-          )}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left: invite form */}
+        <div className="lg:col-span-4 space-y-6">
+          <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
+            <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-5 flex items-center gap-2">
+              <span className="material-symbols-outlined text-[#006b5f] text-[20px]">person_add</span>
+              Invite Investor
+            </h2>
+            <form onSubmit={handleInvite} className="space-y-4">
+              <div>
+                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  value={inviteName}
+                  onChange={(e) => setInviteName(e.target.value)}
+                  placeholder="Jane Tan"
+                  required
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                />
+              </div>
+              <div>
+                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={inviteEmail}
+                  onChange={(e) => setInviteEmail(e.target.value)}
+                  placeholder="jane@example.com"
+                  required
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                />
+              </div>
 
-          {inviteUrl && (
-            <div className="mt-3 p-3 rounded-md bg-green-50 border border-green-200">
-              <p className="text-sm font-medium text-green-800 mb-1">Invite link created (expires in 30 days):</p>
-              <p className="text-xs font-mono text-green-700 break-all">{inviteUrl}</p>
-              <Button
-                variant="outline"
-                size="sm"
-                className="mt-2"
-                onClick={() => {
-                  navigator.clipboard.writeText(inviteUrl);
-                }}
+              {inviteError && (
+                <div className="p-3 bg-[#ffdad6] rounded-xl flex items-start gap-2">
+                  <span className="material-symbols-outlined text-[#ba1a1a] text-[18px] shrink-0">error</span>
+                  <p className="font-['Manrope'] text-sm text-[#ba1a1a]">{inviteError}</p>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={inviting}
+                className="w-full py-4 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
               >
-                Copy Link
-              </Button>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+                <span className="material-symbols-outlined text-[18px]">send</span>
+                {inviting ? "Sending…" : "Send Invite"}
+              </button>
+            </form>
 
-      {/* Investor List */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">All Investors</CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
-          {loading ? (
-            <div className="p-6 space-y-3">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="h-10 bg-gray-100 animate-pulse rounded" />
-              ))}
-            </div>
-          ) : investors.length === 0 ? (
-            <p className="text-sm text-muted-foreground p-6">No investors yet.</p>
-          ) : (
-            <div className="divide-y divide-border">
-              {investors.map((inv) => {
-                const totalCapital = (inv.investments ?? []).reduce(
-                  (sum, i) => sum + Number(i.capital_contributed ?? 0),
-                  0
-                );
-                const propBadges = (inv.investments ?? [])
-                  .map((i) => i.properties?.code)
-                  .filter(Boolean);
-                const isExpanded = expandedId === inv.id;
-                const form = addInvForm[inv.id] ?? {};
+            {inviteUrl && (
+              <div className="mt-4 p-4 bg-[#d1fae5] rounded-xl">
+                <p className="font-['Manrope'] text-sm font-bold text-[#065f46] mb-2">
+                  Invite link created (expires in 30 days):
+                </p>
+                <p className="font-['Inter'] text-xs text-[#065f46] break-all mb-3">{inviteUrl}</p>
+                <button
+                  onClick={() => navigator.clipboard.writeText(inviteUrl)}
+                  className="px-4 py-2 border border-[#065f46]/30 rounded-lg font-['Manrope'] font-bold text-xs text-[#065f46] hover:bg-[#065f46]/10 transition-all flex items-center gap-1.5"
+                >
+                  <span className="material-symbols-outlined text-[16px]">content_copy</span>
+                  Copy Link
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
 
-                return (
-                  <div key={inv.id}>
-                    {/* Row */}
-                    <button
-                      onClick={() => handleToggleExpand(inv.id)}
-                      className="w-full text-left px-4 py-3 hover:bg-muted/30 transition-colors"
-                    >
-                      <div className="flex items-center gap-3 flex-wrap">
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium truncate">
-                            {inv.full_name ?? inv.name ?? "—"}
-                          </p>
-                          <p className="text-xs text-muted-foreground truncate">
-                            {inv.email}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-2 flex-wrap shrink-0">
-                          {propBadges.map((code) => (
-                            <span
-                              key={code}
-                              className="text-xs font-mono bg-secondary text-secondary-foreground px-1.5 py-0.5 rounded"
-                            >
-                              {code}
-                            </span>
-                          ))}
-                          <span className="text-sm tabular-nums font-semibold">
-                            SGD {formatSGD(totalCapital)}
-                          </span>
-                          <span
-                            className={`text-xs px-2 py-0.5 rounded font-medium ${
-                              STATUS_BADGE[String(inv.is_active)]
-                            }`}
-                          >
-                            {inv.is_active ? "Active" : "Pending"}
-                          </span>
-                        </div>
+        {/* Right: investor directory table */}
+        <div className="lg:col-span-8">
+          <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
+            <div className="px-6 py-5 border-b border-[#bbcac6]/15 flex items-center justify-between">
+              <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
+                Investor Directory
+              </h2>
+              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
+                {investors.length} total
+              </span>
+            </div>
+
+            {loading ? (
+              <div className="divide-y divide-[#bbcac6]/10">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="px-6 py-5 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-[#eff4ff] animate-pulse rounded-full" />
+                      <div className="space-y-2">
+                        <div className="h-4 w-28 bg-[#eff4ff] animate-pulse rounded" />
+                        <div className="h-3 w-36 bg-[#eff4ff] animate-pulse rounded" />
                       </div>
-                    </button>
+                    </div>
+                    <div className="h-4 w-20 bg-[#eff4ff] animate-pulse rounded" />
+                  </div>
+                ))}
+              </div>
+            ) : investors.length === 0 ? (
+              <div className="p-8 text-center">
+                <p className="text-[#6c7a77] font-['Manrope'] text-sm">No investors yet.</p>
+              </div>
+            ) : (
+              <div className="divide-y divide-[#bbcac6]/10">
+                {investors.map((inv) => {
+                  const totalCapital = (inv.investments ?? []).reduce(
+                    (sum, i) => sum + Number(i.capital_contributed ?? 0),
+                    0
+                  );
+                  const propCodes = (inv.investments ?? [])
+                    .map((i) => i.properties?.code)
+                    .filter(Boolean);
+                  const isExpanded = expandedId === inv.id;
+                  const form = addInvForm[inv.id] ?? {};
+                  const initials = (inv.full_name ?? inv.email ?? "??")
+                    .split(" ")
+                    .map((w) => w[0])
+                    .join("")
+                    .slice(0, 2)
+                    .toUpperCase();
 
-                    {/* Expanded detail */}
-                    {isExpanded && (
-                      <div className="bg-muted/20 border-t border-border px-4 py-4">
-                        <h4 className="text-sm font-semibold mb-3">
-                          Investments
-                        </h4>
-
-                        {(inv.investments ?? []).length === 0 ? (
-                          <p className="text-xs text-muted-foreground mb-3">
-                            No investments yet.
-                          </p>
-                        ) : (
-                          <div className="overflow-x-auto mb-4">
-                            <table className="w-full text-sm">
-                              <thead>
-                                <tr className="text-left text-xs text-muted-foreground">
-                                  <th className="py-1 pr-4 font-medium">Property</th>
-                                  <th className="py-1 pr-4 font-medium text-right">Capital</th>
-                                  <th className="py-1 font-medium text-right">Share %</th>
-                                </tr>
-                              </thead>
-                              <tbody className="divide-y divide-border">
-                                {(inv.investments ?? []).map((i) => (
-                                  <tr key={i.id}>
-                                    <td className="py-2 pr-4">
-                                      {i.properties?.name ?? "—"}
-                                    </td>
-                                    <td className="py-2 pr-4 text-right tabular-nums">
-                                      SGD {formatSGD(i.capital_contributed)}
-                                    </td>
-                                    <td className="py-2 text-right tabular-nums">
-                                      {Number(i.share_percentage ?? 0).toFixed(1)}%
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
+                  return (
+                    <div key={inv.id}>
+                      <button
+                        onClick={() => handleToggleExpand(inv.id)}
+                        className="w-full text-left px-6 py-5 hover:bg-[#f8f9ff] transition-colors"
+                      >
+                        <div className="flex items-center justify-between gap-4">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-10 h-10 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#006b5f] font-bold text-xs shrink-0">
+                              {initials}
+                            </div>
+                            <div className="min-w-0">
+                              <p className="font-['Manrope'] font-bold text-[#121c2a] text-sm truncate">
+                                {inv.full_name ?? "—"}
+                              </p>
+                              <p className="font-['Manrope'] text-[#6c7a77] text-xs truncate">{inv.email}</p>
+                            </div>
                           </div>
-                        )}
 
-                        {/* Add Investment form */}
-                        <h4 className="text-sm font-semibold mb-2">Add Investment</h4>
-                        <div className="flex flex-col sm:flex-row gap-2">
-                          <div className="flex-1">
-                            <Label className="text-xs mb-1 block">Property</Label>
+                          <div className="flex items-center gap-3 shrink-0">
+                            {propCodes.map((code) => (
+                              <span
+                                key={code}
+                                className="font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#006b5f] px-2 py-1 rounded"
+                              >
+                                {code}
+                              </span>
+                            ))}
+                            <span className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a] tabular-nums">
+                              {formatSGD(totalCapital)}
+                            </span>
+                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${
+                              inv.is_active ? "bg-[#d1fae5] text-[#065f46]" : "bg-[#e6eeff] text-[#555f6f]"
+                            }`}>
+                              {inv.is_active ? "Active" : "Pending"}
+                            </span>
+                            <span className={`material-symbols-outlined text-[16px] text-[#6c7a77] transition-transform ${isExpanded ? "rotate-180" : ""}`}>
+                              expand_more
+                            </span>
+                          </div>
+                        </div>
+                      </button>
+
+                      {isExpanded && (
+                        <div className="bg-[#f8f9ff] border-t border-[#bbcac6]/10 px-6 py-6">
+                          {/* Investments table */}
+                          <h4 className="font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-3">
+                            Investments
+                          </h4>
+
+                          {(inv.investments ?? []).length === 0 ? (
+                            <p className="font-['Manrope'] text-sm text-[#6c7a77] mb-4">No investments yet.</p>
+                          ) : (
+                            <div className="rounded-xl overflow-hidden border border-[#bbcac6]/15 mb-5">
+                              <table className="w-full">
+                                <thead className="bg-[#eff4ff]">
+                                  <tr>
+                                    <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Property</th>
+                                    <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Capital</th>
+                                    <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Share</th>
+                                    <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold hidden sm:table-cell">Equity</th>
+                                  </tr>
+                                </thead>
+                                <tbody className="divide-y divide-[#bbcac6]/10 bg-white">
+                                  {(inv.investments ?? []).map((i) => {
+                                    const sharePercent = Number(i.share_percentage ?? 0);
+                                    return (
+                                      <tr key={i.id}>
+                                        <td className="px-4 py-3 font-['Manrope'] text-sm font-medium text-[#121c2a]">
+                                          {i.properties?.name ?? "—"}
+                                        </td>
+                                        <td className="px-4 py-3 text-right font-['Manrope'] text-sm tabular-nums font-medium">
+                                          {formatSGD(i.capital_contributed)}
+                                        </td>
+                                        <td className="px-4 py-3 text-right font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#006b5f]">
+                                          {sharePercent.toFixed(1)}%
+                                        </td>
+                                        <td className="px-4 py-3 hidden sm:table-cell">
+                                          <div className="flex items-center gap-2">
+                                            <div className="flex-1 h-1.5 bg-[#eff4ff] rounded-full overflow-hidden max-w-[80px]">
+                                              <div
+                                                className="h-full bg-[#006b5f] rounded-full"
+                                                style={{ width: `${Math.min(sharePercent, 100)}%` }}
+                                              />
+                                            </div>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                                </tbody>
+                              </table>
+                            </div>
+                          )}
+
+                          {/* Add Investment form */}
+                          <h4 className="font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-3">
+                            Add Investment
+                          </h4>
+                          <div className="flex flex-col sm:flex-row gap-3">
                             <select
-                              className="w-full text-sm border border-border rounded-md px-3 py-2 bg-background"
+                              className="flex-1 bg-white border border-[#bbcac6]/30 rounded-xl px-4 py-3 font-['Manrope'] text-sm text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
                               value={form.propertyId ?? ""}
                               onChange={(e) =>
                                 setAddInvForm((prev) => ({
@@ -361,14 +415,11 @@ export default function AdminInvestorsPage() {
                                 </option>
                               ))}
                             </select>
-                          </div>
-                          <div className="flex-1">
-                            <Label className="text-xs mb-1 block">Capital (SGD)</Label>
-                            <Input
+                            <input
                               type="number"
                               min="0"
                               step="0.01"
-                              placeholder="e.g. 50000"
+                              placeholder="Capital (SGD)"
                               value={form.capital ?? ""}
                               onChange={(e) =>
                                 setAddInvForm((prev) => ({
@@ -376,27 +427,26 @@ export default function AdminInvestorsPage() {
                                   [inv.id]: { ...form, capital: e.target.value },
                                 }))
                               }
+                              className="flex-1 bg-white border border-[#bbcac6]/30 rounded-xl px-4 py-3 font-['Manrope'] text-sm text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
                             />
-                          </div>
-                          <div className="flex items-end">
-                            <Button
-                              size="sm"
+                            <button
                               onClick={() => handleAddInvestment(inv.id)}
                               disabled={!form.propertyId || !form.capital}
+                              className="px-5 py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all shrink-0"
                             >
                               Add
-                            </Button>
+                            </button>
                           </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </PortalLayout>
   );
 }

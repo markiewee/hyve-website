@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
-import { Button } from "../../components/ui/button";
 
 const DOC_TYPES = [
   "LICENCE_AGREEMENT",
@@ -77,42 +76,13 @@ function fillTemplate(html, values) {
   return filled;
 }
 
-function StatusBadge({ active }) {
-  return (
-    <span
-      className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
-        active
-          ? "bg-green-100 text-green-700"
-          : "bg-gray-100 text-gray-500"
-      }`}
-    >
-      {active ? "Active" : "Inactive"}
-    </span>
-  );
-}
-
-function TypeBadge({ type }) {
-  return (
-    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-700">
-      {type?.replace(/_/g, " ")}
-    </span>
-  );
-}
-
-function MessageBanner({ message }) {
-  if (!message) return null;
-  return (
-    <div
-      className={`mb-4 px-4 py-3 rounded-lg text-sm ${
-        message.type === "error"
-          ? "bg-red-50 text-red-700 border border-red-200"
-          : "bg-green-50 text-green-700 border border-green-200"
-      }`}
-    >
-      {message.text}
-    </div>
-  );
-}
+const DOC_TYPE_COLORS = {
+  LICENCE_AGREEMENT: "bg-blue-100 text-blue-700",
+  MOVE_IN_CHECKLIST: "bg-[#eff4ff] text-[#006b5f]",
+  MOVE_OUT_CHECKLIST: "bg-[#ffdad6]/50 text-[#ba1a1a]",
+  HOUSE_RULES: "bg-amber-100 text-amber-700",
+  OTHER: "bg-[#e6eeff] text-[#555f6f]",
+};
 
 export default function AdminDocumentsPage() {
   // ── Templates ───────────────────────────────────────────────
@@ -171,10 +141,12 @@ export default function AdminDocumentsPage() {
     // Suppress oklch CSS parse warnings from html2pdf/html2canvas
     const origConsoleError = console.error;
     console.error = (...args) => {
-      if (typeof args[0] === 'string' && args[0].includes('oklch')) return;
+      if (typeof args[0] === "string" && args[0].includes("oklch")) return;
       origConsoleError.apply(console, args);
     };
-    return () => { console.error = origConsoleError; };
+    return () => {
+      console.error = origConsoleError;
+    };
   }, [fetchTemplates, fetchTenants]);
 
   // ── Editor helpers ───────────────────────────────────────────
@@ -341,14 +313,18 @@ export default function AdminDocumentsPage() {
       // 1. Generate PDF blob via html2pdf
       // Clone the preview into an isolated container to avoid oklch CSS errors
       const source = document.getElementById("doc-preview");
-      if (!source) throw new Error("Preview element not found. Click Render Preview first.");
+      if (!source)
+        throw new Error(
+          "Preview element not found. Click Render Preview first."
+        );
 
       // Lazy-load html2pdf to avoid oklch CSS parsing errors on page load
       const html2pdfModule = await import("html2pdf.js");
       const html2pdf = html2pdfModule.default;
 
       const isolated = document.createElement("div");
-      isolated.style.cssText = "position:fixed;top:-9999px;left:-9999px;width:700px;background:white;color:black;font-family:Arial,sans-serif;font-size:14px;line-height:1.6;padding:40px;";
+      isolated.style.cssText =
+        "position:fixed;top:-9999px;left:-9999px;width:700px;background:white;color:black;font-family:Arial,sans-serif;font-size:14px;line-height:1.6;padding:40px;";
       isolated.innerHTML = source.innerHTML;
       document.body.appendChild(isolated);
 
@@ -398,14 +374,17 @@ export default function AdminDocumentsPage() {
       }
 
       // 4. Insert into tenant_documents
-      const { error: docError } = await supabase.from("tenant_documents").insert({
-        tenant_profile_id: tpId,
-        doc_type: selectedTemplate.doc_type,
-        title: selectedTemplate.name,
-        status: "SENT",
-        file_url: fileUrl,
-      });
-      if (docError) throw new Error("Failed to save document record: " + docError.message);
+      const { error: docError } = await supabase
+        .from("tenant_documents")
+        .insert({
+          tenant_profile_id: tpId,
+          doc_type: selectedTemplate.doc_type,
+          title: selectedTemplate.name,
+          status: "SENT",
+          file_url: fileUrl,
+        });
+      if (docError)
+        throw new Error("Failed to save document record: " + docError.message);
 
       setGenMessage({
         type: "success",
@@ -426,7 +405,7 @@ export default function AdminDocumentsPage() {
   const manualPlaceholders = templatePlaceholders.filter(
     (ph) =>
       ALWAYS_MANUAL_KEYS.has(ph) ||
-      (!AUTO_FILL_KEYS.has(ph)) ||
+      !AUTO_FILL_KEYS.has(ph) ||
       (selectedTenant && !autoFillFromTenant(selectedTenant)[ph])
   );
 
@@ -440,76 +419,171 @@ export default function AdminDocumentsPage() {
 
   return (
     <PortalLayout>
-      <div className="mb-6 flex items-center justify-between">
+      {/* Page header */}
+      <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Document Templates</h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+            Document Templates
+          </h1>
+          <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
             Manage templates, auto-fill from tenant data, and generate PDFs.
           </p>
         </div>
-        <Button onClick={showEditor ? () => setShowEditor(false) : openCreateEditor}>
+        <button
+          onClick={showEditor ? () => setShowEditor(false) : openCreateEditor}
+          className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-['Manrope'] font-bold text-sm transition-colors ${
+            showEditor
+              ? "bg-[#eff4ff] text-[#555f6f] hover:bg-[#e6eeff]"
+              : "bg-[#006b5f] text-white hover:bg-[#006a61]"
+          }`}
+        >
+          <span className="material-symbols-outlined text-[18px]">
+            {showEditor ? "close" : "add"}
+          </span>
           {showEditor ? "Close Editor" : "Create Template"}
-        </Button>
+        </button>
       </div>
 
       {/* ── Section A: Template List ── */}
-      <section className="bg-card border border-border rounded-lg overflow-hidden mb-6">
-        <div className="px-5 py-4 border-b border-border">
-          <h2 className="text-base font-semibold text-foreground">All Templates</h2>
+      <section className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden mb-8">
+        <div className="px-8 py-5 border-b border-[#bbcac6]/10 flex items-center justify-between">
+          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
+            All Templates
+          </h2>
+          {!templatesLoading && (
+            <span className="font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#006b5f] px-2.5 py-1 rounded-lg">
+              {templates.length} templates
+            </span>
+          )}
         </div>
+
         {templatesLoading ? (
-          <div className="px-5 py-4 text-sm text-muted-foreground">Loading…</div>
+          <div className="divide-y divide-[#bbcac6]/10">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="px-8 py-5 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-[#eff4ff] animate-pulse rounded-xl" />
+                  <div className="space-y-2">
+                    <div className="h-4 w-32 bg-[#eff4ff] animate-pulse rounded" />
+                    <div className="h-3 w-20 bg-[#eff4ff] animate-pulse rounded" />
+                  </div>
+                </div>
+                <div className="h-6 w-20 bg-[#eff4ff] animate-pulse rounded-full" />
+              </div>
+            ))}
+          </div>
         ) : templates.length === 0 ? (
-          <div className="px-5 py-4 text-sm text-muted-foreground">
-            No templates yet. Create one above.
+          <div className="px-8 py-12 text-center">
+            <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-[#eff4ff] flex items-center justify-center">
+              <span className="material-symbols-outlined text-[#006b5f] text-[28px]">
+                description
+              </span>
+            </div>
+            <p className="font-['Manrope'] text-sm text-[#555f6f]">
+              No templates yet. Create one above.
+            </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-muted/50">
+            <table className="w-full">
+              <thead className="bg-[#eff4ff]">
                 <tr>
-                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">Name</th>
-                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">Type</th>
-                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                    Placeholders
+                  <th className="text-left px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
+                    Template
                   </th>
-                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">Status</th>
-                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">Actions</th>
+                  <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold hidden sm:table-cell">
+                    Type
+                  </th>
+                  <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold hidden md:table-cell">
+                    Fields
+                  </th>
+                  <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
+                    Status
+                  </th>
+                  <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
+                    Actions
+                  </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border">
-                {templates.map((tpl) => (
-                  <tr key={tpl.id} className="hover:bg-muted/20 transition-colors">
-                    <td className="px-4 py-3 font-medium text-foreground">{tpl.name}</td>
-                    <td className="px-4 py-3">
-                      <TypeBadge type={tpl.doc_type} />
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground">
-                      {tpl.placeholders?.length ?? 0}
-                    </td>
-                    <td className="px-4 py-3">
-                      <StatusBadge active={tpl.is_active} />
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => openEditEditor(tpl)}
+              <tbody className="divide-y divide-[#bbcac6]/10">
+                {templates.map((tpl) => {
+                  const typeColor =
+                    DOC_TYPE_COLORS[tpl.doc_type] ?? "bg-[#e6eeff] text-[#555f6f]";
+                  return (
+                    <tr
+                      key={tpl.id}
+                      className="hover:bg-[#f8f9ff] transition-colors"
+                    >
+                      <td className="px-8 py-5">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-[#eff4ff] flex items-center justify-center shrink-0">
+                            <span
+                              className="material-symbols-outlined text-[#006b5f] text-[18px]"
+                              style={{ fontVariationSettings: "'FILL' 1" }}
+                            >
+                              description
+                            </span>
+                          </div>
+                          <span className="font-['Manrope'] font-semibold text-sm text-[#121c2a]">
+                            {tpl.name}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-5 hidden sm:table-cell">
+                        <span
+                          className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${typeColor}`}
                         >
-                          Edit
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleToggleActive(tpl)}
+                          {tpl.doc_type?.replace(/_/g, " ")}
+                        </span>
+                      </td>
+                      <td className="px-6 py-5 hidden md:table-cell">
+                        <span className="font-['Inter'] text-sm font-bold text-[#121c2a]">
+                          {tpl.placeholders?.length ?? 0}
+                        </span>
+                        <span className="font-['Manrope'] text-xs text-[#6c7a77] ml-1">
+                          placeholders
+                        </span>
+                      </td>
+                      <td className="px-6 py-5">
+                        <span
+                          className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${
+                            tpl.is_active
+                              ? "bg-[#eff4ff] text-[#006b5f]"
+                              : "bg-[#e6eeff] text-[#555f6f]"
+                          }`}
                         >
-                          {tpl.is_active ? "Deactivate" : "Activate"}
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                          {tpl.is_active ? "Active" : "Inactive"}
+                        </span>
+                      </td>
+                      <td className="px-6 py-5">
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => openEditEditor(tpl)}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#eff4ff] text-[#006b5f] text-xs font-['Manrope'] font-bold hover:bg-[#e6eeff] transition-colors"
+                          >
+                            <span className="material-symbols-outlined text-[14px]">
+                              edit
+                            </span>
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleToggleActive(tpl)}
+                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-['Manrope'] font-bold transition-colors ${
+                              tpl.is_active
+                                ? "bg-[#ffdad6]/40 text-[#ba1a1a] hover:bg-[#ffdad6]/60"
+                                : "bg-[#eff4ff] text-[#555f6f] hover:bg-[#e6eeff]"
+                            }`}
+                          >
+                            <span className="material-symbols-outlined text-[14px]">
+                              {tpl.is_active ? "toggle_off" : "toggle_on"}
+                            </span>
+                            {tpl.is_active ? "Deactivate" : "Activate"}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -518,30 +592,57 @@ export default function AdminDocumentsPage() {
 
       {/* ── Section B: Template Editor ── */}
       {showEditor && (
-        <section className="bg-card border border-border rounded-lg p-5 mb-6 space-y-4">
-          <h2 className="text-base font-semibold text-foreground">
-            {editingTemplate ? `Edit: ${editingTemplate.name}` : "New Template"}
-          </h2>
+        <section className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm p-8 mb-8">
+          <div className="flex items-center justify-between mb-6 pb-6 border-b border-[#bbcac6]/10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#006b5f]/10 flex items-center justify-center">
+                <span
+                  className="material-symbols-outlined text-[#006b5f] text-[20px]"
+                  style={{ fontVariationSettings: "'FILL' 1" }}
+                >
+                  {editingTemplate ? "edit" : "add_circle"}
+                </span>
+              </div>
+              <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
+                {editingTemplate ? `Edit: ${editingTemplate.name}` : "New Template"}
+              </h2>
+            </div>
+          </div>
 
-          <MessageBanner message={editorMessage} />
+          {/* Editor message */}
+          {editorMessage && (
+            <div
+              className={`mb-6 px-4 py-3 rounded-xl text-sm font-['Manrope'] ${
+                editorMessage.type === "error"
+                  ? "bg-[#ffdad6]/40 text-[#ba1a1a] border border-[#ba1a1a]/15"
+                  : "bg-[#eff4ff] text-[#006b5f] border border-[#006b5f]/15"
+              }`}
+            >
+              {editorMessage.text}
+            </div>
+          )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="text-sm font-medium text-foreground">Template Name</label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+            <div className="space-y-2">
+              <label className="font-['Inter'] text-xs font-bold uppercase tracking-widest text-[#6c7a77]">
+                Template Name
+              </label>
               <input
                 type="text"
                 value={editorName}
                 onChange={(e) => setEditorName(e.target.value)}
                 placeholder="e.g. Standard Licence Agreement"
-                className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
               />
             </div>
-            <div className="space-y-1">
-              <label className="text-sm font-medium text-foreground">Document Type</label>
+            <div className="space-y-2">
+              <label className="font-['Inter'] text-xs font-bold uppercase tracking-widest text-[#6c7a77]">
+                Document Type
+              </label>
               <select
                 value={editorDocType}
                 onChange={(e) => setEditorDocType(e.target.value)}
-                className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
               >
                 {DOC_TYPES.map((t) => (
                   <option key={t} value={t}>
@@ -553,10 +654,10 @@ export default function AdminDocumentsPage() {
           </div>
 
           {/* Placeholder chips */}
-          <div className="space-y-1">
-            <p className="text-sm font-medium text-foreground">
+          <div className="mb-6 space-y-3">
+            <p className="font-['Inter'] text-xs font-bold uppercase tracking-widest text-[#6c7a77]">
               Available Placeholders{" "}
-              <span className="text-muted-foreground font-normal">
+              <span className="text-[#bbcac6] font-normal normal-case tracking-normal">
                 — click to insert at cursor
               </span>
             </p>
@@ -566,7 +667,7 @@ export default function AdminDocumentsPage() {
                   key={ph}
                   type="button"
                   onClick={() => insertPlaceholderAtCursor(ph)}
-                  className="px-2 py-1 rounded bg-secondary text-secondary-foreground text-xs font-mono hover:bg-primary hover:text-primary-foreground transition-colors"
+                  className="px-2.5 py-1 rounded-lg bg-[#eff4ff] text-[#006b5f] text-xs font-mono font-bold hover:bg-[#006b5f] hover:text-white transition-colors"
                 >
                   {`{{${ph}}}`}
                 </button>
@@ -575,37 +676,55 @@ export default function AdminDocumentsPage() {
           </div>
 
           {/* HTML Textarea */}
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-foreground">HTML Content</label>
+          <div className="mb-6 space-y-2">
+            <label className="font-['Inter'] text-xs font-bold uppercase tracking-widest text-[#6c7a77]">
+              HTML Content
+            </label>
             <textarea
               ref={htmlTextareaRef}
               value={editorHtml}
               onChange={(e) => setEditorHtml(e.target.value)}
               rows={20}
               placeholder="<h1>Licence Agreement</h1><p>This agreement is made between {{TENANT_NAME}}...</p>"
-              className="w-full border border-border rounded-md px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary bg-background resize-y"
+              className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-mono text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none resize-y"
               spellCheck={false}
             />
           </div>
 
           <div className="flex items-center gap-3 flex-wrap">
-            <Button onClick={handleSaveTemplate} disabled={editorSaving}>
-              {editorSaving ? "Saving…" : editingTemplate ? "Update Template" : "Save Template"}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => setShowEditorPreview((p) => !p)}
+            <button
+              onClick={handleSaveTemplate}
+              disabled={editorSaving}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
+              <span className="material-symbols-outlined text-[18px]">
+                {editorSaving ? "progress_activity" : "save"}
+              </span>
+              {editorSaving
+                ? "Saving…"
+                : editingTemplate
+                ? "Update Template"
+                : "Save Template"}
+            </button>
+            <button
+              onClick={() => setShowEditorPreview((p) => !p)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#eff4ff] text-[#555f6f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff] transition-colors"
+            >
+              <span className="material-symbols-outlined text-[18px]">
+                {showEditorPreview ? "visibility_off" : "visibility"}
+              </span>
               {showEditorPreview ? "Hide Preview" : "Preview"}
-            </Button>
+            </button>
           </div>
 
           {/* Editor inline preview */}
           {showEditorPreview && editorHtml && (
-            <div className="space-y-1">
-              <p className="text-sm font-medium text-foreground">Preview</p>
+            <div className="mt-6 space-y-2">
+              <p className="font-['Inter'] text-xs font-bold uppercase tracking-widest text-[#6c7a77]">
+                Preview
+              </p>
               <div
-                className="border border-border rounded-md p-5 bg-white text-black text-sm leading-relaxed overflow-auto max-h-[500px]"
+                className="border border-[#bbcac6]/15 rounded-2xl p-8 bg-white text-black text-sm leading-relaxed overflow-auto max-h-[500px]"
                 dangerouslySetInnerHTML={{ __html: editorHtml }}
               />
             </div>
@@ -614,91 +733,127 @@ export default function AdminDocumentsPage() {
       )}
 
       {/* ── Section C: Generate & Send ── */}
-      <section className="bg-card border border-border rounded-lg p-5 space-y-5">
-        <h2 className="text-base font-semibold text-foreground">Generate Document</h2>
-
-        <MessageBanner message={genMessage} />
-
-        {/* Step 1: Select template */}
-        <div className="space-y-1">
-          <label className="text-sm font-medium text-foreground">
-            Step 1 — Select Template
-          </label>
-          <select
-            value={selectedTemplateId}
-            onChange={(e) => {
-              setSelectedTemplateId(e.target.value);
-              setFilledHtml("");
-              setGenMessage(null);
-            }}
-            className="w-full sm:w-80 border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
-          >
-            <option value="">— Select a template —</option>
-            {templates
-              .filter((t) => t.is_active)
-              .map((t) => (
-                <option key={t.id} value={t.id}>
-                  {t.name} ({t.doc_type?.replace(/_/g, " ")})
-                </option>
-              ))}
-          </select>
+      <section className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm p-8">
+        <div className="flex items-center gap-3 mb-8 pb-6 border-b border-[#bbcac6]/10">
+          <div className="w-10 h-10 rounded-xl bg-[#14b8a6]/10 flex items-center justify-center">
+            <span
+              className="material-symbols-outlined text-[#006b5f] text-[20px]"
+              style={{ fontVariationSettings: "'FILL' 1" }}
+            >
+              send
+            </span>
+          </div>
+          <div>
+            <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
+              Generate Document
+            </h2>
+            <p className="font-['Manrope'] text-xs text-[#555f6f] mt-0.5">
+              Fill template fields and generate a PDF for a tenant.
+            </p>
+          </div>
         </div>
 
-        {/* Step 2: Select tenant */}
-        <div className="space-y-1">
-          <label className="text-sm font-medium text-foreground">
-            Step 2 — Select Tenant
-          </label>
-          {tenantsLoading ? (
-            <p className="text-sm text-muted-foreground">Loading tenants…</p>
-          ) : (
+        {/* Gen message */}
+        {genMessage && (
+          <div
+            className={`mb-6 px-4 py-3 rounded-xl text-sm font-['Manrope'] ${
+              genMessage.type === "error"
+                ? "bg-[#ffdad6]/40 text-[#ba1a1a] border border-[#ba1a1a]/15"
+                : "bg-[#eff4ff] text-[#006b5f] border border-[#006b5f]/15"
+            }`}
+          >
+            {genMessage.text}
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {/* Step 1: Select template */}
+          <div className="space-y-2">
+            <label className="font-['Inter'] text-xs font-bold uppercase tracking-widest text-[#6c7a77] block">
+              Step 1 — Select Template
+            </label>
             <select
-              value={selectedTenantId}
+              value={selectedTemplateId}
               onChange={(e) => {
-                setSelectedTenantId(e.target.value);
+                setSelectedTemplateId(e.target.value);
                 setFilledHtml("");
                 setGenMessage(null);
               }}
-              className="w-full sm:w-80 border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+              className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
             >
-              <option value="">— Select a tenant —</option>
-              {tenants.map((t) => {
-                const name = t.tenant_details?.full_name || "Unnamed";
-                const unit = t.rooms?.unit_code || "No unit";
-                return (
+              <option value="">— Select a template —</option>
+              {templates
+                .filter((t) => t.is_active)
+                .map((t) => (
                   <option key={t.id} value={t.id}>
-                    {name} — {unit}
+                    {t.name} ({t.doc_type?.replace(/_/g, " ")})
                   </option>
-                );
-              })}
+                ))}
             </select>
-          )}
+          </div>
+
+          {/* Step 2: Select tenant */}
+          <div className="space-y-2">
+            <label className="font-['Inter'] text-xs font-bold uppercase tracking-widest text-[#6c7a77] block">
+              Step 2 — Select Tenant
+            </label>
+            {tenantsLoading ? (
+              <div className="h-12 bg-[#eff4ff] animate-pulse rounded-xl" />
+            ) : (
+              <select
+                value={selectedTenantId}
+                onChange={(e) => {
+                  setSelectedTenantId(e.target.value);
+                  setFilledHtml("");
+                  setGenMessage(null);
+                }}
+                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+              >
+                <option value="">— Select a tenant —</option>
+                {tenants.map((t) => {
+                  const name = t.tenant_details?.full_name || "Unnamed";
+                  const unit = t.rooms?.unit_code || "No unit";
+                  return (
+                    <option key={t.id} value={t.id}>
+                      {name} — {unit}
+                    </option>
+                  );
+                })}
+              </select>
+            )}
+          </div>
         </div>
 
         {/* Step 3: Fill fields */}
         {selectedTemplate && (
-          <div className="space-y-3">
-            <p className="text-sm font-medium text-foreground">
+          <div className="mb-8 p-6 bg-[#f8f9ff] rounded-2xl border border-[#bbcac6]/10">
+            <p className="font-['Inter'] text-xs font-bold uppercase tracking-widest text-[#6c7a77] mb-5">
               Step 3 — Fill Fields
             </p>
 
-            {/* Auto-filled fields (read-only display) */}
+            {/* Auto-filled fields */}
             {autoFilledDisplay.length > 0 && (
-              <div className="space-y-2">
-                <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
+              <div className="mb-5 space-y-3">
+                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#006b5f] font-bold flex items-center gap-1.5">
+                  <span
+                    className="material-symbols-outlined text-[14px]"
+                    style={{ fontVariationSettings: "'FILL' 1" }}
+                  >
+                    auto_awesome
+                  </span>
                   Auto-filled from tenant
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {autoFilledDisplay.map((ph) => (
-                    <div key={ph} className="space-y-0.5">
-                      <label className="text-xs font-medium text-muted-foreground">
+                    <div key={ph} className="space-y-1.5">
+                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">
                         {ph.replace(/_/g, " ")}
                       </label>
                       <input
                         type="text"
                         value={fieldValues[ph] || ""}
                         onChange={(e) => handleFieldChange(ph, e.target.value)}
-                        className="w-full border border-border rounded-md px-3 py-2 text-sm bg-muted/30 focus:outline-none focus:ring-2 focus:ring-primary"
+                        className="w-full bg-[#006b5f]/5 border border-[#006b5f]/15 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
                         placeholder={`{{${ph}}}`}
                       />
                     </div>
@@ -709,17 +864,22 @@ export default function AdminDocumentsPage() {
 
             {/* Manual fields */}
             {manualPlaceholders.length > 0 && (
-              <div className="space-y-2">
-                <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
+              <div className="space-y-3">
+                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#ba1a1a] font-bold flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-[14px]">
+                    edit
+                  </span>
                   Manual input required
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {manualPlaceholders.map((ph) => (
-                    <div key={ph} className="space-y-0.5">
-                      <label className="text-xs font-medium text-foreground">
+                    <div key={ph} className="space-y-1.5">
+                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">
                         {ph.replace(/_/g, " ")}
                         {ph === "EMAIL" && (
-                          <span className="ml-1 text-muted-foreground">(tenant email)</span>
+                          <span className="ml-1 text-[#bbcac6] normal-case tracking-normal">
+                            (tenant email)
+                          </span>
                         )}
                       </label>
                       <input
@@ -739,7 +899,7 @@ export default function AdminDocumentsPage() {
                               })
                             : `Enter ${ph.replace(/_/g, " ").toLowerCase()}`
                         }
-                        className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
                       />
                     </div>
                   ))}
@@ -748,7 +908,7 @@ export default function AdminDocumentsPage() {
             )}
 
             {templatePlaceholders.length === 0 && (
-              <p className="text-sm text-muted-foreground">
+              <p className="font-['Manrope'] text-sm text-[#555f6f]">
                 This template has no placeholders.
               </p>
             )}
@@ -757,15 +917,25 @@ export default function AdminDocumentsPage() {
 
         {/* Step 4: Preview */}
         {selectedTemplate && (
-          <div className="space-y-2">
-            <p className="text-sm font-medium text-foreground">Step 4 — Preview</p>
-            <Button variant="outline" onClick={handlePreviewDoc}>
-              Render Preview
-            </Button>
+          <div className="mb-8 space-y-4">
+            <div className="flex items-center justify-between">
+              <p className="font-['Inter'] text-xs font-bold uppercase tracking-widest text-[#6c7a77]">
+                Step 4 — Preview
+              </p>
+              <button
+                onClick={handlePreviewDoc}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-[#eff4ff] text-[#006b5f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff] transition-colors"
+              >
+                <span className="material-symbols-outlined text-[18px]">
+                  visibility
+                </span>
+                Render Preview
+              </button>
+            </div>
             {filledHtml && (
               <div
                 id="doc-preview"
-                className="border border-border rounded-md p-6 bg-white text-black text-sm leading-relaxed overflow-auto max-h-[600px] mt-3"
+                className="border border-[#bbcac6]/15 rounded-2xl p-8 bg-white text-black text-sm leading-relaxed overflow-auto max-h-[600px]"
                 dangerouslySetInnerHTML={{ __html: filledHtml }}
               />
             )}
@@ -774,15 +944,26 @@ export default function AdminDocumentsPage() {
 
         {/* Step 5: Generate & Send */}
         {selectedTemplate && selectedTenant && filledHtml && (
-          <div className="space-y-2 pt-2 border-t border-border">
-            <p className="text-sm font-medium text-foreground">Step 5 — Generate PDF & Send</p>
-            <p className="text-xs text-muted-foreground">
-              This will generate a PDF from the preview above, upload it to storage, and mark the
-              document as sent to the tenant.
-            </p>
-            <Button onClick={handleGenerateAndSend} disabled={generating}>
+          <div className="pt-6 border-t border-[#bbcac6]/10 space-y-4">
+            <div>
+              <p className="font-['Inter'] text-xs font-bold uppercase tracking-widest text-[#6c7a77]">
+                Step 5 — Generate PDF & Send
+              </p>
+              <p className="font-['Manrope'] text-xs text-[#555f6f] mt-1">
+                This will generate a PDF from the preview above, upload it to
+                storage, and mark the document as sent to the tenant.
+              </p>
+            </div>
+            <button
+              onClick={handleGenerateAndSend}
+              disabled={generating}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold hover:bg-[#006a61] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              <span className="material-symbols-outlined text-[18px]">
+                {generating ? "progress_activity" : "picture_as_pdf"}
+              </span>
               {generating ? "Generating…" : "Generate PDF & Send to Tenant"}
-            </Button>
+            </button>
           </div>
         )}
       </section>

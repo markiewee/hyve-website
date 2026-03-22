@@ -5,7 +5,7 @@ import PortalLayout from "../../components/portal/PortalLayout";
 
 const ROLE_BADGE = {
   HOUSE_CAPTAIN: "bg-blue-100 text-blue-700",
-  TENANT: "bg-gray-100 text-gray-600",
+  TENANT: "bg-[#e6eeff] text-[#555f6f]",
 };
 
 function formatDate(dateStr) {
@@ -44,7 +44,6 @@ export default function PropertyTenantsPage() {
         return;
       }
 
-      // Sort client-side by unit_code (Supabase JS doesn't support ordering by joined columns)
       const sorted = (data ?? []).sort((a, b) => {
         const codeA = a.rooms?.unit_code ?? "";
         const codeB = b.rooms?.unit_code ?? "";
@@ -60,60 +59,85 @@ export default function PropertyTenantsPage() {
 
   return (
     <PortalLayout>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-foreground">Tenants</h1>
+      {/* Page header */}
+      <div className="mb-10">
+        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+          Tenants
+        </h1>
         {propertyName && (
-          <p className="text-muted-foreground text-sm mt-1">{propertyName}</p>
+          <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">{propertyName}</p>
         )}
       </div>
 
+      {/* Stat */}
+      {!loading && (
+        <div className="mb-8">
+          <div className="bg-[#006b5f] rounded-2xl p-6 inline-flex flex-col">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#71f8e4]/80 font-bold mb-2">Active Tenants</p>
+            <p className="font-['Plus_Jakarta_Sans'] text-4xl font-extrabold text-white">{tenants.length}</p>
+          </div>
+        </div>
+      )}
+
       {loading ? (
-        <div className="space-y-2">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="h-10 w-full bg-gray-100 animate-pulse rounded" />
-          ))}
+        <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
+          <div className="divide-y divide-[#bbcac6]/10">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="px-8 py-5 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-[#eff4ff] animate-pulse rounded-full" />
+                  <div className="space-y-2">
+                    <div className="h-4 w-20 bg-[#eff4ff] animate-pulse rounded" />
+                    <div className="h-3 w-28 bg-[#eff4ff] animate-pulse rounded" />
+                  </div>
+                </div>
+                <div className="h-5 w-20 bg-[#eff4ff] animate-pulse rounded-full" />
+              </div>
+            ))}
+          </div>
         </div>
       ) : tenants.length === 0 ? (
-        <p className="text-sm text-muted-foreground">No active tenants found.</p>
+        <div className="bg-white rounded-2xl p-12 border border-[#bbcac6]/15 shadow-sm text-center">
+          <p className="text-[#6c7a77] font-['Manrope'] text-sm">No active tenants found.</p>
+        </div>
       ) : (
-        <div className="border rounded-lg overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-muted/50 border-b">
-                <th className="text-left px-4 py-3 font-medium text-muted-foreground">Room</th>
-                <th className="text-left px-4 py-3 font-medium text-muted-foreground">Role</th>
-                <th className="text-left px-4 py-3 font-medium text-muted-foreground">Since</th>
+        <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
+          <table className="w-full">
+            <thead className="bg-[#eff4ff]">
+              <tr>
+                <th className="text-left px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Room</th>
+                <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Role</th>
+                <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold hidden sm:table-cell">Since</th>
               </tr>
             </thead>
-            <tbody>
-              {tenants.map((tenant, index) => {
-                const roleBadgeClass =
-                  ROLE_BADGE[tenant.role] ?? "bg-gray-100 text-gray-600";
+            <tbody className="divide-y divide-[#bbcac6]/10">
+              {tenants.map((tenant) => {
+                const roleBadgeClass = ROLE_BADGE[tenant.role] ?? "bg-[#e6eeff] text-[#555f6f]";
+                const initials = (tenant.rooms?.unit_code ?? "??").slice(0, 2).toUpperCase();
+
                 return (
-                  <tr
-                    key={tenant.id}
-                    className={`border-b last:border-b-0 ${
-                      index % 2 === 0 ? "bg-card" : "bg-muted/20"
-                    }`}
-                  >
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs bg-secondary text-secondary-foreground px-1.5 py-0.5 rounded">
-                          {tenant.rooms?.unit_code ?? "—"}
-                        </span>
-                        <span className="text-foreground">
-                          {tenant.rooms?.name ?? "—"}
-                        </span>
+                  <tr key={tenant.id} className="hover:bg-[#f8f9ff] transition-colors">
+                    <td className="px-8 py-5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#006b5f] font-bold text-xs shrink-0">
+                          {initials}
+                        </div>
+                        <div>
+                          <span className="font-['Inter'] text-xs font-bold text-[#006b5f] bg-[#eff4ff] px-2 py-0.5 rounded block w-fit mb-0.5">
+                            {tenant.rooms?.unit_code ?? "—"}
+                          </span>
+                          <span className="font-['Manrope'] text-sm text-[#121c2a] font-medium">
+                            {tenant.rooms?.name ?? "—"}
+                          </span>
+                        </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${roleBadgeClass}`}
-                      >
+                    <td className="px-6 py-5">
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${roleBadgeClass}`}>
                         {tenant.role === "HOUSE_CAPTAIN" ? "House Captain" : "Tenant"}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-muted-foreground">
+                    <td className="px-6 py-5 font-['Manrope'] text-sm text-[#6c7a77] hidden sm:table-cell">
                       {formatDate(tenant.moved_in_at)}
                     </td>
                   </tr>
