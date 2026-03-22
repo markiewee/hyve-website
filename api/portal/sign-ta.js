@@ -1,21 +1,12 @@
 const { createClient } = require("@supabase/supabase-js");
 const crypto = require("crypto");
 
-// Vercel config — extend timeout
-module.exports.config = { maxDuration: 30 };
+const sb = createClient(
+  process.env.VITE_IOT_SUPABASE_URL,
+  process.env.IOT_SUPABASE_SERVICE_ROLE_KEY
+);
 
-let supabase;
-function getSupabase() {
-  if (!supabase) {
-    supabase = createClient(
-      process.env.VITE_IOT_SUPABASE_URL,
-      process.env.IOT_SUPABASE_SERVICE_ROLE_KEY
-    );
-  }
-  return supabase;
-}
-
-module.exports = async function handler(req, res) {
+async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
@@ -215,4 +206,7 @@ module.exports = async function handler(req, res) {
     console.error("Sign TA error:", err);
     return res.status(500).json({ error: "Signing failed: " + (err.message || "unknown error") });
   }
-};
+}
+
+module.exports = handler;
+module.exports.config = { maxDuration: 30 };
