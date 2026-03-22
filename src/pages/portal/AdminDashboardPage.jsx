@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
+import SignatureCanvas from "../../components/portal/SignatureCanvas";
+import { useAuth } from "../../hooks/useAuth";
 
 const OPEN_STATUSES = ["OPEN", "IN_PROGRESS", "ESCALATED"];
 const ONLINE_THRESHOLD_MINUTES = 20;
 
 export default function AdminDashboardPage() {
+  const { profile, setProfile } = useAuth();
   const [counts, setCounts] = useState({
     totalRooms: 0,
     activeTenants: 0,
@@ -14,6 +17,62 @@ export default function AdminDashboardPage() {
     onlineDevices: 0,
   });
   const [loading, setLoading] = useState(true);
+
+  // Signature section state
+  const sigRef = useRef(null);
+  const [showSigEditor, setShowSigEditor] = useState(false);
+  const [sigSaving, setSigSaving] = useState(false);
+  const [sigMessage, setSigMessage] = useState(null);
+
+  async function handleSaveSignature() {
+    const sigData = sigRef.current?.getSignatureData();
+    if (!sigData) {
+      setSigMessage({ type: "error", text: "Please draw or type a signature first." });
+      return;
+    }
+    setSigSaving(true);
+    setSigMessage(null);
+    const { error } = await supabase
+      .from("tenant_profiles")
+      .update({ saved_signature: sigData })
+      .eq("id", profile.id);
+    if (error) {
+      setSigMessage({ type: "error", text: "Failed to save: " + error.message });
+    } else {
+      setSigMessage({ type: "success", text: "Signature saved." });
+      setShowSigEditor(false);
+      // Refresh profile in context by refetching
+      const { data: updated } = await supabase
+        .from("tenant_profiles")
+        .select("*, rooms(name, unit_code, property_id), properties(name, code), onboarding_progress(*)")
+        .eq("id", profile.id)
+        .single();
+      if (updated && setProfile) setProfile(updated);
+    }
+    setSigSaving(false);
+  }
+
+  async function handleClearSignature() {
+    setSigSaving(true);
+    setSigMessage(null);
+    const { error } = await supabase
+      .from("tenant_profiles")
+      .update({ saved_signature: null })
+      .eq("id", profile.id);
+    if (error) {
+      setSigMessage({ type: "error", text: "Failed to clear: " + error.message });
+    } else {
+      setSigMessage({ type: "success", text: "Signature cleared." });
+      setShowSigEditor(false);
+      const { data: updated } = await supabase
+        .from("tenant_profiles")
+        .select("*, rooms(name, unit_code, property_id), properties(name, code), onboarding_progress(*)")
+        .eq("id", profile.id)
+        .single();
+      if (updated && setProfile) setProfile(updated);
+    }
+    setSigSaving(false);
+  }
 
   useEffect(() => {
     async function fetchCounts() {
@@ -169,6 +228,81 @@ export default function AdminDashboardPage() {
           </Link>
         ))}
       </div>
+
+      {/* My Signature */}
+      {profile && (
+        <div className="mt-8 bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm p-6 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#eff4ff] flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-[#006b5f] text-[20px]">draw</span>
+              </div>
+              <div>
+                <p className="font-['Manrope'] font-bold text-[#121c2a] text-sm">My Signature</p>
+                <p className="font-['Manrope'] text-[#6c7a77] text-xs mt-0.5">
+                  This signature will be used when counter-signing tenant agreements.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {profile.saved_signature && (
+                <button
+                  type="button"
+                  onClick={handleClearSignature}
+                  disabled={sigSaving}
+                  className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-red-200 text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+                >
+                  Clear Saved Signature
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => { setShowSigEditor((v) => !v); setSigMessage(null); }}
+                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#eff4ff] text-[#006b5f] hover:bg-[#006b5f] hover:text-white transition-colors"
+              >
+                {showSigEditor ? "Cancel" : profile.saved_signature ? "Update Signature" : "Add Signature"}
+              </button>
+            </div>
+          </div>
+
+          {/* Saved signature preview */}
+          {profile.saved_signature && !showSigEditor && (
+            <div className="rounded-xl border border-[#bbcac6]/30 bg-[#f8faf9] p-3 inline-block">
+              <img
+                src={profile.saved_signature}
+                alt="Saved signature"
+                className="max-h-[80px] max-w-[320px] object-contain"
+              />
+            </div>
+          )}
+
+          {/* Signature editor */}
+          {showSigEditor && (
+            <div className="space-y-3 pt-1">
+              <SignatureCanvas signatureRef={sigRef} />
+              <button
+                type="button"
+                onClick={handleSaveSignature}
+                disabled={sigSaving}
+                className="px-4 py-2 text-sm font-semibold rounded-lg bg-[#006b5f] text-white hover:bg-[#005a50] transition-colors disabled:opacity-50"
+              >
+                {sigSaving ? "Saving…" : "Save Signature"}
+              </button>
+            </div>
+          )}
+
+          {/* Feedback message */}
+          {sigMessage && (
+            <p
+              className={`text-xs font-medium ${
+                sigMessage.type === "error" ? "text-red-600" : "text-[#006b5f]"
+              }`}
+            >
+              {sigMessage.text}
+            </p>
+          )}
+        </div>
+      )}
     </PortalLayout>
   );
 }

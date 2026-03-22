@@ -6,6 +6,7 @@ import OnboardingTimeline from "../../components/portal/OnboardingTimeline";
 import SignatureCanvas from "../../components/portal/SignatureCanvas";
 import { Button } from "../../components/ui/button";
 import { STEPS, STEP_LABELS } from "../../hooks/useOnboarding";
+import { useAuth } from "../../hooks/useAuth";
 
 function formatDateTime(dateStr) {
   if (!dateStr) return "—";
@@ -29,6 +30,7 @@ function SectionCard({ title, children }) {
 
 export default function AdminOnboardingDetailPage() {
   const { id } = useParams();
+  const { profile } = useAuth();
 
   const [onboarding, setOnboarding] = useState(null);
   const [tenantDetails, setTenantDetails] = useState(null);
@@ -40,6 +42,9 @@ export default function AdminOnboardingDetailPage() {
   // Form state
   const [depositAmount, setDepositAmount] = useState("");
   const [overrideStep, setOverrideStep] = useState("");
+
+  // Counter-sign mode: "saved" (use saved sig) | "draw" (draw new)
+  const [sigMode, setSigMode] = useState(null); // initialised after profile loads
 
   const fetchData = useCallback(async () => {
     const [onboardingRes, detailsRes, docsRes] = await Promise.all([
@@ -87,6 +92,13 @@ export default function AdminOnboardingDetailPage() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  // Default sig mode based on whether admin has a saved signature
+  useEffect(() => {
+    if (profile && sigMode === null) {
+      setSigMode(profile.saved_signature ? "saved" : "draw");
+    }
+  }, [profile, sigMode]);
 
   async function handleUploadTA(e) {
     const file = e.target.files?.[0];
@@ -198,7 +210,13 @@ export default function AdminOnboardingDetailPage() {
   const [counterSigning, setCounterSigning] = useState(false);
 
   async function handleCounterSign() {
-    const sigData = adminSignatureRef.current?.getSignatureData();
+    let sigData;
+    if (sigMode === "saved") {
+      sigData = profile?.saved_signature ?? null;
+    } else {
+      sigData = adminSignatureRef.current?.getSignatureData() ?? null;
+    }
+
     if (!sigData) {
       setMessage({ type: "error", text: "Please provide your signature before counter-signing." });
       return;
@@ -449,10 +467,53 @@ export default function AdminOnboardingDetailPage() {
                   </div>
                 )}
 
-                {/* Admin signature pad */}
-                <div>
-                  <p className="text-sm font-medium text-foreground mb-2">Your Signature</p>
-                  <SignatureCanvas signatureRef={adminSignatureRef} />
+                {/* Admin signature */}
+                <div className="space-y-3">
+                  <p className="text-sm font-medium text-foreground">Your Signature</p>
+
+                  {/* Mode toggle — only shown when admin has a saved sig */}
+                  {profile?.saved_signature && (
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setSigMode("saved")}
+                        className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors ${
+                          sigMode === "saved"
+                            ? "bg-[#006b5f] text-white border-[#006b5f]"
+                            : "bg-white border-[#bbcac6]/40 text-[#6c7a77] hover:border-[#006b5f]/40"
+                        }`}
+                      >
+                        Use Saved Signature
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setSigMode("draw")}
+                        className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors ${
+                          sigMode === "draw"
+                            ? "bg-[#006b5f] text-white border-[#006b5f]"
+                            : "bg-white border-[#bbcac6]/40 text-[#6c7a77] hover:border-[#006b5f]/40"
+                        }`}
+                      >
+                        Draw New Signature
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Saved signature preview */}
+                  {sigMode === "saved" && profile?.saved_signature && (
+                    <div className="rounded-xl border border-[#bbcac6]/30 bg-[#f8faf9] p-3 inline-block">
+                      <img
+                        src={profile.saved_signature}
+                        alt="Saved signature"
+                        className="max-h-[80px] max-w-[320px] object-contain"
+                      />
+                    </div>
+                  )}
+
+                  {/* Draw / type pad */}
+                  {sigMode === "draw" && (
+                    <SignatureCanvas signatureRef={adminSignatureRef} />
+                  )}
                 </div>
 
                 <Button
