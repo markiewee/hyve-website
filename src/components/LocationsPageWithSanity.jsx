@@ -68,7 +68,7 @@ const LocationsPage = () => {
     if (neighborhood.images?.[0]?.image) {
       return urlFor(neighborhood.images[0].image).width(800).height(600).url();
     }
-    return '/stock_apart1.png';
+    return 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=600&fit=crop&q=80';
   };
 
   if (loading) {

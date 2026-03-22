@@ -146,7 +146,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
     if (property.images?.[0] && typeof property.images[0] === 'string') {
       return `/${property.images[0]}`;
     }
-    return '/stock_apart1.png';
+    return 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop&q=80';
   };
 
   const PropertyCard = ({ property }) => (

@@ -121,7 +121,7 @@ const PropertyDetailPage = () => {
   };
 
   const getCurrentImageSrc = () => {
-    if (!property?.images?.length) return '/stock_apart1.png';
+    if (!property?.images?.length) return 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=800&fit=crop&q=80';
     const currentImage = property.images[currentImageIndex];
     if (currentImage?.image) {
       return urlFor(currentImage.image).width(1200).height(800).url();
@@ -134,7 +134,7 @@ const PropertyDetailPage = () => {
       return urlFor(room.images[0].image).width(800).height(600).url();
     }
     if (room.images?.[0]) return `/${room.images[0]}`;
-    return '/stock_apart1.png';
+    return 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop&q=80';
   };
 
   const formatAvailableDate = (dateString) => {

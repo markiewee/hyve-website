@@ -41,7 +41,7 @@ const AboutPage = () => {
           <div className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl">
             <img
               className="w-full h-full object-cover"
-              src="/stock_apart1.png"
+              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&h=1200&fit=crop&q=80"
               alt="Modern architectural coliving space"
               loading="lazy"
             />

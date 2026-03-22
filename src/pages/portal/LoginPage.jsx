@@ -33,7 +33,7 @@ export default function LoginPage() {
         <div className="absolute inset-0 opacity-40 mix-blend-overlay">
           <img
             className="w-full h-full object-cover"
-            src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=80"
+            src="https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=1200&q=80"
             alt="Modern architecture"
           />
         </div>
