@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import html2pdf from "html2pdf.js";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { Button } from "../../components/ui/button";
@@ -335,6 +334,10 @@ export default function AdminDocumentsPage() {
       // Clone the preview into an isolated container to avoid oklch CSS errors
       const source = document.getElementById("doc-preview");
       if (!source) throw new Error("Preview element not found. Click Render Preview first.");
+
+      // Lazy-load html2pdf to avoid oklch CSS parsing errors on page load
+      const html2pdfModule = await import("html2pdf.js");
+      const html2pdf = html2pdfModule.default;
 
       const isolated = document.createElement("div");
       isolated.style.cssText = "position:fixed;top:-9999px;left:-9999px;width:700px;background:white;color:black;font-family:Arial,sans-serif;font-size:14px;line-height:1.6;padding:40px;";
