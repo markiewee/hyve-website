@@ -60,10 +60,13 @@ module.exports = async function handler(req, res) {
   const timestamp = new Date().toISOString();
 
   try {
-    // Extract storage path from ta_document_url
-    // URL format: .../storage/v1/object/public/tenant-documents/{path}
-    const urlParts = onboarding.ta_document_url.split("/tenant-documents/");
-    const storagePath = urlParts[1];
+    // Handle both full URL and storage path formats
+    let storagePath = onboarding.ta_document_url;
+    if (storagePath.includes("/tenant-documents/")) {
+      storagePath = storagePath.split("/tenant-documents/")[1];
+    }
+    // Remove any query params (from signed URLs)
+    storagePath = storagePath.split("?")[0];
 
     if (!storagePath) {
       return res.status(400).json({ error: "Could not parse TA document URL" });

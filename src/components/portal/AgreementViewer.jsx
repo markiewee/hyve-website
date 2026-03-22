@@ -1,7 +1,8 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Button } from "../ui/button";
 import SignatureCanvas from "./SignatureCanvas";
+import { supabase } from "../../lib/supabase";
 import { toast } from "sonner";
 
 import "react-pdf/dist/Page/AnnotationLayer.css";
@@ -14,8 +15,33 @@ export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
   const [numPages, setNumPages] = useState(null);
   const [signing, setSigning] = useState(false);
   const [error, setError] = useState(null);
+  const [pdfUrl, setPdfUrl] = useState(null);
 
-  const taUrl = onboarding?.ta_document_url;
+  const taPath = onboarding?.ta_document_url;
+
+  // Generate a signed URL for the PDF (works with private buckets)
+  useEffect(() => {
+    if (!taPath) return;
+    // If it's already a full URL, use it directly
+    if (taPath.startsWith("http")) {
+      setPdfUrl(taPath);
+      return;
+    }
+    // Otherwise generate a signed URL from the storage path
+    supabase.storage
+      .from("tenant-documents")
+      .createSignedUrl(taPath, 3600) // 1 hour
+      .then(({ data, error: urlError }) => {
+        if (urlError) {
+          console.error("Failed to get signed URL:", urlError);
+          // Fallback: try public URL
+          const { data: pub } = supabase.storage.from("tenant-documents").getPublicUrl(taPath);
+          setPdfUrl(pub?.publicUrl);
+        } else {
+          setPdfUrl(data.signedUrl);
+        }
+      });
+  }, [taPath]);
 
   async function handleSign() {
     const sigData = signatureRef.current?.getSignatureData();
@@ -28,9 +54,15 @@ export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
     setSigning(true);
 
     try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const accessToken = sessionData?.session?.access_token;
+
       const res = await fetch("/api/portal/sign-ta", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`,
+        },
         body: JSON.stringify({
           signature_image_base64: sigData.split(",")[1] ?? sigData,
           onboarding_id: onboarding.id,
@@ -55,7 +87,7 @@ export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
     }
   }
 
-  if (!taUrl) {
+  if (!taPath) {
     return (
       <div className="rounded-md border border-dashed border-border p-8 text-center">
         <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-amber-50 flex items-center justify-center">
@@ -89,7 +121,7 @@ export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
       {/* PDF viewer */}
       <div className="border border-border rounded-md overflow-auto bg-gray-50 max-h-[500px]">
         <Document
-          file={taUrl}
+          file={pdfUrl}
           onLoadSuccess={({ numPages: n }) => setNumPages(n)}
           loading={
             <div className="flex items-center justify-center h-40 text-sm text-muted-foreground">
