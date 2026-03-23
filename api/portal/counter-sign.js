@@ -86,11 +86,39 @@ export default async function handler(req, res) {
     // ── Stamp admin signature ─────────────────────────────────────────────────
     const pdfDoc = await PDFDocument.load(pdfBytes);
     const pages = pdfDoc.getPages();
-    const lastPage = pages[pages.length - 1];
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-    // Embed admin signature image (positioned to the right of tenant signature at x=250)
+    // Fetch signature config from the latest active LICENCE_AGREEMENT template
+    const DEFAULT_ADMIN_SIG = { page: "last", x: 350, y: 120, width: 200, height: 80 };
+    let adminSigCfg = DEFAULT_ADMIN_SIG;
+    try {
+      const { data: tplData } = await sb
+        .from("document_templates")
+        .select("signature_config")
+        .eq("doc_type", "LICENCE_AGREEMENT")
+        .eq("is_active", true)
+        .order("updated_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (tplData?.signature_config?.admin) {
+        adminSigCfg = { ...DEFAULT_ADMIN_SIG, ...tplData.signature_config.admin };
+      }
+    } catch {
+      // Non-fatal — fall back to defaults
+    }
+
+    // Resolve target page (default to last)
+    const pageIndex =
+      adminSigCfg.page === "last"
+        ? pages.length - 1
+        : adminSigCfg.page === "first"
+        ? 0
+        : Math.min(Math.max(Number(adminSigCfg.page) - 1, 0), pages.length - 1);
+    const sigPage = pages[pageIndex];
+    const lastPage = pages[pages.length - 1]; // kept for seal (always last)
+
+    // Embed admin signature image
     const sigBytes = Buffer.from(signature_image_base64, "base64");
     let sigImage;
     try {
@@ -105,36 +133,37 @@ export default async function handler(req, res) {
 
     const sigDims = sigImage.scale(0.25);
 
-    lastPage.drawImage(sigImage, {
-      x: 250,
-      y: 120,
-      width: Math.min(sigDims.width, 200),
-      height: Math.min(sigDims.height, 80),
+    sigPage.drawImage(sigImage, {
+      x: adminSigCfg.x,
+      y: adminSigCfg.y,
+      width: Math.min(sigDims.width, adminSigCfg.width),
+      height: Math.min(sigDims.height, adminSigCfg.height),
     });
 
-    // Admin signing seal (positioned to the right of tenant seal)
+    // Admin signing seal (positioned based on config x, always on last page)
     lastPage.drawRectangle({
-      x: 250, y: 50, width: 280, height: 55,
+      x: adminSigCfg.x, y: 50, width: 280, height: 55,
       color: rgb(0.96, 1.0, 0.97),
       borderColor: rgb(0, 0.42, 0.37),
       borderWidth: 0.75,
     });
 
+    const sealTextX = adminSigCfg.x + 8;
     lastPage.drawText("COUNTER-SIGNED BY LICENSOR", {
-      x: 258, y: 90, size: 7, font: fontBold, color: rgb(0, 0.42, 0.37),
+      x: sealTextX, y: 90, size: 7, font: fontBold, color: rgb(0, 0.42, 0.37),
     });
 
     lastPage.drawText(`Signed by: ${adminEmail}`, {
-      x: 258, y: 78, size: 6.5, font, color: rgb(0.3, 0.3, 0.3),
+      x: sealTextX, y: 78, size: 6.5, font, color: rgb(0.3, 0.3, 0.3),
     });
 
     const dateStr = new Date(timestamp).toLocaleString("en-SG", { timeZone: "Asia/Singapore" });
     lastPage.drawText(`Date: ${dateStr}  |  IP: ${adminIp}`, {
-      x: 258, y: 67, size: 6, font, color: rgb(0.5, 0.5, 0.5),
+      x: sealTextX, y: 67, size: 6, font, color: rgb(0.5, 0.5, 0.5),
     });
 
     lastPage.drawText(`Hash: ${documentHash.substring(0, 38)}...`, {
-      x: 258, y: 57, size: 5.5, font, color: rgb(0.6, 0.6, 0.6),
+      x: sealTextX, y: 57, size: 5.5, font, color: rgb(0.6, 0.6, 0.6),
     });
 
     // ── Upload fully-executed PDF ─────────────────────────────────────────────
