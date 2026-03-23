@@ -26,6 +26,7 @@ const ADMIN_NAV = [
     label: "Manage",
     icon: "manage_accounts",
     children: [
+      { label: "Tasks", to: "/portal/admin/tasks", icon: "checklist" },
       { label: "Onboarding", to: "/portal/admin/onboarding", icon: "how_to_reg" },
       { label: "Rent", to: "/portal/admin/rent", icon: "receipt_long" },
       { label: "Documents", to: "/portal/admin/documents", icon: "description" },
