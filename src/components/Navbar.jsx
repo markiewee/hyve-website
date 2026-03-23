@@ -19,8 +19,8 @@ const Navbar = () => {
       <div className="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
         {/* Left: Logo + Links */}
         <div className="flex items-center gap-12">
-          <Link to="/" className="text-2xl font-black text-teal-600 tracking-tighter font-['Plus_Jakarta_Sans']">
-            Hyve
+          <Link to="/">
+            <img src="/hyve-logo.png" alt="Hyve" className="h-8" />
           </Link>
           <div className="hidden md:flex items-center gap-8">
             {navigation.map((item) => (

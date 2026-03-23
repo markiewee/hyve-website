@@ -40,9 +40,7 @@ export default function LoginPage() {
         <div className="absolute inset-0 bg-gradient-to-tr from-[#006b5f] via-[#006b5f]/80 to-transparent" />
         <div className="relative z-10 flex flex-col justify-between p-16 w-full">
           <div>
-            <span className="text-[#71f8e4] font-['Plus_Jakarta_Sans'] font-extrabold tracking-tighter text-3xl">
-              Hyve Living
-            </span>
+            <img src="/hyve-logo.png" alt="Hyve" className="h-10 brightness-0 invert" />
           </div>
           <div className="max-w-md">
             <h1 className="font-['Plus_Jakarta_Sans'] text-5xl font-bold text-white leading-tight tracking-tight mb-8">
@@ -78,9 +76,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           <div className="mb-12">
             <div className="lg:hidden mb-8">
-              <span className="text-[#006b5f] font-['Plus_Jakarta_Sans'] font-extrabold tracking-tighter text-2xl">
-                Hyve Living
-              </span>
+              <img src="/hyve-logo.png" alt="Hyve" className="h-8" />
             </div>
             <h2 className="font-['Plus_Jakarta_Sans'] text-3xl font-bold text-[#121c2a] mb-3 tracking-tight">
               Welcome Back

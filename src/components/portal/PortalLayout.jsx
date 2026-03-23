@@ -108,9 +108,9 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut }) {
     <aside className="h-screen w-64 fixed left-0 top-0 bg-slate-50 flex flex-col py-8 pl-4 z-40 border-r border-[#bbcac6]/20">
       {/* Logo + user profile */}
       <div className="mb-10 px-4">
-        <h1 className="font-['Plus_Jakarta_Sans'] font-black text-2xl text-[#006b5f] tracking-tighter mb-8">
-          Hyve
-        </h1>
+        <div className="mb-8">
+          <img src="/hyve-logo.png" alt="Hyve" className="h-8" />
+        </div>
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#006b5f] font-bold text-sm shrink-0">
             {firstName.slice(0, 2).toUpperCase()}

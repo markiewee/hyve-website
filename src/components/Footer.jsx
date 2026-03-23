@@ -15,8 +15,8 @@ const Footer = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
         {/* Brand */}
         <div className="col-span-1 md:col-span-1">
-          <Link to="/" className="font-['Plus_Jakarta_Sans'] font-black text-teal-600 text-2xl block mb-4">
-            Hyve
+          <Link to="/" className="block mb-4">
+            <img src="/hyve-logo.png" alt="Hyve" className="h-8" />
           </Link>
           <p className="text-slate-400 font-['Manrope'] text-sm leading-relaxed">
             Pioneering the future of collective living through architectural innovation and community design.
