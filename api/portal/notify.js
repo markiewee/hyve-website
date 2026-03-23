@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
   try {
     const { data, error } = await resend.emails.send({
-      from: "Hyve <noreply@hyve.sg>",
+      from: "Hyve <onboarding@resend.dev>",
       to,
       subject,
       html,
