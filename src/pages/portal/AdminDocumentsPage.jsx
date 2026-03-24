@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
-import html2pdf from "html2pdf.js";
 
 const DOC_TYPES = [
   "LICENCE_AGREEMENT",
@@ -341,6 +340,9 @@ export default function AdminDocumentsPage() {
         throw new Error(
           "Preview element not found. Click Render Preview first."
         );
+
+      // Lazy-load html2pdf at runtime (can't import statically — uses window at init)
+      const { default: html2pdf } = await import(/* @vite-ignore */ "html2pdf.js");
 
       const isolated = document.createElement("div");
       isolated.style.cssText =
