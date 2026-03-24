@@ -100,9 +100,10 @@ function AdminDropdown({ link, location, onLinkClick }) {
 }
 
 function Sidebar({ profile, navLinks, location, onLinkClick, signOut }) {
-  const unitCode = profile?.rooms?.unit_code ?? profile?.room_id ?? "";
-  const propertyName = profile?.properties?.name ?? profile?.rooms?.name ?? "Hyve";
-  const displayName = profile?.full_name ?? profile?.email ?? "Resident";
+  const isAdmin = profile?.role === "ADMIN";
+  const unitCode = isAdmin ? "" : (profile?.rooms?.unit_code ?? profile?.room_id ?? "");
+  const propertyName = isAdmin ? "Admin" : (profile?.properties?.name ?? profile?.rooms?.name ?? "Hyve");
+  const displayName = profile?.tenant_details?.full_name ?? profile?.full_name ?? profile?.email ?? "Resident";
   const firstName = displayName.split(" ")[0];
 
   return (

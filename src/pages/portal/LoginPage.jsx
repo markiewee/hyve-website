@@ -66,7 +66,7 @@ export default function LoginPage() {
             <div className="w-8 h-8 rounded-full bg-[#71f8e4]/20 flex items-center justify-center">
               <span className="material-symbols-outlined text-[#71f8e4] text-[16px]">verified</span>
             </div>
-            <span className="text-white text-sm font-['Manrope'] font-medium">Trusted by 400+ residents across Singapore</span>
+            <span className="text-white text-sm font-['Manrope'] font-medium">Trusted across Singapore & Malaysia</span>
           </div>
         </div>
       </section>

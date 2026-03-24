@@ -123,7 +123,7 @@ export default function InvestorSignupPage() {
               ))}
             </div>
             <span className="text-white text-sm font-['Inter'] font-medium">
-              +400 Active Members
+              Active across Singapore & Malaysia
             </span>
           </div>
         </div>

@@ -283,10 +283,15 @@ export default function AdminOnboardingDetailPage() {
   }
 
   async function getDocumentViewUrl(doc) {
-    // Extract storage path from file_url
-    const urlParts = doc.file_url?.split("/tenant-documents/");
-    if (!urlParts || urlParts.length < 2) return doc.file_url;
-    const path = urlParts[1];
+    if (!doc.file_url) return null;
+
+    // If it's already a full URL, extract the storage path
+    let path = doc.file_url;
+    const urlParts = doc.file_url.split("/tenant-documents/");
+    if (urlParts.length >= 2) {
+      path = urlParts[1];
+    }
+    // Otherwise treat file_url as a direct storage path
 
     const { data, error } = await supabase.storage
       .from("tenant-documents")
@@ -401,14 +406,21 @@ export default function AdminOnboardingDetailPage() {
               <div className="space-y-2">
                 <p className="text-sm text-green-700">
                   TA uploaded.{" "}
-                  <a
-                    href={onboarding.ta_document_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      const path = onboarding.ta_document_url.includes("/tenant-documents/")
+                        ? onboarding.ta_document_url.split("/tenant-documents/")[1].split("?")[0]
+                        : onboarding.ta_document_url;
+                      const { data } = await supabase.storage
+                        .from("tenant-documents")
+                        .createSignedUrl(path, 3600);
+                      if (data?.signedUrl) window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+                    }}
                     className="underline"
                   >
                     View current TA
-                  </a>
+                  </button>
                 </p>
                 <p className="text-xs text-muted-foreground">
                   Upload again to replace:
