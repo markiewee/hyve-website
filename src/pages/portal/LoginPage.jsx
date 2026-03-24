@@ -6,7 +6,7 @@ export default function LoginPage() {
   const { signIn } = useAuth();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -17,10 +17,10 @@ export default function LoginPage() {
     setError(null);
     setSubmitting(true);
     try {
-      await signIn(email, password);
+      await signIn(identifier, password);
       navigate("/portal/dashboard");
     } catch (err) {
-      setError(err.message || "Invalid email or password.");
+      setError(err.message || "Invalid username or password.");
     } finally {
       setSubmitting(false);
     }
@@ -97,23 +97,23 @@ export default function LoginPage() {
             <div>
               <label
                 className="block text-xs font-['Inter'] font-semibold text-[#6c7a77] uppercase tracking-widest mb-2 ml-1"
-                htmlFor="email"
+                htmlFor="identifier"
               >
-                Email Address
+                Username or Email
               </label>
               <div className="relative group">
                 <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#6c7a77] group-focus-within:text-[#006b5f] transition-colors">
-                  mail
+                  person
                 </span>
                 <input
                   className="w-full pl-12 pr-4 py-4 bg-[#eff4ff] border-0 rounded-xl font-['Inter'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none transition-all placeholder:text-[#6c7a77]/50"
-                  id="email"
-                  type="email"
-                  autoComplete="email"
+                  id="identifier"
+                  type="text"
+                  autoComplete="username"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                  placeholder="username or email"
                 />
               </div>
             </div>

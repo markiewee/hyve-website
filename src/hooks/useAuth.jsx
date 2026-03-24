@@ -67,7 +67,21 @@ export function AuthProvider({ children }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  async function signIn(email, password) {
+  async function signIn(identifier, password) {
+    // If identifier looks like an email, use directly; otherwise treat as username
+    let email = identifier;
+    if (!identifier.includes("@")) {
+      // Look up the username in tenant_profiles to get the placeholder email
+      const { data: tp } = await supabase
+        .from("tenant_profiles")
+        .select("username")
+        .eq("username", identifier.toLowerCase().trim())
+        .eq("is_active", true)
+        .single();
+      if (!tp) throw new Error("Username not found.");
+      email = `${tp.username}@portal.hyve.sg`;
+    }
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
