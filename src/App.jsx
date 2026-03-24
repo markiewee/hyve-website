@@ -45,6 +45,7 @@ import AdminTasksPage from './pages/portal/AdminTasksPage';
 import InvestorDashboardPage from './pages/portal/InvestorDashboardPage';
 import InvestorSignupPage from './pages/portal/InvestorSignupPage';
 import OnboardingPage from './pages/portal/OnboardingPage';
+import SigningConfirmationPage from './pages/portal/SigningConfirmationPage';
 
 function AppContent() {
   const location = useLocation();
@@ -97,6 +98,14 @@ function AppContent() {
             element={
               <AuthGuard>
                 <OnboardingPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/onboarding/signed"
+            element={
+              <AuthGuard>
+                <SigningConfirmationPage />
               </AuthGuard>
             }
           />

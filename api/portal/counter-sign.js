@@ -41,7 +41,7 @@ export default async function handler(req, res) {
   // ── Load onboarding record ────────────────────────────────────────────────
   const { data: onboarding, error: obErr } = await sb
     .from("onboarding_progress")
-    .select("id, tenant_profile_id, room_id, ta_signed_url, signing_status")
+    .select("id, tenant_profile_id, room_id, ta_signed_url, signing_status, signature_positions")
     .eq("id", onboarding_id)
     .single();
 
@@ -89,23 +89,27 @@ export default async function handler(req, res) {
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-    // Fetch signature config from the latest active LICENCE_AGREEMENT template
+    // Resolve admin signature config: per-onboarding override > template > hardcoded default
     const DEFAULT_ADMIN_SIG = { page: "last", x: 350, y: 120, width: 200, height: 80 };
     let adminSigCfg = DEFAULT_ADMIN_SIG;
-    try {
-      const { data: tplData } = await sb
-        .from("document_templates")
-        .select("signature_config")
-        .eq("doc_type", "LICENCE_AGREEMENT")
-        .eq("is_active", true)
-        .order("updated_at", { ascending: false })
-        .limit(1)
-        .maybeSingle();
-      if (tplData?.signature_config?.admin) {
-        adminSigCfg = { ...DEFAULT_ADMIN_SIG, ...tplData.signature_config.admin };
+    if (onboarding.signature_positions?.admin) {
+      adminSigCfg = { ...DEFAULT_ADMIN_SIG, ...onboarding.signature_positions.admin };
+    } else {
+      try {
+        const { data: tplData } = await sb
+          .from("document_templates")
+          .select("signature_config")
+          .eq("doc_type", "LICENCE_AGREEMENT")
+          .eq("is_active", true)
+          .order("updated_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        if (tplData?.signature_config?.admin) {
+          adminSigCfg = { ...DEFAULT_ADMIN_SIG, ...tplData.signature_config.admin };
+        }
+      } catch {
+        // Non-fatal — fall back to defaults
       }
-    } catch {
-      // Non-fatal — fall back to defaults
     }
 
     // Resolve target page (default to last)
@@ -227,6 +231,79 @@ export default async function handler(req, res) {
     } catch (notifyErr) {
       // Non-fatal — log but don't fail the counter-sign
       console.warn("Failed to send tenant notification:", notifyErr?.message);
+    }
+
+    // ── Distribute signed document to both parties ────────────────────────────
+    try {
+      // Generate a signed download URL (7-day expiry)
+      const { data: signedUrlData } = await sb.storage
+        .from("tenant-documents")
+        .createSignedUrl(executedPath, 60 * 60 * 24 * 7);
+
+      const downloadUrl = signedUrlData?.signedUrl;
+
+      // Fetch tenant email
+      let tenantEmail = null;
+      const { data: tenantProfile } = await sb
+        .from("tenant_profiles")
+        .select("user_id")
+        .eq("id", tenantProfileId)
+        .maybeSingle();
+
+      if (tenantProfile?.user_id) {
+        const { data: tenantAuthData } = await sb.auth.admin.getUserById(tenantProfile.user_id);
+        tenantEmail = tenantAuthData?.user?.email ?? null;
+      }
+
+      const emailSubject = "Hyve \u2014 Your Signed Licence Agreement";
+      const emailHtml = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <h2 style="color: #006b5f; margin-bottom: 16px;">Your Licence Agreement Has Been Fully Executed</h2>
+          <p style="color: #333; line-height: 1.6;">
+            Your Licence Agreement has been signed by all parties. Please find the signed copy available for download below.
+          </p>
+          ${downloadUrl ? `
+          <p style="margin: 24px 0;">
+            <a href="${downloadUrl}" style="display: inline-block; background-color: #006b5f; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: bold;">
+              Download Signed Agreement
+            </a>
+          </p>
+          <p style="color: #888; font-size: 12px;">This download link will expire in 7 days.</p>
+          ` : '<p style="color: #888;">The signed document is available in your tenant portal.</p>'}
+          <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;" />
+          <p style="color: #999; font-size: 12px;">Hyve Living</p>
+        </div>
+      `;
+
+      const notifyBaseUrl = process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : (process.env.VITE_SITE_URL || "https://hyve.sg");
+      const notifyUrl = `${notifyBaseUrl}/api/portal/notify`;
+      const notifyHeaders = {
+        "Content-Type": "application/json",
+        "x-notify-secret": process.env.NOTIFY_SECRET,
+      };
+
+      // Send to tenant
+      if (tenantEmail) {
+        await fetch(notifyUrl, {
+          method: "POST",
+          headers: notifyHeaders,
+          body: JSON.stringify({ to: tenantEmail, subject: emailSubject, html: emailHtml }),
+        }).catch((e) => console.warn("Failed to email tenant:", e?.message));
+      }
+
+      // Send to admin
+      if (adminEmail) {
+        await fetch(notifyUrl, {
+          method: "POST",
+          headers: notifyHeaders,
+          body: JSON.stringify({ to: adminEmail, subject: emailSubject, html: emailHtml }),
+        }).catch((e) => console.warn("Failed to email admin:", e?.message));
+      }
+    } catch (distErr) {
+      // Non-fatal — document is already saved; email is best-effort
+      console.warn("Failed to distribute signed document:", distErr?.message);
     }
 
     return res.status(200).json({

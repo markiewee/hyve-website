@@ -4,6 +4,7 @@ import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 import OnboardingTimeline from "../../components/portal/OnboardingTimeline";
 import SignatureCanvas from "../../components/portal/SignatureCanvas";
+import DraggableSignaturePlacer from "../../components/portal/DraggableSignaturePlacer";
 import { Button } from "../../components/ui/button";
 import { STEPS, STEP_LABELS } from "../../hooks/useOnboarding";
 import { useAuth } from "../../hooks/useAuth";
@@ -43,6 +44,18 @@ export default function AdminOnboardingDetailPage() {
   const [depositAmount, setDepositAmount] = useState("");
   const [overrideStep, setOverrideStep] = useState("");
 
+  // Tenancy details form state
+  const [refNumber, setRefNumber] = useState("");
+  const [tenancyStartDate, setTenancyStartDate] = useState("");
+  const [tenancyEndDate, setTenancyEndDate] = useState("");
+  const [licencePeriod, setLicencePeriod] = useState("");
+  const [tenancyDetailsSaving, setTenancyDetailsSaving] = useState(false);
+
+  // Signature placement
+  const [signaturePositions, setSignaturePositions] = useState(null);
+  const [sigPlacerUrl, setSigPlacerUrl] = useState(null);
+  const [sigPosSaving, setSigPosSaving] = useState(false);
+
   // Counter-sign mode: "saved" (use saved sig) | "draw" (draw new)
   const [sigMode, setSigMode] = useState(null); // initialised after profile loads
 
@@ -69,6 +82,10 @@ export default function AdminOnboardingDetailPage() {
       setOnboarding(onboardingRes.data);
       setDepositAmount(onboardingRes.data.deposit_amount ?? "");
       setOverrideStep(onboardingRes.data.current_step ?? STEPS[0]);
+      setRefNumber(onboardingRes.data.ref_number ?? "");
+      setTenancyStartDate(onboardingRes.data.tenancy_start_date ?? "");
+      setTenancyEndDate(onboardingRes.data.tenancy_end_date ?? "");
+      setLicencePeriod(onboardingRes.data.licence_period ?? "");
 
       // Refetch documents using actual tenant_profile_id
       const tpId = onboardingRes.data.tenant_profile_id;
@@ -92,6 +109,42 @@ export default function AdminOnboardingDetailPage() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  // Load signature positions + signed URL for the TA when onboarding changes
+  useEffect(() => {
+    if (!onboarding) return;
+    setSignaturePositions(onboarding.signature_positions ?? null);
+
+    if (onboarding.ta_document_url) {
+      const taUrl = onboarding.ta_document_url;
+      let path = taUrl;
+      if (taUrl.includes("/tenant-documents/")) {
+        path = taUrl.split("/tenant-documents/")[1].split("?")[0];
+      }
+      supabase.storage
+        .from("tenant-documents")
+        .createSignedUrl(path, 3600)
+        .then(({ data }) => {
+          if (data?.signedUrl) setSigPlacerUrl(data.signedUrl);
+        });
+    }
+  }, [onboarding]);
+
+  async function handleSaveSignaturePositions() {
+    if (!onboarding || !signaturePositions) return;
+    setSigPosSaving(true);
+    setMessage(null);
+    const { error } = await supabase
+      .from("onboarding_progress")
+      .update({ signature_positions: signaturePositions, updated_at: new Date().toISOString() })
+      .eq("id", onboarding.id);
+    if (error) {
+      setMessage({ type: "error", text: "Failed to save signature positions: " + error.message });
+    } else {
+      setMessage({ type: "success", text: "Signature positions saved." });
+    }
+    setSigPosSaving(false);
+  }
 
   // Default sig mode based on whether admin has a saved signature
   useEffect(() => {
@@ -159,6 +212,32 @@ export default function AdminOnboardingDetailPage() {
       await fetchData();
     }
     setActionLoading(false);
+  }
+
+  async function handleSaveTenancyDetails() {
+    setTenancyDetailsSaving(true);
+    setMessage(null);
+
+    const updates = {
+      ref_number: refNumber || null,
+      tenancy_start_date: tenancyStartDate || null,
+      tenancy_end_date: tenancyEndDate || null,
+      licence_period: licencePeriod || null,
+      updated_at: new Date().toISOString(),
+    };
+
+    const { error } = await supabase
+      .from("onboarding_progress")
+      .update(updates)
+      .eq("id", id);
+
+    if (error) {
+      setMessage({ type: "error", text: "Failed to save tenancy details: " + error.message });
+    } else {
+      setMessage({ type: "success", text: "Tenancy details saved." });
+      await fetchData();
+    }
+    setTenancyDetailsSaving(false);
   }
 
   async function handleApproveDeposit() {
@@ -400,6 +479,57 @@ export default function AdminOnboardingDetailPage() {
             </SectionCard>
           )}
 
+          {/* Tenancy Details */}
+          <SectionCard title="Tenancy Details">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-muted-foreground mb-1">Reference Number</label>
+                <input
+                  type="text"
+                  value={refNumber}
+                  onChange={(e) => setRefNumber(e.target.value)}
+                  placeholder="e.g. HYV-2026-001"
+                  className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-muted-foreground mb-1">Licence Period</label>
+                <input
+                  type="text"
+                  value={licencePeriod}
+                  onChange={(e) => setLicencePeriod(e.target.value)}
+                  placeholder="e.g. 12 months"
+                  className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-muted-foreground mb-1">Start Date</label>
+                <input
+                  type="date"
+                  value={tenancyStartDate}
+                  onChange={(e) => setTenancyStartDate(e.target.value)}
+                  className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-muted-foreground mb-1">End Date</label>
+                <input
+                  type="date"
+                  value={tenancyEndDate}
+                  onChange={(e) => setTenancyEndDate(e.target.value)}
+                  className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                />
+              </div>
+            </div>
+            <Button
+              size="sm"
+              onClick={handleSaveTenancyDetails}
+              disabled={tenancyDetailsSaving}
+            >
+              {tenancyDetailsSaving ? "Saving..." : "Save Tenancy Details"}
+            </Button>
+          </SectionCard>
+
           {/* Upload TA */}
           <SectionCard title="Upload Tenancy Agreement">
             {onboarding.ta_document_url ? (
@@ -439,6 +569,28 @@ export default function AdminOnboardingDetailPage() {
               />
             </div>
           </SectionCard>
+
+          {/* Signature Placement — shown when a TA has been uploaded */}
+          {onboarding.ta_document_url && sigPlacerUrl && (
+            <SectionCard title="Signature Placement">
+              <p className="text-xs text-muted-foreground mb-2">
+                Drag the boxes to position where tenant and admin signatures will be stamped on the PDF.
+              </p>
+              <DraggableSignaturePlacer
+                pdfUrl={sigPlacerUrl}
+                value={signaturePositions}
+                onChange={setSignaturePositions}
+              />
+              <Button
+                size="sm"
+                onClick={handleSaveSignaturePositions}
+                disabled={sigPosSaving || !signaturePositions}
+                className="mt-3"
+              >
+                {sigPosSaving ? "Saving..." : "Save Signature Positions"}
+              </Button>
+            </SectionCard>
+          )}
 
           {/* Counter-Sign — shown only when tenant has signed but admin hasn't yet */}
           {onboarding.signing_status === "TENANT_SIGNED" && (

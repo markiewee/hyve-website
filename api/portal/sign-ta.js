@@ -27,7 +27,7 @@ export default async function handler(req, res) {
 
   const { data: onboarding, error: obErr } = await sb
     .from("onboarding_progress")
-    .select("id, tenant_profile_id, room_id, ta_document_url")
+    .select("id, tenant_profile_id, room_id, ta_document_url, signature_positions")
     .eq("id", onboarding_id)
     .single();
 
@@ -77,23 +77,27 @@ export default async function handler(req, res) {
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-    // Fetch signature config from the latest active LICENCE_AGREEMENT template
+    // Resolve tenant signature config: per-onboarding override > template > hardcoded default
     const DEFAULT_TENANT_SIG = { page: "last", x: 50, y: 120, width: 200, height: 80 };
     let tenantSigCfg = DEFAULT_TENANT_SIG;
-    try {
-      const { data: tplData } = await sb
-        .from("document_templates")
-        .select("signature_config")
-        .eq("doc_type", "LICENCE_AGREEMENT")
-        .eq("is_active", true)
-        .order("updated_at", { ascending: false })
-        .limit(1)
-        .maybeSingle();
-      if (tplData?.signature_config?.tenant) {
-        tenantSigCfg = { ...DEFAULT_TENANT_SIG, ...tplData.signature_config.tenant };
+    if (onboarding.signature_positions?.tenant) {
+      tenantSigCfg = { ...DEFAULT_TENANT_SIG, ...onboarding.signature_positions.tenant };
+    } else {
+      try {
+        const { data: tplData } = await sb
+          .from("document_templates")
+          .select("signature_config")
+          .eq("doc_type", "LICENCE_AGREEMENT")
+          .eq("is_active", true)
+          .order("updated_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        if (tplData?.signature_config?.tenant) {
+          tenantSigCfg = { ...DEFAULT_TENANT_SIG, ...tplData.signature_config.tenant };
+        }
+      } catch {
+        // Non-fatal — fall back to defaults
       }
-    } catch {
-      // Non-fatal — fall back to defaults
     }
 
     // Resolve target page (default to last)

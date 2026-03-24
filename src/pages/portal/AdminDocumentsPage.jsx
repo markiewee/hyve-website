@@ -36,17 +36,22 @@ const AUTO_FILL_KEYS = new Set([
   "ROOM_CODE",
   "ROOM_NAME",
   "PROPERTY_NAME",
+  "PROPERTY_ADDRESS",
+  "COMMON_AREAS",
+  "REF_NUMBER",
   "MONTHLY_RENT",
   "DEPOSIT_AMOUNT",
+  "LICENCE_PERIOD",
+  "START_DATE",
+  "END_DATE",
   "DATE",
 ]);
 
-// Placeholders that always need manual input
-const MANUAL_KEYS = ["LICENCE_PERIOD", "START_DATE", "END_DATE"];
 // EMAIL is not auto-fillable client-side (no auth.users access), so always manual
-const ALWAYS_MANUAL_KEYS = new Set([...MANUAL_KEYS, "EMAIL"]);
+const ALWAYS_MANUAL_KEYS = new Set(["EMAIL"]);
 
 function autoFillFromTenant(tenant) {
+  const ob = tenant.onboarding_progress;
   return {
     TENANT_NAME: tenant.tenant_details?.full_name || "",
     ID_NUMBER: tenant.tenant_details?.id_number || "",
@@ -55,9 +60,14 @@ function autoFillFromTenant(tenant) {
     ROOM_CODE: tenant.rooms?.unit_code || "",
     ROOM_NAME: tenant.rooms?.name || "",
     PROPERTY_NAME: tenant.properties?.name || "",
+    PROPERTY_ADDRESS: tenant.properties?.address || "",
+    COMMON_AREAS: tenant.properties?.common_areas || "",
+    REF_NUMBER: ob?.ref_number || "",
     MONTHLY_RENT: tenant.monthly_rent?.toString() || "",
-    DEPOSIT_AMOUNT:
-      tenant.onboarding_progress?.deposit_amount?.toString() || "",
+    DEPOSIT_AMOUNT: ob?.deposit_amount?.toString() || "",
+    LICENCE_PERIOD: ob?.licence_period || "",
+    START_DATE: ob?.tenancy_start_date || "",
+    END_DATE: ob?.tenancy_end_date || "",
     DATE: new Date().toLocaleDateString("en-SG", {
       day: "numeric",
       month: "long",
@@ -137,7 +147,7 @@ export default function AdminDocumentsPage() {
     const { data } = await supabase
       .from("tenant_profiles")
       .select(
-        `id, monthly_rent, rooms(unit_code, name), properties(name), tenant_details(full_name, id_number, phone), onboarding_progress(deposit_amount)`
+        `id, monthly_rent, rooms(unit_code, name), properties(name, code, address, common_areas), tenant_details(full_name, id_number, phone), onboarding_progress(deposit_amount, ref_number, tenancy_start_date, tenancy_end_date, licence_period)`
       )
       .eq("role", "TENANT");
     setTenants(data ?? []);

@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Button } from "../ui/button";
 import SignatureCanvas from "./SignatureCanvas";
@@ -40,7 +41,7 @@ function formatDateTime(dateStr) {
 
 // ─── UNSIGNED STATE ────────────────────────────────────────────────────────────
 
-function UnsignedView({ onboarding, pdfUrl, advanceStep, refetch }) {
+function UnsignedView({ onboarding, pdfUrl, advanceStep, refetch, navigate }) {
   const signatureRef = useRef(null);
   const [numPages, setNumPages] = useState(null);
   const [signing, setSigning] = useState(false);
@@ -80,6 +81,7 @@ function UnsignedView({ onboarding, pdfUrl, advanceStep, refetch }) {
       toast.success("Agreement signed!");
       if (refetch) await refetch();
       else await advanceStep("ta_signed_at");
+      if (navigate) navigate("/portal/onboarding/signed", { state: { signedAt: new Date().toISOString(), onboardingId: onboarding.id } });
     } catch (err) {
       console.error("Sign error:", err);
       setError(err.message ?? "Something went wrong. Please try again.");
@@ -308,6 +310,7 @@ function FullyExecutedView({ onboarding }) {
 // ─── MAIN EXPORT ───────────────────────────────────────────────────────────────
 
 export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
+  const navigate = useNavigate();
   const [pdfUrl, setPdfUrl] = useState(null);
 
   const taPath = onboarding?.ta_document_url;
@@ -363,6 +366,7 @@ export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
       pdfUrl={pdfUrl}
       advanceStep={advanceStep}
       refetch={refetch}
+      navigate={navigate}
     />
   );
 }
