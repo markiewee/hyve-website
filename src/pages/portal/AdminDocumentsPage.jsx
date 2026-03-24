@@ -129,6 +129,7 @@ export default function AdminDocumentsPage() {
   const [filledHtml, setFilledHtml] = useState("");
   const [generating, setGenerating] = useState(false);
   const [genMessage, setGenMessage] = useState(null);
+  const [generatedPdfUrl, setGeneratedPdfUrl] = useState(null);
 
   // ── Fetch templates ─────────────────────────────────────────
   const fetchTemplates = useCallback(async () => {
@@ -408,12 +409,19 @@ export default function AdminDocumentsPage() {
       if (docError)
         throw new Error("Failed to save document record: " + docError.message);
 
+      // Get a signed download URL
+      const { data: signedData } = await supabase.storage
+        .from("tenant-documents")
+        .createSignedUrl(storagePath, 3600);
+      setGeneratedPdfUrl(signedData?.signedUrl || null);
+
       setGenMessage({
         type: "success",
         text: "Document generated and sent to tenant for signing.",
       });
     } catch (err) {
       setGenMessage({ type: "error", text: err.message });
+      setGeneratedPdfUrl(null);
     }
 
     setGenerating(false);
@@ -969,13 +977,40 @@ export default function AdminDocumentsPage() {
         {/* Gen message */}
         {genMessage && (
           <div
-            className={`mb-6 px-4 py-3 rounded-xl text-sm font-['Manrope'] ${
+            className={`mb-6 px-4 py-4 rounded-xl text-sm font-['Manrope'] ${
               genMessage.type === "error"
                 ? "bg-[#ffdad6]/40 text-[#ba1a1a] border border-[#ba1a1a]/15"
                 : "bg-[#eff4ff] text-[#006b5f] border border-[#006b5f]/15"
             }`}
           >
-            {genMessage.text}
+            <div className="flex items-center gap-3">
+              <span className="material-symbols-outlined text-[20px]">
+                {genMessage.type === "error" ? "error" : "check_circle"}
+              </span>
+              <span className="font-medium">{genMessage.text}</span>
+            </div>
+            {genMessage.type === "success" && generatedPdfUrl && (
+              <div className="mt-3 flex items-center gap-3">
+                <a
+                  href={generatedPdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#006b5f] text-white rounded-lg text-xs font-bold hover:opacity-90 transition-opacity"
+                >
+                  <span className="material-symbols-outlined text-[16px]">download</span>
+                  Download PDF
+                </a>
+                <a
+                  href={generatedPdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white text-[#006b5f] border border-[#006b5f]/20 rounded-lg text-xs font-bold hover:bg-[#eff4ff] transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[16px]">visibility</span>
+                  Preview
+                </a>
+              </div>
+            )}
           </div>
         )}
 

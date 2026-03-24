@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useAcStatus } from "../../hooks/useAcStatus";
 import { useAcUsage } from "../../hooks/useAcUsage";
@@ -29,6 +29,12 @@ function SkeletonLine({ className = "" }) {
 
 export default function DashboardPage() {
   const { profile } = useAuth();
+
+  // Admin should see admin dashboard, not tenant dashboard
+  if (profile?.role === "ADMIN") {
+    return <Navigate to="/portal/admin" replace />;
+  }
+
   const roomId = profile?.room_id;
 
   const { status, loading: statusLoading } = useAcStatus(roomId);
