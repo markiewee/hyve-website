@@ -17,9 +17,12 @@ const STEP_BADGE_COLORS = {
 };
 
 const STATUS_BADGE_COLORS = {
+  ONBOARDING: "bg-blue-100 text-blue-700",
   IN_PROGRESS: "bg-blue-100 text-blue-700",
   ACTIVE: "bg-[#d1fae5] text-[#065f46]",
   COMPLETE: "bg-[#d1fae5] text-[#065f46]",
+  END_OF_TENANCY: "bg-amber-100 text-amber-700",
+  MOVED_OUT: "bg-gray-100 text-gray-600",
   BLOCKED: "bg-[#ffdad6] text-[#ba1a1a]",
 };
 
@@ -32,6 +35,8 @@ const STEP_ORDER = [
   "MOVE_IN_CHECKLIST",
   "ACTIVE",
 ];
+
+const LIFECYCLE_FILTERS = ["ALL", "ONBOARDING", "ACTIVE", "END_OF_TENANCY"];
 
 function getStepProgress(currentStep) {
   const idx = STEP_ORDER.indexOf(currentStep);
@@ -131,9 +136,16 @@ export default function AdminOnboardingPage() {
     fetchOnboardingInit();
   }, []);
 
+  const [lifecycleFilter, setLifecycleFilter] = useState("ALL");
+
   const activeCount = rows.filter((r) => r.status === "ACTIVE").length;
-  const inProgressCount = rows.filter((r) => r.status === "IN_PROGRESS").length;
-  const blockedCount = rows.filter((r) => r.status === "BLOCKED").length;
+  const onboardingCount = rows.filter((r) => ["ONBOARDING", "IN_PROGRESS"].includes(r.status)).length;
+  const endOfTenancyCount = rows.filter((r) => r.status === "END_OF_TENANCY").length;
+
+  const filteredRows = lifecycleFilter === "ALL" ? rows
+    : lifecycleFilter === "ONBOARDING" ? rows.filter(r => ["ONBOARDING", "IN_PROGRESS"].includes(r.status))
+    : lifecycleFilter === "ACTIVE" ? rows.filter(r => r.status === "ACTIVE")
+    : rows.filter(r => r.status === "END_OF_TENANCY");
 
   return (
     <PortalLayout>
@@ -141,10 +153,10 @@ export default function AdminOnboardingPage() {
       <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
           <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
-            Tenant Onboarding
+            Tenant Management
           </h1>
           <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
-            Track and manage tenant onboarding progress across all rooms.
+            Full lifecycle — onboarding, active tenants, and end of tenancy.
           </p>
         </div>
         <button
@@ -236,43 +248,42 @@ export default function AdminOnboardingPage() {
         </div>
       )}
 
-      {/* Stat cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10">
-        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Total</p>
-          {loading ? (
-            <div className="h-8 w-10 bg-[#eff4ff] animate-pulse rounded" />
-          ) : (
-            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">{rows.length}</p>
-          )}
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Active</p>
-          {loading ? (
-            <div className="h-8 w-10 bg-[#eff4ff] animate-pulse rounded" />
-          ) : (
-            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#006b5f]">{activeCount}</p>
-          )}
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">In Progress</p>
-          {loading ? (
-            <div className="h-8 w-10 bg-[#eff4ff] animate-pulse rounded" />
-          ) : (
-            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-blue-600">{inProgressCount}</p>
-          )}
-        </div>
-        <div className="bg-[#006b5f] rounded-2xl p-6">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#71f8e4]/80 font-bold mb-3">Blocked</p>
-          {loading ? (
-            <div className="h-8 w-10 bg-white/10 animate-pulse rounded" />
-          ) : (
-            <p className={`font-['Plus_Jakarta_Sans'] text-3xl font-extrabold ${blockedCount > 0 ? "text-[#ffdad6]" : "text-white"}`}>
-              {blockedCount}
-            </p>
-          )}
-        </div>
+      {/* Stat cards — clickable to filter */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-6">
+        {[
+          { label: "Total", count: rows.length, filter: "ALL", color: "text-[#121c2a]", bg: "bg-white" },
+          { label: "Onboarding", count: onboardingCount, filter: "ONBOARDING", color: "text-blue-600", bg: "bg-white" },
+          { label: "Active", count: activeCount, filter: "ACTIVE", color: "text-[#006b5f]", bg: "bg-white" },
+          { label: "End of Tenancy", count: endOfTenancyCount, filter: "END_OF_TENANCY", color: "text-amber-600", bg: "bg-white" },
+        ].map(({ label, count, filter, color, bg }) => (
+          <button
+            key={filter}
+            onClick={() => setLifecycleFilter(filter)}
+            className={`${bg} rounded-2xl p-6 border-2 shadow-sm text-left transition-all ${
+              lifecycleFilter === filter ? "border-[#006b5f] ring-1 ring-[#006b5f]/20" : "border-[#bbcac6]/15 hover:border-[#006b5f]/30"
+            }`}
+          >
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">{label}</p>
+            {loading ? (
+              <div className="h-8 w-10 bg-[#eff4ff] animate-pulse rounded" />
+            ) : (
+              <p className={`font-['Plus_Jakarta_Sans'] text-3xl font-extrabold ${color}`}>{count}</p>
+            )}
+          </button>
+        ))}
       </div>
+
+      {/* Active filter indicator */}
+      {lifecycleFilter !== "ALL" && (
+        <div className="mb-4 flex items-center gap-2">
+          <span className="font-['Inter'] text-xs text-[#6c7a77]">
+            Showing: <strong className="text-[#121c2a]">{lifecycleFilter.replace(/_/g, " ")}</strong>
+          </span>
+          <button onClick={() => setLifecycleFilter("ALL")} className="text-xs text-[#006b5f] font-bold hover:underline">
+            Clear filter
+          </button>
+        </div>
+      )}
 
       {/* Table */}
       {loading ? (
@@ -319,7 +330,7 @@ export default function AdminOnboardingPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#bbcac6]/10">
-              {rows.map((row) => {
+              {filteredRows.map((row) => {
                 const unitCode = row.tenant_profiles?.rooms?.unit_code ?? "—";
                 const roomName = row.tenant_profiles?.rooms?.name ?? "";
                 const tenantName = row.tenant_profiles?.tenant_details?.full_name ?? row.tenant_profiles?.username ?? "";
