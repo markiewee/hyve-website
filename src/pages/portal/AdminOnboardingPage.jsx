@@ -59,43 +59,80 @@ export default function AdminOnboardingPage() {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Invite modal state
+  // Invite wizard state
   const [showInvite, setShowInvite] = useState(false);
+  const [wizardStep, setWizardStep] = useState(1);
   const [inviteUsername, setInviteUsername] = useState("");
   const [inviteRoomId, setInviteRoomId] = useState("");
   const [inviteDeposit, setInviteDeposit] = useState("2400");
+  const [inviteRent, setInviteRent] = useState("1200");
+  const [inviteStartDate, setInviteStartDate] = useState("");
+  const [inviteLicencePeriod, setInviteLicencePeriod] = useState("12");
+  const [inviteRefNumber, setInviteRefNumber] = useState("");
   const [rooms, setRooms] = useState([]);
   const [inviting, setInviting] = useState(false);
   const [inviteResult, setInviteResult] = useState(null);
+
+  // Auto-calculate end date
+  const inviteEndDate = (() => {
+    if (!inviteStartDate || !inviteLicencePeriod) return "";
+    const start = new Date(inviteStartDate + "T00:00:00");
+    if (isNaN(start.getTime())) return "";
+    const end = new Date(start);
+    end.setMonth(end.getMonth() + Number(inviteLicencePeriod));
+    end.setDate(end.getDate() - 1);
+    return end.toISOString().split("T")[0];
+  })();
+
+  const selectedRoom = rooms.find(r => r.id === inviteRoomId);
 
   useEffect(() => {
     supabase.from("rooms").select("id, unit_code, name, property_id, properties(name)")
       .order("unit_code").then(({ data }) => setRooms(data ?? []));
   }, []);
 
-  async function handleInvite(e) {
-    e.preventDefault();
-    if (!inviteUsername.trim() || !inviteRoomId) return;
+  async function handleInvite() {
     setInviting(true);
     setInviteResult(null);
     try {
       const { data: sessionData } = await supabase.auth.getSession();
       const jwt = sessionData?.session?.access_token;
-      const room = rooms.find(r => r.id === inviteRoomId);
       const res = await fetch("/api/portal/invite", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${jwt}` },
         body: JSON.stringify({
           username: inviteUsername.trim(),
           room_id: inviteRoomId,
-          property_id: room?.property_id,
+          property_id: selectedRoom?.property_id,
           deposit_amount: inviteDeposit ? Number(inviteDeposit) : undefined,
         }),
       });
       const body = await res.json();
       if (!res.ok) throw new Error(body.error || "Invite failed");
+
+      // Save tenancy details to onboarding_progress
+      if (body.profile_id) {
+        const { data: onbData } = await supabase
+          .from("onboarding_progress")
+          .select("id")
+          .eq("tenant_profile_id", body.profile_id)
+          .maybeSingle();
+        if (onbData?.id) {
+          await supabase.from("onboarding_progress").update({
+            ref_number: inviteRefNumber || null,
+            tenancy_start_date: inviteStartDate || null,
+            tenancy_end_date: inviteEndDate || null,
+            licence_period: inviteLicencePeriod ? `${inviteLicencePeriod} months` : null,
+          }).eq("id", onbData.id);
+        }
+        // Update room rent amount
+        if (inviteRent) {
+          await supabase.from("rooms").update({ rent_amount: Number(inviteRent) }).eq("id", inviteRoomId);
+        }
+      }
+
       setInviteResult({ type: "success", ...body });
-      // Refresh list
+      setWizardStep(3);
       fetchOnboarding();
     } catch (err) {
       setInviteResult({ type: "error", message: err.message });
@@ -161,90 +198,228 @@ export default function AdminOnboardingPage() {
           </p>
         </div>
         <button
-          onClick={() => { setShowInvite(true); setInviteResult(null); setInviteUsername(""); }}
+          onClick={() => { setShowInvite(true); setInviteResult(null); setInviteUsername(""); setWizardStep(1); }}
           className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] transition-colors shrink-0"
         >
           <span className="material-symbols-outlined text-[18px]">person_add</span>
-          Invite Tenant
+          New Member
         </button>
       </div>
 
-      {/* Invite Tenant Modal */}
+      {/* Invite Wizard Modal */}
       {showInvite && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setShowInvite(false)}>
-          <div className="bg-white rounded-2xl p-8 w-full max-w-md shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#121c2a]">Invite New Tenant</h2>
-              <button onClick={() => setShowInvite(false)} className="text-[#6c7a77] hover:text-[#121c2a]">
-                <span className="material-symbols-outlined">close</span>
-              </button>
-            </div>
-
-            {inviteResult?.type === "success" ? (
-              <div className="space-y-4">
-                <div className="bg-[#d1fae5] border border-[#065f46]/15 rounded-xl p-4">
-                  <p className="text-sm font-bold text-[#065f46] mb-2">Tenant Created!</p>
-                  <div className="text-xs text-[#065f46] space-y-1 font-mono">
-                    <p>Username: <strong>{inviteResult.username}</strong></p>
-                    <p>Password: <strong>{inviteResult.default_password}</strong></p>
-                    <p>Login: hyve.sg/portal/login</p>
-                  </div>
-                </div>
-                <p className="text-xs text-[#555f6f]">{inviteResult.message}</p>
-                <button onClick={() => setShowInvite(false)} className="w-full py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm">
-                  Done
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setShowInvite(false)}>
+          <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            {/* Wizard header */}
+            <div className="px-8 pt-6 pb-4 border-b border-[#bbcac6]/15">
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#121c2a]">New Member Setup</h2>
+                <button onClick={() => setShowInvite(false)} className="text-[#6c7a77] hover:text-[#121c2a]">
+                  <span className="material-symbols-outlined">close</span>
                 </button>
               </div>
-            ) : (
-              <form onSubmit={handleInvite} className="space-y-4">
-                <div className="space-y-1.5">
-                  <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Username *</label>
-                  <input
-                    type="text"
-                    value={inviteUsername}
-                    onChange={(e) => setInviteUsername(e.target.value)}
-                    placeholder="e.g. john-doe"
-                    required
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
-                  />
-                  <p className="text-[10px] text-[#6c7a77]">Letters, numbers, hyphens, underscores. Min 3 chars.</p>
-                </div>
-                <div className="space-y-1.5">
-                  <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Room *</label>
-                  <select
-                    value={inviteRoomId}
-                    onChange={(e) => setInviteRoomId(e.target.value)}
-                    required
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+              {/* Step indicator */}
+              <div className="flex gap-2">
+                {["Account", "Tenancy", "Done"].map((label, i) => (
+                  <div key={label} className="flex items-center gap-2 flex-1">
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
+                      wizardStep > i + 1 ? "bg-[#006b5f] text-white" : wizardStep === i + 1 ? "bg-[#006b5f] text-white" : "bg-[#eff4ff] text-[#6c7a77]"
+                    }`}>
+                      {wizardStep > i + 1 ? <span className="material-symbols-outlined text-[14px]">check</span> : i + 1}
+                    </div>
+                    <span className={`font-['Inter'] text-[10px] uppercase tracking-widest font-bold ${wizardStep >= i + 1 ? "text-[#121c2a]" : "text-[#bbcac6]"}`}>{label}</span>
+                    {i < 2 && <div className={`flex-1 h-0.5 rounded ${wizardStep > i + 1 ? "bg-[#006b5f]" : "bg-[#eff4ff]"}`} />}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="px-8 py-6">
+              {/* Step 1: Account */}
+              {wizardStep === 1 && (
+                <div className="space-y-4">
+                  <div className="space-y-1.5">
+                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Username *</label>
+                    <input
+                      type="text"
+                      value={inviteUsername}
+                      onChange={(e) => setInviteUsername(e.target.value)}
+                      placeholder="e.g. john-doe"
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                    />
+                    <p className="text-[10px] text-[#6c7a77]">Letters, numbers, hyphens, underscores. Min 3 chars. Password will be auto-generated.</p>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Room *</label>
+                    <select
+                      value={inviteRoomId}
+                      onChange={(e) => setInviteRoomId(e.target.value)}
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                    >
+                      <option value="">Select room</option>
+                      {rooms.map(r => (
+                        <option key={r.id} value={r.id}>{r.unit_code} — {r.name} ({r.properties?.name})</option>
+                      ))}
+                    </select>
+                  </div>
+                  <button
+                    onClick={() => setWizardStep(2)}
+                    disabled={!inviteUsername.trim() || inviteUsername.trim().length < 3 || !inviteRoomId}
+                    className="w-full py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2"
                   >
-                    <option value="">Select room</option>
-                    {rooms.map(r => (
-                      <option key={r.id} value={r.id}>{r.unit_code} — {r.name} ({r.properties?.name})</option>
-                    ))}
-                  </select>
+                    Next: Tenancy Details
+                    <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                  </button>
                 </div>
-                <div className="space-y-1.5">
-                  <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Deposit Amount (SGD)</label>
-                  <input
-                    type="number"
-                    value={inviteDeposit}
-                    onChange={(e) => setInviteDeposit(e.target.value)}
-                    placeholder="2400"
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
-                  />
+              )}
+
+              {/* Step 2: Tenancy Details */}
+              {wizardStep === 2 && (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Monthly Rent (SGD) *</label>
+                      <input
+                        type="number" min="0" step="50"
+                        value={inviteRent}
+                        onChange={(e) => setInviteRent(e.target.value)}
+                        placeholder="1200"
+                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Deposit (SGD) *</label>
+                      <input
+                        type="number" min="0" step="50"
+                        value={inviteDeposit}
+                        onChange={(e) => setInviteDeposit(e.target.value)}
+                        placeholder="2400"
+                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Start Date *</label>
+                      <input
+                        type="date"
+                        value={inviteStartDate}
+                        onChange={(e) => setInviteStartDate(e.target.value)}
+                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Licence Period *</label>
+                      <select
+                        value={inviteLicencePeriod}
+                        onChange={(e) => setInviteLicencePeriod(e.target.value)}
+                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                      >
+                        {[3, 6, 9, 12, 18, 24].map(m => (
+                          <option key={m} value={m}>{m} months</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  {inviteEndDate && (
+                    <p className="text-xs text-[#006b5f] font-['Manrope'] bg-[#006b5f]/5 rounded-lg px-3 py-2">
+                      End date: <strong>{new Date(inviteEndDate + "T00:00:00").toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" })}</strong>
+                    </p>
+                  )}
+                  <div className="space-y-1.5">
+                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Reference Number</label>
+                    <input
+                      type="text"
+                      value={inviteRefNumber}
+                      onChange={(e) => setInviteRefNumber(e.target.value)}
+                      placeholder="e.g. HYV-2026-005"
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                    />
+                  </div>
+
+                  {inviteResult?.type === "error" && (
+                    <p className="text-sm text-[#ba1a1a] bg-[#ffdad6]/40 rounded-lg px-3 py-2">{inviteResult.message}</p>
+                  )}
+
+                  {/* Review summary */}
+                  <div className="bg-[#f8f9ff] rounded-xl p-4 space-y-1.5 text-xs font-['Manrope']">
+                    <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-2">Summary</p>
+                    <p><span className="text-[#6c7a77]">Username:</span> <strong>{inviteUsername}</strong></p>
+                    <p><span className="text-[#6c7a77]">Room:</span> <strong>{selectedRoom?.unit_code} — {selectedRoom?.name}</strong></p>
+                    <p><span className="text-[#6c7a77]">Rent:</span> <strong>SGD {Number(inviteRent || 0).toLocaleString()}/mo</strong> · <span className="text-[#6c7a77]">Deposit:</span> <strong>SGD {Number(inviteDeposit || 0).toLocaleString()}</strong></p>
+                    <p><span className="text-[#6c7a77]">Period:</span> <strong>{inviteLicencePeriod} months</strong> from <strong>{inviteStartDate || "TBD"}</strong></p>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => setWizardStep(1)}
+                      className="flex-1 py-3 bg-[#eff4ff] text-[#555f6f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff]"
+                    >
+                      Back
+                    </button>
+                    <button
+                      onClick={handleInvite}
+                      disabled={inviting || !inviteRent || !inviteDeposit || !inviteStartDate}
+                      className="flex-[2] py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2"
+                    >
+                      {inviting ? (
+                        <>
+                          <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
+                          Creating...
+                        </>
+                      ) : (
+                        <>
+                          <span className="material-symbols-outlined text-[18px]">person_add</span>
+                          Create Member Account
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
-                {inviteResult?.type === "error" && (
-                  <p className="text-sm text-[#ba1a1a]">{inviteResult.message}</p>
-                )}
-                <button
-                  type="submit"
-                  disabled={inviting}
-                  className="w-full py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-50"
-                >
-                  {inviting ? "Creating..." : "Create Tenant Account"}
-                </button>
-              </form>
-            )}
+              )}
+
+              {/* Step 3: Success */}
+              {wizardStep === 3 && inviteResult?.type === "success" && (
+                <div className="space-y-5 text-center">
+                  <div className="w-16 h-16 mx-auto rounded-2xl bg-[#d1fae5] flex items-center justify-center">
+                    <span className="material-symbols-outlined text-[#065f46] text-[32px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                  </div>
+                  <div>
+                    <h3 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#121c2a] mb-1">Member Created!</h3>
+                    <p className="text-xs text-[#555f6f]">Share these login credentials with the new member.</p>
+                  </div>
+                  <div className="bg-[#f8f9ff] rounded-xl p-5 text-left space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-[#6c7a77]">Username</span>
+                      <code className="text-sm font-bold text-[#121c2a] bg-white px-2 py-0.5 rounded">{inviteResult.username}</code>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-[#6c7a77]">Password</span>
+                      <code className="text-sm font-bold text-[#121c2a] bg-white px-2 py-0.5 rounded">{inviteResult.default_password}</code>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-[#6c7a77]">Login URL</span>
+                      <code className="text-xs text-[#006b5f] bg-white px-2 py-0.5 rounded">hyve.sg/portal/login</code>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(`Username: ${inviteResult.username}\nPassword: ${inviteResult.default_password}\nLogin: hyve.sg/portal/login`);
+                    }}
+                    className="w-full py-2.5 bg-[#eff4ff] text-[#006b5f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff] flex items-center justify-center gap-2"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">content_copy</span>
+                    Copy Credentials
+                  </button>
+                  <button
+                    onClick={() => setShowInvite(false)}
+                    className="w-full py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61]"
+                  >
+                    Done
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
