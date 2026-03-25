@@ -924,55 +924,100 @@ export default function AdminOnboardingDetailPage() {
             </SectionCard>
           )}
 
-          {/* Offboard / Archive */}
-          {(onboarding.status === "ACTIVE" || onboarding.current_step === "ACTIVE") && (
-            <SectionCard title="End of Tenancy">
-              <p className="text-sm text-muted-foreground mb-3">
-                Start the offboarding process when this member is moving out.
-              </p>
-              <div className="flex gap-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={async () => {
-                    if (!confirm("Start offboarding for this member? This will mark them as End of Tenancy.")) return;
-                    setActionLoading(true);
-                    await supabase.from("onboarding_progress").update({
-                      status: "END_OF_TENANCY",
-                      current_step: "END_OF_TENANCY",
-                    }).eq("id", id);
-                    setMessage({ type: "success", text: "Member marked for offboarding." });
-                    await fetchData();
-                    setActionLoading(false);
-                  }}
-                  disabled={actionLoading}
-                >
-                  <span className="material-symbols-outlined text-[16px] mr-1">logout</span>
-                  Start Offboarding
-                </Button>
+          {/* Actions: Offboard / Archive / Delete */}
+          <SectionCard title="Member Actions">
+            <div className="space-y-4">
+              {/* Offboard — only for active members */}
+              {(onboarding.status === "ACTIVE" || onboarding.current_step === "ACTIVE") && (
+                <div className="flex items-center justify-between p-3 rounded-lg border border-[#bbcac6]/15">
+                  <div>
+                    <p className="text-sm font-medium text-foreground">Start Offboarding</p>
+                    <p className="text-xs text-muted-foreground">Mark as end of tenancy when moving out.</p>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={async () => {
+                      if (!confirm("Start offboarding for this member?")) return;
+                      setActionLoading(true);
+                      await supabase.from("onboarding_progress").update({ status: "END_OF_TENANCY", current_step: "END_OF_TENANCY" }).eq("id", id);
+                      setMessage({ type: "success", text: "Member marked for offboarding." });
+                      await fetchData();
+                      setActionLoading(false);
+                    }}
+                    disabled={actionLoading}
+                  >
+                    <span className="material-symbols-outlined text-[16px] mr-1">logout</span>
+                    Offboard
+                  </Button>
+                </div>
+              )}
+
+              {/* Archive — available for all statuses */}
+              {onboarding.status !== "ARCHIVED" && (
+                <div className="flex items-center justify-between p-3 rounded-lg border border-amber-200 bg-amber-50/50">
+                  <div>
+                    <p className="text-sm font-medium text-foreground">Archive Member</p>
+                    <p className="text-xs text-muted-foreground">Deactivate account. Can be restored later.</p>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="border-amber-300 text-amber-700 hover:bg-amber-100"
+                    onClick={async () => {
+                      if (!confirm("Archive this member? Their login will be deactivated.")) return;
+                      setActionLoading(true);
+                      await supabase.from("onboarding_progress").update({ status: "ARCHIVED" }).eq("id", id);
+                      await supabase.from("tenant_profiles").update({ is_active: false }).eq("id", onboarding.tenant_profile_id);
+                      setMessage({ type: "success", text: "Member archived." });
+                      await fetchData();
+                      setActionLoading(false);
+                    }}
+                    disabled={actionLoading}
+                  >
+                    <span className="material-symbols-outlined text-[16px] mr-1">archive</span>
+                    Archive
+                  </Button>
+                </div>
+              )}
+
+              {/* Delete — available for all statuses */}
+              <div className="flex items-center justify-between p-3 rounded-lg border border-red-200 bg-red-50/50">
+                <div>
+                  <p className="text-sm font-medium text-red-800">Delete Permanently</p>
+                  <p className="text-xs text-red-600">Remove all data. Cannot be undone.</p>
+                </div>
                 <Button
                   size="sm"
                   variant="destructive"
                   onClick={async () => {
-                    if (!confirm("Archive this member? Their account will be deactivated.")) return;
+                    if (!confirm("DELETE this member permanently?\n\nThis removes their account, documents, and all data. Cannot be undone.")) return;
+                    const confirmText = prompt("Type 'delete' to confirm:");
+                    if (confirmText?.toLowerCase() !== "delete") { setMessage({ type: "error", text: "Cancelled." }); return; }
                     setActionLoading(true);
-                    await supabase.from("onboarding_progress").update({ status: "ARCHIVED" }).eq("id", id);
-                    await supabase.from("tenant_profiles").update({ is_active: false }).eq("id", onboarding.tenant_profile_id);
-                    setMessage({ type: "success", text: "Member archived and deactivated." });
-                    await fetchData();
-                    setActionLoading(false);
+                    try {
+                      const tpId = onboarding.tenant_profile_id;
+                      const userId = onboarding.tenant_profiles?.user_id;
+                      await supabase.from("room_checklists").delete().eq("tenant_profile_id", tpId);
+                      await supabase.from("tenant_documents").delete().eq("tenant_profile_id", tpId);
+                      await supabase.from("tenant_details").delete().eq("tenant_profile_id", tpId);
+                      await supabase.from("onboarding_progress").delete().eq("id", id);
+                      await supabase.from("tenant_profiles").delete().eq("id", tpId);
+                      if (userId) await supabase.auth.admin.deleteUser(userId);
+                      navigate("/portal/admin/onboarding");
+                    } catch (err) {
+                      setMessage({ type: "error", text: "Delete failed: " + err.message });
+                      setActionLoading(false);
+                    }
                   }}
                   disabled={actionLoading}
                 >
-                  <span className="material-symbols-outlined text-[16px] mr-1">archive</span>
-                  Archive Member
+                  <span className="material-symbols-outlined text-[16px] mr-1">delete_forever</span>
+                  Delete
                 </Button>
               </div>
-            </SectionCard>
-          )}
-
-          {/* Delete Member — danger zone */}
-          <SectionCard title="Danger Zone">
+            </div>
+          </SectionCard>
             <p className="text-sm text-muted-foreground mb-3">
               Permanently delete this member and all their data. This cannot be undone.
             </p>
