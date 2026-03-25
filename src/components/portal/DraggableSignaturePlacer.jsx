@@ -10,22 +10,38 @@ const RENDER_WIDTH = 612; // CSS pixels for the rendered PDF page
 const DEFAULT_POSITIONS = {
   tenant: { page: "last", x: 72, y: 100, width: 200, height: 60 },
   admin: { page: "last", x: 350, y: 100, width: 200, height: 60 },
+  tenant_date: { page: "last", x: 72, y: 50, width: 140, height: 20 },
+  admin_date: { page: "last", x: 350, y: 50, width: 140, height: 20 },
 };
 
 const BOX_CONFIG = {
   tenant: {
-    label: "Tenant Signature",
+    label: "Member Signature",
     borderClass: "border-blue-500",
     bgClass: "bg-blue-50",
     headerClass: "bg-blue-500 text-white",
     handleClass: "bg-blue-500",
   },
   admin: {
-    label: "Admin Signature",
+    label: "Licensor Signature",
     borderClass: "border-emerald-500",
     bgClass: "bg-emerald-50",
     headerClass: "bg-emerald-500 text-white",
     handleClass: "bg-emerald-500",
+  },
+  tenant_date: {
+    label: "Member Date",
+    borderClass: "border-blue-300",
+    bgClass: "bg-blue-50",
+    headerClass: "bg-blue-300 text-blue-900",
+    handleClass: "bg-blue-300",
+  },
+  admin_date: {
+    label: "Licensor Date",
+    borderClass: "border-emerald-300",
+    bgClass: "bg-emerald-50",
+    headerClass: "bg-emerald-300 text-emerald-900",
+    handleClass: "bg-emerald-300",
   },
 };
 
@@ -229,10 +245,12 @@ export default function DraggableSignaturePlacer({ pdfUrl, value, onChange }) {
 
   // Internal positions in PDF points — resolve "last" to actual page number
   const resolvePage = (p) => (p === "last" && numPages) ? numPages : (typeof p === "number" ? p : 1);
-  const positions = {
-    tenant: { ...(value?.tenant ?? DEFAULT_POSITIONS.tenant), page: resolvePage((value?.tenant ?? DEFAULT_POSITIONS.tenant).page) },
-    admin: { ...(value?.admin ?? DEFAULT_POSITIONS.admin), page: resolvePage((value?.admin ?? DEFAULT_POSITIONS.admin).page) },
-  };
+  const ALL_ROLES = ["tenant", "admin", "tenant_date", "admin_date"];
+  const positions = {};
+  for (const role of ALL_ROLES) {
+    const pos = value?.[role] ?? DEFAULT_POSITIONS[role];
+    positions[role] = { ...pos, page: resolvePage(pos.page) };
+  }
 
   const onDocumentLoadSuccess = useCallback(({ numPages: n }) => {
     setNumPages(n);
@@ -284,8 +302,8 @@ export default function DraggableSignaturePlacer({ pdfUrl, value, onChange }) {
     [positions, onChange]
   );
 
-  // Navigate to a page that has a signature box
-  const visibleBoxes = ["tenant", "admin"].filter(
+  // Navigate to a page that has a box
+  const visibleBoxes = ALL_ROLES.filter(
     (role) => positions[role].page === viewPage
   );
 
@@ -324,7 +342,7 @@ export default function DraggableSignaturePlacer({ pdfUrl, value, onChange }) {
 
           {/* Quick jump to pages with boxes */}
           <span className="ml-2 text-[10px] text-muted-foreground">
-            Tenant: pg {positions.tenant.page} | Admin: pg {positions.admin.page}
+            Sig: pg {positions.tenant.page} | Date: pg {positions.tenant_date.page}
           </span>
         </div>
       )}
@@ -378,12 +396,11 @@ export default function DraggableSignaturePlacer({ pdfUrl, value, onChange }) {
 
       {/* Current values debug */}
       <div className="text-[10px] text-muted-foreground font-mono space-y-0.5">
-        <div>
-          Tenant (PDF pts): page={positions.tenant.page} x={positions.tenant.x} y={positions.tenant.y} w={positions.tenant.width} h={positions.tenant.height}
-        </div>
-        <div>
-          Admin (PDF pts): page={positions.admin.page} x={positions.admin.x} y={positions.admin.y} w={positions.admin.width} h={positions.admin.height}
-        </div>
+        {ALL_ROLES.map(role => (
+          <div key={role}>
+            {role}: pg{positions[role].page} x={positions[role].x} y={positions[role].y} w={positions[role].width} h={positions[role].height}
+          </div>
+        ))}
       </div>
     </div>
   );
