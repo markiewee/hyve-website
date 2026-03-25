@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
-import DraggableSignaturePlacer from "../../components/portal/DraggableSignaturePlacer";
+import PdfFieldPlacer from "../../components/portal/PdfFieldPlacer";
+import { stampPdf, fetchPdfBytes } from "../../lib/pdfStamp";
 
 const DOC_TYPES = ["LICENCE_AGREEMENT", "NOTICE_OF_TERMINATION", "MOVE_IN_CHECKLIST", "MOVE_OUT_CHECKLIST", "HOUSE_RULES", "OTHER"];
 const DOC_TYPE_LABELS = { LICENCE_AGREEMENT: "Licence Agreement", NOTICE_OF_TERMINATION: "Notice of Termination", MOVE_IN_CHECKLIST: "Move-in Checklist", MOVE_OUT_CHECKLIST: "Move-out Checklist", HOUSE_RULES: "House Rules", OTHER: "Other" };
@@ -25,6 +26,7 @@ export default function AdminDocumentsPage() {
   const [editorPdfFile, setEditorPdfFile] = useState(null);
   const [editorPdfUrl, setEditorPdfUrl] = useState(null);
   const [sigConfig, setSigConfig] = useState(DEFAULT_SIG_CONFIG);
+  const [textFields, setTextFields] = useState([]);
   const [saving, setSaving] = useState(false);
 
   // Send to member
@@ -39,7 +41,7 @@ export default function AdminDocumentsPage() {
   const fetchData = useCallback(async () => {
     const [tplRes, tenantRes] = await Promise.all([
       supabase.from("document_templates").select("*").order("created_at", { ascending: false }),
-      supabase.from("tenant_profiles").select("id, role, username, rooms(unit_code, name), tenant_details(full_name), onboarding_progress(id)")
+      supabase.from("tenant_profiles").select("id, role, username, rooms(unit_code, name, rent_amount, properties(name, address, common_areas)), tenant_details(full_name, id_number, phone), onboarding_progress(id, deposit_amount, licence_period, tenancy_start_date, tenancy_end_date, ref_number)")
         .eq("role", "TENANT").eq("is_active", true),
     ]);
     setTemplates(tplRes.data ?? []);
@@ -57,6 +59,7 @@ export default function AdminDocumentsPage() {
     setEditorPdfFile(null);
     setEditorPdfUrl(null);
     setSigConfig(DEFAULT_SIG_CONFIG);
+    setTextFields([]);
     setShowEditor(true);
   }
 
@@ -66,7 +69,7 @@ export default function AdminDocumentsPage() {
     setEditorDocType(tpl.doc_type);
     setEditorPdfFile(null);
     setSigConfig(tpl.signature_config ?? DEFAULT_SIG_CONFIG);
-    // Load existing PDF URL
+    setTextFields(tpl.text_fields ?? []);
     if (tpl.pdf_url) {
       const path = tpl.pdf_url.includes("/tenant-documents/") ? tpl.pdf_url.split("/tenant-documents/")[1].split("?")[0] : tpl.pdf_url;
       supabase.storage.from("tenant-documents").createSignedUrl(path, 3600).then(({ data }) => {
@@ -107,6 +110,7 @@ export default function AdminDocumentsPage() {
         doc_type: editorDocType,
         pdf_url: pdfUrl,
         signature_config: sigConfig,
+        text_fields: textFields,
         is_active: true,
       };
 
@@ -164,23 +168,59 @@ export default function AdminDocumentsPage() {
 
     try {
       const tenant = tenants.find(t => t.id === sendTenantId);
-      let fileUrl;
+      const tpl = templates.find(t => t.id === sendTemplateId);
+      const ob = tenant?.onboarding_progress;
+
+      // Build auto-fill values from member data
+      const fmtDate = (d) => d ? new Date(d).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }) : "";
+      const autoValues = {
+        TENANT_NAME: tenant?.tenant_details?.full_name || "",
+        ID_NUMBER: tenant?.tenant_details?.id_number || "",
+        PHONE: tenant?.tenant_details?.phone || "",
+        ROOM_CODE: tenant?.rooms?.unit_code || "",
+        PROPERTY_NAME: tenant?.rooms?.properties?.name || "",
+        PROPERTY_ADDRESS: tenant?.rooms?.properties?.address || "",
+        MONTHLY_RENT: tenant?.rooms?.rent_amount ? `SGD ${Number(tenant.rooms.rent_amount).toLocaleString()}` : "",
+        DEPOSIT_AMOUNT: ob?.deposit_amount ? `SGD ${Number(ob.deposit_amount).toLocaleString()}` : "",
+        LICENCE_PERIOD: ob?.licence_period || "",
+        START_DATE: fmtDate(ob?.tenancy_start_date),
+        END_DATE: fmtDate(ob?.tenancy_end_date),
+        REF_NUMBER: ob?.ref_number || "",
+        DATE: new Date().toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }),
+      };
+
+      let pdfBlob;
+      const tplFields = tpl?.text_fields || [];
 
       if (sendPdfFile) {
-        // Upload the custom PDF
-        const path = `tenants/${sendTenantId}/ta-${Date.now()}.pdf`;
-        const { error: upErr } = await supabase.storage.from("tenant-documents").upload(path, sendPdfFile, { contentType: "application/pdf" });
-        if (upErr) throw upErr;
-        const { data: urlData } = supabase.storage.from("tenant-documents").getPublicUrl(path);
-        fileUrl = urlData.publicUrl;
-      } else {
-        // Use template PDF URL directly (copy it to tenant's folder)
-        const tpl = templates.find(t => t.id === sendTemplateId);
-        fileUrl = tpl?.pdf_url;
+        // Custom upload — stamp text if template has text fields
+        if (tplFields.length > 0) {
+          const bytes = await sendPdfFile.arrayBuffer();
+          const stamped = await stampPdf(bytes, tplFields, autoValues);
+          pdfBlob = new Blob([stamped], { type: "application/pdf" });
+        } else {
+          pdfBlob = sendPdfFile;
+        }
+      } else if (tpl?.pdf_url) {
+        // From template — fetch PDF, stamp text fields with member data
+        const pdfBytes = await fetchPdfBytes(sendPdfUrl);
+        if (tplFields.length > 0) {
+          const stamped = await stampPdf(pdfBytes, tplFields, autoValues);
+          pdfBlob = new Blob([stamped], { type: "application/pdf" });
+        } else {
+          pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
+        }
       }
 
+      // Upload stamped PDF
+      const path = `tenants/${sendTenantId}/ta-${Date.now()}.pdf`;
+      const { error: upErr } = await supabase.storage.from("tenant-documents").upload(path, pdfBlob, { contentType: "application/pdf" });
+      if (upErr) throw upErr;
+      const { data: urlData } = supabase.storage.from("tenant-documents").getPublicUrl(path);
+      const fileUrl = urlData.publicUrl;
+
       // Update onboarding_progress
-      const onbId = tenant?.onboarding_progress?.id;
+      const onbId = ob?.id;
       if (onbId) {
         await supabase.from("onboarding_progress").update({
           ta_document_url: fileUrl,
@@ -190,7 +230,6 @@ export default function AdminDocumentsPage() {
       }
 
       // Create document record
-      const tpl = templates.find(t => t.id === sendTemplateId);
       await supabase.from("tenant_documents").insert({
         tenant_profile_id: sendTenantId,
         doc_type: tpl?.doc_type || "LICENCE_AGREEMENT",
@@ -199,7 +238,7 @@ export default function AdminDocumentsPage() {
         file_url: fileUrl,
       });
 
-      setMessage({ type: "success", text: `Document sent to ${tenant?.tenant_details?.full_name || "member"}.` });
+      setMessage({ type: "success", text: `Document generated and sent to ${tenant?.tenant_details?.full_name || "member"}.` });
       setShowSend(false);
     } catch (err) {
       setMessage({ type: "error", text: err.message });
@@ -270,30 +309,16 @@ export default function AdminDocumentsPage() {
                   className="w-full text-sm text-[#555f6f] file:mr-3 file:px-4 file:py-2 file:rounded-xl file:border-0 file:bg-[#006b5f] file:text-white file:text-xs file:font-bold file:cursor-pointer" />
               </div>
 
-              {/* Signature Placement on PDF */}
+              {/* Place text fields + signatures on PDF */}
               {editorPdfUrl && (
-                <div className="space-y-2">
-                  <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#006b5f] font-bold">
-                    Drag signature boxes to position them
-                  </p>
-                  <DraggableSignaturePlacer pdfUrl={editorPdfUrl} value={sigConfig} onChange={setSigConfig} />
-                </div>
+                <PdfFieldPlacer
+                  pdfUrl={editorPdfUrl}
+                  fields={textFields}
+                  signatures={sigConfig}
+                  onFieldsChange={setTextFields}
+                  onSignaturesChange={setSigConfig}
+                />
               )}
-
-              {/* Signature labels */}
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { key: "tenant", label: "Member Signature", accent: "#3b82f6" },
-                  { key: "admin", label: "Licensor Signature", accent: "#006b5f" },
-                ].map(({ key, label, accent }) => (
-                  <div key={key} className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-sm border-2 shrink-0" style={{ borderColor: accent, backgroundColor: `${accent}15` }} />
-                    <input type="text" value={sigConfig[key]?.label ?? label}
-                      onChange={e => setSigConfig(prev => ({ ...prev, [key]: { ...prev[key], label: e.target.value } }))}
-                      className="flex-1 bg-[#eff4ff] border-0 rounded-lg px-3 py-1.5 text-sm font-['Manrope'] focus:ring-2 focus:ring-[#14b8a6] outline-none" />
-                  </div>
-                ))}
-              </div>
 
               <div className="flex gap-3 pt-4 border-t border-[#bbcac6]/15">
                 <button onClick={() => setShowEditor(false)} className="flex-1 py-3 bg-[#eff4ff] text-[#555f6f] rounded-xl font-['Manrope'] font-bold text-sm">Cancel</button>
@@ -354,13 +379,19 @@ export default function AdminDocumentsPage() {
                 </div>
               </div>
 
-              {/* Preview + signature placement */}
+              {/* Preview + field placement */}
               {sendPdfUrl && (
                 <div className="space-y-2">
                   <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#006b5f] font-bold">
-                    Preview — adjust signature positions if needed
+                    Preview — data fields will be auto-filled from member profile
                   </p>
-                  <DraggableSignaturePlacer pdfUrl={sendPdfUrl} value={sendSigConfig} onChange={setSendSigConfig} />
+                  <PdfFieldPlacer
+                    pdfUrl={sendPdfUrl}
+                    fields={templates.find(t => t.id === sendTemplateId)?.text_fields || []}
+                    signatures={sendSigConfig}
+                    onFieldsChange={() => {}}
+                    onSignaturesChange={setSendSigConfig}
+                  />
                 </div>
               )}
 
