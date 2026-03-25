@@ -71,15 +71,8 @@ export function AuthProvider({ children }) {
     // If identifier looks like an email, use directly; otherwise treat as username
     let email = identifier;
     if (!identifier.includes("@")) {
-      // Look up the username in tenant_profiles to get the placeholder email
-      const { data: tp } = await supabase
-        .from("tenant_profiles")
-        .select("username")
-        .eq("username", identifier.toLowerCase().trim())
-        .eq("is_active", true)
-        .single();
-      if (!tp) throw new Error("Username not found.");
-      email = `${tp.username}@portal.hyve.sg`;
+      // Construct the placeholder email directly — no DB lookup needed
+      email = `${identifier.toLowerCase().trim()}@portal.hyve.sg`;
     }
 
     const { data, error } = await supabase.auth.signInWithPassword({
