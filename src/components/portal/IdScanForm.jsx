@@ -15,10 +15,13 @@ const SG_ID_TYPES = [
   { value: "NRIC", label: "NRIC" },
 ];
 
-const FOREIGNER_ID_TYPES = [
-  { value: "PASSPORT", label: "Passport" },
+const PASS_TYPES = [
   { value: "WORK_PERMIT", label: "Work Permit" },
   { value: "EMPLOYMENT_PASS", label: "Employment Pass" },
+  { value: "S_PASS", label: "S Pass" },
+  { value: "STUDENT_PASS", label: "Student Pass" },
+  { value: "DEPENDANT_PASS", label: "Dependant Pass" },
+  { value: "LONG_TERM_VISIT_PASS", label: "Long Term Visit Pass" },
 ];
 
 function compressImage(file, maxPx = 1500, quality = 0.8) {
@@ -78,7 +81,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
   const [idType, setIdType] = useState(isSgNationality ? "NRIC" : "PASSPORT");
   const [form, setForm] = useState({ id_number: "", id_expiry: "" });
   const isForeigner = residency === "FOREIGNER";
-  const needsExpiry = isForeigner; // Foreigners must provide expiry date
+  const needsExpiry = isForeigner;
   const [frontFile, setFrontFile] = useState(null);
   const [backFile, setBackFile] = useState(null);
   const [frontPreview, setFrontPreview] = useState(null);
@@ -86,6 +89,14 @@ export default function IdScanForm({ onboarding, advanceStep }) {
   const [scanning, setScanning] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
+
+  // Foreigner pass (in addition to passport)
+  const [passType, setPassType] = useState("WORK_PERMIT");
+  const [passNumber, setPassNumber] = useState("");
+  const [passExpiry, setPassExpiry] = useState("");
+  const passInputRef = useRef(null);
+  const [passFile, setPassFile] = useState(null);
+  const [passPreview, setPassPreview] = useState(null);
 
   function handleChange(e) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -152,7 +163,19 @@ export default function IdScanForm({ onboarding, advanceStep }) {
     return data.publicUrl;
   }
 
-  // Check if document is expiring within 3 months
+  // Check if pass is expiring within 3 months
+  const passExpiryWarning = (() => {
+    if (!isForeigner || !passExpiry) return null;
+    const expDate = new Date(passExpiry);
+    const now = new Date();
+    const threeMonths = new Date();
+    threeMonths.setMonth(threeMonths.getMonth() + 3);
+    if (expDate < now) return "expired";
+    if (expDate < threeMonths) return "expiring_soon";
+    return null;
+  })();
+
+  // Check if passport is expiring within 3 months
   const expiryWarning = (() => {
     if (!needsExpiry || !form.id_expiry) return null;
     const expDate = new Date(form.id_expiry);
@@ -179,11 +202,27 @@ export default function IdScanForm({ onboarding, advanceStep }) {
       return;
     }
     if (needsExpiry && !form.id_expiry) {
-      setError("Expiry date is required for foreign passes.");
+      setError("Passport expiry date is required.");
+      return;
+    }
+    if (isForeigner && !passNumber.trim()) {
+      setError("Pass number is required for foreigners.");
+      return;
+    }
+    if (isForeigner && !passExpiry) {
+      setError("Pass expiry date is required.");
+      return;
+    }
+    if (isForeigner && !passFile) {
+      setError("Please upload a photo of your pass (Work Permit / EP / S Pass).");
       return;
     }
     if (expiryWarning === "expired") {
-      setError("Your document has expired. Please provide a valid document.");
+      setError("Your passport has expired. Please provide a valid document.");
+      return;
+    }
+    if (passExpiryWarning === "expired") {
+      setError("Your pass has expired. Please provide a valid document.");
       return;
     }
 
@@ -193,17 +232,22 @@ export default function IdScanForm({ onboarding, advanceStep }) {
     try {
       const frontUrl = await uploadPhoto(frontFile, "front");
       const backUrl = backFile ? await uploadPhoto(backFile, "back") : null;
+      const passUrl = passFile ? await uploadPhoto(passFile, "pass") : null;
 
       const { error: upsertError } = await supabase
         .from("tenant_details")
         .upsert(
           {
             tenant_profile_id: profile.id,
-            id_type: idType,
+            id_type: isForeigner ? "PASSPORT" : idType,
             id_number: form.id_number.trim(),
             id_expiry: form.id_expiry || null,
             id_front_url: frontUrl,
             id_back_url: backUrl ?? null,
+            pass_type: isForeigner ? passType : null,
+            pass_number: isForeigner ? passNumber.trim() : null,
+            pass_expiry: isForeigner ? passExpiry : null,
+            pass_url: passUrl,
             updated_at: new Date().toISOString(),
           },
           { onConflict: "tenant_profile_id" }
@@ -213,8 +257,31 @@ export default function IdScanForm({ onboarding, advanceStep }) {
 
       await advanceStep("id_verification_completed_at");
 
-      // If foreigner pass is expiring soon, create an admin task
+      // Create admin tasks for expiring documents
+      const tenantName = profile?.tenant_details?.full_name || profile?.full_name || form.id_number;
       if (expiryWarning === "expiring_soon" && form.id_expiry) {
+        try {
+          await supabase.from("admin_tasks").insert({
+            title: `Passport expiring: ${tenantName}`,
+            description: `${tenantName}'s passport (${form.id_number}) expires on ${new Date(form.id_expiry).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" })}. Follow up to ensure renewal.`,
+            category: "ONBOARDING", priority: "HIGH", status: "PENDING",
+            tenant_name: tenantName, due_date: form.id_expiry,
+          });
+        } catch (e) { console.error("Task creation failed:", e); }
+      }
+      if (passExpiryWarning === "expiring_soon" && passExpiry) {
+        try {
+          await supabase.from("admin_tasks").insert({
+            title: `Pass expiring: ${tenantName} (${passType.replace(/_/g, " ")})`,
+            description: `${tenantName}'s ${passType.replace(/_/g, " ")} (${passNumber}) expires on ${new Date(passExpiry).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" })}. Follow up to ensure renewal.`,
+            category: "ONBOARDING", priority: "URGENT", status: "PENDING",
+            tenant_name: tenantName, due_date: passExpiry,
+          });
+        } catch (e) { console.error("Task creation failed:", e); }
+      }
+
+      // Legacy: old single-task code for backwards compat
+      if (false && expiryWarning === "expiring_soon" && form.id_expiry) {
         try {
           const tenantName = profile?.tenant_details?.full_name || profile?.full_name || form.id_number;
           await supabase.from("admin_tasks").insert({
@@ -265,26 +332,25 @@ export default function IdScanForm({ onboarding, advanceStep }) {
         </div>
       </div>
 
-      {/* ID type selector — only show if residency selected */}
-      {residency && (
+      {/* ID type — Singaporean: NRIC selector; Foreigner: always passport */}
+      {residency === "SINGAPOREAN" && (
         <div>
           <Label className="block mb-2">Document Type</Label>
           <div className="grid grid-cols-2 gap-2">
-            {(residency === "SINGAPOREAN" ? SG_ID_TYPES : FOREIGNER_ID_TYPES).map(({ value, label }) => (
-              <button
-                key={value}
-                type="button"
-                onClick={() => setIdType(value)}
+            {SG_ID_TYPES.map(({ value, label }) => (
+              <button key={value} type="button" onClick={() => setIdType(value)}
                 className={`py-2 px-3 rounded-md text-sm font-medium border transition-colors ${
-                  idType === value
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-background text-foreground border-border hover:bg-accent"
-                }`}
-              >
-                {label}
-              </button>
+                  idType === value ? "bg-primary text-primary-foreground border-primary" : "bg-background text-foreground border-border hover:bg-accent"
+                }`}>{label}</button>
             ))}
           </div>
+        </div>
+      )}
+      {isForeigner && (
+        <div className="rounded-lg border border-blue-200 bg-blue-50 p-3">
+          <p className="text-xs font-semibold text-blue-800">
+            As a foreigner, you need to upload <strong>both</strong> your passport and your work pass.
+          </p>
         </div>
       )}
 
@@ -420,6 +486,75 @@ export default function IdScanForm({ onboarding, advanceStep }) {
               Please ensure you renew it before expiry. The management team will be notified.
             </p>
           </div>
+        </div>
+      )}
+
+      {/* ── FOREIGNER: Pass Details (in addition to passport) ── */}
+      {isForeigner && (
+        <div className="border-t border-border pt-5 mt-5 space-y-4">
+          <div>
+            <Label className="block mb-2 text-base font-semibold">Work Pass / Permit</Label>
+            <p className="text-xs text-muted-foreground mb-3">Upload your valid work pass in addition to your passport above.</p>
+          </div>
+
+          {/* Pass type selector */}
+          <div>
+            <Label className="block mb-2">Pass Type</Label>
+            <div className="grid grid-cols-2 gap-2">
+              {PASS_TYPES.map(({ value, label }) => (
+                <button key={value} type="button" onClick={() => setPassType(value)}
+                  className={`py-2 px-3 rounded-md text-sm font-medium border transition-colors ${
+                    passType === value ? "bg-primary text-primary-foreground border-primary" : "bg-background text-foreground border-border hover:bg-accent"
+                  }`}>{label}</button>
+              ))}
+            </div>
+          </div>
+
+          {/* Pass photo upload */}
+          <div>
+            <Label className="block mb-2">Pass Photo <span className="text-muted-foreground font-normal">(required)</span></Label>
+            <div className="flex items-center gap-3">
+              <Button type="button" variant="outline" onClick={() => passInputRef.current?.click()}>
+                {passFile ? "Change" : "Upload Pass"}
+              </Button>
+              <input ref={passInputRef} type="file" accept="image/*" className="hidden"
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) { setPassFile(f); setPassPreview(URL.createObjectURL(f)); } }} />
+              {passPreview && <img src={passPreview} alt="Pass" className="h-16 w-24 object-cover rounded border" />}
+            </div>
+          </div>
+
+          {/* Pass number + expiry */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <Label htmlFor="pass_number">Pass Number <span className="text-red-500">*</span></Label>
+              <Input id="pass_number" value={passNumber} onChange={(e) => setPassNumber(e.target.value)}
+                placeholder="e.g. WP1234567" required />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="pass_expiry">Pass Expiry Date <span className="text-red-500">*</span></Label>
+              <Input id="pass_expiry" type="date" value={passExpiry} onChange={(e) => setPassExpiry(e.target.value)} required />
+            </div>
+          </div>
+
+          {/* Pass expiry warnings */}
+          {passExpiryWarning === "expired" && (
+            <div className="rounded-xl border-2 border-red-500 bg-red-50 p-4 flex items-start gap-3">
+              <span className="material-symbols-outlined text-red-600 text-[24px] shrink-0 mt-0.5">error</span>
+              <div>
+                <p className="text-sm font-bold text-red-800">Pass Expired</p>
+                <p className="text-xs text-red-700 mt-1">Your {passType.replace(/_/g, " ")} has expired. You cannot proceed with an expired pass. Please contact your employer for renewal.</p>
+              </div>
+            </div>
+          )}
+          {passExpiryWarning === "expiring_soon" && (
+            <div className="rounded-xl border-2 border-amber-400 bg-amber-50 p-4 flex items-start gap-3">
+              <span className="material-symbols-outlined text-amber-600 text-[24px] shrink-0 mt-0.5">warning</span>
+              <div>
+                <p className="text-sm font-bold text-amber-800">Pass Expiring Soon</p>
+                <p className="text-xs text-amber-700 mt-1">Your {passType.replace(/_/g, " ")} expires on {new Date(passExpiry).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" })}. Please ensure you renew it. Management will be notified.</p>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
