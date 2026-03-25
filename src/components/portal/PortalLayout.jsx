@@ -4,12 +4,14 @@ import { useAuth } from "../../hooks/useAuth";
 
 const TENANT_NAV = [
   { label: "Dashboard", to: "/portal/dashboard", icon: "dashboard" },
+  { label: "Documents", to: "/portal/documents", icon: "folder_open" },
   { label: "Billing", to: "/portal/billing", icon: "payments" },
   { label: "Issues", to: "/portal/issues", icon: "build" },
 ];
 
 const HOUSE_CAPTAIN_NAV = [
   { label: "Dashboard", to: "/portal/dashboard", icon: "dashboard" },
+  { label: "Documents", to: "/portal/documents", icon: "folder_open" },
   { label: "Billing", to: "/portal/billing", icon: "payments" },
   { label: "Issues", to: "/portal/issues", icon: "build" },
   { label: "Property Overview", to: "/portal/property", icon: "apartment" },

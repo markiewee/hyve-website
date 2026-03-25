@@ -42,6 +42,7 @@ import AdminExpensesPage from './pages/portal/AdminExpensesPage';
 import AdminFinancialsPage from './pages/portal/AdminFinancialsPage';
 import AdminDocumentsPage from './pages/portal/AdminDocumentsPage';
 import AdminTasksPage from './pages/portal/AdminTasksPage';
+import TenantDocumentsPage from './pages/portal/TenantDocumentsPage';
 import InvestorDashboardPage from './pages/portal/InvestorDashboardPage';
 import InvestorSignupPage from './pages/portal/InvestorSignupPage';
 import OnboardingPage from './pages/portal/OnboardingPage';
@@ -114,6 +115,14 @@ function AppContent() {
             element={
               <AuthGuard>
                 <DashboardPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/documents"
+            element={
+              <AuthGuard>
+                <TenantDocumentsPage />
               </AuthGuard>
             }
           />
