@@ -903,26 +903,69 @@ export default function AdminOnboardingDetailPage() {
           </SectionCard>
 
           {/* Credentials */}
-          {onboarding.tenant_profiles?.username && (
+          {onboarding.tenant_profiles && (
             <SectionCard title="Login Credentials">
-              <div className="bg-[#f8faf9] rounded-lg p-4 space-y-2 text-sm font-mono">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Username</span>
-                  <strong>{onboarding.tenant_profiles.username}</strong>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-[#006b5f]/10 flex items-center justify-center text-[#006b5f] font-bold text-lg shrink-0">
+                    {(tenantDetails?.full_name || onboarding.tenant_profiles.username || "?").charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground">{tenantDetails?.full_name || "—"}</p>
+                    <p className="text-xs text-muted-foreground">{onboarding.tenant_profiles?.rooms?.unit_code} · {onboarding.tenant_profiles?.properties?.name}</p>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Email</span>
-                  <span>{onboarding.tenant_profiles.username}@portal.hyve.sg</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Default Password</span>
-                  <strong>Welcome1!</strong>
+                <div className="bg-[#f8faf9] rounded-lg p-4 space-y-3 text-sm">
+                  <div className="grid grid-cols-[100px_1fr] gap-2 items-center">
+                    <span className="text-muted-foreground text-xs font-medium">Username</span>
+                    <input
+                      type="text"
+                      defaultValue={onboarding.tenant_profiles.username || ""}
+                      readOnly
+                      className="font-mono font-semibold text-foreground bg-transparent border-0 p-0 focus:outline-none"
+                    />
+                  </div>
+                  <div className="grid grid-cols-[100px_1fr] gap-2 items-center">
+                    <span className="text-muted-foreground text-xs font-medium">Email</span>
+                    <input
+                      type="text"
+                      defaultValue={`${onboarding.tenant_profiles.username || ""}@portal.hyve.sg`}
+                      readOnly
+                      className="font-mono text-foreground bg-transparent border-0 p-0 focus:outline-none text-xs"
+                    />
+                  </div>
+                  <div className="grid grid-cols-[100px_1fr_auto] gap-2 items-center">
+                    <span className="text-muted-foreground text-xs font-medium">Password</span>
+                    <span className="font-mono font-semibold text-foreground">Welcome1!</span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="h-7 text-xs"
+                      onClick={async () => {
+                        const newPw = prompt("Enter new password (min 8 chars):");
+                        if (!newPw || newPw.length < 8) { setMessage({ type: "error", text: "Password must be at least 8 characters." }); return; }
+                        setActionLoading(true);
+                        try {
+                          const userId = onboarding.tenant_profiles.user_id;
+                          const { error } = await supabase.auth.admin.updateUserById(userId, { password: newPw });
+                          if (error) throw error;
+                          setMessage({ type: "success", text: `Password reset to "${newPw}".` });
+                        } catch (err) {
+                          setMessage({ type: "error", text: "Reset failed: " + err.message });
+                        }
+                        setActionLoading(false);
+                      }}
+                      disabled={actionLoading}
+                    >
+                      Reset
+                    </Button>
+                  </div>
                 </div>
               </div>
               <Button
                 size="sm"
                 variant="outline"
-                className="mt-2"
+                className="mt-3"
                 onClick={() => {
                   navigator.clipboard.writeText(`Username: ${onboarding.tenant_profiles.username}\nPassword: Welcome1!\nLogin: hyve.sg/portal/login`);
                   setMessage({ type: "success", text: "Credentials copied to clipboard." });
