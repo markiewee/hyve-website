@@ -307,30 +307,42 @@ export default function IdScanForm({ onboarding, advanceStep }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Residency selector */}
-      <div>
-        <Label className="block mb-2">Are you a Singaporean/PR or Foreigner?</Label>
-        <div className="grid grid-cols-2 gap-2">
-          {RESIDENCY_OPTIONS.map(({ value, label }) => (
-            <button
-              key={value}
-              type="button"
-              onClick={() => {
-                setResidency(value);
-                setIdType(value === "SINGAPOREAN" ? "NRIC" : "PASSPORT");
-                setForm((prev) => ({ ...prev, id_expiry: "" }));
-              }}
-              className={`py-3 px-4 rounded-xl text-sm font-semibold border-2 transition-all ${
-                residency === value
-                  ? "bg-[#006b5f] text-white border-[#006b5f]"
-                  : "bg-background text-foreground border-border hover:border-[#006b5f]/40"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
+      {/* Residency — auto-detected from nationality, or ask if not set */}
+      {nationality ? (
+        <div className="rounded-lg border border-[#006b5f]/20 bg-[#006b5f]/5 p-3 flex items-center gap-3">
+          <span className="material-symbols-outlined text-[#006b5f] text-[20px]">{isForeigner ? "flight" : "home"}</span>
+          <div>
+            <p className="text-sm font-semibold text-[#121c2a]">{nationality}</p>
+            <p className="text-xs text-[#6c7a77]">
+              {isForeigner ? "Passport + work pass required" : "NRIC required"}
+            </p>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div>
+          <Label className="block mb-2">Are you a Singaporean/PR or Foreigner?</Label>
+          <div className="grid grid-cols-2 gap-2">
+            {RESIDENCY_OPTIONS.map(({ value, label }) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => {
+                  setResidency(value);
+                  setIdType(value === "SINGAPOREAN" ? "NRIC" : "PASSPORT");
+                  setForm((prev) => ({ ...prev, id_expiry: "" }));
+                }}
+                className={`py-3 px-4 rounded-xl text-sm font-semibold border-2 transition-all ${
+                  residency === value
+                    ? "bg-[#006b5f] text-white border-[#006b5f]"
+                    : "bg-background text-foreground border-border hover:border-[#006b5f]/40"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* ID type — Singaporean: NRIC selector; Foreigner: always passport */}
       {residency === "SINGAPOREAN" && (
@@ -357,7 +369,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
       {/* Front photo */}
       <div>
         <Label className="block mb-2">
-          Front of ID{" "}
+          {isForeigner ? "Passport Photo Page" : "Front of NRIC"}{" "}
           <span className="text-muted-foreground font-normal">(required)</span>
         </Label>
         <div className="flex items-center gap-3">
