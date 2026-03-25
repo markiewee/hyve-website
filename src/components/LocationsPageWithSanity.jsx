@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { client, QUERIES, urlFor } from '../lib/sanity';
 import LocationsMapComponent from './LocationsMapComponent';
+import SEO from './SEO';
 
 const LocationsPage = () => {
   const [selectedNeighborhood, setSelectedNeighborhood] = useState(null);
@@ -94,6 +95,19 @@ const LocationsPage = () => {
 
   return (
     <div className="min-h-screen bg-[#f8f9ff] pt-20">
+      <SEO
+        title="Co-living Locations in Singapore"
+        description="Discover Hyve co-living locations across Singapore. Find rooms near MRT stations in Thomson, Hougang, Bukit Batok and more."
+        canonical="/locations"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://www.hyve.sg" },
+            { "@type": "ListItem", position: 2, name: "Locations", item: "https://www.hyve.sg/locations" }
+          ]
+        }}
+      />
       <div className="flex flex-col md:flex-row h-auto md:h-[calc(100vh-80px)]">
         {/* Side Panel: Area Guides */}
         <aside className="w-full md:w-[420px] bg-[#eff4ff] md:h-full flex flex-col z-10 shadow-2xl overflow-y-auto scrollbar-hide">

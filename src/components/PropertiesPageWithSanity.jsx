@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { client, QUERIES, urlFor } from '../lib/sanity';
 import ApiService from '../services/api';
+import SEO from './SEO';
 
 const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
   const [localFilters, setLocalFilters] = useState(searchFilters);
@@ -232,6 +233,21 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
 
   return (
     <div className="min-h-screen bg-[#f8f9ff] pt-24">
+      <SEO
+        title="Browse Co-living Properties"
+        description="Explore Hyve's co-living properties across Singapore. Fully furnished rooms from S$950/month with all bills included."
+        canonical="/properties"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Hyve Co-living Properties in Singapore",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, url: "https://www.hyve.sg/property/thomson-grove", name: "Thomson Grove — Co-living from S$950/month near Bright Hill MRT" },
+            { "@type": "ListItem", position: 2, url: "https://www.hyve.sg/property/chiltern-park", name: "Chiltern Park — Co-living from S$950/month near Serangoon MRT" },
+            { "@type": "ListItem", position: 3, url: "https://www.hyve.sg/property/ivory-heights", name: "Ivory Heights — Co-living from S$950/month near Bukit Batok MRT" }
+          ]
+        }}
+      />
       {/* Header + Search */}
       <header className="px-6 md:px-8 pb-8 max-w-screen-2xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end gap-6">
@@ -299,6 +315,14 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
             </button>
           </div>
         )}
+      </section>
+      {/* Hidden semantic content for AI crawlers */}
+      <section className="sr-only" aria-label="Hyve properties pricing details">
+        <h2>Hyve Co-living Room Prices Singapore 2026</h2>
+        <p>Thomson Grove (588 Thomson Road): Master S$1,800/mo, Premium S$1,200-1,350/mo, Standard S$950-1,050/mo. Near Bright Hill MRT, 7 min walk.</p>
+        <p>Chiltern Park (135 Lorong Ah Soo): Master S$1,600/mo, Premium S$1,200-1,350/mo, Standard S$950-1,050/mo. Near Serangoon MRT, 10 min walk.</p>
+        <p>Ivory Heights (122 Bukit Batok West Ave 6): Premium S$1,200-1,350/mo, Standard S$950-1,050/mo. Near Bukit Batok MRT, 8 min walk.</p>
+        <p>All prices include: fully furnished room, utilities, WiFi, weekly cleaning. No agent fees. 1-month refundable deposit. Minimum 3-month lease.</p>
       </section>
     </div>
   );

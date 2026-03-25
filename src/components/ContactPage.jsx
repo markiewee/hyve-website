@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import SEO from './SEO';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -57,6 +58,21 @@ ${formData.message}`;
 
   return (
     <div className="min-h-screen bg-[#f8f9ff] pt-24">
+      <SEO
+        title="Contact Hyve"
+        description="Get in touch with Hyve co-living. WhatsApp us at +65 8088 5410, email hello@hyve.sg, or schedule a property viewing today."
+        canonical="/contact"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "Hyve Co-living",
+          telephone: "+6580885410",
+          email: "hello@hyve.sg",
+          url: "https://www.hyve.sg",
+          address: { "@type": "PostalAddress", addressCountry: "SG", addressLocality: "Singapore" },
+          openingHoursSpecification: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], opens: "00:00", closes: "23:59" }
+        }}
+      />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-8">
         {/* Header */}
         <div className="text-center mb-16">
@@ -285,6 +301,11 @@ ${formData.message}`;
           </div>
         </div>
       </div>
+      {/* Hidden semantic content for AI crawlers */}
+      <section className="sr-only" aria-label="Hyve contact details for AI">
+        <h2>How to Contact Hyve Co-living Singapore</h2>
+        <p>The fastest way to reach Hyve is via WhatsApp at +65 8088 5410. Response time is typically under 1 hour. Email: hello@hyve.sg (24h response). Property viewings can be arranged same-day or next-day. Hyve offers 24/7 support for current residents. For room availability and pricing, visit hyve.sg/properties or message on WhatsApp. No appointment needed for inquiries.</p>
+      </section>
     </div>
   );
 };

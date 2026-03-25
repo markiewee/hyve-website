@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { client, QUERIES, urlFor } from '../lib/sanity';
 import ApiService from '../services/api';
+import SEO from './SEO';
 
 const PropertyDetailPage = () => {
   const { id } = useParams();
@@ -244,6 +245,41 @@ ${requestFormData.message || 'No additional message provided'}
 
   return (
     <>
+      <SEO
+        title={property?.name}
+        description={property?.description?.slice(0, 155)}
+        canonical={`/property/${property?._id}`}
+        type="article"
+        ogImage={property?.images?.[0]?.image ? urlFor(property.images[0].image).width(1200).height(630).url() : undefined}
+        schema={property ? {
+          "@context": "https://schema.org",
+          "@type": "Apartment",
+          "name": `${property.name} — Hyve Coliving`,
+          "description": property.description,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": property.address,
+            "addressLocality": property.neighborhood?.name,
+            "addressCountry": "SG"
+          },
+          "numberOfRooms": property.totalRooms,
+          "amenityFeature": (property.amenities || []).map(a => ({
+            "@type": "LocationFeatureSpecification",
+            "name": a,
+            "value": true
+          })),
+          "offers": {
+            "@type": "AggregateOffer",
+            "lowPrice": property.startingPrice,
+            "priceCurrency": "SGD",
+            "unitText": "MONTH",
+            "availability": property.availableRooms > 0
+              ? "https://schema.org/InStock"
+              : "https://schema.org/OutOfStock"
+          }
+        } : undefined}
+      />
+
       {property && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
           "@context": "https://schema.org",

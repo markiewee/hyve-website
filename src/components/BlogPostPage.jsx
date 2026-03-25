@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { blogPosts } from '../data/sampleData';
+import SEO from './SEO';
 
 const BlogPostPage = () => {
   const { slug } = useParams();
@@ -258,6 +259,24 @@ const BlogPostPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
+      <SEO
+        title={post?.title}
+        description={post?.excerpt}
+        canonical={`/blog/${post?.slug}`}
+        type="article"
+        ogImage={post?.featuredImage}
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: post?.title,
+          description: post?.excerpt,
+          datePublished: post?.publishedAt,
+          author: { "@type": "Person", name: post?.author },
+          publisher: { "@type": "Organization", name: "Hyve", url: "https://www.hyve.sg" },
+          image: post?.featuredImage,
+          mainEntityOfPage: `https://www.hyve.sg/blog/${post?.slug}`
+        }}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Navigation */}
         <div className="mb-8">

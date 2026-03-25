@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { blogPosts } from '../data/sampleData';
+import SEO from './SEO';
 
 const BlogPage = () => {
   const [posts, setPosts] = useState([]);
@@ -75,6 +76,11 @@ const BlogPage = () => {
 
   return (
     <div className="min-h-screen bg-[#f8f9ff] pt-24 pb-32">
+      <SEO
+        title="Blog — Co-living Stories & Tips"
+        description="Read about co-living in Singapore: tips, stories, neighborhood guides, and lifestyle content from the Hyve community."
+        canonical="/blog"
+      />
       {/* Hero */}
       <header className="max-w-screen-2xl mx-auto px-6 md:px-8 mb-20">
         <div className="relative overflow-hidden rounded-[2.5rem] bg-[#eff4ff] min-h-[400px] md:min-h-[500px] flex items-center">
