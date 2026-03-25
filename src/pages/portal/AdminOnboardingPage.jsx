@@ -191,10 +191,10 @@ export default function AdminOnboardingPage() {
       <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
           <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
-            Tenant Management
+            Member Management
           </h1>
           <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
-            Full lifecycle — onboarding, active tenants, and end of tenancy.
+            Full lifecycle — onboarding, active members, and move-outs.
           </p>
         </div>
         <button

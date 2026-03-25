@@ -41,12 +41,14 @@ export default function BillingPage() {
   const lateFeePerDay = profile?.late_fee_per_day ?? 5;
 
   const pendingRent = rentPayments.filter((p) => p.status !== "PAID").length;
+  const overdueRent = rentPayments.filter((p) => p.status === "OVERDUE").length;
+  const hasOverdue = overdueRent > 0;
   const totalOwed = rentPayments
     .filter((p) => p.status !== "PAID")
-    .reduce((sum, p) => sum + (Number(p.amount_due) || 0), 0);
+    .reduce((sum, p) => sum + (Number(p.amount_due || p.rent_amount) || 0), 0);
 
   const tenantInfo = {
-    name: profile?.full_name ?? profile?.name ?? "Tenant",
+    name: profile?.full_name ?? profile?.name ?? "Member",
     email: profile?.email ?? null,
     room: profile?.rooms?.unit_code ?? profile?.rooms?.name ?? "—",
     property: profile?.properties?.name ?? null,
@@ -66,18 +68,26 @@ export default function BillingPage() {
 
       {/* Summary stat cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-        {/* Outstanding balance — prominent card */}
-        <div className="sm:col-span-2 bg-[#006b5f] rounded-2xl p-8 relative overflow-hidden">
+        {/* Outstanding balance — red when overdue, teal when ok */}
+        <div className={`sm:col-span-2 rounded-2xl p-8 relative overflow-hidden ${hasOverdue ? "bg-[#ba1a1a]" : "bg-[#006b5f]"}`}>
           <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -mr-20 -mt-20 pointer-events-none" />
-          <p className="font-['Inter'] text-xs uppercase tracking-widest text-[#71f8e4]/80 font-bold mb-2">
-            Outstanding Balance
+          <p className={`font-['Inter'] text-xs uppercase tracking-widest font-bold mb-2 ${hasOverdue ? "text-[#ffdad6]/80" : "text-[#71f8e4]/80"}`}>
+            {hasOverdue ? "Overdue Balance" : "Outstanding Balance"}
           </p>
           <p className="font-['Plus_Jakarta_Sans'] text-5xl font-black text-white mb-4">
             ${totalOwed.toLocaleString("en-SG", { minimumFractionDigits: 2 })}
           </p>
           <p className="text-white/60 font-['Manrope'] text-sm">
-            {pendingRent} payment{pendingRent !== 1 ? "s" : ""} pending
+            {hasOverdue
+              ? `${overdueRent} overdue payment${overdueRent !== 1 ? "s" : ""} — please pay immediately`
+              : `${pendingRent} payment${pendingRent !== 1 ? "s" : ""} pending`}
           </p>
+          {hasOverdue && (
+            <div className="mt-3 flex items-center gap-2 text-white/80">
+              <span className="material-symbols-outlined text-[18px]">warning</span>
+              <span className="font-['Manrope'] text-xs font-bold">Late fees are accruing at SGD {lateFeePerDay}/day</span>
+            </div>
+          )}
         </div>
 
         {/* Rent amount stat */}

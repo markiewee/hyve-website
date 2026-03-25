@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 const DOC_TYPE_LABELS = {
   LICENCE_AGREEMENT: "Licence Agreement",
+  NOTICE_OF_TERMINATION: "Notice of Termination",
   MOVE_IN_CHECKLIST: "Move-in Checklist",
   MOVE_OUT_CHECKLIST: "Move-out Checklist",
   HOUSE_RULES: "House Rules",

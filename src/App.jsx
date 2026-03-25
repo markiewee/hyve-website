@@ -43,6 +43,7 @@ import AdminFinancialsPage from './pages/portal/AdminFinancialsPage';
 import AdminDocumentsPage from './pages/portal/AdminDocumentsPage';
 import AdminTasksPage from './pages/portal/AdminTasksPage';
 import TenantDocumentsPage from './pages/portal/TenantDocumentsPage';
+import MemberSettingsPage from './pages/portal/MemberSettingsPage';
 import InvestorDashboardPage from './pages/portal/InvestorDashboardPage';
 import InvestorSignupPage from './pages/portal/InvestorSignupPage';
 import OnboardingPage from './pages/portal/OnboardingPage';
@@ -123,6 +124,14 @@ function AppContent() {
             element={
               <AuthGuard>
                 <TenantDocumentsPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/settings"
+            element={
+              <AuthGuard>
+                <MemberSettingsPage />
               </AuthGuard>
             }
           />

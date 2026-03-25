@@ -54,7 +54,7 @@ export default function DashboardPage() {
     profile?.rooms?.name ??
     "Singapore";
 
-  const firstName = (profile?.full_name ?? "").split(" ")[0] || "Resident";
+  const firstName = (profile?.full_name ?? "").split(" ")[0] || "Member";
 
   return (
     <PortalLayout>

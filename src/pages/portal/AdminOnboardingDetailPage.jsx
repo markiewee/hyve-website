@@ -449,7 +449,7 @@ export default function AdminOnboardingDetailPage() {
         <div className="lg:col-span-3 space-y-4">
           {/* Tenant Details */}
           {tenantDetails && (
-            <SectionCard title="Tenant Details">
+            <SectionCard title="Member Details">
               <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                 <div>
                   <dt className="text-muted-foreground">Name</dt>

@@ -7,6 +7,7 @@ const TENANT_NAV = [
   { label: "Documents", to: "/portal/documents", icon: "folder_open" },
   { label: "Billing", to: "/portal/billing", icon: "payments" },
   { label: "Issues", to: "/portal/issues", icon: "build" },
+  { label: "Settings", to: "/portal/settings", icon: "settings" },
 ];
 
 const HOUSE_CAPTAIN_NAV = [
@@ -16,7 +17,7 @@ const HOUSE_CAPTAIN_NAV = [
   { label: "Issues", to: "/portal/issues", icon: "build" },
   { label: "Property Overview", to: "/portal/property", icon: "apartment" },
   { label: "Tickets", to: "/portal/property/tickets", icon: "confirmation_number" },
-  { label: "Tenants", to: "/portal/property/tenants", icon: "group" },
+  { label: "Members", to: "/portal/property/tenants", icon: "group" },
 ];
 
 const ADMIN_NAV = [
@@ -29,7 +30,7 @@ const ADMIN_NAV = [
     icon: "manage_accounts",
     children: [
       { label: "Tasks", to: "/portal/admin/tasks", icon: "checklist" },
-      { label: "Tenants", to: "/portal/admin/onboarding", icon: "how_to_reg" },
+      { label: "Members", to: "/portal/admin/onboarding", icon: "how_to_reg" },
       { label: "Rent", to: "/portal/admin/rent", icon: "receipt_long" },
       { label: "Documents", to: "/portal/admin/documents", icon: "description" },
       { label: "Announcements", to: "/portal/admin/announcements", icon: "campaign" },
@@ -105,7 +106,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut }) {
   const isAdmin = profile?.role === "ADMIN";
   const unitCode = isAdmin ? "" : (profile?.rooms?.unit_code ?? profile?.room_id ?? "");
   const propertyName = isAdmin ? "Admin" : (profile?.properties?.name ?? profile?.rooms?.name ?? "Hyve");
-  const displayName = profile?.tenant_details?.full_name ?? profile?.full_name ?? profile?.email ?? "Resident";
+  const displayName = profile?.tenant_details?.full_name ?? profile?.full_name ?? profile?.email ?? "Member";
   const firstName = displayName.split(" ")[0];
 
   return (

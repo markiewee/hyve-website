@@ -82,7 +82,7 @@ export default function LoginPage() {
               Welcome Back
             </h2>
             <p className="text-[#555f6f] font-['Manrope'] font-medium">
-              Sign in to access your resident portal.
+              Sign in to access your member portal.
             </p>
           </div>
 
