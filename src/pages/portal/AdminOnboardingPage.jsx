@@ -108,7 +108,7 @@ export default function AdminOnboardingPage() {
     const { data, error } = await supabase
       .from("onboarding_progress")
       .select(
-        "id, current_step, status, created_at, tenant_profile_id, tenant_profiles(id, role, username, rooms(unit_code, name), tenant_details(full_name))"
+        "id, current_step, status, created_at, tenant_profile_id, tenancy_start_date, tenancy_end_date, tenant_profiles(id, role, username, rooms(unit_code, name), tenant_details(full_name, phone))"
       )
       .order("created_at", { ascending: false });
 
@@ -122,7 +122,7 @@ export default function AdminOnboardingPage() {
       const { data, error } = await supabase
         .from("onboarding_progress")
         .select(
-          "id, current_step, status, created_at, tenant_profile_id, tenant_profiles(id, role, username, rooms(unit_code, name), tenant_details(full_name))"
+          "id, current_step, status, created_at, tenant_profile_id, tenancy_start_date, tenancy_end_date, tenant_profiles(id, role, username, rooms(unit_code, name), tenant_details(full_name, phone))"
         )
         .order("created_at", { ascending: false });
 
@@ -138,14 +138,15 @@ export default function AdminOnboardingPage() {
 
   const [lifecycleFilter, setLifecycleFilter] = useState("ALL");
 
-  const activeCount = rows.filter((r) => r.status === "ACTIVE").length;
   const onboardingCount = rows.filter((r) => ["ONBOARDING", "IN_PROGRESS"].includes(r.status)).length;
-  const endOfTenancyCount = rows.filter((r) => r.status === "END_OF_TENANCY").length;
+  const activeCount = rows.filter((r) => r.status === "ACTIVE").length;
+  const archivedCount = rows.filter((r) => r.status === "ARCHIVED" || r.status === "MOVED_OUT").length;
 
-  const filteredRows = lifecycleFilter === "ALL" ? rows
+  const filteredRows = lifecycleFilter === "ALL" ? rows.filter(r => r.status !== "ARCHIVED" && r.status !== "MOVED_OUT")
     : lifecycleFilter === "ONBOARDING" ? rows.filter(r => ["ONBOARDING", "IN_PROGRESS"].includes(r.status))
     : lifecycleFilter === "ACTIVE" ? rows.filter(r => r.status === "ACTIVE")
-    : rows.filter(r => r.status === "END_OF_TENANCY");
+    : lifecycleFilter === "ARCHIVED" ? rows.filter(r => ["ARCHIVED", "MOVED_OUT", "END_OF_TENANCY"].includes(r.status))
+    : rows;
 
   return (
     <PortalLayout>
@@ -254,7 +255,7 @@ export default function AdminOnboardingPage() {
           { label: "Total", count: rows.length, filter: "ALL", color: "text-[#121c2a]", bg: "bg-white" },
           { label: "Onboarding", count: onboardingCount, filter: "ONBOARDING", color: "text-blue-600", bg: "bg-white" },
           { label: "Active", count: activeCount, filter: "ACTIVE", color: "text-[#006b5f]", bg: "bg-white" },
-          { label: "End of Tenancy", count: endOfTenancyCount, filter: "END_OF_TENANCY", color: "text-amber-600", bg: "bg-white" },
+          { label: "Archived", count: archivedCount, filter: "ARCHIVED", color: "text-gray-500", bg: "bg-white" },
         ].map(({ label, count, filter, color, bg }) => (
           <button
             key={filter}
@@ -321,11 +322,11 @@ export default function AdminOnboardingPage() {
                 <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
                   Current Step
                 </th>
-                <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold hidden sm:table-cell">
-                  Progress
-                </th>
                 <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold hidden md:table-cell">
-                  Created
+                  Lease
+                </th>
+                <th className="text-right px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -371,21 +372,65 @@ export default function AdminOnboardingPage() {
                         {stepLabel}
                       </span>
                     </td>
-                    <td className="px-6 py-5 hidden sm:table-cell">
-                      <div className="flex items-center gap-3 min-w-[120px]">
-                        <div className="flex-1 h-1.5 bg-[#eff4ff] rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-[#006b5f] rounded-full transition-all"
-                            style={{ width: `${progress}%` }}
-                          />
+                    <td className="px-6 py-5 hidden md:table-cell">
+                      {row.tenancy_start_date ? (
+                        <div className="font-['Manrope'] text-xs text-[#6c7a77]">
+                          <p>{formatDate(row.tenancy_start_date)}</p>
+                          <p className="text-[#bbcac6]">to {formatDate(row.tenancy_end_date)}</p>
                         </div>
-                        <span className="font-['Inter'] text-xs font-bold text-[#6c7a77] shrink-0">
-                          {progress}%
-                        </span>
-                      </div>
+                      ) : (
+                        <span className="font-['Manrope'] text-xs text-[#bbcac6]">—</span>
+                      )}
                     </td>
-                    <td className="px-6 py-5 hidden md:table-cell font-['Manrope'] text-sm text-[#6c7a77]">
-                      {formatDate(row.created_at)}
+                    <td className="px-6 py-5 text-right">
+                      <div className="flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
+                        {row.tenant_profiles?.username && (
+                          <button
+                            title={`Username: ${row.tenant_profiles.username}\nPassword: Welcome1!`}
+                            onClick={() => {
+                              navigator.clipboard.writeText(row.tenant_profiles.username);
+                              alert(`Username: ${row.tenant_profiles.username}\nPassword: Welcome1!\n\nUsername copied to clipboard.`);
+                            }}
+                            className="p-1.5 rounded-lg hover:bg-[#eff4ff] text-[#6c7a77] hover:text-[#006b5f] transition-colors"
+                          >
+                            <span className="material-symbols-outlined text-[18px]">key</span>
+                          </button>
+                        )}
+                        {row.status === "ACTIVE" && (
+                          <button
+                            onClick={async () => {
+                              if (!confirm("Start offboarding for this tenant?")) return;
+                              await supabase.from("onboarding_progress").update({ status: "END_OF_TENANCY", current_step: "END_OF_TENANCY" }).eq("id", row.id);
+                              fetchOnboarding();
+                            }}
+                            className="p-1.5 rounded-lg hover:bg-amber-50 text-[#6c7a77] hover:text-amber-600 transition-colors"
+                            title="Start offboarding"
+                          >
+                            <span className="material-symbols-outlined text-[18px]">logout</span>
+                          </button>
+                        )}
+                        {["END_OF_TENANCY", "ACTIVE"].includes(row.status) && (
+                          <button
+                            onClick={async () => {
+                              if (!confirm("Archive this tenant? They will be deactivated.")) return;
+                              await supabase.from("onboarding_progress").update({ status: "ARCHIVED" }).eq("id", row.id);
+                              await supabase.from("tenant_profiles").update({ is_active: false }).eq("id", row.tenant_profile_id);
+                              fetchOnboarding();
+                            }}
+                            className="p-1.5 rounded-lg hover:bg-gray-100 text-[#6c7a77] hover:text-gray-900 transition-colors"
+                            title="Archive tenant"
+                          >
+                            <span className="material-symbols-outlined text-[18px]">archive</span>
+                          </button>
+                        )}
+                        <button
+                          onClick={() => navigate(`/portal/admin/onboarding/${row.id}`)}
+                          className="p-1.5 rounded-lg hover:bg-[#eff4ff] text-[#006b5f] transition-colors"
+                          title="View details"
+                        >
+                          <span className="material-symbols-outlined text-[18px]">open_in_new</span>
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );

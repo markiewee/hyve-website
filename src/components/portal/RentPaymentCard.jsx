@@ -63,63 +63,57 @@ export default function RentPaymentCard({ payment, lateFeePerDay = 5 }) {
     if (daysLate < 0) daysLate = 0;
   }
 
+  const statusIcon = status === "PAID" ? "check_circle" : status === "OVERDUE" ? "error" : "schedule";
+  const iconColor = status === "PAID" ? "text-green-500" : status === "OVERDUE" ? "text-red-500" : "text-[#006b5f]";
+
   return (
-    <div className="flex items-start justify-between py-4 border-b last:border-b-0 gap-4">
-      {/* Left: month + details */}
+    <div className="flex items-center gap-4 px-6 py-5">
+      {/* Icon */}
+      <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+        status === "PAID" ? "bg-green-50" : status === "OVERDUE" ? "bg-red-50" : "bg-[#eff4ff]"
+      }`}>
+        <span className={`material-symbols-outlined text-[20px] ${iconColor}`} style={{ fontVariationSettings: "'FILL' 1" }}>
+          {statusIcon}
+        </span>
+      </div>
+
+      {/* Details */}
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-medium text-foreground">{formatMonth(month)}</p>
+        <p className="font-['Manrope'] font-bold text-sm text-[#121c2a]">{formatMonth(month)}</p>
+        <p className="font-['Inter'] text-xs text-[#6c7a77] mt-0.5">
+          {status === "PAID" && (
+            <>
+              Paid {formatDate(paid_at)}
+              {is_late ? (
+                <span className="text-red-500 ml-1">· {daysLate}d late</span>
+              ) : (
+                <span className="text-green-600 ml-1">· On time</span>
+              )}
+            </>
+          )}
+          {status === "OVERDUE" && due_date && (
+            <>
+              Due {formatDate(due_date)}
+              {daysOverdue > 0 && <span className="text-red-500 ml-1">· {daysOverdue}d overdue</span>}
+            </>
+          )}
+          {status === "PENDING" && due_date && <>Due {formatDate(due_date)}</>}
+          {status === "PARTIAL" && <>Paid {formatSGD(paid_amount ?? 0)} of {formatSGD(rent_amount)}</>}
+        </p>
+      </div>
 
-        {status === "PAID" && (
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Paid {formatDate(paid_at)}
-            {is_late ? (
-              <span className="text-red-500 ml-1">· Late — {daysLate} day{daysLate !== 1 ? "s" : ""}</span>
-            ) : (
-              <span className="text-green-600 ml-1">· On time</span>
-            )}
-            {late_fee > 0 && (
-              <span className="text-red-500 ml-1">· Late fee {formatSGD(late_fee)}</span>
-            )}
-          </p>
-        )}
-
-        {status === "OVERDUE" && due_date && (
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Due {formatDate(due_date)}
-            {daysOverdue > 0 && (
-              <span className="text-red-500 ml-1">· {daysOverdue} day{daysOverdue !== 1 ? "s" : ""} overdue</span>
-            )}
-            {calculatedLateFee > 0 && (
-              <span className="text-red-500 ml-1">· Late fee {formatSGD(calculatedLateFee)}</span>
-            )}
-          </p>
-        )}
-
-        {status === "PARTIAL" && (
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Paid {formatSGD(paid_amount ?? 0)} of {formatSGD(rent_amount)}
-          </p>
-        )}
-
-        {status === "PENDING" && due_date && (
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Due {formatDate(due_date)}
-          </p>
+      {/* Amount */}
+      <div className="text-right shrink-0">
+        <p className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">{formatSGD(rent_amount)}</p>
+        {(late_fee > 0 || calculatedLateFee > 0) && (
+          <p className="font-['Inter'] text-[10px] text-red-500">+{formatSGD(calculatedLateFee || late_fee)} late fee</p>
         )}
       </div>
 
-      {/* Right: amount + badge */}
-      <div className="flex items-center gap-3 shrink-0">
-        <span className="text-sm font-semibold text-foreground">
-          {formatSGD(rent_amount)}
-        </span>
-
-        <span
-          className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${badgeClass}`}
-        >
-          {status}
-        </span>
-      </div>
+      {/* Badge */}
+      <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-['Inter'] font-bold uppercase tracking-wider shrink-0 ${badgeClass}`}>
+        {status}
+      </span>
     </div>
   );
 }
