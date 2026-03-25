@@ -279,9 +279,12 @@ export default function AdminDocumentsPage() {
       }
 
       // Upload stamped PDF
+      if (!pdfBlob) {
+        throw new Error("No PDF to upload. Please upload a PDF file or select a template with a PDF.");
+      }
       const path = `tenants/${sendTenantId}/ta-${Date.now()}.pdf`;
       const { error: upErr } = await supabase.storage.from("tenant-documents").upload(path, pdfBlob, { contentType: "application/pdf" });
-      if (upErr) throw upErr;
+      if (upErr) throw new Error("Upload failed: " + upErr.message);
       const { data: urlData } = supabase.storage.from("tenant-documents").getPublicUrl(path);
       const fileUrl = urlData.publicUrl;
 
