@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary": "#ffffff",
+              "secondary-fixed": "#dae2fd",
+              "on-error": "#ffffff",
+              "primary-container": "#14b8a6",
+              "on-secondary-fixed": "#131b2e",
+              "outline-variant": "#bbcac6",
+              "outline": "#6c7a77",
+              "tertiary-fixed": "#ffdbd0",
+              "primary-fixed-dim": "#4fdbc8",
+              "tertiary-container": "#f38764",
+              "on-surface-variant": "#3c4947",
+              "primary-fixed": "#71f8e4",
+              "inverse-on-surface": "#eff1f3",
+              "primary": "#006b5f",
+              "on-tertiary-fixed-variant": "#7c2d11",
+              "tertiary": "#9b4426",
+              "on-tertiary-container": "#6c2106",
+              "surface-dim": "#d8dadc",
+              "inverse-surface": "#2d3133",
+              "secondary": "#565e74",
+              "surface-container-low": "#f2f4f6",
+              "on-secondary-container": "#5c647a",
+              "on-surface": "#191c1e",
+              "on-secondary": "#ffffff",
+              "background": "#f7f9fb",
+              "surface": "#f7f9fb",
+              "on-primary-fixed-variant": "#005048",
+              "surface-variant": "#e0e3e5",
+              "surface-container-lowest": "#ffffff",
+              "surface-bright": "#f7f9fb",
+              "error-container": "#ffdad6",
+              "tertiary-fixed-dim": "#ffb59e",
+              "surface-tint": "#006b5f",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#bec6e0",
+              "on-primary-container": "#00423b",
+              "on-primary": "#ffffff",
+              "on-background": "#191c1e",
+              "secondary-container": "#dae2fd",
+              "on-error-container": "#93000a",
+              "on-primary-fixed": "#00201c",
+              "surface-container-highest": "#e0e3e5",
+              "on-tertiary-fixed": "#3a0b00",
+              "surface-container": "#eceef0",
+              "on-secondary-fixed-variant": "#3f465c",
+              "inverse-primary": "#4fdbc8",
+              "error": "#ba1a1a"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .page-break {
+            page-break-after: always;
+        }
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        @media print {
+            nav, footer { display: none !important; }
+            main { box-shadow: none !important; margin: 0 !important; padding: 2rem !important; }
+        }
+        .clause-text {
+            font-size: 0.875rem;
+            line-height: 1.75;
+            color: #3c4947;
+        }
+        .clause-text strong {
+            color: #191c1e;
+        }
+        .sub-clause {
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .sub-sub-clause {
+            padding-left: 3rem;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- Top Navigation Bar -->
+<nav class="bg-white border-b-0 bg-slate-50 flex justify-between items-center w-full px-8 py-4 max-w-5xl mx-auto sticky top-0 z-50">
+<div class="text-xl font-bold tracking-tighter text-teal-700 font-headline">
+            Hyve Living
+        </div>
+<div class="flex items-center gap-6">
+<button onclick="window.print()" class="text-slate-500 hover:bg-slate-100 p-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined">print</span>
+</button>
+<button class="text-slate-500 hover:bg-slate-100 p-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+<button class="text-slate-500 hover:bg-slate-100 p-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</nav>
+
+<!-- Main Document Canvas -->
+<main class="max-w-4xl mx-auto my-12 bg-surface-container-lowest shadow-sm p-12 md:p-20">
+
+<!-- Document Header -->
+<header class="mb-16">
+<div class="flex justify-between items-start mb-12">
+<div class="space-y-1">
+<p class="font-label text-xs tracking-[0.2em] uppercase text-primary font-semibold">Legal Documentation</p>
+<h1 class="font-headline text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface">Licence Agreement</h1>
+</div>
+<div class="text-right">
+<p class="font-label text-[10px] uppercase text-outline mb-1">Agreement ID</p>
+<p class="font-headline font-bold text-on-surface">{{REF_NUMBER}}</p>
+</div>
+</div>
+<div class="h-1 w-24 bg-primary-container"></div>
+</header>
+
+<!-- Document Content -->
+<div class="space-y-16">
+
+<!-- Section: Preamble -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Parties</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Identification of the Licensor and the Licensee entering into this Agreement.</p>
+</aside>
+<div class="flex-1 bg-surface-container-low p-8 rounded-lg">
+<p class="clause-text mb-6">This licence agreement (the "Agreement") is made on <strong>{{DATE}}</strong> (hereinafter referred as to "Effective Date").</p>
+<p class="clause-text font-semibold mb-2">BETWEEN:</p>
+<div class="clause-text space-y-2 mb-6">
+<p>(1) <strong>Makery Pte. Ltd.</strong> (the "Licensor");</p>
+<p>(2) <strong>{{TENANT_NAME}}</strong> (the "Licensee");</p>
+<p>(collectively referred to as the "Parties" and each a "Party").</p>
+</div>
+<p class="clause-text font-semibold mb-2">BACKGROUND:</p>
+<div class="clause-text space-y-3">
+<p>(A) The Licensor is Makery Pte. Ltd. is the primary tenant of the property at {{PROPERTY_ADDRESS}} (the "Property").</p>
+<p>(B) The Licensor agrees to grant to the Licensee a licence ("Licence") to use a unit within {{PROPERTY_ADDRESS}} (demarcated in red in plan attached) and the Common Area as defined below upon the terms and conditions hereinafter more particularly set out.</p>
+<p>(C) By signing below, the Licensee accepts and agrees to be bound by all the terms and conditions of this Licence Agreement.</p>
+</div>
+<p class="clause-text mt-6 font-semibold">IT IS HEREBY AGREED as follows:</p>
+</div>
+</div>
+</section>
+
+<!-- Section: Licensee Details -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Licensee Details</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Primary identification and contact information for the registered Licensee.</p>
+</aside>
+<div class="flex-1 bg-surface-container-low p-8 rounded-lg">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Full Legal Name</label>
+<p class="font-headline font-semibold text-on-surface">{{TENANT_NAME}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Email Address</label>
+<p class="font-headline font-semibold text-on-surface">{{EMAIL}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">ID / Passport Number</label>
+<p class="font-headline font-semibold text-on-surface">{{ID_NUMBER}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Emergency Contact</label>
+<p class="font-headline font-semibold text-on-surface">{{PHONE}}</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section: Property Details -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Property Details</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">The Licensed Area and Common Area governed by this Agreement.</p>
+</aside>
+<div class="flex-1 space-y-4">
+<div class="p-6 bg-surface-container rounded-lg border border-outline-variant/30">
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Property</label>
+<p class="font-headline font-bold text-lg text-on-surface">{{PROPERTY_ADDRESS}}</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="p-6 bg-surface-container rounded-lg">
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Licensed Area</label>
+<p class="font-body text-on-surface">{{ROOM_NAME}}</p>
+</div>
+<div class="p-6 bg-surface-container rounded-lg">
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Common Area(s)</label>
+<p class="font-body text-on-surface">All other areas not defined as private dwellings in Annex B</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section: Term & Fees -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Term & Fees</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Defined duration and financial obligations for the licence period.</p>
+</aside>
+<div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-primary/5 p-6 rounded-lg border-b-2 border-primary">
+<label class="block font-label text-[10px] uppercase tracking-wider text-primary mb-1">Monthly Licence Fee</label>
+<p class="font-headline text-2xl font-extrabold text-on-surface">S${{MONTHLY_RENT}}</p>
+</div>
+<div class="bg-surface-container-high p-6 rounded-lg">
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Start Date</label>
+<p class="font-headline font-bold text-on-surface">{{START_DATE}}</p>
+</div>
+<div class="bg-surface-container-high p-6 rounded-lg">
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Commitment End Date</label>
+<p class="font-headline font-bold text-on-surface">{{END_DATE}}</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section: Miscellaneous Fees -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Miscellaneous Fees</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Additional charges applicable during the licence period.</p>
+</aside>
+<div class="flex-1 bg-surface-container-low p-8 rounded-lg">
+<div class="grid grid-cols-1 gap-y-6">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Air Conditioning Surcharge</label>
+<p class="font-body text-on-surface">Usage above 10 hours/day: <strong>S$0.30/hour</strong>, billed monthly</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section: Payment Details -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Payment Details</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Bank account and payment instructions for remitting fees.</p>
+</aside>
+<div class="flex-1 bg-surface-container-low p-8 rounded-lg">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Bank</label>
+<p class="font-headline font-semibold text-on-surface">DBS</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Account Name (FAST / ACH / GIRO)</label>
+<p class="font-headline font-semibold text-on-surface">Makery Pte. Ltd.</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Account Name (MEPS / Local TT)</label>
+<p class="font-headline font-semibold text-on-surface">Aspire FT Pte. Ltd. on behalf of Makery Pte. Ltd.</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Account Number</label>
+<p class="font-headline font-semibold text-on-surface">8852-1536-8634</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">SWIFT BIC</label>
+<p class="font-headline font-semibold text-on-surface">DBSSSGSG</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 1: DEFINITIONS AND INTERPRETATION -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">1. Definitions and Interpretation</h2>
+</aside>
+<div class="flex-1 space-y-6">
+<div class="p-6 bg-surface-container-low rounded-lg clause-text">
+<p class="mb-4"><strong>1.1</strong> In this Agreement the following words and expressions shall (unless the context otherwise requires) have the following meanings:</p>
+<div class="space-y-3 sub-clause">
+<p><strong>"Commitment Term"</strong> means the period of time from the Start Date to the Last Day of the period indicated in Annex A under "Commitment Term".</p>
+<p><strong>"Common Area"</strong> means the assigned part of the Property intended for the common use of the Licensee and other Licensees, and as delineated and coloured yellow on the plan shown in Annex B.</p>
+<p><strong>"COVID-19"</strong> means the infectious disease known as Coronavirus Disease 2019.</p>
+<p><strong>"Licence Fee"</strong> means the licence fee as specified in Annex A.</p>
+<p><strong>"Licensees"</strong> means the other parties who have entered into separate licence agreements with the Licensor in respect of other rooms or areas within the Property. For the avoidance of doubt, these Licensees are not parties to this Agreement but may share common areas with the Licensee.</p>
+<p><strong>"Miscellaneous Fees"</strong> means all fees chargeable in relation to the Services as specified in Annex A, excluding the Licence Fee.</p>
+<p><strong>"Regular Business Day"</strong> means a day other than a Saturday, a Sunday, or a gazetted public holiday in Singapore.</p>
+<p><strong>"Start Date"</strong> means the start date specified in Annex A upon which the Licensor will begin providing the Licensee with the Licence, on the condition that payment of the Security Deposit and first month's Licence Fee has cleared.</p>
+<p><strong>"S$"</strong> means the lawful currency of Singapore.</p>
+</div>
+</div>
+<div class="p-6 bg-surface-container-low rounded-lg clause-text">
+<p class="mb-4"><strong>1.2</strong> In this Agreement the following rules of interpretation shall apply:</p>
+<div class="space-y-2 sub-clause">
+<p><strong>1.2.1</strong> references to "Clauses" are, unless otherwise stated, to clauses of this Agreement;</p>
+<p><strong>1.2.2</strong> words importing the singular number include the plural number, and vice versa;</p>
+<p><strong>1.2.3</strong> the headings in this Agreement are for convenience only and shall not affect the construction or interpretation of this Agreement; and</p>
+<p><strong>1.2.4</strong> references to "Agreement" and "this Agreement" are references to this Agreement (including its Annexes, which are an integral part hereof), amended in writing from time to time.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 2: LICENCE FEES, MISCELLANEOUS FEES AND PAYMENT DETAILS -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">2. Licence Fees, Miscellaneous Fees and Payment Details</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>2.1</strong> The Licensee shall remit the Licence Fee and Miscellaneous Fee in advance, and no later than the fifth (5th) day from the date of each invoice.</p>
+<p><strong>2.2</strong> If the payment for the Licence Fee, or any outstanding Miscellaneous Fees is not received by the fifth (5th) day from the date of each invoice, the Licensee shall be liable to pay a late fee equal to 5% of the outstanding amount. The Licensor may, at its sole discretion, consider such mitigating factors in the determination of the late fee.</p>
+<p><strong>2.3</strong> Should any remaining Licence Fee, or Miscellaneous Fees be outstanding for 30 days from the date of the invoice, the Licensee shall be subject to an additional late fee, amounting to 5% of the outstanding balance.</p>
+<p><strong>2.4</strong> Any funds received from the Licensee shall initially be applied to clear any outstanding Licence Fee, or Miscellaneous Fees (as the case may be), prioritizing the earliest due month.</p>
+<p><strong>2.5</strong> The Licensee shall remit the License Fee in accordance with the fee schedule outlined in Annex D.</p>
+<p><strong>2.6</strong> The Licensee shall remit all payments due under this Agreement to the designated account specified in the Payment Details section above.</p>
+<p><strong>2.7</strong> The Licensor shall be entitled to adjust the Licence Fee, and/or Miscellaneous Fees annually based on operating reviews, at its sole discretion. The Licensor will notify the Licensee of any adjustments to the Licence Fee, and/or Miscellaneous Fees no later than 60 days before the effective date of the increase. The adjusted fees will take effect as of and after that date, and Annex A shall be deemed to have been amended accordingly.</p>
+<p><strong>2.8</strong> There shall be no refunds of any Licence Fee, Miscellaneous Fees or other amounts paid by the Licensee or its Authorised Users in connection with the Services and Business Services, except at the sole discretion of the Licensor, who may consider any mitigating factors.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 3: BOOKING FEE -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">3. Booking Fee</h2>
+</aside>
+<div class="flex-1 p-6 bg-primary/5 rounded-lg border-b-2 border-primary clause-text">
+<p><strong>3.1</strong> Upon submission of a signed and completed Agreement, where applicable, the Licensee shall be obligated to remit the Booking Fee to the Licensor equivalent to one (1) month's Licence Fee, as specified in Annex A. The Booking Fee constitutes the deposit Fee.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 4: GUESTS -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">4. Guests</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>4.1</strong> The Licensor reserves the absolute right, at its sole discretion, to restrict Guest access should such access contravene the purpose or intent of this Agreement. The Licensor will communicate any restrictions promptly to the Licensee.</p>
+<p><strong>4.2</strong> The Licensor may employ technology or security measures to monitor and enforce Guest policies, and the Licensee agrees to cooperate fully in implementing such measures.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 5: RESERVED RIGHTS -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">5. Reserved Rights</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p>The Licensor retains the following rights concerning the Licensed Area:</p>
+<p><strong>5.1</strong> The Licensor is entitled to access the Licensed Area, with or without notice, in connection with its provision of the Services and Business Services, especially for safety or emergency purposes. The Licensor may, if necessary, temporarily relocate furniture within the Licensed Area.</p>
+<p><strong>5.2</strong> The Licensor reserves the right to make alterations to the Licensed Area. However, such alterations will not substantially reduce the square footage of the assigned Licensed Area or related amenities.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 6: NO LIABILITY FOR THIRD-PARTY ACTORS -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">6. No Liability for Third-Party Actors</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text">
+<p><strong>6.1</strong> The Licensor disclaims liability for any loss, damage, injury, inconvenience, or disturbance suffered by the Licensee arising from the acts, omissions, negligence, or misconduct of any third party, including but not limited to other Licensees, visitors, contractors, or service providers. The Licensees acknowledges that such third parties are not under the control nor responsibility of the Licensor, and any dispute arising from such conduct shall be addressed directly with the relevant party.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 7: TERM & TERMINATION -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">7. Term & Termination</h2>
+</aside>
+<div class="flex-1 space-y-4">
+<div class="p-6 bg-surface-container-low rounded-lg clause-text">
+<p><strong>7.1</strong> This Agreement becomes effective upon the signature by both parties ("Effective Date").</p>
+</div>
+
+<div class="p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<h4 class="font-headline font-bold text-on-surface mb-3">7.2 Licensee's Termination Rights</h4>
+<p><strong>7.2.1</strong> The Licensee may terminate this Agreement outside the Commitment Term by providing the Licensor with one (1) full calendar month's written notice before the intended termination month ("Termination Effective Month"). Alternatively, the Licensee may opt for payment in lieu of notice equivalent to one (1) month's Licence Fee.</p>
+<p><strong>7.2.2</strong> The Licensee may terminate this Agreement within the Commitment Term by:</p>
+<div class="sub-clause space-y-2">
+<p>(a) giving the Licensor one (1) full calendar month's written notice before the Termination Effective Month; and</p>
+<p>(b) the Licensee shall pay to the Licensor an early termination fee equal to three (3) months of the Licence Fee and Miscellaneous Fees (if applicable).</p>
+</div>
+<p><strong>7.2.3</strong> Termination will be effective on the last Regular Business Day of the Termination Effective Month. The Licensee must vacate the Licensed Area no later than 4:00 p.m. on that day. Changes in the Licensed Area, if already occupied, will require compliance with these termination obligations.</p>
+<p><strong>7.2.4</strong> The Licensee shall not be entitled to proration in respect of the Licence Fee and Miscellaneous Fees (if applicable) payable. For example, if the Licensee vacates the Licensed Area before the last Regular Business Day of April, the full Licence Fee and Business Services Fee for April is still owed.</p>
+</div>
+
+<div class="p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<h4 class="font-headline font-bold text-on-surface mb-3">7.3 Licensor's Termination Rights</h4>
+<p><strong>7.3.1</strong> The Licensor may terminate this Agreement without cause by providing the Licensee with 1 month prior written notice.</p>
+<p><strong>7.3.2</strong> The Licensor may immediately terminate this Agreement:</p>
+<div class="sub-clause space-y-2">
+<p>(i) upon breach of this Agreement by the Licensee;</p>
+<p>(ii) if any outstanding fees are still due after the Licensor has provided notice to the Licensee;</p>
+<p>(iii) if the Licensee fail to comply with the terms and conditions of this Agreement or any other policies or instructions provided by the Licensor; or</p>
+<p>(iv) at any other time, when the Licensor, in its reasonable discretion, sees fit to do so.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 8: EXPIRY OR END OF COMMITMENT TERM -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">8. Expiry or End of Commitment Term</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>8.1</strong> Upon the expiration or other conclusion of the Commitment Term:</p>
+<div class="sub-clause space-y-2">
+<p><strong>8.1.1</strong> The Licensee must return all access cards and keys. Failure to do so will result in an exit fee of S$50 per unreturned access card or key.</p>
+<p><strong>8.1.2</strong> The Licensee must remove all property belonging to the Licensee, and its Guests from the Licensed Area and Common Area.</p>
+</div>
+<p><strong>8.2</strong> Following reasonable notice to the Licensee:</p>
+<div class="sub-clause space-y-2">
+<p><strong>8.2.1</strong> The Licensor has the right to dispose of any property remaining in or on the Licensed Area or Common Area after the termination or expiration of this Agreement. The Licensor is not obligated to store such property, and the Licensee waive any claims or demands regarding such property or the Licensor's handling of it.</p>
+<p><strong>8.2.2</strong> The Licensee shall be responsible for paying any fees reasonably incurred by the Licensor for the removal of such property.</p>
+<p><strong>8.2.3</strong> The Licensee shall indemnify the Licensor against all claims made by a Guest of the Licensee whose item has been sold or disposed of by the Licensor in good faith (which is presumed to be the case unless the contrary is proven).</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 9: PERMITTED USE -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">9. Permitted Use</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text">
+<p>The Licensee shall use the Licensed Area solely for residential purposes and shall not engage in any other activities without obtaining the prior written consent of the Licensor. Any additional usage beyond residential purposes is contingent upon the Licensee securing all requisite approvals and licenses, if applicable, and ensuring compliance with the laws and regulations of the relevant authorities. All associated costs and responsibilities in this regard are the sole responsibility of the Licensee.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 10: HOUSE RULES -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">10. House Rules</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-3">
+<p>The Licensee acknowledges and agrees to comply with the House Rules as specified in Annex C.</p>
+<p>The Licensee is responsible for ensuring that its Guests comply with the House Rules and all the terms and conditions of this Agreement.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 11: INDEMNIFICATION -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">11. Indemnification</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>11.1</strong> The Licensee shall indemnify and hold the Licensor harmless from and against any and all claims, liabilities, demands, actions, proceedings, judgments, damages, losses, costs, and expenses of any nature, including legal costs on a full indemnity basis, which the Licensor may suffer or incur due to:</p>
+<div class="sub-clause space-y-2">
+<p><strong>11.1.1</strong> any actions or omissions whatsoever in the Licensed Area and/or in the Common area, or the use or occupation of the Licensed Area and/or the Centre, by the Licensee or any of its Guests.</p>
+<p><strong>11.1.2</strong> any failure by the Licensee to perform any of its obligations under this Agreement.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 12: INSURANCE -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">12. Insurance (if applicable)</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-3">
+<p>The Licensor maintains a public liability insurance policy that covers the Centre as well as its own contents. However, it's important to note that the Licensor's contents insurance does not extend to cover the property of any Licensee, Guests, or of any other third party.</p>
+<p>The Licensee is responsible for ensuring that it has adequate insurance coverage for its property and any associated liabilities.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 13: WAIVER OF CLAIMS -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">13. Waiver of Claims</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>13.1</strong> To the extent permitted by law, the Licensee, acting on its own behalf and on behalf of its Guests, hereby waives and releases any and all claims arising from its presence or activities, regardless of the cause, against the following parties:</p>
+<div class="sub-clause space-y-2">
+<p><strong>13.1.1</strong> the Licensor;</p>
+<p><strong>13.1.2</strong> the Licensor's landlords;</p>
+<p><strong>13.1.3</strong> the Licensor's affiliates, parents, and successors.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 14: LIMITATION OF LIABILITY -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">14. Limitation of Liability</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text">
+<p>The Licensor shall not be liable to the Licensee and/or its Guests, and shall not be responsible for any loss or damage to the property, documents, chattel, equipment, goods or other items of the Licensee, and/or its Guests, or of any third parties, located at the Licensed Area or within the Common Area.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 15: FORCE MAJEURE -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">15. Force Majeure</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>15.1</strong> The Licensor shall not be required to perform or be held liable for any failure to perform its obligations due to a Force Majeure Event.</p>
+<p><strong>15.2</strong> For the purposes of this Agreement, "Force Majeure Event" means any act of God, fire, flood, earthquake, natural disaster, war, act of terrorism, civil disorder, unauthorized strike, governmental order, pandemic (including the health threats of COVID-19 or other infectious diseases), quarantine, recognized health threat, interruption of public utilities, curtailment of transportation systems, inability to access the Centre, or other cause beyond our reasonable control.</p>
+<p><strong>15.3</strong> The Licensor will promptly notify and consult with the Licensee regarding the Force Majeure Event and collaborate on minimizing its impact. In all cases, the Licensor will make commercially reasonable efforts to address the problem and fulfil its obligations.</p>
+<p><strong>15.4</strong> Without limiting the foregoing, if the Force Majeure Event persists for more than ninety (90) days, the Licensee may terminate the Agreement upon thirty (30) days' written notice to the Licensor.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 16: RELATIONSHIP OF THE PARTIES -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">16. Relationship of the Parties</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>16.1</strong> The entirety of the Licensed Area remains the property of the Licensor and under the Licensor's possession and control. The Licensor grants the Licensee and/or its Authorised Users an exclusive license for access to and occupation of the Licensed Area.</p>
+<p><strong>16.2</strong> Despite any provision in this Agreement to the contrary, the Parties acknowledge that their relationship is not that of a landlord-tenant or lessor-lessee. This Agreement does not confer upon the Licensee any title, easement, lien, possession, or related rights in the Licensed Area, or any contents therein. This Agreement does not create a tenancy interest, leasehold estate, or other real property interest.</p>
+<p><strong>16.3</strong> The Parties are independent contractors in fulfilling their obligations under this Agreement. This Agreement does not create a fiduciary or agency relationship, partnership, or joint venture for any purpose.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 17: UPDATES TO THE AGREEMENT -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">17. Updates to the Agreement</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>17.1</strong> Changes to the Licence Fee, and/or Miscellaneous Fees will be subject to the provisions outlined in Clause 2.7 of this Agreement. As for all other Clauses in this Agreement, the Licensor reserves the right to periodically update the terms. The Licensee will receive notice of these updates.</p>
+<p><strong>17.2</strong> The Licensee will be considered to have accepted the revised terms of the Agreement one (1) full calendar month after receiving notice of the update(s). Should the Licensee continue to use the Licensed Area beyond this period, it will be construed as acceptance by the Licensee of the updated terms.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 18: NOTICES -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">18. Notices</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>18.1</strong> All notices and communications required or permitted to be given under this Agreement (but excluding any proceedings or other documents in any legal action) shall be in writing and delivered by email.</p>
+<p><strong>18.2</strong> All notices and communications required or permitted to be given under this Agreement by the Licensor to the Licensee shall be sent via email to the email address of the Licensee specified in Annex A, except as otherwise provided in this Agreement.</p>
+<p><strong>18.3</strong> All notices and communications required or permitted to be given under this Agreement by the Licensee to the Licensor shall be sent via email to <strong>hello@hyve.sg</strong> except as otherwise provided in this Agreement.</p>
+<p><strong>18.4</strong> Any such notice or communication delivered by email under this Agreement shall be considered duly served on and received by the addressee at the time of delivery. However, notices received after 5 p.m. on a Regular Business Day or on any day that is not a Regular Business Day will be deemed to have been received on the next Regular Business Day.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 19: WAIVER -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">19. Waiver</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text">
+<p>No delay, neglect or forbearance on the part of either Party in enforcing against the other Party any term or condition of this Agreement shall either be deemed to be a waiver or in any way prejudice any right of that Party under this Agreement.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 20: ASSIGNMENT -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">20. Assignment</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text">
+<p>Neither Party shall assign this Agreement or any other right or rights thereto, without the prior written consent of the other Party. Any attempted assignment in violation of this Clause shall be null and void and deemed a material breach of this Agreement.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 21: SEVERABILITY -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">21. Severability</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text">
+<p>The illegality or unenforceability of the whole or any part of the provisions of this Agreement will not affect the continued operation of the remaining provisions. The Parties shall negotiate in good faith to replace any illegal or unenforceable provision with a substitute that is valid and enforceable and most nearly reflects the Parties' intent in entering into this Agreement.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 22: ENTIRE AGREEMENT -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">22. Entire Agreement</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text">
+<p>The terms and conditions contained herein constitute the entire agreement between the parties and shall supersede all previous communications either oral or written, between the parties with respect to the subject matter hereof. No oral explanation or oral information by either Party hereto shall alter the meaning or interpretation of this Agreement. This Agreement may not be modified or any right of a Party waived, except by means of an amendment which expressly references this Agreement and is duly executed by duly authorised employees or representatives of each of the Parties.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 23: GOVERNING LAW -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">23. Governing Law, Regulations and Dispute Resolution</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>23.1</strong> This Agreement shall be governed by and construed in accordance with the laws of Singapore. The Parties irrevocably submit to the exclusive jurisdiction of the Singapore courts.</p>
+<p><strong>23.2</strong> The Licensee and/or its Guest shall not engage in any activities or use the Licenced Area in a manner that infringes or may infringe upon the laws of the Republic of Singapore, including its rules, regulations, and by laws.</p>
+</div>
+</div>
+</section>
+
+<!-- ANNEX A -->
+<section class="pt-12 border-t border-surface-variant">
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Annex A</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Licensee details, Licensed Area, fee structures, and term.</p>
+</aside>
+<div class="flex-1 space-y-6">
+
+<div class="p-6 bg-surface-container-low rounded-lg">
+<h4 class="font-headline font-bold text-on-surface mb-4">Licensor Details</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12 clause-text">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Name</label>
+<p class="font-semibold text-on-surface">Makery Pte. Ltd.</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">UEN</label>
+<p class="font-semibold text-on-surface">202345973G</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Nature of Business</label>
+<p class="font-semibold text-on-surface">Property Management</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Main Contact</label>
+<p class="font-semibold text-on-surface">Wee Yi Ren Mark, Director</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Telephone</label>
+<p class="font-semibold text-on-surface">81333757</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Email</label>
+<p class="font-semibold text-on-surface">hello@hyve.sg</p>
+</div>
+</div>
+</div>
+
+<div class="p-6 bg-surface-container-low rounded-lg">
+<h4 class="font-headline font-bold text-on-surface mb-4">Licensed Area</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12 clause-text">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Location</label>
+<p class="font-semibold text-on-surface">{{ROOM_NAME}}</p>
+</div>
+</div>
+</div>
+
+<div class="p-6 bg-surface-container-low rounded-lg">
+<h4 class="font-headline font-bold text-on-surface mb-4">Common Area(s)</h4>
+<div class="clause-text">
+<p>All other areas not defined as private dwellings in Annex B</p>
+</div>
+</div>
+
+<div class="p-6 bg-surface-container-low rounded-lg">
+<h4 class="font-headline font-bold text-on-surface mb-4">Fee Structures</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12 clause-text">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Licence Fee</label>
+<p class="font-semibold text-on-surface">S${{MONTHLY_RENT}} per month</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Miscellaneous Fee</label>
+<p class="font-semibold text-on-surface">Air conditioning usage above 10 hours a day S$0.30/hour billed monthly</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Payment Method</label>
+<p class="font-semibold text-on-surface">Bank wire transfer</p>
+</div>
+</div>
+</div>
+
+<div class="p-6 bg-surface-container-low rounded-lg">
+<h4 class="font-headline font-bold text-on-surface mb-4">Term</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12 clause-text">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Start Date</label>
+<p class="font-semibold text-on-surface">{{START_DATE}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Commitment Term</label>
+<p class="font-semibold text-on-surface">{{START_DATE}} to {{END_DATE}}</p>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ANNEX B (Placeholder for floor plan) -->
+<section class="pt-8">
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Annex B</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Floor plan showing the Licensed Area and Common Area.</p>
+</aside>
+<div class="flex-1 p-6 bg-surface-container rounded-lg border border-outline-variant/30 flex items-center justify-center min-h-[200px]">
+<div class="text-center text-on-surface-variant">
+<span class="material-symbols-outlined text-4xl mb-2 block">floor_plan</span>
+<p class="font-label text-[10px] uppercase tracking-wider">Floor Plan Attached</p>
+<p class="text-xs mt-1">Licensed Area demarcated in red. Common Area demarcated in yellow.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ANNEX C: HOUSE RULES -->
+<section class="pt-8">
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Annex C</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">House Rules — community standards and conduct requirements.</p>
+</aside>
+<div class="flex-1 space-y-4">
+
+<div class="p-6 bg-surface-container-low rounded-lg clause-text">
+<p class="mb-4">The Licensee acknowledges and agrees to the following House Rules:</p>
+<div class="space-y-4">
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(1)</span>
+<p>Keys, key cards and other such items used to gain physical access to the Licensed Area remain the property of the Licensor. The Licensee shall safeguard the Licensor's property and the Licensee shall be liable for replacement fees should any such property be lost, stolen or destroyed;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(2)</span>
+<p>The Licensee shall promptly notify the Licensor should any keys, key cards and other such items used to gain physical access to the Licensed Area and/or Property be lost, stolen or destroyed;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(3)</span>
+<p>The Licensee shall not make any copies of any keys, keycards or other means of entry to the Licensed Area or the Common Area, share or transfer any keys or keycards to any third party, unless authorised by the Licensor in advance; or</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(4)</span>
+<p>The Licensee shall not install any locks to access the Licensed Area or anywhere within the Common Area, unless authorised by the Licensor in advance.</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(5)</span>
+<p>The Licensor shall not be responsible for the loss, theft or damage of any equipment, supplies, or other property belonging to the Licensee, and/or its Guests. The Licensee assumes the risk of all such losses;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(6)</span>
+<p>The Licensee shall be responsible for any and all damage to or thefts from the Licensed Area caused by the Licensee, and/or its Guests. The Licensor will invoice the Licensee for the cost to repair damage or replace items and the Licensee shall pay the amount specified on the invoice within 15 days after the date of the invoice, unless otherwise specified in the invoice;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(7)</span>
+<p>The Licensee is responsible for keeping the Licensed Area clean, tidy and in good condition;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(8)</span>
+<p>The Licensor will provide notice to you of any changes to services, fees, or other updates by emailing the email addresses provided by the Licensee.</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(9)</span>
+<p>The Licensor may disclose information about the Licensee and/or its Guests as necessary to satisfy any applicable law, rule, regulation, legal process or government request or as the Licensor otherwise deems reasonably necessary for the protection of the Licensor or Licensees.</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(10)</span>
+<p>The Licensor may add, delete or amend the rules and regulations at its reasonable discretion and with notice to the Licensee, provided that neither the enforcement of such rules nor the additions, deletions or amendments of such rules shall be discriminatory.</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(11)</span>
+<p>The assigned Common Area is to be enjoyed by all Licensees, and or/their Guests unless otherwise instructed by the Licensor.</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(12)</span>
+<p>The Licensee may not make any alterations and/or installations of additional design elements and furniture in the Licensed Area without prior consultation and approval by the Licensor. In the event that any alterations and/or installations are made, the Licensee shall also be responsible for the full cost and expense of the removal of any such items and any restoration necessitated by any such alterations. To the extent that the Licensor incurs any costs in connection with such alteration, installation or removal which are not otherwise paid by the Licensee, the Licensor shall deduct such costs from the Security Deposit;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(13)</span>
+<p>The Licensee has no expectation of privacy or security with respect to the Licensor's Internet connection, networks, telecommunications systems or information processing systems;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(14)</span>
+<p>The Licensee will comply with all relevant laws, regulations and guidelines in the conduct of its business, included but not limited to government-issued guidelines regarding COVID-19 matters.</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(15)</span>
+<p>The Licensee and/or its Guests will not vape or smoke within the Licensed Area and/or the Common Area.</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(16)</span>
+<p>The Licensee will properly dispose of all household and personal waste in a clean and hygienic manner. Rubbish must be placed in appropriate bins or disposal points as designated by the Licensor or local authorities. The Licensee shall not accumulate waste in the room or Common Area, nor dispose of hazardous or bulky items without prior written consent from the Licensor.</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(17)</span>
+<p>The Licensee and/or its Guests shall not cause or permit any noise, disturbance, or nuisance that may interfere with the quiet enjoyment of the Premises by the Licensor or the Licensees. Quiet hours shall be observed between 10:00 p.m. and 7:00 a.m. daily. This includes activities, but is not limited to, the use of electronic devices, musical instruments, loud conversations and Guests.</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(18)</span>
+<p>The Licensee and/or its Guests shall not bring, keep, or harbor any pets within the Premises without the prior written consent of the Licensor.</p>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ANNEX D: FEE SCHEDULE -->
+<section class="pt-8">
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Annex D</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Fee Schedule — monthly licence fee payment dates.</p>
+</aside>
+<div class="flex-1">
+<div class="bg-surface-container-low rounded-lg overflow-hidden">
+<div class="grid grid-cols-3 gap-px bg-surface-variant text-sm">
+<!-- Header -->
+<div class="bg-primary/5 p-4 font-headline font-bold text-on-surface">Purpose</div>
+<div class="bg-primary/5 p-4 font-headline font-bold text-on-surface">Amount</div>
+<div class="bg-primary/5 p-4 font-headline font-bold text-on-surface">Date</div>
+<!-- Rows — template placeholders -->
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (1)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_1}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (2)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_2}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (3)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_3}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (4)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_4}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (5)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_5}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (6)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_6}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (7)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_7}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (8)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_8}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (9)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_9}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (10)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_10}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (11)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_11}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (12)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_12}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (13)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_13}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (14)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_14}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (15)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_15}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (16)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_16}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (17)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_17}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (18)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_18}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (19)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_19}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (20)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_20}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (21)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_21}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (22)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_22}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (23)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_23}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (24)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_24}}</div>
+
+<div class="bg-surface-container-lowest p-4 clause-text">License Fee (25)</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S${{MONTHLY_RENT}}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">{{FEE_DATE_25}}</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section: Execution & Signatures -->
+<section class="pt-12 border-t border-surface-variant">
+<div class="flex flex-col md:flex-row gap-12">
+<div class="flex-1 space-y-10">
+<div class="space-y-6">
+<label class="block font-label text-[10px] uppercase tracking-widest text-outline">Name of Licensor / Signature of Licensor</label>
+<div class="h-20 border-b border-on-surface w-full relative">
+<div class="absolute bottom-4 left-4">
+<p class="font-headline italic text-on-surface">Hyve Operations</p>
+</div>
+</div>
+<div class="flex justify-between text-[10px] uppercase font-bold text-outline">
+<span>Wee Yi Ren Mark</span>
+<span>Date: ____ / ____ / ____</span>
+</div>
+</div>
+</div>
+<div class="flex-1 space-y-10">
+<div class="space-y-6">
+<label class="block font-label text-[10px] uppercase tracking-widest text-outline">Name of Licensee / Signature of Licensee</label>
+<div class="h-20 border-b border-on-surface w-full relative">
+<span class="absolute bottom-2 left-0 font-headline italic text-on-surface/30">Sign here</span>
+</div>
+<div class="flex justify-between text-[10px] uppercase font-bold text-outline">
+<span>{{TENANT_NAME}}</span>
+<span>Date: ____ / ____ / ____</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+</div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-50 w-full px-8 py-12 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-slate-200/50 mt-auto">
+<div class="font-body text-xs tracking-wide uppercase text-slate-500">
+            &copy; 2026 Hyve Living &middot; Makery Pte. Ltd. All rights reserved. Confidential Licence Documentation.
+        </div>
+<div class="flex gap-8">
+<a class="font-body text-xs tracking-wide uppercase text-slate-500 hover:text-teal-500 transition-colors" href="#">Terms of Service</a>
+<a class="font-body text-xs tracking-wide uppercase text-slate-500 hover:text-teal-500 transition-colors" href="#">Privacy Policy</a>
+<a class="font-body text-xs tracking-wide uppercase text-slate-500 hover:text-teal-500 transition-colors" href="#">Contact Support</a>
+</div>
+</footer>
+</body></html>

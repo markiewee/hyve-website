@@ -129,6 +129,57 @@ export default function AdminDocumentsPage() {
     setSaving(false);
   }
 
+  // ── Generate from HTML Template ─────────────────────────────
+  const [showGenerate, setShowGenerate] = useState(false);
+  const [genTenantId, setGenTenantId] = useState("");
+
+  async function handleGenerate() {
+    const tenant = tenants.find(t => t.id === genTenantId);
+    if (!tenant) return;
+
+    const ob = tenant?.onboarding_progress;
+    const fmtDate = (d) => d ? new Date(d).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }) : "";
+    const values = {
+      TENANT_NAME: tenant?.tenant_details?.full_name || "",
+      ID_NUMBER: tenant?.tenant_details?.id_number || "",
+      PHONE: tenant?.tenant_details?.phone || "",
+      EMAIL: "",
+      ROOM_CODE: tenant?.rooms?.unit_code || "",
+      ROOM_NAME: tenant?.rooms?.name || "",
+      PROPERTY_NAME: tenant?.rooms?.properties?.name || "",
+      PROPERTY_ADDRESS: tenant?.rooms?.properties?.address || "",
+      COMMON_AREAS: tenant?.rooms?.properties?.common_areas || "All other areas not defined as private dwellings",
+      MONTHLY_RENT: tenant?.rooms?.rent_amount ? Number(tenant.rooms.rent_amount).toLocaleString() : "",
+      DEPOSIT_AMOUNT: ob?.deposit_amount ? Number(ob.deposit_amount).toLocaleString() : "",
+      LICENCE_PERIOD: ob?.licence_period || "",
+      START_DATE: fmtDate(ob?.tenancy_start_date),
+      END_DATE: fmtDate(ob?.tenancy_end_date),
+      REF_NUMBER: ob?.ref_number || "",
+      DATE: new Date().toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }),
+    };
+
+    try {
+      // Fetch HTML template
+      const res = await fetch("/templates/licence-agreement.html");
+      let html = await res.text();
+
+      // Fill placeholders
+      for (const [key, val] of Object.entries(values)) {
+        html = html.replaceAll(`{{${key}}}`, val || `[${key}]`);
+      }
+
+      // Open in new window — user prints to PDF
+      const w = window.open("", "_blank");
+      w.document.write(html);
+      w.document.close();
+
+      setShowGenerate(false);
+      setMessage({ type: "success", text: "Document opened in new tab. Use Cmd+P (or Ctrl+P) → Save as PDF, then upload the PDF here to send for signing." });
+    } catch (err) {
+      setMessage({ type: "error", text: "Failed to generate: " + err.message });
+    }
+  }
+
   // ── Send Document to Member ──────────────────────────────────
   function openSendDoc() {
     setSendTemplateId("");
@@ -253,14 +304,18 @@ export default function AdminDocumentsPage() {
           <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">Documents</h1>
           <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">Upload PDF templates, place signature boxes, and send to members.</p>
         </div>
-        <div className="flex gap-2">
-          <button onClick={openCreateEditor} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#eff4ff] text-[#006b5f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff]">
+        <div className="flex gap-2 flex-wrap">
+          <button onClick={() => setShowGenerate(true)} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61]">
+            <span className="material-symbols-outlined text-[18px]">description</span>
+            Generate Agreement
+          </button>
+          <button onClick={openSendDoc} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#eff4ff] text-[#006b5f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff]">
+            <span className="material-symbols-outlined text-[18px]">send</span>
+            Send PDF to Member
+          </button>
+          <button onClick={openCreateEditor} className="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-[#6c7a77] border border-[#bbcac6]/30 rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#f8f9ff]">
             <span className="material-symbols-outlined text-[18px]">add</span>
             New Template
-          </button>
-          <button onClick={openSendDoc} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61]">
-            <span className="material-symbols-outlined text-[18px]">send</span>
-            Send to Member
           </button>
         </div>
       </div>
@@ -268,6 +323,68 @@ export default function AdminDocumentsPage() {
       {message && (
         <div className={`mb-6 px-4 py-3 rounded-xl text-sm font-['Manrope'] ${message.type === "error" ? "bg-[#ffdad6]/40 text-[#ba1a1a]" : "bg-[#d1fae5] text-[#065f46]"}`}>
           {message.text}
+        </div>
+      )}
+
+      {/* ── Generate Agreement Modal ── */}
+      {showGenerate && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setShowGenerate(false)}>
+          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl" onClick={e => e.stopPropagation()}>
+            <div className="px-8 pt-6 pb-4 border-b border-[#bbcac6]/15 flex items-center justify-between">
+              <h2 className="font-['Plus_Jakarta_Sans'] text-xl font-bold">Generate Licence Agreement</h2>
+              <button onClick={() => setShowGenerate(false)} className="text-[#6c7a77] hover:text-[#121c2a]">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div className="p-8 space-y-5">
+              <p className="text-sm text-[#555f6f] font-['Manrope']">
+                Select a member — the agreement will be auto-filled with their details and opened in a new tab for you to review and save as PDF.
+              </p>
+              <div className="space-y-1.5">
+                <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Member *</label>
+                <select value={genTenantId} onChange={e => setGenTenantId(e.target.value)}
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none">
+                  <option value="">Select member</option>
+                  {tenants.map(t => (
+                    <option key={t.id} value={t.id}>
+                      {t.tenant_details?.full_name || t.username || "Unnamed"} — {t.rooms?.unit_code}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {genTenantId && (() => {
+                const t = tenants.find(x => x.id === genTenantId);
+                const ob = t?.onboarding_progress;
+                return (
+                  <div className="bg-[#f8f9ff] rounded-xl p-4 text-xs font-['Manrope'] space-y-1">
+                    <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-2">Will auto-fill</p>
+                    <p><span className="text-[#6c7a77]">Name:</span> <strong>{t?.tenant_details?.full_name || "—"}</strong></p>
+                    <p><span className="text-[#6c7a77]">Room:</span> <strong>{t?.rooms?.unit_code} — {t?.rooms?.name}</strong></p>
+                    <p><span className="text-[#6c7a77]">Rent:</span> <strong>SGD {t?.rooms?.rent_amount || "—"}</strong> · <span className="text-[#6c7a77]">Deposit:</span> <strong>SGD {ob?.deposit_amount || "—"}</strong></p>
+                    <p><span className="text-[#6c7a77]">Period:</span> <strong>{ob?.licence_period || "—"}</strong></p>
+                    <p><span className="text-[#6c7a77]">Ref:</span> <strong>{ob?.ref_number || "—"}</strong></p>
+                  </div>
+                );
+              })()}
+
+              <div className="flex gap-3">
+                <button onClick={() => setShowGenerate(false)}
+                  className="flex-1 py-3 bg-[#eff4ff] text-[#555f6f] rounded-xl font-['Manrope'] font-bold text-sm">
+                  Cancel
+                </button>
+                <button onClick={handleGenerate} disabled={!genTenantId}
+                  className="flex-[2] py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2">
+                  <span className="material-symbols-outlined text-[18px]">open_in_new</span>
+                  Generate & Preview
+                </button>
+              </div>
+
+              <p className="text-[10px] text-[#bbcac6] text-center">
+                Opens in new tab → review → Cmd+P → Save as PDF → upload via "Send PDF to Member"
+              </p>
+            </div>
+          </div>
         </div>
       )}
 
