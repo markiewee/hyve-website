@@ -73,6 +73,11 @@ export default function AdminOnboardingPage() {
   const [inviting, setInviting] = useState(false);
   const [inviteResult, setInviteResult] = useState(null);
 
+  // TA preview state
+  const [templates, setTemplates] = useState([]);
+  const [selectedTemplateId, setSelectedTemplateId] = useState("");
+  const [taPreviewHtml, setTaPreviewHtml] = useState("");
+
   // Auto-calculate end date
   const inviteEndDate = (() => {
     if (!inviteStartDate || !inviteLicencePeriod) return "";
@@ -87,9 +92,55 @@ export default function AdminOnboardingPage() {
   const selectedRoom = rooms.find(r => r.id === inviteRoomId);
 
   useEffect(() => {
-    supabase.from("rooms").select("id, unit_code, name, property_id, properties(name)")
+    supabase.from("rooms").select("id, unit_code, name, property_id, rent_amount, properties(name, address, common_areas)")
       .order("unit_code").then(({ data }) => setRooms(data ?? []));
+    supabase.from("document_templates").select("id, name, doc_type, html_content, placeholders, signature_config")
+      .eq("is_active", true).eq("doc_type", "LICENCE_AGREEMENT")
+      .then(({ data }) => {
+        setTemplates(data ?? []);
+        if (data?.length > 0) setSelectedTemplateId(data[0].id);
+      });
   }, []);
+
+  // Auto-generate ref number when room changes
+  useEffect(() => {
+    if (!inviteRoomId) return;
+    const room = rooms.find(r => r.id === inviteRoomId);
+    if (!room) return;
+    const prefix = room.unit_code?.split("-")[0] || "HYV";
+    const year = new Date().getFullYear();
+    const seq = String(rows.length + 1).padStart(3, "0");
+    setInviteRefNumber(`${prefix}-${year}-${seq}`);
+    // Pre-fill rent from room
+    if (room.rent_amount) setInviteRent(String(room.rent_amount));
+  }, [inviteRoomId, rooms, rows.length]);
+
+  function fillTemplate(html, values) {
+    return html.replace(/\{\{([A-Z_]+)\}\}/g, (_, key) => values[key] || `{{${key}}}`);
+  }
+
+  function generateTaPreview() {
+    const tpl = templates.find(t => t.id === selectedTemplateId);
+    if (!tpl) return;
+    const room = rooms.find(r => r.id === inviteRoomId);
+    const fmtDate = (d) => d ? new Date(d + "T00:00:00").toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }) : "";
+    const values = {
+      TENANT_NAME: inviteUsername,
+      ROOM_CODE: room?.unit_code || "",
+      ROOM_NAME: room?.name || "",
+      PROPERTY_NAME: room?.properties?.name || "",
+      PROPERTY_ADDRESS: room?.properties?.address || "",
+      COMMON_AREAS: room?.properties?.common_areas || "All common areas",
+      REF_NUMBER: inviteRefNumber,
+      MONTHLY_RENT: inviteRent ? Number(inviteRent).toLocaleString("en-SG") : "",
+      DEPOSIT_AMOUNT: inviteDeposit ? Number(inviteDeposit).toLocaleString("en-SG") : "",
+      LICENCE_PERIOD: `${inviteLicencePeriod} months`,
+      START_DATE: fmtDate(inviteStartDate),
+      END_DATE: fmtDate(inviteEndDate),
+      DATE: new Date().toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }),
+    };
+    setTaPreviewHtml(fillTemplate(tpl.html_content || "", values));
+  }
 
   async function handleInvite() {
     setInviting(true);
@@ -110,29 +161,82 @@ export default function AdminOnboardingPage() {
       const body = await res.json();
       if (!res.ok) throw new Error(body.error || "Invite failed");
 
-      // Save tenancy details to onboarding_progress
-      if (body.profile_id) {
+      const tpId = body.profile_id;
+
+      // Save tenancy details + signature config to onboarding_progress
+      if (tpId) {
         const { data: onbData } = await supabase
           .from("onboarding_progress")
           .select("id")
-          .eq("tenant_profile_id", body.profile_id)
+          .eq("tenant_profile_id", tpId)
           .maybeSingle();
+
+        const tpl = templates.find(t => t.id === selectedTemplateId);
+
         if (onbData?.id) {
           await supabase.from("onboarding_progress").update({
             ref_number: inviteRefNumber || null,
             tenancy_start_date: inviteStartDate || null,
             tenancy_end_date: inviteEndDate || null,
             licence_period: inviteLicencePeriod ? `${inviteLicencePeriod} months` : null,
+            signature_positions: tpl?.signature_config || null,
           }).eq("id", onbData.id);
         }
+
         // Update room rent amount
         if (inviteRent) {
           await supabase.from("rooms").update({ rent_amount: Number(inviteRent) }).eq("id", inviteRoomId);
         }
+
+        // Generate and upload the TA PDF
+        if (taPreviewHtml) {
+          try {
+            const { default: html2pdf } = await import(/* @vite-ignore */ "html2pdf.js");
+            const iframe = document.createElement("iframe");
+            iframe.style.cssText = "position:fixed;top:-9999px;left:-9999px;width:800px;height:1200px;border:none;";
+            document.body.appendChild(iframe);
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(`<!DOCTYPE html><html><head><style>
+              * { margin: 0; padding: 0; box-sizing: border-box; }
+              body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #000; background: #fff; padding: 40px; width: 700px; }
+              h1, h2, h3, h4 { margin: 1em 0 0.5em; }
+              p { margin: 0.5em 0; }
+              table { border-collapse: collapse; width: 100%; }
+              td, th { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+            </style></head><body>${taPreviewHtml}</body></html>`);
+            iframeDoc.close();
+
+            const pdfBlob = await html2pdf().set({
+              margin: 10, filename: "ta.pdf",
+              image: { type: "jpeg", quality: 0.98 },
+              html2canvas: { scale: 2, useCORS: true },
+              jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+            }).from(iframeDoc.body).outputPdf("blob");
+            document.body.removeChild(iframe);
+
+            const storagePath = `tenants/${tpId}/ta-generated-${Date.now()}.pdf`;
+            await supabase.storage.from("tenant-documents").upload(storagePath, pdfBlob, { contentType: "application/pdf" });
+            const { data: urlData } = supabase.storage.from("tenant-documents").getPublicUrl(storagePath);
+
+            if (onbData?.id) {
+              await supabase.from("onboarding_progress").update({ ta_document_url: urlData.publicUrl }).eq("id", onbData.id);
+            }
+            await supabase.from("tenant_documents").insert({
+              tenant_profile_id: tpId,
+              doc_type: "LICENCE_AGREEMENT",
+              title: tpl?.name || "Licence Agreement",
+              status: "SENT",
+              file_url: urlData.publicUrl,
+            });
+          } catch (pdfErr) {
+            console.error("TA PDF generation failed:", pdfErr);
+          }
+        }
       }
 
       setInviteResult({ type: "success", ...body });
-      setWizardStep(3);
+      setWizardStep(4);
       fetchOnboarding();
     } catch (err) {
       setInviteResult({ type: "error", message: err.message });
@@ -219,16 +323,16 @@ export default function AdminOnboardingPage() {
                 </button>
               </div>
               {/* Step indicator */}
-              <div className="flex gap-2">
-                {["Account", "Tenancy", "Done"].map((label, i) => (
-                  <div key={label} className="flex items-center gap-2 flex-1">
+              <div className="flex gap-1">
+                {["Account", "Tenancy", "Review TA", "Done"].map((label, i) => (
+                  <div key={label} className="flex items-center gap-1.5 flex-1">
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
                       wizardStep > i + 1 ? "bg-[#006b5f] text-white" : wizardStep === i + 1 ? "bg-[#006b5f] text-white" : "bg-[#eff4ff] text-[#6c7a77]"
                     }`}>
                       {wizardStep > i + 1 ? <span className="material-symbols-outlined text-[14px]">check</span> : i + 1}
                     </div>
-                    <span className={`font-['Inter'] text-[10px] uppercase tracking-widest font-bold ${wizardStep >= i + 1 ? "text-[#121c2a]" : "text-[#bbcac6]"}`}>{label}</span>
-                    {i < 2 && <div className={`flex-1 h-0.5 rounded ${wizardStep > i + 1 ? "bg-[#006b5f]" : "bg-[#eff4ff]"}`} />}
+                    <span className={`font-['Inter'] text-[9px] uppercase tracking-widest font-bold hidden sm:inline ${wizardStep >= i + 1 ? "text-[#121c2a]" : "text-[#bbcac6]"}`}>{label}</span>
+                    {i < 3 && <div className={`flex-1 h-0.5 rounded ${wizardStep > i + 1 ? "bg-[#006b5f]" : "bg-[#eff4ff]"}`} />}
                   </div>
                 ))}
               </div>
@@ -358,19 +462,75 @@ export default function AdminOnboardingPage() {
                       Back
                     </button>
                     <button
+                      onClick={() => { generateTaPreview(); setWizardStep(3); }}
+                      disabled={!inviteRent || !inviteDeposit || !inviteStartDate}
+                      className="flex-[2] py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2"
+                    >
+                      Next: Review Agreement
+                      <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 3: Review TA */}
+              {wizardStep === 3 && (
+                <div className="space-y-4">
+                  {templates.length > 1 && (
+                    <div className="space-y-1.5">
+                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Template</label>
+                      <select
+                        value={selectedTemplateId}
+                        onChange={(e) => { setSelectedTemplateId(e.target.value); setTimeout(generateTaPreview, 100); }}
+                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                      >
+                        {templates.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+                      </select>
+                    </div>
+                  )}
+
+                  {taPreviewHtml ? (
+                    <div className="border border-[#bbcac6]/15 rounded-xl overflow-auto max-h-[400px]">
+                      <div
+                        style={{ all: "initial", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "12px", lineHeight: "1.5", color: "#000", background: "#fff", padding: "24px", display: "block" }}
+                        dangerouslySetInnerHTML={{ __html: taPreviewHtml }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="border border-dashed border-[#bbcac6] rounded-xl p-8 text-center">
+                      <p className="text-sm text-[#6c7a77]">No licence agreement template found. Create one in Documents first.</p>
+                    </div>
+                  )}
+
+                  <div className="bg-[#eff4ff] rounded-xl p-3 text-xs text-[#6c7a77] font-['Manrope']">
+                    <strong className="text-[#121c2a]">Ref: {inviteRefNumber}</strong> — This agreement will be sent to the member for signing. You will counter-sign after them as a final check.
+                  </div>
+
+                  {inviteResult?.type === "error" && (
+                    <p className="text-sm text-[#ba1a1a] bg-[#ffdad6]/40 rounded-lg px-3 py-2">{inviteResult.message}</p>
+                  )}
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => setWizardStep(2)}
+                      className="flex-1 py-3 bg-[#eff4ff] text-[#555f6f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff]"
+                    >
+                      Back
+                    </button>
+                    <button
                       onClick={handleInvite}
-                      disabled={inviting || !inviteRent || !inviteDeposit || !inviteStartDate}
+                      disabled={inviting || !taPreviewHtml}
                       className="flex-[2] py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2"
                     >
                       {inviting ? (
                         <>
                           <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
-                          Creating...
+                          Creating account & generating TA...
                         </>
                       ) : (
                         <>
-                          <span className="material-symbols-outlined text-[18px]">person_add</span>
-                          Create Member Account
+                          <span className="material-symbols-outlined text-[18px]">check_circle</span>
+                          Approve & Create Member
                         </>
                       )}
                     </button>
@@ -378,8 +538,8 @@ export default function AdminOnboardingPage() {
                 </div>
               )}
 
-              {/* Step 3: Success */}
-              {wizardStep === 3 && inviteResult?.type === "success" && (
+              {/* Step 4: Success */}
+              {wizardStep === 4 && inviteResult?.type === "success" && (
                 <div className="space-y-5 text-center">
                   <div className="w-16 h-16 mx-auto rounded-2xl bg-[#d1fae5] flex items-center justify-center">
                     <span className="material-symbols-outlined text-[#065f46] text-[32px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
