@@ -62,7 +62,7 @@ export default function PropertyTenantsPage() {
       {/* Page header */}
       <div className="mb-10">
         <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
-          Tenants
+          Members
         </h1>
         {propertyName && (
           <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">{propertyName}</p>
@@ -73,7 +73,7 @@ export default function PropertyTenantsPage() {
       {!loading && (
         <div className="mb-8">
           <div className="bg-[#006b5f] rounded-2xl p-6 inline-flex flex-col">
-            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#71f8e4]/80 font-bold mb-2">Active Tenants</p>
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#71f8e4]/80 font-bold mb-2">Active Members</p>
             <p className="font-['Plus_Jakarta_Sans'] text-4xl font-extrabold text-white">{tenants.length}</p>
           </div>
         </div>
@@ -98,7 +98,7 @@ export default function PropertyTenantsPage() {
         </div>
       ) : tenants.length === 0 ? (
         <div className="bg-white rounded-2xl p-12 border border-[#bbcac6]/15 shadow-sm text-center">
-          <p className="text-[#6c7a77] font-['Manrope'] text-sm">No active tenants found.</p>
+          <p className="text-[#6c7a77] font-['Manrope'] text-sm">No active members found.</p>
         </div>
       ) : (
         <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
@@ -134,7 +134,7 @@ export default function PropertyTenantsPage() {
                     </td>
                     <td className="px-6 py-5">
                       <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${roleBadgeClass}`}>
-                        {tenant.role === "HOUSE_CAPTAIN" ? "House Captain" : "Tenant"}
+                        {tenant.role === "HOUSE_CAPTAIN" ? "House Captain" : "Member"}
                       </span>
                     </td>
                     <td className="px-6 py-5 font-['Manrope'] text-sm text-[#6c7a77] hidden sm:table-cell">

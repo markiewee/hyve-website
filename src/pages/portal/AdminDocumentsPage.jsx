@@ -430,7 +430,7 @@ export default function AdminDocumentsPage() {
 
       setGenMessage({
         type: "success",
-        text: "Document generated and sent to tenant for signing.",
+        text: "Document generated and sent to member for signing.",
       });
     } catch (err) {
       setGenMessage({ type: "error", text: err.message });
@@ -894,7 +894,7 @@ export default function AdminDocumentsPage() {
                         .update({ signature_positions: sigConfig, updated_at: new Date().toISOString() })
                         .eq("id", opData.id);
                     }
-                    setGenMessage({ type: "success", text: "Signature positions saved to tenant record." });
+                    setGenMessage({ type: "success", text: "Signature positions saved." });
                   }}
                   className="mt-3 inline-flex items-center gap-2 px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] transition-colors"
                 >
@@ -1168,7 +1168,7 @@ export default function AdminDocumentsPage() {
               <span className="material-symbols-outlined text-[18px]">
                 {generating ? "progress_activity" : "picture_as_pdf"}
               </span>
-              {generating ? "Generating…" : "Generate PDF & Send to Tenant"}
+              {generating ? "Generating…" : "Generate PDF & Send to Member"}
             </button>
           </div>
         )}

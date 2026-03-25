@@ -121,7 +121,7 @@ export default function AdminDashboardPage() {
       iconCls: "text-[#006b5f] group-hover:text-white",
     },
     {
-      label: "Active Tenants",
+      label: "Active Members",
       value: counts.activeTenants,
       icon: "group",
       to: "/portal/admin/onboarding",
@@ -204,10 +204,10 @@ export default function AdminDashboardPage() {
       {/* Quick links */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {[
-          { label: "Onboarding Tracker", desc: "Monitor tenant onboarding progress", icon: "how_to_reg", to: "/portal/admin/onboarding" },
+          { label: "Onboarding Tracker", desc: "Monitor member onboarding progress", icon: "how_to_reg", to: "/portal/admin/onboarding" },
           { label: "Rent Management", desc: "Generate records and track payments", icon: "receipt_long", to: "/portal/admin/rent" },
           { label: "Announcements", desc: "Send updates to residents", icon: "campaign", to: "/portal/admin/announcements" },
-          { label: "Documents", desc: "Create and send tenant documents", icon: "description", to: "/portal/admin/documents" },
+          { label: "Documents", desc: "Create and send member documents", icon: "description", to: "/portal/admin/documents" },
           { label: "Expense Tracking", desc: "Log and review property expenses", icon: "account_balance", to: "/portal/admin/expenses" },
           { label: "Financial Reports", desc: "Monthly P&L and distributions", icon: "bar_chart", to: "/portal/admin/financials" },
         ].map((item) => (
@@ -240,7 +240,7 @@ export default function AdminDashboardPage() {
               <div>
                 <p className="font-['Manrope'] font-bold text-[#121c2a] text-sm">My Signature</p>
                 <p className="font-['Manrope'] text-[#6c7a77] text-xs mt-0.5">
-                  This signature will be used when counter-signing tenant agreements.
+                  This signature will be used when counter-signing member agreements.
                 </p>
               </div>
             </div>

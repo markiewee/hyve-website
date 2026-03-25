@@ -99,7 +99,7 @@ export default function AdminRentPage() {
     }
 
     if (!profiles || profiles.length === 0) {
-      setGenerateResult({ count: 0, message: "No active tenants with monthly rent configured." });
+      setGenerateResult({ count: 0, message: "No active members with monthly rent configured." });
       setGenerating(false);
       return;
     }
@@ -134,7 +134,7 @@ export default function AdminRentPage() {
     if (toInsert.length === 0) {
       setGenerateResult({
         count: 0,
-        message: `Rent already generated for all ${profiles.length} tenant(s) this month.`,
+        message: `Rent already generated for all ${profiles.length} member(s) this month.`,
       });
       setGenerating(false);
       return;
