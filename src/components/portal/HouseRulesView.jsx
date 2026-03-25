@@ -105,16 +105,30 @@ export default function HouseRulesView({ onboarding, advanceStep, updateOnboardi
 
       {error && <p className="text-sm text-red-600">{error}</p>}
 
-      <Button
-        type="button"
-        onClick={handleAcknowledge}
-        disabled={acknowledging}
-        className="w-full sm:w-auto"
-      >
-        {acknowledging
-          ? "Saving…"
-          : "I acknowledge and agree to the house rules"}
-      </Button>
+      <div className="flex flex-wrap items-center gap-3">
+        <Button
+          type="button"
+          onClick={handleAcknowledge}
+          disabled={acknowledging}
+        >
+          {acknowledging
+            ? "Saving…"
+            : "I acknowledge and agree to the house rules"}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => {
+            const w = window.open("", "_blank");
+            w.document.write(`<!DOCTYPE html><html><head><title>${rules.title || "House Rules"}</title><style>body{font-family:Arial,sans-serif;font-size:14px;line-height:1.8;padding:40px;max-width:800px;margin:0 auto}h1{font-size:20px;margin-bottom:16px}@media print{body{padding:20px}}</style></head><body><h1>${rules.title || "House Rules"}</h1><div style="white-space:pre-wrap">${rules.content}</div></body></html>`);
+            w.document.close();
+            w.print();
+          }}
+        >
+          <span className="material-symbols-outlined text-[16px] mr-1.5">print</span>
+          Print
+        </Button>
+      </div>
     </div>
   );
 }
