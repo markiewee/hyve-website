@@ -44,6 +44,15 @@ export default function AdminOnboardingDetailPage() {
   const [depositAmount, setDepositAmount] = useState("");
   const [overrideStep, setOverrideStep] = useState("");
 
+  // Move-out state
+  const MOVEOUT_ITEMS = ["Bed & Mattress", "Wardrobe", "Desk & Chair", "AC Unit", "Walls & Ceiling", "Flooring", "Door & Lock", "Window & Curtains", "Bathroom", "Keys Returned"];
+  const [moveOutChecklist, setMoveOutChecklist] = useState(() => MOVEOUT_ITEMS.map(name => ({ name, condition: "Good", notes: "", deduction: 0 })));
+  const [paymentsCleared, setPaymentsCleared] = useState(false);
+  const [depositRefundAmount, setDepositRefundAmount] = useState("");
+  const [moveOutDate, setMoveOutDate] = useState("");
+  const [moveOutSaving, setMoveOutSaving] = useState(false);
+  const totalDeductions = moveOutChecklist.reduce((sum, item) => sum + (Number(item.deduction) || 0), 0);
+
   // Tenancy details form state
   const [refNumber, setRefNumber] = useState("");
   const [tenancyStartDate, setTenancyStartDate] = useState("");
@@ -924,11 +933,167 @@ export default function AdminOnboardingDetailPage() {
             </SectionCard>
           )}
 
+          {/* Move-Out Process — shown when offboarding */}
+          {(onboarding.status === "END_OF_TENANCY" || onboarding.current_step === "END_OF_TENANCY") && (
+            <SectionCard title="Move-Out Process">
+              <div className="space-y-5">
+                {/* Move-out date */}
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-medium text-muted-foreground">Move-Out Date</label>
+                  <input
+                    type="date"
+                    value={moveOutDate}
+                    onChange={(e) => setMoveOutDate(e.target.value)}
+                    className="w-48 border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                  />
+                </div>
+
+                {/* Room inspection checklist */}
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground mb-2">Room Inspection</p>
+                  <div className="border border-border rounded-lg overflow-hidden divide-y divide-border">
+                    {moveOutChecklist.map((item, i) => (
+                      <div key={item.name} className="flex items-center gap-3 px-4 py-3">
+                        <span className="text-sm font-medium text-foreground min-w-[140px]">{item.name}</span>
+                        <div className="flex gap-1.5">
+                          {["Good", "Fair", "Damaged"].map(cond => (
+                            <button
+                              key={cond}
+                              type="button"
+                              onClick={() => setMoveOutChecklist(prev => {
+                                const next = [...prev];
+                                next[i] = { ...next[i], condition: cond };
+                                return next;
+                              })}
+                              className={`py-0.5 px-2 rounded text-[10px] font-bold border transition-colors ${
+                                item.condition === cond
+                                  ? cond === "Good" ? "bg-green-500 text-white border-green-500"
+                                    : cond === "Fair" ? "bg-amber-500 text-white border-amber-500"
+                                    : "bg-red-500 text-white border-red-500"
+                                  : "bg-background text-foreground border-border"
+                              }`}
+                            >
+                              {cond}
+                            </button>
+                          ))}
+                        </div>
+                        {item.condition !== "Good" && (
+                          <>
+                            <input
+                              type="text"
+                              value={item.notes}
+                              onChange={(e) => setMoveOutChecklist(prev => {
+                                const next = [...prev];
+                                next[i] = { ...next[i], notes: e.target.value };
+                                return next;
+                              })}
+                              placeholder="Notes..."
+                              className="flex-1 border border-border rounded px-2 py-1 text-xs bg-background"
+                            />
+                            <div className="flex items-center gap-1">
+                              <span className="text-[10px] text-muted-foreground">SGD</span>
+                              <input
+                                type="number"
+                                min="0"
+                                value={item.deduction || ""}
+                                onChange={(e) => setMoveOutChecklist(prev => {
+                                  const next = [...prev];
+                                  next[i] = { ...next[i], deduction: Number(e.target.value) || 0 };
+                                  return next;
+                                })}
+                                placeholder="0"
+                                className="w-16 border border-border rounded px-2 py-1 text-xs bg-background"
+                              />
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Deposit refund calculation */}
+                <div className="bg-[#f8f9ff] rounded-lg p-4 space-y-2">
+                  <p className="text-xs font-medium text-muted-foreground">Deposit Settlement</p>
+                  <div className="grid grid-cols-3 gap-2 text-sm">
+                    <div>
+                      <span className="text-xs text-muted-foreground block">Deposit Paid</span>
+                      <strong>SGD {Number(onboarding.deposit_amount || 0).toLocaleString("en-SG", { minimumFractionDigits: 2 })}</strong>
+                    </div>
+                    <div>
+                      <span className="text-xs text-muted-foreground block">Deductions</span>
+                      <strong className={totalDeductions > 0 ? "text-red-600" : ""}>SGD {totalDeductions.toLocaleString("en-SG", { minimumFractionDigits: 2 })}</strong>
+                    </div>
+                    <div>
+                      <span className="text-xs text-muted-foreground block">Refund Due</span>
+                      <strong className="text-[#006b5f]">SGD {Math.max(0, (Number(onboarding.deposit_amount || 0) - totalDeductions)).toLocaleString("en-SG", { minimumFractionDigits: 2 })}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Payments cleared */}
+                <label className="flex items-center gap-3 p-3 rounded-lg border border-border cursor-pointer hover:bg-accent/50">
+                  <input
+                    type="checkbox"
+                    checked={paymentsCleared}
+                    onChange={(e) => setPaymentsCleared(e.target.checked)}
+                    className="rounded border-border"
+                  />
+                  <div>
+                    <p className="text-sm font-medium text-foreground">All outstanding payments cleared</p>
+                    <p className="text-xs text-muted-foreground">Confirm rent, utilities, and any other charges are settled.</p>
+                  </div>
+                </label>
+
+                {/* Complete offboarding */}
+                <Button
+                  onClick={async () => {
+                    if (!paymentsCleared) {
+                      setMessage({ type: "error", text: "Please confirm all payments are cleared first." });
+                      return;
+                    }
+                    if (!confirm("Complete offboarding and archive this member?")) return;
+                    setMoveOutSaving(true);
+                    setMessage(null);
+                    try {
+                      // Save move-out checklist
+                      await supabase.from("room_checklists").insert({
+                        tenant_profile_id: onboarding.tenant_profile_id,
+                        room_id: onboarding.room_id,
+                        checklist_type: "MOVE_OUT",
+                        areas: [{ name: "Move-Out Inspection", items: moveOutChecklist }],
+                        completed_at: new Date().toISOString(),
+                      });
+
+                      // Archive the member
+                      await supabase.from("onboarding_progress").update({
+                        status: "ARCHIVED",
+                        move_out_date: moveOutDate || new Date().toISOString().split("T")[0],
+                        deposit_refund_amount: Math.max(0, Number(onboarding.deposit_amount || 0) - totalDeductions),
+                      }).eq("id", id);
+                      await supabase.from("tenant_profiles").update({ is_active: false }).eq("id", onboarding.tenant_profile_id);
+
+                      setMessage({ type: "success", text: "Offboarding complete. Member archived." });
+                      await fetchData();
+                    } catch (err) {
+                      setMessage({ type: "error", text: err.message });
+                    }
+                    setMoveOutSaving(false);
+                  }}
+                  disabled={moveOutSaving || !paymentsCleared}
+                  className="w-full"
+                >
+                  {moveOutSaving ? "Processing..." : "Complete Offboarding & Archive"}
+                </Button>
+              </div>
+            </SectionCard>
+          )}
+
           {/* Actions: Offboard / Archive / Delete */}
           <SectionCard title="Member Actions">
             <div className="space-y-4">
-              {/* Offboard — only for active members */}
-              {(onboarding.status === "ACTIVE" || onboarding.current_step === "ACTIVE") && (
+              {/* Offboard — for active or onboarding members */}
+              {onboarding.status !== "END_OF_TENANCY" && onboarding.status !== "ARCHIVED" && (
                 <div className="flex items-center justify-between p-3 rounded-lg border border-[#bbcac6]/15">
                   <div>
                     <p className="text-sm font-medium text-foreground">Start Offboarding</p>
