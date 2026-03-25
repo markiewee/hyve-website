@@ -3,14 +3,43 @@ import { useAuth } from "../../hooks/useAuth";
 import { supabase } from "../../lib/supabase";
 import { Button } from "../ui/button";
 
-const AREAS = ["Bedroom", "Bathroom", "Kitchen", "Living Room", "Common Areas"];
 const CONDITIONS = ["Good", "Fair", "Damaged"];
 
-function buildInitialAreas() {
-  return AREAS.map((name) => ({
-    name,
-    condition: "Good",
-    notes: "",
+const ROOM_ITEMS = [
+  "Bed & Mattress",
+  "Wardrobe / Closet",
+  "Desk & Chair",
+  "Light Fixtures",
+  "Air Conditioning",
+  "Power Outlets",
+  "Walls & Ceiling",
+  "Flooring",
+  "Door & Lock",
+  "Window & Curtains",
+];
+
+const BATHROOM_ITEMS = [
+  "Shower / Water Heater",
+  "Toilet & Flush",
+  "Sink & Tap",
+  "Mirror & Cabinet",
+  "Tiles & Grouting",
+  "Door & Lock",
+];
+
+function getAreasForRoom(roomName) {
+  const isMaster = (roomName || "").toLowerCase().includes("master");
+  const areas = [{ name: "Your Room", items: ROOM_ITEMS }];
+  if (isMaster) {
+    areas.push({ name: "Attached Bathroom", items: BATHROOM_ITEMS });
+  }
+  return areas;
+}
+
+function buildInitialAreas(roomName) {
+  return getAreasForRoom(roomName).map((area) => ({
+    name: area.name,
+    items: area.items.map((item) => ({ name: item, condition: "Good", notes: "" })),
     photos: [],
     photoUrls: [],
   }));
@@ -18,8 +47,9 @@ function buildInitialAreas() {
 
 export default function RoomChecklistForm({ onboarding, advanceStep }) {
   const { profile } = useAuth();
+  const roomName = profile?.rooms?.name || "";
   const fileInputRefs = useRef({});
-  const [areas, setAreas] = useState(buildInitialAreas);
+  const [areas, setAreas] = useState(() => buildInitialAreas(roomName));
   const [submitting, setSubmitting] = useState(false);
   const [uploadProgress, setUploadProgress] = useState({});
   const [error, setError] = useState(null);
@@ -28,6 +58,16 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
     setAreas((prev) => {
       const next = [...prev];
       next[index] = { ...next[index], [field]: value };
+      return next;
+    });
+  }
+
+  function updateItem(areaIndex, itemIndex, field, value) {
+    setAreas((prev) => {
+      const next = [...prev];
+      const items = [...next[areaIndex].items];
+      items[itemIndex] = { ...items[itemIndex], [field]: value };
+      next[areaIndex] = { ...next[areaIndex], items };
       return next;
     });
   }
@@ -87,6 +127,12 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
         })
       );
 
+      // Flatten items into the areas format for storage
+      const formattedAreas = areasWithUrls.map(a => ({
+        ...a,
+        items: undefined, // remove items array from upload result
+      }));
+
       // Insert checklist row
       const { error: insertError } = await supabase
         .from("room_checklists")
@@ -94,7 +140,15 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
           tenant_profile_id: profile.id,
           room_id: profile.room_id,
           checklist_type: "MOVE_IN",
-          areas: areasWithUrls,
+          areas: areas.map((area, i) => ({
+            name: area.name,
+            items: area.items.map(item => ({
+              name: item.name,
+              condition: item.condition,
+              notes: item.notes.trim() || null,
+            })),
+            photo_urls: formattedAreas[i]?.photo_urls || [],
+          })),
           completed_at: new Date().toISOString(),
         });
 
@@ -114,83 +168,78 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <p className="text-sm text-muted-foreground">
-        Record the condition of each area at move-in. This protects both you
-        and Hyve.
+        Check each item in your room and note its condition. Take photos of any existing damage — this protects your deposit.
       </p>
 
-      {areas.map((area, index) => (
+      {areas.map((area, areaIndex) => (
         <div
           key={area.name}
-          className="border border-border rounded-md p-4 space-y-3"
+          className="border border-border rounded-lg overflow-hidden"
         >
-          <h3 className="text-sm font-semibold text-foreground">{area.name}</h3>
+          <div className="bg-[#006b5f]/5 px-4 py-3 border-b border-border">
+            <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+              <span className="material-symbols-outlined text-[#006b5f] text-[18px]">
+                {area.name.includes("Bathroom") ? "bathroom" : "bed"}
+              </span>
+              {area.name}
+              {roomName && <span className="text-xs font-normal text-muted-foreground">— {roomName}</span>}
+            </h3>
+          </div>
 
-          {/* Condition selector */}
-          <div>
+          <div className="divide-y divide-border">
+            {area.items.map((item, itemIndex) => (
+              <div key={item.name} className="px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-2">
+                <p className="text-sm text-foreground font-medium min-w-[160px]">{item.name}</p>
+                <div className="flex gap-1.5 flex-1">
+                  {CONDITIONS.map((cond) => (
+                    <button
+                      key={cond}
+                      type="button"
+                      onClick={() => updateItem(areaIndex, itemIndex, "condition", cond)}
+                      className={`py-1 px-2.5 rounded text-[11px] font-semibold border transition-colors ${
+                        item.condition === cond
+                          ? cond === "Good"
+                            ? "bg-green-500 text-white border-green-500"
+                            : cond === "Fair"
+                            ? "bg-amber-500 text-white border-amber-500"
+                            : "bg-red-500 text-white border-red-500"
+                          : "bg-background text-foreground border-border hover:bg-accent"
+                      }`}
+                    >
+                      {cond}
+                    </button>
+                  ))}
+                </div>
+                {item.condition !== "Good" && (
+                  <input
+                    type="text"
+                    value={item.notes}
+                    onChange={(e) => updateItem(areaIndex, itemIndex, "notes", e.target.value)}
+                    placeholder="Describe issue..."
+                    className="flex-1 rounded border border-border bg-background px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-primary"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Photos for this area */}
+          <div className="px-4 py-3 bg-[#f8f9ff] border-t border-border">
             <label className="block text-xs text-muted-foreground mb-1.5">
-              Condition
-            </label>
-            <div className="flex gap-2">
-              {CONDITIONS.map((cond) => (
-                <button
-                  key={cond}
-                  type="button"
-                  onClick={() => updateArea(index, "condition", cond)}
-                  className={`py-1 px-3 rounded text-xs font-medium border transition-colors ${
-                    area.condition === cond
-                      ? cond === "Good"
-                        ? "bg-green-500 text-white border-green-500"
-                        : cond === "Fair"
-                        ? "bg-amber-500 text-white border-amber-500"
-                        : "bg-red-500 text-white border-red-500"
-                      : "bg-background text-foreground border-border hover:bg-accent"
-                  }`}
-                >
-                  {cond}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Notes */}
-          <div>
-            <label
-              htmlFor={`notes-${index}`}
-              className="block text-xs text-muted-foreground mb-1"
-            >
-              Notes{" "}
-              <span className="text-muted-foreground/60">(optional)</span>
-            </label>
-            <textarea
-              id={`notes-${index}`}
-              rows={2}
-              value={area.notes}
-              onChange={(e) => updateArea(index, "notes", e.target.value)}
-              placeholder="Any existing damage or notes…"
-              className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-            />
-          </div>
-
-          {/* Photos */}
-          <div>
-            <label className="block text-xs text-muted-foreground mb-1">
-              Photos{" "}
-              <span className="text-muted-foreground/60">(optional)</span>
+              Photos of {area.name.toLowerCase()}{" "}
+              <span className="text-muted-foreground/60">(optional — recommended for any damage)</span>
             </label>
             <input
               type="file"
               multiple
               accept="image/*"
-              onChange={(e) => handlePhotos(index, e.target.files)}
-              ref={(el) => {
-                fileInputRefs.current[index] = el;
-              }}
+              onChange={(e) => handlePhotos(areaIndex, e.target.files)}
+              ref={(el) => { fileInputRefs.current[areaIndex] = el; }}
               className="block w-full text-xs text-muted-foreground file:mr-3 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-medium file:bg-secondary file:text-secondary-foreground hover:file:bg-secondary/80"
             />
             {area.photos.length > 0 && (
               <p className="text-xs text-muted-foreground mt-1">
-                {area.photos.length} photo
-                {area.photos.length > 1 ? "s" : ""} selected
+                {area.photos.length} photo{area.photos.length > 1 ? "s" : ""} selected
                 {uploadProgress[area.name] === "uploading" && " — uploading…"}
                 {uploadProgress[area.name] === "done" && " — uploaded"}
               </p>

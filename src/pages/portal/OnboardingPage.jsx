@@ -96,31 +96,58 @@ function StepContent({ currentStep, onboarding, advanceStep, updateOnboarding, r
       );
     case "ACTIVE":
       return (
-        <div className="text-center py-12">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-[#006b5f]/10 flex items-center justify-center">
-            <span
-              className="material-symbols-outlined text-[#006b5f] text-[40px]"
-              style={{ fontVariationSettings: "'FILL' 1" }}
-            >
-              check_circle
-            </span>
+        <div className="py-8">
+          {/* Welcome banner */}
+          <div className="text-center mb-10">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-[#006b5f]/10 flex items-center justify-center">
+              <span className="material-symbols-outlined text-[#006b5f] text-[40px]" style={{ fontVariationSettings: "'FILL' 1" }}>celebration</span>
+            </div>
+            <h3 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] mb-3">
+              Welcome to the Hyve Community!
+            </h3>
+            <p className="font-['Manrope'] text-[#555f6f] text-sm max-w-md mx-auto leading-relaxed">
+              You're all set. Here's a quick guide to help you settle in and make the most of your stay.
+            </p>
           </div>
-          <h3 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#121c2a] mb-3">
-            Onboarding Complete!
-          </h3>
-          <p className="font-['Manrope'] text-[#555f6f] text-sm mb-8 max-w-sm mx-auto leading-relaxed">
-            Welcome to Hyve. Your room is ready for you. Head to your dashboard
-            to get started.
-          </p>
-          <Link
-            to="/portal/dashboard"
-            className="inline-flex items-center gap-2 bg-[#006b5f] text-white rounded-xl px-6 py-3 font-['Manrope'] font-bold hover:bg-[#006a61] transition-colors"
-          >
-            <span className="material-symbols-outlined text-[18px]">
-              arrow_forward
-            </span>
-            Go to Dashboard
-          </Link>
+
+          {/* Quick Start Guide */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10 max-w-2xl mx-auto">
+            <div className="bg-white border border-[#bbcac6]/15 rounded-xl p-5 space-y-2">
+              <span className="material-symbols-outlined text-[#006b5f] text-[24px]">dashboard</span>
+              <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a]">Your Dashboard</h4>
+              <p className="text-xs text-[#555f6f] font-['Manrope'] leading-relaxed">Track your AC usage, rent status, and manage everything from one place.</p>
+            </div>
+            <div className="bg-white border border-[#bbcac6]/15 rounded-xl p-5 space-y-2">
+              <span className="material-symbols-outlined text-[#006b5f] text-[24px]">payments</span>
+              <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a]">Pay Rent</h4>
+              <p className="text-xs text-[#555f6f] font-['Manrope'] leading-relaxed">Rent is due on the 1st of each month. Pay via bank transfer or card in the Billing section.</p>
+            </div>
+            <div className="bg-white border border-[#bbcac6]/15 rounded-xl p-5 space-y-2">
+              <span className="material-symbols-outlined text-[#006b5f] text-[24px]">build</span>
+              <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a]">Report Issues</h4>
+              <p className="text-xs text-[#555f6f] font-['Manrope'] leading-relaxed">AC not working? Leaky tap? Report maintenance issues and we'll handle it ASAP.</p>
+            </div>
+            <div className="bg-white border border-[#bbcac6]/15 rounded-xl p-5 space-y-2">
+              <span className="material-symbols-outlined text-[#006b5f] text-[24px]">folder_open</span>
+              <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a]">Your Documents</h4>
+              <p className="text-xs text-[#555f6f] font-['Manrope'] leading-relaxed">View your tenancy agreement and upload documents like stamping certificates.</p>
+            </div>
+            <div className="bg-white border border-[#bbcac6]/15 rounded-xl p-5 space-y-2 sm:col-span-2">
+              <span className="material-symbols-outlined text-[#006b5f] text-[24px]">support_agent</span>
+              <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a]">Need Help?</h4>
+              <p className="text-xs text-[#555f6f] font-['Manrope'] leading-relaxed">WhatsApp us anytime at <strong>+65 8088 5410</strong> or email <strong>hello@hyve.sg</strong>. We typically respond within an hour.</p>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <Link
+              to="/portal/dashboard"
+              className="inline-flex items-center gap-2 bg-[#006b5f] text-white rounded-xl px-8 py-4 font-['Manrope'] font-bold text-base hover:bg-[#006a61] transition-colors shadow-lg shadow-[#006b5f]/20"
+            >
+              <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
+              Go to My Dashboard
+            </Link>
+          </div>
         </div>
       );
     default:
