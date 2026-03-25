@@ -96,7 +96,7 @@ export default function DashboardPage() {
                 </span>
                 <div className="text-5xl font-['Plus_Jakarta_Sans'] font-black text-[#121c2a]">
                   {profile?.rooms?.rent_amount
-                    ? `$${Number(profile.rooms.rent_amount).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`
+                    ? `$${Number(profile.monthly_rent || profile.rooms?.rent_amount).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`
                     : "—"}
                 </div>
               </div>

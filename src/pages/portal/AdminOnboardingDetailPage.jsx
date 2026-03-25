@@ -72,7 +72,7 @@ export default function AdminOnboardingDetailPage() {
     const [onboardingRes, detailsRes, docsRes] = await Promise.all([
       supabase
         .from("onboarding_progress")
-        .select("*, tenant_profiles(id, user_id, role, username, rooms(unit_code, name, rent_amount), properties(name))")
+        .select("*, tenant_profiles(id, user_id, role, username, monthly_rent, rooms(unit_code, name), properties(name))")
         .eq("id", id)
         .single(),
       supabase

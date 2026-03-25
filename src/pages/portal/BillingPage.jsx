@@ -97,7 +97,7 @@ export default function BillingPage() {
           </p>
           <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">
             {profile?.rooms?.rent_amount
-              ? `$${Number(profile.rooms.rent_amount).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`
+              ? `$${Number(profile.monthly_rent || profile.rooms?.rent_amount).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`
               : "—"}
           </p>
           <p className="text-[#6c7a77] font-['Manrope'] text-xs mt-2">Due 1st of each month</p>
