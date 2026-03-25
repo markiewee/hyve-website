@@ -41,7 +41,7 @@ export default function AdminDocumentsPage() {
   const fetchData = useCallback(async () => {
     const [tplRes, tenantRes] = await Promise.all([
       supabase.from("document_templates").select("*").order("created_at", { ascending: false }),
-      supabase.from("tenant_profiles").select("id, role, username, rooms(unit_code, name, rent_amount, properties(name, address, common_areas)), tenant_details(full_name, id_number, phone), onboarding_progress(id, deposit_amount, licence_period, tenancy_start_date, tenancy_end_date, ref_number)")
+      supabase.from("tenant_profiles").select("id, role, username, monthly_rent, room_id, property_id, rooms(unit_code, name), properties(name, address, common_areas), tenant_details(full_name, id_number, phone), onboarding_progress(id, deposit_amount, licence_period, tenancy_start_date, tenancy_end_date, ref_number)")
         .eq("role", "TENANT").eq("is_active", true),
     ]);
     setTemplates(tplRes.data ?? []);
@@ -146,10 +146,10 @@ export default function AdminDocumentsPage() {
       EMAIL: "",
       ROOM_CODE: tenant?.rooms?.unit_code || "",
       ROOM_NAME: tenant?.rooms?.name || "",
-      PROPERTY_NAME: tenant?.rooms?.properties?.name || "",
-      PROPERTY_ADDRESS: tenant?.rooms?.properties?.address || "",
-      COMMON_AREAS: tenant?.rooms?.properties?.common_areas || "All other areas not defined as private dwellings",
-      MONTHLY_RENT: tenant?.rooms?.rent_amount ? Number(tenant.rooms.rent_amount).toLocaleString() : "",
+      PROPERTY_NAME: tenant?.properties?.name || "",
+      PROPERTY_ADDRESS: tenant?.properties?.address || "",
+      COMMON_AREAS: tenant?.properties?.common_areas || "All other areas not defined as private dwellings",
+      MONTHLY_RENT: tenant?.monthly_rent ? Number(tenant.monthly_rent).toLocaleString() : "",
       DEPOSIT_AMOUNT: ob?.deposit_amount ? Number(ob.deposit_amount).toLocaleString() : "",
       LICENCE_PERIOD: ob?.licence_period || "",
       START_DATE: fmtDate(ob?.tenancy_start_date),
@@ -229,9 +229,9 @@ export default function AdminDocumentsPage() {
         ID_NUMBER: tenant?.tenant_details?.id_number || "",
         PHONE: tenant?.tenant_details?.phone || "",
         ROOM_CODE: tenant?.rooms?.unit_code || "",
-        PROPERTY_NAME: tenant?.rooms?.properties?.name || "",
-        PROPERTY_ADDRESS: tenant?.rooms?.properties?.address || "",
-        MONTHLY_RENT: tenant?.rooms?.rent_amount ? `SGD ${Number(tenant.rooms.rent_amount).toLocaleString()}` : "",
+        PROPERTY_NAME: tenant?.properties?.name || "",
+        PROPERTY_ADDRESS: tenant?.properties?.address || "",
+        MONTHLY_RENT: tenant?.monthly_rent ? `SGD ${Number(tenant.monthly_rent).toLocaleString()}` : "",
         DEPOSIT_AMOUNT: ob?.deposit_amount ? `SGD ${Number(ob.deposit_amount).toLocaleString()}` : "",
         LICENCE_PERIOD: ob?.licence_period || "",
         START_DATE: fmtDate(ob?.tenancy_start_date),
@@ -361,7 +361,7 @@ export default function AdminDocumentsPage() {
                     <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-2">Will auto-fill</p>
                     <p><span className="text-[#6c7a77]">Name:</span> <strong>{t?.tenant_details?.full_name || "—"}</strong></p>
                     <p><span className="text-[#6c7a77]">Room:</span> <strong>{t?.rooms?.unit_code} — {t?.rooms?.name}</strong></p>
-                    <p><span className="text-[#6c7a77]">Rent:</span> <strong>SGD {t?.rooms?.rent_amount || "—"}</strong> · <span className="text-[#6c7a77]">Deposit:</span> <strong>SGD {ob?.deposit_amount || "—"}</strong></p>
+                    <p><span className="text-[#6c7a77]">Rent:</span> <strong>SGD {t?.monthly_rent || "—"}</strong> · <span className="text-[#6c7a77]">Deposit:</span> <strong>SGD {ob?.deposit_amount || "—"}</strong></p>
                     <p><span className="text-[#6c7a77]">Period:</span> <strong>{ob?.licence_period || "—"}</strong></p>
                     <p><span className="text-[#6c7a77]">Ref:</span> <strong>{ob?.ref_number || "—"}</strong></p>
                   </div>
