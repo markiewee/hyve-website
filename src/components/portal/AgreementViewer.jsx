@@ -222,11 +222,21 @@ function FullyExecutedView({ onboarding }) {
     setDownloading(true);
     try {
       const url = await resolveSignedUrl(onboarding.admin_signed_url);
-      if (url) {
-        window.open(url, "_blank", "noopener,noreferrer");
-      } else {
+      if (!url) {
         toast.error("Could not generate download link. Please try again.");
+        return;
       }
+      // Force download instead of opening in browser
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = `Licence-Agreement-${onboarding.ref_number || "signed"}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(blobUrl);
     } catch {
       toast.error("Download failed. Please try again.");
     } finally {
