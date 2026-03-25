@@ -18,6 +18,7 @@ const HOUSE_CAPTAIN_NAV = [
   { label: "Property Overview", to: "/portal/property", icon: "apartment" },
   { label: "Tickets", to: "/portal/property/tickets", icon: "confirmation_number" },
   { label: "Members", to: "/portal/property/tenants", icon: "group" },
+  { label: "Settings", to: "/portal/settings", icon: "settings" },
 ];
 
 const ADMIN_NAV = [

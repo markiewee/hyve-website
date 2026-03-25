@@ -63,7 +63,7 @@ export default function AdminOnboardingDetailPage() {
     const [onboardingRes, detailsRes, docsRes] = await Promise.all([
       supabase
         .from("onboarding_progress")
-        .select("*, tenant_profiles(id, user_id, role, rooms(unit_code, name), properties(name))")
+        .select("*, tenant_profiles(id, user_id, role, username, rooms(unit_code, name, rent_amount), properties(name))")
         .eq("id", id)
         .single(),
       supabase
@@ -820,6 +820,157 @@ export default function AdminOnboardingDetailPage() {
             </SectionCard>
           )}
 
+          {/* Upload Document to Member */}
+          <SectionCard title="Upload Document">
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-medium text-muted-foreground mb-1">Type</label>
+                  <select
+                    id="admin-doc-type"
+                    defaultValue="STAMPING"
+                    className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                  >
+                    <option value="STAMPING">Stamping Certificate</option>
+                    <option value="RECEIPT">Receipt</option>
+                    <option value="ID_DOCUMENT">ID Document</option>
+                    <option value="LICENCE_AGREEMENT">Licence Agreement</option>
+                    <option value="OTHER">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-muted-foreground mb-1">Title</label>
+                  <input
+                    id="admin-doc-title"
+                    type="text"
+                    placeholder="e.g. Stamping cert March 2026"
+                    className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                  />
+                </div>
+              </div>
+              <input
+                type="file"
+                id="admin-doc-file"
+                accept="image/*,application/pdf,.doc,.docx"
+                className="block w-full text-sm text-muted-foreground file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-xs file:font-medium file:bg-primary file:text-primary-foreground cursor-pointer"
+              />
+              <Button
+                size="sm"
+                onClick={async () => {
+                  const fileInput = document.getElementById("admin-doc-file");
+                  const file = fileInput?.files?.[0];
+                  if (!file) { setMessage({ type: "error", text: "Select a file first." }); return; }
+                  setActionLoading(true);
+                  setMessage(null);
+                  try {
+                    const tpId = onboarding.tenant_profile_id;
+                    const ext = file.name.split(".").pop() || "pdf";
+                    const path = `tenants/${tpId}/uploads/admin-${Date.now()}.${ext}`;
+                    const { error: upErr } = await supabase.storage.from("tenant-documents").upload(path, file, { upsert: false });
+                    if (upErr) throw upErr;
+                    const { data: urlData } = supabase.storage.from("tenant-documents").getPublicUrl(path);
+                    const docType = document.getElementById("admin-doc-type")?.value || "OTHER";
+                    const docTitle = document.getElementById("admin-doc-title")?.value || docType.replace(/_/g, " ");
+                    await supabase.from("tenant_documents").insert({
+                      tenant_profile_id: tpId,
+                      doc_type: docType,
+                      title: docTitle,
+                      status: "UPLOADED",
+                      file_url: urlData.publicUrl,
+                    });
+                    setMessage({ type: "success", text: "Document uploaded." });
+                    fileInput.value = "";
+                    await fetchData();
+                  } catch (err) {
+                    setMessage({ type: "error", text: err.message });
+                  }
+                  setActionLoading(false);
+                }}
+                disabled={actionLoading}
+              >
+                Upload
+              </Button>
+            </div>
+          </SectionCard>
+
+          {/* Credentials */}
+          {onboarding.tenant_profiles?.username && (
+            <SectionCard title="Login Credentials">
+              <div className="bg-[#f8faf9] rounded-lg p-4 space-y-2 text-sm font-mono">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Username</span>
+                  <strong>{onboarding.tenant_profiles.username}</strong>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Email</span>
+                  <span>{onboarding.tenant_profiles.username}@portal.hyve.sg</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Default Password</span>
+                  <strong>Welcome1!</strong>
+                </div>
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                className="mt-2"
+                onClick={() => {
+                  navigator.clipboard.writeText(`Username: ${onboarding.tenant_profiles.username}\nPassword: Welcome1!\nLogin: hyve.sg/portal/login`);
+                  setMessage({ type: "success", text: "Credentials copied to clipboard." });
+                }}
+              >
+                Copy Credentials
+              </Button>
+            </SectionCard>
+          )}
+
+          {/* Offboard / Archive */}
+          {(onboarding.status === "ACTIVE" || onboarding.current_step === "ACTIVE") && (
+            <SectionCard title="End of Tenancy">
+              <p className="text-sm text-muted-foreground mb-3">
+                Start the offboarding process when this member is moving out.
+              </p>
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={async () => {
+                    if (!confirm("Start offboarding for this member? This will mark them as End of Tenancy.")) return;
+                    setActionLoading(true);
+                    await supabase.from("onboarding_progress").update({
+                      status: "END_OF_TENANCY",
+                      current_step: "END_OF_TENANCY",
+                    }).eq("id", id);
+                    setMessage({ type: "success", text: "Member marked for offboarding." });
+                    await fetchData();
+                    setActionLoading(false);
+                  }}
+                  disabled={actionLoading}
+                >
+                  <span className="material-symbols-outlined text-[16px] mr-1">logout</span>
+                  Start Offboarding
+                </Button>
+                <Button
+                  size="sm"
+                  variant="destructive"
+                  onClick={async () => {
+                    if (!confirm("Archive this member? Their account will be deactivated.")) return;
+                    setActionLoading(true);
+                    await supabase.from("onboarding_progress").update({ status: "ARCHIVED" }).eq("id", id);
+                    await supabase.from("tenant_profiles").update({ is_active: false }).eq("id", onboarding.tenant_profile_id);
+                    setMessage({ type: "success", text: "Member archived and deactivated." });
+                    await fetchData();
+                    setActionLoading(false);
+                  }}
+                  disabled={actionLoading}
+                >
+                  <span className="material-symbols-outlined text-[16px] mr-1">archive</span>
+                  Archive Member
+                </Button>
+              </div>
+            </SectionCard>
+          )}
+
           {/* Override Step */}
           <SectionCard title="Override Step">
             <div className="flex items-center gap-3">
@@ -845,7 +996,7 @@ export default function AdminOnboardingDetailPage() {
               </Button>
             </div>
             <p className="text-xs text-muted-foreground">
-              Use this to manually advance or reset a tenant's onboarding step.
+              Use this to manually advance or reset a member's onboarding step.
             </p>
           </SectionCard>
 
@@ -908,7 +1059,7 @@ export default function AdminOnboardingDetailPage() {
                 </dd>
               </div>
               <div>
-                <dt className="text-muted-foreground">Tenant Signed At</dt>
+                <dt className="text-muted-foreground">Member Signed At</dt>
                 <dd className="font-medium">{formatDateTime(onboarding.ta_signed_at)}</dd>
               </div>
               <div>
