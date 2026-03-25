@@ -6,11 +6,11 @@ import { supabase } from "../../lib/supabase";
 const CATEGORIES = ["AC", "PLUMBING", "ELECTRICAL", "FURNITURE", "CLEANING", "OTHER"];
 const LOCATIONS = ["My Room", "Kitchen", "Living Room", "Bathroom (Shared)", "Corridor", "Laundry Area", "Other"];
 
-export default function TicketForm() {
+export default function TicketForm({ preselectedCategory = null }) {
   const { user, profile } = useAuth();
   const navigate = useNavigate();
 
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState(preselectedCategory);
   const [location, setLocation] = useState("My Room");
   const [description, setDescription] = useState("");
   const [photos, setPhotos] = useState([]);
