@@ -139,6 +139,18 @@ export default function AdminDocumentsPage() {
 
     const ob = tenant?.onboarding_progress;
     const fmtDate = (d) => d ? new Date(d).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }) : "";
+    // Auto-calculate FEE_DATE_1 through FEE_DATE_36
+    const feeDates = {};
+    if (ob?.tenancy_start_date) {
+      const start = new Date(ob.tenancy_start_date);
+      const period = parseInt(ob?.licence_period) || 12;
+      for (let i = 0; i < Math.min(period, 36); i++) {
+        const d = new Date(start);
+        d.setMonth(d.getMonth() + i);
+        feeDates[`FEE_DATE_${i + 1}`] = fmtDate(d.toISOString().split("T")[0]);
+      }
+    }
+
     const values = {
       TENANT_NAME: tenant?.tenant_details?.full_name || "",
       ID_NUMBER: tenant?.tenant_details?.id_number || "",
@@ -156,6 +168,7 @@ export default function AdminDocumentsPage() {
       END_DATE: fmtDate(ob?.tenancy_end_date),
       REF_NUMBER: ob?.ref_number || "",
       DATE: new Date().toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }),
+      ...feeDates,
     };
 
     try {
@@ -167,6 +180,8 @@ export default function AdminDocumentsPage() {
       for (const [key, val] of Object.entries(values)) {
         html = html.replaceAll(`{{${key}}}`, val || `[${key}]`);
       }
+      // Clear remaining unfilled FEE_DATE placeholders
+      html = html.replace(/\{\{FEE_DATE_\d+\}\}/g, "—");
 
       // Open in new window — user prints to PDF
       const w = window.open("", "_blank");

@@ -130,8 +130,24 @@ export default function AdminOnboardingPage() {
   async function generateTaPreview() {
     const room = rooms.find(r => r.id === inviteRoomId);
     const fmtDate = (d) => d ? new Date(d + "T00:00:00").toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }) : "";
+
+    // Auto-calculate FEE_DATE_1 through FEE_DATE_36 (monthly from start)
+    const feeDates = {};
+    if (inviteStartDate) {
+      const start = new Date(inviteStartDate + "T00:00:00");
+      const months = Number(calcLicencePeriod) || 12;
+      for (let i = 0; i < Math.min(months, 36); i++) {
+        const d = new Date(start);
+        d.setMonth(d.getMonth() + i);
+        feeDates[`FEE_DATE_${i + 1}`] = fmtDate(d.toISOString().split("T")[0]);
+      }
+    }
+
     const values = {
       TENANT_NAME: inviteUsername,
+      ID_NUMBER: "[To be filled after ID verification]",
+      PHONE: "[To be filled after onboarding]",
+      EMAIL: "[To be filled after onboarding]",
       ROOM_CODE: room?.unit_code || "",
       ROOM_NAME: room?.name || "",
       PROPERTY_NAME: room?.properties?.name || "",
@@ -144,6 +160,7 @@ export default function AdminOnboardingPage() {
       START_DATE: fmtDate(inviteStartDate),
       END_DATE: fmtDate(inviteEndDate),
       DATE: new Date().toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }),
+      ...feeDates,
     };
 
     try {
@@ -152,6 +169,8 @@ export default function AdminOnboardingPage() {
       for (const [key, val] of Object.entries(values)) {
         html = html.replaceAll(`{{${key}}}`, val || `[${key}]`);
       }
+      // Clear any remaining unfilled FEE_DATE placeholders
+      html = html.replace(/\{\{FEE_DATE_\d+\}\}/g, "—");
       setTaPreviewHtml(html);
     } catch (err) {
       console.error("Failed to load template:", err);
@@ -584,8 +603,9 @@ export default function AdminOnboardingPage() {
                     </div>
                   )}
 
-                  <div className="bg-[#eff4ff] rounded-xl p-3 text-xs text-[#6c7a77] font-['Manrope']">
-                    <strong className="text-[#121c2a]">Ref: {inviteRefNumber}</strong> — This agreement will be sent to the member for signing. You will counter-sign after them as a final check.
+                  <div className="bg-[#eff4ff] rounded-xl p-3 text-xs text-[#6c7a77] font-['Manrope'] space-y-1">
+                    <p><strong className="text-[#121c2a]">Ref: {inviteRefNumber}</strong></p>
+                    <p>The TA will be finalised after the member completes onboarding (personal details + ID verification). You will counter-sign as a final check.</p>
                   </div>
 
                   {inviteResult?.type === "error" && (
