@@ -122,6 +122,8 @@ export default function AdminDocumentsPage() {
     admin: { page: "last", x: 350, y: 120, width: 200, height: 80, label: "Licensor Signature" },
   };
   const [sigConfig, setSigConfig] = useState(DEFAULT_SIG_CONFIG);
+  const [sigPreviewUrl, setSigPreviewUrl] = useState(null);
+  const [sigPreviewLoading, setSigPreviewLoading] = useState(false);
 
   // ── Generate & Send ─────────────────────────────────────────
   const [tenants, setTenants] = useState([]);
@@ -734,19 +736,21 @@ export default function AdminDocumentsPage() {
             />
           </div>
 
-          {/* Signature Placement — simplified labels only; visual placement happens after PDF generation */}
+          {/* Signature Placement — preview PDF and drag boxes */}
           <div className="mb-6 space-y-3">
             <div>
               <p className="font-['Inter'] text-xs font-bold uppercase tracking-widest text-[#6c7a77]">
-                Signature Labels
+                Signature Placement
               </p>
               <p className="font-['Manrope'] text-xs text-[#6c7a77] mt-1">
-                Set label names here. After generating the PDF, you can drag-and-drop to position them visually.
+                Generate a preview PDF from the HTML above, then drag the signature boxes to position them.
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+            {/* Labels */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
-                { key: "tenant", label: "Tenant Signature", accent: "#3b82f6" },
+                { key: "tenant", label: "Member Signature", accent: "#3b82f6" },
                 { key: "admin", label: "Licensor Signature", accent: "#006b5f" },
               ].map(({ key, label, accent }) => (
                 <div key={key} className="flex items-center gap-3">
@@ -765,6 +769,56 @@ export default function AdminDocumentsPage() {
                 </div>
               ))}
             </div>
+
+            {/* Generate Preview & Place button */}
+            <button
+              type="button"
+              disabled={sigPreviewLoading || !editorHtml.trim()}
+              onClick={async () => {
+                if (!editorHtml.trim()) return;
+                setSigPreviewLoading(true);
+                setSigPreviewUrl(null);
+                try {
+                  const { default: html2pdf } = await import(/* @vite-ignore */ "html2pdf.js");
+                  const iframe = document.createElement("iframe");
+                  iframe.style.cssText = "position:fixed;top:-9999px;left:-9999px;width:800px;height:1200px;border:none;";
+                  document.body.appendChild(iframe);
+                  const iDoc = iframe.contentDocument || iframe.contentWindow.document;
+                  iDoc.open();
+                  iDoc.write(`<!DOCTYPE html><html><head><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#000;background:#fff;padding:40px;width:700px}h1,h2,h3,h4{margin:1em 0 .5em}p{margin:.5em 0}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:6px 10px}</style></head><body>${editorHtml}</body></html>`);
+                  iDoc.close();
+                  const blob = await html2pdf().set({
+                    margin: 10, image: { type: "jpeg", quality: 0.98 },
+                    html2canvas: { scale: 2, useCORS: true },
+                    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+                  }).from(iDoc.body).outputPdf("blob");
+                  document.body.removeChild(iframe);
+                  setSigPreviewUrl(URL.createObjectURL(blob));
+                } catch (err) {
+                  console.error("Preview PDF failed:", err);
+                  setEditorMessage({ type: "error", text: "Failed to generate preview: " + err.message });
+                }
+                setSigPreviewLoading(false);
+              }}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#eff4ff] text-[#006b5f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff] transition-colors disabled:opacity-40"
+            >
+              <span className="material-symbols-outlined text-[18px]">{sigPreviewLoading ? "progress_activity" : "picture_as_pdf"}</span>
+              {sigPreviewLoading ? "Generating..." : "Preview & Place Signatures"}
+            </button>
+
+            {/* Signature Placer on generated PDF */}
+            {sigPreviewUrl && (
+              <div className="w-full mt-3 p-4 border border-[#006b5f]/20 rounded-xl bg-white">
+                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#006b5f] font-bold mb-2">
+                  Drag signature boxes to position them
+                </p>
+                <DraggableSignaturePlacer
+                  pdfUrl={sigPreviewUrl}
+                  value={sigConfig}
+                  onChange={setSigConfig}
+                />
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-3 flex-wrap">
