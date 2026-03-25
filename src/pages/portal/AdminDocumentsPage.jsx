@@ -348,11 +348,21 @@ export default function AdminDocumentsPage() {
       // Lazy-load html2pdf at runtime (can't import statically — uses window at init)
       const { default: html2pdf } = await import(/* @vite-ignore */ "html2pdf.js");
 
-      const isolated = document.createElement("div");
-      isolated.style.cssText =
-        "position:fixed;top:-9999px;left:-9999px;width:700px;background:white;color:black;font-family:Arial,sans-serif;font-size:14px;line-height:1.6;padding:40px;";
-      isolated.innerHTML = source.innerHTML;
-      document.body.appendChild(isolated);
+      // Create an iframe to fully isolate from Tailwind/oklch CSS
+      const iframe = document.createElement("iframe");
+      iframe.style.cssText = "position:fixed;top:-9999px;left:-9999px;width:800px;height:1200px;border:none;";
+      document.body.appendChild(iframe);
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      iframeDoc.open();
+      iframeDoc.write(`<!DOCTYPE html><html><head><style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #000; background: #fff; padding: 40px; width: 700px; }
+        h1, h2, h3, h4 { margin: 1em 0 0.5em; }
+        p { margin: 0.5em 0; }
+        table { border-collapse: collapse; width: 100%; }
+        td, th { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+      </style></head><body>${source.innerHTML}</body></html>`);
+      iframeDoc.close();
 
       const opt = {
         margin: 10,
@@ -361,8 +371,8 @@ export default function AdminDocumentsPage() {
         html2canvas: { scale: 2, useCORS: true },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
       };
-      const pdfBlob = await html2pdf().set(opt).from(isolated).outputPdf("blob");
-      document.body.removeChild(isolated);
+      const pdfBlob = await html2pdf().set(opt).from(iframeDoc.body).outputPdf("blob");
+      document.body.removeChild(iframe);
 
       // 2. Upload to Supabase Storage
       const tpId = selectedTenant.id;
@@ -999,10 +1009,10 @@ export default function AdminDocumentsPage() {
                   <span className="material-symbols-outlined text-[14px]">
                     edit
                   </span>
-                  Manual input required
+                  Required fields
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {manualPlaceholders.map((ph) => (
+                  {manualPlaceholders.filter(ph => ph !== "END_DATE" && ph !== "LICENCE_PERIOD").map((ph) => (
                     <div key={ph} className="space-y-1.5">
                       <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">
                         {ph.replace(/_/g, " ")}
@@ -1011,28 +1021,92 @@ export default function AdminDocumentsPage() {
                             (tenant email)
                           </span>
                         )}
+                        <span className="text-[#ba1a1a] ml-0.5">*</span>
                       </label>
-                      <input
-                        type={ph === "EMAIL" ? "email" : "text"}
-                        value={fieldValues[ph] || ""}
-                        onChange={(e) => handleFieldChange(ph, e.target.value)}
-                        placeholder={
-                          ph === "LICENCE_PERIOD"
-                            ? "e.g. 12 months"
-                            : ph === "START_DATE" || ph === "END_DATE"
-                            ? "e.g. 1 April 2026"
-                            : ph === "DATE"
-                            ? new Date().toLocaleDateString("en-SG", {
-                                day: "numeric",
-                                month: "long",
-                                year: "numeric",
-                              })
-                            : `Enter ${ph.replace(/_/g, " ").toLowerCase()}`
-                        }
-                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
-                      />
+                      {(ph === "START_DATE") ? (
+                        <input
+                          type="date"
+                          value={fieldValues[ph] || ""}
+                          onChange={(e) => {
+                            handleFieldChange(ph, e.target.value);
+                            // Auto-format for display: "1 April 2026"
+                            if (e.target.value) {
+                              const d = new Date(e.target.value + "T00:00:00");
+                              handleFieldChange(ph, d.toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }));
+                            }
+                          }}
+                          className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                        />
+                      ) : (
+                        <input
+                          type={ph === "EMAIL" ? "email" : "text"}
+                          required
+                          value={fieldValues[ph] || ""}
+                          onChange={(e) => handleFieldChange(ph, e.target.value)}
+                          placeholder={`Enter ${ph.replace(/_/g, " ").toLowerCase()}`}
+                          className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                        />
+                      )}
                     </div>
                   ))}
+
+                  {/* Licence Period + auto-calculate End Date */}
+                  {(manualPlaceholders.includes("LICENCE_PERIOD") || manualPlaceholders.includes("END_DATE") || manualPlaceholders.includes("START_DATE")) && (
+                    <>
+                      <div className="space-y-1.5">
+                        <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">
+                          Licence Period<span className="text-[#ba1a1a] ml-0.5">*</span>
+                        </label>
+                        <div className="flex gap-2">
+                          <select
+                            value={fieldValues["LICENCE_PERIOD"]?.replace(/[^0-9]/g, "") || ""}
+                            onChange={(e) => {
+                              const months = Number(e.target.value);
+                              handleFieldChange("LICENCE_PERIOD", months ? `${months} months` : "");
+                              // Auto-calculate END_DATE from START_DATE
+                              const startVal = fieldValues["START_DATE"];
+                              if (months && startVal) {
+                                // Try to parse the formatted date back
+                                const startDate = new Date(startVal);
+                                if (!isNaN(startDate.getTime())) {
+                                  const endDate = new Date(startDate);
+                                  endDate.setMonth(endDate.getMonth() + months);
+                                  endDate.setDate(endDate.getDate() - 1);
+                                  handleFieldChange("END_DATE", endDate.toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }));
+                                }
+                              }
+                            }}
+                            className="flex-1 bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                          >
+                            <option value="">Select months</option>
+                            {[3, 6, 9, 12, 18, 24].map(m => (
+                              <option key={m} value={m}>{m} months</option>
+                            ))}
+                          </select>
+                          <input
+                            type="text"
+                            value={fieldValues["LICENCE_PERIOD"] || ""}
+                            onChange={(e) => handleFieldChange("LICENCE_PERIOD", e.target.value)}
+                            placeholder="or type e.g. 12 months"
+                            className="flex-1 bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">
+                          End Date<span className="text-[#ba1a1a] ml-0.5">*</span>
+                          <span className="ml-1 text-[#bbcac6] normal-case tracking-normal">(auto-calculated)</span>
+                        </label>
+                        <input
+                          type="text"
+                          value={fieldValues["END_DATE"] || ""}
+                          onChange={(e) => handleFieldChange("END_DATE", e.target.value)}
+                          placeholder="Auto-fills from start date + licence period"
+                          className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                        />
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             )}
@@ -1063,11 +1137,13 @@ export default function AdminDocumentsPage() {
               </button>
             </div>
             {filledHtml && (
-              <div
-                id="doc-preview"
-                className="border border-[#bbcac6]/15 rounded-2xl p-8 bg-white text-black text-sm leading-relaxed overflow-auto max-h-[600px]"
-                dangerouslySetInnerHTML={{ __html: filledHtml }}
-              />
+              <div className="border border-[#bbcac6]/15 rounded-2xl overflow-auto max-h-[600px]">
+                <div
+                  id="doc-preview"
+                  style={{ all: "initial", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "14px", lineHeight: "1.6", color: "#000", background: "#fff", padding: "32px", display: "block" }}
+                  dangerouslySetInnerHTML={{ __html: filledHtml }}
+                />
+              </div>
             )}
           </div>
         )}
