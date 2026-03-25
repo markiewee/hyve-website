@@ -30,7 +30,7 @@ function isExpired(expiresAt) {
 }
 
 export default function AdminAnnouncementsPage() {
-  const { profile } = useAuth();
+  const { user, profile } = useAuth();
 
   const [announcements, setAnnouncements] = useState([]);
   const [properties, setProperties] = useState([]);
@@ -102,7 +102,7 @@ export default function AdminAnnouncementsPage() {
       property_id: form.property_id || null,
       expires_at: form.expires_at || null,
       is_active: true,
-      created_by: profile?.id ?? null,
+      created_by: user?.id ?? null,
     };
 
     const { data, error } = await supabase
