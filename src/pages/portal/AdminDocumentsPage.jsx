@@ -1,9 +1,11 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
+import DraggableSignaturePlacer from "../../components/portal/DraggableSignaturePlacer";
 
 const DOC_TYPES = [
   "LICENCE_AGREEMENT",
+  "NOTICE_OF_TERMINATION",
   "MOVE_IN_CHECKLIST",
   "MOVE_OUT_CHECKLIST",
   "HOUSE_RULES",
@@ -91,6 +93,7 @@ function fillTemplate(html, values) {
 
 const DOC_TYPE_COLORS = {
   LICENCE_AGREEMENT: "bg-blue-100 text-blue-700",
+  NOTICE_OF_TERMINATION: "bg-[#ffdbd0]/50 text-[#9b4426]",
   MOVE_IN_CHECKLIST: "bg-[#eff4ff] text-[#006b5f]",
   MOVE_OUT_CHECKLIST: "bg-[#ffdad6]/50 text-[#ba1a1a]",
   HOUSE_RULES: "bg-amber-100 text-amber-700",
@@ -721,194 +724,36 @@ export default function AdminDocumentsPage() {
             />
           </div>
 
-          {/* Signature Placement */}
-          <div className="mb-6 space-y-4">
+          {/* Signature Placement — simplified labels only; visual placement happens after PDF generation */}
+          <div className="mb-6 space-y-3">
             <div>
               <p className="font-['Inter'] text-xs font-bold uppercase tracking-widest text-[#6c7a77]">
-                Signature Placement
+                Signature Labels
               </p>
               <p className="font-['Manrope'] text-xs text-[#6c7a77] mt-1">
-                Configure where signatures are stamped on the PDF (coordinates in PDF points from bottom-left).
+                Set label names here. After generating the PDF, you can drag-and-drop to position them visually.
               </p>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Tenant signature config */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
-                { key: "tenant", label: "Tenant Signature", accentColor: "#3b82f6", bgColor: "#eff6ff" },
-                { key: "admin", label: "Licensor Signature", accentColor: "#006b5f", bgColor: "#eff4ff" },
-              ].map(({ key, label, accentColor, bgColor }) => (
-                <div
-                  key={key}
-                  className="p-5 rounded-2xl border"
-                  style={{ borderColor: `${accentColor}22`, backgroundColor: bgColor }}
-                >
-                  <p
-                    className="font-['Inter'] text-[10px] font-bold uppercase tracking-widest mb-4"
-                    style={{ color: accentColor }}
-                  >
-                    {label}
-                  </p>
-                  <div className="space-y-3">
-                    <div className="space-y-1.5">
-                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">
-                        Label
-                      </label>
-                      <input
-                        type="text"
-                        value={sigConfig[key]?.label ?? label}
-                        onChange={(e) =>
-                          setSigConfig((prev) => ({
-                            ...prev,
-                            [key]: { ...prev[key], label: e.target.value },
-                          }))
-                        }
-                        className="w-full bg-white border-0 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">
-                        Page
-                      </label>
-                      <select
-                        value={sigConfig[key]?.page ?? "last"}
-                        onChange={(e) =>
-                          setSigConfig((prev) => ({
-                            ...prev,
-                            [key]: { ...prev[key], page: e.target.value },
-                          }))
-                        }
-                        className="w-full bg-white border-0 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
-                      >
-                        <option value="last">Last Page</option>
-                        <option value="first">First Page</option>
-                        <option value="1">Page 1</option>
-                        <option value="2">Page 2</option>
-                        <option value="3">Page 3</option>
-                        <option value="4">Page 4</option>
-                        <option value="5">Page 5</option>
-                      </select>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      {[
-                        { field: "x", label: "X (left)", max: 600 },
-                        { field: "y", label: "Y (bottom)", max: 800 },
-                        { field: "width", label: "Width", max: 600 },
-                        { field: "height", label: "Height", max: 400 },
-                      ].map(({ field, label: fieldLabel, max }) => (
-                        <div key={field} className="space-y-1.5">
-                          <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">
-                            {fieldLabel}
-                          </label>
-                          <input
-                            type="number"
-                            min={0}
-                            max={max}
-                            value={sigConfig[key]?.[field] ?? 0}
-                            onChange={(e) =>
-                              setSigConfig((prev) => ({
-                                ...prev,
-                                [key]: {
-                                  ...prev[key],
-                                  [field]: Number(e.target.value),
-                                },
-                              }))
-                            }
-                            className="w-full bg-white border-0 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                { key: "tenant", label: "Tenant Signature", accent: "#3b82f6" },
+                { key: "admin", label: "Licensor Signature", accent: "#006b5f" },
+              ].map(({ key, label, accent }) => (
+                <div key={key} className="flex items-center gap-3">
+                  <span className="w-3 h-3 rounded-sm border-2 shrink-0" style={{ borderColor: accent, backgroundColor: `${accent}15` }} />
+                  <input
+                    type="text"
+                    value={sigConfig[key]?.label ?? label}
+                    onChange={(e) =>
+                      setSigConfig((prev) => ({
+                        ...prev,
+                        [key]: { ...prev[key], label: e.target.value },
+                      }))
+                    }
+                    className="flex-1 bg-[#eff4ff] border-0 rounded-xl px-3 py-2 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                  />
                 </div>
               ))}
-            </div>
-
-            {/* Visual preview */}
-            <div className="space-y-2">
-              <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
-                Position Preview{" "}
-                <span className="text-[#bbcac6] font-normal normal-case tracking-normal">
-                  — A4 page (595 × 842 pt), showing last page placement
-                </span>
-              </p>
-              {/* Scale: A4 = 595x842pt rendered as 238x337px (scale=0.4) */}
-              <div className="relative" style={{ width: 238, height: 337 }}>
-                {/* A4 outline */}
-                <div
-                  className="absolute inset-0 border-2 border-[#bbcac6]/50 rounded bg-white shadow-sm"
-                  style={{ overflow: "hidden" }}
-                >
-                  {/* Page label */}
-                  <div className="absolute bottom-1 right-2 font-['Inter'] text-[8px] text-[#bbcac6]">
-                    A4 — 595 × 842 pt
-                  </div>
-                  {/* Tenant signature box (blue) — y is from bottom in PDF; flip for CSS */}
-                  {(() => {
-                    const sc = 0.4;
-                    const tc = sigConfig.tenant;
-                    const cssTop = 337 - (tc.y + tc.height) * sc;
-                    const cssLeft = tc.x * sc;
-                    const cssW = tc.width * sc;
-                    const cssH = tc.height * sc;
-                    return (
-                      <div
-                        className="absolute flex items-center justify-center"
-                        style={{
-                          top: cssTop,
-                          left: cssLeft,
-                          width: cssW,
-                          height: cssH,
-                          backgroundColor: "rgba(59,130,246,0.15)",
-                          border: "1.5px solid #3b82f6",
-                          borderRadius: 3,
-                        }}
-                      >
-                        <span className="font-['Inter'] text-[7px] text-[#3b82f6] font-bold leading-tight text-center px-0.5">
-                          {sigConfig.tenant.label || "Tenant"}
-                        </span>
-                      </div>
-                    );
-                  })()}
-                  {/* Admin signature box (green) */}
-                  {(() => {
-                    const sc = 0.4;
-                    const ac = sigConfig.admin;
-                    const cssTop = 337 - (ac.y + ac.height) * sc;
-                    const cssLeft = ac.x * sc;
-                    const cssW = ac.width * sc;
-                    const cssH = ac.height * sc;
-                    return (
-                      <div
-                        className="absolute flex items-center justify-center"
-                        style={{
-                          top: cssTop,
-                          left: cssLeft,
-                          width: cssW,
-                          height: cssH,
-                          backgroundColor: "rgba(0,107,95,0.12)",
-                          border: "1.5px solid #006b5f",
-                          borderRadius: 3,
-                        }}
-                      >
-                        <span className="font-['Inter'] text-[7px] text-[#006b5f] font-bold leading-tight text-center px-0.5">
-                          {sigConfig.admin.label || "Licensor"}
-                        </span>
-                      </div>
-                    );
-                  })()}
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <span className="flex items-center gap-1.5 font-['Inter'] text-[10px] text-[#555f6f]">
-                  <span className="w-3 h-3 rounded-sm border-2 border-[#3b82f6] bg-[#3b82f6]/15 inline-block" />
-                  Tenant
-                </span>
-                <span className="flex items-center gap-1.5 font-['Inter'] text-[10px] text-[#555f6f]">
-                  <span className="w-3 h-3 rounded-sm border-2 border-[#006b5f] bg-[#006b5f]/12 inline-block" />
-                  Licensor
-                </span>
-              </div>
             </div>
           </div>
 
@@ -1009,6 +854,43 @@ export default function AdminDocumentsPage() {
                   <span className="material-symbols-outlined text-[16px]">visibility</span>
                   Preview
                 </a>
+              </div>
+            )}
+            {genMessage.type === "success" && generatedPdfUrl && (
+              <div className="mt-4 p-5 bg-white rounded-xl border border-[#bbcac6]/15">
+                <p className="font-['Inter'] text-xs font-bold uppercase tracking-widest text-[#6c7a77] mb-1">
+                  Drag & Drop Signature Placement
+                </p>
+                <p className="font-['Manrope'] text-xs text-[#6c7a77] mb-3">
+                  Drag the blue (tenant) and green (admin) boxes to where signatures should appear on the document.
+                </p>
+                <DraggableSignaturePlacer
+                  pdfUrl={generatedPdfUrl}
+                  value={sigConfig}
+                  onChange={setSigConfig}
+                />
+                <button
+                  type="button"
+                  onClick={async () => {
+                    if (!selectedTenant) return;
+                    const { data: opData } = await supabase
+                      .from("onboarding_progress")
+                      .select("id")
+                      .eq("tenant_profile_id", selectedTenant.id)
+                      .maybeSingle();
+                    if (opData?.id) {
+                      await supabase
+                        .from("onboarding_progress")
+                        .update({ signature_positions: sigConfig, updated_at: new Date().toISOString() })
+                        .eq("id", opData.id);
+                    }
+                    setGenMessage({ type: "success", text: "Signature positions saved to tenant record." });
+                  }}
+                  className="mt-3 inline-flex items-center gap-2 px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[18px]">save</span>
+                  Save Signature Positions
+                </button>
               </div>
             )}
           </div>
