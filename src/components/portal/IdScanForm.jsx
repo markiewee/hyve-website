@@ -6,8 +6,16 @@ import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 
-const ID_TYPES = [
+const RESIDENCY_OPTIONS = [
+  { value: "SINGAPOREAN", label: "Singaporean / PR" },
+  { value: "FOREIGNER", label: "Foreigner" },
+];
+
+const SG_ID_TYPES = [
   { value: "NRIC", label: "NRIC" },
+];
+
+const FOREIGNER_ID_TYPES = [
   { value: "PASSPORT", label: "Passport" },
   { value: "WORK_PERMIT", label: "Work Permit" },
   { value: "EMPLOYMENT_PASS", label: "Employment Pass" },
@@ -61,8 +69,11 @@ export default function IdScanForm({ onboarding, advanceStep }) {
   const frontInputRef = useRef(null);
   const backInputRef = useRef(null);
 
+  const [residency, setResidency] = useState(null); // null = not selected yet
   const [idType, setIdType] = useState("NRIC");
   const [form, setForm] = useState({ id_number: "", id_expiry: "" });
+  const isForeigner = residency === "FOREIGNER";
+  const needsExpiry = isForeigner; // Foreigners must provide expiry date
   const [frontFile, setFrontFile] = useState(null);
   const [backFile, setBackFile] = useState(null);
   const [frontPreview, setFrontPreview] = useState(null);
@@ -136,14 +147,38 @@ export default function IdScanForm({ onboarding, advanceStep }) {
     return data.publicUrl;
   }
 
+  // Check if document is expiring within 3 months
+  const expiryWarning = (() => {
+    if (!needsExpiry || !form.id_expiry) return null;
+    const expDate = new Date(form.id_expiry);
+    const now = new Date();
+    const threeMonths = new Date();
+    threeMonths.setMonth(threeMonths.getMonth() + 3);
+    if (expDate < now) return "expired";
+    if (expDate < threeMonths) return "expiring_soon";
+    return null;
+  })();
+
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!residency) {
+      setError("Please select your residency status.");
+      return;
+    }
     if (!form.id_number.trim()) {
       setError("ID number is required.");
       return;
     }
     if (!frontFile) {
       setError("Please upload a photo of the front of your ID.");
+      return;
+    }
+    if (needsExpiry && !form.id_expiry) {
+      setError("Expiry date is required for foreign passes.");
+      return;
+    }
+    if (expiryWarning === "expired") {
+      setError("Your document has expired. Please provide a valid document.");
       return;
     }
 
@@ -172,6 +207,23 @@ export default function IdScanForm({ onboarding, advanceStep }) {
       if (upsertError) throw upsertError;
 
       await advanceStep("id_verification_completed_at");
+
+      // If foreigner pass is expiring soon, create an admin task
+      if (expiryWarning === "expiring_soon" && form.id_expiry) {
+        try {
+          await supabase.from("admin_tasks").insert({
+            title: `Pass expiring: ${form.id_number} (${idType.replace(/_/g, " ")})`,
+            description: `Tenant's ${idType.replace(/_/g, " ")} expires on ${new Date(form.id_expiry).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" })}. Follow up to ensure renewal.`,
+            category: "ONBOARDING",
+            priority: "HIGH",
+            status: "PENDING",
+            tenant_name: form.id_number,
+            due_date: form.id_expiry,
+          });
+        } catch (taskErr) {
+          console.error("Failed to create expiry task:", taskErr);
+        }
+      }
     } catch (err) {
       console.error("ID verification failed:", err);
       setError(err.message ?? "Something went wrong. Please try again.");
@@ -182,19 +234,23 @@ export default function IdScanForm({ onboarding, advanceStep }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* ID type selector */}
+      {/* Residency selector */}
       <div>
-        <Label className="block mb-2">ID Type</Label>
+        <Label className="block mb-2">Are you a Singaporean/PR or Foreigner?</Label>
         <div className="grid grid-cols-2 gap-2">
-          {ID_TYPES.map(({ value, label }) => (
+          {RESIDENCY_OPTIONS.map(({ value, label }) => (
             <button
               key={value}
               type="button"
-              onClick={() => setIdType(value)}
-              className={`py-2 px-3 rounded-md text-sm font-medium border transition-colors ${
-                idType === value
-                  ? "bg-primary text-primary-foreground border-primary"
-                  : "bg-background text-foreground border-border hover:bg-accent"
+              onClick={() => {
+                setResidency(value);
+                setIdType(value === "SINGAPOREAN" ? "NRIC" : "PASSPORT");
+                setForm((prev) => ({ ...prev, id_expiry: "" }));
+              }}
+              className={`py-3 px-4 rounded-xl text-sm font-semibold border-2 transition-all ${
+                residency === value
+                  ? "bg-[#006b5f] text-white border-[#006b5f]"
+                  : "bg-background text-foreground border-border hover:border-[#006b5f]/40"
               }`}
             >
               {label}
@@ -202,6 +258,29 @@ export default function IdScanForm({ onboarding, advanceStep }) {
           ))}
         </div>
       </div>
+
+      {/* ID type selector — only show if residency selected */}
+      {residency && (
+        <div>
+          <Label className="block mb-2">Document Type</Label>
+          <div className="grid grid-cols-2 gap-2">
+            {(residency === "SINGAPOREAN" ? SG_ID_TYPES : FOREIGNER_ID_TYPES).map(({ value, label }) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => setIdType(value)}
+                className={`py-2 px-3 rounded-md text-sm font-medium border transition-colors ${
+                  idType === value
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "bg-background text-foreground border-border hover:bg-accent"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Front photo */}
       <div>
@@ -271,27 +350,72 @@ export default function IdScanForm({ onboarding, advanceStep }) {
       {/* ID fields */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label htmlFor="id_number">ID Number</Label>
+          <Label htmlFor="id_number">
+            {residency === "SINGAPOREAN" ? "NRIC Number" : "Document Number"}
+          </Label>
           <Input
             id="id_number"
             name="id_number"
             value={form.id_number}
             onChange={handleChange}
-            placeholder="e.g. S1234567A"
+            placeholder={residency === "SINGAPOREAN" ? "e.g. S1234567A" : "e.g. E1234567A"}
             required
           />
         </div>
-        <div className="space-y-1.5">
-          <Label htmlFor="id_expiry">Expiry Date</Label>
-          <Input
-            id="id_expiry"
-            name="id_expiry"
-            type="date"
-            value={form.id_expiry}
-            onChange={handleChange}
-          />
-        </div>
+        {needsExpiry ? (
+          <div className="space-y-1.5">
+            <Label htmlFor="id_expiry">
+              Expiry Date <span className="text-red-500">*</span>
+            </Label>
+            <Input
+              id="id_expiry"
+              name="id_expiry"
+              type="date"
+              value={form.id_expiry}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        ) : (
+          <div className="space-y-1.5">
+            <Label htmlFor="id_expiry">Expiry Date <span className="text-muted-foreground font-normal">(optional)</span></Label>
+            <Input
+              id="id_expiry"
+              name="id_expiry"
+              type="date"
+              value={form.id_expiry}
+              onChange={handleChange}
+            />
+          </div>
+        )}
       </div>
+
+      {/* Expiry warning banner */}
+      {expiryWarning === "expired" && (
+        <div className="rounded-xl border-2 border-red-500 bg-red-50 p-4 flex items-start gap-3">
+          <span className="material-symbols-outlined text-red-600 text-[24px] shrink-0 mt-0.5">error</span>
+          <div>
+            <p className="text-sm font-bold text-red-800">Document Expired</p>
+            <p className="text-xs text-red-700 mt-1">
+              Your {idType.replace(/_/g, " ")} has expired. You cannot proceed with an expired document.
+              Please provide a valid document or contact your employer for renewal.
+            </p>
+          </div>
+        </div>
+      )}
+      {expiryWarning === "expiring_soon" && (
+        <div className="rounded-xl border-2 border-amber-400 bg-amber-50 p-4 flex items-start gap-3">
+          <span className="material-symbols-outlined text-amber-600 text-[24px] shrink-0 mt-0.5">warning</span>
+          <div>
+            <p className="text-sm font-bold text-amber-800">Document Expiring Soon</p>
+            <p className="text-xs text-amber-700 mt-1">
+              Your {idType.replace(/_/g, " ")} expires on{" "}
+              {new Date(form.id_expiry).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" })}.
+              Please ensure you renew it before expiry. The management team will be notified.
+            </p>
+          </div>
+        </div>
+      )}
 
       {error && <p className="text-sm text-red-600">{error}</p>}
 
