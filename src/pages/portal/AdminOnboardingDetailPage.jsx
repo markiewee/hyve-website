@@ -971,6 +971,54 @@ export default function AdminOnboardingDetailPage() {
             </SectionCard>
           )}
 
+          {/* Delete Member — danger zone */}
+          <SectionCard title="Danger Zone">
+            <p className="text-sm text-muted-foreground mb-3">
+              Permanently delete this member and all their data. This cannot be undone.
+            </p>
+            <Button
+              size="sm"
+              variant="destructive"
+              onClick={async () => {
+                if (!confirm("Are you sure you want to DELETE this member? This will remove:\n\n- Their account\n- All documents\n- Onboarding progress\n- Tenant details\n\nThis action is PERMANENT and cannot be undone.")) return;
+                if (!confirm("FINAL WARNING: Type 'delete' in the next prompt to confirm.")) return;
+                const confirmText = prompt("Type 'delete' to permanently remove this member:");
+                if (confirmText?.toLowerCase() !== "delete") {
+                  setMessage({ type: "error", text: "Deletion cancelled." });
+                  return;
+                }
+                setActionLoading(true);
+                setMessage(null);
+                try {
+                  const tpId = onboarding.tenant_profile_id;
+                  const userId = onboarding.tenant_profiles?.user_id;
+
+                  // Delete related records
+                  await supabase.from("room_checklists").delete().eq("tenant_profile_id", tpId);
+                  await supabase.from("tenant_documents").delete().eq("tenant_profile_id", tpId);
+                  await supabase.from("tenant_details").delete().eq("tenant_profile_id", tpId);
+                  await supabase.from("onboarding_progress").delete().eq("id", id);
+                  await supabase.from("tenant_profiles").delete().eq("id", tpId);
+
+                  // Delete auth user
+                  if (userId) {
+                    await supabase.auth.admin.deleteUser(userId);
+                  }
+
+                  setMessage({ type: "success", text: "Member deleted. Redirecting..." });
+                  setTimeout(() => navigate("/portal/admin/onboarding"), 1500);
+                } catch (err) {
+                  setMessage({ type: "error", text: "Delete failed: " + err.message });
+                  setActionLoading(false);
+                }
+              }}
+              disabled={actionLoading}
+            >
+              <span className="material-symbols-outlined text-[16px] mr-1">delete_forever</span>
+              Delete Member Permanently
+            </Button>
+          </SectionCard>
+
           {/* Override Step */}
           <SectionCard title="Override Step">
             <div className="flex items-center gap-3">
