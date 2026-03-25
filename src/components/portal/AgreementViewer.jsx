@@ -14,15 +14,26 @@ pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.vers
 // Helper: resolve a storage path or full URL to a signed URL
 async function resolveSignedUrl(pathOrUrl) {
   if (!pathOrUrl) return null;
-  if (pathOrUrl.startsWith("http")) return pathOrUrl;
+
+  // Extract storage path from full URL if needed
+  let storagePath = pathOrUrl;
+  if (pathOrUrl.includes("/tenant-documents/")) {
+    storagePath = pathOrUrl.split("/tenant-documents/")[1].split("?")[0];
+  } else if (pathOrUrl.startsWith("http")) {
+    // Unknown URL format — try it directly but verify it works
+    try {
+      const check = await fetch(pathOrUrl, { method: "HEAD" });
+      if (check.ok) return pathOrUrl;
+    } catch {}
+    return null;
+  }
+
   const { data, error } = await supabase.storage
     .from("tenant-documents")
-    .createSignedUrl(pathOrUrl, 3600);
+    .createSignedUrl(storagePath, 3600);
   if (error) {
-    const { data: pub } = supabase.storage
-      .from("tenant-documents")
-      .getPublicUrl(pathOrUrl);
-    return pub?.publicUrl ?? null;
+    // File might not exist
+    return null;
   }
   return data.signedUrl;
 }
@@ -367,6 +378,21 @@ export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
 
   if (signingStatus === "TENANT_SIGNED") {
     return <TenantSignedView onboarding={onboarding} />;
+  }
+
+  // UNSIGNED — if PDF URL failed to resolve, show "being prepared"
+  if (taPath && !pdfUrl) {
+    return (
+      <div className="rounded-md border border-dashed border-border p-8 text-center">
+        <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-amber-50 flex items-center justify-center">
+          <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <p className="text-sm font-medium text-foreground mb-1">Agreement being prepared</p>
+        <p className="text-sm text-muted-foreground">The document is being processed. Please check back shortly.</p>
+      </div>
+    );
   }
 
   // UNSIGNED — show PDF + signature pad
