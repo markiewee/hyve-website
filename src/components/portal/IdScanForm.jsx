@@ -211,13 +211,14 @@ export default function IdScanForm({ onboarding, advanceStep }) {
       // If foreigner pass is expiring soon, create an admin task
       if (expiryWarning === "expiring_soon" && form.id_expiry) {
         try {
+          const tenantName = profile?.tenant_details?.full_name || profile?.full_name || form.id_number;
           await supabase.from("admin_tasks").insert({
-            title: `Pass expiring: ${form.id_number} (${idType.replace(/_/g, " ")})`,
-            description: `Tenant's ${idType.replace(/_/g, " ")} expires on ${new Date(form.id_expiry).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" })}. Follow up to ensure renewal.`,
+            title: `Pass expiring: ${tenantName} (${idType.replace(/_/g, " ")})`,
+            description: `${tenantName}'s ${idType.replace(/_/g, " ")} (${form.id_number}) expires on ${new Date(form.id_expiry).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" })}. Follow up to ensure renewal.`,
             category: "ONBOARDING",
             priority: "HIGH",
             status: "PENDING",
-            tenant_name: form.id_number,
+            tenant_name: tenantName,
             due_date: form.id_expiry,
           });
         } catch (taskErr) {

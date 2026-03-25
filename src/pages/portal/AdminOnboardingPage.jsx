@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import { useAuth } from "../../hooks/useAuth";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { STEP_LABELS } from "../../hooks/useOnboarding";
 
@@ -49,15 +50,74 @@ function formatDate(dateStr) {
 
 export default function AdminOnboardingPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Invite modal state
+  const [showInvite, setShowInvite] = useState(false);
+  const [inviteUsername, setInviteUsername] = useState("");
+  const [inviteRoomId, setInviteRoomId] = useState("");
+  const [inviteDeposit, setInviteDeposit] = useState("2400");
+  const [rooms, setRooms] = useState([]);
+  const [inviting, setInviting] = useState(false);
+  const [inviteResult, setInviteResult] = useState(null);
+
   useEffect(() => {
-    async function fetchOnboarding() {
+    supabase.from("rooms").select("id, unit_code, name, property_id, properties(name)")
+      .order("unit_code").then(({ data }) => setRooms(data ?? []));
+  }, []);
+
+  async function handleInvite(e) {
+    e.preventDefault();
+    if (!inviteUsername.trim() || !inviteRoomId) return;
+    setInviting(true);
+    setInviteResult(null);
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const jwt = sessionData?.session?.access_token;
+      const room = rooms.find(r => r.id === inviteRoomId);
+      const res = await fetch("/api/portal/invite", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${jwt}` },
+        body: JSON.stringify({
+          username: inviteUsername.trim(),
+          room_id: inviteRoomId,
+          property_id: room?.property_id,
+          deposit_amount: inviteDeposit ? Number(inviteDeposit) : undefined,
+        }),
+      });
+      const body = await res.json();
+      if (!res.ok) throw new Error(body.error || "Invite failed");
+      setInviteResult({ type: "success", ...body });
+      // Refresh list
+      fetchOnboarding();
+    } catch (err) {
+      setInviteResult({ type: "error", message: err.message });
+    } finally {
+      setInviting(false);
+    }
+  }
+
+  async function fetchOnboarding() {
+    const { data, error } = await supabase
+      .from("onboarding_progress")
+      .select(
+        "id, current_step, status, created_at, tenant_profile_id, tenant_profiles(id, role, username, rooms(unit_code, name), tenant_details(full_name))"
+      )
+      .order("created_at", { ascending: false });
+
+    if (error) console.error("Error fetching onboarding progress:", error);
+    setRows(data ?? []);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    async function fetchOnboardingInit() {
       const { data, error } = await supabase
         .from("onboarding_progress")
         .select(
-          "id, current_step, status, created_at, tenant_profile_id, tenant_profiles(id, role, rooms(unit_code, name))"
+          "id, current_step, status, created_at, tenant_profile_id, tenant_profiles(id, role, username, rooms(unit_code, name), tenant_details(full_name))"
         )
         .order("created_at", { ascending: false });
 
@@ -68,7 +128,7 @@ export default function AdminOnboardingPage() {
       setLoading(false);
     }
 
-    fetchOnboarding();
+    fetchOnboardingInit();
   }, []);
 
   const activeCount = rows.filter((r) => r.status === "ACTIVE").length;
@@ -78,14 +138,103 @@ export default function AdminOnboardingPage() {
   return (
     <PortalLayout>
       {/* Page header */}
-      <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
-          Tenant Onboarding
-        </h1>
-        <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
-          Track and manage tenant onboarding progress across all rooms.
-        </p>
+      <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+            Tenant Onboarding
+          </h1>
+          <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
+            Track and manage tenant onboarding progress across all rooms.
+          </p>
+        </div>
+        <button
+          onClick={() => { setShowInvite(true); setInviteResult(null); setInviteUsername(""); }}
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] transition-colors shrink-0"
+        >
+          <span className="material-symbols-outlined text-[18px]">person_add</span>
+          Invite Tenant
+        </button>
       </div>
+
+      {/* Invite Tenant Modal */}
+      {showInvite && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setShowInvite(false)}>
+          <div className="bg-white rounded-2xl p-8 w-full max-w-md shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#121c2a]">Invite New Tenant</h2>
+              <button onClick={() => setShowInvite(false)} className="text-[#6c7a77] hover:text-[#121c2a]">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+
+            {inviteResult?.type === "success" ? (
+              <div className="space-y-4">
+                <div className="bg-[#d1fae5] border border-[#065f46]/15 rounded-xl p-4">
+                  <p className="text-sm font-bold text-[#065f46] mb-2">Tenant Created!</p>
+                  <div className="text-xs text-[#065f46] space-y-1 font-mono">
+                    <p>Username: <strong>{inviteResult.username}</strong></p>
+                    <p>Password: <strong>{inviteResult.default_password}</strong></p>
+                    <p>Login: hyve.sg/portal/login</p>
+                  </div>
+                </div>
+                <p className="text-xs text-[#555f6f]">{inviteResult.message}</p>
+                <button onClick={() => setShowInvite(false)} className="w-full py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm">
+                  Done
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleInvite} className="space-y-4">
+                <div className="space-y-1.5">
+                  <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Username *</label>
+                  <input
+                    type="text"
+                    value={inviteUsername}
+                    onChange={(e) => setInviteUsername(e.target.value)}
+                    placeholder="e.g. john-doe"
+                    required
+                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                  />
+                  <p className="text-[10px] text-[#6c7a77]">Letters, numbers, hyphens, underscores. Min 3 chars.</p>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Room *</label>
+                  <select
+                    value={inviteRoomId}
+                    onChange={(e) => setInviteRoomId(e.target.value)}
+                    required
+                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                  >
+                    <option value="">Select room</option>
+                    {rooms.map(r => (
+                      <option key={r.id} value={r.id}>{r.unit_code} — {r.name} ({r.properties?.name})</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Deposit Amount (SGD)</label>
+                  <input
+                    type="number"
+                    value={inviteDeposit}
+                    onChange={(e) => setInviteDeposit(e.target.value)}
+                    placeholder="2400"
+                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                  />
+                </div>
+                {inviteResult?.type === "error" && (
+                  <p className="text-sm text-[#ba1a1a]">{inviteResult.message}</p>
+                )}
+                <button
+                  type="submit"
+                  disabled={inviting}
+                  className="w-full py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-50"
+                >
+                  {inviting ? "Creating..." : "Create Tenant Account"}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10">
@@ -173,11 +322,12 @@ export default function AdminOnboardingPage() {
               {rows.map((row) => {
                 const unitCode = row.tenant_profiles?.rooms?.unit_code ?? "—";
                 const roomName = row.tenant_profiles?.rooms?.name ?? "";
+                const tenantName = row.tenant_profiles?.tenant_details?.full_name ?? row.tenant_profiles?.username ?? "";
                 const stepLabel = STEP_LABELS[row.current_step] ?? row.current_step;
                 const stepColor = STEP_BADGE_COLORS[row.current_step] ?? "bg-[#e6eeff] text-[#555f6f]";
                 const statusColor = STATUS_BADGE_COLORS[row.status] ?? "bg-[#e6eeff] text-[#555f6f]";
                 const progress = getStepProgress(row.current_step);
-                const initials = unitCode.slice(0, 2).toUpperCase();
+                const initials = tenantName ? tenantName.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase() : unitCode.slice(0, 2).toUpperCase();
 
                 return (
                   <tr
@@ -191,10 +341,12 @@ export default function AdminOnboardingPage() {
                           {initials}
                         </div>
                         <div>
-                          <p className="font-['Manrope'] font-bold text-[#121c2a] text-sm">{unitCode}</p>
-                          {roomName && (
-                            <p className="font-['Manrope'] text-[#6c7a77] text-xs">{roomName}</p>
-                          )}
+                          <p className="font-['Manrope'] font-bold text-[#121c2a] text-sm">
+                            {tenantName || unitCode}
+                          </p>
+                          <p className="font-['Manrope'] text-[#6c7a77] text-xs">
+                            {unitCode}{roomName ? ` — ${roomName}` : ""}
+                          </p>
                         </div>
                       </div>
                     </td>
