@@ -8,8 +8,8 @@ pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.vers
 const RENDER_WIDTH = 612; // CSS pixels for the rendered PDF page
 
 const DEFAULT_POSITIONS = {
-  tenant: { page: 1, x: 72, y: 100, width: 200, height: 60 },
-  admin: { page: 1, x: 350, y: 100, width: 200, height: 60 },
+  tenant: { page: "last", x: 72, y: 100, width: 200, height: 60 },
+  admin: { page: "last", x: 350, y: 100, width: 200, height: 60 },
 };
 
 const BOX_CONFIG = {
@@ -227,14 +227,16 @@ export default function DraggableSignaturePlacer({ pdfUrl, value, onChange }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Internal positions in PDF points
+  // Internal positions in PDF points — resolve "last" to actual page number
+  const resolvePage = (p) => (p === "last" && numPages) ? numPages : (typeof p === "number" ? p : 1);
   const positions = {
-    tenant: value?.tenant ?? DEFAULT_POSITIONS.tenant,
-    admin: value?.admin ?? DEFAULT_POSITIONS.admin,
+    tenant: { ...(value?.tenant ?? DEFAULT_POSITIONS.tenant), page: resolvePage((value?.tenant ?? DEFAULT_POSITIONS.tenant).page) },
+    admin: { ...(value?.admin ?? DEFAULT_POSITIONS.admin), page: resolvePage((value?.admin ?? DEFAULT_POSITIONS.admin).page) },
   };
 
   const onDocumentLoadSuccess = useCallback(({ numPages: n }) => {
     setNumPages(n);
+    setViewPage(n); // Start on last page where signatures usually go
     setLoading(false);
   }, []);
 

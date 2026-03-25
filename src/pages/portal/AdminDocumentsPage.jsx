@@ -8,8 +8,8 @@ const DOC_TYPES = ["LICENCE_AGREEMENT", "NOTICE_OF_TERMINATION", "MOVE_IN_CHECKL
 const DOC_TYPE_LABELS = { LICENCE_AGREEMENT: "Licence Agreement", NOTICE_OF_TERMINATION: "Notice of Termination", MOVE_IN_CHECKLIST: "Move-in Checklist", MOVE_OUT_CHECKLIST: "Move-out Checklist", HOUSE_RULES: "House Rules", OTHER: "Other" };
 
 const DEFAULT_SIG_CONFIG = {
-  tenant: { page: 1, x: 50, y: 120, width: 200, height: 80, label: "Member Signature" },
-  admin: { page: 1, x: 350, y: 120, width: 200, height: 80, label: "Licensor Signature" },
+  tenant: { page: "last", x: 50, y: 120, width: 200, height: 80, label: "Member Signature" },
+  admin: { page: "last", x: 350, y: 120, width: 200, height: 80, label: "Licensor Signature" },
 };
 
 export default function AdminDocumentsPage() {

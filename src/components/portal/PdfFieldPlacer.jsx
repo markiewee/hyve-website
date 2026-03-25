@@ -148,7 +148,8 @@ export default function PdfFieldPlacer({ pdfUrl, fields = [], signatures = {}, o
 
   // Visible items on current page
   const visibleFields = fields.filter(f => f.page === viewPage).map((f, i) => ({ ...f, originalIndex: fields.indexOf(f) }));
-  const visibleSigs = SIG_TYPES.filter(s => (signatures[s.key]?.page ?? 1) === viewPage);
+  const resolveP = (p) => (p === "last" && numPages) ? numPages : (typeof p === "number" ? p : 1);
+  const visibleSigs = SIG_TYPES.filter(s => resolveP(signatures[s.key]?.page ?? "last") === viewPage);
 
   if (error) return <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">{error}</div>;
 
@@ -188,7 +189,7 @@ export default function PdfFieldPlacer({ pdfUrl, fields = [], signatures = {}, o
 
         <Document
           file={pdfUrl}
-          onLoadSuccess={({ numPages: n }) => { setNumPages(n); setLoading(false); }}
+          onLoadSuccess={({ numPages: n }) => { setNumPages(n); setViewPage(n); setLoading(false); }}
           onLoadError={(err) => { setError("Failed to load PDF."); setLoading(false); }}
           loading={null}
         >

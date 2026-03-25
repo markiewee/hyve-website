@@ -127,13 +127,7 @@ export default function AdminOnboardingPage() {
     // Default rent (admin can change in the form)
   }, [inviteRoomId, rooms, rows.length]);
 
-  function fillTemplate(html, values) {
-    return html.replace(/\{\{([A-Z_]+)\}\}/g, (_, key) => values[key] || `{{${key}}}`);
-  }
-
-  function generateTaPreview() {
-    const tpl = templates.find(t => t.id === selectedTemplateId);
-    if (!tpl) return;
+  async function generateTaPreview() {
     const room = rooms.find(r => r.id === inviteRoomId);
     const fmtDate = (d) => d ? new Date(d + "T00:00:00").toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }) : "";
     const values = {
@@ -146,12 +140,23 @@ export default function AdminOnboardingPage() {
       REF_NUMBER: inviteRefNumber,
       MONTHLY_RENT: inviteRent ? Number(inviteRent).toLocaleString("en-SG") : "",
       DEPOSIT_AMOUNT: inviteDeposit ? Number(inviteDeposit).toLocaleString("en-SG") : "",
-      LICENCE_PERIOD: `${inviteLicencePeriod} months`,
+      LICENCE_PERIOD: `${calcLicencePeriod} months`,
       START_DATE: fmtDate(inviteStartDate),
       END_DATE: fmtDate(inviteEndDate),
       DATE: new Date().toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }),
     };
-    setTaPreviewHtml(fillTemplate(tpl.html_content || "", values));
+
+    try {
+      const res = await fetch("/templates/licence-agreement.html");
+      let html = await res.text();
+      for (const [key, val] of Object.entries(values)) {
+        html = html.replaceAll(`{{${key}}}`, val || `[${key}]`);
+      }
+      setTaPreviewHtml(html);
+    } catch (err) {
+      console.error("Failed to load template:", err);
+      setTaPreviewHtml("");
+    }
   }
 
   async function handleInvite() {
@@ -548,29 +553,34 @@ export default function AdminOnboardingPage() {
               {/* Step 3: Review TA */}
               {wizardStep === 3 && (
                 <div className="space-y-4">
-                  {templates.length > 1 && (
-                    <div className="space-y-1.5">
-                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Template</label>
-                      <select
-                        value={selectedTemplateId}
-                        onChange={(e) => { setSelectedTemplateId(e.target.value); setTimeout(generateTaPreview, 100); }}
-                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
-                      >
-                        {templates.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-                      </select>
-                    </div>
-                  )}
-
                   {taPreviewHtml ? (
-                    <div className="border border-[#bbcac6]/15 rounded-xl overflow-auto max-h-[400px]">
-                      <div
-                        style={{ all: "initial", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "12px", lineHeight: "1.5", color: "#000", background: "#fff", padding: "24px", display: "block" }}
-                        dangerouslySetInnerHTML={{ __html: taPreviewHtml }}
-                      />
+                    <div className="space-y-3">
+                      <div className="bg-[#d1fae5] rounded-xl p-4 flex items-start gap-3">
+                        <span className="material-symbols-outlined text-[#065f46] text-[20px] shrink-0 mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                        <div>
+                          <p className="text-sm font-bold text-[#065f46]">Agreement generated</p>
+                          <p className="text-xs text-[#065f46]/80 mt-0.5">Auto-filled with member details. Click below to review the full document.</p>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const w = window.open("", "_blank");
+                          w.document.write(taPreviewHtml);
+                          w.document.close();
+                        }}
+                        className="w-full py-3 bg-white border-2 border-[#006b5f]/20 text-[#006b5f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006b5f]/5 flex items-center justify-center gap-2"
+                      >
+                        <span className="material-symbols-outlined text-[18px]">open_in_new</span>
+                        Preview Full Agreement in New Tab
+                      </button>
                     </div>
                   ) : (
                     <div className="border border-dashed border-[#bbcac6] rounded-xl p-8 text-center">
-                      <p className="text-sm text-[#6c7a77]">No licence agreement template found. Create one in Documents first.</p>
+                      <div className="animate-pulse text-[#6c7a77]">
+                        <span className="material-symbols-outlined text-[32px] mb-2 block">progress_activity</span>
+                        <p className="text-sm">Loading agreement template...</p>
+                      </div>
                     </div>
                   )}
 
