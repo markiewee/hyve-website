@@ -67,7 +67,9 @@ export default function AdminOnboardingPage() {
   const [inviteDeposit, setInviteDeposit] = useState("2400");
   const [inviteRent, setInviteRent] = useState("1200");
   const [inviteStartDate, setInviteStartDate] = useState("");
+  const [inviteEndMode, setInviteEndMode] = useState("months"); // "months" | "date"
   const [inviteLicencePeriod, setInviteLicencePeriod] = useState("12");
+  const [inviteEndDateManual, setInviteEndDateManual] = useState("");
   const [inviteRefNumber, setInviteRefNumber] = useState("");
   const [rooms, setRooms] = useState([]);
   const [inviting, setInviting] = useState(false);
@@ -78,8 +80,9 @@ export default function AdminOnboardingPage() {
   const [selectedTemplateId, setSelectedTemplateId] = useState("");
   const [taPreviewHtml, setTaPreviewHtml] = useState("");
 
-  // Auto-calculate end date
+  // Auto-calculate end date + licence period based on mode
   const inviteEndDate = (() => {
+    if (inviteEndMode === "date") return inviteEndDateManual;
     if (!inviteStartDate || !inviteLicencePeriod) return "";
     const start = new Date(inviteStartDate + "T00:00:00");
     if (isNaN(start.getTime())) return "";
@@ -87,6 +90,16 @@ export default function AdminOnboardingPage() {
     end.setMonth(end.getMonth() + Number(inviteLicencePeriod));
     end.setDate(end.getDate() - 1);
     return end.toISOString().split("T")[0];
+  })();
+
+  // When using end date mode, auto-calc licence period in months
+  const calcLicencePeriod = (() => {
+    if (inviteEndMode === "months") return inviteLicencePeriod;
+    if (!inviteStartDate || !inviteEndDateManual) return "";
+    const s = new Date(inviteStartDate);
+    const e = new Date(inviteEndDateManual);
+    const months = (e.getFullYear() - s.getFullYear()) * 12 + (e.getMonth() - s.getMonth());
+    return String(months > 0 ? months : 1);
   })();
 
   const selectedRoom = rooms.find(r => r.id === inviteRoomId);
@@ -178,7 +191,7 @@ export default function AdminOnboardingPage() {
             ref_number: inviteRefNumber || null,
             tenancy_start_date: inviteStartDate || null,
             tenancy_end_date: inviteEndDate || null,
-            licence_period: inviteLicencePeriod ? `${inviteLicencePeriod} months` : null,
+            licence_period: calcLicencePeriod ? `${calcLicencePeriod} months` : null,
             signature_positions: tpl?.signature_config || null,
           }).eq("id", onbData.id);
         }
@@ -402,41 +415,84 @@ export default function AdminOnboardingPage() {
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-1.5">
-                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Start Date *</label>
-                      <input
-                        type="date"
-                        value={inviteStartDate}
-                        onChange={(e) => setInviteStartDate(e.target.value)}
-                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
-                      />
+                  {/* Start date */}
+                  <div className="space-y-1.5">
+                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Start Date *</label>
+                    <input
+                      type="date"
+                      value={inviteStartDate}
+                      onChange={(e) => setInviteStartDate(e.target.value)}
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                    />
+                  </div>
+
+                  {/* End date mode toggle */}
+                  <div className="space-y-2">
+                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Tenancy End *</label>
+                    <div className="flex gap-2 mb-2">
+                      <button
+                        type="button"
+                        onClick={() => setInviteEndMode("months")}
+                        className={`flex-1 py-2 rounded-lg text-xs font-['Manrope'] font-bold border-2 transition-all ${
+                          inviteEndMode === "months" ? "bg-[#006b5f] text-white border-[#006b5f]" : "bg-white text-[#6c7a77] border-[#bbcac6]/30"
+                        }`}
+                      >
+                        By number of months
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setInviteEndMode("date")}
+                        className={`flex-1 py-2 rounded-lg text-xs font-['Manrope'] font-bold border-2 transition-all ${
+                          inviteEndMode === "date" ? "bg-[#006b5f] text-white border-[#006b5f]" : "bg-white text-[#6c7a77] border-[#bbcac6]/30"
+                        }`}
+                      >
+                        By specific date
+                      </button>
                     </div>
-                    <div className="space-y-1.5">
-                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Licence Period *</label>
+
+                    {inviteEndMode === "months" ? (
                       <select
                         value={inviteLicencePeriod}
                         onChange={(e) => setInviteLicencePeriod(e.target.value)}
                         className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
                       >
-                        {[3, 6, 9, 12, 18, 24].map(m => (
-                          <option key={m} value={m}>{m} months</option>
+                        {Array.from({ length: 36 }, (_, i) => i + 1).map(m => (
+                          <option key={m} value={m}>{m} month{m > 1 ? "s" : ""}</option>
                         ))}
                       </select>
-                    </div>
+                    ) : (
+                      <input
+                        type="date"
+                        value={inviteEndDateManual}
+                        onChange={(e) => setInviteEndDateManual(e.target.value)}
+                        min={inviteStartDate || undefined}
+                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                      />
+                    )}
                   </div>
-                  {inviteEndDate && (
-                    <p className="text-xs text-[#006b5f] font-['Manrope'] bg-[#006b5f]/5 rounded-lg px-3 py-2">
-                      End date: <strong>{new Date(inviteEndDate + "T00:00:00").toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" })}</strong>
-                    </p>
+
+                  {/* Computed end date / period display */}
+                  {inviteEndDate && inviteStartDate && (
+                    <div className="bg-[#006b5f]/5 rounded-lg px-3 py-2 text-xs font-['Manrope'] text-[#006b5f] flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[16px]">event</span>
+                      <span>
+                        {new Date(inviteStartDate + "T00:00:00").toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" })}
+                        {" → "}
+                        <strong>{new Date(inviteEndDate + "T00:00:00").toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" })}</strong>
+                        {" "}({calcLicencePeriod} months)
+                      </span>
+                    </div>
                   )}
+
+                  {/* Reference Number — auto-generated, editable */}
                   <div className="space-y-1.5">
-                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Reference Number</label>
+                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">
+                      Reference Number <span className="normal-case tracking-normal text-[#bbcac6]">(auto-generated)</span>
+                    </label>
                     <input
                       type="text"
                       value={inviteRefNumber}
                       onChange={(e) => setInviteRefNumber(e.target.value)}
-                      placeholder="e.g. HYV-2026-005"
                       className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
                     />
                   </div>
@@ -451,7 +507,7 @@ export default function AdminOnboardingPage() {
                     <p><span className="text-[#6c7a77]">Username:</span> <strong>{inviteUsername}</strong></p>
                     <p><span className="text-[#6c7a77]">Room:</span> <strong>{selectedRoom?.unit_code} — {selectedRoom?.name}</strong></p>
                     <p><span className="text-[#6c7a77]">Rent:</span> <strong>SGD {Number(inviteRent || 0).toLocaleString()}/mo</strong> · <span className="text-[#6c7a77]">Deposit:</span> <strong>SGD {Number(inviteDeposit || 0).toLocaleString()}</strong></p>
-                    <p><span className="text-[#6c7a77]">Period:</span> <strong>{inviteLicencePeriod} months</strong> from <strong>{inviteStartDate || "TBD"}</strong></p>
+                    <p><span className="text-[#6c7a77]">Period:</span> <strong>{calcLicencePeriod} months</strong> from <strong>{inviteStartDate || "TBD"}</strong>{inviteEndDate ? ` to ${inviteEndDate}` : ""}</p>
                   </div>
 
                   <div className="flex gap-3">
@@ -571,12 +627,43 @@ export default function AdminOnboardingPage() {
                     <span className="material-symbols-outlined text-[16px]">content_copy</span>
                     Copy Credentials
                   </button>
-                  <button
-                    onClick={() => setShowInvite(false)}
-                    className="w-full py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61]"
-                  >
-                    Done
-                  </button>
+
+                  {/* TA options */}
+                  <div className="border-t border-[#bbcac6]/15 pt-4 space-y-2">
+                    <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Tenancy Agreement</p>
+                    {taPreviewHtml ? (
+                      <p className="text-xs text-[#065f46] bg-[#d1fae5] rounded-lg px-3 py-2">
+                        <span className="material-symbols-outlined text-[14px] align-middle mr-1">check</span>
+                        TA generated and sent to member for signing.
+                      </p>
+                    ) : (
+                      <p className="text-xs text-[#6c7a77]">No TA template was available — you can generate it later from the member's profile.</p>
+                    )}
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => {
+                        setShowInvite(false);
+                        // Navigate to member detail to review/manage TA
+                        if (inviteResult.profile_id) {
+                          // Find the onboarding ID
+                          const row = rows.find(r => r.tenant_profile_id === inviteResult.profile_id);
+                          if (row) navigate(`/portal/admin/onboarding/${row.id}`);
+                        }
+                      }}
+                      className="flex-1 py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] flex items-center justify-center gap-2"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">open_in_new</span>
+                      View Member Profile
+                    </button>
+                    <button
+                      onClick={() => setShowInvite(false)}
+                      className="flex-1 py-3 bg-[#eff4ff] text-[#555f6f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff]"
+                    >
+                      Done
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
