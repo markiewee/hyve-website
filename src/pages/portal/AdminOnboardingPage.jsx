@@ -105,7 +105,7 @@ export default function AdminOnboardingPage() {
   const selectedRoom = rooms.find(r => r.id === inviteRoomId);
 
   useEffect(() => {
-    supabase.from("rooms").select("id, unit_code, name, property_id, rent_amount, properties(name, address, common_areas)")
+    supabase.from("rooms").select("id, unit_code, name, property_id, properties(name, address, common_areas)")
       .order("unit_code").then(({ data }) => setRooms(data ?? []));
     supabase.from("document_templates").select("id, name, doc_type, html_content, placeholders, signature_config")
       .eq("is_active", true).eq("doc_type", "LICENCE_AGREEMENT")
@@ -124,8 +124,7 @@ export default function AdminOnboardingPage() {
     const year = new Date().getFullYear();
     const seq = String(rows.length + 1).padStart(3, "0");
     setInviteRefNumber(`${prefix}-${year}-${seq}`);
-    // Pre-fill rent from room
-    if (room.rent_amount) setInviteRent(String(room.rent_amount));
+    // Default rent (admin can change in the form)
   }, [inviteRoomId, rooms, rows.length]);
 
   function fillTemplate(html, values) {
@@ -198,7 +197,10 @@ export default function AdminOnboardingPage() {
 
         // Update room rent amount
         if (inviteRent) {
-          await supabase.from("rooms").update({ rent_amount: Number(inviteRent) }).eq("id", inviteRoomId);
+          // Save monthly_rent to the tenant profile after creation
+          if (inviteRent) {
+            await supabase.from("tenant_profiles").update({ monthly_rent: Number(inviteRent) }).eq("id", tpId);
+          }
         }
 
         // Generate and upload the TA PDF
