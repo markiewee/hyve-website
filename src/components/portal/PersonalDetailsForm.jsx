@@ -132,13 +132,33 @@ export default function PersonalDetailsForm({ onboarding, advanceStep }) {
 
         <div className="space-y-1.5">
           <Label htmlFor="nationality">Nationality</Label>
-          <Input
+          <select
             id="nationality"
             name="nationality"
             value={form.nationality}
             onChange={handleChange}
-            placeholder="e.g. Singaporean"
-          />
+            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
+          >
+            <option value="">Select nationality</option>
+            <option value="Singaporean">Singaporean</option>
+            <option value="Singapore PR">Singapore PR</option>
+            <option value="Malaysian">Malaysian</option>
+            <option value="Indonesian">Indonesian</option>
+            <option value="Filipino">Filipino</option>
+            <option value="Thai">Thai</option>
+            <option value="Vietnamese">Vietnamese</option>
+            <option value="Indian">Indian</option>
+            <option value="Chinese">Chinese</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Korean">Korean</option>
+            <option value="Myanmar">Myanmar</option>
+            <option value="British">British</option>
+            <option value="American">American</option>
+            <option value="Australian">Australian</option>
+            <option value="French">French</option>
+            <option value="German">German</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
 
         <div className="space-y-1.5">

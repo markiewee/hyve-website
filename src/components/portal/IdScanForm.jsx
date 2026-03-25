@@ -69,8 +69,13 @@ export default function IdScanForm({ onboarding, advanceStep }) {
   const frontInputRef = useRef(null);
   const backInputRef = useRef(null);
 
-  const [residency, setResidency] = useState(null); // null = not selected yet
-  const [idType, setIdType] = useState("NRIC");
+  // Auto-detect residency from nationality set in previous step
+  const nationality = profile?.tenant_details?.nationality || "";
+  const isSgNationality = ["Singaporean", "Singapore PR"].includes(nationality);
+  const [residency, setResidency] = useState(
+    nationality ? (isSgNationality ? "SINGAPOREAN" : "FOREIGNER") : null
+  );
+  const [idType, setIdType] = useState(isSgNationality ? "NRIC" : "PASSPORT");
   const [form, setForm] = useState({ id_number: "", id_expiry: "" });
   const isForeigner = residency === "FOREIGNER";
   const needsExpiry = isForeigner; // Foreigners must provide expiry date
