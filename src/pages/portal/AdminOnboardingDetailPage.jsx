@@ -1045,6 +1045,7 @@ export default function AdminOnboardingDetailPage() {
                     const docTitle = adminDocTitleRef.current?.value || docType.replace(/_/g, " ");
                     await supabase.from("tenant_documents").insert({
                       tenant_profile_id: tpId,
+                      room_id: onboarding.room_id,
                       doc_type: docType,
                       title: docTitle,
                       status: "UPLOADED",
