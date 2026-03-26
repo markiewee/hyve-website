@@ -72,44 +72,33 @@ export default function DocumentsList({ documents }) {
           return (
             <div
               key={doc.id}
-              className="flex items-center gap-3 py-3 px-3 rounded-lg border border-[#bbcac6]/15 hover:bg-[#f8faf9] transition-colors"
+              className="py-3 px-3 rounded-lg border border-[#bbcac6]/15 hover:bg-[#f8faf9] transition-colors space-y-2"
             >
-              <div className="w-9 h-9 rounded-lg bg-[#006b5f]/10 flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-[#006b5f] text-[18px]">{icon}</span>
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-['Manrope'] font-bold text-[#121c2a] truncate">
-                  {doc.title || DOC_TYPE_LABELS[doc.doc_type] || doc.doc_type}
-                </p>
-                <p className="text-xs font-['Manrope'] text-[#6c7a77] mt-0.5">
-                  {DOC_TYPE_LABELS[doc.doc_type]}
-                  {doc.signed_at &&
-                    ` — Signed ${new Date(doc.signed_at).toLocaleDateString("en-SG")}`}
-                </p>
-              </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <span
-                  className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest ${
-                    STATUS_STYLE[doc.status] || STATUS_STYLE.PENDING
-                  }`}
-                >
+              <div className="flex items-start gap-2">
+                <span className="material-symbols-outlined text-[#006b5f] text-[16px] mt-0.5 shrink-0">{icon}</span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-['Manrope'] font-bold text-[#121c2a] leading-tight">
+                    {doc.title || DOC_TYPE_LABELS[doc.doc_type] || doc.doc_type}
+                  </p>
+                  <p className="text-[10px] font-['Inter'] text-[#6c7a77] mt-0.5">
+                    {DOC_TYPE_LABELS[doc.doc_type] || doc.doc_type}
+                    {doc.created_at && ` · ${new Date(doc.created_at).toLocaleDateString("en-SG", { day: "numeric", month: "short" })}`}
+                  </p>
+                </div>
+                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider shrink-0 ${STATUS_STYLE[doc.status] || STATUS_STYLE.PENDING}`}>
                   {doc.status}
                 </span>
-                {doc.file_url && (
-                  <button
-                    onClick={async () => {
-                      setLoadingId(doc.id);
-                      await openSignedUrl(doc.file_url);
-                      setLoadingId(null);
-                    }}
-                    disabled={loadingId === doc.id}
-                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#006b5f] text-white text-xs font-['Manrope'] font-bold hover:opacity-90 transition-opacity disabled:opacity-50"
-                  >
-                    <span className="material-symbols-outlined text-[14px]">open_in_new</span>
-                    {loadingId === doc.id ? "..." : "View"}
-                  </button>
-                )}
               </div>
+              {doc.file_url && (
+                <button
+                  onClick={async () => { setLoadingId(doc.id); await openSignedUrl(doc.file_url); setLoadingId(null); }}
+                  disabled={loadingId === doc.id}
+                  className="w-full inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg bg-[#006b5f]/10 text-[#006b5f] text-xs font-['Manrope'] font-bold hover:bg-[#006b5f]/20 transition-colors disabled:opacity-50"
+                >
+                  <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+                  {loadingId === doc.id ? "Opening..." : "View Document"}
+                </button>
+              )}
             </div>
           );
         })}
