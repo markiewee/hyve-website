@@ -33,8 +33,38 @@ function CheckItem({ label, done }) {
   );
 }
 
-export default function CheckoutStatusCard({ checkout }) {
-  if (!checkout) return null;
+export default function CheckoutStatusCard({ checkout, profile }) {
+  if (!checkout) {
+    return (
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-base">Tenancy Status</CardTitle>
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700">
+              Active Tenancy
+            </span>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">
+            Your tenancy is active. Contact your house captain or admin to initiate checkout.
+          </p>
+          {(profile?.check_in_date || profile?.lease_start) && (
+            <p className="text-xs text-muted-foreground mt-3 pt-3 border-t">
+              Move-in:{" "}
+              <span className="font-medium">
+                {new Date(profile.check_in_date || profile.lease_start).toLocaleDateString("en-SG", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </span>
+            </p>
+          )}
+        </CardContent>
+      </Card>
+    );
+  }
 
   const isActive = checkout.status === "ACTIVE";
 

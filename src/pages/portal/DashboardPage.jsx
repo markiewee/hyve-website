@@ -80,8 +80,8 @@ export default function DashboardPage() {
 
         {/* ── Row 1 ── */}
 
-        {/* Rent / Billing card — col-span-8 */}
-        <section className="md:col-span-8 bg-white rounded-xl p-8 border border-[#bbcac6]/15 shadow-sm flex flex-col justify-between relative overflow-hidden">
+        {/* Rent / Billing card — col-span-12 */}
+        <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#bbcac6]/15 shadow-sm flex flex-col justify-between relative overflow-hidden">
           {/* Decorative teal blob */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#006b5f]/5 rounded-full -mr-16 -mt-16 pointer-events-none" />
           <div className="relative z-10">
@@ -118,35 +118,6 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        {/* Announcements card — col-span-4 */}
-        <section className="md:col-span-4 glass-card rounded-xl p-8 border border-[#14b8a6]/20 flex flex-col">
-          <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-6 flex items-center gap-2 text-[#121c2a]">
-            <span className="material-symbols-outlined text-[#006b5f] text-[22px]">campaign</span>
-            Announcements
-          </h3>
-          {dashLoading ? (
-            <div className="space-y-4 flex-1">
-              <SkeletonLine className="h-4 w-full" />
-              <SkeletonLine className="h-4 w-3/4" />
-              <SkeletonLine className="h-4 w-full" />
-              <SkeletonLine className="h-4 w-2/3" />
-            </div>
-          ) : (
-            <div className="flex-1 flex flex-col justify-between">
-              <p className="font-['Manrope'] text-sm text-[#555f6f] leading-relaxed">
-                No new announcements. Check back soon for property updates and community news.
-              </p>
-              <Link
-                to="/portal/dashboard"
-                className="mt-6 text-sm font-['Manrope'] font-bold text-[#006b5f] flex items-center gap-1 group"
-              >
-                View all
-                <span className="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">chevron_right</span>
-              </Link>
-            </div>
-          )}
-        </section>
-
         {/* ── Row 2 ── */}
 
         {/* AC Usage chart — col-span-7 */}
@@ -173,7 +144,7 @@ export default function DashboardPage() {
                 <SkeletonLine className="h-4 w-2/3" />
               </div>
             ) : (
-              <CheckoutStatusCard checkout={checkout} />
+              <CheckoutStatusCard checkout={checkout} profile={profile} />
             )}
           </section>
 

@@ -69,7 +69,7 @@ export default function AnnouncementBanner({ propertyId }) {
         onClick={() => setExpanded((prev) => !prev)}
         className="w-full overflow-hidden cursor-pointer border-0 outline-none"
         style={{
-          height: "40px",
+          height: "44px",
           backgroundColor: bgColor,
           borderRadius: expanded ? "8px 8px 0 0" : "8px",
         }}
@@ -77,17 +77,18 @@ export default function AnnouncementBanner({ propertyId }) {
         aria-label="Toggle announcements"
       >
         <div
+          className="whitespace-nowrap"
           style={{
-            display: "flex",
+            display: "inline-flex",
             alignItems: "center",
             height: "100%",
-            whiteSpace: "nowrap",
             color: "white",
             fontSize: "14px",
             fontWeight: 500,
             fontFamily: "'Manrope', sans-serif",
-            animation: "marquee 20s linear infinite",
+            animation: "marquee 25s linear infinite",
             paddingLeft: "100%",
+            paddingRight: "2rem",
           }}
         >
           {tickerText}
@@ -116,8 +117,11 @@ export default function AnnouncementBanner({ propertyId }) {
       {/* Marquee keyframes */}
       <style>{`
         @keyframes marquee {
-          0% { transform: translateX(0%); }
+          0% { transform: translateX(0); }
           100% { transform: translateX(-100%); }
+        }
+        button:hover .whitespace-nowrap {
+          animation-play-state: paused;
         }
       `}</style>
     </div>
