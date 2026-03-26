@@ -283,31 +283,41 @@ export default function BillingPage() {
                       {charge.status}
                     </span>
                     {!isPaid && (
-                      <button
-                        onClick={async () => {
-                          try {
-                            const { data: { session } } = await supabase.auth.getSession();
-                            const res = await fetch("/api/portal/deposit-checkout", {
-                              method: "POST",
-                              headers: { "Content-Type": "application/json", Authorization: `Bearer ${session?.access_token}` },
-                              body: JSON.stringify({ type: "charge", charge_id: charge.id }),
-                            });
-                            const body = await res.json();
-                            if (body.checkout_url) window.location.href = body.checkout_url;
-                            else alert(body.error || "Payment failed");
-                          } catch { alert("Payment failed"); }
-                        }}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#006b5f] text-white text-xs font-['Manrope'] font-bold hover:opacity-90"
-                      >
-                        <span className="material-symbols-outlined text-[14px]">credit_card</span>
-                        Pay
-                      </button>
+                      <>
+                        <button
+                          onClick={() => setReceiptPayment({ ...charge, _type: "charge", _mode: "invoice" })}
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#eff4ff] text-[#006b5f] text-xs font-['Manrope'] font-bold hover:bg-[#e6eeff]"
+                        >
+                          <span className="material-symbols-outlined text-[14px]">receipt</span>
+                          Invoice
+                        </button>
+                        <button
+                          onClick={async () => {
+                            try {
+                              const { data: { session } } = await supabase.auth.getSession();
+                              const res = await fetch("/api/portal/deposit-checkout", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json", Authorization: `Bearer ${session?.access_token}` },
+                                body: JSON.stringify({ type: "charge", charge_id: charge.id }),
+                              });
+                              const body = await res.json();
+                              if (body.checkout_url) window.location.href = body.checkout_url;
+                              else alert(body.error || "Payment failed");
+                            } catch { alert("Payment failed"); }
+                          }}
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#006b5f] text-white text-xs font-['Manrope'] font-bold hover:opacity-90"
+                        >
+                          <span className="material-symbols-outlined text-[14px]">credit_card</span>
+                          Pay
+                        </button>
+                      </>
                     )}
                     {isPaid && (
                       <button
                         onClick={() => setReceiptPayment({ ...charge, _type: "charge" })}
-                        className="text-xs font-medium text-[#006b5f] hover:underline"
+                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#eff4ff] text-[#006b5f] text-xs font-['Manrope'] font-bold hover:bg-[#e6eeff]"
                       >
+                        <span className="material-symbols-outlined text-[14px]">receipt</span>
                         Receipt
                       </button>
                     )}

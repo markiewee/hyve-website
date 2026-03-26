@@ -66,6 +66,8 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
 
   const isRent = payment._type === "rent";
   const isAC = payment._type === "ac";
+  const isCharge = payment._type === "charge";
+  const isInvoice = payment._mode === "invoice"; // invoice mode vs receipt mode
 
   const lineItems = [];
   if (isRent) {
@@ -74,20 +76,23 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
       amount: Number(payment.rent_amount || payment.amount_due || 0),
     });
     if (Number(payment.late_fee) > 0) {
-      lineItems.push({
-        description: "Late Payment Fee",
-        amount: Number(payment.late_fee),
-      });
+      lineItems.push({ description: "Late Payment Fee", amount: Number(payment.late_fee) });
     }
   } else if (isAC) {
     lineItems.push({
       description: `AC Usage Overage — ${formatDate(payment.month)}`.replace(/^(\w+ \d+),\s/, "$1 "),
       amount: Number(payment.overage_hours ?? 0) * 0.3,
     });
+  } else if (isCharge) {
+    lineItems.push({
+      description: `${payment.description}${payment.category ? ` (${payment.category.replace(/_/g, " ")})` : ""}`,
+      amount: Number(payment.amount || 0),
+    });
   }
 
   const total = lineItems.reduce((sum, item) => sum + item.amount, 0);
-  const paymentDate = payment.paid_at ?? payment.month;
+  const paymentDate = payment.paid_at ?? payment.due_date ?? payment.month ?? payment.created_at;
+  const docTitle = isInvoice ? "Invoice" : "Receipt";
 
   return (
     <>
@@ -128,16 +133,15 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
               <div className="mt-4 flex items-end justify-between relative">
                 <div>
                   <p className="text-white/50 text-[10px] uppercase tracking-widest font-bold font-['Inter']">
-                    Receipt
+                    {docTitle}
                   </p>
                   <p className="text-white font-mono text-sm font-semibold mt-0.5">
                     {receiptId.current}
                   </p>
                 </div>
-                {/* PAID watermark */}
-                <div className="border-2 border-white/30 rounded px-3 py-1">
-                  <span className="text-white font-['Inter'] font-black text-lg tracking-widest">
-                    PAID
+                <div className={`border-2 rounded px-3 py-1 ${isInvoice ? "border-amber-300/50" : "border-white/30"}`}>
+                  <span className={`font-['Inter'] font-black text-lg tracking-widest ${isInvoice ? "text-amber-200" : "text-white"}`}>
+                    {isInvoice ? "DUE" : "PAID"}
                   </span>
                 </div>
               </div>
@@ -201,7 +205,7 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
                 </div>
                 {/* Total */}
                 <div className="border-t-2 border-[#006b5f]/20 mt-2 pt-3 flex justify-between">
-                  <span className="text-sm font-bold text-[#121c2a] font-['Plus_Jakarta_Sans']">Total Paid</span>
+                  <span className="text-sm font-bold text-[#121c2a] font-['Plus_Jakarta_Sans']">{isInvoice ? "Total Due" : "Total Paid"}</span>
                   <span className="text-base font-extrabold text-[#006b5f] font-['Plus_Jakarta_Sans']">
                     {formatSGD(total)}
                   </span>
