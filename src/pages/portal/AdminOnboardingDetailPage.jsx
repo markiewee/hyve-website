@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 import OnboardingTimeline from "../../components/portal/OnboardingTimeline";
@@ -31,6 +31,7 @@ function SectionCard({ title, children }) {
 
 export default function AdminOnboardingDetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { profile } = useAuth();
 
   const [onboarding, setOnboarding] = useState(null);
