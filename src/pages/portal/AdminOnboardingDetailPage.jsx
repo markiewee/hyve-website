@@ -8,6 +8,7 @@ import DraggableSignaturePlacer from "../../components/portal/DraggableSignature
 import { Button } from "../../components/ui/button";
 import { STEPS, STEP_LABELS } from "../../hooks/useOnboarding";
 import { useAuth } from "../../hooks/useAuth";
+import { notifyMember } from "../../lib/notify";
 
 function formatDateTime(dateStr) {
   if (!dateStr) return "—";
@@ -267,6 +268,11 @@ export default function AdminOnboardingDetailPage() {
     if (error) {
       setMessage({ type: "error", text: "Failed to approve deposit: " + error.message });
     } else {
+      // Notify member that their deposit has been verified
+      try {
+        await notifyMember(onboarding.tenant_profile_id, "DEPOSIT_VERIFIED", {});
+      } catch (_) { /* non-blocking */ }
+
       setMessage({ type: "success", text: "Deposit approved. Tenant advanced to House Rules." });
       await fetchData();
     }

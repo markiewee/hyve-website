@@ -1,6 +1,8 @@
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useOnboarding } from "../../hooks/useOnboarding";
+import { notifyMember } from "../../lib/notify";
 import OnboardingGuard from "../../components/portal/OnboardingGuard";
 import OnboardingTimeline from "../../components/portal/OnboardingTimeline";
 import PersonalDetailsForm from "../../components/portal/PersonalDetailsForm";
@@ -52,7 +54,23 @@ const STEP_ICONS = {
   ACTIVE: "check_circle",
 };
 
-function StepContent({ currentStep, onboarding, advanceStep, updateOnboarding, refetch }) {
+function ActiveStepNotifier({ onboarding, profile }) {
+  const notifiedRef = useRef(false);
+  useEffect(() => {
+    if (notifiedRef.current) return;
+    notifiedRef.current = true;
+    try {
+      notifyMember(onboarding?.tenant_profile_id || profile?.id, "ONBOARDING_COMPLETE", {
+        tenant_name: profile?.tenant_details?.full_name || profile?.full_name || "",
+        room_code: profile?.rooms?.unit_code || "",
+        property_name: profile?.properties?.name || "",
+      });
+    } catch (_) { /* non-blocking */ }
+  }, []);
+  return null;
+}
+
+function StepContent({ currentStep, onboarding, advanceStep, updateOnboarding, refetch, profile }) {
   switch (currentStep) {
     case "PERSONAL_DETAILS":
       return (
@@ -108,6 +126,7 @@ function StepContent({ currentStep, onboarding, advanceStep, updateOnboarding, r
     case "ACTIVE":
       return (
         <div className="py-8">
+          <ActiveStepNotifier onboarding={onboarding} profile={profile} />
           {/* Welcome banner */}
           <div className="text-center mb-10">
             <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-[#006b5f]/10 flex items-center justify-center">
@@ -434,6 +453,7 @@ function OnboardingContent() {
                   advanceStep={advanceStep}
                   updateOnboarding={updateOnboarding}
                   refetch={refetch}
+                  profile={profile}
                 />
 
                 {/* Back / Forward navigation */}

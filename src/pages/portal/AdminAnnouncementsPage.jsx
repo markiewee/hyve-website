@@ -120,6 +120,10 @@ export default function AdminAnnouncementsPage() {
       return;
     }
 
+    // TODO: Notify all active members about the new announcement.
+    // Loop through active tenant_profiles and call:
+    //   notifyMember(tenantId, "ANNOUNCEMENT", { title: data.title, content: data.content, priority: data.priority });
+
     setAnnouncements((prev) => [data, ...prev]);
     setForm({ title: "", content: "", priority: "INFO", property_id: "", expires_at: "" });
     setShowForm(false);

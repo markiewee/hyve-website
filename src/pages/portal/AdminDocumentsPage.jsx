@@ -3,6 +3,7 @@ import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 import PdfFieldPlacer from "../../components/portal/PdfFieldPlacer";
 import { stampPdf, fetchPdfBytes } from "../../lib/pdfStamp";
+import { notifyMember } from "../../lib/notify";
 
 const DOC_TYPES = ["LICENCE_AGREEMENT", "NOTICE_OF_TERMINATION", "MOVE_IN_CHECKLIST", "MOVE_OUT_CHECKLIST", "HOUSE_RULES", "OTHER"];
 const DOC_TYPE_LABELS = { LICENCE_AGREEMENT: "Licence Agreement", NOTICE_OF_TERMINATION: "Notice of Termination", MOVE_IN_CHECKLIST: "Move-in Checklist", MOVE_OUT_CHECKLIST: "Move-out Checklist", HOUSE_RULES: "House Rules", OTHER: "Other" };
@@ -306,6 +307,11 @@ export default function AdminDocumentsPage() {
         status: "SENT",
         file_url: fileUrl,
       });
+
+      // Notify member that their TA is ready to sign
+      try {
+        await notifyMember(sendTenantId, "TA_READY", {});
+      } catch (_) { /* non-blocking */ }
 
       setMessage({ type: "success", text: `Document generated and sent to ${tenant?.tenant_details?.full_name || "member"}.` });
       setShowSend(false);

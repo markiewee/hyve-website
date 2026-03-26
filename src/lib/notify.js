@@ -44,3 +44,30 @@ export async function notifyTicketStatusChange(
     console.error("Notification failed (non-blocking):", e);
   }
 }
+
+/**
+ * Generic notification helper — sends any event type to a tenant.
+ * Errors are swallowed so they never block the main action.
+ */
+export async function notifyMember(tenantProfileId, eventType, details = {}) {
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    await fetch(
+      `${import.meta.env.VITE_IOT_SUPABASE_URL}/functions/v1/notify-tenant`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.access_token}`,
+        },
+        body: JSON.stringify({
+          event_type: eventType,
+          tenant_profile_id: tenantProfileId,
+          details,
+        }),
+      }
+    );
+  } catch (e) {
+    console.error("Notification failed (non-blocking):", e);
+  }
+}

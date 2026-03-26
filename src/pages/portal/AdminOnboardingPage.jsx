@@ -4,6 +4,7 @@ import { supabase } from "../../lib/supabase";
 import { useAuth } from "../../hooks/useAuth";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { STEP_LABELS } from "../../hooks/useOnboarding";
+import { notifyMember } from "../../lib/notify";
 
 const STEP_BADGE_COLORS = {
   PERSONAL_DETAILS: "bg-[#e6eeff] text-[#555f6f]",
@@ -287,6 +288,15 @@ export default function AdminOnboardingPage() {
           }
         }
       }
+
+      // Send welcome email with login credentials
+      try {
+        await notifyMember(body.profile_id, "MEMBER_CREATED", {
+          username: inviteUsername,
+          password: body.default_password,
+          login_url: "https://hyve.sg/portal/login",
+        });
+      } catch (_) { /* non-blocking */ }
 
       setInviteResult({ type: "success", ...body });
       setWizardStep(4);
