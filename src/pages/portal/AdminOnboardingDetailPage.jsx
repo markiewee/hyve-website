@@ -954,8 +954,14 @@ export default function AdminOnboardingDetailPage() {
                         setActionLoading(true);
                         try {
                           const userId = onboarding.tenant_profiles.user_id;
-                          const { error } = await supabase.auth.admin.updateUserById(userId, { password: newPw });
-                          if (error) throw error;
+                          const { data: sess } = await supabase.auth.getSession();
+                          const resp = await fetch("/api/portal/reset-password", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json", Authorization: `Bearer ${sess?.session?.access_token}` },
+                            body: JSON.stringify({ user_id: userId, new_password: newPw }),
+                          });
+                          const respBody = await resp.json();
+                          if (!resp.ok) throw new Error(respBody.error || "Reset failed");
                           setMessage({ type: "success", text: `Password reset to "${newPw}".` });
                         } catch (err) {
                           setMessage({ type: "error", text: "Reset failed: " + err.message });
