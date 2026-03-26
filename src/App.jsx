@@ -42,6 +42,8 @@ import AdminExpensesPage from './pages/portal/AdminExpensesPage';
 import AdminFinancialsPage from './pages/portal/AdminFinancialsPage';
 import AdminDocumentsPage from './pages/portal/AdminDocumentsPage';
 import AdminLocksPage from './pages/portal/AdminLocksPage';
+import AdminViewingsPage from './pages/portal/AdminViewingsPage';
+import ViewingPage from './pages/ViewingPage';
 import AdminTasksPage from './pages/portal/AdminTasksPage';
 import TenantDocumentsPage from './pages/portal/TenantDocumentsPage';
 import MemberSettingsPage from './pages/portal/MemberSettingsPage';
@@ -195,6 +197,14 @@ function AppContent() {
             }
           />
           <Route
+            path="/portal/admin/viewings"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminViewingsPage />
+              </AuthGuard>
+            }
+          />
+          <Route
             path="/portal/admin/locks"
             element={
               <AuthGuard requiredRole="ADMIN">
@@ -292,6 +302,8 @@ function AppContent() {
               </AuthGuard>
             }
           />
+          {/* Public viewing page — no auth */}
+          <Route path="/view/:token" element={<ViewingPage />} />
           <Route path="*" element={
             <div className="min-h-screen flex flex-col items-center justify-center py-20">
               <h1 className="text-4xl font-bold text-gray-900 mb-4">Page not found</h1>
