@@ -173,7 +173,6 @@ export default function AdminOnboardingDetailPage() {
       due_date: chargeDueDate || new Date().toISOString().split("T")[0],
       category: chargeCategory,
       status: "PENDING",
-      created_by: profile?.id ?? null,
     });
     if (error) {
       setMessage({ type: "error", text: "Failed to create charge: " + error.message });
