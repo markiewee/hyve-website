@@ -1212,7 +1212,10 @@ export default function AdminOnboardingDetailPage() {
                       await supabase.from("tenant_details").delete().eq("tenant_profile_id", tpId);
                       await supabase.from("onboarding_progress").delete().eq("id", id);
                       await supabase.from("tenant_profiles").delete().eq("id", tpId);
-                      if (userId) await supabase.auth.admin.deleteUser(userId);
+                      // Auth admin delete may fail from client — that's OK, DB records are gone
+                      if (userId) {
+                        try { await supabase.auth.admin.deleteUser(userId); } catch {}
+                      }
                       navigate("/portal/admin/onboarding");
                     } catch (err) {
                       setMessage({ type: "error", text: "Delete failed: " + err.message });
