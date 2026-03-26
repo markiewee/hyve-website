@@ -132,15 +132,20 @@ export default function AdminOnboardingPage() {
     const room = rooms.find(r => r.id === inviteRoomId);
     const fmtDate = (d) => d ? new Date(d + "T00:00:00").toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }) : "";
 
-    // Auto-calculate FEE_DATE_1 through FEE_DATE_36 (monthly from start)
+    // Auto-generate fee schedule rows (exact number of months)
+    const months = Number(calcLicencePeriod) || 12;
+    let feeScheduleRows = "";
     const feeDates = {};
     if (inviteStartDate) {
       const start = new Date(inviteStartDate + "T00:00:00");
-      const months = Number(calcLicencePeriod) || 12;
       for (let i = 0; i < Math.min(months, 36); i++) {
         const d = new Date(start);
         d.setMonth(d.getMonth() + i);
-        feeDates[`FEE_DATE_${i + 1}`] = fmtDate(d.toISOString().split("T")[0]);
+        const dateStr = fmtDate(d.toISOString().split("T")[0]);
+        feeDates[`FEE_DATE_${i + 1}`] = dateStr;
+        feeScheduleRows += `<div class="bg-surface-container-lowest p-4 clause-text">Licence Fee (${i + 1})</div>
+<div class="bg-surface-container-lowest p-4 clause-text">S$${inviteRent ? Number(inviteRent).toLocaleString("en-SG") : "—"}</div>
+<div class="bg-surface-container-lowest p-4 clause-text">${dateStr}</div>\n`;
       }
     }
 
@@ -161,6 +166,7 @@ export default function AdminOnboardingPage() {
       START_DATE: fmtDate(inviteStartDate),
       END_DATE: fmtDate(inviteEndDate),
       DATE: new Date().toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }),
+      FEE_SCHEDULE_ROWS: feeScheduleRows,
       ...feeDates,
     };
 
