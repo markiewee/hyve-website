@@ -39,6 +39,7 @@ import AdminAnnouncementsPage from './pages/portal/AdminAnnouncementsPage';
 import AdminRentPage from './pages/portal/AdminRentPage';
 import AdminInvestorsPage from './pages/portal/AdminInvestorsPage';
 import AdminExpensesPage from './pages/portal/AdminExpensesPage';
+import AdminExpenseImportPage from './pages/portal/AdminExpenseImportPage';
 import AdminFinancialsPage from './pages/portal/AdminFinancialsPage';
 import AdminDocumentsPage from './pages/portal/AdminDocumentsPage';
 import AdminLocksPage from './pages/portal/AdminLocksPage';
@@ -265,6 +266,14 @@ function AppContent() {
             element={
               <AuthGuard requiredRole="ADMIN">
                 <AdminExpensesPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/expenses/import"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminExpenseImportPage />
               </AuthGuard>
             }
           />

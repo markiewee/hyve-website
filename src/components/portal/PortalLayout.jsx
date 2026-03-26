@@ -40,6 +40,7 @@ const ADMIN_NAV = [
       { label: "Devices", to: "/portal/admin/devices", icon: "router" },
       { label: "Investors", to: "/portal/admin/investors", icon: "trending_up" },
       { label: "Expenses", to: "/portal/admin/expenses", icon: "account_balance" },
+      { label: "Import", to: "/portal/admin/expenses/import", icon: "upload_file" },
       { label: "Financials", to: "/portal/admin/financials", icon: "bar_chart" },
     ],
   },
