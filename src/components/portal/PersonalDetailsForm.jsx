@@ -32,6 +32,7 @@ export default function PersonalDetailsForm({ onboarding, advanceStep }) {
   const existing = profile?.tenant_details;
   const [form, setForm] = useState({
     full_name: existing?.full_name || "",
+    email: existing?.email || "",
     phone_code: "+65",
     phone_number: existing?.phone?.replace(/^\+\d+\s*/, "") || "",
     nationality: existing?.nationality || "",
@@ -68,6 +69,7 @@ export default function PersonalDetailsForm({ onboarding, advanceStep }) {
           {
             tenant_profile_id: profile.id,
             full_name: form.full_name.trim(),
+            email: form.email.trim() || null,
             phone: `${form.phone_code} ${form.phone_number.trim()}`,
             nationality: form.nationality.trim() || null,
             date_of_birth: form.date_of_birth || null,
@@ -88,6 +90,7 @@ export default function PersonalDetailsForm({ onboarding, advanceStep }) {
         tenant_details: {
           ...prev?.tenant_details,
           full_name: form.full_name.trim(),
+          email: form.email.trim() || null,
           phone: `${form.phone_code} ${form.phone_number.trim()}`,
           nationality: form.nationality.trim() || null,
           date_of_birth: form.date_of_birth || null,
@@ -118,6 +121,19 @@ export default function PersonalDetailsForm({ onboarding, advanceStep }) {
             value={form.full_name}
             onChange={handleChange}
             placeholder="As per NRIC / Passport"
+            required
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <Label htmlFor="email">Email Address</Label>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={handleChange}
+            placeholder="your@email.com"
             required
           />
         </div>

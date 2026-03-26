@@ -43,7 +43,7 @@ export default function AdminDocumentsPage() {
   const fetchData = useCallback(async () => {
     const [tplRes, tenantRes] = await Promise.all([
       supabase.from("document_templates").select("*").order("created_at", { ascending: false }),
-      supabase.from("tenant_profiles").select("id, role, username, monthly_rent, room_id, property_id, rooms(unit_code, name), properties(name, address, common_areas), tenant_details(full_name, id_number, phone), onboarding_progress(id, deposit_amount, licence_period, tenancy_start_date, tenancy_end_date, ref_number)")
+      supabase.from("tenant_profiles").select("id, role, username, monthly_rent, room_id, property_id, rooms(unit_code, name), properties(name, address, common_areas), tenant_details(full_name, email, id_number, phone), onboarding_progress(id, deposit_amount, licence_period, tenancy_start_date, tenancy_end_date, ref_number)")
         .eq("role", "TENANT").eq("is_active", true),
     ]);
     setTemplates(tplRes.data ?? []);
@@ -147,10 +147,10 @@ export default function AdminDocumentsPage() {
     const rent = tenant?.monthly_rent ? Number(tenant.monthly_rent).toLocaleString() : "—";
 
     const values = {
-      TENANT_NAME: tenant?.tenant_details?.full_name || "",
-      ID_NUMBER: tenant?.tenant_details?.id_number || "",
+      TENANT_NAME: tenant?.tenant_details?.full_name || tenant?.username || "",
+      ID_NUMBER: tenant?.tenant_details?.id_number || "Pending ID verification",
       PHONE: tenant?.tenant_details?.phone || "",
-      EMAIL: "",
+      EMAIL: tenant?.tenant_details?.email || "",
       ROOM_CODE: tenant?.rooms?.unit_code || "",
       ROOM_NAME: tenant?.rooms?.name || "",
       PROPERTY_NAME: tenant?.properties?.name || "",
