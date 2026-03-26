@@ -223,7 +223,7 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
                 <input
                   ref={proofInputRef}
                   type="file"
-                  accept="image/*"
+                  accept="image/jpeg,image/png"
                   onChange={(e) => setProofFile(e.target.files?.[0] ?? null)}
                   className="block w-full text-xs text-muted-foreground file:mr-3 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-medium file:bg-secondary file:text-secondary-foreground hover:file:bg-secondary/80"
                 />

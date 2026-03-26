@@ -234,65 +234,9 @@ export default function AdminOnboardingPage() {
           }
         }
 
-        // Generate and upload the TA PDF
-        if (taPreviewHtml) {
-          try {
-            const { default: html2pdf } = await import(/* @vite-ignore */ "html2pdf.js");
-            const iframe = document.createElement("iframe");
-            iframe.style.cssText = "position:fixed;top:-9999px;left:-9999px;width:800px;height:1200px;border:none;";
-            document.body.appendChild(iframe);
-            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-            iframeDoc.open();
-            iframeDoc.write(`<!DOCTYPE html><html><head><style>
-              * { margin: 0; padding: 0; box-sizing: border-box; }
-              body { font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; color: #1a1a1a; background: #fff; padding: 40px 50px; width: 700px; }
-              h1 { font-size: 24px; font-weight: 800; margin: 0 0 8px; }
-              h2 { font-size: 18px; font-weight: 700; margin: 24px 0 8px; border-left: 3px solid #006b5f; padding-left: 12px; }
-              h3 { font-size: 15px; font-weight: 700; margin: 16px 0 6px; }
-              p { margin: 6px 0; } ul, ol { margin: 8px 0; padding-left: 24px; } li { margin: 4px 0; }
-              table { border-collapse: collapse; width: 100%; margin: 12px 0; }
-              td, th { border: 1px solid #ddd; padding: 8px 12px; font-size: 12px; } th { background: #f5f5f5; font-weight: 700; }
-              header { margin-bottom: 24px; } hr { border: none; border-top: 1px solid #ddd; margin: 16px 0; }
-              .flex { display: flex; } .justify-between { justify-content: space-between; } .items-start { align-items: flex-start; }
-              .text-right { text-align: right; } .text-xs { font-size: 10px; } .text-sm { font-size: 12px; } .text-lg { font-size: 16px; }
-              .font-bold, .font-extrabold, .font-semibold { font-weight: 700; } .uppercase { text-transform: uppercase; }
-              .tracking-widest { letter-spacing: 0.1em; } .mb-2 { margin-bottom: 8px; } .mb-4 { margin-bottom: 16px; }
-              .mb-6 { margin-bottom: 24px; } .mb-8 { margin-bottom: 32px; } .mb-12 { margin-bottom: 48px; } .mb-16 { margin-bottom: 64px; }
-              .mt-2 { margin-top: 8px; } .mt-4 { margin-top: 16px; } .space-y-1 > * + * { margin-top: 4px; }
-              .space-y-2 > * + * { margin-top: 8px; } .space-y-4 > * + * { margin-top: 16px; }
-              .grid { display: grid; } .grid-cols-2 { grid-template-columns: 1fr 1fr; } .gap-4 { gap: 16px; }
-              .border-b { border-bottom: 1px solid #ddd; } .pb-4 { padding-bottom: 16px; } .pt-4 { padding-top: 16px; }
-              .text-primary { color: #006b5f; } [class*="font-label"] { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #777; }
-              [class*="font-headline"] { font-family: Arial, sans-serif; }
-            </style></head><body>${taPreviewHtml}</body></html>`);
-            iframeDoc.close();
-
-            const pdfBlob = await html2pdf().set({
-              margin: 10, filename: "ta.pdf",
-              image: { type: "jpeg", quality: 0.98 },
-              html2canvas: { scale: 2, useCORS: true },
-              jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-            }).from(iframeDoc.body).outputPdf("blob");
-            document.body.removeChild(iframe);
-
-            const storagePath = `tenants/${tpId}/ta-generated-${Date.now()}.pdf`;
-            await supabase.storage.from("tenant-documents").upload(storagePath, pdfBlob, { contentType: "application/pdf" });
-            const { data: urlData } = supabase.storage.from("tenant-documents").getPublicUrl(storagePath);
-
-            if (onbData?.id) {
-              await supabase.from("onboarding_progress").update({ ta_document_url: urlData.publicUrl }).eq("id", onbData.id);
-            }
-            await supabase.from("tenant_documents").insert({
-              tenant_profile_id: tpId,
-              doc_type: "LICENCE_AGREEMENT",
-              title: tpl?.name || "Licence Agreement",
-              status: "SENT",
-              file_url: urlData.publicUrl,
-            });
-          } catch (pdfErr) {
-            console.error("TA PDF generation failed:", pdfErr);
-          }
-        }
+        // TA is NOT generated here — admin generates it later via
+        // Documents → Generate Agreement → Save as PDF → Send to Member
+        // This avoids the broken html2pdf conversion entirely.
       }
 
       // Send welcome email with login credentials
