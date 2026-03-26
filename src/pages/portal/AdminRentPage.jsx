@@ -160,6 +160,7 @@ export default function AdminRentPage() {
   }
 
   async function handleMarkPaid(payment) {
+    if (!confirm("Are you sure you want to mark this payment as paid?")) return;
     setActionLoading(payment.id);
 
     const now = new Date();
@@ -204,6 +205,7 @@ export default function AdminRentPage() {
   }
 
   async function handleAddLateFee(payment) {
+    if (!confirm("Are you sure you want to add a late fee?")) return;
     setActionLoading(payment.id);
 
     const dueDate = payment.due_date ? new Date(payment.due_date) : null;

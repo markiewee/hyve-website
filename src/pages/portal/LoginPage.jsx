@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { supabase } from "../../lib/supabase";
 
 export default function LoginPage() {
   const { signIn } = useAuth();
@@ -11,6 +12,23 @@ export default function LoginPage() {
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
+  const [resetError, setResetError] = useState(null);
+
+  async function handleForgotPassword() {
+    setResetSent(false);
+    setResetError(null);
+    if (!identifier || !identifier.includes("@")) {
+      setResetError("Please enter your email address to reset password.");
+      return;
+    }
+    const { error: resetErr } = await supabase.auth.resetPasswordForEmail(identifier);
+    if (resetErr) {
+      setResetError(resetErr.message || "Failed to send reset email.");
+    } else {
+      setResetSent(true);
+    }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -144,6 +162,25 @@ export default function LoginPage() {
                   {showPassword ? "visibility_off" : "visibility"}
                 </button>
               </div>
+              <div className="flex items-center justify-between mt-2">
+                <button
+                  type="button"
+                  onClick={handleForgotPassword}
+                  className="text-xs font-['Manrope'] font-medium text-[#006b5f] hover:underline transition-colors"
+                >
+                  Forgot password?
+                </button>
+              </div>
+              {resetSent && (
+                <p className="text-xs font-['Manrope'] text-[#006b5f] mt-1">
+                  Password reset email sent. Check your inbox.
+                </p>
+              )}
+              {resetError && (
+                <p className="text-xs font-['Manrope'] text-[#ba1a1a] mt-1">
+                  {resetError}
+                </p>
+              )}
             </div>
 
             <button

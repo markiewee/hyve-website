@@ -269,6 +269,11 @@ function OnboardingContent() {
         <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-10">
           {/* Page heading */}
           <div className="mb-10">
+            {profile?.full_name && (
+              <p className="font-['Manrope'] text-[#006b5f] font-semibold text-sm mb-1">
+                Welcome, {profile.full_name.split(" ")[0]}
+              </p>
+            )}
             <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
               Welcome to Hyve
             </h1>

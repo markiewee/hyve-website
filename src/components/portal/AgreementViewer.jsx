@@ -152,6 +152,21 @@ function UnsignedView({ onboarding, pdfUrl, advanceStep, refetch, navigate }) {
       >
         {signing ? "Signing…" : "Sign Agreement"}
       </Button>
+
+      {advanceStep && (
+        <div className="mt-4">
+          <button
+            type="button"
+            onClick={() => advanceStep("ta_skipped")}
+            className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
+          >
+            Skip for now
+          </button>
+          <p className="text-xs text-muted-foreground mt-1">
+            You can sign the agreement later from your Documents page
+          </p>
+        </div>
+      )}
     </div>
   );
 }
@@ -368,6 +383,20 @@ export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
           Your licence agreement is being prepared. Admin will upload it shortly.
           Check back here once you receive a notification.
         </p>
+        {advanceStep && (
+          <div className="mt-6">
+            <button
+              type="button"
+              onClick={() => advanceStep("ta_skipped")}
+              className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
+            >
+              Skip for now
+            </button>
+            <p className="text-xs text-muted-foreground mt-1">
+              You can sign the agreement later from your Documents page
+            </p>
+          </div>
+        )}
       </div>
     );
   }
@@ -391,6 +420,20 @@ export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
         </div>
         <p className="text-sm font-medium text-foreground mb-1">Agreement being prepared</p>
         <p className="text-sm text-muted-foreground">The document is being processed. Please check back shortly.</p>
+        {advanceStep && (
+          <div className="mt-6">
+            <button
+              type="button"
+              onClick={() => advanceStep("ta_skipped")}
+              className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
+            >
+              Skip for now
+            </button>
+            <p className="text-xs text-muted-foreground mt-1">
+              You can sign the agreement later from your Documents page
+            </p>
+          </div>
+        )}
       </div>
     );
   }

@@ -52,7 +52,10 @@ function TaskCard({ task, onUpdate, onDelete }) {
         <div className="flex items-center gap-1 shrink-0">
           <select
             value={task.status}
-            onChange={(e) => onUpdate(task.id, { status: e.target.value, completed_at: e.target.value === "COMPLETED" ? new Date().toISOString() : null })}
+            onChange={(e) => {
+              if (!confirm(`Are you sure you want to change status to ${e.target.value.replace("_", " ")}?`)) return;
+              onUpdate(task.id, { status: e.target.value, completed_at: e.target.value === "COMPLETED" ? new Date().toISOString() : null });
+            }}
             className="text-xs bg-transparent border border-[#bbcac6]/30 rounded-lg px-2 py-1 font-['Inter'] text-[#6c7a77] focus:ring-1 focus:ring-[#006b5f] outline-none"
           >
             {STATUSES.map((s) => (

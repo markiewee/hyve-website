@@ -67,7 +67,7 @@ export default function BillingPage() {
       </div>
 
       {/* Summary stat cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+      <div className={`grid grid-cols-1 ${profile?.role !== "ADMIN" ? "sm:grid-cols-3" : "sm:grid-cols-1"} gap-6 mb-10`}>
         {/* Outstanding balance — red when overdue, teal when ok */}
         <div className={`sm:col-span-2 rounded-2xl p-8 relative overflow-hidden ${hasOverdue ? "bg-[#ba1a1a]" : "bg-[#006b5f]"}`}>
           <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -mr-20 -mt-20 pointer-events-none" />
@@ -90,18 +90,20 @@ export default function BillingPage() {
           )}
         </div>
 
-        {/* Rent amount stat */}
-        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm flex flex-col justify-between">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">
-            Monthly Rent
-          </p>
-          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">
-            {profile?.rooms?.rent_amount
-              ? `$${Number(profile.monthly_rent || profile.rooms?.rent_amount).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`
-              : "—"}
-          </p>
-          <p className="text-[#6c7a77] font-['Manrope'] text-xs mt-2">Due 1st of each month</p>
-        </div>
+        {/* Rent amount stat — hidden for admin */}
+        {profile?.role !== "ADMIN" && (
+          <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm flex flex-col justify-between">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">
+              Monthly Rent
+            </p>
+            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">
+              {profile?.rooms?.rent_amount
+                ? `$${Number(profile.monthly_rent || profile.rooms?.rent_amount).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`
+                : "—"}
+            </p>
+            <p className="text-[#6c7a77] font-['Manrope'] text-xs mt-2">Due 1st of each month</p>
+          </div>
+        )}
       </div>
 
       {/* Rent Payments section */}
