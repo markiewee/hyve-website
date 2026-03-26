@@ -10,7 +10,6 @@ const BANK_DETAILS = {
   bank: "DBS Bank",
   accountName: "Makery Pte Ltd",
   accountNumber: "DBS 072-905765-8",
-  payNow: "UEN 201823456K",
 };
 
 export default function DepositPayment({ onboarding, advanceStep, refetch }) {
@@ -211,8 +210,8 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
                 {BANK_DETAILS.accountNumber}
               </p>
               <p>
-                <span className="font-medium text-foreground">PayNow UEN:</span>{" "}
-                {BANK_DETAILS.payNow}
+                <span className="font-medium text-foreground">Reference:</span>{" "}
+                Your name + room code
               </p>
             </div>
 

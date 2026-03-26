@@ -8,6 +8,7 @@ import IdScanForm from "../../components/portal/IdScanForm";
 import AgreementViewer from "../../components/portal/AgreementViewer";
 import DepositPayment from "../../components/portal/DepositPayment";
 import HouseRulesView from "../../components/portal/HouseRulesView";
+import MoveInInstructions from "../../components/portal/MoveInInstructions";
 import RoomChecklistForm from "../../components/portal/RoomChecklistForm";
 import { STEP_LABELS } from "../../hooks/useOnboarding";
 
@@ -22,6 +23,8 @@ const STEP_DESCRIPTIONS = {
     "Pay your security deposit to secure your room at Hyve.",
   HOUSE_RULES:
     "Read and acknowledge our community house rules before moving in.",
+  MOVE_IN_INSTRUCTIONS:
+    "Everything you need to know for a smooth move-in day.",
   MOVE_IN_CHECKLIST:
     "Record the condition of your room at move-in for your protection.",
   ACTIVE: "You're all set! Welcome to Hyve.",
@@ -33,6 +36,7 @@ const STEP_ORDER = [
   "SIGN_TA",
   "DEPOSIT",
   "HOUSE_RULES",
+  "MOVE_IN_INSTRUCTIONS",
   "MOVE_IN_CHECKLIST",
   "ACTIVE",
 ];
@@ -43,6 +47,7 @@ const STEP_ICONS = {
   SIGN_TA: "edit_document",
   DEPOSIT: "payments",
   HOUSE_RULES: "gavel",
+  MOVE_IN_INSTRUCTIONS: "info",
   MOVE_IN_CHECKLIST: "checklist",
   ACTIVE: "check_circle",
 };
@@ -85,6 +90,12 @@ function StepContent({ currentStep, onboarding, advanceStep, updateOnboarding, r
           onboarding={onboarding}
           advanceStep={advanceStep}
           updateOnboarding={updateOnboarding}
+        />
+      );
+    case "MOVE_IN_INSTRUCTIONS":
+      return (
+        <MoveInInstructions
+          advanceStep={advanceStep}
         />
       );
     case "MOVE_IN_CHECKLIST":
