@@ -539,98 +539,86 @@ export default function AdminOnboardingDetailPage() {
 
         {/* Main actions */}
         <div className="lg:col-span-3 space-y-4">
-          {/* Member Profile */}
+          {/* Member Profile — editable */}
           {tenantDetails && (
             <SectionCard title="Member Profile">
-              <dl className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-3 text-sm">
-                <div>
-                  <dt className="text-muted-foreground text-xs">Full Name</dt>
-                  <dd className="font-medium">{tenantDetails.full_name ?? "—"}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground text-xs">Phone</dt>
-                  <dd className="font-medium">{tenantDetails.phone ?? "—"}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground text-xs">Nationality</dt>
-                  <dd className="font-medium">{tenantDetails.nationality ?? "—"}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground text-xs">Date of Birth</dt>
-                  <dd className="font-medium">{tenantDetails.date_of_birth ?? "—"}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground text-xs">Emergency Contact</dt>
-                  <dd className="font-medium">{tenantDetails.emergency_contact_name ?? "—"}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground text-xs">Emergency Phone</dt>
-                  <dd className="font-medium">{tenantDetails.emergency_contact_phone ?? "—"}</dd>
-                </div>
-              </dl>
+              {(() => {
+                // Helper to get signed URL for storage images
+                const getImgUrl = async (url) => {
+                  if (!url) return null;
+                  let path = url;
+                  if (url.includes("/tenant-documents/")) path = url.split("/tenant-documents/")[1].split("?")[0];
+                  const { data } = await supabase.storage.from("tenant-documents").createSignedUrl(path, 3600);
+                  return data?.signedUrl || url;
+                };
 
-              {/* ID Documents */}
-              <div className="mt-4 pt-4 border-t border-border">
-                <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-3">Identification</p>
-                <dl className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-3 text-sm">
-                  <div>
-                    <dt className="text-muted-foreground text-xs">ID Type</dt>
-                    <dd className="font-medium">{tenantDetails.id_type?.replace(/_/g, " ") ?? "—"}</dd>
+                const EditableField = ({ label, field, type = "text", value }) => (
+                  <div className="space-y-1">
+                    <label className="text-muted-foreground text-xs block">{label}</label>
+                    <input
+                      type={type}
+                      defaultValue={value ?? ""}
+                      onBlur={async (e) => {
+                        const newVal = e.target.value.trim();
+                        if (newVal === (value ?? "")) return;
+                        await supabase.from("tenant_details").update({ [field]: newVal || null, updated_at: new Date().toISOString() }).eq("tenant_profile_id", onboarding.tenant_profile_id);
+                        setMessage({ type: "success", text: `${label} updated.` });
+                      }}
+                      className="w-full border border-border rounded-md px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                    />
                   </div>
-                  <div>
-                    <dt className="text-muted-foreground text-xs">ID Number</dt>
-                    <dd className="font-medium">{tenantDetails.id_number ?? "—"}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-muted-foreground text-xs">ID Expiry</dt>
-                    <dd className="font-medium">{tenantDetails.id_expiry ? new Date(tenantDetails.id_expiry).toLocaleDateString("en-SG") : "—"}</dd>
-                  </div>
-                </dl>
-                {/* ID Photos */}
-                <div className="flex gap-3 mt-3">
-                  {tenantDetails.id_front_url && (
-                    <a href={tenantDetails.id_front_url} target="_blank" rel="noopener noreferrer" className="block">
-                      <img src={tenantDetails.id_front_url} alt="ID Front" className="h-20 rounded border border-border object-cover hover:opacity-80 transition-opacity" />
-                      <p className="text-[10px] text-muted-foreground mt-1">Front</p>
-                    </a>
-                  )}
-                  {tenantDetails.id_back_url && (
-                    <a href={tenantDetails.id_back_url} target="_blank" rel="noopener noreferrer" className="block">
-                      <img src={tenantDetails.id_back_url} alt="ID Back" className="h-20 rounded border border-border object-cover hover:opacity-80 transition-opacity" />
-                      <p className="text-[10px] text-muted-foreground mt-1">Back</p>
-                    </a>
-                  )}
-                </div>
-              </div>
+                );
 
-              {/* Work Pass (foreigners) */}
-              {tenantDetails.pass_type && (
-                <div className="mt-4 pt-4 border-t border-border">
-                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-3">Work Pass</p>
-                  <dl className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-3 text-sm">
-                    <div>
-                      <dt className="text-muted-foreground text-xs">Pass Type</dt>
-                      <dd className="font-medium">{tenantDetails.pass_type?.replace(/_/g, " ") ?? "—"}</dd>
-                    </div>
-                    <div>
-                      <dt className="text-muted-foreground text-xs">Pass Number</dt>
-                      <dd className="font-medium">{tenantDetails.pass_number ?? "—"}</dd>
-                    </div>
-                    <div>
-                      <dt className="text-muted-foreground text-xs">Pass Expiry</dt>
-                      <dd className={`font-medium ${tenantDetails.pass_expiry && new Date(tenantDetails.pass_expiry) < new Date(Date.now() + 90 * 24 * 60 * 60 * 1000) ? "text-red-600 font-bold" : ""}`}>
-                        {tenantDetails.pass_expiry ? new Date(tenantDetails.pass_expiry).toLocaleDateString("en-SG") : "—"}
-                      </dd>
-                    </div>
-                  </dl>
-                  {tenantDetails.pass_url && (
-                    <a href={tenantDetails.pass_url} target="_blank" rel="noopener noreferrer" className="block mt-3">
-                      <img src={tenantDetails.pass_url} alt="Pass" className="h-20 rounded border border-border object-cover hover:opacity-80 transition-opacity" />
-                      <p className="text-[10px] text-muted-foreground mt-1">Pass photo</p>
+                const ImgWithSignedUrl = ({ url, alt }) => {
+                  const [src, setSrc] = useState(null);
+                  useEffect(() => { if (url) getImgUrl(url).then(setSrc); }, [url]);
+                  if (!src) return null;
+                  return (
+                    <a href={src} target="_blank" rel="noopener noreferrer" className="block">
+                      <img src={src} alt={alt} className="h-24 w-32 rounded border border-border object-cover hover:opacity-80 transition-opacity" />
+                      <p className="text-[10px] text-muted-foreground mt-1">{alt}</p>
                     </a>
-                  )}
-                </div>
-              )}
+                  );
+                };
+
+                return (
+                  <>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      <EditableField label="Full Name" field="full_name" value={tenantDetails.full_name} />
+                      <EditableField label="Phone" field="phone" value={tenantDetails.phone} />
+                      <EditableField label="Nationality" field="nationality" value={tenantDetails.nationality} />
+                      <EditableField label="Date of Birth" field="date_of_birth" type="date" value={tenantDetails.date_of_birth} />
+                      <EditableField label="Emergency Contact" field="emergency_contact_name" value={tenantDetails.emergency_contact_name} />
+                      <EditableField label="Emergency Phone" field="emergency_contact_phone" value={tenantDetails.emergency_contact_phone} />
+                    </div>
+
+                    <div className="mt-4 pt-4 border-t border-border">
+                      <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-3">Identification</p>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
+                        <EditableField label="ID Type" field="id_type" value={tenantDetails.id_type} />
+                        <EditableField label="ID Number" field="id_number" value={tenantDetails.id_number} />
+                        <EditableField label="ID Expiry" field="id_expiry" type="date" value={tenantDetails.id_expiry} />
+                      </div>
+                      <div className="flex gap-3">
+                        <ImgWithSignedUrl url={tenantDetails.id_front_url} alt="ID Front" />
+                        <ImgWithSignedUrl url={tenantDetails.id_back_url} alt="ID Back" />
+                      </div>
+                    </div>
+
+                    {tenantDetails.pass_type && (
+                      <div className="mt-4 pt-4 border-t border-border">
+                        <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-3">Work Pass</p>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
+                          <EditableField label="Pass Type" field="pass_type" value={tenantDetails.pass_type} />
+                          <EditableField label="Pass Number" field="pass_number" value={tenantDetails.pass_number} />
+                          <EditableField label="Pass Expiry" field="pass_expiry" type="date" value={tenantDetails.pass_expiry} />
+                        </div>
+                        <ImgWithSignedUrl url={tenantDetails.pass_url} alt="Work Pass" />
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
             </SectionCard>
           )}
 
