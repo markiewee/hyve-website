@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import PortalTour from "./PortalTour";
 
 const TENANT_NAV = [
   { label: "Dashboard", to: "/portal/dashboard", icon: "dashboard" },
@@ -102,7 +103,7 @@ function AdminDropdown({ link, location, onLinkClick }) {
   );
 }
 
-function Sidebar({ profile, navLinks, location, onLinkClick, signOut }) {
+function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTour }) {
   const isAdmin = profile?.role === "ADMIN";
   const unitCode = isAdmin ? "" : (profile?.rooms?.unit_code ?? profile?.room_id ?? "");
   const propertyName = isAdmin ? "Admin" : (profile?.properties?.name ?? profile?.rooms?.name ?? "Hyve");
@@ -161,6 +162,15 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut }) {
           Quick Support
         </Link>
         <div className="space-y-1">
+          {onStartTour && (
+            <button
+              onClick={() => { localStorage.removeItem("hyve_tour_done"); onStartTour(); }}
+              className="w-full flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#006b5f] text-sm transition-colors"
+            >
+              <span className="material-symbols-outlined text-[18px]">tour</span>
+              <span className="font-['Manrope']">Take a Tour</span>
+            </button>
+          )}
           <a
             href="mailto:hello@hyve.sg"
             className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#006b5f] text-sm transition-colors"
@@ -215,9 +225,19 @@ export default function PortalLayout({ children }) {
   const location = useLocation();
   const navLinks = getNavLinks(profile?.role);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showTour, setShowTour] = useState(false);
+
+  // Show tour on first visit (non-admin)
+  useEffect(() => {
+    if (profile && profile.role !== "ADMIN" && !localStorage.getItem("hyve_tour_done")) {
+      const timer = setTimeout(() => setShowTour(true), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [profile]);
 
   return (
     <div className="min-h-screen bg-[#f8f9ff]">
+      {showTour && <PortalTour onComplete={() => setShowTour(false)} />}
       {/* Desktop Sidebar */}
       <div className="hidden md:block">
         <Sidebar
@@ -226,6 +246,7 @@ export default function PortalLayout({ children }) {
           location={location}
           onLinkClick={() => {}}
           signOut={signOut}
+          onStartTour={() => setShowTour(true)}
         />
       </div>
 
@@ -252,6 +273,7 @@ export default function PortalLayout({ children }) {
               location={location}
               onLinkClick={() => setSidebarOpen(false)}
               signOut={() => { setSidebarOpen(false); signOut(); }}
+              onStartTour={() => { setSidebarOpen(false); setShowTour(true); }}
             />
           </div>
         </>
