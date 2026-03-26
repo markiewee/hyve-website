@@ -137,7 +137,6 @@ export default function DashboardPage() {
               <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
             </Link>
           </div>
-          </div>
         </section>
 
         {/* ── Row 2 ── */}
