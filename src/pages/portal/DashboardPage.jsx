@@ -95,7 +95,7 @@ export default function DashboardPage() {
                   Due 1st of month
                 </span>
                 <div className="text-5xl font-['Plus_Jakarta_Sans'] font-black text-[#121c2a]">
-                  {profile?.rooms?.rent_amount
+                  {(profile?.monthly_rent || profile?.rooms?.rent_amount)
                     ? `$${Number(profile.monthly_rent || profile.rooms?.rent_amount).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`
                     : "—"}
                 </div>
