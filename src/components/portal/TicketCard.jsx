@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { supabase } from "../../lib/supabase";
+
 const CATEGORY_BADGE = "bg-secondary text-secondary-foreground";
 
 const STATUS_CONFIG = {
@@ -7,7 +10,7 @@ const STATUS_CONFIG = {
   RESOLVED: { label: "Resolved", class: "bg-green-100 text-green-700" },
 };
 
-export default function TicketCard({ ticket, onAction }) {
+export default function TicketCard({ ticket, onAction, onWithdraw }) {
   const {
     id,
     category,
@@ -19,9 +22,44 @@ export default function TicketCard({ ticket, onAction }) {
     created_at,
   } = ticket;
 
+  const [withdrawing, setWithdrawing] = useState(false);
+
   const statusCfg = STATUS_CONFIG[status] ?? STATUS_CONFIG.OPEN;
   const unitCode = rooms?.unit_code;
   const dateStr = created_at ? new Date(created_at).toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" }) : "";
+
+  const canWithdraw = status === "OPEN" || status === "IN_PROGRESS";
+
+  async function handleWithdraw() {
+    if (!window.confirm("Are you sure you want to withdraw this request?")) return;
+
+    setWithdrawing(true);
+    try {
+      // Delete related photos first
+      if (ticket_photos.length > 0) {
+        const { error: photosError } = await supabase
+          .from("ticket_photos")
+          .delete()
+          .eq("ticket_id", id);
+        if (photosError) throw photosError;
+      }
+
+      // Delete the ticket
+      const { error: ticketError } = await supabase
+        .from("maintenance_tickets")
+        .delete()
+        .eq("id", id);
+      if (ticketError) throw ticketError;
+
+      // Notify parent to refresh if callback provided
+      if (onWithdraw) onWithdraw(id);
+    } catch (err) {
+      console.error("Error withdrawing ticket:", err);
+      alert("Failed to withdraw request. Please try again.");
+    } finally {
+      setWithdrawing(false);
+    }
+  }
 
   return (
     <div className="border rounded-lg p-4 space-y-3 bg-card">
@@ -113,6 +151,20 @@ export default function TicketCard({ ticket, onAction }) {
               Resolve
             </button>
           )}
+        </div>
+      )}
+
+      {/* Withdraw button for members */}
+      {canWithdraw && (
+        <div className="flex flex-wrap gap-2 pt-1">
+          <button
+            type="button"
+            onClick={handleWithdraw}
+            disabled={withdrawing}
+            className="px-3 py-1 rounded text-xs font-medium bg-red-50 text-red-600 hover:bg-red-100 transition-colors disabled:opacity-50"
+          >
+            {withdrawing ? "Withdrawing..." : "Withdraw"}
+          </button>
         </div>
       )}
     </div>
