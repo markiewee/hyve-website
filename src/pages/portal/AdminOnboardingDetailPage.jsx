@@ -539,86 +539,116 @@ export default function AdminOnboardingDetailPage() {
 
         {/* Main actions */}
         <div className="lg:col-span-3 space-y-4">
-          {/* Member Profile — editable */}
+          {/* Member Profile — editable with save button */}
           {tenantDetails && (
             <SectionCard title="Member Profile">
-              {(() => {
-                // Helper to get signed URL for storage images
-                const getImgUrl = async (url) => {
-                  if (!url) return null;
-                  let path = url;
-                  if (url.includes("/tenant-documents/")) path = url.split("/tenant-documents/")[1].split("?")[0];
-                  const { data } = await supabase.storage.from("tenant-documents").createSignedUrl(path, 3600);
-                  return data?.signedUrl || url;
-                };
+              <form onSubmit={async (e) => {
+                e.preventDefault();
+                setActionLoading(true);
+                setMessage(null);
+                const form = e.target;
+                const updates = {};
+                for (const input of form.querySelectorAll("[data-field]")) {
+                  updates[input.dataset.field] = input.value.trim() || null;
+                }
+                updates.updated_at = new Date().toISOString();
+                const { error } = await supabase.from("tenant_details").update(updates).eq("tenant_profile_id", onboarding.tenant_profile_id);
+                if (error) {
+                  setMessage({ type: "error", text: "Save failed: " + error.message });
+                } else {
+                  setMessage({ type: "success", text: "Profile updated." });
+                  await fetchData();
+                }
+                setActionLoading(false);
+              }} className="space-y-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {[
+                    { label: "Full Name", field: "full_name", value: tenantDetails.full_name },
+                    { label: "Phone", field: "phone", value: tenantDetails.phone },
+                    { label: "Nationality", field: "nationality", value: tenantDetails.nationality },
+                    { label: "Date of Birth", field: "date_of_birth", value: tenantDetails.date_of_birth, type: "date" },
+                    { label: "Emergency Contact", field: "emergency_contact_name", value: tenantDetails.emergency_contact_name },
+                    { label: "Emergency Phone", field: "emergency_contact_phone", value: tenantDetails.emergency_contact_phone },
+                  ].map(({ label, field, value, type }) => (
+                    <div key={field} className="space-y-1">
+                      <label className="text-muted-foreground text-xs block">{label}</label>
+                      <input type={type || "text"} data-field={field} defaultValue={value ?? ""}
+                        className="w-full border border-border rounded-md px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary bg-background" />
+                    </div>
+                  ))}
+                </div>
 
-                const EditableField = ({ label, field, type = "text", value }) => (
-                  <div className="space-y-1">
-                    <label className="text-muted-foreground text-xs block">{label}</label>
-                    <input
-                      type={type}
-                      defaultValue={value ?? ""}
-                      onBlur={async (e) => {
-                        const newVal = e.target.value.trim();
-                        if (newVal === (value ?? "")) return;
-                        await supabase.from("tenant_details").update({ [field]: newVal || null, updated_at: new Date().toISOString() }).eq("tenant_profile_id", onboarding.tenant_profile_id);
-                        setMessage({ type: "success", text: `${label} updated.` });
-                      }}
-                      className="w-full border border-border rounded-md px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary bg-background"
-                    />
+                <div className="pt-3 border-t border-border">
+                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-3">Identification</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
+                    {[
+                      { label: "ID Type", field: "id_type", value: tenantDetails.id_type },
+                      { label: "ID Number", field: "id_number", value: tenantDetails.id_number },
+                      { label: "ID Expiry", field: "id_expiry", value: tenantDetails.id_expiry, type: "date" },
+                    ].map(({ label, field, value, type }) => (
+                      <div key={field} className="space-y-1">
+                        <label className="text-muted-foreground text-xs block">{label}</label>
+                        <input type={type || "text"} data-field={field} defaultValue={value ?? ""}
+                          className="w-full border border-border rounded-md px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary bg-background" />
+                      </div>
+                    ))}
                   </div>
-                );
-
-                const ImgWithSignedUrl = ({ url, alt }) => {
-                  const [src, setSrc] = useState(null);
-                  useEffect(() => { if (url) getImgUrl(url).then(setSrc); }, [url]);
-                  if (!src) return null;
-                  return (
-                    <a href={src} target="_blank" rel="noopener noreferrer" className="block">
-                      <img src={src} alt={alt} className="h-24 w-32 rounded border border-border object-cover hover:opacity-80 transition-opacity" />
-                      <p className="text-[10px] text-muted-foreground mt-1">{alt}</p>
-                    </a>
-                  );
-                };
-
-                return (
-                  <>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                      <EditableField label="Full Name" field="full_name" value={tenantDetails.full_name} />
-                      <EditableField label="Phone" field="phone" value={tenantDetails.phone} />
-                      <EditableField label="Nationality" field="nationality" value={tenantDetails.nationality} />
-                      <EditableField label="Date of Birth" field="date_of_birth" type="date" value={tenantDetails.date_of_birth} />
-                      <EditableField label="Emergency Contact" field="emergency_contact_name" value={tenantDetails.emergency_contact_name} />
-                      <EditableField label="Emergency Phone" field="emergency_contact_phone" value={tenantDetails.emergency_contact_phone} />
-                    </div>
-
-                    <div className="mt-4 pt-4 border-t border-border">
-                      <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-3">Identification</p>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
-                        <EditableField label="ID Type" field="id_type" value={tenantDetails.id_type} />
-                        <EditableField label="ID Number" field="id_number" value={tenantDetails.id_number} />
-                        <EditableField label="ID Expiry" field="id_expiry" type="date" value={tenantDetails.id_expiry} />
-                      </div>
-                      <div className="flex gap-3">
-                        <ImgWithSignedUrl url={tenantDetails.id_front_url} alt="ID Front" />
-                        <ImgWithSignedUrl url={tenantDetails.id_back_url} alt="ID Back" />
-                      </div>
-                    </div>
-
-                    {tenantDetails.pass_type && (
-                      <div className="mt-4 pt-4 border-t border-border">
-                        <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-3">Work Pass</p>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
-                          <EditableField label="Pass Type" field="pass_type" value={tenantDetails.pass_type} />
-                          <EditableField label="Pass Number" field="pass_number" value={tenantDetails.pass_number} />
-                          <EditableField label="Pass Expiry" field="pass_expiry" type="date" value={tenantDetails.pass_expiry} />
+                  <div className="flex gap-3">
+                    {[
+                      { url: tenantDetails.id_front_url, alt: "ID Front" },
+                      { url: tenantDetails.id_back_url, alt: "ID Back" },
+                    ].map(({ url, alt }) => url ? (
+                      <button key={alt} type="button" onClick={async () => {
+                        let path = url;
+                        if (url.includes("/tenant-documents/")) path = url.split("/tenant-documents/")[1].split("?")[0];
+                        const { data } = await supabase.storage.from("tenant-documents").createSignedUrl(path, 3600);
+                        if (data?.signedUrl) window.open(data.signedUrl, "_blank");
+                      }} className="text-left">
+                        <div className="h-24 w-32 rounded border border-border bg-muted flex items-center justify-center hover:bg-accent transition-colors">
+                          <span className="material-symbols-outlined text-muted-foreground">image</span>
                         </div>
-                        <ImgWithSignedUrl url={tenantDetails.pass_url} alt="Work Pass" />
-                      </div>
+                        <p className="text-[10px] text-primary mt-1 hover:underline">{alt} — click to view</p>
+                      </button>
+                    ) : null)}
+                  </div>
+                </div>
+
+                {tenantDetails.pass_type && (
+                  <div className="pt-3 border-t border-border">
+                    <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-3">Work Pass</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
+                      {[
+                        { label: "Pass Type", field: "pass_type", value: tenantDetails.pass_type },
+                        { label: "Pass Number", field: "pass_number", value: tenantDetails.pass_number },
+                        { label: "Pass Expiry", field: "pass_expiry", value: tenantDetails.pass_expiry, type: "date" },
+                      ].map(({ label, field, value, type }) => (
+                        <div key={field} className="space-y-1">
+                          <label className="text-muted-foreground text-xs block">{label}</label>
+                          <input type={type || "text"} data-field={field} defaultValue={value ?? ""}
+                            className="w-full border border-border rounded-md px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary bg-background" />
+                        </div>
+                      ))}
+                    </div>
+                    {tenantDetails.pass_url && (
+                      <button type="button" onClick={async () => {
+                        let path = tenantDetails.pass_url;
+                        if (path.includes("/tenant-documents/")) path = path.split("/tenant-documents/")[1].split("?")[0];
+                        const { data } = await supabase.storage.from("tenant-documents").createSignedUrl(path, 3600);
+                        if (data?.signedUrl) window.open(data.signedUrl, "_blank");
+                      }} className="text-left">
+                        <div className="h-24 w-32 rounded border border-border bg-muted flex items-center justify-center hover:bg-accent transition-colors">
+                          <span className="material-symbols-outlined text-muted-foreground">badge</span>
+                        </div>
+                        <p className="text-[10px] text-primary mt-1 hover:underline">Work Pass — click to view</p>
+                      </button>
                     )}
-                  </>
-                );
-              })()}
+                  </div>
+                )}
+
+                <Button type="submit" size="sm" disabled={actionLoading}>
+                  {actionLoading ? "Saving..." : "Save Profile Changes"}
+                </Button>
+              </form>
             </SectionCard>
           )}
 
