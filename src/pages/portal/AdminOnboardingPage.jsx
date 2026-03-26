@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import { useAuth } from "../../hooks/useAuth";
+import { generateFeeScheduleHtml } from "../../lib/feeSchedule";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { STEP_LABELS } from "../../hooks/useOnboarding";
 import { notifyMember } from "../../lib/notify";
@@ -132,22 +133,9 @@ export default function AdminOnboardingPage() {
     const room = rooms.find(r => r.id === inviteRoomId);
     const fmtDate = (d) => d ? new Date(d + "T00:00:00").toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }) : "";
 
-    // Auto-generate fee schedule rows (exact number of months)
-    const months = Number(calcLicencePeriod) || 12;
-    let feeScheduleRows = "";
+    // Auto-generate fee schedule with prorated first/last months
+    const feeScheduleRows = generateFeeScheduleHtml(inviteStartDate, inviteEndDate, inviteRent);
     const feeDates = {};
-    if (inviteStartDate) {
-      const start = new Date(inviteStartDate + "T00:00:00");
-      for (let i = 0; i < Math.min(months, 36); i++) {
-        const d = new Date(start);
-        d.setMonth(d.getMonth() + i);
-        const dateStr = fmtDate(d.toISOString().split("T")[0]);
-        feeDates[`FEE_DATE_${i + 1}`] = dateStr;
-        feeScheduleRows += `<div class="bg-surface-container-lowest p-4 clause-text">Licence Fee (${i + 1})</div>
-<div class="bg-surface-container-lowest p-4 clause-text">S$${inviteRent ? Number(inviteRent).toLocaleString("en-SG") : "—"}</div>
-<div class="bg-surface-container-lowest p-4 clause-text">${dateStr}</div>\n`;
-      }
-    }
 
     const values = {
       TENANT_NAME: inviteUsername,

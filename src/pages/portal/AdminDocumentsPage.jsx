@@ -4,6 +4,7 @@ import PortalLayout from "../../components/portal/PortalLayout";
 import PdfFieldPlacer from "../../components/portal/PdfFieldPlacer";
 import { stampPdf, fetchPdfBytes } from "../../lib/pdfStamp";
 import { notifyMember } from "../../lib/notify";
+import { generateFeeScheduleHtml } from "../../lib/feeSchedule";
 
 const DOC_TYPES = ["LICENCE_AGREEMENT", "NOTICE_OF_TERMINATION", "MOVE_IN_CHECKLIST", "MOVE_OUT_CHECKLIST", "HOUSE_RULES", "OTHER"];
 const DOC_TYPE_LABELS = { LICENCE_AGREEMENT: "Licence Agreement", NOTICE_OF_TERMINATION: "Notice of Termination", MOVE_IN_CHECKLIST: "Move-in Checklist", MOVE_OUT_CHECKLIST: "Move-out Checklist", HOUSE_RULES: "House Rules", OTHER: "Other" };
@@ -140,23 +141,10 @@ export default function AdminDocumentsPage() {
 
     const ob = tenant?.onboarding_progress;
     const fmtDate = (d) => d ? new Date(d).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }) : "";
-    // Auto-generate fee schedule rows
+    // Auto-generate fee schedule with prorated first/last months
     const feeDates = {};
-    let feeScheduleRows = "";
+    const feeScheduleRows = generateFeeScheduleHtml(ob?.tenancy_start_date, ob?.tenancy_end_date, tenant?.monthly_rent);
     const rent = tenant?.monthly_rent ? Number(tenant.monthly_rent).toLocaleString() : "—";
-    if (ob?.tenancy_start_date) {
-      const start = new Date(ob.tenancy_start_date);
-      const period = parseInt(ob?.licence_period) || 12;
-      for (let i = 0; i < Math.min(period, 36); i++) {
-        const d = new Date(start);
-        d.setMonth(d.getMonth() + i);
-        const dateStr = fmtDate(d.toISOString().split("T")[0]);
-        feeDates[`FEE_DATE_${i + 1}`] = dateStr;
-        feeScheduleRows += `<div class="bg-surface-container-lowest p-4 clause-text">Licence Fee (${i + 1})</div>
-<div class="bg-surface-container-lowest p-4 clause-text">S$${rent}</div>
-<div class="bg-surface-container-lowest p-4 clause-text">${dateStr}</div>\n`;
-      }
-    }
 
     const values = {
       TENANT_NAME: tenant?.tenant_details?.full_name || "",
