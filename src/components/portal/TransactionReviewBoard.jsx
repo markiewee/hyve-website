@@ -230,9 +230,9 @@ export default function TransactionReviewBoard({
                 key={txn.id}
                 transaction={txn}
                 onIgnore={onIgnore}
-                onConfirm={txn.status === "AUTO_TAGGED" ? onBulkConfirm && (() => {
-                  const month = txn.transaction_date?.slice(0, 7) ?? null;
-                  onConfirm(txn.id, selectedPropertyId, txn.suggested_category, month);
+                onConfirm={txn.status === "AUTO_TAGGED" && txn.property_id && txn.category ? (() => {
+                  const month = txn.transaction_date ? `${txn.transaction_date.slice(0, 7)}-01` : null;
+                  onConfirm(txn.id, txn.property_id, txn.category, month);
                 }) : undefined}
               />
             ))}
