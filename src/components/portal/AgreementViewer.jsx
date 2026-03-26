@@ -157,7 +157,7 @@ function UnsignedView({ onboarding, pdfUrl, advanceStep, refetch, navigate }) {
         <div className="mt-4">
           <button
             type="button"
-            onClick={() => advanceStep("ta_skipped")}
+            onClick={() => advanceStep(null)}
             className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
           >
             Skip for now
@@ -387,7 +387,7 @@ export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
           <div className="mt-6">
             <button
               type="button"
-              onClick={() => advanceStep("ta_skipped")}
+              onClick={() => advanceStep(null)}
               className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
             >
               Skip for now
@@ -424,7 +424,7 @@ export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
           <div className="mt-6">
             <button
               type="button"
-              onClick={() => advanceStep("ta_skipped")}
+              onClick={() => advanceStep(null)}
               className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
             >
               Skip for now

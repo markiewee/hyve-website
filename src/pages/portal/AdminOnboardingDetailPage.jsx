@@ -1227,33 +1227,63 @@ export default function AdminOnboardingDetailPage() {
             </div>
           </SectionCard>
 
-          {/* Override Step */}
-          <SectionCard title="Override Step">
-            <div className="flex items-center gap-3">
-              <select
-                value={overrideStep}
-                onChange={(e) => setOverrideStep(e.target.value)}
-                disabled={actionLoading}
-                className="border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
-              >
-                {STEPS.map((step) => (
-                  <option key={step} value={step}>
-                    {STEP_LABELS[step] ?? step}
-                  </option>
-                ))}
-              </select>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={handleOverrideStep}
-                disabled={actionLoading}
-              >
-                Set Step
-              </Button>
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Use this to manually advance or reset a member's onboarding step.
+          {/* Set Current Step */}
+          <SectionCard title="Onboarding Progress">
+            <p className="text-xs text-muted-foreground mb-3">
+              Click any step to set it as the current step. Use this to onboard existing members or fix progress.
             </p>
+            <div className="space-y-1">
+              {STEPS.map((step, i) => {
+                const isCurrent = currentStep === step;
+                const stepIndex = STEPS.indexOf(currentStep);
+                const isCompleted = i < stepIndex;
+                return (
+                  <button
+                    key={step}
+                    onClick={async () => {
+                      if (isCurrent) return;
+                      setActionLoading(true);
+                      setMessage(null);
+                      const isComplete = step === "ACTIVE" || step === "END_OF_TENANCY";
+                      const { error } = await supabase.from("onboarding_progress").update({
+                        current_step: step,
+                        status: isComplete ? "ACTIVE" : "ONBOARDING",
+                        updated_at: new Date().toISOString(),
+                      }).eq("id", id);
+                      if (error) {
+                        setMessage({ type: "error", text: error.message });
+                      } else {
+                        setMessage({ type: "success", text: `Step set to ${STEP_LABELS[step] ?? step}.` });
+                        await fetchData();
+                      }
+                      setActionLoading(false);
+                    }}
+                    disabled={actionLoading}
+                    className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-left text-sm transition-all ${
+                      isCurrent
+                        ? "bg-[#006b5f] text-white font-bold"
+                        : isCompleted
+                        ? "bg-[#d1fae5] text-[#065f46] hover:bg-[#bbf7d0]"
+                        : "bg-[#f8f9ff] text-[#6c7a77] hover:bg-[#eff4ff]"
+                    }`}
+                  >
+                    <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
+                      isCurrent ? "bg-white text-[#006b5f]"
+                      : isCompleted ? "bg-[#065f46] text-white"
+                      : "bg-[#bbcac6]/20 text-[#6c7a77]"
+                    }`}>
+                      {isCompleted ? (
+                        <span className="material-symbols-outlined text-[14px]">check</span>
+                      ) : (
+                        i + 1
+                      )}
+                    </span>
+                    <span>{STEP_LABELS[step] ?? step}</span>
+                    {isCurrent && <span className="ml-auto text-xs opacity-80">Current</span>}
+                  </button>
+                );
+              })}
+            </div>
           </SectionCard>
 
           {/* Documents */}
