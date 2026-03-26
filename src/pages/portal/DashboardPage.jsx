@@ -134,33 +134,29 @@ export default function DashboardPage() {
         </section>
 
         {/* Tenancy Status — col-span-5 */}
-        <div className="md:col-span-5 flex flex-col gap-6">
-          {/* Tenancy Status Card */}
-          <section className="bg-white rounded-xl p-8 border border-[#bbcac6]/15 shadow-sm flex-1">
-            {dashLoading ? (
-              <div className="space-y-3">
-                <SkeletonLine className="h-5 w-1/3" />
-                <SkeletonLine className="h-4 w-full" />
-                <SkeletonLine className="h-4 w-2/3" />
-              </div>
-            ) : (
-              <CheckoutStatusCard checkout={checkout} profile={profile} />
-            )}
-          </section>
+        <section className="md:col-span-5 bg-white rounded-xl p-8 border border-[#bbcac6]/15 shadow-sm">
+          {dashLoading ? (
+            <div className="space-y-3">
+              <SkeletonLine className="h-5 w-1/3" />
+              <SkeletonLine className="h-4 w-full" />
+              <SkeletonLine className="h-4 w-2/3" />
+            </div>
+          ) : (
+            <CheckoutStatusCard checkout={checkout} profile={profile} />
+          )}
+        </section>
 
-          {/* Documents */}
-          <section className="bg-white rounded-xl p-8 border border-[#bbcac6]/15 shadow-sm flex-1">
-            {dashLoading ? (
-              <div className="space-y-3">
-                <SkeletonLine className="h-5 w-1/3" />
-                <SkeletonLine className="h-4 w-full" />
-                <SkeletonLine className="h-4 w-3/4" />
-              </div>
-            ) : (
-              <DocumentsList documents={documents} />
-            )}
-          </section>
-        </div>
+        {/* ── Row 2.5: Documents — full width ── */}
+        <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#bbcac6]/15 shadow-sm">
+          {dashLoading ? (
+            <div className="space-y-3">
+              <SkeletonLine className="h-5 w-1/3" />
+              <SkeletonLine className="h-4 w-full" />
+            </div>
+          ) : (
+            <DocumentsList documents={documents} />
+          )}
+        </section>
 
         {/* ── Row 3: Monthly Allowance — full width ── */}
         <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#bbcac6]/15 shadow-sm">
