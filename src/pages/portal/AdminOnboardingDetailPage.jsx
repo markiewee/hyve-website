@@ -46,6 +46,11 @@ export default function AdminOnboardingDetailPage() {
   const [depositAmount, setDepositAmount] = useState("");
   const [overrideStep, setOverrideStep] = useState("");
 
+  // Admin doc upload refs
+  const adminDocFileRef = useRef(null);
+  const adminDocTypeRef = useRef(null);
+  const adminDocTitleRef = useRef(null);
+
   // Move-out state
   const MOVEOUT_ITEMS = ["Bed & Mattress", "Wardrobe", "Desk & Chair", "AC Unit", "Walls & Ceiling", "Flooring", "Door & Lock", "Window & Curtains", "Bathroom", "Keys Returned"];
   const [moveOutChecklist, setMoveOutChecklist] = useState(() => MOVEOUT_ITEMS.map(name => ({ name, condition: "Good", notes: "", deduction: 0 })));
@@ -843,7 +848,7 @@ export default function AdminOnboardingDetailPage() {
                 <div>
                   <label className="block text-xs font-medium text-muted-foreground mb-1">Type</label>
                   <select
-                    id="admin-doc-type"
+                    ref={adminDocTypeRef}
                     defaultValue="STAMPING"
                     className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
                   >
@@ -857,7 +862,7 @@ export default function AdminOnboardingDetailPage() {
                 <div>
                   <label className="block text-xs font-medium text-muted-foreground mb-1">Title</label>
                   <input
-                    id="admin-doc-title"
+                    ref={adminDocTitleRef}
                     type="text"
                     placeholder="e.g. Stamping cert March 2026"
                     className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
@@ -866,15 +871,14 @@ export default function AdminOnboardingDetailPage() {
               </div>
               <input
                 type="file"
-                id="admin-doc-file"
+                ref={adminDocFileRef}
                 accept="image/*,application/pdf,.doc,.docx"
                 className="block w-full text-sm text-muted-foreground file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-xs file:font-medium file:bg-primary file:text-primary-foreground cursor-pointer"
               />
               <Button
                 size="sm"
                 onClick={async () => {
-                  const fileInput = document.getElementById("admin-doc-file");
-                  const file = fileInput?.files?.[0];
+                  const file = adminDocFileRef.current?.files?.[0];
                   if (!file) { setMessage({ type: "error", text: "Select a file first." }); return; }
                   setActionLoading(true);
                   setMessage(null);
@@ -885,8 +889,8 @@ export default function AdminOnboardingDetailPage() {
                     const { error: upErr } = await supabase.storage.from("tenant-documents").upload(path, file, { upsert: false });
                     if (upErr) throw upErr;
                     const { data: urlData } = supabase.storage.from("tenant-documents").getPublicUrl(path);
-                    const docType = document.getElementById("admin-doc-type")?.value || "OTHER";
-                    const docTitle = document.getElementById("admin-doc-title")?.value || docType.replace(/_/g, " ");
+                    const docType = adminDocTypeRef.current?.value || "OTHER";
+                    const docTitle = adminDocTitleRef.current?.value || docType.replace(/_/g, " ");
                     await supabase.from("tenant_documents").insert({
                       tenant_profile_id: tpId,
                       doc_type: docType,
@@ -895,7 +899,7 @@ export default function AdminOnboardingDetailPage() {
                       file_url: urlData.publicUrl,
                     });
                     setMessage({ type: "success", text: "Document uploaded." });
-                    fileInput.value = "";
+                    adminDocFileRef.current.value = "";
                     await fetchData();
                   } catch (err) {
                     setMessage({ type: "error", text: err.message });
