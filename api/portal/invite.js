@@ -64,7 +64,7 @@ export default async function handler(req, res) {
     }
 
     const placeholderEmail = `${cleanUsername}@portal.hyve.sg`;
-    const defaultPassword = "Welcome1!";
+    const defaultPassword = crypto.randomBytes(4).toString("hex") + "A1!"; // e.g. "a3f2b1c9A1!"
 
     // Create auth user
     const { data: authUser, error: authCreateError } = await supabase.auth.admin.createUser({

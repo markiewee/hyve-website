@@ -16,7 +16,7 @@ const INSTRUCTIONS = [
   {
     icon: "wifi",
     title: "WiFi",
-    text: "WiFi password is on the sticker on the router in the common area. Connect to the network named 'Hyve-[Property]'.",
+    text: "Network: Hyve WiFi. Password: Thehyve2027@. Router is in the common area.",
   },
   {
     icon: "local_laundry_service",
