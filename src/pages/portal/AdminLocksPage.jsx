@@ -4,10 +4,10 @@ import PortalLayout from "../../components/portal/PortalLayout";
 
 async function ttlockApi(action, params = {}) {
   const { data: { session } } = await supabase.auth.getSession();
-  const res = await fetch("/api/portal/ttlock", {
+  const res = await fetch("/api/portal/admin-actions", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${session?.access_token}` },
-    body: JSON.stringify({ action, ...params }),
+    body: JSON.stringify({ action: "ttlock", ttlock_action: action, ...params }),
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || "TTLock API failed");

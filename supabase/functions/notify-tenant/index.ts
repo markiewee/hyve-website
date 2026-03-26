@@ -6,7 +6,7 @@ const supabase = createClient(
 );
 
 const NOTIFY_URL =
-  Deno.env.get("NOTIFY_URL") || "https://hyve.sg/api/portal/notify";
+  Deno.env.get("NOTIFY_URL") || "https://hyve.sg/api/portal/admin-actions";
 const NOTIFY_SECRET = Deno.env.get("NOTIFY_SECRET") || "";
 
 async function sendEmail(to: string, subject: string, html: string) {
@@ -16,7 +16,7 @@ async function sendEmail(to: string, subject: string, html: string) {
       "Content-Type": "application/json",
       "x-notify-secret": NOTIFY_SECRET,
     },
-    body: JSON.stringify({ to, subject, html }),
+    body: JSON.stringify({ action: "notify", to, subject, html }),
   });
 }
 
