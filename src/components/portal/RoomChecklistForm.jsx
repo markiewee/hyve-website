@@ -3,7 +3,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { supabase } from "../../lib/supabase";
 import { Button } from "../ui/button";
 
-const CONDITIONS = ["Good", "Fair", "Damaged"];
+const CONDITIONS = ["Good", "Fair", "Damaged", "N/A"];
 
 const ROOM_ITEMS = [
   "Bed & Mattress",
@@ -25,21 +25,39 @@ const BATHROOM_ITEMS = [
   "Mirror & Cabinet",
   "Tiles & Grouting",
   "Door & Lock",
+  "Toilet Seat & Lid",
+  "Towel Rack / Hooks",
+];
+
+const ENSUITE_TOILET_ITEMS = [
+  "Toilet & Flush",
+  "Toilet Seat & Lid",
+  "Sink & Tap",
+  "Mirror",
 ];
 
 function getAreasForRoom(roomName) {
-  const isMaster = (roomName || "").toLowerCase().includes("master");
+  const name = (roomName || "").toLowerCase();
+  const isMaster = name.includes("master");
   const areas = [{ name: "Your Room", items: ROOM_ITEMS }];
   if (isMaster) {
     areas.push({ name: "Attached Bathroom", items: BATHROOM_ITEMS });
+  } else {
+    // Non-master rooms may have an ensuite toilet
+    areas.push({ name: "Ensuite Toilet (if applicable)", items: ENSUITE_TOILET_ITEMS });
   }
   return areas;
 }
 
 function buildInitialAreas(roomName) {
+  const isMaster = (roomName || "").toLowerCase().includes("master");
   return getAreasForRoom(roomName).map((area) => ({
     name: area.name,
-    items: area.items.map((item) => ({ name: item, condition: "Good", notes: "" })),
+    items: area.items.map((item) => ({
+      name: item,
+      condition: (!isMaster && area.name.includes("Ensuite")) ? "N/A" : "Good",
+      notes: "",
+    })),
     photos: [],
     photoUrls: [],
   }));
@@ -202,6 +220,8 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
                             ? "bg-green-500 text-white border-green-500"
                             : cond === "Fair"
                             ? "bg-amber-500 text-white border-amber-500"
+                            : cond === "N/A"
+                            ? "bg-gray-400 text-white border-gray-400"
                             : "bg-red-500 text-white border-red-500"
                           : "bg-background text-foreground border-border hover:bg-accent"
                       }`}
