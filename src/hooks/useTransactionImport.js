@@ -145,8 +145,7 @@ async function createBatch(meta) {
     .insert({
       source: meta.source,
       filename: meta.filename ?? null,
-      account_id: meta.account_id ?? null,
-      status: 'processing',
+      status: 'PROCESSING',
     })
     .select('id')
     .single();
@@ -168,8 +167,8 @@ async function finaliseBatch(batchId, stats) {
   const { error } = await supabase
     .from('import_batches')
     .update({
-      status: 'complete',
-      total_transactions: stats.total,
+      status: 'COMPLETE',
+      row_count: stats.total,
       auto_tagged_count: stats.autoTagged,
     })
     .eq('id', batchId);
