@@ -41,6 +41,7 @@ import AdminInvestorsPage from './pages/portal/AdminInvestorsPage';
 import AdminExpensesPage from './pages/portal/AdminExpensesPage';
 import AdminFinancialsPage from './pages/portal/AdminFinancialsPage';
 import AdminDocumentsPage from './pages/portal/AdminDocumentsPage';
+import AdminLocksPage from './pages/portal/AdminLocksPage';
 import AdminTasksPage from './pages/portal/AdminTasksPage';
 import TenantDocumentsPage from './pages/portal/TenantDocumentsPage';
 import MemberSettingsPage from './pages/portal/MemberSettingsPage';
@@ -190,6 +191,14 @@ function AppContent() {
             element={
               <AuthGuard requiredRole="ADMIN">
                 <AdminDashboardPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/locks"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminLocksPage />
               </AuthGuard>
             }
           />

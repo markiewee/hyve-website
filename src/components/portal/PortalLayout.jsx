@@ -35,6 +35,7 @@ const ADMIN_NAV = [
       { label: "Rent", to: "/portal/admin/rent", icon: "receipt_long" },
       { label: "Documents", to: "/portal/admin/documents", icon: "description" },
       { label: "Announcements", to: "/portal/admin/announcements", icon: "campaign" },
+      { label: "Smart Locks", to: "/portal/admin/locks", icon: "lock" },
       { label: "Devices", to: "/portal/admin/devices", icon: "router" },
       { label: "Investors", to: "/portal/admin/investors", icon: "trending_up" },
       { label: "Expenses", to: "/portal/admin/expenses", icon: "account_balance" },
