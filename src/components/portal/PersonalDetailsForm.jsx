@@ -29,15 +29,16 @@ const COUNTRY_CODES = [
 export default function PersonalDetailsForm({ onboarding, advanceStep }) {
   const { profile } = useAuth();
 
+  const existing = profile?.tenant_details;
   const [form, setForm] = useState({
-    full_name: "",
+    full_name: existing?.full_name || "",
     phone_code: "+65",
-    phone_number: "",
-    nationality: "",
-    date_of_birth: "",
-    emergency_contact_name: "",
+    phone_number: existing?.phone?.replace(/^\+\d+\s*/, "") || "",
+    nationality: existing?.nationality || "",
+    date_of_birth: existing?.date_of_birth || "",
+    emergency_contact_name: existing?.emergency_contact_name || "",
     emergency_contact_code: "+65",
-    emergency_contact_number: "",
+    emergency_contact_number: existing?.emergency_contact_phone?.replace(/^\+\d+\s*/, "") || "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);

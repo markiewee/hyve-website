@@ -22,7 +22,6 @@ const HOUSE_CAPTAIN_NAV = [
 ];
 
 const ADMIN_NAV = [
-  { label: "Dashboard", to: "/portal/dashboard", icon: "dashboard" },
   { label: "Billing", to: "/portal/billing", icon: "payments" },
   { label: "Issues", to: "/portal/issues", icon: "build" },
   { label: "Admin", to: "/portal/admin", icon: "admin_panel_settings" },

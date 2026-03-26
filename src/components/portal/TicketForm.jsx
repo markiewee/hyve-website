@@ -33,6 +33,7 @@ export default function TicketForm({ preselectedCategory = null }) {
 
     try {
       // 1. Insert the ticket
+      const cleanDescription = description.trim().replace(/<[^>]*>/g, "");
       const { data: ticket, error: insertError } = await supabase
         .from("maintenance_tickets")
         .insert({
@@ -40,7 +41,7 @@ export default function TicketForm({ preselectedCategory = null }) {
           property_id: profile.rooms?.property_id ?? profile.room?.property_id ?? null,
           submitted_by: user.id,
           category,
-          description: `[${location}] ${description.trim()}`,
+          description: `[${location}] ${cleanDescription}`,
           status: "OPEN",
         })
         .select()

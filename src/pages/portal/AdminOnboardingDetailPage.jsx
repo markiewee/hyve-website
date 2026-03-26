@@ -936,7 +936,7 @@ export default function AdminOnboardingDetailPage() {
                   </div>
                   <div className="grid grid-cols-[100px_1fr_auto] gap-2 items-center">
                     <span className="text-muted-foreground text-xs font-medium">Password</span>
-                    <span className="font-mono font-semibold text-foreground">Welcome1!</span>
+                    <span className="font-mono font-semibold text-foreground">••••••••</span>
                     <Button
                       size="sm"
                       variant="outline"
@@ -967,7 +967,7 @@ export default function AdminOnboardingDetailPage() {
                 variant="outline"
                 className="mt-3"
                 onClick={() => {
-                  navigator.clipboard.writeText(`Username: ${onboarding.tenant_profiles.username}\nPassword: Welcome1!\nLogin: hyve.sg/portal/login`);
+                  navigator.clipboard.writeText(`Username: ${onboarding.tenant_profiles.username}\nLogin: hyve.sg/portal/login`);
                   setMessage({ type: "success", text: "Credentials copied to clipboard." });
                 }}
               >
