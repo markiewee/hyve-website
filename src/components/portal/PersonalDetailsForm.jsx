@@ -27,7 +27,7 @@ const COUNTRY_CODES = [
 ];
 
 export default function PersonalDetailsForm({ onboarding, advanceStep }) {
-  const { profile } = useAuth();
+  const { profile, setProfile } = useAuth();
 
   const existing = profile?.tenant_details;
   const [form, setForm] = useState({
@@ -81,6 +81,22 @@ export default function PersonalDetailsForm({ onboarding, advanceStep }) {
         );
 
       if (upsertError) throw upsertError;
+
+      // Update profile context so next step sees the new nationality
+      setProfile((prev) => ({
+        ...prev,
+        tenant_details: {
+          ...prev?.tenant_details,
+          full_name: form.full_name.trim(),
+          phone: `${form.phone_code} ${form.phone_number.trim()}`,
+          nationality: form.nationality.trim() || null,
+          date_of_birth: form.date_of_birth || null,
+          emergency_contact_name: form.emergency_contact_name.trim() || null,
+          emergency_contact_phone: form.emergency_contact_number.trim()
+            ? `${form.emergency_contact_code} ${form.emergency_contact_number.trim()}`
+            : null,
+        },
+      }));
 
       await advanceStep("personal_details_completed_at");
     } catch (err) {
