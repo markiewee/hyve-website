@@ -16,10 +16,12 @@ export default function TicketCard({ ticket, onAction }) {
     resolution_note,
     ticket_photos = [],
     rooms,
+    created_at,
   } = ticket;
 
   const statusCfg = STATUS_CONFIG[status] ?? STATUS_CONFIG.OPEN;
   const unitCode = rooms?.unit_code;
+  const dateStr = created_at ? new Date(created_at).toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" }) : "";
 
   return (
     <div className="border rounded-lg p-4 space-y-3 bg-card">
@@ -39,12 +41,15 @@ export default function TicketCard({ ticket, onAction }) {
           {statusCfg.label}
         </span>
 
-        {/* Unit code (captain/admin view) */}
-        {unitCode && (
-          <span className="text-xs font-mono bg-muted text-muted-foreground px-2 py-0.5 rounded ml-auto">
-            {unitCode}
-          </span>
-        )}
+        {/* Date + Unit code */}
+        <span className="text-xs text-muted-foreground ml-auto flex items-center gap-2">
+          {dateStr}
+          {unitCode && (
+            <span className="font-mono bg-muted px-2 py-0.5 rounded">
+              {unitCode}
+            </span>
+          )}
+        </span>
       </div>
 
       {/* Description */}
