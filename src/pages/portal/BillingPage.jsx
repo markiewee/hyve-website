@@ -17,6 +17,8 @@ export default function BillingPage() {
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [receiptPayment, setReceiptPayment] = useState(null);
+  const [charges, setCharges] = useState([]);
+  const [chargesLoading, setChargesLoading] = useState(true);
 
   useEffect(() => {
     if (!roomId) {
@@ -38,14 +40,36 @@ export default function BillingPage() {
       });
   }, [roomId]);
 
+  useEffect(() => {
+    if (!profileId) {
+      setChargesLoading(false);
+      return;
+    }
+    supabase
+      .from("member_charges")
+      .select("*")
+      .eq("tenant_profile_id", profileId)
+      .order("created_at", { ascending: false })
+      .then(({ data, error }) => {
+        if (error) console.error("Error fetching charges:", error);
+        setCharges(data ?? []);
+        setChargesLoading(false);
+      });
+  }, [profileId]);
+
   const lateFeePerDay = profile?.late_fee_per_day ?? 5;
 
   const pendingRent = rentPayments.filter((p) => p.status !== "PAID").length;
   const overdueRent = rentPayments.filter((p) => p.status === "OVERDUE").length;
   const hasOverdue = overdueRent > 0;
-  const totalOwed = rentPayments
+  const rentOwed = rentPayments
     .filter((p) => p.status !== "PAID")
     .reduce((sum, p) => sum + (Number(p.amount_due || p.rent_amount) || 0), 0);
+  const chargesOwed = charges
+    .filter((c) => c.status !== "PAID")
+    .reduce((sum, c) => sum + (Number(c.amount) || 0), 0);
+  const totalOwed = rentOwed + chargesOwed;
+  const pendingChargesCount = charges.filter((c) => c.status !== "PAID").length;
 
   const tenantInfo = {
     name: profile?.full_name ?? profile?.name ?? "Member",
@@ -80,7 +104,7 @@ export default function BillingPage() {
           <p className="text-white/60 font-['Manrope'] text-sm">
             {hasOverdue
               ? `${overdueRent} overdue payment${overdueRent !== 1 ? "s" : ""} — please pay immediately`
-              : `${pendingRent} payment${pendingRent !== 1 ? "s" : ""} pending`}
+              : `${pendingRent} rent payment${pendingRent !== 1 ? "s" : ""}${pendingChargesCount > 0 ? ` + ${pendingChargesCount} charge${pendingChargesCount !== 1 ? "s" : ""}` : ""} pending`}
           </p>
           {hasOverdue && (
             <div className="mt-3 flex items-center gap-2 text-white/80">
@@ -200,6 +224,72 @@ export default function BillingPage() {
           </div>
         )}
       </section>
+      {/* Other Charges section */}
+      <section className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm mt-8">
+        <div className="px-8 py-6 border-b border-[#bbcac6]/15 flex items-center justify-between">
+          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a] flex items-center gap-2">
+            <span className="material-symbols-outlined text-[#006b5f] text-[20px]">payments</span>
+            Other Charges
+          </h2>
+        </div>
+
+        {chargesLoading ? (
+          <div className="divide-y divide-[#bbcac6]/15">
+            {[1, 2].map((i) => (
+              <div key={i} className="px-8 py-5 flex items-center justify-between">
+                <div className="space-y-2">
+                  <div className="h-4 w-28 bg-[#eff4ff] animate-pulse rounded" />
+                  <div className="h-3 w-20 bg-[#eff4ff] animate-pulse rounded" />
+                </div>
+                <div className="h-5 w-16 bg-[#eff4ff] animate-pulse rounded-full" />
+              </div>
+            ))}
+          </div>
+        ) : charges.length === 0 ? (
+          <div className="px-8 py-12 text-center">
+            <p className="text-[#6c7a77] font-['Manrope'] text-sm">No additional charges.</p>
+          </div>
+        ) : (
+          <div className="divide-y divide-[#bbcac6]/10">
+            {charges.map((charge) => {
+              const isPaid = charge.status === "PAID";
+              return (
+                <div key={charge.id} className={`px-8 py-5 flex items-center justify-between ${!isPaid ? "bg-amber-50/30" : ""}`}>
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <p className="font-['Manrope'] font-bold text-sm text-[#121c2a]">
+                        {charge.description}
+                      </p>
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-[#eff4ff] text-[#555f6f]">
+                        {charge.category?.replace(/_/g, " ")}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-[#6c7a77] font-['Manrope']">
+                      <span>
+                        Due: {charge.due_date ? new Date(charge.due_date).toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" }) : "—"}
+                      </span>
+                      <span>
+                        Created: {new Date(charge.created_at).toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" })}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm tabular-nums text-[#121c2a]">
+                      ${Number(charge.amount).toLocaleString("en-SG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </p>
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${
+                      isPaid ? "bg-[#d1fae5] text-[#065f46]" : "bg-amber-100 text-amber-700"
+                    }`}>
+                      {charge.status}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
+
       {/* Receipt modal */}
       {receiptPayment && (
         <ReceiptModal

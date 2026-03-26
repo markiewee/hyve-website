@@ -37,12 +37,27 @@ const STATUS_BADGE = {
   PARTIAL: "bg-amber-100 text-amber-700",
 };
 
+const CHARGE_CATEGORIES = ["STAMPING", "KEY_REPLACEMENT", "DAMAGE", "CLEANING", "LATE_CHECKOUT", "AC_OVERAGE", "OTHER"];
+
+const CHARGE_STATUS_BADGE = {
+  PENDING: "bg-amber-100 text-amber-700",
+  PAID: "bg-[#d1fae5] text-[#065f46]",
+};
+
 export default function AdminRentPage() {
   const [rentPayments, setRentPayments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [generateResult, setGenerateResult] = useState(null);
   const [actionLoading, setActionLoading] = useState(null);
+
+  // Ad-hoc charges state
+  const [members, setMembers] = useState([]);
+  const [charges, setCharges] = useState([]);
+  const [chargesLoading, setChargesLoading] = useState(true);
+  const [chargeForm, setChargeForm] = useState({ tenant_profile_id: "", description: "", amount: "", due_date: "", category: "OTHER" });
+  const [chargeSaving, setChargeSaving] = useState(false);
+  const [chargeActionLoading, setChargeActionLoading] = useState(null);
 
   const fetchPayments = useCallback(async () => {
     const { data, error } = await supabase
@@ -70,9 +85,29 @@ export default function AdminRentPage() {
     setLoading(false);
   }, []);
 
+  const fetchMembers = useCallback(async () => {
+    const { data } = await supabase
+      .from("tenant_profiles")
+      .select("id, username, full_name, rooms(unit_code)")
+      .eq("is_active", true)
+      .order("username");
+    setMembers(data ?? []);
+  }, []);
+
+  const fetchCharges = useCallback(async () => {
+    const { data, error } = await supabase
+      .from("member_charges")
+      .select("*, tenant_profiles(username, rooms(unit_code))")
+      .order("created_at", { ascending: false });
+    if (!error) setCharges(data ?? []);
+    setChargesLoading(false);
+  }, []);
+
   useEffect(() => {
     fetchPayments();
-  }, [fetchPayments]);
+    fetchMembers();
+    fetchCharges();
+  }, [fetchPayments, fetchMembers, fetchCharges]);
 
   async function handleGenerateThisMonth() {
     setGenerating(true);
@@ -241,6 +276,38 @@ export default function AdminRentPage() {
     }
 
     setActionLoading(null);
+  }
+
+  async function handleCreateCharge() {
+    if (!chargeForm.tenant_profile_id) { alert("Select a member."); return; }
+    if (!chargeForm.description.trim()) { alert("Description is required."); return; }
+    if (!chargeForm.amount || isNaN(Number(chargeForm.amount)) || Number(chargeForm.amount) <= 0) { alert("Enter a valid amount."); return; }
+    setChargeSaving(true);
+    const { error } = await supabase.from("member_charges").insert({
+      tenant_profile_id: chargeForm.tenant_profile_id,
+      description: chargeForm.description.trim(),
+      amount: Number(chargeForm.amount),
+      due_date: chargeForm.due_date || new Date().toISOString().split("T")[0],
+      category: chargeForm.category,
+      status: "PENDING",
+    });
+    if (error) {
+      alert("Failed to create charge: " + error.message);
+    } else {
+      setChargeForm({ tenant_profile_id: "", description: "", amount: "", due_date: "", category: "OTHER" });
+      await fetchCharges();
+    }
+    setChargeSaving(false);
+  }
+
+  async function handleMarkChargePaid(chargeId) {
+    if (!confirm("Mark this charge as paid?")) return;
+    setChargeActionLoading(chargeId);
+    const { error } = await supabase.from("member_charges").update({ status: "PAID", paid_at: new Date().toISOString() }).eq("id", chargeId);
+    if (!error) {
+      setCharges(prev => prev.map(c => c.id === chargeId ? { ...c, status: "PAID", paid_at: new Date().toISOString() } : c));
+    }
+    setChargeActionLoading(null);
   }
 
   const pendingCount = rentPayments.filter((p) => p.status === "PENDING").length;
@@ -437,6 +504,174 @@ export default function AdminRentPage() {
                             </button>
                           )}
                         </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+      {/* Add Charge Section */}
+      <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden mt-8">
+        <div className="px-8 py-6 border-b border-[#bbcac6]/15">
+          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a]">
+            Add One-Off Charge
+          </h2>
+          <p className="font-['Manrope'] text-[#6c7a77] text-xs mt-0.5">
+            Charge a member for stamping fees, key replacement, damage, etc.
+          </p>
+        </div>
+        <div className="px-8 py-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+            <div>
+              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Member *</label>
+              <select
+                value={chargeForm.tenant_profile_id}
+                onChange={(e) => setChargeForm(f => ({ ...f, tenant_profile_id: e.target.value }))}
+                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white"
+              >
+                <option value="">Select member...</option>
+                {members.map(m => (
+                  <option key={m.id} value={m.id}>
+                    {m.rooms?.unit_code ?? "—"} — {m.full_name || m.username}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Description *</label>
+              <input
+                type="text"
+                value={chargeForm.description}
+                onChange={(e) => setChargeForm(f => ({ ...f, description: e.target.value }))}
+                placeholder="e.g. Stamping fee"
+                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f]"
+              />
+            </div>
+            <div>
+              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Amount SGD *</label>
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                value={chargeForm.amount}
+                onChange={(e) => setChargeForm(f => ({ ...f, amount: e.target.value }))}
+                placeholder="0.00"
+                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f]"
+              />
+            </div>
+            <div>
+              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Category</label>
+              <select
+                value={chargeForm.category}
+                onChange={(e) => setChargeForm(f => ({ ...f, category: e.target.value }))}
+                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white"
+              >
+                {CHARGE_CATEGORIES.map(cat => (
+                  <option key={cat} value={cat}>{cat.replace(/_/g, " ")}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Due Date</label>
+              <input
+                type="date"
+                value={chargeForm.due_date}
+                onChange={(e) => setChargeForm(f => ({ ...f, due_date: e.target.value }))}
+                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f]"
+              />
+            </div>
+            <div className="flex items-end">
+              <button
+                onClick={handleCreateCharge}
+                disabled={chargeSaving}
+                className="px-6 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+              >
+                <span className="material-symbols-outlined text-[18px]">add_circle</span>
+                {chargeSaving ? "Creating..." : "Create Charge"}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* All Charges Table */}
+      <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden mt-8">
+        <div className="px-8 py-6 border-b border-[#bbcac6]/15">
+          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a]">
+            All Ad-hoc Charges
+          </h2>
+        </div>
+
+        {chargesLoading ? (
+          <div className="divide-y divide-[#bbcac6]/10">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="px-8 py-5 flex items-center gap-4">
+                <div className="h-4 w-16 bg-[#eff4ff] animate-pulse rounded" />
+                <div className="h-4 w-24 bg-[#eff4ff] animate-pulse rounded" />
+                <div className="h-4 w-20 bg-[#eff4ff] animate-pulse rounded ml-auto" />
+              </div>
+            ))}
+          </div>
+        ) : charges.length === 0 ? (
+          <div className="px-8 py-12 text-center">
+            <p className="text-[#6c7a77] font-['Manrope'] text-sm">No ad-hoc charges yet.</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-[#eff4ff]">
+                <tr>
+                  <th className="text-left px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Room</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Description</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Category</th>
+                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Amount</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Due Date</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Status</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap hidden md:table-cell">Created</th>
+                  <th className="px-4 py-4" />
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#bbcac6]/10">
+                {charges.map((c) => {
+                  const unitCode = c.tenant_profiles?.rooms?.unit_code ?? "—";
+                  const badgeClass = CHARGE_STATUS_BADGE[c.status] ?? CHARGE_STATUS_BADGE.PENDING;
+                  const isLoading = chargeActionLoading === c.id;
+                  return (
+                    <tr key={c.id} className="hover:bg-[#f8f9ff] transition-colors">
+                      <td className="px-8 py-4">
+                        <span className="font-['Inter'] text-xs font-bold text-[#006b5f] bg-[#eff4ff] px-2 py-1 rounded">
+                          {unitCode}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#121c2a]">{c.description}</td>
+                      <td className="px-4 py-4">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-[#eff4ff] text-[#555f6f]">
+                          {c.category?.replace(/_/g, " ")}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4 text-right font-['Plus_Jakarta_Sans'] font-bold text-sm tabular-nums">{formatSGD(c.amount)}</td>
+                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#121c2a] whitespace-nowrap">{formatDate(c.due_date)}</td>
+                      <td className="px-4 py-4">
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${badgeClass}`}>
+                          {c.status}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#6c7a77] whitespace-nowrap hidden md:table-cell">
+                        {formatDate(c.created_at)}
+                      </td>
+                      <td className="px-4 py-4 text-right">
+                        {c.status === "PENDING" && (
+                          <button
+                            onClick={() => handleMarkChargePaid(c.id)}
+                            disabled={isLoading}
+                            className="text-xs px-3 py-1.5 rounded-lg bg-[#006b5f] text-white hover:opacity-90 disabled:opacity-50 transition-all font-['Manrope'] font-bold whitespace-nowrap"
+                          >
+                            {isLoading ? "..." : "Mark Paid"}
+                          </button>
+                        )}
                       </td>
                     </tr>
                   );

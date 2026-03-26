@@ -46,6 +46,17 @@ export default function AdminOnboardingDetailPage() {
   const [depositAmount, setDepositAmount] = useState("");
   const [overrideStep, setOverrideStep] = useState("");
 
+  // Ad-hoc charges state
+  const CHARGE_CATEGORIES = ["STAMPING", "KEY_REPLACEMENT", "DAMAGE", "CLEANING", "LATE_CHECKOUT", "AC_OVERAGE", "OTHER"];
+  const [chargeDesc, setChargeDesc] = useState("");
+  const [chargeAmount, setChargeAmount] = useState("");
+  const [chargeDueDate, setChargeDueDate] = useState("");
+  const [chargeCategory, setChargeCategory] = useState("OTHER");
+  const [chargeSaving, setChargeSaving] = useState(false);
+  const [charges, setCharges] = useState([]);
+  const [chargesLoading, setChargesLoading] = useState(true);
+  const [chargeActionLoading, setChargeActionLoading] = useState(null);
+
   // Admin doc upload refs
   const adminDocFileRef = useRef(null);
   const adminDocTypeRef = useRef(null);
@@ -125,6 +136,58 @@ export default function AdminOnboardingDetailPage() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  // Fetch charges for this member
+  const fetchCharges = useCallback(async () => {
+    if (!onboarding?.tenant_profile_id) return;
+    const { data, error } = await supabase
+      .from("member_charges")
+      .select("*")
+      .eq("tenant_profile_id", onboarding.tenant_profile_id)
+      .order("created_at", { ascending: false });
+    if (!error) setCharges(data ?? []);
+    setChargesLoading(false);
+  }, [onboarding?.tenant_profile_id]);
+
+  useEffect(() => {
+    if (onboarding?.tenant_profile_id) fetchCharges();
+  }, [onboarding?.tenant_profile_id, fetchCharges]);
+
+  async function handleCreateCharge() {
+    if (!chargeDesc.trim()) { setMessage({ type: "error", text: "Description is required." }); return; }
+    if (!chargeAmount || isNaN(Number(chargeAmount)) || Number(chargeAmount) <= 0) { setMessage({ type: "error", text: "Enter a valid amount." }); return; }
+    setChargeSaving(true);
+    setMessage(null);
+    const { error } = await supabase.from("member_charges").insert({
+      tenant_profile_id: onboarding.tenant_profile_id,
+      description: chargeDesc.trim(),
+      amount: Number(chargeAmount),
+      due_date: chargeDueDate || new Date().toISOString().split("T")[0],
+      category: chargeCategory,
+      status: "PENDING",
+      created_by: profile?.id ?? null,
+    });
+    if (error) {
+      setMessage({ type: "error", text: "Failed to create charge: " + error.message });
+    } else {
+      setMessage({ type: "success", text: "Charge created." });
+      setChargeDesc(""); setChargeAmount(""); setChargeDueDate(""); setChargeCategory("OTHER");
+      await fetchCharges();
+    }
+    setChargeSaving(false);
+  }
+
+  async function handleMarkChargePaid(chargeId) {
+    if (!confirm("Mark this charge as paid?")) return;
+    setChargeActionLoading(chargeId);
+    const { error } = await supabase.from("member_charges").update({ status: "PAID", paid_at: new Date().toISOString() }).eq("id", chargeId);
+    if (error) {
+      setMessage({ type: "error", text: "Failed: " + error.message });
+    } else {
+      setCharges(prev => prev.map(c => c.id === chargeId ? { ...c, status: "PAID", paid_at: new Date().toISOString() } : c));
+    }
+    setChargeActionLoading(null);
+  }
 
   // Load signature positions + signed URL for the TA when onboarding changes
   useEffect(() => {
@@ -1148,6 +1211,97 @@ export default function AdminOnboardingDetailPage() {
               </div>
             </SectionCard>
           )}
+
+          {/* Create Charge */}
+          <SectionCard title="Create Charge">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-muted-foreground mb-1">Description *</label>
+                <input
+                  type="text"
+                  value={chargeDesc}
+                  onChange={(e) => setChargeDesc(e.target.value)}
+                  placeholder="e.g. Stamping fee, Key replacement"
+                  className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-muted-foreground mb-1">Amount SGD *</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={chargeAmount}
+                  onChange={(e) => setChargeAmount(e.target.value)}
+                  placeholder="0.00"
+                  className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-muted-foreground mb-1">Category</label>
+                <select
+                  value={chargeCategory}
+                  onChange={(e) => setChargeCategory(e.target.value)}
+                  className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                >
+                  {CHARGE_CATEGORIES.map(cat => (
+                    <option key={cat} value={cat}>{cat.replace(/_/g, " ")}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-muted-foreground mb-1">Due Date</label>
+                <input
+                  type="date"
+                  value={chargeDueDate}
+                  onChange={(e) => setChargeDueDate(e.target.value)}
+                  className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                />
+              </div>
+            </div>
+            <Button size="sm" onClick={handleCreateCharge} disabled={chargeSaving}>
+              {chargeSaving ? "Creating..." : "Create Charge"}
+            </Button>
+          </SectionCard>
+
+          {/* Pending Charges */}
+          <SectionCard title="Ad-hoc Charges">
+            {chargesLoading ? (
+              <p className="text-sm text-muted-foreground">Loading charges...</p>
+            ) : charges.length === 0 ? (
+              <p className="text-sm text-muted-foreground">No charges yet.</p>
+            ) : (
+              <ul className="divide-y divide-border">
+                {charges.map((c) => (
+                  <li key={c.id} className="py-3 flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-foreground flex items-center gap-2">
+                        {c.description}
+                        <span className="inline-flex px-1.5 py-0.5 rounded text-[10px] font-bold uppercase bg-[#eff4ff] text-[#6c7a77]">
+                          {c.category?.replace(/_/g, " ")}
+                        </span>
+                        <span className={`inline-flex px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${c.status === "PAID" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"}`}>
+                          {c.status}
+                        </span>
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        SGD {Number(c.amount).toFixed(2)} &mdash; Due: {c.due_date ?? "—"} &mdash; Created: {formatDateTime(c.created_at)}
+                      </p>
+                    </div>
+                    {c.status === "PENDING" && (
+                      <Button
+                        size="sm"
+                        onClick={() => handleMarkChargePaid(c.id)}
+                        disabled={chargeActionLoading === c.id}
+                      >
+                        {chargeActionLoading === c.id ? "..." : "Mark Paid"}
+                      </Button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </SectionCard>
 
           {/* Actions: Offboard / Archive / Delete */}
           <SectionCard title="Member Actions">
