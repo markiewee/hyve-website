@@ -93,11 +93,8 @@ export default function AdminOnboardingDetailPage() {
         .select("*, tenant_profiles(id, user_id, role, username, monthly_rent, rooms(unit_code, name), properties(name))")
         .eq("id", id)
         .single(),
-      supabase
-        .from("tenant_details")
-        .select("*")
-        .eq("onboarding_progress_id", id)
-        .maybeSingle(),
+      // tenant_details fetched after we know tenant_profile_id
+      Promise.resolve({ data: null }),
       supabase
         .from("tenant_documents")
         .select("*")
@@ -114,8 +111,19 @@ export default function AdminOnboardingDetailPage() {
       setTenancyEndDate(onboardingRes.data.tenancy_end_date ?? "");
       setLicencePeriod(onboardingRes.data.licence_period ?? "");
 
-      // Refetch documents using actual tenant_profile_id
       const tpId = onboardingRes.data.tenant_profile_id;
+
+      // Fetch tenant details by tenant_profile_id
+      if (tpId) {
+        const { data: td } = await supabase
+          .from("tenant_details")
+          .select("*")
+          .eq("tenant_profile_id", tpId)
+          .maybeSingle();
+        if (td) setTenantDetails(td);
+      }
+
+      // Refetch documents using actual tenant_profile_id
       if (tpId) {
         const { data: docs } = await supabase
           .from("tenant_documents")
@@ -531,35 +539,98 @@ export default function AdminOnboardingDetailPage() {
 
         {/* Main actions */}
         <div className="lg:col-span-3 space-y-4">
-          {/* Tenant Details */}
+          {/* Member Profile */}
           {tenantDetails && (
-            <SectionCard title="Member Details">
-              <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+            <SectionCard title="Member Profile">
+              <dl className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-3 text-sm">
                 <div>
-                  <dt className="text-muted-foreground">Name</dt>
+                  <dt className="text-muted-foreground text-xs">Full Name</dt>
                   <dd className="font-medium">{tenantDetails.full_name ?? "—"}</dd>
                 </div>
                 <div>
-                  <dt className="text-muted-foreground">ID Number</dt>
-                  <dd className="font-medium">{tenantDetails.id_number ?? "—"}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground">Nationality</dt>
-                  <dd className="font-medium">{tenantDetails.nationality ?? "—"}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground">Date of Birth</dt>
-                  <dd className="font-medium">{tenantDetails.date_of_birth ?? "—"}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground">Phone</dt>
+                  <dt className="text-muted-foreground text-xs">Phone</dt>
                   <dd className="font-medium">{tenantDetails.phone ?? "—"}</dd>
                 </div>
                 <div>
-                  <dt className="text-muted-foreground">Emergency Contact</dt>
-                  <dd className="font-medium">{tenantDetails.emergency_contact ?? "—"}</dd>
+                  <dt className="text-muted-foreground text-xs">Nationality</dt>
+                  <dd className="font-medium">{tenantDetails.nationality ?? "—"}</dd>
+                </div>
+                <div>
+                  <dt className="text-muted-foreground text-xs">Date of Birth</dt>
+                  <dd className="font-medium">{tenantDetails.date_of_birth ?? "—"}</dd>
+                </div>
+                <div>
+                  <dt className="text-muted-foreground text-xs">Emergency Contact</dt>
+                  <dd className="font-medium">{tenantDetails.emergency_contact_name ?? "—"}</dd>
+                </div>
+                <div>
+                  <dt className="text-muted-foreground text-xs">Emergency Phone</dt>
+                  <dd className="font-medium">{tenantDetails.emergency_contact_phone ?? "—"}</dd>
                 </div>
               </dl>
+
+              {/* ID Documents */}
+              <div className="mt-4 pt-4 border-t border-border">
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-3">Identification</p>
+                <dl className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-3 text-sm">
+                  <div>
+                    <dt className="text-muted-foreground text-xs">ID Type</dt>
+                    <dd className="font-medium">{tenantDetails.id_type?.replace(/_/g, " ") ?? "—"}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground text-xs">ID Number</dt>
+                    <dd className="font-medium">{tenantDetails.id_number ?? "—"}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground text-xs">ID Expiry</dt>
+                    <dd className="font-medium">{tenantDetails.id_expiry ? new Date(tenantDetails.id_expiry).toLocaleDateString("en-SG") : "—"}</dd>
+                  </div>
+                </dl>
+                {/* ID Photos */}
+                <div className="flex gap-3 mt-3">
+                  {tenantDetails.id_front_url && (
+                    <a href={tenantDetails.id_front_url} target="_blank" rel="noopener noreferrer" className="block">
+                      <img src={tenantDetails.id_front_url} alt="ID Front" className="h-20 rounded border border-border object-cover hover:opacity-80 transition-opacity" />
+                      <p className="text-[10px] text-muted-foreground mt-1">Front</p>
+                    </a>
+                  )}
+                  {tenantDetails.id_back_url && (
+                    <a href={tenantDetails.id_back_url} target="_blank" rel="noopener noreferrer" className="block">
+                      <img src={tenantDetails.id_back_url} alt="ID Back" className="h-20 rounded border border-border object-cover hover:opacity-80 transition-opacity" />
+                      <p className="text-[10px] text-muted-foreground mt-1">Back</p>
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {/* Work Pass (foreigners) */}
+              {tenantDetails.pass_type && (
+                <div className="mt-4 pt-4 border-t border-border">
+                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-3">Work Pass</p>
+                  <dl className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-3 text-sm">
+                    <div>
+                      <dt className="text-muted-foreground text-xs">Pass Type</dt>
+                      <dd className="font-medium">{tenantDetails.pass_type?.replace(/_/g, " ") ?? "—"}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-muted-foreground text-xs">Pass Number</dt>
+                      <dd className="font-medium">{tenantDetails.pass_number ?? "—"}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-muted-foreground text-xs">Pass Expiry</dt>
+                      <dd className={`font-medium ${tenantDetails.pass_expiry && new Date(tenantDetails.pass_expiry) < new Date(Date.now() + 90 * 24 * 60 * 60 * 1000) ? "text-red-600 font-bold" : ""}`}>
+                        {tenantDetails.pass_expiry ? new Date(tenantDetails.pass_expiry).toLocaleDateString("en-SG") : "—"}
+                      </dd>
+                    </div>
+                  </dl>
+                  {tenantDetails.pass_url && (
+                    <a href={tenantDetails.pass_url} target="_blank" rel="noopener noreferrer" className="block mt-3">
+                      <img src={tenantDetails.pass_url} alt="Pass" className="h-20 rounded border border-border object-cover hover:opacity-80 transition-opacity" />
+                      <p className="text-[10px] text-muted-foreground mt-1">Pass photo</p>
+                    </a>
+                  )}
+                </div>
+              )}
             </SectionCard>
           )}
 
