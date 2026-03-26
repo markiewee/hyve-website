@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { supabase } from "../../lib/supabase";
 import { useAcStatus } from "../../hooks/useAcStatus";
 import { useAcUsage } from "../../hooks/useAcUsage";
 import { useUsageData } from "../../hooks/useUsageData";
@@ -43,6 +45,15 @@ export default function DashboardPage() {
   const { documents, checkout, openTickets, loading: dashLoading } =
     useTenantDashboard(profile?.id, roomId);
 
+  // Fetch outstanding charges
+  const [charges, setCharges] = useState([]);
+  useEffect(() => {
+    if (!profile?.id) return;
+    supabase.from("member_charges").select("*").eq("tenant_profile_id", profile.id).eq("status", "PENDING")
+      .then(({ data }) => setCharges(data ?? []));
+  }, [profile?.id]);
+  const totalCharges = charges.reduce((sum, c) => sum + (Number(c.amount) || 0), 0);
+
   const totalHours = usage?.total_hours ?? 0;
   const dayOfMonth = getDayOfMonth();
   const daysInMonth = getDaysInMonth();
@@ -80,41 +91,52 @@ export default function DashboardPage() {
 
         {/* ── Row 1 ── */}
 
-        {/* Rent / Billing card — col-span-12 */}
-        <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#bbcac6]/15 shadow-sm flex flex-col justify-between relative overflow-hidden">
-          {/* Decorative teal blob */}
+        {/* Billing Overview — col-span-12 */}
+        <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#bbcac6]/15 shadow-sm relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#006b5f]/5 rounded-full -mr-16 -mt-16 pointer-events-none" />
           <div className="relative z-10">
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-8 flex items-center gap-2 text-[#121c2a]">
+            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-6 flex items-center gap-2 text-[#121c2a]">
               <span className="material-symbols-outlined text-[#006b5f] text-[22px]">account_balance_wallet</span>
-              Upcoming Rent
+              Billing Overview
             </h3>
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-              <div>
-                <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#555f6f] block mb-1">
-                  Due 1st of month
-                </span>
-                <div className="text-5xl font-['Plus_Jakarta_Sans'] font-black text-[#121c2a]">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+              {/* Monthly Rent */}
+              <div className="bg-[#006b5f]/5 rounded-xl p-5 border-b-2 border-[#006b5f]">
+                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#006b5f] font-bold mb-1">Monthly Rent</p>
+                <p className="font-['Plus_Jakarta_Sans'] text-2xl font-black text-[#121c2a]">
                   {(profile?.monthly_rent || profile?.rooms?.rent_amount)
                     ? `$${Number(profile.monthly_rent || profile.rooms?.rent_amount).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`
                     : "—"}
-                </div>
+                </p>
+                <p className="text-xs text-[#6c7a77] mt-1">Due 1st of month</p>
               </div>
-              <Link
-                to="/portal/billing"
-                className="bg-[#006b5f] text-white px-8 py-4 rounded-xl font-['Manrope'] font-bold text-base hover:opacity-90 transition-all flex items-center gap-2 shrink-0"
-              >
-                Pay Now
-                <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
-              </Link>
+              {/* Outstanding Charges */}
+              <div className={`rounded-xl p-5 border-b-2 ${totalCharges > 0 ? "bg-amber-50 border-amber-400" : "bg-gray-50 border-gray-200"}`}>
+                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Other Charges</p>
+                <p className={`font-['Plus_Jakarta_Sans'] text-2xl font-black ${totalCharges > 0 ? "text-amber-700" : "text-[#121c2a]"}`}>
+                  ${totalCharges.toLocaleString("en-SG", { minimumFractionDigits: 2 })}
+                </p>
+                <p className="text-xs text-[#6c7a77] mt-1">
+                  {charges.length > 0 ? charges.map(c => c.description).join(", ") : "No outstanding charges"}
+                </p>
+              </div>
+              {/* Total Due */}
+              <div className={`rounded-xl p-5 border-b-2 ${totalCharges > 0 ? "bg-red-50 border-red-400" : "bg-[#eff4ff] border-[#006b5f]/30"}`}>
+                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Total Due</p>
+                <p className="font-['Plus_Jakarta_Sans'] text-2xl font-black text-[#121c2a]">
+                  ${((Number(profile?.monthly_rent || 0) + totalCharges)).toLocaleString("en-SG", { minimumFractionDigits: 2 })}
+                </p>
+                <p className="text-xs text-[#6c7a77] mt-1">Rent + charges</p>
+              </div>
             </div>
-          </div>
-          <div className="mt-8 pt-6 border-t border-[#bbcac6]/15 flex items-center gap-3 text-sm text-[#555f6f]">
-            <span className="material-symbols-outlined text-[#006b5f] text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-            Auto-pay is currently disabled.{" "}
-            <Link to="/portal/billing" className="text-[#006b5f] font-bold underline underline-offset-4">
-              Set up now
+            <Link
+              to="/portal/billing"
+              className="bg-[#006b5f] text-white px-8 py-4 rounded-xl font-['Manrope'] font-bold text-base hover:opacity-90 transition-all inline-flex items-center gap-2"
+            >
+              View Billing & Pay
+              <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
             </Link>
+          </div>
           </div>
         </section>
 

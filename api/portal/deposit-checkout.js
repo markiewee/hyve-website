@@ -30,8 +30,41 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: "Invalid or expired token" });
   }
 
-  const { onboarding_id } = req.body || {};
+  const { onboarding_id, charge_id, type = "deposit" } = req.body || {};
 
+  // ── Pay a charge via Stripe ──
+  if (type === "charge" && charge_id) {
+    const { data: charge, error: chargeErr } = await supabase
+      .from("member_charges")
+      .select("*, tenant_profiles(user_id)")
+      .eq("id", charge_id)
+      .single();
+
+    if (chargeErr || !charge) return res.status(404).json({ error: "Charge not found" });
+    if (charge.tenant_profiles?.user_id !== authData.user.id) return res.status(403).json({ error: "Not authorised" });
+    if (charge.status === "PAID") return res.status(400).json({ error: "Already paid" });
+
+    const totalCents = Math.round(Number(charge.amount) * 1.04 * 100);
+    try {
+      const session = await stripe.checkout.sessions.create({
+        mode: "payment",
+        currency: "sgd",
+        line_items: [{
+          price_data: { currency: "sgd", product_data: { name: `${charge.description} + 4% processing fee` }, unit_amount: totalCents },
+          quantity: 1,
+        }],
+        metadata: { charge_id: charge.id, type: "charge" },
+        success_url: `https://hyve.sg/portal/billing?charge_paid=${charge.id}`,
+        cancel_url: "https://hyve.sg/portal/billing",
+      });
+
+      return res.status(200).json({ checkout_url: session.url });
+    } catch (err) {
+      return res.status(500).json({ error: "Failed to create checkout session" });
+    }
+  }
+
+  // ── Deposit checkout (original flow) ──
   if (!onboarding_id) {
     return res.status(400).json({ error: "onboarding_id is required" });
   }

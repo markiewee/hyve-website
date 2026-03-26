@@ -273,15 +273,44 @@ export default function BillingPage() {
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3">
                     <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm tabular-nums text-[#121c2a]">
                       ${Number(charge.amount).toLocaleString("en-SG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </p>
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest ${
                       isPaid ? "bg-[#d1fae5] text-[#065f46]" : "bg-amber-100 text-amber-700"
                     }`}>
                       {charge.status}
                     </span>
+                    {!isPaid && (
+                      <button
+                        onClick={async () => {
+                          try {
+                            const { data: { session } } = await supabase.auth.getSession();
+                            const res = await fetch("/api/portal/deposit-checkout", {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json", Authorization: `Bearer ${session?.access_token}` },
+                              body: JSON.stringify({ type: "charge", charge_id: charge.id }),
+                            });
+                            const body = await res.json();
+                            if (body.checkout_url) window.location.href = body.checkout_url;
+                            else alert(body.error || "Payment failed");
+                          } catch { alert("Payment failed"); }
+                        }}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#006b5f] text-white text-xs font-['Manrope'] font-bold hover:opacity-90"
+                      >
+                        <span className="material-symbols-outlined text-[14px]">credit_card</span>
+                        Pay
+                      </button>
+                    )}
+                    {isPaid && (
+                      <button
+                        onClick={() => setReceiptPayment({ ...charge, _type: "charge" })}
+                        className="text-xs font-medium text-[#006b5f] hover:underline"
+                      >
+                        Receipt
+                      </button>
+                    )}
                   </div>
                 </div>
               );
