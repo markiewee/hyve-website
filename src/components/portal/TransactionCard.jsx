@@ -39,9 +39,9 @@ export default function TransactionCard({ transaction, onIgnore, onConfirm }) {
   const categoryLabel =
     CATEGORY_LABELS[transaction.suggested_category] || transaction.suggested_category;
 
-  const formattedAmount = new Intl.NumberFormat("en-MY", {
+  const formattedAmount = new Intl.NumberFormat("en-SG", {
     style: "currency",
-    currency: "MYR",
+    currency: "SGD",
     minimumFractionDigits: 2,
   }).format(Math.abs(transaction.amount ?? 0));
 
