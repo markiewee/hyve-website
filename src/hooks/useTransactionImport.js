@@ -220,16 +220,19 @@ export function useTransactionImport() {
         per_page: 500,
       });
 
-      if (rawTransactions.length === 0) {
+      // Filter out any transactions with missing dates
+      const validTransactions = rawTransactions.filter(t => t.transaction_date && t.transaction_date !== '');
+
+      if (validTransactions.length === 0) {
         await finaliseBatch(batchId, { total: 0, autoTagged: 0 });
         return { batchId, total: 0, autoTagged: 0 };
       }
 
-      setProgress({ inserted: 0, total: rawTransactions.length });
+      setProgress({ inserted: 0, total: validTransactions.length });
 
       // 3. Fetch tagging rules and auto-tag
       const rules = await fetchTaggingRules();
-      const tagged = autoTagTransactions(rawTransactions, rules);
+      const tagged = autoTagTransactions(validTransactions, rules);
       const autoTagged = tagged.filter(t => t.status === 'AUTO_TAGGED').length;
 
       // 4. Insert in chunks
