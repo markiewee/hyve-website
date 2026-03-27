@@ -233,6 +233,12 @@ export default function AdminFinancialsPage() {
   const [confirmedTxns, setConfirmedTxns] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Finalize state
+  const [monthlyFinancials, setMonthlyFinancials] = useState([]);
+  const [finalizing, setFinalizing] = useState(false);
+  const [finalizeError, setFinalizeError] = useState(null);
+  const [finalizeSuccess, setFinalizeSuccess] = useState(null);
+
   // ─── Fetch ────────────────────────────────────────────────────────────────────
 
   const fetchProperties = useCallback(async () => {
@@ -241,6 +247,18 @@ export default function AdminFinancialsPage() {
       .select("id, name, code")
       .order("name");
     setProperties(data ?? []);
+  }, []);
+
+  const fetchMonthlyFinancials = useCallback(async () => {
+    const { data, error } = await supabase
+      .from("monthly_financials")
+      .select("id, property_id, month, revenue, expenses, net_profit, status, properties(name, code)")
+      .order("month", { ascending: false });
+
+    if (error) {
+      console.error("Failed to fetch monthly financials:", error.message);
+    }
+    setMonthlyFinancials(data ?? []);
   }, []);
 
   const fetchConfirmedTransactions = useCallback(async () => {
@@ -271,7 +289,8 @@ export default function AdminFinancialsPage() {
 
   useEffect(() => {
     fetchProperties();
-  }, [fetchProperties]);
+    fetchMonthlyFinancials();
+  }, [fetchProperties, fetchMonthlyFinancials]);
 
   useEffect(() => {
     fetchConfirmedTransactions();
@@ -335,6 +354,56 @@ export default function AdminFinancialsPage() {
 
   const showOps =
     selectedPropertyId === "ALL" || selectedPropertyId === "OPS";
+
+  // ─── Finalize Month ────────────────────────────────────────────────────────────
+
+  const currentMonthFinancials = monthlyFinancials.filter(
+    (mf) => mf.month === `${selectedMonth}-01`
+  );
+  const currentMonthStatus = currentMonthFinancials.length > 0
+    ? (currentMonthFinancials.every((mf) => mf.status === "FINALIZED") ? "FINALIZED" : "DRAFT")
+    : null;
+
+  async function handleFinalizeMonth() {
+    setFinalizing(true);
+    setFinalizeError(null);
+    setFinalizeSuccess(null);
+
+    try {
+      const monthStart = `${selectedMonth}-01`;
+
+      // Build upsert records from pnlByProperty
+      const upserts = [];
+      for (const [key, data] of Object.entries(pnlByProperty)) {
+        if (key === "__OPS__") continue; // skip ops for monthly_financials
+        upserts.push({
+          property_id: key,
+          month: monthStart,
+          revenue: data.totalIncome,
+          expenses: data.totalExpenses,
+          net_profit: data.netProfit,
+          status: "FINALIZED",
+        });
+      }
+
+      if (upserts.length === 0) {
+        throw new Error("No property P&L data to finalize for this month.");
+      }
+
+      const { error } = await supabase
+        .from("monthly_financials")
+        .upsert(upserts, { onConflict: "property_id,month" });
+
+      if (error) throw new Error(error.message);
+
+      setFinalizeSuccess(`Finalized ${upserts.length} property record(s) for ${formatMonthLabel(selectedMonth)}.`);
+      fetchMonthlyFinancials();
+    } catch (err) {
+      setFinalizeError(err.message);
+    } finally {
+      setFinalizing(false);
+    }
+  }
 
   return (
     <PortalLayout>
@@ -402,6 +471,123 @@ export default function AdminFinancialsPage() {
             color={totals.netProfit >= 0 ? "text-white" : "text-[#ffdad6]"}
             bgClass={totals.netProfit >= 0 ? "bg-[#006b5f]" : "bg-[#ffdad6]"}
           />
+        </div>
+      )}
+
+      {/* Finalize Month controls */}
+      {!loading && Object.keys(pnlByProperty).length > 0 && (
+        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm mb-8">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <span className="material-symbols-outlined text-[#006b5f] text-[24px]">lock</span>
+              <div>
+                <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
+                  Finalize Month
+                </h3>
+                <p className="font-['Manrope'] text-sm text-[#6c7a77]">
+                  Lock {formatMonthLabel(selectedMonth)} P&L into monthly_financials records.
+                </p>
+              </div>
+              {currentMonthStatus && (
+                <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ml-2 ${
+                  currentMonthStatus === "FINALIZED"
+                    ? "bg-[#d1fae5] text-[#065f46]"
+                    : "bg-[#fef3c7] text-[#92400e]"
+                }`}>
+                  {currentMonthStatus}
+                </span>
+              )}
+              {!currentMonthStatus && (
+                <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ml-2 bg-[#e6eeff] text-[#555f6f]">
+                  NOT YET FINALIZED
+                </span>
+              )}
+            </div>
+            <button
+              onClick={handleFinalizeMonth}
+              disabled={finalizing}
+              className="px-6 py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+            >
+              <span className="material-symbols-outlined text-[18px]">check_circle</span>
+              {finalizing ? "Finalizing..." : currentMonthStatus === "FINALIZED" ? "Re-finalize" : "Finalize Month"}
+            </button>
+          </div>
+
+          {finalizeError && (
+            <div className="mt-4 p-3 bg-[#ffdad6] rounded-xl flex items-start gap-2">
+              <span className="material-symbols-outlined text-[#ba1a1a] text-[18px] shrink-0">error</span>
+              <p className="font-['Manrope'] text-sm text-[#ba1a1a]">{finalizeError}</p>
+            </div>
+          )}
+          {finalizeSuccess && (
+            <div className="mt-4 p-3 bg-[#d1fae5] rounded-xl flex items-start gap-2">
+              <span className="material-symbols-outlined text-[#065f46] text-[18px] shrink-0">check_circle</span>
+              <p className="font-['Manrope'] text-sm text-[#065f46]">{finalizeSuccess}</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Monthly Financials Status Overview */}
+      {monthlyFinancials.length > 0 && (
+        <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden mb-8">
+          <div className="px-6 py-5 border-b border-[#bbcac6]/15">
+            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] flex items-center gap-2">
+              <span className="material-symbols-outlined text-[#006b5f] text-[20px]">calendar_month</span>
+              Finalization Status
+            </h3>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-[#eff4ff]">
+                <tr>
+                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Month</th>
+                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Property</th>
+                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Revenue</th>
+                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Expenses</th>
+                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Net Profit</th>
+                  <th className="text-center px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#bbcac6]/10">
+                {monthlyFinancials.slice(0, 20).map((mf) => (
+                  <tr key={mf.id} className="hover:bg-[#f8f9ff] transition-colors">
+                    <td className="px-4 py-3 font-['Manrope'] text-sm text-[#121c2a]">
+                      {mf.month ? formatMonthLabel(mf.month.slice(0, 7)) : "—"}
+                    </td>
+                    <td className="px-4 py-3 font-['Manrope'] text-sm text-[#6c7a77]">
+                      {mf.properties?.name ?? "—"}
+                      {mf.properties?.code && (
+                        <span className="ml-1.5 font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#006b5f] px-1.5 py-0.5 rounded">
+                          {mf.properties.code}
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-right font-['Manrope'] text-sm tabular-nums text-[#16a34a]">
+                      {formatSGD(mf.revenue)}
+                    </td>
+                    <td className="px-4 py-3 text-right font-['Manrope'] text-sm tabular-nums text-[#ba1a1a]">
+                      {formatSGD(mf.expenses)}
+                    </td>
+                    <td className={`px-4 py-3 text-right font-['Plus_Jakarta_Sans'] font-bold text-sm tabular-nums ${
+                      Number(mf.net_profit ?? 0) >= 0 ? "text-[#16a34a]" : "text-[#ba1a1a]"
+                    }`}>
+                      {formatSGD(mf.net_profit)}
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${
+                        mf.status === "FINALIZED"
+                          ? "bg-[#d1fae5] text-[#065f46]"
+                          : "bg-[#fef3c7] text-[#92400e]"
+                      }`}>
+                        {mf.status ?? "DRAFT"}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
