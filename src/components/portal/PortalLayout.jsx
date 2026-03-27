@@ -311,7 +311,7 @@ export default function PortalLayout({ children }) {
           location={location}
           onLinkClick={() => {}}
           signOut={signOut}
-          onStartTour={() => setShowTour(true)}
+          onStartTour={profile?.role !== "ADMIN" ? () => setShowTour(true) : undefined}
         />
       </div>
 
@@ -338,7 +338,7 @@ export default function PortalLayout({ children }) {
               location={location}
               onLinkClick={() => setSidebarOpen(false)}
               signOut={() => { setSidebarOpen(false); signOut(); }}
-              onStartTour={() => { setSidebarOpen(false); setShowTour(true); }}
+              onStartTour={profile?.role !== "ADMIN" ? () => { setSidebarOpen(false); setShowTour(true); } : undefined}
             />
           </div>
         </>

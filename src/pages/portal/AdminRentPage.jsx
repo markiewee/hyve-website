@@ -110,14 +110,31 @@ export default function AdminRentPage() {
   }, [fetchPayments, fetchMembers, fetchCharges]);
 
   async function handleGenerateThisMonth() {
-    setGenerating(true);
-    setGenerateResult(null);
-
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, "0");
     const monthStr = `${year}-${month}-01`;
     const dueDateStr = monthStr;
+
+    // Check if rent records already exist for this month before confirming
+    const { data: existingCheck } = await supabase
+      .from("rent_payments")
+      .select("id")
+      .eq("month", monthStr)
+      .limit(1);
+
+    if (existingCheck && existingCheck.length > 0) {
+      if (!window.confirm(
+        `Rent records already exist for ${formatMonth(monthStr)}. Do you want to continue and generate records for any remaining tenants?`
+      )) return;
+    } else {
+      if (!window.confirm(
+        `Generate rent records for all active tenants for ${formatMonth(monthStr)}?`
+      )) return;
+    }
+
+    setGenerating(true);
+    setGenerateResult(null);
 
     const { data: profiles, error: profilesError } = await supabase
       .from("tenant_profiles")

@@ -832,7 +832,7 @@ export default function AdminOnboardingPage() {
                           {initials}
                         </div>
                         <div>
-                          <p className="font-['Manrope'] font-bold text-[#121c2a] text-sm">
+                          <p className="font-['Manrope'] font-bold text-[#121c2a] text-sm capitalize">
                             {tenantName || unitCode}
                           </p>
                           <p className="font-['Manrope'] text-[#6c7a77] text-xs">
@@ -865,10 +865,10 @@ export default function AdminOnboardingPage() {
                       <div className="flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
                         {row.tenant_profiles?.username && (
                           <button
-                            title={`Username: ${row.tenant_profiles.username}\nPassword: Welcome1!`}
+                            title={`Username: ${row.tenant_profiles.username}`}
                             onClick={() => {
-                              navigator.clipboard.writeText(row.tenant_profiles.username);
-                              alert(`Username: ${row.tenant_profiles.username}\nPassword: Welcome1!\n\nUsername copied to clipboard.`);
+                              navigator.clipboard.writeText(`Username: ${row.tenant_profiles.username}\nLogin: hyve.sg/portal/login`);
+                              alert(`Username copied to clipboard.\n\nLogin: hyve.sg/portal/login`);
                             }}
                             className="p-1.5 rounded-lg hover:bg-[#eff4ff] text-[#6c7a77] hover:text-[#006b5f] transition-colors"
                           >
