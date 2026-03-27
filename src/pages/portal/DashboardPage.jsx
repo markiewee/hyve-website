@@ -6,6 +6,7 @@ import { useAcStatus } from "../../hooks/useAcStatus";
 import { useAcUsage } from "../../hooks/useAcUsage";
 import { useUsageData } from "../../hooks/useUsageData";
 import { useTenantDashboard } from "../../hooks/useTenantDashboard";
+import { useLanguage } from "../../i18n/LanguageContext";
 import PortalLayout from "../../components/portal/PortalLayout";
 import AcStatusIndicator from "../../components/portal/AcStatusIndicator";
 import UsageProgressBar from "../../components/portal/UsageProgressBar";
@@ -31,6 +32,7 @@ function SkeletonLine({ className = "" }) {
 
 export default function DashboardPage() {
   const { profile } = useAuth();
+  const { t } = useLanguage();
 
   // Admin should see admin dashboard, not tenant dashboard
   if (profile?.role === "ADMIN") {
@@ -72,14 +74,14 @@ export default function DashboardPage() {
       {/* Editorial header */}
       <header className="mb-10 max-w-6xl">
         <h2 className="font-['Plus_Jakarta_Sans'] text-4xl lg:text-5xl font-extrabold text-[#121c2a] tracking-tight mb-3">
-          Your Sanctuary in{" "}
+          {t("dashboard.heroTitle", { property: "" })}{" "}
           <span className="text-[#006b5f]">{propertyName}</span>
         </h2>
         <p className="font-['Manrope'] text-[#555f6f] text-lg max-w-2xl leading-relaxed">
-          Welcome back, {firstName}.{" "}
+          {t("dashboard.greeting", { name: firstName })}{" "}
           {!usageLoading && todayHours > 0
-            ? `AC has been running for ${todayHours.toFixed(1)}h today.`
-            : "Everything is set for your stay."}
+            ? t("dashboard.acRunning", { hours: todayHours.toFixed(1) })
+            : t("dashboard.allSet")}
         </p>
       </header>
 
@@ -97,43 +99,43 @@ export default function DashboardPage() {
           <div className="relative z-10">
             <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-6 flex items-center gap-2 text-[#121c2a]">
               <span className="material-symbols-outlined text-[#006b5f] text-[22px]">account_balance_wallet</span>
-              Billing Overview
+              {t("dashboard.billingOverview")}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
               {/* Monthly Rent */}
               <div className="bg-[#006b5f]/5 rounded-xl p-5 border-b-2 border-[#006b5f]">
-                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#006b5f] font-bold mb-1">Monthly Rent</p>
+                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#006b5f] font-bold mb-1">{t("dashboard.monthlyRent")}</p>
                 <p className="font-['Plus_Jakarta_Sans'] text-2xl font-black text-[#121c2a]">
                   {(profile?.monthly_rent || profile?.rooms?.rent_amount)
                     ? `$${Number(profile.monthly_rent || profile.rooms?.rent_amount).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`
                     : "—"}
                 </p>
-                <p className="text-xs text-[#6c7a77] mt-1">Due 1st of month</p>
+                <p className="text-xs text-[#6c7a77] mt-1">{t("dashboard.due1st")}</p>
               </div>
               {/* Outstanding Charges */}
               <div className={`rounded-xl p-5 border-b-2 ${totalCharges > 0 ? "bg-amber-50 border-amber-400" : "bg-gray-50 border-gray-200"}`}>
-                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Other Charges</p>
+                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">{t("dashboard.otherCharges")}</p>
                 <p className={`font-['Plus_Jakarta_Sans'] text-2xl font-black ${totalCharges > 0 ? "text-amber-700" : "text-[#121c2a]"}`}>
                   ${totalCharges.toLocaleString("en-SG", { minimumFractionDigits: 2 })}
                 </p>
                 <p className="text-xs text-[#6c7a77] mt-1">
-                  {charges.length > 0 ? charges.map(c => c.description).join(", ") : "No outstanding charges"}
+                  {charges.length > 0 ? charges.map(c => c.description).join(", ") : t("dashboard.noCharges")}
                 </p>
               </div>
               {/* Total Due */}
               <div className={`rounded-xl p-5 border-b-2 ${totalCharges > 0 ? "bg-red-50 border-red-400" : "bg-[#eff4ff] border-[#006b5f]/30"}`}>
-                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Total Due</p>
+                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">{t("dashboard.totalDue")}</p>
                 <p className="font-['Plus_Jakarta_Sans'] text-2xl font-black text-[#121c2a]">
                   ${((Number(profile?.monthly_rent || 0) + totalCharges)).toLocaleString("en-SG", { minimumFractionDigits: 2 })}
                 </p>
-                <p className="text-xs text-[#6c7a77] mt-1">Rent + charges</p>
+                <p className="text-xs text-[#6c7a77] mt-1">{t("dashboard.rentCharges")}</p>
               </div>
             </div>
             <Link
               to="/portal/billing"
               className="bg-[#006b5f] text-white px-8 py-4 rounded-xl font-['Manrope'] font-bold text-base hover:opacity-90 transition-all inline-flex items-center gap-2"
             >
-              View Billing & Pay
+              {t("dashboard.viewBilling")}
               <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
             </Link>
           </div>
@@ -145,7 +147,7 @@ export default function DashboardPage() {
         <section className="md:col-span-7 bg-white rounded-xl p-8 border border-[#bbcac6]/15 shadow-sm">
           <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-6 flex items-center gap-2 text-[#121c2a]">
             <span className="material-symbols-outlined text-[#006b5f] text-[22px]">ac_unit</span>
-            AC Usage
+            {t("dashboard.acUsage")}
           </h3>
           {usageChart.loading ? (
             <div className="h-[280px] bg-[#eff4ff] animate-pulse rounded-lg" />
@@ -184,10 +186,10 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between mb-6">
             <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl flex items-center gap-2 text-[#121c2a]">
               <span className="material-symbols-outlined text-[#006b5f] text-[22px]">bolt</span>
-              Monthly AC Allowance
+              {t("dashboard.monthlyAllowance")}
             </h3>
             <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#555f6f]">
-              Day {dayOfMonth} of {daysInMonth}
+              {t("dashboard.dayOf", { current: dayOfMonth, total: daysInMonth })}
             </span>
           </div>
           {usageLoading ? (
@@ -199,7 +201,7 @@ export default function DashboardPage() {
             <>
               <UsageProgressBar totalHours={totalHours} freeHours={FREE_HOURS} />
               <p className="font-['Manrope'] text-sm text-[#555f6f] mt-4">
-                {totalHours.toFixed(1)}h used this month out of {FREE_HOURS}h free allowance
+                {t("dashboard.usageSummary", { used: totalHours.toFixed(1), free: FREE_HOURS })}
               </p>
             </>
           )}
@@ -211,7 +213,7 @@ export default function DashboardPage() {
           {/* AC Status */}
           <div className="bg-white rounded-xl p-6 border border-[#bbcac6]/15 shadow-sm">
             <p className="font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] mb-3">
-              AC Status
+              {t("dashboard.acStatus")}
             </p>
             {statusLoading ? (
               <SkeletonLine className="h-6 w-20" />
@@ -223,7 +225,7 @@ export default function DashboardPage() {
           {/* Today */}
           <div className="bg-white rounded-xl p-6 border border-[#bbcac6]/15 shadow-sm">
             <p className="font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] mb-3">
-              Today
+              {t("dashboard.today")}
             </p>
             {usageLoading ? (
               <SkeletonLine className="h-7 w-16" />
@@ -238,7 +240,7 @@ export default function DashboardPage() {
           {/* Projected */}
           <div className="bg-white rounded-xl p-6 border border-[#bbcac6]/15 shadow-sm">
             <p className="font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] mb-3">
-              Projected
+              {t("dashboard.projected")}
             </p>
             {usageLoading ? (
               <SkeletonLine className="h-7 w-16" />
@@ -253,7 +255,7 @@ export default function DashboardPage() {
           {/* Open Issues */}
           <div className="bg-white rounded-xl p-6 border border-[#bbcac6]/15 shadow-sm">
             <p className="font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] mb-3">
-              Open Issues
+              {t("dashboard.openIssues")}
             </p>
             {dashLoading ? (
               <SkeletonLine className="h-7 w-10" />
@@ -267,7 +269,7 @@ export default function DashboardPage() {
                     to="/portal/issues"
                     className="font-['Inter'] text-xs font-bold text-[#006b5f] uppercase tracking-widest hover:underline"
                   >
-                    View
+                    {t("common.view")}
                   </Link>
                 )}
               </div>

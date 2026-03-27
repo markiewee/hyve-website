@@ -1,55 +1,60 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { useLanguage } from "../../i18n/LanguageContext";
 import PortalTour from "./PortalTour";
 
-const TENANT_NAV = [
-  { label: "Dashboard", to: "/portal/dashboard", icon: "dashboard" },
-  { label: "Documents", to: "/portal/documents", icon: "folder_open" },
-  { label: "Billing", to: "/portal/billing", icon: "payments" },
-  { label: "Issues", to: "/portal/issues", icon: "build" },
-  { label: "Settings", to: "/portal/settings", icon: "settings" },
-];
+function useNavLinks(role) {
+  const { t } = useLanguage();
 
-const HOUSE_CAPTAIN_NAV = [
-  { label: "Dashboard", to: "/portal/dashboard", icon: "dashboard" },
-  { label: "Documents", to: "/portal/documents", icon: "folder_open" },
-  { label: "Billing", to: "/portal/billing", icon: "payments" },
-  { label: "Issues", to: "/portal/issues", icon: "build" },
-  { label: "Property Overview", to: "/portal/property", icon: "apartment" },
-  { label: "Tickets", to: "/portal/property/tickets", icon: "confirmation_number" },
-  { label: "Members", to: "/portal/property/tenants", icon: "group" },
-  { label: "Settings", to: "/portal/settings", icon: "settings" },
-];
+  return useMemo(() => {
+    const TENANT_NAV = [
+      { label: t("nav.dashboard"), to: "/portal/dashboard", icon: "dashboard" },
+      { label: t("nav.documents"), to: "/portal/documents", icon: "folder_open" },
+      { label: t("nav.billing"), to: "/portal/billing", icon: "payments" },
+      { label: t("nav.issues"), to: "/portal/issues", icon: "build" },
+      { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
+    ];
 
-const ADMIN_NAV = [
-  { label: "Billing", to: "/portal/billing", icon: "payments" },
-  { label: "Issues", to: "/portal/issues", icon: "build" },
-  { label: "Admin", to: "/portal/admin", icon: "admin_panel_settings" },
-  {
-    label: "Manage",
-    icon: "manage_accounts",
-    children: [
-      { label: "Tasks", to: "/portal/admin/tasks", icon: "checklist" },
-      { label: "Members", to: "/portal/admin/onboarding", icon: "how_to_reg" },
-      { label: "Rent", to: "/portal/admin/rent", icon: "receipt_long" },
-      { label: "Documents", to: "/portal/admin/documents", icon: "description" },
-      { label: "Announcements", to: "/portal/admin/announcements", icon: "campaign" },
-      { label: "Viewings", to: "/portal/admin/viewings", icon: "visibility" },
-      { label: "Smart Locks", to: "/portal/admin/locks", icon: "lock" },
-      { label: "Devices", to: "/portal/admin/devices", icon: "router" },
-      { label: "Investors", to: "/portal/admin/investors", icon: "trending_up" },
-      { label: "Expenses", to: "/portal/admin/expenses", icon: "account_balance" },
-      { label: "Import", to: "/portal/admin/expenses/import", icon: "upload_file" },
-      { label: "Financials", to: "/portal/admin/financials", icon: "bar_chart" },
-    ],
-  },
-];
+    const HOUSE_CAPTAIN_NAV = [
+      { label: t("nav.dashboard"), to: "/portal/dashboard", icon: "dashboard" },
+      { label: t("nav.documents"), to: "/portal/documents", icon: "folder_open" },
+      { label: t("nav.billing"), to: "/portal/billing", icon: "payments" },
+      { label: t("nav.issues"), to: "/portal/issues", icon: "build" },
+      { label: t("nav.propertyOverview"), to: "/portal/property", icon: "apartment" },
+      { label: t("nav.tickets"), to: "/portal/property/tickets", icon: "confirmation_number" },
+      { label: t("nav.members"), to: "/portal/property/tenants", icon: "group" },
+      { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
+    ];
 
-function getNavLinks(role) {
-  if (role === "ADMIN") return ADMIN_NAV;
-  if (role === "HOUSE_CAPTAIN") return HOUSE_CAPTAIN_NAV;
-  return TENANT_NAV;
+    const ADMIN_NAV = [
+      { label: t("nav.billing"), to: "/portal/billing", icon: "payments" },
+      { label: t("nav.issues"), to: "/portal/issues", icon: "build" },
+      { label: t("nav.admin"), to: "/portal/admin", icon: "admin_panel_settings" },
+      {
+        label: t("nav.manage"),
+        icon: "manage_accounts",
+        children: [
+          { label: t("nav.tasks"), to: "/portal/admin/tasks", icon: "checklist" },
+          { label: t("nav.members"), to: "/portal/admin/onboarding", icon: "how_to_reg" },
+          { label: t("nav.rent"), to: "/portal/admin/rent", icon: "receipt_long" },
+          { label: t("nav.documents"), to: "/portal/admin/documents", icon: "description" },
+          { label: t("nav.announcements"), to: "/portal/admin/announcements", icon: "campaign" },
+          { label: t("nav.viewings"), to: "/portal/admin/viewings", icon: "visibility" },
+          { label: t("nav.locks"), to: "/portal/admin/locks", icon: "lock" },
+          { label: t("nav.devices"), to: "/portal/admin/devices", icon: "router" },
+          { label: t("nav.investors"), to: "/portal/admin/investors", icon: "trending_up" },
+          { label: t("nav.expenses"), to: "/portal/admin/expenses", icon: "account_balance" },
+          { label: t("nav.import"), to: "/portal/admin/expenses/import", icon: "upload_file" },
+          { label: t("nav.financials"), to: "/portal/admin/financials", icon: "bar_chart" },
+        ],
+      },
+    ];
+
+    if (role === "ADMIN") return ADMIN_NAV;
+    if (role === "HOUSE_CAPTAIN") return HOUSE_CAPTAIN_NAV;
+    return TENANT_NAV;
+  }, [role, t]);
 }
 
 function NavLink({ link, location, onClick }) {
@@ -106,7 +111,37 @@ function AdminDropdown({ link, location, onLinkClick }) {
   );
 }
 
+function LanguageToggle() {
+  const { lang, setLanguage } = useLanguage();
+  return (
+    <div className="flex items-center gap-1 px-4 py-2">
+      <button
+        onClick={() => setLanguage("en")}
+        className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
+          lang === "en"
+            ? "bg-[#006b5f] text-white"
+            : "text-[#6c7a77] hover:text-[#006b5f]"
+        }`}
+      >
+        EN
+      </button>
+      <span className="text-[#bbcac6]">|</span>
+      <button
+        onClick={() => setLanguage("zh")}
+        className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
+          lang === "zh"
+            ? "bg-[#006b5f] text-white"
+            : "text-[#6c7a77] hover:text-[#006b5f]"
+        }`}
+      >
+        中文
+      </button>
+    </div>
+  );
+}
+
 function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTour }) {
+  const { t } = useLanguage();
   const isAdmin = profile?.role === "ADMIN";
   const unitCode = isAdmin ? "" : (profile?.rooms?.unit_code ?? profile?.room_id ?? "");
   const propertyName = isAdmin ? "Admin" : (profile?.properties?.name ?? profile?.rooms?.name ?? "Hyve");
@@ -126,7 +161,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
           </div>
           <div className="min-w-0">
             <p className="font-['Manrope'] font-bold text-[#121c2a] text-sm truncate">
-              Welcome, {firstName}
+              {t("nav.welcome", { name: firstName })}
             </p>
             <p className="font-['Manrope'] text-[#6c7a77] text-xs truncate">
               {unitCode ? `${unitCode} · ` : ""}{propertyName}
@@ -162,16 +197,17 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
           className="w-full py-3 px-4 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
         >
           <span className="material-symbols-outlined text-[18px]">support_agent</span>
-          Quick Support
+          {t("nav.quickSupport")}
         </Link>
         <div className="space-y-1">
+          <LanguageToggle />
           {onStartTour && (
             <button
               onClick={() => { localStorage.removeItem("hyve_tour_done"); onStartTour(); }}
               className="w-full flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#006b5f] text-sm transition-colors"
             >
               <span className="material-symbols-outlined text-[18px]">tour</span>
-              <span className="font-['Manrope']">Take a Tour</span>
+              <span className="font-['Manrope']">{t("nav.takeTour")}</span>
             </button>
           )}
           <a
@@ -179,14 +215,14 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
             className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#006b5f] text-sm transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">help</span>
-            <span className="font-['Manrope']">Help</span>
+            <span className="font-['Manrope']">{t("nav.help")}</span>
           </a>
           <button
             onClick={signOut}
             className="w-full flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-red-500 text-sm transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">logout</span>
-            <span className="font-['Manrope']">Logout</span>
+            <span className="font-['Manrope']">{t("nav.logout")}</span>
           </button>
         </div>
       </div>
@@ -226,7 +262,7 @@ function MobileBottomNav({ navLinks, location }) {
 export default function PortalLayout({ children }) {
   const { profile, signOut } = useAuth();
   const location = useLocation();
-  const navLinks = getNavLinks(profile?.role);
+  const navLinks = useNavLinks(profile?.role);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showTour, setShowTour] = useState(false);
 

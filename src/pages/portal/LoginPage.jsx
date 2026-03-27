@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { supabase } from "../../lib/supabase";
+import { useLanguage } from "../../i18n/LanguageContext";
 
 export default function LoginPage() {
   const { signIn } = useAuth();
   const navigate = useNavigate();
+  const { lang, setLanguage, t } = useLanguage();
 
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +21,7 @@ export default function LoginPage() {
     setResetSent(false);
     setResetError(null);
     if (!identifier || !identifier.includes("@")) {
-      setResetError("Please enter your email address to reset password.");
+      setResetError(t("login.resetEmailRequired"));
       return;
     }
     const { error: resetErr } = await supabase.auth.resetPasswordForEmail(identifier);
@@ -62,21 +64,21 @@ export default function LoginPage() {
           </div>
           <div className="max-w-md">
             <h1 className="font-['Plus_Jakarta_Sans'] text-5xl font-bold text-white leading-tight tracking-tight mb-8">
-              Your Sanctuary Awaits
+              {t("login.heroTitle")}
             </h1>
             <p className="text-[#71f8e4] text-lg font-medium leading-relaxed mb-12 opacity-90">
-              Welcome back to your co-living portal. Manage payments, report issues, and stay connected with your community.
+              {t("login.heroSubtitle")}
             </p>
             <div className="grid grid-cols-2 gap-6">
               <div className="p-6 rounded-xl bg-white/5 backdrop-blur-md border border-white/10">
                 <span className="material-symbols-outlined text-[#71f8e4] text-3xl mb-4 block">payments</span>
-                <h3 className="text-white font-['Plus_Jakarta_Sans'] font-bold text-sm mb-1">Easy Billing</h3>
-                <p className="text-white/60 text-xs">Pay rent and track invoices seamlessly.</p>
+                <h3 className="text-white font-['Plus_Jakarta_Sans'] font-bold text-sm mb-1">{t("login.easyBilling")}</h3>
+                <p className="text-white/60 text-xs">{t("login.easyBillingDesc")}</p>
               </div>
               <div className="p-6 rounded-xl bg-white/5 backdrop-blur-md border border-white/10">
                 <span className="material-symbols-outlined text-[#71f8e4] text-3xl mb-4 block">support_agent</span>
-                <h3 className="text-white font-['Plus_Jakarta_Sans'] font-bold text-sm mb-1">24/7 Support</h3>
-                <p className="text-white/60 text-xs">Report issues and track resolutions.</p>
+                <h3 className="text-white font-['Plus_Jakarta_Sans'] font-bold text-sm mb-1">{t("login.support247")}</h3>
+                <p className="text-white/60 text-xs">{t("login.support247Desc")}</p>
               </div>
             </div>
           </div>
@@ -84,7 +86,7 @@ export default function LoginPage() {
             <div className="w-8 h-8 rounded-full bg-[#71f8e4]/20 flex items-center justify-center">
               <span className="material-symbols-outlined text-[#71f8e4] text-[16px]">verified</span>
             </div>
-            <span className="text-white text-sm font-['Manrope'] font-medium">Trusted across Singapore & Malaysia</span>
+            <span className="text-white text-sm font-['Manrope'] font-medium">{t("login.trustedAcross")}</span>
           </div>
         </div>
       </section>
@@ -96,11 +98,36 @@ export default function LoginPage() {
             <div className="lg:hidden mb-8">
               <img src="/hyve-logo.png" alt="Hyve" className="h-8" />
             </div>
-            <h2 className="font-['Plus_Jakarta_Sans'] text-3xl font-bold text-[#121c2a] mb-3 tracking-tight">
-              Welcome Back
-            </h2>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-['Plus_Jakarta_Sans'] text-3xl font-bold text-[#121c2a] tracking-tight">
+                {t("login.title")}
+              </h2>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => setLanguage("en")}
+                  className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
+                    lang === "en"
+                      ? "bg-[#006b5f] text-white"
+                      : "text-[#6c7a77] hover:text-[#006b5f]"
+                  }`}
+                >
+                  EN
+                </button>
+                <span className="text-[#bbcac6]">|</span>
+                <button
+                  onClick={() => setLanguage("zh")}
+                  className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
+                    lang === "zh"
+                      ? "bg-[#006b5f] text-white"
+                      : "text-[#6c7a77] hover:text-[#006b5f]"
+                  }`}
+                >
+                  中文
+                </button>
+              </div>
+            </div>
             <p className="text-[#555f6f] font-['Manrope'] font-medium">
-              Sign in to access your member portal.
+              {t("login.subtitle")}
             </p>
           </div>
 
@@ -117,7 +144,7 @@ export default function LoginPage() {
                 className="block text-xs font-['Inter'] font-semibold text-[#6c7a77] uppercase tracking-widest mb-2 ml-1"
                 htmlFor="identifier"
               >
-                Username or Email
+                {t("login.username")}
               </label>
               <div className="relative group">
                 <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#6c7a77] group-focus-within:text-[#006b5f] transition-colors">
@@ -131,7 +158,7 @@ export default function LoginPage() {
                   required
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  placeholder="username or email"
+                  placeholder={t("login.usernamePlaceholder")}
                 />
               </div>
             </div>
@@ -141,7 +168,7 @@ export default function LoginPage() {
                 className="block text-xs font-['Inter'] font-semibold text-[#6c7a77] uppercase tracking-widest mb-2 ml-1"
                 htmlFor="password"
               >
-                Password
+                {t("login.password")}
               </label>
               <div className="relative group">
                 <input
@@ -168,12 +195,12 @@ export default function LoginPage() {
                   onClick={handleForgotPassword}
                   className="text-xs font-['Manrope'] font-medium text-[#006b5f] hover:underline transition-colors"
                 >
-                  Forgot password?
+                  {t("login.forgotPassword")}
                 </button>
               </div>
               {resetSent && (
                 <p className="text-xs font-['Manrope'] text-[#006b5f] mt-1">
-                  Password reset email sent. Check your inbox.
+                  {t("login.resetSent")}
                 </p>
               )}
               {resetError && (
@@ -188,7 +215,7 @@ export default function LoginPage() {
               type="submit"
               disabled={submitting}
             >
-              {submitting ? "Signing in…" : "Sign In"}
+              {submitting ? t("login.signingIn") : t("login.signIn")}
               {!submitting && (
                 <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">
                   arrow_forward
@@ -200,11 +227,11 @@ export default function LoginPage() {
           <div className="mt-12 pt-8 border-t border-[#bbcac6]/20 flex justify-center gap-8">
             <div className="flex items-center gap-2 opacity-40">
               <span className="material-symbols-outlined text-sm">verified_user</span>
-              <span className="text-[10px] font-['Inter'] font-bold uppercase tracking-widest">SSL Encrypted</span>
+              <span className="text-[10px] font-['Inter'] font-bold uppercase tracking-widest">{t("login.sslEncrypted")}</span>
             </div>
             <div className="flex items-center gap-2 opacity-40">
               <span className="material-symbols-outlined text-sm">gpp_good</span>
-              <span className="text-[10px] font-['Inter'] font-bold uppercase tracking-widest">GDPR Compliant</span>
+              <span className="text-[10px] font-['Inter'] font-bold uppercase tracking-widest">{t("login.gdprCompliant")}</span>
             </div>
           </div>
         </div>
