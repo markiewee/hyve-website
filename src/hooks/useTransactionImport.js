@@ -104,6 +104,7 @@ async function insertInChunks(rows, batchId, onProgress) {
     const chunk = rows.slice(i, i + CHUNK_SIZE).map(row => ({
       ...row,
       import_batch_id: batchId,
+      transaction_type: row.transaction_type ?? (row.amount < 0 ? 'EXPENSE' : 'INCOME'),
     }));
 
     const { error } = await supabase.from('bank_transactions').insert(chunk);

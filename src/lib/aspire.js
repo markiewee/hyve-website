@@ -62,7 +62,10 @@ function normalizeTransaction(raw) {
   const reference =
     raw.reference ?? raw.ref_code ?? raw.transaction_reference ?? raw.id ?? '';
 
-  return { transaction_date, description, amount, currency, reference };
+  // Preserve Aspire type as INCOME/EXPENSE
+  const transaction_type = raw.type === 'credit' ? 'INCOME' : 'EXPENSE';
+
+  return { transaction_date, description, amount, currency, reference, transaction_type };
 }
 
 /**

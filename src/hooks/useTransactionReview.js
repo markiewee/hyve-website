@@ -10,7 +10,9 @@ import { extractVendorPattern } from '../lib/tagging';
 export function useTransactionReview(batchId) {
   const [transactions, setTransactions] = useState([]);
   const [properties, setProperties] = useState([]);
+  const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [typeFilter, setTypeFilter] = useState('ALL'); // 'ALL' | 'INCOME' | 'EXPENSE'
 
   // ─── Fetch ──────────────────────────────────────────────────────────────────
 
@@ -28,13 +30,17 @@ export function useTransactionReview(batchId) {
         query = query.in('status', ['PENDING', 'AUTO_TAGGED']);
       }
 
+      if (typeFilter !== 'ALL') {
+        query = query.eq('transaction_type', typeFilter);
+      }
+
       const { data, error } = await query;
       if (error) throw error;
       setTransactions(data ?? []);
     } finally {
       setLoading(false);
     }
-  }, [batchId]);
+  }, [batchId, typeFilter]);
 
   const fetchProperties = useCallback(async () => {
     const { data, error } = await supabase
@@ -45,11 +51,24 @@ export function useTransactionReview(batchId) {
     setProperties(data ?? []);
   }, []);
 
-  // Load on mount / when batchId changes
+  const fetchRooms = useCallback(async () => {
+    const { data, error } = await supabase
+      .from('rooms')
+      .select('id, name, property_id')
+      .order('name', { ascending: true });
+    if (error) {
+      console.warn('[useTransactionReview] Could not load rooms:', error.message);
+      return;
+    }
+    setRooms(data ?? []);
+  }, []);
+
+  // Load on mount / when batchId or typeFilter changes
   useEffect(() => {
     fetchTransactions();
     fetchProperties();
-  }, [fetchTransactions, fetchProperties]);
+    fetchRooms();
+  }, [fetchTransactions, fetchProperties, fetchRooms]);
 
   // ─── Stats ───────────────────────────────────────────────────────────────────
 
@@ -72,17 +91,22 @@ export function useTransactionReview(batchId) {
    * @param {string} propertyId
    * @param {string} category
    * @param {string|null} month — Optional. If not provided, derived from transaction_date.
+   * @param {{ room_id?: string, transaction_type?: string }} extra — Optional extra fields.
    */
-  const confirmTag = useCallback(async (transactionId, propertyId, category, month = null) => {
+  const confirmTag = useCallback(async (transactionId, propertyId, category, month = null, extra = {}) => {
     // a) Update the transaction row
+    const updatePayload = {
+      property_id: propertyId,
+      category,
+      status: 'CONFIRMED',
+      confidence: 1.0,
+    };
+    if (extra.transaction_type) updatePayload.transaction_type = extra.transaction_type;
+    if (extra.room_id) updatePayload.room_id = extra.room_id;
+
     const { data: updatedRows, error: updateError } = await supabase
       .from('bank_transactions')
-      .update({
-        property_id: propertyId,
-        category,
-        status: 'CONFIRMED',
-        confidence: 1.0,
-      })
+      .update(updatePayload)
       .eq('id', transactionId)
       .select()
       .single();
@@ -92,6 +116,7 @@ export function useTransactionReview(batchId) {
 
     // b) Upsert tagging_rules — select-then-insert/update to handle nullable property_id
     const vendorPattern = extractVendorPattern(tx.description);
+    const txType = tx.transaction_type ?? (tx.amount >= 0 ? 'INCOME' : 'EXPENSE');
 
     if (vendorPattern) {
       let existingRuleQuery = supabase
@@ -118,6 +143,7 @@ export function useTransactionReview(batchId) {
           .update({
             hit_count: (rule.hit_count ?? 0) + 1,
             last_used_at: new Date().toISOString(),
+            transaction_type: txType,
           })
           .eq('id', rule.id);
         if (ruleUpdateError) throw ruleUpdateError;
@@ -129,6 +155,7 @@ export function useTransactionReview(batchId) {
             vendor_pattern: vendorPattern,
             property_id: propertyId ?? null,
             category,
+            transaction_type: txType,
             hit_count: 1,
             last_used_at: new Date().toISOString(),
           });
@@ -201,14 +228,35 @@ export function useTransactionReview(batchId) {
 
   // ─── Return ──────────────────────────────────────────────────────────────────
 
+  /**
+   * Assign a room to a transaction.
+   *
+   * @param {string} transactionId
+   * @param {string|null} roomId
+   */
+  const assignRoom = useCallback(async (transactionId, roomId) => {
+    const { error } = await supabase
+      .from('bank_transactions')
+      .update({ room_id: roomId || null })
+      .eq('id', transactionId);
+    if (error) throw error;
+    await fetchTransactions();
+  }, [fetchTransactions]);
+
+  // ─── Return ──────────────────────────────────────────────────────────────────
+
   return {
     transactions,
     properties,
+    rooms,
     loading,
     stats,
+    typeFilter,
+    setTypeFilter,
     confirmTag,
     ignoreTransaction,
     bulkConfirmAutoTagged,
+    assignRoom,
     refresh: fetchTransactions,
   };
 }

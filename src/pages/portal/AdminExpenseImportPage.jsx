@@ -1,10 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import PortalLayout from "../../components/portal/PortalLayout";
 import CsvUploader from "../../components/portal/CsvUploader";
 import TransactionReviewBoard from "../../components/portal/TransactionReviewBoard";
 import { useTransactionImport } from "../../hooks/useTransactionImport";
 import { useTransactionReview } from "../../hooks/useTransactionReview";
 import { aspire } from "../../lib/aspire";
+import { supabase } from "../../lib/supabase";
+
+function formatSGD(amount) {
+  if (amount == null) return "--";
+  return new Intl.NumberFormat("en-SG", {
+    style: "currency",
+    currency: "SGD",
+    minimumFractionDigits: 2,
+  }).format(amount);
+}
 
 function MetricCard({ label, value, icon, color }) {
   return (
@@ -25,7 +35,7 @@ function MetricCard({ label, value, icon, color }) {
           {label}
         </p>
         <p className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#121c2a]">
-          {value ?? "—"}
+          {value ?? "--"}
         </p>
       </div>
     </div>
@@ -46,6 +56,14 @@ export default function AdminExpenseImportPage() {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
+  // Account nicknames
+  const [nicknames, setNicknames] = useState({});
+  const [editingNickname, setEditingNickname] = useState(null);
+  const [nicknameInput, setNicknameInput] = useState("");
+
+  // Import result summary
+  const [importResult, setImportResult] = useState(null);
+
   // Active batch for review
   const [batchId, setBatchId] = useState(null);
 
@@ -55,15 +73,66 @@ export default function AdminExpenseImportPage() {
   const {
     transactions,
     properties,
+    rooms,
     loading: reviewLoading,
     stats,
+    typeFilter,
+    setTypeFilter,
     confirmTag,
     ignoreTransaction,
     bulkConfirmAutoTagged,
+    assignRoom,
     refresh,
   } = useTransactionReview(batchId);
 
-  // Load Aspire accounts on mount
+  // ─── Nicknames ────────────────────────────────────────────────────────────────
+
+  const fetchNicknames = useCallback(async () => {
+    const { data } = await supabase.from("account_nicknames").select("*");
+    const map = {};
+    (data ?? []).forEach((n) => {
+      map[n.aspire_account_id] = n;
+    });
+    setNicknames(map);
+  }, []);
+
+  useEffect(() => {
+    fetchNicknames();
+  }, [fetchNicknames]);
+
+  async function saveNickname(accountId) {
+    if (!nicknameInput.trim()) return;
+    const { error } = await supabase.from("account_nicknames").upsert(
+      {
+        aspire_account_id: accountId,
+        nickname: nicknameInput.trim(),
+      },
+      { onConflict: "aspire_account_id" }
+    );
+    if (!error) {
+      await fetchNicknames();
+    }
+    setEditingNickname(null);
+    setNicknameInput("");
+  }
+
+  function getAccountLabel(acc) {
+    const id = acc.id ?? acc;
+    const nick = nicknames[id];
+    const name =
+      nick?.nickname ??
+      acc.debit_details?.[0]?.account_name ??
+      acc.name ??
+      id;
+    const bal =
+      acc.available_balance != null
+        ? ` (${formatSGD(acc.available_balance / 100)})`
+        : "";
+    return `${name}${bal}`;
+  }
+
+  // ─── Load Aspire accounts ─────────────────────────────────────────────────────
+
   useEffect(() => {
     setAccountsLoading(true);
     setAccountsError(null);
@@ -83,18 +152,37 @@ export default function AdminExpenseImportPage() {
       .finally(() => setAccountsLoading(false));
   }, []);
 
+  // ─── Import handlers ──────────────────────────────────────────────────────────
+
   async function handleAspireImport() {
     if (!selectedAccount || !fromDate || !toDate) return;
+    setImportResult(null);
     const result = await importFromAspire(selectedAccount, fromDate, toDate);
     if (result?.batchId) {
       setBatchId(result.batchId);
+      // Count income vs expense from the batch
+      const { data: batchTxns } = await supabase
+        .from("bank_transactions")
+        .select("transaction_type")
+        .eq("import_batch_id", result.batchId);
+      const incomeCount = (batchTxns ?? []).filter((t) => t.transaction_type === "INCOME").length;
+      const expenseCount = (batchTxns ?? []).filter((t) => t.transaction_type === "EXPENSE").length;
+      setImportResult({ total: result.total, autoTagged: result.autoTagged, incomeCount, expenseCount });
     }
   }
 
   async function handleCsvUpload(file) {
+    setImportResult(null);
     const result = await importFromCsv(file);
     if (result?.batchId) {
       setBatchId(result.batchId);
+      const { data: batchTxns } = await supabase
+        .from("bank_transactions")
+        .select("transaction_type")
+        .eq("import_batch_id", result.batchId);
+      const incomeCount = (batchTxns ?? []).filter((t) => t.transaction_type === "INCOME").length;
+      const expenseCount = (batchTxns ?? []).filter((t) => t.transaction_type === "EXPENSE").length;
+      setImportResult({ total: result.total, autoTagged: result.autoTagged, incomeCount, expenseCount });
     }
   }
 
@@ -105,13 +193,13 @@ export default function AdminExpenseImportPage() {
       {/* Page header */}
       <div className="mb-8">
         <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">
-          Expenses
+          Accounting
         </p>
         <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#121c2a]">
-          Smart Expense Import
+          Smart Transaction Import
         </h1>
         <p className="font-['Manrope'] text-sm text-[#6c7a77] mt-1">
-          Import transactions from Aspire or a CSV file, then review and tag them.
+          Import transactions from Aspire or a CSV file, then review and tag them as income or expenses.
         </p>
       </div>
 
@@ -157,7 +245,7 @@ export default function AdminExpenseImportPage() {
               </div>
             ) : (
               <>
-                {/* Account selector */}
+                {/* Account selector with nickname */}
                 <div>
                   <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block mb-1.5">
                     Account
@@ -165,24 +253,68 @@ export default function AdminExpenseImportPage() {
                   {accountsLoading ? (
                     <div className="h-10 bg-[#eff4ff] rounded-xl animate-pulse w-64" />
                   ) : (
-                    <select
-                      value={selectedAccount}
-                      onChange={(e) => setSelectedAccount(e.target.value)}
-                      className="w-full max-w-xs h-10 px-3 rounded-xl border border-[#bbcac6]/40 bg-white font-['Manrope'] text-sm text-[#121c2a] focus:outline-none focus:ring-2 focus:ring-[#006b5f]/30"
-                    >
-                      {accounts.length === 0 && (
-                        <option value="">No accounts found</option>
-                      )}
-                      {accounts.map((acc) => {
-                        const name = acc.debit_details?.[0]?.account_name || acc.name || acc.id || acc;
-                        const bal = acc.available_balance != null ? ` (${acc.currency_code || "SGD"} ${(acc.available_balance / 100).toLocaleString("en-SG", { minimumFractionDigits: 2 })})` : "";
-                        return (
+                    <div className="flex items-center gap-3">
+                      <select
+                        value={selectedAccount}
+                        onChange={(e) => setSelectedAccount(e.target.value)}
+                        className="w-full max-w-xs h-10 px-3 rounded-xl border border-[#bbcac6]/40 bg-white font-['Manrope'] text-sm text-[#121c2a] focus:outline-none focus:ring-2 focus:ring-[#006b5f]/30"
+                      >
+                        {accounts.length === 0 && (
+                          <option value="">No accounts found</option>
+                        )}
+                        {accounts.map((acc) => (
                           <option key={acc.id ?? acc} value={acc.id ?? acc}>
-                            {name}{bal}
+                            {getAccountLabel(acc)}
                           </option>
-                        );
-                      })}
-                    </select>
+                        ))}
+                      </select>
+
+                      {/* Nickname display / edit */}
+                      {selectedAccount && (
+                        <>
+                          {editingNickname === selectedAccount ? (
+                            <div className="flex items-center gap-1">
+                              <input
+                                type="text"
+                                value={nicknameInput}
+                                onChange={(e) => setNicknameInput(e.target.value)}
+                                placeholder="Nickname..."
+                                className="h-8 px-2 rounded-lg border border-[#bbcac6]/40 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f]/30"
+                                onKeyDown={(e) => e.key === "Enter" && saveNickname(selectedAccount)}
+                              />
+                              <button
+                                onClick={() => saveNickname(selectedAccount)}
+                                className="h-8 px-2 rounded-lg bg-[#006b5f] text-white text-xs font-semibold"
+                              >
+                                Save
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setEditingNickname(null);
+                                  setNicknameInput("");
+                                }}
+                                className="h-8 px-2 rounded-lg border border-[#bbcac6]/30 text-xs text-[#6c7a77]"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                setEditingNickname(selectedAccount);
+                                setNicknameInput(nicknames[selectedAccount]?.nickname ?? "");
+                              }}
+                              className="text-xs text-[#006b5f] font-['Manrope'] font-semibold hover:underline flex items-center gap-1"
+                            >
+                              <span className="material-symbols-outlined text-[14px]">edit</span>
+                              {nicknames[selectedAccount]?.nickname
+                                ? `"${nicknames[selectedAccount].nickname}"`
+                                : "Set nickname"}
+                            </button>
+                          )}
+                        </>
+                      )}
+                    </div>
                   )}
                 </div>
 
@@ -228,7 +360,7 @@ export default function AdminExpenseImportPage() {
                       <span className="material-symbols-outlined text-[18px] animate-spin">
                         progress_activity
                       </span>
-                      Importing… {progress != null ? `${progress}%` : ""}
+                      Importing... {progress?.inserted ?? 0}/{progress?.total ?? 0}
                     </>
                   ) : (
                     <>
@@ -263,24 +395,36 @@ export default function AdminExpenseImportPage() {
       {hasBatch && (
         <>
           {/* Metric cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
             <MetricCard
               label="Imported"
-              value={stats?.total}
+              value={importResult?.total ?? stats?.total ?? transactions.length}
               icon="receipt_long"
               color="#006b5f"
             />
             <MetricCard
               label="Auto-Tagged"
-              value={stats?.autoTagged}
+              value={importResult?.autoTagged ?? stats?.autoTagged}
               icon="auto_awesome"
               color="#4f7cff"
             />
             <MetricCard
               label="Needs Review"
-              value={stats?.needsReview}
+              value={stats?.pending}
               icon="pending_actions"
               color="#f59e0b"
+            />
+            <MetricCard
+              label="Income"
+              value={importResult?.incomeCount ?? "--"}
+              icon="trending_up"
+              color="#16a34a"
+            />
+            <MetricCard
+              label="Expenses"
+              value={importResult?.expenseCount ?? "--"}
+              icon="trending_down"
+              color="#ba1a1a"
             />
           </div>
 
@@ -291,17 +435,21 @@ export default function AdminExpenseImportPage() {
                 progress_activity
               </span>
               <p className="font-['Manrope'] text-sm text-[#6c7a77]">
-                Loading transactions…
+                Loading transactions...
               </p>
             </div>
           ) : (
             <TransactionReviewBoard
               transactions={transactions}
               properties={properties}
+              rooms={rooms}
               onConfirm={confirmTag}
               onIgnore={ignoreTransaction}
               onBulkConfirm={bulkConfirmAutoTagged}
+              onAssignRoom={assignRoom}
               stats={stats}
+              typeFilter={typeFilter}
+              onTypeFilterChange={setTypeFilter}
             />
           )}
         </>

@@ -73,18 +73,34 @@ export function matchScore(rulePattern, transactionDesc) {
 }
 
 /**
+ * Infer the transaction_type from the amount sign.
+ *
+ * @param {number} amount
+ * @returns {'INCOME'|'EXPENSE'}
+ */
+export function inferTransactionType(amount) {
+  return amount > 0 ? 'INCOME' : 'EXPENSE';
+}
+
+/**
  * Find the best matching rule for a transaction.
  *
  * For each rule, the raw matchScore is boosted by:
  *   log10(hit_count + 1) * 0.05, capped at 1.0
  *
+ * Rules with a `transaction_type` field are preferred when they match the
+ * transaction's own type (from the transaction_type field or inferred from
+ * the amount sign). A type mismatch applies a 0.2 penalty.
+ *
  * @param {Object} transaction — must have a `description` field
- * @param {Array}  rules       — each rule must have `pattern`, `property_id`, `category`, `id`, optionally `hit_count`
+ * @param {Array}  rules       — each rule must have `pattern`, `property_id`, `category`, `id`, optionally `hit_count`, `transaction_type`
  * @param {number} threshold   — minimum confidence to return a match (default 0.6)
  * @returns {{ rule: Object, confidence: number } | null}
  */
 export function findBestMatch(transaction, rules, threshold = 0.6) {
   if (!transaction || !Array.isArray(rules) || rules.length === 0) return null;
+
+  const txType = transaction.transaction_type ?? inferTransactionType(transaction.amount ?? 0);
 
   let best = null;
   let bestScore = -Infinity;
@@ -95,7 +111,12 @@ export function findBestMatch(transaction, rules, threshold = 0.6) {
 
     const hitCount = typeof rule.hit_count === 'number' ? rule.hit_count : 0;
     const boost = Math.log10(hitCount + 1) * 0.05;
-    const score = Math.min(1.0, base + boost);
+    let score = Math.min(1.0, base + boost);
+
+    // Penalise type mismatch when the rule specifies a transaction_type
+    if (rule.transaction_type && rule.transaction_type !== txType) {
+      score = Math.max(0, score - 0.2);
+    }
 
     if (score > bestScore) {
       bestScore = score;
@@ -124,11 +145,13 @@ export function autoTagTransactions(transactions, rules) {
   if (!Array.isArray(transactions)) return [];
 
   return transactions.map(transaction => {
+    const txType = transaction.transaction_type ?? inferTransactionType(transaction.amount ?? 0);
     const match = findBestMatch(transaction, rules);
 
     if (match) {
       return {
         ...transaction,
+        transaction_type: match.rule.transaction_type ?? txType,
         property_id: match.rule.property_id,
         category: match.rule.category,
         confidence: match.confidence,
@@ -139,6 +162,7 @@ export function autoTagTransactions(transactions, rules) {
 
     return {
       ...transaction,
+      transaction_type: txType,
       status: 'PENDING',
       confidence: 0,
     };
