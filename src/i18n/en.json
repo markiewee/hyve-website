@@ -25,7 +25,8 @@
     "help": "Help",
     "maintenance": "Maintenance",
     "logout": "Logout",
-    "welcome": "Welcome, {name}"
+    "welcome": "Welcome, {name}",
+    "defaultName": "Member"
   },
   "login": {
     "title": "Welcome Back",

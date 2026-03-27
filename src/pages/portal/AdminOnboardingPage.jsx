@@ -74,8 +74,10 @@ export default function AdminOnboardingPage() {
   const [inviteEndDateManual, setInviteEndDateManual] = useState("");
   const [inviteRefNumber, setInviteRefNumber] = useState("");
   const [rooms, setRooms] = useState([]);
+  const [occupiedRoomMap, setOccupiedRoomMap] = useState({}); // room_id -> tenant username
   const [inviting, setInviting] = useState(false);
   const [inviteResult, setInviteResult] = useState(null);
+  const [wizardErrors, setWizardErrors] = useState({});
 
   // TA preview state
   const [templates, setTemplates] = useState([]);
@@ -114,6 +116,20 @@ export default function AdminOnboardingPage() {
       .then(({ data }) => {
         setTemplates(data ?? []);
         if (data?.length > 0) setSelectedTemplateId(data[0].id);
+      });
+    // Fetch which rooms are occupied by active/onboarding tenants
+    supabase.from("onboarding_progress")
+      .select("status, tenant_profiles(room_id, username)")
+      .in("status", ["ACTIVE", "ONBOARDING", "IN_PROGRESS"])
+      .then(({ data }) => {
+        const map = {};
+        (data ?? []).forEach(row => {
+          const tp = row.tenant_profiles;
+          if (tp?.room_id) {
+            map[tp.room_id] = tp.username || "Tenant";
+          }
+        });
+        setOccupiedRoomMap(map);
       });
   }, []);
 
@@ -257,6 +273,17 @@ export default function AdminOnboardingPage() {
     if (error) console.error("Error fetching onboarding progress:", error);
     setRows(data ?? []);
     setLoading(false);
+
+    // Refresh occupied room map
+    const { data: occData } = await supabase.from("onboarding_progress")
+      .select("status, tenant_profiles(room_id, username)")
+      .in("status", ["ACTIVE", "ONBOARDING", "IN_PROGRESS"]);
+    const map = {};
+    (occData ?? []).forEach(row => {
+      const tp = row.tenant_profiles;
+      if (tp?.room_id) map[tp.room_id] = tp.username || "Tenant";
+    });
+    setOccupiedRoomMap(map);
   }
 
   useEffect(() => {
@@ -303,7 +330,7 @@ export default function AdminOnboardingPage() {
           </p>
         </div>
         <button
-          onClick={() => { setShowInvite(true); setInviteResult(null); setInviteUsername(""); setWizardStep(1); }}
+          onClick={() => { setShowInvite(true); setInviteResult(null); setInviteUsername(""); setWizardStep(1); setWizardErrors({}); }}
           className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] transition-colors shrink-0"
         >
           <span className="material-symbols-outlined text-[18px]">person_add</span>
@@ -362,15 +389,37 @@ export default function AdminOnboardingPage() {
                       className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
                     >
                       <option value="">Select room</option>
-                      {rooms.map(r => (
-                        <option key={r.id} value={r.id}>{r.unit_code} — {r.name} ({r.properties?.name})</option>
-                      ))}
+                      {[...rooms].sort((a, b) => {
+                        const aOcc = !!occupiedRoomMap[a.id];
+                        const bOcc = !!occupiedRoomMap[b.id];
+                        if (aOcc !== bOcc) return aOcc ? 1 : -1;
+                        return (a.unit_code || "").localeCompare(b.unit_code || "");
+                      }).map(r => {
+                        const occupant = occupiedRoomMap[r.id];
+                        return (
+                          <option key={r.id} value={r.id} disabled={!!occupant}>
+                            {r.unit_code} — {r.name} ({r.properties?.name}){occupant ? ` (Occupied — ${occupant})` : ""}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
+                  {wizardErrors.step1 && (
+                    <p className="text-sm text-[#ba1a1a] bg-[#ffdad6]/40 rounded-lg px-3 py-2">{wizardErrors.step1}</p>
+                  )}
                   <button
-                    onClick={() => setWizardStep(2)}
-                    disabled={!inviteUsername.trim() || inviteUsername.trim().length < 3 || !inviteRoomId}
-                    className="w-full py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2"
+                    onClick={() => {
+                      const errors = [];
+                      if (!inviteUsername.trim() || inviteUsername.trim().length < 3) errors.push("Username is required (min 3 characters)");
+                      if (!inviteRoomId) errors.push("Room is required");
+                      if (errors.length > 0) {
+                        setWizardErrors({ step1: errors.join(". ") + "." });
+                        return;
+                      }
+                      setWizardErrors({});
+                      setWizardStep(2);
+                    }}
+                    className="w-full py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] flex items-center justify-center gap-2"
                   >
                     Next: Tenancy Details
                     <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -498,6 +547,9 @@ export default function AdminOnboardingPage() {
                     <p><span className="text-[#6c7a77]">Period:</span> <strong>{calcLicencePeriod} months</strong> from <strong>{inviteStartDate || "TBD"}</strong>{inviteEndDate ? ` to ${inviteEndDate}` : ""}</p>
                   </div>
 
+                  {wizardErrors.step2 && (
+                    <p className="text-sm text-[#ba1a1a] bg-[#ffdad6]/40 rounded-lg px-3 py-2">{wizardErrors.step2}</p>
+                  )}
                   <div className="flex gap-3">
                     <button
                       onClick={() => setWizardStep(1)}
@@ -506,9 +558,20 @@ export default function AdminOnboardingPage() {
                       Back
                     </button>
                     <button
-                      onClick={() => { generateTaPreview(); setWizardStep(3); }}
-                      disabled={!inviteRent || !inviteDeposit || !inviteStartDate}
-                      className="flex-[2] py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2"
+                      onClick={() => {
+                        const errors = [];
+                        if (!inviteRent) errors.push("Monthly rent is required");
+                        if (!inviteDeposit) errors.push("Deposit is required");
+                        if (!inviteStartDate) errors.push("Start date is required");
+                        if (errors.length > 0) {
+                          setWizardErrors({ step2: errors.join(". ") + "." });
+                          return;
+                        }
+                        setWizardErrors({});
+                        generateTaPreview();
+                        setWizardStep(3);
+                      }}
+                      className="flex-[2] py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] flex items-center justify-center gap-2"
                     >
                       Next: Review Agreement
                       <span className="material-symbols-outlined text-[18px]">arrow_forward</span>

@@ -25,7 +25,8 @@
     "help": "帮助",
     "maintenance": "维护计划",
     "logout": "退出登录",
-    "welcome": "你好，{name}"
+    "welcome": "你好，{name}",
+    "defaultName": "住户"
   },
   "login": {
     "title": "欢迎回来",

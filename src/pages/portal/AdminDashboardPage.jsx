@@ -15,6 +15,7 @@ export default function AdminDashboardPage() {
     activeTenants: 0,
     openTickets: 0,
     onlineDevices: 0,
+    totalDevices: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -80,7 +81,7 @@ export default function AdminDashboardPage() {
         Date.now() - ONLINE_THRESHOLD_MINUTES * 60 * 1000
       ).toISOString();
 
-      const [rooms, tenants, tickets, devices] = await Promise.all([
+      const [rooms, tenants, tickets, devices, allDevices] = await Promise.all([
         supabase.from("rooms").select("id", { count: "exact", head: true }),
         supabase
           .from("tenant_profiles")
@@ -94,6 +95,9 @@ export default function AdminDashboardPage() {
           .from("device_status")
           .select("id", { count: "exact", head: true })
           .gte("last_heartbeat", onlineThreshold),
+        supabase
+          .from("device_status")
+          .select("id", { count: "exact", head: true }),
       ]);
 
       setCounts({
@@ -101,6 +105,7 @@ export default function AdminDashboardPage() {
         activeTenants: tenants.count ?? 0,
         openTickets: tickets.count ?? 0,
         onlineDevices: devices.count ?? 0,
+        totalDevices: allDevices.count ?? 0,
       });
       setLoading(false);
     }
@@ -143,8 +148,9 @@ export default function AdminDashboardPage() {
       iconCls: "text-[#ba1a1a] group-hover:text-white",
     },
     {
-      label: "Online Devices",
-      value: counts.onlineDevices,
+      label: "Devices",
+      value: counts.totalDevices,
+      subtitle: `${counts.onlineDevices} online`,
       icon: "router",
       to: "/portal/admin/devices",
       accent: "text-[#006b5f]",
@@ -192,9 +198,16 @@ export default function AdminDashboardPage() {
               {loading ? (
                 <div className="h-8 w-16 bg-[#eff4ff] animate-pulse rounded" />
               ) : (
-                <p className={`font-['Plus_Jakarta_Sans'] text-3xl font-extrabold ${stat.valueCls} transition-colors`}>
-                  {stat.value}
-                </p>
+                <>
+                  <p className={`font-['Plus_Jakarta_Sans'] text-3xl font-extrabold ${stat.valueCls} transition-colors`}>
+                    {stat.value}
+                  </p>
+                  {stat.subtitle && (
+                    <p className={`font-['Manrope'] text-xs mt-0.5 ${stat.labelCls} transition-colors`}>
+                      {stat.subtitle}
+                    </p>
+                  )}
+                </>
               )}
             </div>
           </Link>

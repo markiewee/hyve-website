@@ -84,13 +84,14 @@ const CATEGORY_LABELS = {
 // ─── Components ───────────────────────────────────────────────────────────────
 
 function SummaryCard({ label, value, color, bgClass }) {
+  const displayValue = value != null && !isNaN(value) ? value : 0;
   return (
     <div className={`rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm ${bgClass ?? "bg-white"}`}>
       <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">
         {label}
       </p>
       <p className={`font-['Plus_Jakarta_Sans'] text-3xl font-extrabold ${color}`}>
-        {formatSGD(value)}
+        {formatSGD(displayValue)}
       </p>
     </div>
   );
@@ -602,8 +603,13 @@ export default function AdminFinancialsPage() {
         <div className="space-y-6">
           {/* Property cards */}
           {visibleProperties.map((prop) => {
-            const data = pnlByProperty[prop.id];
-            if (!data) return null;
+            const data = pnlByProperty[prop.id] ?? {
+              incomeByCategory: {},
+              expenseByCategory: {},
+              totalIncome: 0,
+              totalExpenses: 0,
+              netProfit: 0,
+            };
             return (
               <PropertyPnL key={prop.id} property={prop} data={data} />
             );

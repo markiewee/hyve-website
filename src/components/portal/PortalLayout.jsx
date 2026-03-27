@@ -147,7 +147,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
   const isAdmin = profile?.role === "ADMIN";
   const unitCode = isAdmin ? "" : (profile?.rooms?.unit_code ?? profile?.room_id ?? "");
   const propertyName = isAdmin ? "Admin" : (profile?.properties?.name ?? profile?.rooms?.name ?? "Hyve");
-  const displayName = profile?.tenant_details?.full_name ?? profile?.full_name ?? profile?.email ?? "Member";
+  const displayName = profile?.tenant_details?.full_name ?? profile?.full_name ?? profile?.email ?? t("nav.defaultName");
   const firstName = displayName.split(" ")[0];
 
   return (
@@ -233,14 +233,23 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
   );
 }
 
-function MobileBottomNav({ navLinks, location }) {
-  const flatLinks = navLinks.flatMap((link) =>
-    link.children ? link.children.slice(0, 1) : [link]
-  ).slice(0, 5);
+function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
+  // For dropdown items (e.g. "Manage"), show a button that opens the full sidebar
+  // instead of flattening and losing child links
+  const hasDropdown = navLinks.some((link) => link.children);
+
+  // Top-level links only (no children expansion)
+  const topLinks = navLinks.filter((link) => !link.children);
+  // Take up to 4 top-level links if there's a dropdown, otherwise up to 5
+  const visibleLinks = hasDropdown ? topLinks.slice(0, 4) : topLinks.slice(0, 5);
+
+  // Find the first dropdown for the "More" button label/icon
+  const dropdownLink = navLinks.find((link) => link.children);
+  const isDropdownChildActive = dropdownLink?.children?.some((c) => location.pathname === c.to);
 
   return (
     <div className="md:hidden fixed bottom-0 w-full bg-white border-t border-[#bbcac6]/20 px-6 py-3 flex justify-between items-center z-50">
-      {flatLinks.map((link) => {
+      {visibleLinks.map((link) => {
         const isActive = location.pathname === link.to;
         return (
           <Link
@@ -258,6 +267,20 @@ function MobileBottomNav({ navLinks, location }) {
           </Link>
         );
       })}
+      {dropdownLink && (
+        <button
+          onClick={onOpenSidebar}
+          className={`flex flex-col items-center gap-1 ${isDropdownChildActive ? "text-[#006b5f]" : "text-[#6c7a77]"}`}
+        >
+          <span
+            className="material-symbols-outlined text-[22px]"
+            style={isDropdownChildActive ? { fontVariationSettings: "'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24" } : {}}
+          >
+            {dropdownLink.icon}
+          </span>
+          <span className="text-[10px] font-['Inter'] font-medium">{dropdownLink.label}</span>
+        </button>
+      )}
     </div>
   );
 }
@@ -329,7 +352,7 @@ export default function PortalLayout({ children }) {
       </main>
 
       {/* Mobile bottom nav */}
-      <MobileBottomNav navLinks={navLinks} location={location} />
+      <MobileBottomNav navLinks={navLinks} location={location} onOpenSidebar={() => setSidebarOpen(true)} />
     </div>
   );
 }

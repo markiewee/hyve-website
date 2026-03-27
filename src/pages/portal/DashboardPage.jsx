@@ -262,16 +262,14 @@ export default function DashboardPage() {
             ) : (
               <div className="flex items-end justify-between">
                 <p className="font-['Plus_Jakarta_Sans'] text-3xl font-black text-[#121c2a]">
-                  {openTickets}
+                  {openTickets ?? 0}
                 </p>
-                {openTickets > 0 && (
-                  <Link
-                    to="/portal/issues"
-                    className="font-['Inter'] text-xs font-bold text-[#006b5f] uppercase tracking-widest hover:underline"
-                  >
-                    {t("common.view")}
-                  </Link>
-                )}
+                <Link
+                  to="/portal/issues"
+                  className="font-['Inter'] text-xs font-bold text-[#006b5f] uppercase tracking-widest hover:underline"
+                >
+                  {t("common.view")}
+                </Link>
               </div>
             )}
           </div>
