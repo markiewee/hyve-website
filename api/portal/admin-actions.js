@@ -149,12 +149,12 @@ async function handleAspire(req, res) {
       case "transactions": {
         const { account_id, from_date, to_date, page, per_page } = params;
         const qs = new URLSearchParams();
-        if (from_date) qs.set("from_date", from_date);
-        if (to_date) qs.set("to_date", to_date);
+        if (from_date) qs.set("start_date", from_date);
+        if (to_date) qs.set("end_date", to_date);
+        if (account_id) qs.set("account_id", account_id);
         if (page) qs.set("page", page);
         if (per_page) qs.set("per_page", per_page);
-        let url = account_id ? `${ASPIRE_API}/accounts/${account_id}/transactions` : `${ASPIRE_API}/transactions`;
-        if (qs.toString()) url += `?${qs.toString()}`;
+        const url = `${ASPIRE_API}/transactions${qs.toString() ? `?${qs.toString()}` : ""}`;
         const r = await fetch(url, { headers });
         return res.json(await r.json());
       }

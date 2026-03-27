@@ -173,10 +173,15 @@ export default function AdminExpenseImportPage() {
                       {accounts.length === 0 && (
                         <option value="">No accounts found</option>
                       )}
-                      {accounts.map((acc) => (
+                      {accounts.map((acc) => {
+                        const name = acc.debit_details?.[0]?.account_name || acc.name || acc.id || acc;
+                        const bal = acc.available_balance != null ? ` (${acc.currency_code || "SGD"} ${(acc.available_balance / 100).toLocaleString("en-SG", { minimumFractionDigits: 2 })})` : "";
+                        return (
                         <option key={acc.id ?? acc} value={acc.id ?? acc}>
-                          {acc.name ?? acc.id ?? acc}
+                          {name}{bal}
                         </option>
+                        );
+                      }
                       ))}
                     </select>
                   )}
