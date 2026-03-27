@@ -42,22 +42,25 @@ function parseDateToIso(raw) {
  * @returns {{ transaction_date: string, description: string, amount: number, currency: string, reference: string }}
  */
 function normalizeTransaction(raw) {
-  const transaction_date = parseDateToIso(
-    raw.transaction_date ?? raw.date ?? raw.value_date ?? raw.created_at ?? ''
-  );
+  // Aspire uses 'datetime' field (e.g. "2026-03-23T04:42:09Z")
+  const rawDate = raw.datetime ?? raw.transaction_date ?? raw.date ?? raw.value_date ?? raw.created_at ?? '';
+  const transaction_date = rawDate ? parseDateToIso(rawDate.split('T')[0]) : '';
 
+  // Description: use counterparty_name + reference, or fallback to other fields
   const description =
-    raw.description ?? raw.narrative ?? raw.merchant_name ?? raw.remarks ?? '';
+    raw.counterparty_name ?? raw.description ?? raw.narrative ?? raw.merchant_name ?? raw.remarks ?? '';
 
-  // Aspire amounts may be signed; we preserve the sign (debit = negative).
-  const amount = typeof raw.amount === 'number'
-    ? raw.amount
-    : parseFloat(raw.amount ?? raw.amount_sgd ?? 0);
+  // Aspire amounts are in cents (e.g. 288200 = $2,882.00)
+  let amount = typeof raw.amount === 'number' ? raw.amount : parseFloat(raw.amount ?? 0);
+  if (Math.abs(amount) > 10000) amount = amount / 100; // Convert cents to dollars
 
-  const currency = raw.currency ?? raw.currency_code ?? 'SGD';
+  // Debit transactions should be negative
+  if (raw.type === 'debit' && amount > 0) amount = -amount;
+
+  const currency = raw.currency_code ?? raw.currency ?? 'SGD';
 
   const reference =
-    raw.reference ?? raw.transaction_reference ?? raw.ref ?? raw.id ?? '';
+    raw.reference ?? raw.ref_code ?? raw.transaction_reference ?? raw.id ?? '';
 
   return { transaction_date, description, amount, currency, reference };
 }
