@@ -23,6 +23,7 @@
     "quickSupport": "Quick Support",
     "takeTour": "Take a Tour",
     "help": "Help",
+    "maintenance": "Maintenance",
     "logout": "Logout",
     "welcome": "Welcome, {name}"
   },

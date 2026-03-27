@@ -825,12 +825,14 @@ export default function AdminOnboardingPage() {
                             <span className="material-symbols-outlined text-[18px]">logout</span>
                           </button>
                         )}
-                        {["END_OF_TENANCY", "ACTIVE"].includes(row.status) && (
+                        {row.status !== "ARCHIVED" && row.status !== "MOVED_OUT" && (
                           <button
                             onClick={async () => {
                               if (!confirm("Archive this tenant? They will be deactivated.")) return;
-                              await supabase.from("onboarding_progress").update({ status: "ARCHIVED" }).eq("id", row.id);
-                              await supabase.from("tenant_profiles").update({ is_active: false }).eq("id", row.tenant_profile_id);
+                              const { error: e1 } = await supabase.from("onboarding_progress").update({ status: "ARCHIVED" }).eq("id", row.id);
+                              if (e1) { alert("Archive failed: " + e1.message); return; }
+                              const { error: e2 } = await supabase.from("tenant_profiles").update({ is_active: false }).eq("id", row.tenant_profile_id);
+                              if (e2) { alert("Profile deactivation failed: " + e2.message); return; }
                               fetchOnboarding();
                             }}
                             className="p-1.5 rounded-lg hover:bg-gray-100 text-[#6c7a77] hover:text-gray-900 transition-colors"

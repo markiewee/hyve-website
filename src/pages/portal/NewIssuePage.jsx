@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import PortalLayout from "../../components/portal/PortalLayout";
 import TicketForm from "../../components/portal/TicketForm";
 
@@ -7,54 +8,107 @@ const DIAGNOSTICS = {
     icon: "ac_unit",
     title: "AC Not Working",
     steps: [
-      { text: "Check if the AC remote has batteries and is pointed at the unit.", action: "Replace batteries if needed." },
-      { text: "Check if the AC circuit breaker (in the electrical panel near the door) is switched ON.", action: "Flip the breaker off, wait 10 seconds, then flip it back on." },
-      { text: "Make sure the AC mode is set to COOL (not FAN or DRY) and temperature is below 25°C.", action: "Set to COOL mode, 23°C." },
-      { text: "Check if the AC filter is dirty or blocked.", action: "Slide out the filter panel and rinse under water. Let dry before reinserting." },
+      { text: "Check if the AC remote has batteries and is pointed at the unit.", action: "Replace batteries if needed. Point remote directly at the AC indoor unit." },
+      { text: "Check if the AC circuit breaker (in the electrical panel near the door) is switched ON.", action: "Flip the breaker fully OFF, wait 10 seconds, then flip it back ON." },
+      { text: "Make sure the AC mode is set to COOL (not FAN or DRY) and temperature is below 25°C.", action: "Set to COOL mode, 23°C. Wait 3 minutes for compressor to start." },
+      { text: "Check if the AC filter is dirty or blocked.", action: "Slide out the filter panel on the front of the indoor unit and rinse under running water. Let dry completely before reinserting." },
+      { text: "Is the AC blowing warm air? The outdoor unit may be blocked or overheating.", action: "Check if anything is blocking the outdoor compressor unit (clothes, boxes). Clear the area around it." },
+      { text: "Is there water dripping from the indoor unit?", action: "This usually means a blocked drain pipe. Place a towel underneath and submit a ticket — this needs a technician." },
+      { text: "AC turns on but shuts off after a few minutes?", action: "This could be a refrigerant issue. Turn off the AC completely and submit a ticket." },
     ],
   },
   PLUMBING: {
     icon: "water_drop",
     title: "Water / Plumbing Issue",
     steps: [
-      { text: "If no hot water: check if the water heater switch (usually in the bathroom) is turned ON.", action: "Switch it on and wait 10-15 minutes." },
-      { text: "If low water pressure: check if other taps in the unit also have low pressure.", action: "If all taps are affected, it may be a building-wide issue — check with neighbours." },
-      { text: "If toilet is running: lift the toilet tank lid and check if the flapper valve is seated properly.", action: "Press the flapper down firmly. If it keeps running, jiggle the flush handle." },
-      { text: "For minor sink clogs: pour boiling water down the drain and wait 5 minutes.", action: "Repeat 2-3 times. Avoid chemical drain cleaners." },
+      { text: "If no hot water: check if the water heater switch (usually in the bathroom) is turned ON.", action: "Switch it on and wait 10-15 minutes for the water to heat up." },
+      { text: "If low water pressure: check if other taps in the unit also have low pressure.", action: "If all taps are affected, it may be a building-wide issue. Check with neighbours first." },
+      { text: "If toilet is running: lift the toilet tank lid and check if the flapper valve is seated properly.", action: "Press the flapper down firmly. If it keeps running, jiggle the flush handle or adjust the float." },
+      { text: "For minor sink clogs: pour boiling water down the drain and wait 5 minutes.", action: "Repeat 2-3 times. Avoid chemical drain cleaners as they damage pipes." },
+      { text: "Shower head has weak flow? It might be clogged with mineral deposits.", action: "Unscrew the shower head, soak it in white vinegar for 30 minutes, then rinse and reattach." },
+      { text: "Water stains on ceiling or walls?", action: "This could indicate a leak from upstairs. Take photos, place a bucket underneath, and submit a ticket immediately." },
     ],
   },
   ELECTRICAL: {
     icon: "bolt",
     title: "Electrical Issue",
     steps: [
-      { text: "If a specific outlet isn't working: check if the switch next to it is turned ON.", action: "Toggle the switch. Try plugging in a different device to test." },
-      { text: "If a room has no power: check the circuit breaker panel — a tripped breaker will be in the middle position.", action: "Flip it fully OFF, then back ON." },
-      { text: "If lights are flickering: try tightening the bulb or replacing it.", action: "Turn off the switch first, then twist the bulb to ensure it's secure." },
+      { text: "If a specific outlet isn't working: check if the switch next to it is turned ON.", action: "Toggle the switch. Try plugging in a different device to test if the outlet works." },
+      { text: "If a room has no power: check the circuit breaker panel — a tripped breaker will be in the middle position.", action: "Flip it fully OFF, then back ON. If it trips again immediately, unplug all devices in that room and try again." },
+      { text: "If lights are flickering: try tightening the bulb or replacing it.", action: "Turn off the switch first, then twist the bulb to ensure it's secure. Spare bulbs are in the utility cabinet." },
+      { text: "Multiple rooms have no power?", action: "Check the main breaker (largest switch at the top of the panel). If the whole unit is out, check if neighbours are affected too." },
+      { text: "Outlet sparks when plugging something in?", action: "STOP using that outlet immediately. This is a safety concern — submit a ticket right away." },
+    ],
+  },
+  WIFI: {
+    icon: "wifi",
+    title: "WiFi / Internet",
+    steps: [
+      { text: "Can you see the WiFi network 'Hyve WiFi' in your device's WiFi list?", action: "If not visible, the router may need a restart. Find the router (usually in the living room) and check if it's powered on." },
+      { text: "Restart the router: unplug the power cable, wait 30 seconds, then plug it back in.", action: "Wait 2-3 minutes for the router to fully restart. The lights should turn solid green." },
+      { text: "Connected but no internet? Try forgetting the network and reconnecting.", action: "Go to WiFi settings → Forget 'Hyve WiFi' → Reconnect. Password: check the sticker on the router." },
+      { text: "Slow speeds? Check how many devices are connected and try moving closer to the router.", action: "Walls and distance reduce signal. For best speed, stay within 2 rooms of the router." },
+      { text: "Still not working? Try connecting to the 5GHz network if available (usually named 'Hyve WiFi_5G').", action: "5GHz is faster but shorter range. Use regular 'Hyve WiFi' (2.4GHz) if you're far from the router." },
+    ],
+  },
+  LOCK: {
+    icon: "lock",
+    title: "Lock / Access Issue",
+    steps: [
+      { text: "Smart lock not responding? Check if the battery indicator is showing low.", action: "If the lock panel is blank, the batteries may be dead. Hold a 9V battery to the emergency contacts below the keypad to temporarily power it." },
+      { text: "Passcode not working? Make sure you're entering the correct code followed by #.", action: "Try pressing the lock button first to wake it up, then enter your code + #." },
+      { text: "Door won't lock when you close it? Check if the door is fully closed and aligned.", action: "Push the door firmly shut. If the bolt doesn't engage, the door may be misaligned — try lifting the handle while closing." },
+      { text: "Locked yourself out?", action: "Do NOT try to force the door. Contact management via WhatsApp immediately: +65 8088 5410." },
+    ],
+  },
+  APPLIANCE: {
+    icon: "kitchen",
+    title: "Appliance Issue",
+    steps: [
+      { text: "Washing machine not starting? Check if the door is fully closed and the power switch is ON.", action: "Push the door firmly until you hear a click. Check the outlet switch is turned on." },
+      { text: "Washing machine vibrating excessively?", action: "Check if the load is balanced — redistribute clothes evenly. Make sure the machine is on a level surface." },
+      { text: "Fridge not cooling? Check the temperature dial inside.", action: "Set to 3-4 (medium). Make sure the fridge isn't overpacked — air needs to circulate." },
+      { text: "Microwave/oven not heating?", action: "Check the power switch and try a different outlet. If it turns on but doesn't heat, submit a ticket." },
+      { text: "Induction stove not working?", action: "Induction only works with magnetic pots/pans. Try a different pan. Make sure the cooktop switch is on." },
+    ],
+  },
+  PEST: {
+    icon: "pest_control",
+    title: "Pest Issue",
+    steps: [
+      { text: "Seeing ants? Check for exposed food or sugary spills.", action: "Clean the area thoroughly. Store food in sealed containers. Wipe down surfaces with vinegar solution." },
+      { text: "Cockroaches spotted?", action: "Keep kitchen clean and dry. Don't leave dishes in the sink overnight. Check under the sink for leaks — roaches love moisture." },
+      { text: "Mosquitoes inside? Check for stagnant water anywhere in the unit.", action: "Empty any standing water (plant saucers, containers). Keep windows closed or use the mesh screens." },
+      { text: "Issue persists after cleaning?", action: "Submit a ticket. We do regular pest control servicing — we can arrange an ad-hoc treatment." },
     ],
   },
   FURNITURE: {
     icon: "chair",
     title: "Furniture Issue",
     steps: [
-      { text: "If a drawer or cabinet door is stuck: check for items blocking it from inside.", action: "Remove obstructions and try again." },
-      { text: "If a chair is wobbly: check if all screws are tightened.", action: "Use a screwdriver or Allen key (check your welcome kit) to tighten." },
+      { text: "If a drawer or cabinet door is stuck: check for items blocking it from inside.", action: "Remove obstructions and try again. For sliding drawers, check if the rail is off-track." },
+      { text: "If a chair is wobbly: check if all screws are tightened.", action: "Use a screwdriver or Allen key (check your welcome kit) to tighten all visible screws." },
+      { text: "Wardrobe door hinge loose?", action: "Tighten the hinge screws with a Phillips screwdriver. If the screw hole is stripped, submit a ticket." },
+      { text: "Mattress sagging or uncomfortable?", action: "Try rotating the mattress 180°. If it's still uncomfortable, submit a ticket for a replacement assessment." },
     ],
   },
   CLEANING: {
     icon: "cleaning_services",
     title: "Cleaning Request",
     steps: [
-      { text: "Regular cleaning is scheduled weekly for common areas.", action: "Check the cleaning schedule posted in the kitchen." },
-      { text: "For spills or urgent cleaning: wipe up immediately with paper towels and cleaning spray (under the kitchen sink).", action: "For stubborn stains, use the provided cleaning supplies." },
+      { text: "Regular cleaning is scheduled weekly for common areas.", action: "Check the cleaning schedule posted in the kitchen or on the noticeboard." },
+      { text: "For spills or urgent cleaning: wipe up immediately with paper towels and cleaning spray (under the kitchen sink).", action: "For stubborn stains, use the provided cleaning supplies in the utility area." },
+      { text: "Bins full? Take them out to the rubbish chute (usually at the end of the corridor).", action: "Separate recyclables. Replace the bin liner from the supply under the kitchen sink." },
     ],
   },
   OTHER: {
     icon: "help",
     title: "Other Issue",
     steps: [
-      { text: "For WiFi issues: restart the router by unplugging it, wait 30 seconds, then plug it back in.", action: "WiFi password is on the sticker on the router." },
-      { text: "For noise complaints: try speaking with your housemate directly first.", action: "If unresolved, submit a ticket and management will mediate." },
-      { text: "For key/lock issues: do NOT try to force the door.", action: "Contact management via WhatsApp immediately: +65 8088 5410." },
+      { text: "For noise complaints: try speaking with your housemate directly first.", action: "Quiet hours are 10 PM – 8 AM. If unresolved, submit a ticket and management will mediate." },
+      { text: "Mail / parcel delivered to the wrong unit?", action: "Leave it at the door or hand it to the concierge. If you're missing a parcel, check with your neighbours." },
+      { text: "Need extra supplies (toilet paper, cleaning products)?", action: "Check the utility cabinet first. If supplies are out, submit a ticket and we'll restock." },
+      { text: "Smell coming from drains?", action: "Pour water down all drains (sinks, floor traps) to refill the water seal. This prevents sewer gas from entering." },
     ],
   },
 };
@@ -99,17 +153,17 @@ export default function NewIssuePage() {
       <div className="max-w-2xl">
         {/* Phase 1: Select Category */}
         {phase === "select" && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             {Object.entries(DIAGNOSTICS).map(([key, diag]) => (
               <button
                 key={key}
                 onClick={() => handleSelectCategory(key)}
-                className="bg-white rounded-xl p-6 border border-[#bbcac6]/15 shadow-sm hover:border-[#006b5f]/40 hover:shadow-md transition-all text-center group"
+                className="bg-white rounded-xl p-5 border border-[#bbcac6]/15 shadow-sm hover:border-[#006b5f]/40 hover:shadow-md transition-all text-center group"
               >
-                <span className="material-symbols-outlined text-[32px] text-[#006b5f] mb-3 block group-hover:scale-110 transition-transform">
+                <span className="material-symbols-outlined text-[28px] text-[#006b5f] mb-2 block group-hover:scale-110 transition-transform">
                   {diag.icon}
                 </span>
-                <p className="font-['Manrope'] font-bold text-sm text-[#121c2a]">{diag.title}</p>
+                <p className="font-['Manrope'] font-bold text-xs text-[#121c2a]">{diag.title}</p>
               </button>
             ))}
           </div>

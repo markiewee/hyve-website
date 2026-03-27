@@ -13,6 +13,7 @@ function useNavLinks(role) {
       { label: t("nav.documents"), to: "/portal/documents", icon: "folder_open" },
       { label: t("nav.billing"), to: "/portal/billing", icon: "payments" },
       { label: t("nav.issues"), to: "/portal/issues", icon: "build" },
+      { label: t("nav.maintenance"), to: "/portal/maintenance", icon: "engineering" },
       { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
     ];
 
@@ -21,6 +22,7 @@ function useNavLinks(role) {
       { label: t("nav.documents"), to: "/portal/documents", icon: "folder_open" },
       { label: t("nav.billing"), to: "/portal/billing", icon: "payments" },
       { label: t("nav.issues"), to: "/portal/issues", icon: "build" },
+      { label: t("nav.maintenance"), to: "/portal/maintenance", icon: "engineering" },
       { label: t("nav.propertyOverview"), to: "/portal/property", icon: "apartment" },
       { label: t("nav.tickets"), to: "/portal/property/tickets", icon: "confirmation_number" },
       { label: t("nav.members"), to: "/portal/property/tenants", icon: "group" },
@@ -210,13 +212,14 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
               <span className="font-['Manrope']">{t("nav.takeTour")}</span>
             </button>
           )}
-          <a
-            href="mailto:hello@hyve.sg"
+          <Link
+            to="/portal/help"
+            onClick={onLinkClick}
             className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#006b5f] text-sm transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">help</span>
             <span className="font-['Manrope']">{t("nav.help")}</span>
-          </a>
+          </Link>
           <button
             onClick={signOut}
             className="w-full flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-red-500 text-sm transition-colors"

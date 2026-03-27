@@ -1097,7 +1097,7 @@ export default function AdminOnboardingDetailPage() {
                       className="font-mono text-foreground bg-transparent border-0 p-0 focus:outline-none text-xs"
                     />
                   </div>
-                  <div className="grid grid-cols-[100px_1fr_auto] gap-2 items-center">
+                  <div className="grid grid-cols-[100px_1fr_auto_auto] gap-2 items-center">
                     <span className="text-muted-foreground text-xs font-medium">Password</span>
                     <span className="font-mono font-semibold text-foreground">••••••••</span>
                     <Button
@@ -1128,20 +1128,87 @@ export default function AdminOnboardingDetailPage() {
                     >
                       Reset
                     </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="h-7 text-xs bg-[#006b5f]/5 border-[#006b5f]/20 text-[#006b5f] hover:bg-[#006b5f]/10"
+                      onClick={async () => {
+                        setActionLoading(true);
+                        const chars = "abcdefghijkmnpqrstuvwxyz23456789";
+                        let newPw = "";
+                        for (let i = 0; i < 8; i++) newPw += chars[Math.floor(Math.random() * chars.length)];
+                        newPw += "A1!";
+                        try {
+                          const userId = onboarding.tenant_profiles.user_id;
+                          const { data: sess } = await supabase.auth.getSession();
+                          const resp = await fetch("/api/portal/admin-actions", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json", Authorization: `Bearer ${sess?.session?.access_token}` },
+                            body: JSON.stringify({ action: "reset_password", user_id: userId, new_password: newPw }),
+                          });
+                          const respBody = await resp.json();
+                          if (!resp.ok) throw new Error(respBody.error || "Reset failed");
+                          navigator.clipboard.writeText(newPw);
+                          setMessage({ type: "success", text: `New password generated and copied: ${newPw}` });
+                        } catch (err) {
+                          setMessage({ type: "error", text: "Reset failed: " + err.message });
+                        }
+                        setActionLoading(false);
+                      }}
+                      disabled={actionLoading}
+                    >
+                      Regenerate
+                    </Button>
                   </div>
                 </div>
               </div>
-              <Button
-                size="sm"
-                variant="outline"
-                className="mt-3"
-                onClick={() => {
-                  navigator.clipboard.writeText(`Username: ${onboarding.tenant_profiles.username}\nLogin: hyve.sg/portal/login`);
-                  setMessage({ type: "success", text: "Credentials copied to clipboard." });
-                }}
-              >
-                Copy Credentials
-              </Button>
+              <div className="flex flex-wrap gap-2 mt-3">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    navigator.clipboard.writeText(`Username: ${onboarding.tenant_profiles.username}\nLogin: hyve.sg/portal/login`);
+                    setMessage({ type: "success", text: "Credentials copied to clipboard." });
+                  }}
+                >
+                  Copy Credentials
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="bg-[#25D366]/5 border-[#25D366]/30 text-[#128C7E] hover:bg-[#25D366]/10"
+                  onClick={() => {
+                    const username = onboarding.tenant_profiles.username || "";
+                    const name = tenantDetails?.full_name || username;
+                    const firstName = name.split(" ")[0];
+                    const roomCode = onboarding.tenant_profiles?.rooms?.unit_code || "";
+                    const propertyName = onboarding.tenant_profiles?.properties?.name || "";
+                    const propertyAddress = onboarding.tenant_profiles?.properties?.address || "";
+                    const rent = onboarding.monthly_rent || onboarding.tenant_profiles?.monthly_rent || "";
+                    const startDate = onboarding.tenancy_start_date
+                      ? new Date(onboarding.tenancy_start_date).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" })
+                      : "";
+
+                    const msg = [
+                      `Hi ${firstName}! We've just launched a new member portal for Hyve 🏠`,
+                      ``,
+                      `You can now pay rent, report issues, and view your documents all in one place.`,
+                      ``,
+                      `🔐 *Login*`,
+                      `hyve.sg/portal/login`,
+                      `Username: ${username}`,
+                      ``,
+                      `Let me know if you need your password reset!`,
+                    ].filter(Boolean).join("\n");
+
+                    navigator.clipboard.writeText(msg);
+                    setMessage({ type: "success", text: "Welcome message copied! Paste it into WhatsApp." });
+                  }}
+                >
+                  <span className="material-symbols-outlined text-[16px] mr-1">chat</span>
+                  Copy Welcome Message
+                </Button>
+              </div>
             </SectionCard>
           )}
 
@@ -1435,10 +1502,16 @@ export default function AdminOnboardingDetailPage() {
                     onClick={async () => {
                       if (!confirm("Archive this member? Their login will be deactivated.")) return;
                       setActionLoading(true);
-                      await supabase.from("onboarding_progress").update({ status: "ARCHIVED" }).eq("id", id);
-                      await supabase.from("tenant_profiles").update({ is_active: false }).eq("id", onboarding.tenant_profile_id);
-                      setMessage({ type: "success", text: "Member archived." });
-                      await fetchData();
+                      try {
+                        const { error: e1 } = await supabase.from("onboarding_progress").update({ status: "ARCHIVED" }).eq("id", id);
+                        if (e1) throw new Error("Failed to update onboarding: " + e1.message);
+                        const { error: e2 } = await supabase.from("tenant_profiles").update({ is_active: false }).eq("id", onboarding.tenant_profile_id);
+                        if (e2) throw new Error("Failed to deactivate profile: " + e2.message);
+                        setMessage({ type: "success", text: "Member archived." });
+                        await fetchData();
+                      } catch (err) {
+                        setMessage({ type: "error", text: err.message });
+                      }
                       setActionLoading(false);
                     }}
                     disabled={actionLoading}

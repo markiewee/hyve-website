@@ -48,6 +48,8 @@ import ViewingPage from './pages/ViewingPage';
 import AdminTasksPage from './pages/portal/AdminTasksPage';
 import TenantDocumentsPage from './pages/portal/TenantDocumentsPage';
 import MemberSettingsPage from './pages/portal/MemberSettingsPage';
+import HelpPage from './pages/portal/HelpPage';
+import MaintenanceSchedulePage from './pages/portal/MaintenanceSchedulePage';
 import InvestorDashboardPage from './pages/portal/InvestorDashboardPage';
 import InvestorSignupPage from './pages/portal/InvestorSignupPage';
 import OnboardingPage from './pages/portal/OnboardingPage';
@@ -160,6 +162,22 @@ function AppContent() {
             element={
               <AuthGuard>
                 <NewIssuePage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/maintenance"
+            element={
+              <AuthGuard>
+                <MaintenanceSchedulePage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/help"
+            element={
+              <AuthGuard>
+                <HelpPage />
               </AuthGuard>
             }
           />
