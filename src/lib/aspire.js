@@ -62,165 +62,43 @@ function normalizeTransaction(raw) {
   return { transaction_date, description, amount, currency, reference };
 }
 
+/**
+ * Aspire API client — proxied through /api/portal/admin-actions to avoid CORS.
+ * All calls go through the server-side proxy which handles auth.
+ */
 class AspireClient {
-  constructor() {
-    this.token = null;
-    this.tokenExpiry = null; // timestamp (ms)
-  }
-
-  /**
-   * POST /login with client_credentials, cache the returned access_token.
-   * Sets tokenExpiry based on expires_in (seconds), defaulting to 3600 s.
-   */
-  async authenticate() {
-    const clientId = import.meta.env.VITE_ASPIRE_CLIENT_ID;
-    const apiKey = import.meta.env.VITE_ASPIRE_API_KEY;
-
-    if (!clientId || !apiKey) {
-      throw new Error(
-        'Aspire credentials missing. Set VITE_ASPIRE_CLIENT_ID and VITE_ASPIRE_API_KEY in your .env file.'
-      );
-    }
-
-    const res = await fetch(`${BASE_URL}/login`, {
+  async _proxy(aspire_action, params = {}) {
+    const { supabase } = await import('./supabase');
+    const { data: { session } } = await supabase.auth.getSession();
+    const res = await fetch('/api/portal/admin-actions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        grant_type: 'client_credentials',
-        client_id: clientId,
-        client_secret: apiKey,
-      }),
-    });
-
-    if (!res.ok) {
-      const body = await res.text();
-      throw new Error(`Aspire auth failed (${res.status}): ${body}`);
-    }
-
-    const data = await res.json();
-
-    if (!data.access_token) {
-      throw new Error(`Aspire auth response missing access_token. Response: ${JSON.stringify(data)}`);
-    }
-
-    this.token = data.access_token;
-    const expiresIn = typeof data.expires_in === 'number' ? data.expires_in : 3600;
-    this.tokenExpiry = Date.now() + expiresIn * 1000;
-
-    return this.token;
-  }
-
-  /**
-   * Return the cached token, re-authenticating if it has expired (or is
-   * within EXPIRY_BUFFER_MS of expiry).
-   */
-  async getToken() {
-    if (!this.token || Date.now() >= (this.tokenExpiry ?? 0) - EXPIRY_BUFFER_MS) {
-      await this.authenticate();
-    }
-    return this.token;
-  }
-
-  /**
-   * Authenticated fetch wrapper.
-   *
-   * @param {'GET'|'POST'|'PATCH'|'DELETE'} method
-   * @param {string} path  — path relative to BASE_URL, e.g. '/accounts'
-   * @param {{ params?: Object, body?: Object }} options
-   * @returns {Promise<any>} parsed JSON response
-   */
-  async request(method, path, options = {}) {
-    const token = await this.getToken();
-
-    let url = `${BASE_URL}${path}`;
-
-    if (options.params && Object.keys(options.params).length > 0) {
-      const qs = new URLSearchParams(
-        Object.fromEntries(
-          Object.entries(options.params).filter(([, v]) => v !== undefined && v !== null)
-        )
-      );
-      url += `?${qs.toString()}`;
-    }
-
-    const fetchOptions = {
-      method,
       headers: {
-        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
-        Accept: 'application/json',
+        Authorization: `Bearer ${session?.access_token}`,
       },
-    };
-
-    if (options.body) {
-      fetchOptions.body = JSON.stringify(options.body);
-    }
-
-    const res = await fetch(url, fetchOptions);
-
+      body: JSON.stringify({ action: 'aspire', aspire_action, ...params }),
+    });
     if (!res.ok) {
-      const body = await res.text();
-      throw new Error(`Aspire API error ${res.status} ${method} ${path}: ${body}`);
+      const body = await res.json().catch(() => ({ error: 'Request failed' }));
+      throw new Error(body.error || `Aspire proxy error ${res.status}`);
     }
-
     return res.json();
   }
 
-  /**
-   * GET /accounts
-   * Returns the raw accounts array from the API.
-   */
   async getAccounts() {
-    const data = await this.request('GET', '/accounts');
-
-    // Log structure on first call to aid debugging
-    console.debug('[AspireClient] getAccounts response shape:', {
-      keys: Object.keys(data),
-      sample: Array.isArray(data) ? data[0] : (data.data ?? data.accounts ?? data)[0],
-    });
-
-    // Aspire may wrap in { data: [...] } or { accounts: [...] } or return array directly
+    const data = await this._proxy('accounts');
     return Array.isArray(data) ? data : (data.data ?? data.accounts ?? []);
   }
 
-  /**
-   * GET /accounts/{accountId}/transactions
-   * Falls back to GET /transactions if the first call returns a 404.
-   *
-   * @param {string} accountId
-   * @param {{ from_date?: string, to_date?: string, page?: number, per_page?: number }} params
-   * @returns {Promise<Array<{ transaction_date, description, amount, currency, reference }>>}
-   */
   async getTransactions(accountId, params = {}) {
-    let raw;
-
-    try {
-      raw = await this.request('GET', `/accounts/${accountId}/transactions`, { params });
-    } catch (err) {
-      // If the account-scoped endpoint doesn't exist, try the flat /transactions endpoint
-      if (err.message.includes('404')) {
-        console.warn(
-          '[AspireClient] /accounts/{id}/transactions returned 404, falling back to /transactions'
-        );
-        raw = await this.request('GET', '/transactions', { params: { ...params, account_id: accountId } });
-      } else {
-        throw err;
-      }
-    }
-
-    // Log structure on first call so the developer can verify field names
-    console.debug('[AspireClient] getTransactions raw response shape:', {
-      keys: Object.keys(raw),
-      sampleItem: Array.isArray(raw)
-        ? raw[0]
-        : (raw.data ?? raw.transactions ?? raw)[0],
+    const raw = await this._proxy('transactions', {
+      account_id: accountId,
+      from_date: params.from_date,
+      to_date: params.to_date,
+      page: params.page,
+      per_page: params.per_page,
     });
-
-    // Unwrap common envelope patterns
-    const items = Array.isArray(raw)
-      ? raw
-      : (raw.data ?? raw.transactions ?? raw.items ?? []);
-
+    const items = Array.isArray(raw) ? raw : (raw.data ?? raw.transactions ?? raw.items ?? []);
     return items.map(normalizeTransaction);
   }
 }

@@ -113,6 +113,64 @@ async function handleTTLock(req, res) {
   }
 }
 
+// ── Aspire API Proxy ─────────────────────────────────────────────
+const ASPIRE_API = "https://api.aspireapp.com/public/v1";
+let aspireToken = null;
+let aspireTokenExpiry = 0;
+
+async function getAspireToken() {
+  if (aspireToken && Date.now() < aspireTokenExpiry) return aspireToken;
+  const clientId = process.env.VITE_ASPIRE_CLIENT_ID;
+  const apiKey = process.env.VITE_ASPIRE_API_KEY;
+  if (!clientId || !apiKey) throw new Error("Aspire not configured. Set VITE_ASPIRE_CLIENT_ID and VITE_ASPIRE_API_KEY.");
+  const r = await fetch(`${ASPIRE_API}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ grant_type: "client_credentials", client_id: clientId, client_secret: apiKey }),
+  });
+  if (!r.ok) throw new Error(`Aspire auth failed: ${await r.text()}`);
+  const d = await r.json();
+  aspireToken = d.access_token;
+  aspireTokenExpiry = Date.now() + ((d.expires_in || 1800) - 60) * 1000;
+  return aspireToken;
+}
+
+async function handleAspire(req, res) {
+  const { aspire_action, ...params } = req.body;
+  try {
+    const token = await getAspireToken();
+    const headers = { Authorization: `Bearer ${token}`, Accept: "application/json" };
+
+    switch (aspire_action) {
+      case "accounts": {
+        const r = await fetch(`${ASPIRE_API}/accounts`, { headers });
+        return res.json(await r.json());
+      }
+      case "transactions": {
+        const { account_id, from_date, to_date, page, per_page } = params;
+        const qs = new URLSearchParams();
+        if (from_date) qs.set("from_date", from_date);
+        if (to_date) qs.set("to_date", to_date);
+        if (page) qs.set("page", page);
+        if (per_page) qs.set("per_page", per_page);
+        let url = account_id ? `${ASPIRE_API}/accounts/${account_id}/transactions` : `${ASPIRE_API}/transactions`;
+        if (qs.toString()) url += `?${qs.toString()}`;
+        const r = await fetch(url, { headers });
+        return res.json(await r.json());
+      }
+      case "balance": {
+        if (!params.account_id) return res.status(400).json({ error: "account_id required" });
+        const r = await fetch(`${ASPIRE_API}/accounts/${params.account_id}/balance`, { headers });
+        return res.json(await r.json());
+      }
+      default:
+        return res.status(400).json({ error: `Unknown aspire_action: ${aspire_action}` });
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
 // ── Main Router ─────────────────────────────────────────────────
 export default async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
@@ -130,6 +188,7 @@ export default async function handler(req, res) {
   switch (action) {
     case "reset_password": return handleResetPassword(req, res);
     case "ttlock": return handleTTLock(req, res);
+    case "aspire": return handleAspire(req, res);
     default: return res.status(400).json({ error: `Unknown action: ${action}` });
   }
 }
