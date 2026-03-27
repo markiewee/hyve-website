@@ -148,12 +148,14 @@ async function handleAspire(req, res) {
       }
       case "transactions": {
         const { account_id, from_date, to_date, page, per_page } = params;
+        // Aspire requires ISO 8601 format: YYYY-MM-DDTHH:mm:ssZ
+        const toIso = (d) => d ? (d.includes("T") ? d : `${d}T00:00:00Z`) : null;
         const qs = new URLSearchParams();
-        if (from_date) qs.set("start_date", from_date);
-        if (to_date) qs.set("end_date", to_date);
+        if (from_date) qs.set("start_date", toIso(from_date));
+        if (to_date) qs.set("end_date", toIso(to_date));
         if (account_id) qs.set("account_id", account_id);
-        if (page) qs.set("page", page);
-        if (per_page) qs.set("per_page", per_page);
+        if (page) qs.set("page", String(page));
+        if (per_page) qs.set("per_page", String(per_page));
         const url = `${ASPIRE_API}/transactions${qs.toString() ? `?${qs.toString()}` : ""}`;
         const r = await fetch(url, { headers });
         return res.json(await r.json());
