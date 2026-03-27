@@ -5,8 +5,10 @@ import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { client, QUERIES } from '../lib/sanity';
 import SEO from './SEO';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const FAQsPage = () => {
+  const { t } = useLanguage();
   const [openSections, setOpenSections] = useState({});
   const [faqContent, setFaqContent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -76,7 +78,7 @@ const FAQsPage = () => {
 
   // Use Sanity content or fallback
   const heroContent = faqContent?.hero || {
-    title: 'Frequently Asked Questions',
+    title: t('public.faq.title'),
     subtitle: 'Find answers to common questions about our coliving spaces, booking process, and community guidelines.'
   };
 
@@ -166,7 +168,7 @@ const FAQsPage = () => {
             className="inline-flex items-center text-teal-600 hover:text-teal-700 mb-6 font-medium"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
+            {t('public.faq.backToHome')}
           </Link>
           
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">

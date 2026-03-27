@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { client, QUERIES, urlFor } from '../lib/sanity';
 import ApiService from '../services/api';
 import SEO from './SEO';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
+  const { t } = useLanguage();
   const [localFilters, setLocalFilters] = useState(searchFilters);
   const [properties, setProperties] = useState([]);
   const [neighborhoods, setNeighborhoods] = useState([]);
@@ -177,7 +179,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
         <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/70 backdrop-blur-xl rounded-2xl transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
           <div className="flex justify-between items-center">
             <span className="font-['Plus_Jakarta_Sans'] font-bold text-teal-900">
-              {property.availableRooms > 0 ? 'Rooms Available' : 'View Details'}
+              {property.availableRooms > 0 ? t('public.hero.roomsAvailable') : t('public.properties.viewDetails')}
             </span>
             <span className="material-symbols-outlined text-teal-600">arrow_forward</span>
           </div>
@@ -194,7 +196,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
           </div>
           <div className="text-right">
             <p className="text-lg font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
-              ${property.startingPrice}<span className="text-xs font-normal text-[#555f6f]">/mo</span>
+              ${property.startingPrice}<span className="text-xs font-normal text-[#555f6f]">{t('public.properties.perMonth')}</span>
             </p>
           </div>
         </div>
@@ -253,10 +255,10 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
         <div className="flex flex-col md:flex-row justify-between items-end gap-6">
           <div className="space-y-2">
             <h1 className="text-3xl md:text-4xl font-['Plus_Jakarta_Sans'] font-extrabold tracking-tight text-[#121c2a]">
-              Discover your sanctuary.
+              {t('public.properties.title')}
             </h1>
             <p className="text-[#555f6f] font-['Manrope'] max-w-md">
-              Browse our curated collection of coliving spaces designed for modern living.
+              {t('public.properties.subtitle')}
             </p>
           </div>
           {/* Filter Bar */}
@@ -279,7 +281,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
               className="flex items-center gap-2 bg-[#14b8a6]/20 text-[#006b5f] px-5 py-3 rounded-xl font-['Inter'] text-sm font-semibold hover:bg-[#14b8a6]/30 transition-colors"
             >
               <span className="material-symbols-outlined text-sm">filter_list</span>
-              Clear Filters
+              {t('public.properties.clearFilters')}
             </button>
           </div>
         </div>
@@ -288,7 +290,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
       {/* Results count */}
       <div className="px-6 md:px-8 max-w-screen-2xl mx-auto mb-4">
         <p className="text-sm text-[#555f6f] font-['Inter']">
-          {filteredProperties.length} propert{filteredProperties.length !== 1 ? 'ies' : 'y'} found
+          {filteredProperties.length} {filteredProperties.length !== 1 ? t('public.properties.propertiesFound') : t('public.properties.propertyFound')}
         </p>
       </div>
 
@@ -303,7 +305,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
         ) : (
           <div className="text-center py-20">
             <span className="material-symbols-outlined text-6xl text-slate-300 mb-4 block">search_off</span>
-            <p className="text-lg text-[#555f6f] mb-4">No properties found matching your criteria</p>
+            <p className="text-lg text-[#555f6f] mb-4">{t('public.properties.noProperties')}</p>
             <button
               onClick={() => {
                 setLocalFilters({});
@@ -311,7 +313,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
               }}
               className="bg-[#006b5f] text-white px-6 py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold hover:opacity-90 transition-all"
             >
-              Clear Filters
+              {t('public.properties.clearFilters')}
             </button>
           </div>
         )}

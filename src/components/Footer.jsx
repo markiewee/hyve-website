@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
+  const { t } = useLanguage();
 
   const handleNewsletterSubmit = (e) => {
     e.preventDefault();
@@ -41,21 +43,21 @@ const Footer = () => {
 
         {/* Platform */}
         <div className="space-y-4">
-          <h4 className="font-['Inter'] text-xs uppercase tracking-widest text-teal-600 font-bold">Platform</h4>
+          <h4 className="font-['Inter'] text-xs uppercase tracking-widest text-teal-600 font-bold">{t('public.footer.platform')}</h4>
           <ul className="space-y-2">
             <li>
               <Link to="/properties" className="font-['Inter'] text-xs uppercase tracking-widest text-slate-400 hover:text-teal-500 transition-colors duration-300 underline-offset-4 hover:underline decoration-teal-500/30">
-                Properties
+                {t('public.footer.properties')}
               </Link>
             </li>
             <li>
               <Link to="/locations" className="font-['Inter'] text-xs uppercase tracking-widest text-slate-400 hover:text-teal-500 transition-colors duration-300 underline-offset-4 hover:underline decoration-teal-500/30">
-                Locations
+                {t('public.footer.locations')}
               </Link>
             </li>
             <li>
               <Link to="/blog" className="font-['Inter'] text-xs uppercase tracking-widest text-slate-400 hover:text-teal-500 transition-colors duration-300 underline-offset-4 hover:underline decoration-teal-500/30">
-                Blog
+                {t('public.footer.blog')}
               </Link>
             </li>
           </ul>
@@ -63,21 +65,21 @@ const Footer = () => {
 
         {/* Legal */}
         <div className="space-y-4">
-          <h4 className="font-['Inter'] text-xs uppercase tracking-widest text-teal-600 font-bold">Legal</h4>
+          <h4 className="font-['Inter'] text-xs uppercase tracking-widest text-teal-600 font-bold">{t('public.footer.legal')}</h4>
           <ul className="space-y-2">
             <li>
               <Link to="/privacy-policy" className="font-['Inter'] text-xs uppercase tracking-widest text-slate-400 hover:text-teal-500 transition-colors duration-300 underline-offset-4 hover:underline decoration-teal-500/30">
-                Privacy Policy
+                {t('public.footer.privacy')}
               </Link>
             </li>
             <li>
               <Link to="/terms-of-service" className="font-['Inter'] text-xs uppercase tracking-widest text-slate-400 hover:text-teal-500 transition-colors duration-300 underline-offset-4 hover:underline decoration-teal-500/30">
-                Terms of Service
+                {t('public.footer.terms')}
               </Link>
             </li>
             <li>
               <Link to="/cookie-policy" className="font-['Inter'] text-xs uppercase tracking-widest text-slate-400 hover:text-teal-500 transition-colors duration-300 underline-offset-4 hover:underline decoration-teal-500/30">
-                Cookie Policy
+                {t('public.footer.cookie')}
               </Link>
             </li>
           </ul>
@@ -85,14 +87,14 @@ const Footer = () => {
 
         {/* Newsletter */}
         <div className="space-y-4">
-          <h4 className="font-['Inter'] text-xs uppercase tracking-widest text-teal-600 font-bold">Join the Hyve</h4>
+          <h4 className="font-['Inter'] text-xs uppercase tracking-widest text-teal-600 font-bold">{t('public.footer.joinHyve')}</h4>
           <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="bg-white border-none text-xs p-3 rounded-lg w-full outline-1 outline-[rgba(187,202,198,0.15)] focus:outline-[#006b5f]"
-              placeholder="Email Address"
+              placeholder={t('public.contact.email')}
             />
             <button
               type="submit"
@@ -107,7 +109,7 @@ const Footer = () => {
       {/* Bottom bar */}
       <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
         <p className="font-['Inter'] text-xs uppercase tracking-widest text-slate-400">
-          &copy; {new Date().getFullYear()} Hyve Living Systems. All rights reserved.
+          &copy; {new Date().getFullYear()} Hyve Living Systems. {t('public.footer.allRights')}.
         </p>
         <div className="flex gap-6">
           <a

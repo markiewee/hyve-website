@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { client, QUERIES, urlFor } from '../lib/sanity';
 import ApiService from '../services/api';
 import SEO from './SEO';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const HomePage = ({ searchFilters, setSearchFilters }) => {
   const [searchLocation, setSearchLocation] = useState('');
@@ -10,6 +11,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [homePageContent, setHomePageContent] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -105,7 +107,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6 z-10">
             <span className="inline-block px-4 py-1.5 rounded-full bg-[#71f8e4] text-[#005048] font-['Inter'] text-xs uppercase tracking-widest font-bold mb-6">
-              Redefining Home
+              {t('public.hero.badge')}
             </span>
             <h1 className="font-['Plus_Jakarta_Sans'] text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tighter text-[#121c2a] leading-[1.1] mb-8">
               The Sanctuary of <br />
@@ -119,13 +121,13 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                 to="/properties"
                 className="bg-[#006b5f] text-white px-8 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:shadow-lg transition-all inline-block"
               >
-                Explore Locations
+                {t('public.hero.exploreLocations')}
               </Link>
               <Link
                 to="/about"
                 className="bg-[#14b8a6]/20 text-[#006b5f] px-8 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#14b8a6]/30 transition-all inline-block"
               >
-                Our Story
+                {t('public.hero.ourStory')}
               </Link>
             </div>
           </div>
@@ -152,7 +154,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                 </p>
                 <p className="font-['Manrope'] opacity-90 text-sm">
                   {featuredProperties[0]?.neighborhood?.name
-                    ? `${featuredProperties[0].neighborhood.name} • From $${featuredProperties[0].startingPrice}/mo`
+                    ? `${featuredProperties[0].neighborhood.name} • ${t('public.hero.from')} $${featuredProperties[0].startingPrice}${t('public.hero.perMonth')}`
                     : 'Modern Coliving in Singapore'}
                 </p>
               </div>
@@ -179,32 +181,32 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 text-center max-w-2xl mx-auto">
             <h2 className="font-['Plus_Jakarta_Sans'] text-4xl font-extrabold tracking-tight text-[#121c2a] mb-4">
-              Why Hyve
+              {t('public.hero.whyHyve')}
             </h2>
             <p className="text-[#3c4947] text-lg">
-              We&apos;ve stripped away the friction of traditional renting to focus on what matters: your experience.
+              {t('public.hero.whyHyveSubtitle')}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
                 icon: 'diversity_3',
-                title: 'Community First',
-                description: 'Curated resident events, shared spaces, and a digital community designed to turn neighbors into lifelong friends.',
+                title: t('public.hero.communityFirst'),
+                description: t('public.hero.communityFirstDesc'),
                 bgColor: 'bg-[#71f8e4]',
                 textColor: 'text-[#005048]'
               },
               {
                 icon: 'fluid',
-                title: 'Serene Design',
-                description: 'Thoughtfully designed interiors that balance private acoustic sanctuaries with vibrant, light-filled social hubs.',
+                title: t('public.hero.sereneDesign'),
+                description: t('public.hero.sereneDesignDesc'),
                 bgColor: 'bg-[#89f5e7]',
                 textColor: 'text-[#005049]'
               },
               {
                 icon: 'bolt',
-                title: 'All-Inclusive Living',
-                description: 'WiFi, utilities, cleaning, maintenance — everything handled through our resident concierge. Just move in.',
+                title: t('public.hero.allInclusive'),
+                description: t('public.hero.allInclusiveDesc'),
                 bgColor: 'bg-[#d9e3f6]',
                 textColor: 'text-[#3d4756]'
               }
@@ -236,15 +238,15 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div>
               <h2 className="font-['Plus_Jakarta_Sans'] text-4xl font-extrabold tracking-tight text-[#121c2a] mb-4">
-                Featured Properties
+                {t('public.hero.featuredProperties')}
               </h2>
-              <p className="text-[#3c4947] text-lg">Our curated coliving spaces across Singapore.</p>
+              <p className="text-[#3c4947] text-lg">{t('public.hero.featuredSubtitle')}</p>
             </div>
             <Link
               to="/properties"
               className="font-['Plus_Jakarta_Sans'] font-bold text-[#006b5f] flex items-center gap-2 hover:translate-x-1 transition-all"
             >
-              View All Locations <span className="material-symbols-outlined">arrow_forward</span>
+              {t('public.hero.viewAllLocations')} <span className="material-symbols-outlined">arrow_forward</span>
             </Link>
           </div>
 
@@ -277,13 +279,13 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                     </span>
                     {featuredProperties[0].availableRooms > 0 && (
                       <span className="px-3 py-1 bg-white/20 backdrop-blur-md text-[10px] font-['Inter'] font-black uppercase tracking-widest rounded-full">
-                        {featuredProperties[0].availableRooms} Rooms Available
+                        {featuredProperties[0].availableRooms} {t('public.hero.roomsAvailable')}
                       </span>
                     )}
                   </div>
                   <h3 className="font-['Plus_Jakarta_Sans'] text-3xl font-bold mb-2">{featuredProperties[0].name}</h3>
                   <p className="font-['Manrope'] text-white/80 max-w-sm">
-                    From ${featuredProperties[0].startingPrice}/mo
+                    {t('public.hero.from')} ${featuredProperties[0].startingPrice}{t('public.hero.perMonth')}
                   </p>
                 </div>
               </Link>
@@ -306,7 +308,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                     <div className="absolute bottom-6 left-6 text-white">
                       <p className="font-['Plus_Jakarta_Sans'] font-bold text-xl">{property.name}</p>
                       <p className="font-['Inter'] text-xs uppercase tracking-widest opacity-80">
-                        {property.neighborhood?.name || 'Singapore'} &bull; From ${property.startingPrice}/mo
+                        {property.neighborhood?.name || 'Singapore'} &bull; {t('public.hero.from')} ${property.startingPrice}{t('public.hero.perMonth')}
                       </p>
                     </div>
                   </Link>
@@ -315,7 +317,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
             </div>
           ) : (
             <div className="text-center py-20 text-slate-400">
-              <p className="text-lg">Properties coming soon.</p>
+              <p className="text-lg">{t('public.hero.propertiesComingSoon')}</p>
             </div>
           )}
         </div>
@@ -353,17 +355,17 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
         <div className="max-w-5xl mx-auto bg-[#006b5f] rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-[0_20px_40px_rgba(18,28,42,0.06)]">
           <div className="relative z-10">
             <h2 className="font-['Plus_Jakarta_Sans'] text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-6">
-              Start your Hyve journey today.
+              {t('public.hero.ctaTitle')}
             </h2>
             <p className="text-white/80 text-lg mb-10 max-w-xl mx-auto">
-              Join a community of professionals and creatives living intentionally. All-inclusive. No stress.
+              {t('public.hero.ctaSubtitle')}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link
                 to="/properties"
                 className="bg-white text-[#006b5f] px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-slate-50 transition-all inline-block"
               >
-                Find a Home
+                {t('public.hero.findHome')}
               </Link>
               <a
                 href="https://wa.me/6580885410?text=Hi!%20I'm%20interested%20in%20a%20room%20at%20Hyve."
@@ -371,7 +373,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                 rel="noopener noreferrer"
                 className="border border-white/30 text-white px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-white/10 transition-all inline-block"
               >
-                WhatsApp Us
+                {t('public.hero.whatsappUs')}
               </a>
             </div>
           </div>

@@ -493,5 +493,95 @@
     "noData": "暂无数据",
     "error": "错误",
     "success": "成功"
+  },
+  "public": {
+    "nav": {
+      "properties": "房源",
+      "locations": "位置",
+      "about": "关于我们",
+      "blog": "博客",
+      "contact": "联系我们",
+      "login": "住户登录",
+      "getInTouch": "联系我们"
+    },
+    "hero": {
+      "badge": "重新定义家",
+      "title": "在新加坡找到您理想的共居空间",
+      "subtitle": "精装房间每月S$950起，所有费用全包。",
+      "searchPlaceholder": "按位置搜索...",
+      "viewProperties": "查看房源",
+      "exploreLocations": "探索位置",
+      "ourStory": "我们的故事",
+      "whyHyve": "为什么选择Hyve",
+      "whyHyveSubtitle": "我们消除了传统租房的烦恼，专注于您的体验。",
+      "communityFirst": "社区至上",
+      "communityFirstDesc": "精心策划的住户活动、共享空间和数字社区，让邻居成为终生朋友。",
+      "sereneDesign": "宁静设计",
+      "sereneDesignDesc": "精心设计的室内空间，在私密的声学庇护所与充满活力、光线充足的社交空间之间取得平衡。",
+      "allInclusive": "全包式生活",
+      "allInclusiveDesc": "WiFi、水电、清洁、维修——一切通过我们的住户管家处理。直接入住。",
+      "featuredProperties": "精选房源",
+      "featuredSubtitle": "我们在新加坡各地精心策划的共居空间。",
+      "viewAllLocations": "查看所有位置",
+      "roomsAvailable": "可用房间",
+      "from": "起价",
+      "perMonth": "/月",
+      "propertiesComingSoon": "房源即将推出。",
+      "ctaTitle": "今天开始您的Hyve之旅。",
+      "ctaSubtitle": "加入一个有意识生活的专业人士和创意人士社区。全包式。无压力。",
+      "findHome": "找到家",
+      "whatsappUs": "WhatsApp联系我们"
+    },
+    "about": {
+      "badge": "我们的理念",
+      "title": "建设社区，而不仅仅是房子",
+      "contactUs": "联系我们",
+      "exploreLocations": "探索位置"
+    },
+    "contact": {
+      "badge": "联系我们",
+      "title": "我们很乐意与您交流。",
+      "subtitle": "对我们的共居空间有疑问吗？",
+      "sendMessage": "发送消息",
+      "fullName": "全名",
+      "email": "电子邮箱",
+      "phone": "电话号码",
+      "subject": "主题",
+      "message": "留言",
+      "send": "发送消息",
+      "whatsapp": "WhatsApp",
+      "responseTime": "响应时间",
+      "quickContact": "快速联系",
+      "browseProperties": "浏览房源",
+      "findIdealRoom": "找到您的理想房间",
+      "viewAllFAQs": "查看所有常见问题"
+    },
+    "footer": {
+      "platform": "平台",
+      "properties": "房源",
+      "locations": "位置",
+      "blog": "博客",
+      "legal": "法律",
+      "privacy": "隐私政策",
+      "terms": "服务条款",
+      "cookie": "Cookie政策",
+      "joinHyve": "加入Hyve",
+      "allRights": "版权所有"
+    },
+    "properties": {
+      "title": "发现您的理想居所。",
+      "subtitle": "浏览我们的共居房源",
+      "from": "起价",
+      "perMonth": "/月",
+      "viewDetails": "查看详情",
+      "noProperties": "房源即将推出。",
+      "clearFilters": "清除筛选",
+      "propertiesFound": "个房源",
+      "propertyFound": "个房源"
+    },
+    "faq": {
+      "title": "常见问题",
+      "backToHome": "返回首页"
+    }
   }
 }

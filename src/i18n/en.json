@@ -493,5 +493,95 @@
     "noData": "No data",
     "error": "Error",
     "success": "Success"
+  },
+  "public": {
+    "nav": {
+      "properties": "Properties",
+      "locations": "Locations",
+      "about": "About",
+      "blog": "Blog",
+      "contact": "Contact",
+      "login": "Resident Login",
+      "getInTouch": "Get in Touch"
+    },
+    "hero": {
+      "badge": "Redefining Home",
+      "title": "Find your perfect co-living space in Singapore",
+      "subtitle": "Premium furnished rooms from S$950/month. All bills included.",
+      "searchPlaceholder": "Search by location...",
+      "viewProperties": "View Properties",
+      "exploreLocations": "Explore Locations",
+      "ourStory": "Our Story",
+      "whyHyve": "Why Hyve",
+      "whyHyveSubtitle": "We've stripped away the friction of traditional renting to focus on what matters: your experience.",
+      "communityFirst": "Community First",
+      "communityFirstDesc": "Curated resident events, shared spaces, and a digital community designed to turn neighbors into lifelong friends.",
+      "sereneDesign": "Serene Design",
+      "sereneDesignDesc": "Thoughtfully designed interiors that balance private acoustic sanctuaries with vibrant, light-filled social hubs.",
+      "allInclusive": "All-Inclusive Living",
+      "allInclusiveDesc": "WiFi, utilities, cleaning, maintenance — everything handled through our resident concierge. Just move in.",
+      "featuredProperties": "Featured Properties",
+      "featuredSubtitle": "Our curated coliving spaces across Singapore.",
+      "viewAllLocations": "View All Locations",
+      "roomsAvailable": "Rooms Available",
+      "from": "From",
+      "perMonth": "/mo",
+      "propertiesComingSoon": "Properties coming soon.",
+      "ctaTitle": "Start your Hyve journey today.",
+      "ctaSubtitle": "Join a community of professionals and creatives living intentionally. All-inclusive. No stress.",
+      "findHome": "Find a Home",
+      "whatsappUs": "WhatsApp Us"
+    },
+    "about": {
+      "badge": "Our Philosophy",
+      "title": "Building communities, not just houses",
+      "contactUs": "Contact Us",
+      "exploreLocations": "Explore Locations"
+    },
+    "contact": {
+      "badge": "Get in Touch",
+      "title": "We'd love to hear from you.",
+      "subtitle": "Have questions about our coliving spaces?",
+      "sendMessage": "Send us a Message",
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send Message",
+      "whatsapp": "WhatsApp",
+      "responseTime": "Response Time",
+      "quickContact": "Quick Contact",
+      "browseProperties": "Browse Properties",
+      "findIdealRoom": "Find your ideal room",
+      "viewAllFAQs": "View All FAQs"
+    },
+    "footer": {
+      "platform": "Platform",
+      "properties": "Properties",
+      "locations": "Locations",
+      "blog": "Blog",
+      "legal": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "cookie": "Cookie Policy",
+      "joinHyve": "Join the Hyve",
+      "allRights": "All Rights Reserved"
+    },
+    "properties": {
+      "title": "Discover your sanctuary.",
+      "subtitle": "Browse our co-living properties",
+      "from": "From",
+      "perMonth": "/mo",
+      "viewDetails": "View Details",
+      "noProperties": "Properties coming soon.",
+      "clearFilters": "Clear Filters",
+      "propertiesFound": "properties found",
+      "propertyFound": "property found"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "backToHome": "Back to Home"
+    }
   }
 }

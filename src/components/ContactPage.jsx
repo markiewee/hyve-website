@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from './SEO';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const ContactPage = () => {
     message: '',
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { t } = useLanguage();
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -77,13 +79,13 @@ ${formData.message}`;
         {/* Header */}
         <div className="text-center mb-16">
           <span className="inline-block px-4 py-1.5 rounded-full bg-[#71f8e4] text-[#00201c] font-['Inter'] text-xs font-bold uppercase tracking-widest mb-6">
-            Get in Touch
+            {t('public.contact.badge')}
           </span>
           <h1 className="font-['Plus_Jakarta_Sans'] text-4xl md:text-5xl font-extrabold tracking-tight text-[#121c2a] mb-4">
-            We&apos;d love to hear from you.
+            {t('public.contact.title')}
           </h1>
           <p className="text-xl text-[#3c4947] max-w-2xl mx-auto font-['Manrope']">
-            Have questions about our coliving spaces? We&apos;re here to help you find your perfect home in Singapore.
+            {t('public.contact.subtitle')}
           </p>
         </div>
 
@@ -92,7 +94,7 @@ ${formData.message}`;
           <div className="lg:col-span-2">
             <div className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-[rgba(187,202,198,0.15)]">
               <h2 className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#121c2a] mb-2">
-                Send us a Message
+                {t('public.contact.sendMessage')}
               </h2>
               <p className="text-[#3c4947] text-sm mb-8 font-['Manrope']">
                 Fill out the form below and we&apos;ll get back to you within 24 hours
@@ -109,7 +111,7 @@ ${formData.message}`;
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#3c4947] mb-2">
-                        Full Name *
+                        {t('public.contact.fullName')} *
                       </label>
                       <input
                         required
@@ -122,7 +124,7 @@ ${formData.message}`;
                     </div>
                     <div>
                       <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#3c4947] mb-2">
-                        Email Address *
+                        {t('public.contact.email')} *
                       </label>
                       <input
                         required
@@ -138,7 +140,7 @@ ${formData.message}`;
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#3c4947] mb-2">
-                        Phone Number
+                        {t('public.contact.phone')}
                       </label>
                       <input
                         type="tel"
@@ -150,7 +152,7 @@ ${formData.message}`;
                     </div>
                     <div>
                       <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#3c4947] mb-2">
-                        Subject
+                        {t('public.contact.subject')}
                       </label>
                       <select
                         value={formData.subject}
@@ -170,7 +172,7 @@ ${formData.message}`;
 
                   <div>
                     <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#3c4947] mb-2">
-                      Message *
+                      {t('public.contact.message')} *
                     </label>
                     <textarea
                       required
@@ -187,7 +189,7 @@ ${formData.message}`;
                     className="w-full bg-[#006b5f] text-white py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#006b5f]/90 transition-all active:scale-95 shadow-lg shadow-[#006b5f]/20 flex items-center justify-center gap-2"
                   >
                     <span className="material-symbols-outlined">send</span>
-                    Send Message
+                    {t('public.contact.send')}
                   </button>
                 </form>
               )}
@@ -198,7 +200,7 @@ ${formData.message}`;
           <div className="space-y-6">
             {/* Contact Info */}
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-[rgba(187,202,198,0.15)]">
-              <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg mb-6">Quick Contact</h3>
+              <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg mb-6">{t('public.contact.quickContact')}</h3>
               <div className="space-y-6">
                 <a
                   href="https://wa.me/6580885410"
@@ -210,7 +212,7 @@ ${formData.message}`;
                     <span className="material-symbols-outlined text-[#006b5f]">chat</span>
                   </div>
                   <div>
-                    <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">WhatsApp</h4>
+                    <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">{t('public.contact.whatsapp')}</h4>
                     <p className="text-sm text-[#3c4947]">+65 8088 5410</p>
                     <p className="text-xs text-[#006b5f] font-['Inter'] font-semibold mt-1">Message us now</p>
                   </div>
@@ -223,7 +225,7 @@ ${formData.message}`;
                     <span className="material-symbols-outlined text-[#006b5f]">mail</span>
                   </div>
                   <div>
-                    <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">Email</h4>
+                    <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">{t('public.contact.email')}</h4>
                     <p className="text-sm text-[#3c4947]">hello@hyve.sg</p>
                   </div>
                 </a>
@@ -234,15 +236,15 @@ ${formData.message}`;
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-[rgba(187,202,198,0.15)]">
               <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg mb-4 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#006b5f]">schedule</span>
-                Response Time
+                {t('public.contact.responseTime')}
               </h3>
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between items-center">
-                  <span className="text-[#3c4947]">WhatsApp</span>
+                  <span className="text-[#3c4947]">{t('public.contact.whatsapp')}</span>
                   <span className="font-['Inter'] font-semibold text-[#121c2a]">Within 1 hour</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[#3c4947]">Email</span>
+                  <span className="text-[#3c4947]">{t('public.contact.email')}</span>
                   <span className="font-['Inter'] font-semibold text-[#121c2a]">Within 24 hours</span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -263,8 +265,8 @@ ${formData.message}`;
               className="block bg-[#006b5f] text-white p-6 rounded-2xl text-center hover:opacity-90 transition-all"
             >
               <span className="material-symbols-outlined text-3xl mb-2 block">home_work</span>
-              <p className="font-['Plus_Jakarta_Sans'] font-bold">Browse Properties</p>
-              <p className="text-white/70 text-sm font-['Manrope'] mt-1">Find your ideal room</p>
+              <p className="font-['Plus_Jakarta_Sans'] font-bold">{t('public.contact.browseProperties')}</p>
+              <p className="text-white/70 text-sm font-['Manrope'] mt-1">{t('public.contact.findIdealRoom')}</p>
             </Link>
           </div>
         </div>
@@ -273,7 +275,7 @@ ${formData.message}`;
         <div className="mt-20">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#121c2a] mb-4">
-              Frequently Asked Questions
+              {t('public.faq.title')}
             </h2>
             <p className="text-[#3c4947] font-['Manrope']">Quick answers to common questions</p>
           </div>
@@ -295,7 +297,7 @@ ${formData.message}`;
               to="/faqs"
               className="text-[#006b5f] font-['Plus_Jakarta_Sans'] font-bold hover:underline underline-offset-4 inline-flex items-center gap-1"
             >
-              View All FAQs
+              {t('public.contact.viewAllFAQs')}
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
             </Link>
           </div>

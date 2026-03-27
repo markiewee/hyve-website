@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import SEO from './SEO';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const AboutPage = () => {
+  const { t } = useLanguage();
   const team = [
     {
       name: 'Mark Wee',
@@ -47,7 +49,7 @@ const AboutPage = () => {
       <section className="relative px-6 md:px-8 py-20 lg:py-32 max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
         <div className="z-10">
           <span className="inline-block px-4 py-1.5 rounded-full bg-[#71f8e4] text-[#00201c] font-['Inter'] text-xs font-bold uppercase tracking-widest mb-6">
-            Our Philosophy
+            {t('public.about.badge')}
           </span>
           <h1 className="font-['Plus_Jakarta_Sans'] text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tighter text-[#121c2a] leading-[1.1] mb-8">
             Architecting the <span className="text-[#006b5f] italic">future</span> of urban sanctuary.
@@ -199,7 +201,7 @@ const AboutPage = () => {
               to="/properties"
               className="bg-white text-[#006b5f] px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-extrabold hover:scale-95 transition-transform duration-200 shadow-lg inline-block"
             >
-              Explore Locations
+              {t('public.about.exploreLocations')}
             </Link>
             <a
               href="https://wa.me/6580885410?text=Hi!%20I'm%20interested%20in%20a%20room%20at%20Hyve."
@@ -207,7 +209,7 @@ const AboutPage = () => {
               rel="noopener noreferrer"
               className="bg-[#14b8a6]/20 text-white border border-[#71f8e4]/30 backdrop-blur-md px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-extrabold hover:bg-[#14b8a6]/30 transition-colors inline-block"
             >
-              Contact Us
+              {t('public.about.contactUs')}
             </a>
           </div>
         </div>
