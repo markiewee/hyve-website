@@ -177,12 +177,11 @@ export default function AdminExpenseImportPage() {
                         const name = acc.debit_details?.[0]?.account_name || acc.name || acc.id || acc;
                         const bal = acc.available_balance != null ? ` (${acc.currency_code || "SGD"} ${(acc.available_balance / 100).toLocaleString("en-SG", { minimumFractionDigits: 2 })})` : "";
                         return (
-                        <option key={acc.id ?? acc} value={acc.id ?? acc}>
-                          {name}{bal}
-                        </option>
+                          <option key={acc.id ?? acc} value={acc.id ?? acc}>
+                            {name}{bal}
+                          </option>
                         );
-                      }
-                      ))}
+                      })}
                     </select>
                   )}
                 </div>
