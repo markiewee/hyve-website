@@ -363,17 +363,10 @@ export default function ViewingPage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-[#e0e3e5] bg-[#f2f4f6]">
-        <div className="flex flex-col md:flex-row justify-between items-center px-8 py-10 max-w-7xl mx-auto gap-4">
-          <div className="flex items-center gap-2">
-            <img src="/hyve-logo.png" alt="Hyve" className="h-6" />
-          </div>
-          <p className="text-[#6c7a77] text-sm font-['Inter']">
-            © {new Date().getFullYear()} Hyve Living · Makery Pte. Ltd.
-          </p>
-        </div>
-      </footer>
+      {/* Minimal footer */}
+      <div className="text-center py-8 text-[#bbcac6] text-xs font-['Inter']">
+        © {new Date().getFullYear()} Hyve Living · Makery Pte. Ltd.
+      </div>
     </div>
   );
 }

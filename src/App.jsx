@@ -58,6 +58,7 @@ import SigningConfirmationPage from './pages/portal/SigningConfirmationPage';
 function AppContent() {
   const location = useLocation();
   const isPortal = location.pathname.startsWith('/portal');
+  const isViewing = location.pathname.startsWith('/view/');
 
   const [searchFilters, setSearchFilters] = useState({
     location: '',
@@ -68,7 +69,7 @@ function AppContent() {
 
   return (
       <div className="min-h-screen bg-background">
-        {!isPortal && <Navbar />}
+        {!isPortal && !isViewing && <Navbar />}
         <Routes>
           <Route 
             path="/" 
@@ -339,8 +340,8 @@ function AppContent() {
             </div>
           } />
         </Routes>
-        {!isPortal && <Footer />}
-        {!isPortal && <FloatingWhatsApp />}
+        {!isPortal && !isViewing && <Footer />}
+        {!isPortal && !isViewing && <FloatingWhatsApp />}
       </div>
   );
 }
