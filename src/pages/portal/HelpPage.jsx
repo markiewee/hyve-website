@@ -60,7 +60,7 @@ const SECTIONS = [
     id: "issues",
     icon: "build",
     title: "Reporting Issues",
-    titleZh: 「报告问题」,
+    titleZh: "报告问题",
     items: [
       {
         q: "How do I report a maintenance issue?",
@@ -86,7 +86,7 @@ const SECTIONS = [
     id: "documents",
     icon: "folder_open",
     title: "Documents",
-    titleZh: 「文件」,
+    titleZh: "文件",
     items: [
       {
         q: "How do I view my licence agreement?",
