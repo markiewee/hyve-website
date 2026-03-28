@@ -43,6 +43,31 @@ export default function AdminViewingsPage() {
     setLoading(false);
   }
 
+  // Auto-fill property-specific defaults when property changes
+  function handlePropertyChange(propertyId) {
+    const prop = properties.find(p => p.id === propertyId);
+    const propName = prop?.name || "";
+    const defaults = {};
+
+    if (propName.includes("Thomson")) {
+      defaults.security_instructions = "Tell the guard you're visiting Hyve at Block 588";
+      defaults.access_code = "";
+    } else if (propName.includes("Chiltern")) {
+      defaults.security_instructions = "Tell the guard you're visiting Hyve at Block 135";
+      defaults.access_code = "";
+    } else if (propName.includes("Ivory")) {
+      defaults.security_instructions = "Tell the guard you're visiting Hyve at Block 122";
+      defaults.access_code = "";
+    }
+
+    setForm(f => ({
+      ...f,
+      property_id: propertyId,
+      security_instructions: f.security_instructions || defaults.security_instructions || "",
+      access_code: f.access_code || defaults.access_code || "",
+    }));
+  }
+
   async function handleCreate(e) {
     e.preventDefault();
     if (!form.prospect_name.trim() || !form.property_id || !form.viewing_date) {
@@ -130,7 +155,7 @@ export default function AdminViewingsPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-1.5">
                 <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Property *</label>
-                <select value={form.property_id} onChange={e => setForm(f => ({ ...f, property_id: e.target.value }))} required
+                <select value={form.property_id} onChange={e => handlePropertyChange(e.target.value)} required
                   className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] focus:ring-2 focus:ring-[#14b8a6] outline-none">
                   <option value="">Select property</option>
                   {properties.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
@@ -150,8 +175,27 @@ export default function AdminViewingsPage() {
 
             <div className="space-y-1.5">
               <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Google Meet Link</label>
-              <input type="url" value={form.meet_link} onChange={e => setForm(f => ({ ...f, meet_link: e.target.value }))}
-                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] focus:ring-2 focus:ring-[#14b8a6] outline-none" placeholder="https://meet.google.com/..." />
+              <div className="flex gap-2">
+                <input type="url" value={form.meet_link} onChange={e => setForm(f => ({ ...f, meet_link: e.target.value }))}
+                  className="flex-1 bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] focus:ring-2 focus:ring-[#14b8a6] outline-none" placeholder="Paste Meet link or click Generate" />
+                <button type="button" onClick={() => {
+                  const propName = properties.find(p => p.id === form.property_id)?.name || "Hyve";
+                  const title = encodeURIComponent(`Hyve Viewing — ${form.prospect_name || "Prospect"} @ ${propName}`);
+                  const date = (form.viewing_date || "").replace(/-/g, "");
+                  const time = (form.viewing_time || "12:00").replace(":", "") + "00";
+                  const endHour = String(parseInt((form.viewing_time || "12:00").split(":")[0]) + 1).padStart(2, "0");
+                  const endTime = `${endHour}${(form.viewing_time || "12:00").split(":")[1] || "00"}00`;
+                  const dates = `${date}T${time}/${date}T${endTime}`;
+                  const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&add=${encodeURIComponent(form.prospect_email || "")}&location=${encodeURIComponent(properties.find(p => p.id === form.property_id)?.name || "")}&details=Property+viewing+for+${encodeURIComponent(form.prospect_name || "")}`;
+                  window.open(calUrl, "_blank");
+                  setMessage({ type: "success", text: "Google Calendar opened — add Google Meet in the event, then paste the link here." });
+                }}
+                  className="px-4 py-3 bg-[#eff4ff] rounded-xl text-[#006b5f] font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff] transition-colors whitespace-nowrap flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-[16px]">video_call</span>
+                  Generate
+                </button>
+              </div>
+              <p className="text-[10px] text-[#6c7a77] font-['Manrope']">Click Generate to create a calendar event with Meet link, then paste it back here.</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
