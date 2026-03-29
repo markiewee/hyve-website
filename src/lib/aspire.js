@@ -52,7 +52,7 @@ function normalizeTransaction(raw) {
 
   // Aspire amounts are in cents (e.g. 288200 = $2,882.00)
   let amount = typeof raw.amount === 'number' ? raw.amount : parseFloat(raw.amount ?? 0);
-  if (Math.abs(amount) > 10000) amount = amount / 100; // Convert cents to dollars
+  amount = amount / 100; // Aspire API always returns amounts in cents
 
   // Debit transactions should be negative
   if (raw.type === 'debit' && amount > 0) amount = -amount;

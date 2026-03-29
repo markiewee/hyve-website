@@ -148,28 +148,55 @@ export function useTransactionReview(batchId) {
           .eq('id', rule.id);
         if (ruleUpdateError) throw ruleUpdateError;
       } else {
-        // Rule does not exist — insert new rule
-        const { error: ruleInsertError } = await supabase
-          .from('tagging_rules')
-          .insert({
-            vendor_pattern: vendorPattern,
-            property_id: propertyId ?? null,
-            category,
-            transaction_type: txType,
-            hit_count: 1,
-            last_used_at: new Date().toISOString(),
-          });
-        if (ruleInsertError) throw ruleInsertError;
+        // Rule does not exist — insert new rule; catch conflict from race condition
+        try {
+          const { error: ruleInsertError } = await supabase
+            .from('tagging_rules')
+            .insert({
+              vendor_pattern: vendorPattern,
+              property_id: propertyId ?? null,
+              category,
+              transaction_type: txType,
+              hit_count: 1,
+              last_used_at: new Date().toISOString(),
+            });
+          if (ruleInsertError) throw ruleInsertError;
+        } catch (insertErr) {
+          // Race condition: another request inserted the same rule — update instead
+          let conflictQuery = supabase
+            .from('tagging_rules')
+            .select('id, hit_count')
+            .eq('vendor_pattern', vendorPattern)
+            .eq('category', category);
+          if (propertyId == null) {
+            conflictQuery = conflictQuery.is('property_id', null);
+          } else {
+            conflictQuery = conflictQuery.eq('property_id', propertyId);
+          }
+          const { data: conflictRules, error: conflictSelectErr } = await conflictQuery;
+          if (conflictSelectErr) throw conflictSelectErr;
+          if (conflictRules && conflictRules.length > 0) {
+            const rule = conflictRules[0];
+            const { error: conflictUpdateErr } = await supabase
+              .from('tagging_rules')
+              .update({
+                hit_count: (rule.hit_count ?? 0) + 1,
+                last_used_at: new Date().toISOString(),
+                transaction_type: txType,
+              })
+              .eq('id', rule.id);
+            if (conflictUpdateErr) throw conflictUpdateErr;
+          } else {
+            // Not a conflict — rethrow original error
+            throw insertErr;
+          }
+        }
       }
     }
 
     // c) Insert into property_expenses
     // Derive month from transaction_date if not provided
-    const expenseMonth = month
-      ? month
-      : tx.transaction_date
-        ? tx.transaction_date.slice(0, 7) + '-01'
-        : null;
+    const expenseMonth = month || (tx.transaction_date ? tx.transaction_date.slice(0, 7) + '-01' : new Date().toISOString().slice(0, 7) + '-01');
 
     const { error: expenseError } = await supabase
       .from('property_expenses')

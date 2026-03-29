@@ -309,7 +309,8 @@ export default function AdminFinancialsPage() {
         result[key] = { incomeByCategory: {}, expenseByCategory: {}, totalIncome: 0, totalExpenses: 0, netProfit: 0 };
       }
 
-      const amount = Math.abs(Number(txn.amount ?? 0));
+      const raw = Number(txn.amount ?? 0) || 0;
+      const amount = Math.abs(raw);
       const cat = txn.category ?? "OTHER_EXPENSE";
 
       if (txn.transaction_type === "INCOME" || INCOME_CATEGORIES.includes(cat)) {

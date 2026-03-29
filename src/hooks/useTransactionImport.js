@@ -82,8 +82,8 @@ function mapCsvRow(row) {
   return {
     transaction_date: parseDateField(rawDate),
     description: String(rawDescription).trim(),
-    // CSV exports typically have positive values for debits; we take Math.abs
-    amount: Math.abs(parseFloat(String(rawAmount).replace(/[^0-9.\-]/g, '')) || 0),
+    // Keep original sign — it determines income vs expense
+    amount: parseFloat(String(rawAmount).replace(/[^0-9.\-]/g, '')) || 0,
     currency: String(rawCurrency).trim() || 'SGD',
     reference: String(rawReference).trim(),
   };
@@ -281,8 +281,17 @@ export function useTransactionImport() {
         throw new Error('CSV file contains no data rows.');
       }
 
-      // 2. Map to our schema
-      const transactions = rawRows.map(mapCsvRow).filter(t => t.transaction_date);
+      // 2. Map to our schema, filter out rows with no date or zero amount
+      let skippedZero = 0;
+      const transactions = rawRows.map(mapCsvRow).filter(t => {
+        if (!t.transaction_date) return false;
+        if (t.amount === 0) { skippedZero++; return false; }
+        return true;
+      });
+
+      if (skippedZero > 0) {
+        console.warn(`[useTransactionImport] Skipped ${skippedZero} row(s) with zero amount.`);
+      }
 
       if (transactions.length === 0) {
         throw new Error('No valid transactions found in CSV. Check that the Date column is present and populated.');

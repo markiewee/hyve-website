@@ -79,7 +79,7 @@ export function matchScore(rulePattern, transactionDesc) {
  * @returns {'INCOME'|'EXPENSE'}
  */
 export function inferTransactionType(amount) {
-  return amount > 0 ? 'INCOME' : 'EXPENSE';
+  return amount >= 0 ? 'INCOME' : 'EXPENSE';
 }
 
 /**
