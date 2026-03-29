@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { supabase } from "../../lib/supabase";
+import { useState } from "react";
 
 const INCOME_CATEGORIES = [
   { key: "RENT", label: "Rent", icon: "payments" },
@@ -28,77 +27,110 @@ const EXPENSE_CATEGORIES = [
 const fmtSGD = (amt) => `SGD ${Math.abs(Number(amt || 0)).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`;
 const fmtDate = (d) => d ? new Date(d).toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" }) : "";
 
-export default function TransactionReviewBoard({ batchId, transactions, onUpdate }) {
-  const [properties, setProperties] = useState([]);
-  const [tab, setTab] = useState("ALL");
-  const [step, setStep] = useState(null); // null | { txId, category, transactionType, stage }
+export default function TransactionReviewBoard({
+  transactions,
+  properties,
+  onConfirm,
+  onIgnore,
+  onBulkConfirm,
+  stats,
+  typeFilter,
+  onTypeFilterChange,
+}) {
+  const [step, setStep] = useState(null); // null | { txId, category, transactionType }
   const [saving, setSaving] = useState(null);
-
-  useEffect(() => {
-    supabase.from("properties").select("id, name").then(({ data }) => setProperties(data ?? []));
-  }, []);
+  const [message, setMessage] = useState(null);
 
   const pending = (transactions || []).filter(t => t.status === "PENDING" || t.status === "AUTO_TAGGED");
+  const tab = typeFilter || "ALL";
   const filtered = tab === "ALL" ? pending
     : tab === "INCOME" ? pending.filter(t => t.transaction_type === "INCOME")
     : pending.filter(t => t.transaction_type === "EXPENSE");
 
   async function handlePropertySelect(propertyId) {
-    if (!step) return;
+    if (!step || !onConfirm) return;
     setSaving(step.txId);
-
-    await supabase.from("bank_transactions").update({
-      category: step.category,
-      transaction_type: step.transactionType,
-      property_id: propertyId || null,
-      status: "CONFIRMED",
-    }).eq("id", step.txId);
-
-    // Create tagging rule
-    const tx = pending.find(t => t.id === step.txId);
-    if (tx?.description) {
-      const vendor = tx.description.split(/\s+/).slice(0, 3).join(" ").toUpperCase();
-      await supabase.from("tagging_rules").upsert({
-        vendor_pattern: vendor,
-        property_id: propertyId || null,
-        category: step.category,
+    setMessage(null);
+    try {
+      await onConfirm(step.txId, propertyId, step.category, null, {
         transaction_type: step.transactionType,
-        hit_count: 1,
-        last_used_at: new Date().toISOString(),
-      }, { onConflict: "vendor_pattern,property_id,category" });
+      });
+      setMessage({ type: "success", text: "Transaction categorized successfully." });
+      setStep(null);
+    } catch (err) {
+      setMessage({ type: "error", text: "Failed to save: " + (err.message || "Unknown error") });
     }
-
     setSaving(null);
-    setStep(null);
-    if (onUpdate) onUpdate();
   }
 
   async function handleIgnore(txId) {
-    await supabase.from("bank_transactions").update({ status: "IGNORED" }).eq("id", txId);
-    if (onUpdate) onUpdate();
+    if (!onIgnore) return;
+    setMessage(null);
+    try {
+      await onIgnore(txId);
+      setMessage({ type: "success", text: "Transaction ignored." });
+    } catch (err) {
+      setMessage({ type: "error", text: "Failed to ignore: " + (err.message || "Unknown error") });
+    }
   }
 
   async function handleConfirmAutoTag(txId) {
-    await supabase.from("bank_transactions").update({ status: "CONFIRMED" }).eq("id", txId);
-    if (onUpdate) onUpdate();
+    const tx = pending.find(t => t.id === txId);
+    if (!tx || !onConfirm) return;
+    setMessage(null);
+    try {
+      await onConfirm(txId, tx.property_id, tx.category, null, {
+        transaction_type: tx.transaction_type,
+      });
+      setMessage({ type: "success", text: "Auto-tag confirmed." });
+    } catch (err) {
+      setMessage({ type: "error", text: "Failed to confirm: " + (err.message || "Unknown error") });
+    }
+  }
+
+  async function handleBulkConfirm() {
+    if (!onBulkConfirm) return;
+    setMessage(null);
+    try {
+      await onBulkConfirm();
+      setMessage({ type: "success", text: "All auto-tagged transactions confirmed." });
+    } catch (err) {
+      setMessage({ type: "error", text: "Bulk confirm failed: " + (err.message || "Unknown error") });
+    }
   }
 
   const activeTx = step ? pending.find(t => t.id === step.txId) : null;
+  const autoTaggedCount = stats?.autoTagged || pending.filter(t => t.status === "AUTO_TAGGED").length;
 
   return (
     <div className="space-y-4">
+      {/* Feedback message */}
+      {message && (
+        <div className={`px-4 py-3 rounded-xl text-sm font-['Manrope'] font-medium ${message.type === "success" ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"}`}>
+          {message.text}
+        </div>
+      )}
+
       {/* Tabs */}
-      <div className="flex gap-1 bg-[#eff4ff] rounded-lg p-1 w-fit">
-        {[
-          { key: "ALL", label: "All", count: pending.length },
-          { key: "INCOME", label: "Income", count: pending.filter(t => t.transaction_type === "INCOME").length },
-          { key: "EXPENSE", label: "Expense", count: pending.filter(t => t.transaction_type === "EXPENSE").length },
-        ].map(({ key, label, count }) => (
-          <button key={key} onClick={() => { setTab(key); setStep(null); }}
-            className={`px-4 py-1.5 rounded-md text-xs font-bold transition-colors ${tab === key ? "bg-white text-[#006b5f] shadow-sm" : "text-[#6c7a77]"}`}>
-            {label} ({count})
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <div className="flex gap-1 bg-[#eff4ff] rounded-lg p-1 w-fit">
+          {[
+            { key: "ALL", label: "All", count: pending.length },
+            { key: "INCOME", label: "Income", count: pending.filter(t => t.transaction_type === "INCOME").length },
+            { key: "EXPENSE", label: "Expense", count: pending.filter(t => t.transaction_type === "EXPENSE").length },
+          ].map(({ key, label, count }) => (
+            <button key={key} onClick={() => { onTypeFilterChange?.(key) || null; setStep(null); }}
+              className={`px-4 py-1.5 rounded-md text-xs font-bold transition-colors ${tab === key ? "bg-white text-[#006b5f] shadow-sm" : "text-[#6c7a77]"}`}>
+              {label} ({count})
+            </button>
+          ))}
+        </div>
+        {autoTaggedCount > 0 && (
+          <button onClick={handleBulkConfirm}
+            className="px-4 py-1.5 bg-green-600 text-white text-xs font-bold rounded-lg hover:bg-green-700">
+            Confirm All Auto-tagged ({autoTaggedCount})
           </button>
-        ))}
+        )}
       </div>
 
       {/* Transaction list or step-by-step classifier */}
@@ -139,7 +171,7 @@ export default function TransactionReviewBoard({ batchId, transactions, onUpdate
                     Confirm
                   </button>
                 )}
-                <button onClick={() => setStep({ txId: tx.id, category: null, transactionType: tx.transaction_type || (Number(tx.amount) >= 0 ? "INCOME" : "EXPENSE"), stage: "category" })}
+                <button onClick={() => setStep({ txId: tx.id, category: null, transactionType: tx.transaction_type || (Number(tx.amount) >= 0 ? "INCOME" : "EXPENSE") })}
                   className="px-3 py-1.5 bg-[#eff4ff] text-[#006b5f] text-xs font-bold rounded-lg hover:bg-[#e6eeff]">
                   {tx.status === "AUTO_TAGGED" ? "Re-tag" : "Categorize"}
                 </button>
@@ -200,7 +232,7 @@ export default function TransactionReviewBoard({ batchId, transactions, onUpdate
               <span className="material-symbols-outlined text-[#6c7a77] text-[28px]">business</span>
               <span className="text-xs font-bold">Company / Ops</span>
             </button>
-            {properties.map(p => (
+            {(properties || []).map(p => (
               <button key={p.id} onClick={() => handlePropertySelect(p.id)} disabled={!!saving}
                 className="flex flex-col items-center gap-2 p-5 rounded-xl border-2 border-[#bbcac6]/15 hover:border-[#006b5f] hover:bg-[#006b5f]/5 transition-all disabled:opacity-50">
                 <span className="material-symbols-outlined text-[#006b5f] text-[28px]">apartment</span>

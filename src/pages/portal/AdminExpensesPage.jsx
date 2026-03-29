@@ -184,6 +184,9 @@ export default function AdminExpensesPage() {
         <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
           Log and review property expenses by month.
         </p>
+        <p className="text-[#6c7a77]/70 font-['Manrope'] text-xs mt-1">
+          Manually logged expenses
+        </p>
       </div>
 
       {/* Metric cards */}

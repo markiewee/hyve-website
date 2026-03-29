@@ -366,6 +366,9 @@ export default function AdminFinancialsPage() {
     : null;
 
   async function handleFinalizeMonth() {
+    if (!window.confirm(`Are you sure you want to finalize ${formatMonthLabel(selectedMonth)}? This will lock the P&L into monthly_financials records.`)) {
+      return;
+    }
     setFinalizing(true);
     setFinalizeError(null);
     setFinalizeSuccess(null);
@@ -415,6 +418,9 @@ export default function AdminFinancialsPage() {
         </h1>
         <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
           Monthly income vs expenses by property, from confirmed bank transactions.
+        </p>
+        <p className="text-[#6c7a77]/70 font-['Manrope'] text-xs mt-1">
+          Based on categorized bank transactions
         </p>
       </div>
 

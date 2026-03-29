@@ -227,7 +227,7 @@ export default function AdminExpenseImportPage() {
         </div>
 
         {/* Aspire API tab */}
-        {activeTab === TAB_ASPIRE && (
+        <div style={{ display: activeTab === TAB_ASPIRE ? "block" : "none" }}>
           <div className="space-y-5">
             {accountsError ? (
               <div className="flex items-start gap-3 p-4 bg-red-50 rounded-xl border border-red-200">
@@ -345,7 +345,7 @@ export default function AdminExpenseImportPage() {
                 </div>
 
                 {/* Import error */}
-                {importError && activeTab === TAB_ASPIRE && (
+                {importError && (
                   <p className="font-['Manrope'] text-sm text-red-600">{importError}</p>
                 )}
 
@@ -374,12 +374,12 @@ export default function AdminExpenseImportPage() {
               </>
             )}
           </div>
-        )}
+        </div>
 
         {/* CSV Upload tab */}
-        {activeTab === TAB_CSV && (
+        <div style={{ display: activeTab === TAB_CSV ? "block" : "none" }}>
           <div className="space-y-4">
-            {importError && activeTab === TAB_CSV && (
+            {importError && (
               <p className="font-['Manrope'] text-sm text-red-600">{importError}</p>
             )}
             <CsvUploader
@@ -388,7 +388,7 @@ export default function AdminExpenseImportPage() {
               progress={progress}
             />
           </div>
-        )}
+        </div>
       </div>
 
       {/* ── Section 2: Import Summary + Review ── */}
