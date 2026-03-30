@@ -10,6 +10,10 @@ export default function AdminDevicesPage() {
   const [devices, setDevices] = useState([]);
   const [loading, setLoading] = useState(true);
   const { readings: energyReadings } = useLatestEnergyReadings();
+  const [rooms, setRooms] = useState([]);
+  const [assignRoom, setAssignRoom] = useState("");
+  const [assigning, setAssigning] = useState(false);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     async function fetchDevices() {
@@ -26,6 +30,13 @@ export default function AdminDevicesPage() {
     }
 
     fetchDevices();
+
+    // Fetch all rooms for the assign dropdown
+    supabase
+      .from("rooms")
+      .select("id, unit_code, name, properties(name)")
+      .order("unit_code")
+      .then(({ data }) => setRooms(data ?? []));
 
     // Realtime subscription for device heartbeats
     const channel = supabase
@@ -120,6 +131,87 @@ export default function AdminDevicesPage() {
             </p>
           )}
         </div>
+      </div>
+
+      {/* Assign device to room */}
+      <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm mb-8">
+        <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-4 flex items-center gap-2">
+          <span className="material-symbols-outlined text-[#006b5f] text-[20px]">add_circle</span>
+          Register Sensor to Room
+        </h2>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <select
+            value={assignRoom}
+            onChange={(e) => setAssignRoom(e.target.value)}
+            className="flex-1 bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-sm text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+          >
+            <option value="">Select room...</option>
+            {rooms
+              .filter((r) => !devices.some((d) => d.room_id === r.id))
+              .map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.unit_code} — {r.name} ({r.properties?.name})
+                </option>
+              ))}
+          </select>
+          <button
+            onClick={async () => {
+              if (!assignRoom) return;
+              setAssigning(true);
+              setMessage(null);
+              try {
+                // Create device_status entry
+                const now = new Date().toISOString();
+                const { error: e1 } = await supabase.from("device_status").upsert({
+                  room_id: assignRoom,
+                  last_heartbeat: null,
+                  last_state: null,
+                }, { onConflict: "room_id" });
+                if (e1) throw new Error(e1.message);
+
+                // Ensure device_key exists
+                const { data: existingKey } = await supabase
+                  .from("device_keys")
+                  .select("id")
+                  .eq("room_id", assignRoom)
+                  .maybeSingle();
+
+                if (!existingKey) {
+                  const apiKey = "hyve_" + Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, "0")).join("");
+                  const { error: e2 } = await supabase.from("device_keys").insert({
+                    room_id: assignRoom,
+                    api_key: apiKey,
+                    ac_threshold: 0.5,
+                    is_active: true,
+                  });
+                  if (e2) throw new Error(e2.message);
+                }
+
+                setMessage({ type: "success", text: "Device registered. It will show as offline until the sensor connects." });
+                setAssignRoom("");
+                // Refresh
+                const { data } = await supabase
+                  .from("device_status")
+                  .select("*, rooms(name, unit_code, properties(name, code))")
+                  .order("last_heartbeat", { ascending: false });
+                setDevices(data ?? []);
+              } catch (err) {
+                setMessage({ type: "error", text: err.message });
+              }
+              setAssigning(false);
+            }}
+            disabled={!assignRoom || assigning}
+            className="px-6 py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all shrink-0 flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-[18px]">sensors</span>
+            {assigning ? "Registering..." : "Register"}
+          </button>
+        </div>
+        {message && (
+          <div className={`mt-3 px-4 py-3 rounded-xl text-sm font-['Manrope'] ${message.type === "success" ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"}`}>
+            {message.text}
+          </div>
+        )}
       </div>
 
       {/* Device cards */}
