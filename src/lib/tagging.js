@@ -106,7 +106,7 @@ export function findBestMatch(transaction, rules, threshold = 0.6) {
   let bestScore = -Infinity;
 
   for (const rule of rules) {
-    const base = matchScore(rule.pattern, transaction.description);
+    const base = matchScore(rule.vendor_pattern, transaction.description);
     if (base === 0) continue;
 
     const hitCount = typeof rule.hit_count === 'number' ? rule.hit_count : 0;
