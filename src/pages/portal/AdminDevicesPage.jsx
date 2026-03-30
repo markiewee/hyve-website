@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 import DeviceStatusCard from "../../components/portal/DeviceStatusCard";
+import { useLatestEnergyReadings } from "../../hooks/useEnergyReadings";
 
 const ONLINE_THRESHOLD_MINUTES = 20;
 
 export default function AdminDevicesPage() {
   const [devices, setDevices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { readings: energyReadings } = useLatestEnergyReadings();
 
   useEffect(() => {
     async function fetchDevices() {
@@ -57,10 +59,10 @@ export default function AdminDevicesPage() {
       {/* Page header */}
       <div className="mb-10">
         <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
-          IoT Device Health
+          IoT Devices & Energy
         </h1>
         <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
-          Monitor AC controllers and smart devices across all properties.
+          Monitor AC controllers, energy sensors, and smart devices across all properties.
         </p>
       </div>
 
@@ -157,7 +159,7 @@ export default function AdminDevicesPage() {
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {devices.map((device) => (
-            <DeviceStatusCard key={device.id} device={device} />
+            <DeviceStatusCard key={device.id} device={device} energyReading={energyReadings[device.room_id]} />
           ))}
         </div>
       )}
