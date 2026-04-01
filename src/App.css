@@ -151,6 +151,9 @@
   background: rgba(20, 184, 166, 0.05);
   backdrop-filter: blur(12px);
 }
+.editorial-shadow {
+  box-shadow: 0 24px 48px -12px rgba(25, 28, 30, 0.04);
+}
 
 @layer utilities {
   /* Custom animations for homepage */

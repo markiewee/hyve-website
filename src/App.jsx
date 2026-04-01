@@ -43,8 +43,13 @@ import AdminExpenseImportPage from './pages/portal/AdminExpenseImportPage';
 import AdminFinancialsPage from './pages/portal/AdminFinancialsPage';
 import AdminDocumentsPage from './pages/portal/AdminDocumentsPage';
 import AdminLocksPage from './pages/portal/AdminLocksPage';
-import AdminViewingsPage from './pages/portal/AdminViewingsPage';
+import AdminViewingsPage from './pages/portal/AdminViewingsPageV2';
+import AdminViewingDetailPage from './pages/portal/AdminViewingDetailPage';
+import CaptainViewingsPage from './pages/portal/CaptainViewingsPage';
 import ViewingPage from './pages/ViewingPage';
+import ScheduleViewingPage from './pages/viewing/ScheduleViewingPage';
+import ViewingPollPage from './pages/viewing/ViewingPollPage';
+import ViewingConfirmPage from './pages/viewing/ViewingConfirmPage';
 import AdminTasksPage from './pages/portal/AdminTasksPage';
 import TenantDocumentsPage from './pages/portal/TenantDocumentsPage';
 import MemberSettingsPage from './pages/portal/MemberSettingsPage';
@@ -216,6 +221,14 @@ function AppContent() {
               </AuthGuard>
             }
           />
+          <Route
+            path="/portal/viewings"
+            element={
+              <AuthGuard requiredRole="HOUSE_CAPTAIN">
+                <CaptainViewingsPage />
+              </AuthGuard>
+            }
+          />
           {/* Admin routes */}
           <Route
             path="/portal/admin"
@@ -230,6 +243,14 @@ function AppContent() {
             element={
               <AuthGuard requiredRole="ADMIN">
                 <AdminViewingsPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/viewings/:id"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminViewingDetailPage />
               </AuthGuard>
             }
           />
@@ -339,7 +360,10 @@ function AppContent() {
               </AuthGuard>
             }
           />
-          {/* Public viewing page — no auth */}
+          {/* Public viewing pages — no auth */}
+          <Route path="/view/schedule/:propertySlug/:roomSlug?" element={<ScheduleViewingPage />} />
+          <Route path="/view/poll/:token" element={<ViewingPollPage />} />
+          <Route path="/view/confirm/:token" element={<ViewingConfirmPage />} />
           <Route path="/view/:token" element={<ViewingPage />} />
           <Route path="*" element={
             <div className="min-h-screen flex flex-col items-center justify-center py-20">

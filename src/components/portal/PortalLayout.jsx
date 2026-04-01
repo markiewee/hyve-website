@@ -28,6 +28,7 @@ function useNavLinks(role) {
       { label: t("nav.propertyOverview"), to: "/portal/property", icon: "apartment" },
       { label: t("nav.tickets"), to: "/portal/property/tickets", icon: "confirmation_number" },
       { label: t("nav.members"), to: "/portal/property/tenants", icon: "group" },
+      { label: "Viewings", to: "/portal/viewings", icon: "visibility" },
       { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
     ];
 
