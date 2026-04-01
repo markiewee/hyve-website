@@ -12,9 +12,12 @@ import DepositPayment from "../../components/portal/DepositPayment";
 import HouseRulesView from "../../components/portal/HouseRulesView";
 import MoveInInstructions from "../../components/portal/MoveInInstructions";
 import RoomChecklistForm from "../../components/portal/RoomChecklistForm";
+import WelcomeSplash from "../../components/portal/WelcomeSplash";
 import { STEP_LABELS } from "../../hooks/useOnboarding";
 
 const STEP_DESCRIPTIONS = {
+  WELCOME:
+    "Review your pre-move-in guide before we get started with onboarding.",
   PERSONAL_DETAILS:
     "Tell us a bit about yourself so we can set up your tenancy profile.",
   ID_VERIFICATION:
@@ -33,6 +36,7 @@ const STEP_DESCRIPTIONS = {
 };
 
 const STEP_ORDER = [
+  "WELCOME",
   "PERSONAL_DETAILS",
   "ID_VERIFICATION",
   "SIGN_TA",
@@ -44,6 +48,7 @@ const STEP_ORDER = [
 ];
 
 const STEP_ICONS = {
+  WELCOME: "celebration",
   PERSONAL_DETAILS: "person",
   ID_VERIFICATION: "badge",
   SIGN_TA: "edit_document",
@@ -72,6 +77,12 @@ function ActiveStepNotifier({ onboarding, profile }) {
 
 function StepContent({ currentStep, onboarding, advanceStep, updateOnboarding, refetch, profile }) {
   switch (currentStep) {
+    case "WELCOME":
+      return (
+        <WelcomeSplash
+          onContinue={() => advanceStep(null)}
+        />
+      );
     case "PERSONAL_DETAILS":
       return (
         <PersonalDetailsForm

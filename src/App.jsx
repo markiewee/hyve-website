@@ -54,6 +54,7 @@ import InvestorDashboardPage from './pages/portal/InvestorDashboardPage';
 import InvestorSignupPage from './pages/portal/InvestorSignupPage';
 import OnboardingPage from './pages/portal/OnboardingPage';
 import SigningConfirmationPage from './pages/portal/SigningConfirmationPage';
+import PropertyGuidePage from './pages/portal/PropertyGuidePage';
 
 function AppContent() {
   const location = useLocation();
@@ -131,6 +132,14 @@ function AppContent() {
             element={
               <AuthGuard>
                 <TenantDocumentsPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/guide"
+            element={
+              <AuthGuard>
+                <PropertyGuidePage />
               </AuthGuard>
             }
           />

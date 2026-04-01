@@ -10,6 +10,7 @@ function useNavLinks(role) {
   return useMemo(() => {
     const TENANT_NAV = [
       { label: t("nav.dashboard"), to: "/portal/dashboard", icon: "dashboard" },
+      { label: "My Property", to: "/portal/guide", icon: "home" },
       { label: t("nav.documents"), to: "/portal/documents", icon: "folder_open" },
       { label: t("nav.billing"), to: "/portal/billing", icon: "payments" },
       { label: t("nav.issues"), to: "/portal/issues", icon: "build" },
@@ -19,6 +20,7 @@ function useNavLinks(role) {
 
     const HOUSE_CAPTAIN_NAV = [
       { label: t("nav.dashboard"), to: "/portal/dashboard", icon: "dashboard" },
+      { label: "My Property", to: "/portal/guide", icon: "home" },
       { label: t("nav.documents"), to: "/portal/documents", icon: "folder_open" },
       { label: t("nav.billing"), to: "/portal/billing", icon: "payments" },
       { label: t("nav.issues"), to: "/portal/issues", icon: "build" },
@@ -30,6 +32,8 @@ function useNavLinks(role) {
     ];
 
     const ADMIN_NAV = [
+      { label: t("nav.dashboard"), to: "/portal/dashboard", icon: "dashboard" },
+      { label: "My Property", to: "/portal/guide", icon: "home" },
       { label: t("nav.billing"), to: "/portal/billing", icon: "payments" },
       { label: t("nav.issues"), to: "/portal/issues", icon: "build" },
       { label: t("nav.admin"), to: "/portal/admin", icon: "admin_panel_settings" },

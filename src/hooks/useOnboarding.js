@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 
 export const STEPS = [
+  "WELCOME",
   "PERSONAL_DETAILS",
   "ID_VERIFICATION",
   "SIGN_TA",
@@ -14,6 +15,7 @@ export const STEPS = [
 ];
 
 export const STEP_LABELS = {
+  WELCOME: "Welcome Guide",
   PERSONAL_DETAILS: "Personal Details",
   ID_VERIFICATION: "ID Verification",
   SIGN_TA: "Sign Agreement",
