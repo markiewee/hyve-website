@@ -73,6 +73,24 @@ const FAQsPage = () => {
           answer: [{ _type: 'block', children: [{ text: 'Yes, we require a refundable security deposit equivalent to one month\'s rent. This covers any potential damages and is returned within 14 days of move-out.' }]}]
         }
       ]
+    },
+    {
+      id: 'condo-specific',
+      sectionTitle: 'Condo-Specific Information',
+      questions: [
+        {
+          question: 'How do I renew my condo access card at Ivory Heights?',
+          answer: [{ _type: 'block', children: [{ text: 'To renew your access card at Ivory Heights, visit the condo management office with two documents: (1) Your new Tenancy Agreement (TA), which you can download from the Hyve tenant portal, and (2) A stamping certificate, which you can obtain from IRAS (Inland Revenue Authority of Singapore) directly, or request from us — please allow 2-3 working days for processing. Both documents are required by condo management before they will issue or renew your access card.' }]}]
+        },
+        {
+          question: 'Where do I get my Tenancy Agreement?',
+          answer: [{ _type: 'block', children: [{ text: 'Your Tenancy Agreement is available for download on the Hyve tenant portal. Log in to your account, go to Documents, and you\'ll find your current TA there. If you have trouble accessing it, reach out to us on WhatsApp and we\'ll send you a copy.' }]}]
+        },
+        {
+          question: 'How do I get a stamping certificate?',
+          answer: [{ _type: 'block', children: [{ text: 'You have two options: (1) Obtain it yourself from IRAS (Inland Revenue Authority of Singapore) — you can do this online via the IRAS e-Stamping portal. (2) Request it from us — we\'ll handle the process for you, but please allow 2-3 working days. The stamping certificate is required by most condo managements in Singapore as proof that stamp duty has been paid on your tenancy.' }]}]
+        }
+      ]
     }
   ];
 
