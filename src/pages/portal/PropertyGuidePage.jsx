@@ -84,6 +84,34 @@ function FAQCard({ guide }) {
   );
 }
 
+function SimpleMarkdown({ text }) {
+  const lines = text.split("\n");
+  return (
+    <div className="space-y-1.5">
+      {lines.map((line, i) => {
+        if (line.startsWith("## ")) {
+          return <h4 key={i} className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-sm mt-2 mb-1">{line.slice(3)}</h4>;
+        }
+        if (line.startsWith("# ")) {
+          return <h3 key={i} className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-base mt-2 mb-1">{line.slice(2)}</h3>;
+        }
+        if (line.trim() === "") return <div key={i} className="h-1" />;
+        // Bold: **text**
+        const parts = line.split(/(\*\*[^*]+\*\*)/g);
+        return (
+          <p key={i} className="font-['Manrope'] text-sm text-[#555f6f] leading-relaxed">
+            {parts.map((part, j) =>
+              part.startsWith("**") && part.endsWith("**")
+                ? <strong key={j} className="font-semibold text-[#121c2a]">{part.slice(2, -2)}</strong>
+                : part
+            )}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
 function GuideCard({ guide }) {
   return (
     <div className="bg-white border border-[#bbcac6]/15 rounded-2xl p-6 shadow-sm">
@@ -93,7 +121,7 @@ function GuideCard({ guide }) {
         </div>
         <div className="min-w-0">
           <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#121c2a] mb-2">{guide.title}</h3>
-          <div className="font-['Manrope'] text-sm text-[#555f6f] leading-relaxed whitespace-pre-wrap">{guide.content}</div>
+          <SimpleMarkdown text={guide.content} />
         </div>
       </div>
     </div>
