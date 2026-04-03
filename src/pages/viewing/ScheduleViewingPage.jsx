@@ -31,23 +31,44 @@ function nowSGT() {
   return new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Singapore" }));
 }
 
-function getNextSaturdays(count = 4) {
-  const saturdays = [];
+// Override specific dates: add one-off viewing days (e.g. Sunday instead of Saturday)
+// Format: "YYYY-MM-DD" — these show IN ADDITION to regular Saturdays
+const DATE_OVERRIDES = ["2026-04-06"]; // Sun 6 Apr — this week only
+// Dates to SKIP (e.g. this Saturday when we're doing Sunday instead)
+const DATE_SKIPS = ["2026-04-05"]; // Sat 5 Apr — skip this week
+
+function getNextViewingDays(count = 4) {
+  const days = [];
   const today = nowSGT();
   const earliest = new Date(today);
   earliest.setDate(earliest.getDate() + 2); // 2-day minimum lead time
 
+  // Add override dates first (if they pass lead time)
+  for (const iso of DATE_OVERRIDES) {
+    const d = new Date(iso + "T00:00:00");
+    if (d >= earliest) days.push(d);
+  }
+
+  // Add regular Saturdays
   const d = new Date(today);
-  // Find next Saturday
   d.setDate(d.getDate() + ((6 - d.getDay() + 7) % 7 || 7));
-  // If that Saturday is less than 2 days away, skip to the one after
   if (d < earliest) d.setDate(d.getDate() + 7);
 
-  for (let i = 0; i < count; i++) {
-    saturdays.push(new Date(d));
+  for (let i = 0; i < count + 2; i++) {
+    const iso = d.toISOString().split("T")[0];
+    if (!DATE_SKIPS.includes(iso)) days.push(new Date(d));
     d.setDate(d.getDate() + 7);
   }
-  return saturdays;
+
+  // Sort and dedupe, take first `count`
+  days.sort((a, b) => a.getTime() - b.getTime());
+  const seen = new Set();
+  return days.filter((d) => {
+    const k = d.toISOString().split("T")[0];
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  }).slice(0, count);
 }
 
 // Check if a slot fits the schedule considering travel time between properties.
@@ -160,7 +181,7 @@ export default function ScheduleViewingPage() {
   const [submitError, setSubmitError] = useState(null);
   const [confirmedViewing, setConfirmedViewing] = useState(null);
 
-  const saturdays = getNextSaturdays(4);
+  const saturdays = getNextViewingDays(4);
 
   useEffect(() => {
     async function load() {
