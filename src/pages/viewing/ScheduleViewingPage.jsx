@@ -57,6 +57,7 @@ export default function ScheduleViewingPage() {
   // Data loading
   const [property, setProperty] = useState(null);
   const [room, setRoom] = useState(null);
+  const [allRooms, setAllRooms] = useState([]);
   const [pageLoading, setPageLoading] = useState(true);
   const [pageError, setPageError] = useState(null);
 
@@ -64,6 +65,7 @@ export default function ScheduleViewingPage() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
+  const [selectedRoomId, setSelectedRoomId] = useState("");
   const [moveInDate, setMoveInDate] = useState("");
   const [source, setSource] = useState("Roomies");
   const [specialNotes, setSpecialNotes] = useState("");
@@ -89,9 +91,20 @@ export default function ScheduleViewingPage() {
         }
         setProperty(prop);
 
+        // Fetch all available rooms for this property
+        const { data: rooms } = await supabase
+          .from("rooms")
+          .select("id, name, unit_code")
+          .eq("property_id", prop.id)
+          .order("unit_code");
+        setAllRooms(rooms || []);
+
         if (roomSlug) {
           const rm = await fetchRoom(roomSlug);
-          if (rm) setRoom(rm);
+          if (rm) {
+            setRoom(rm);
+            setSelectedRoomId(rm.id);
+          }
         }
       } catch (err) {
         console.error("Error loading schedule page:", err);
@@ -114,7 +127,7 @@ export default function ScheduleViewingPage() {
       prospect_email: email.trim(),
       prospect_whatsapp: `+65${whatsapp.replace(/\s/g, "")}`,
       property_id: property.id,
-      room_id: room?.id || null,
+      room_id: selectedRoomId || room?.id || null,
       preferred_move_in: moveInDate || null,
       source: source.toLowerCase().replace(/\/.*/, ""),
       special_notes: specialNotes.trim() || null,
@@ -350,27 +363,25 @@ export default function ScheduleViewingPage() {
                 </div>
               </div>
 
-              {/* Room Context Card (only if room is known from URL) */}
-              {room && (
+              {/* Room Selector */}
+              {allRooms.length > 0 && (
                 <div className="pt-4 border-t border-[#e6e8ea]">
-                  <div className="bg-[#f2f4f6] rounded-xl p-4 flex items-center gap-4 mb-6">
-                    <div className="w-10 h-10 rounded-lg bg-[#006b5f]/10 flex items-center justify-center shrink-0">
-                      <span
-                        className="material-symbols-outlined text-[#006b5f] text-lg"
-                        style={{ fontVariationSettings: "'FILL' 1" }}
-                      >
-                        bed
-                      </span>
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-[#191c1e]">
-                        {room.name || room.unit_code}
-                      </p>
-                      <p className="text-xs text-[#3c4947]">
-                        {propertyName}
-                        {room.price != null && ` \u00b7 $${room.price}/mo`}
-                      </p>
-                    </div>
+                  <div className="group">
+                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-1.5 ml-1">
+                      Which room are you interested in?
+                    </label>
+                    <select
+                      className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#14b8a6] transition-all text-sm text-[#3c4947]"
+                      value={selectedRoomId}
+                      onChange={(e) => setSelectedRoomId(e.target.value)}
+                    >
+                      <option value="">Any room — show me what's available</option>
+                      {allRooms.map((r) => (
+                        <option key={r.id} value={r.id}>
+                          {r.name || r.unit_code}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               )}

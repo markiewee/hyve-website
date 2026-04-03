@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { client, QUERIES, urlFor } from '../lib/sanity';
 import ApiService from '../services/api';
 import SEO from './SEO';
 
 const PropertyDetailPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [property, setProperty] = useState(null);
@@ -123,8 +124,9 @@ const PropertyDetailPage = () => {
   };
 
   const handleRoomRequest = (room) => {
-    setSelectedRoom(room);
-    setShowRequestDialog(true);
+    const slug = property?.slug?.current || id;
+    const roomCode = room.unit_code || room.roomNumber;
+    navigate(`/view/schedule/${slug}/${roomCode}`);
   };
 
   const handleRequestSubmit = async (e) => {
@@ -430,9 +432,9 @@ ${requestFormData.message || 'No additional message provided'}
                         </p>
                         <button
                           onClick={() => handleRoomRequest(room)}
-                          className="bg-[#14b8a6]/20 text-[#00423b] px-4 py-1.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#14b8a6]/30 transition-colors"
+                          className="bg-[#006b5f] text-white px-5 py-2 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#006b5f]/90 transition-colors"
                         >
-                          {room.isAvailable ? 'Available Now' : `Available ${formatAvailableDate(room.availableFrom)}`}
+                          Book Viewing
                         </button>
                       </div>
                     </div>
@@ -473,9 +475,9 @@ ${requestFormData.message || 'No additional message provided'}
                             </p>
                             <button
                               onClick={() => handleRoomRequest(room)}
-                              className="bg-slate-200 text-slate-600 px-4 py-1.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-slate-300 transition-colors"
+                              className="bg-[#006b5f] text-white px-5 py-2 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#006b5f]/90 transition-colors"
                             >
-                              {room.availableFrom ? `From ${formatAvailableDate(room.availableFrom)}` : 'Join Waitlist'}
+                              Book Viewing
                             </button>
                           </div>
                         </div>
@@ -515,22 +517,22 @@ ${requestFormData.message || 'No additional message provided'}
                   Connect with us to tour the space and meet your potential housemates.
                 </p>
                 <div className="space-y-4">
+                  <Link
+                    to={`/view/schedule/${property.slug?.current || id}`}
+                    className="w-full bg-[#006b5f] text-white py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#006b5f]/90 transition-all active:scale-95 shadow-lg shadow-[#006b5f]/20 flex items-center justify-center gap-2"
+                  >
+                    <span className="material-symbols-outlined">calendar_month</span>
+                    Schedule a Viewing
+                  </Link>
                   <a
                     href={`https://wa.me/6580885410?text=${encodeURIComponent(`Hi! I'm interested in viewing ${property.name}.`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full bg-[#006b5f] text-white py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#006b5f]/90 transition-all active:scale-95 shadow-lg shadow-[#006b5f]/20 flex items-center justify-center gap-2"
+                    className="w-full border border-[rgba(187,202,198,0.3)] text-[#121c2a] py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
                   >
                     <span className="material-symbols-outlined">chat</span>
                     WhatsApp Us
                   </a>
-                  <Link
-                    to="/contact"
-                    className="w-full border border-[rgba(187,202,198,0.3)] text-[#121c2a] py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
-                  >
-                    <span className="material-symbols-outlined">mail</span>
-                    Send Inquiry
-                  </Link>
                 </div>
 
                 <div className="mt-8 pt-8 border-t border-[rgba(187,202,198,0.15)] flex items-center justify-between">
