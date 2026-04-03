@@ -211,8 +211,24 @@ ${requestFormData.message || 'No additional message provided'}
   }
 
   const neighborhoodName = property.neighborhood?.name || property.neighborhood;
-  const availableRooms = propertyRooms.filter(room => room.isAvailable);
-  const unavailableRooms = propertyRooms.filter(room => !room.isAvailable);
+  const [moveInDate, setMoveInDate] = useState('');
+
+  // Filter rooms based on move-in date
+  const filteredRooms = moveInDate
+    ? propertyRooms.filter(room => {
+        if (room.isAvailable) return true;
+        if (room.availableFrom) {
+          return new Date(room.availableFrom) <= new Date(moveInDate);
+        }
+        return false;
+      })
+    : propertyRooms;
+
+  const availableRooms = filteredRooms.filter(room => room.isAvailable);
+  const unavailableRooms = filteredRooms.filter(room => !room.isAvailable);
+
+  // Get today's date in YYYY-MM-DD for the min attribute
+  const todayStr = new Date().toISOString().split('T')[0];
 
   return (
     <>
@@ -394,13 +410,53 @@ ${requestFormData.message || 'No additional message provided'}
             {/* Room Listings */}
             {propertyRooms && propertyRooms.length > 0 && (
               <div>
-                <div className="flex justify-between items-end mb-8">
+                <div className="flex justify-between items-end mb-4">
                   <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold">Individual Suites</h3>
                   <span className="text-[#006b5f] font-['Inter'] text-sm font-bold uppercase tracking-wider">
                     {availableRooms.length} Available Now
                   </span>
                 </div>
+
+                {/* Move-in date search */}
+                <div className="bg-white p-4 rounded-xl border border-[rgba(187,202,198,0.15)] mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                  <div className="flex items-center gap-2 text-[#3c4947]">
+                    <span className="material-symbols-outlined text-[#006b5f]">search</span>
+                    <label htmlFor="moveInDate" className="text-sm font-['Inter'] font-medium whitespace-nowrap">
+                      I want to move in by
+                    </label>
+                  </div>
+                  <input
+                    id="moveInDate"
+                    type="date"
+                    min={todayStr}
+                    value={moveInDate}
+                    onChange={(e) => setMoveInDate(e.target.value)}
+                    className="bg-[#eff4ff] border-transparent rounded-lg px-4 py-2 text-sm font-['Inter'] focus:ring-2 focus:ring-[#006b5f] focus:border-transparent outline-none flex-1 min-w-0 w-full sm:w-auto"
+                  />
+                  {moveInDate && (
+                    <button
+                      onClick={() => setMoveInDate('')}
+                      className="text-xs text-[#006b5f] font-['Inter'] font-bold uppercase tracking-wider hover:underline"
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
                 <div className="space-y-4">
+                  {/* No results for date filter */}
+                  {moveInDate && filteredRooms.length === 0 && (
+                    <div className="text-center py-8">
+                      <span className="material-symbols-outlined text-4xl text-slate-300 mb-2 block">event_busy</span>
+                      <p className="text-[#3c4947] font-['Manrope']">No rooms available by {formatAvailableDate(moveInDate)}</p>
+                      <button
+                        onClick={() => setMoveInDate('')}
+                        className="text-[#006b5f] font-['Inter'] font-bold text-sm mt-2 hover:underline"
+                      >
+                        Show all rooms
+                      </button>
+                    </div>
+                  )}
+
                   {/* Available rooms first */}
                   {availableRooms
                     .sort((a, b) => (a.roomNumber || '').localeCompare(b.roomNumber || ''))
@@ -424,6 +480,12 @@ ${requestFormData.message || 'No additional message provided'}
                             <span className="material-symbols-outlined text-xs">square_foot</span>
                             {room.roomType}
                           </p>
+                          {room.availableFrom && new Date(room.availableFrom) > new Date() && (
+                            <p className="text-xs font-['Inter'] font-semibold text-[#006b5f] mt-1 flex items-center gap-1">
+                              <span className="material-symbols-outlined text-xs">event_available</span>
+                              Available {formatAvailableDate(room.availableFrom)}
+                            </p>
+                          )}
                         </div>
                       </div>
                       <div className="text-left md:text-right flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-1 w-full md:w-auto justify-between">
@@ -449,7 +511,13 @@ ${requestFormData.message || 'No additional message provided'}
                         </p>
                       </div>
                       {unavailableRooms
-                        .sort((a, b) => (a.roomNumber || '').localeCompare(b.roomNumber || ''))
+                        .sort((a, b) => {
+                          // Sort by availableFrom date (earliest first), rooms without dates last
+                          if (a.availableFrom && b.availableFrom) return new Date(a.availableFrom) - new Date(b.availableFrom);
+                          if (a.availableFrom) return -1;
+                          if (b.availableFrom) return 1;
+                          return (a.roomNumber || '').localeCompare(b.roomNumber || '');
+                        })
                         .map((room) => (
                         <div
                           key={room._id || room.id}
@@ -467,6 +535,12 @@ ${requestFormData.message || 'No additional message provided'}
                             <div>
                               <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-lg">{room.roomNumber}</h4>
                               <p className="text-[#3c4947] text-sm">{room.roomType}</p>
+                              {room.availableFrom && (
+                                <p className="text-xs font-['Inter'] font-semibold text-[#b8860b] mt-1 flex items-center gap-1">
+                                  <span className="material-symbols-outlined text-xs">event_available</span>
+                                  Available {formatAvailableDate(room.availableFrom)}
+                                </p>
+                              )}
                             </div>
                           </div>
                           <div className="text-left md:text-right flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-1 w-full md:w-auto justify-between">
