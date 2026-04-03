@@ -433,41 +433,37 @@ export default function ScheduleViewingPage() {
                 <div className="space-y-4">
                   {saturdays.map((sat) => {
                     const dateStr = formatDateISO(sat);
-                    const hasAvailable = TIME_SLOTS.some((t) => !isSlotTaken(dateStr, t));
+                    // If this property has bookings on this Saturday, only show adjacent slots
+                    const hasPropertyBookings = existingViewings.some(
+                      (v) => v.viewing_date === dateStr && v.property_id === property?.id
+                    );
+                    const visibleSlots = TIME_SLOTS.filter((t) => {
+                      if (isSlotTaken(dateStr, t)) return false;
+                      if (hasPropertyBookings) return isAdjacentToSameProperty(dateStr, t, existingViewings, property?.id);
+                      return true;
+                    });
 
                     return (
                       <div key={dateStr}>
                         <p className="text-sm font-bold text-[#191c1e] mb-2">{formatDateShort(sat)}</p>
-                        {!hasAvailable ? (
+                        {visibleSlots.length === 0 ? (
                           <p className="text-xs text-[#bbcac6] italic">Fully booked</p>
                         ) : (
                           <div className="flex flex-wrap gap-2">
-                            {TIME_SLOTS.map((time) => {
-                              const taken = isSlotTaken(dateStr, time);
+                            {visibleSlots.map((time) => {
                               const isSelected = selectedSlot?.date === dateStr && selectedSlot?.time === time;
-                              const recommended = !taken && property && isAdjacentToSameProperty(dateStr, time, existingViewings, property.id);
                               return (
                                 <button
                                   key={time}
                                   type="button"
-                                  disabled={taken}
                                   onClick={() => setSelectedSlot({ date: dateStr, time })}
-                                  className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                                    taken
-                                      ? "bg-[#e6e8ea] text-[#bbcac6] cursor-not-allowed line-through"
-                                      : isSelected
+                                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                                    isSelected
                                       ? "bg-[#006b5f] text-white shadow-md scale-105"
-                                      : recommended
-                                      ? "bg-[#14b8a6]/20 text-[#00423b] ring-2 ring-[#14b8a6] hover:bg-[#14b8a6]/30"
                                       : "bg-[#e6e8ea] text-[#3c4947] hover:bg-[#14b8a6]/20 hover:text-[#00423b]"
                                   }`}
                                 >
                                   {formatTime(time)}
-                                  {recommended && !isSelected && (
-                                    <span className="absolute -top-2 -right-2 bg-[#14b8a6] text-[#00423b] text-[8px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full leading-none">
-                                      Best
-                                    </span>
-                                  )}
                                 </button>
                               );
                             })}
