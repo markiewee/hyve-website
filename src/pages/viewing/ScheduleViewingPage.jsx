@@ -228,11 +228,20 @@ export default function ScheduleViewingPage() {
       if (captains?.length) captainId = captains[0].id;
     }
 
-    // Cancel any existing confirmed viewings for this email (prevents double bookings)
+    // Sanitize phone — strip any existing country code prefix to avoid +65+65...
+    const cleanPhone = whatsapp.replace(/\s/g, "").replace(/^\+?65/, "");
+    const fullPhone = `+65${cleanPhone}`;
+
+    // Cancel any existing confirmed viewings for this email OR phone (prevents double bookings)
     await supabase
       .from("property_viewings")
       .update({ status: "CANCELLED" })
       .eq("prospect_email", email.trim())
+      .in("status", ["CONFIRMED", "POLLING", "SCHEDULED"]);
+    await supabase
+      .from("property_viewings")
+      .update({ status: "CANCELLED" })
+      .eq("prospect_whatsapp", fullPhone)
       .in("status", ["CONFIRMED", "POLLING", "SCHEDULED"]);
 
     const { data: viewing, error: insertError } = await supabase
@@ -241,7 +250,7 @@ export default function ScheduleViewingPage() {
         token,
         prospect_name: fullName.trim(),
         prospect_email: email.trim(),
-        prospect_whatsapp: `+65${whatsapp.replace(/\s/g, "")}`,
+        prospect_whatsapp: fullPhone,
         property_id: property.id,
         room_id: selectedRoomId || room?.id || null,
         viewing_date: selectedSlot.date,
