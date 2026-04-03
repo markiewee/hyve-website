@@ -26,9 +26,14 @@ function formatTime(t) {
   return `${display}:${m} ${suffix}`;
 }
 
+// Force Singapore timezone for all date calculations
+function nowSGT() {
+  return new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Singapore" }));
+}
+
 function getNextSaturdays(count = 4) {
   const saturdays = [];
-  const today = new Date();
+  const today = nowSGT();
   const earliest = new Date(today);
   earliest.setDate(earliest.getDate() + 2); // 2-day minimum lead time
 
@@ -147,6 +152,7 @@ export default function ScheduleViewingPage() {
   const [moveInDate, setMoveInDate] = useState("");
   const [source, setSource] = useState("Roomies");
   const [specialNotes, setSpecialNotes] = useState("");
+  const [website, setWebsite] = useState(""); // honeypot — bots fill this, humans don't see it
 
   // Submission
   const [submitting, setSubmitting] = useState(false);
@@ -206,8 +212,16 @@ export default function ScheduleViewingPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    // Honeypot — if filled, it's a bot
+    if (website) return;
     if (!selectedSlot) {
       setSubmitError("Please pick a viewing time slot.");
+      return;
+    }
+    // Past date validation
+    const slotDate = new Date(selectedSlot.date + "T" + selectedSlot.time + ":00+08:00");
+    if (slotDate < new Date()) {
+      setSubmitError("This time slot has already passed. Please pick a future slot.");
       return;
     }
     setSubmitting(true);
@@ -271,10 +285,14 @@ export default function ScheduleViewingPage() {
       return;
     }
 
-    // Fire notifications (don't block on this)
-    supabase.functions.invoke("viewing-notify", {
+    // Fire notifications with retry (don't block on this)
+    const notify = () => supabase.functions.invoke("viewing-notify", {
       body: { event: "CONFIRMED", viewing_id: viewing.id },
-    }).catch((err) => console.error("Notification error:", err));
+    });
+    notify().catch(() => {
+      // Retry once after 3 seconds if first attempt fails
+      setTimeout(() => notify().catch((err) => console.error("Notification retry failed:", err)), 3000);
+    });
 
     setConfirmedViewing(viewing);
     setSubmitting(false);
@@ -543,6 +561,11 @@ export default function ScheduleViewingPage() {
                   <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-1.5 ml-1">Anything else? (optional)</label>
                   <textarea className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#14b8a6] transition-all text-sm placeholder:text-[#bbcac6] resize-none" placeholder="e.g. I have a pet, I need parking..." rows={2} value={specialNotes} onChange={(e) => setSpecialNotes(e.target.value)} />
                 </div>
+              </div>
+
+              {/* Honeypot — hidden from humans, bots auto-fill it */}
+              <div style={{ position: "absolute", left: "-9999px" }} aria-hidden="true">
+                <input type="text" name="website" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} />
               </div>
 
               {/* Error */}
