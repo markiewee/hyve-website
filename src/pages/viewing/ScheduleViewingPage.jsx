@@ -228,6 +228,13 @@ export default function ScheduleViewingPage() {
       if (captains?.length) captainId = captains[0].id;
     }
 
+    // Cancel any existing confirmed viewings for this email (prevents double bookings)
+    await supabase
+      .from("property_viewings")
+      .update({ status: "CANCELLED" })
+      .eq("prospect_email", email.trim())
+      .in("status", ["CONFIRMED", "POLLING", "SCHEDULED"]);
+
     const { data: viewing, error: insertError } = await supabase
       .from("property_viewings")
       .insert({
