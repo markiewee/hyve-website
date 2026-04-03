@@ -230,6 +230,11 @@ export default function ScheduleViewingPage() {
       return;
     }
 
+    // Fire notifications (don't block on this)
+    supabase.functions.invoke("viewing-notify", {
+      body: { event: "CONFIRMED", viewing_id: viewing.id },
+    }).catch((err) => console.error("Notification error:", err));
+
     setConfirmedViewing(viewing);
     setSubmitting(false);
   }
@@ -427,9 +432,12 @@ export default function ScheduleViewingPage() {
 
               {/* Saturday Time Slots */}
               <div className="pt-4 border-t border-[#e6e8ea]">
-                <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-3 ml-1">
+                <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-1 ml-1">
                   Pick a Saturday evening
                 </label>
+                <p className="text-[10px] text-[#bbcac6] mb-3 ml-1">
+                  All times shown in Singapore time (SGT, UTC+8)
+                </p>
                 <div className="space-y-4">
                   {saturdays.map((sat) => {
                     const dateStr = formatDateISO(sat);
