@@ -134,7 +134,6 @@ export default function ScheduleViewingPage() {
           supabase
             .from("property_viewings")
             .select("viewing_date, viewing_time")
-            .eq("property_id", prop.id)
             .in("status", ["CONFIRMED", "POLLING", "SCHEDULED"]),
         ]);
         setAllRooms(rooms || []);
