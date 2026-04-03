@@ -45,15 +45,40 @@ function getNextSaturdays(count = 4) {
   return saturdays;
 }
 
-// Check if a slot is adjacent (±30 min) to ANY existing booking on the same day
-function isAdjacentSlot(dateStr, time, existingViewings) {
+// Check if a slot fits the schedule considering travel time between properties.
+// Same property: ±30 min (back-to-back stacking).
+// Different property: need 60 min gap (30 min viewing + 30 min travel).
+function isSlotAvailableForSchedule(dateStr, time, existingViewings, propertyId) {
   const [h, m] = time.split(":").map(Number);
   const slotMin = h * 60 + m;
-  return existingViewings.some((v) => {
-    if (v.viewing_date !== dateStr) return false;
+  const dayViewings = existingViewings.filter((v) => v.viewing_date === dateStr);
+  if (dayViewings.length === 0) return true;
+
+  // Check each existing booking
+  for (const v of dayViewings) {
     const [vh, vm] = v.viewing_time.split(":").map(Number);
     const vMin = vh * 60 + vm;
-    return Math.abs(slotMin - vMin) === 30;
+    const gap = Math.abs(slotMin - vMin);
+    const sameProperty = v.property_id === propertyId;
+
+    if (sameProperty) {
+      // Same property: allow adjacent (30 min stacking)
+      if (gap === 30) return true;
+    } else {
+      // Different property: block anything within 60 min (travel buffer)
+      if (gap < 60) return false;
+    }
+  }
+
+  // If we get here with day bookings but no same-property adjacency,
+  // only show if it's adjacent to ANY booking (allows new property chains)
+  return dayViewings.some((v) => {
+    const [vh, vm] = v.viewing_time.split(":").map(Number);
+    const vMin = vh * 60 + vm;
+    const gap = Math.abs(slotMin - vMin);
+    const sameProperty = v.property_id === propertyId;
+    // For different property: allow if exactly 60 min away (30 min buffer + 30 min travel)
+    return sameProperty ? gap === 30 : gap === 60;
   });
 }
 
@@ -323,7 +348,7 @@ export default function ScheduleViewingPage() {
 
             <div className="bg-[#f2f4f6] rounded-xl p-4 text-sm text-[#3c4947]">
               <p className="font-bold text-[#191c1e] mb-1">What's next?</p>
-              <p>We'll send you the access details on WhatsApp before the viewing. Just head to the address at the scheduled time.</p>
+              <p>We'll email you the access details before the viewing. Just head to the address at the scheduled time.</p>
             </div>
 
             <a
@@ -333,7 +358,7 @@ export default function ScheduleViewingPage() {
               className="w-full py-4 bg-[#006b5f] text-white font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide rounded-lg hover:bg-[#006b5f]/90 active:scale-[0.98] transition-all editorial-shadow flex items-center justify-center gap-2"
             >
               <span className="material-symbols-outlined text-sm">chat</span>
-              Message Us on WhatsApp
+              Contact Us
             </a>
           </div>
         </div>
@@ -441,13 +466,12 @@ export default function ScheduleViewingPage() {
                 <div className="space-y-4">
                   {saturdays.map((sat) => {
                     const dateStr = formatDateISO(sat);
-                    // If any booking exists on this Saturday, only show adjacent slots
                     const hasBookings = existingViewings.some(
                       (v) => v.viewing_date === dateStr
                     );
                     const visibleSlots = TIME_SLOTS.filter((t) => {
                       if (isSlotTaken(dateStr, t)) return false;
-                      if (hasBookings) return isAdjacentSlot(dateStr, t, existingViewings);
+                      if (hasBookings) return isSlotAvailableForSchedule(dateStr, t, existingViewings, property?.id);
                       return true;
                     });
 
