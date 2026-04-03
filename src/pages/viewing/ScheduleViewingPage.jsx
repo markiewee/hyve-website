@@ -153,6 +153,7 @@ export default function ScheduleViewingPage() {
   const [source, setSource] = useState("Roomies");
   const [specialNotes, setSpecialNotes] = useState("");
   const [website, setWebsite] = useState(""); // honeypot — bots fill this, humans don't see it
+  const [viewingType, setViewingType] = useState("in_person");
 
   // Submission
   const [submitting, setSubmitting] = useState(false);
@@ -269,7 +270,7 @@ export default function ScheduleViewingPage() {
         room_id: selectedRoomId || room?.id || null,
         viewing_date: selectedSlot.date,
         viewing_time: selectedSlot.time,
-        viewing_type: "in_person",
+        viewing_type: viewingType,
         preferred_move_in: moveInDate || null,
         source: source.toLowerCase().replace(/\/.*/, ""),
         special_notes: specialNotes.trim() || null,
@@ -488,6 +489,37 @@ export default function ScheduleViewingPage() {
                   </select>
                 </div>
               )}
+
+              {/* Viewing Type */}
+              <div className="pt-4 border-t border-[#e6e8ea]">
+                <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-2 ml-1">Viewing Type</label>
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setViewingType("in_person")}
+                    className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
+                      viewingType === "in_person"
+                        ? "bg-[#006b5f] text-white shadow-md"
+                        : "bg-[#e6e8ea] text-[#3c4947] hover:bg-[#14b8a6]/20"
+                    }`}
+                  >
+                    <span className="material-symbols-outlined text-sm">person</span>
+                    In Person
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setViewingType("virtual")}
+                    className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
+                      viewingType === "virtual"
+                        ? "bg-[#006b5f] text-white shadow-md"
+                        : "bg-[#e6e8ea] text-[#3c4947] hover:bg-[#14b8a6]/20"
+                    }`}
+                  >
+                    <span className="material-symbols-outlined text-sm">videocam</span>
+                    Virtual Tour
+                  </button>
+                </div>
+              </div>
 
               {/* Saturday Time Slots */}
               <div className="pt-4 border-t border-[#e6e8ea]">
