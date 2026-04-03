@@ -14,26 +14,7 @@ const LocationsPage = () => {
     const fetchData = async () => {
       try {
         const [sanityNeighborhoods, sanityProperties] = await Promise.all([
-          client.fetch(`
-            *[_type == "neighborhood" && _id in *[_type == "property"].neighborhood._ref]{
-              _id,
-              name,
-              slug,
-              description,
-              location,
-              images[]{
-                image,
-                alt,
-                caption
-              },
-              highlights,
-              transport[],
-              amenities[],
-              demographics,
-              priceRange,
-              featured
-            }
-          `),
+          client.fetch(QUERIES.neighborhoodsFull),
           client.fetch(QUERIES.properties)
         ]);
 

@@ -17,41 +17,8 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
       try {
         setLoading(true);
         const [sanityProperties, sanityNeighborhoods] = await Promise.all([
-          client.fetch(`*[_type == "property"] | order(_createdAt desc){
-            _id,
-            name,
-            slug,
-            description,
-            address,
-            neighborhood->{
-              name,
-              slug
-            },
-            location,
-            propertyType,
-            startingPrice,
-            totalRooms,
-            availableRooms,
-            images[]{
-              image,
-              alt,
-              caption
-            },
-            amenities,
-            nearbyMRT[],
-            nearbyAmenities[],
-            featured,
-            status,
-            "rooms": *[_type == "room" && property._ref == ^._id]{
-              _id,
-              roomNumber,
-              roomType,
-              priceMonthly,
-              isAvailable,
-              availableFrom
-            }
-          }`),
-          client.fetch(`*[_type == "neighborhood" && _id in *[_type == "property"].neighborhood._ref]{name, slug, _id}`)
+          client.fetch(QUERIES.propertiesWithRooms),
+          client.fetch(QUERIES.neighborhoods)
         ]);
 
         if (sanityProperties && sanityProperties.length > 0) {

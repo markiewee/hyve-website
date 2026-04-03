@@ -29,38 +29,7 @@ const PropertyDetailPage = () => {
         let sanityRooms = [];
 
         try {
-          sanityProperty = await client.fetch(`
-            *[_type == "property" && (slug.current == $id || _id == $id)][0]{
-              _id,
-              name,
-              slug,
-              description,
-              address,
-              neighborhood->{
-                name,
-                slug,
-                description,
-                highlights,
-                transport,
-                amenities
-              },
-              location,
-              propertyType,
-              startingPrice,
-              totalRooms,
-              availableRooms,
-              images[]{
-                image,
-                alt,
-                caption
-              },
-              amenities,
-              nearbyMRT[],
-              nearbyAmenities[],
-              status,
-              featured
-            }
-          `, { id });
+          sanityProperty = await client.fetch(QUERIES.propertyDetail, { id });
 
           if (sanityProperty) {
             sanityRooms = await client.fetch(QUERIES.roomsByProperty, {

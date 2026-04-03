@@ -17,7 +17,7 @@ export function urlFor(source) {
 
 // GROQ queries for different content types
 export const QUERIES = {
-  // Get homepage content
+  // Homepage content
   homePage: `*[_type == "homePage"][0]{
     title,
     hero{
@@ -52,7 +52,7 @@ export const QUERIES = {
     }
   }`,
 
-  // Get all properties
+  // All properties (without rooms — use propertiesWithRooms if you need rooms)
   properties: `*[_type == "property"] | order(_createdAt desc){
     _id,
     name,
@@ -68,7 +68,7 @@ export const QUERIES = {
     startingPrice,
     totalRooms,
     availableRooms,
-    images[]{
+    images[0..2]{
       image,
       alt,
       caption
@@ -80,8 +80,44 @@ export const QUERIES = {
     status
   }`,
 
-  // Get featured properties only
-  featuredProperties: `*[_type == "property" && featured == true] | order(_createdAt desc){
+  // All properties with nested rooms (for pages that need room-level filtering)
+  propertiesWithRooms: `*[_type == "property"] | order(_createdAt desc){
+    _id,
+    name,
+    slug,
+    description,
+    address,
+    neighborhood->{
+      name,
+      slug
+    },
+    location,
+    propertyType,
+    startingPrice,
+    totalRooms,
+    availableRooms,
+    images[0..2]{
+      image,
+      alt,
+      caption
+    },
+    amenities,
+    nearbyMRT[],
+    nearbyAmenities[],
+    featured,
+    status,
+    "rooms": *[_type == "room" && property._ref == ^._id]{
+      _id,
+      roomNumber,
+      roomType,
+      priceMonthly,
+      isAvailable,
+      availableFrom
+    }
+  }`,
+
+  // Featured properties (limited to 6 — homepage only shows a few)
+  featuredProperties: `*[_type == "property" && featured == true] | order(_createdAt desc)[0..5]{
     _id,
     name,
     slug,
@@ -93,7 +129,7 @@ export const QUERIES = {
     },
     startingPrice,
     availableRooms,
-    images[]{
+    images[0..0]{
       image,
       alt,
       caption
@@ -101,17 +137,20 @@ export const QUERIES = {
     amenities
   }`,
 
-  // Get single property by slug
-  propertyBySlug: `*[_type == "property" && slug.current == $slug][0]{
+  // Single property by slug or ID (for detail page)
+  propertyDetail: `*[_type == "property" && (slug.current == $id || _id == $id)][0]{
     _id,
     name,
+    slug,
     description,
     address,
     neighborhood->{
       name,
       slug,
       description,
-      highlights
+      highlights,
+      transport,
+      amenities
     },
     location,
     propertyType,
@@ -126,10 +165,11 @@ export const QUERIES = {
     amenities,
     nearbyMRT[],
     nearbyAmenities[],
-    status
+    status,
+    featured
   }`,
 
-  // Get rooms for a property
+  // Rooms for a specific property
   roomsByProperty: `*[_type == "room" && property._ref == $propertyId]{
     _id,
     roomNumber,
@@ -138,7 +178,7 @@ export const QUERIES = {
     sizeSqm,
     isAvailable,
     availableFrom,
-    images[]{
+    images[0..2]{
       image,
       alt
     },
@@ -149,19 +189,34 @@ export const QUERIES = {
     furnishingLevel
   }`,
 
-  // Get about page content
-  aboutPage: `*[_type == "aboutPage"][0]{
-    title,
-    hero,
-    stats,
-    story,
-    values,
-    team,
-    mission,
-    awards
+  // Neighborhoods (basic — for dropdowns and filters)
+  neighborhoods: `*[_type == "neighborhood" && _id in *[_type == "property"].neighborhood._ref]{
+    _id,
+    name,
+    slug
+  } | order(name asc)`,
+
+  // Neighborhoods (full — for locations page)
+  neighborhoodsFull: `*[_type == "neighborhood" && _id in *[_type == "property"].neighborhood._ref]{
+    _id,
+    name,
+    slug,
+    description,
+    location,
+    images[0..2]{
+      image,
+      alt,
+      caption
+    },
+    highlights,
+    transport[],
+    amenities[],
+    demographics,
+    priceRange,
+    featured
   }`,
 
-  // Get FAQ page content
+  // FAQ page
   faqPage: `*[_type == "faqPage"][0]{
     title,
     hero,
@@ -176,87 +231,4 @@ export const QUERIES = {
     cta,
     contactInfo
   }`,
-
-  // Get site settings
-  siteSettings: `*[_type == "siteSettings"][0]{
-    title,
-    description,
-    logo,
-    navigation,
-    contact,
-    socialMedia,
-    footer,
-    seo
-  }`,
-
-  // Get all blog posts
-  blogPosts: `*[_type == "blogPost" && status == "published"] | order(publishedAt desc){
-    _id,
-    title,
-    slug,
-    excerpt,
-    content,
-    featuredImage,
-    category,
-    tags,
-    author->{
-      name,
-      role,
-      bio,
-      avatar
-    },
-    publishedAt,
-    readTime,
-    featured
-  }`,
-
-  // Get featured blog posts
-  featuredBlogPosts: `*[_type == "blogPost" && status == "published" && featured == true] | order(publishedAt desc){
-    _id,
-    title,
-    slug,
-    excerpt,
-    featuredImage,
-    category,
-    tags,
-    author->{
-      name,
-      role
-    },
-    publishedAt,
-    readTime
-  }`,
-
-  // Get single blog post by slug
-  blogPostBySlug: `*[_type == "blogPost" && slug.current == $slug && status == "published"][0]{
-    _id,
-    title,
-    slug,
-    excerpt,
-    content,
-    featuredImage,
-    category,
-    tags,
-    author->{
-      name,
-      role,
-      bio,
-      avatar,
-      socialMedia
-    },
-    publishedAt,
-    readTime,
-    seo
-  }`,
-
-  // Get authors
-  authors: `*[_type == "author" && status == "active"]{
-    _id,
-    name,
-    slug,
-    role,
-    bio,
-    avatar,
-    featured
-  }`
 }

@@ -19,13 +19,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
         const [sanityHomePage, sanityProperties, sanityNeighborhoods] = await Promise.all([
           client.fetch(QUERIES.homePage),
           client.fetch(QUERIES.featuredProperties),
-          client.fetch(`
-            *[_type == "neighborhood" && _id in *[_type == "property"].neighborhood._ref]{
-              _id,
-              name,
-              slug
-            } | order(name asc)
-          `)
+          client.fetch(QUERIES.neighborhoods)
         ]);
 
         setHomePageContent(sanityHomePage);
