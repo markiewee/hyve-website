@@ -248,7 +248,7 @@ export default function AdminOnboardingPage() {
         await notifyMember(body.profile_id, "MEMBER_CREATED", {
           username: inviteUsername,
           password: body.default_password,
-          login_url: "https://hyve.sg/portal/login",
+          login_url: "https://lazybee.sg/portal/login",
         });
       } catch (_) { /* non-blocking */ }
 
@@ -672,12 +672,12 @@ export default function AdminOnboardingPage() {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-[#6c7a77]">Login URL</span>
-                      <code className="text-xs text-[#006b5f] bg-white px-2 py-0.5 rounded">hyve.sg/portal/login</code>
+                      <code className="text-xs text-[#006b5f] bg-white px-2 py-0.5 rounded">lazybee.sg/portal/login</code>
                     </div>
                   </div>
                   <button
                     onClick={() => {
-                      navigator.clipboard.writeText(`Username: ${inviteResult.username}\nPassword: ${inviteResult.default_password}\nLogin: hyve.sg/portal/login`);
+                      navigator.clipboard.writeText(`Username: ${inviteResult.username}\nPassword: ${inviteResult.default_password}\nLogin: lazybee.sg/portal/login`);
                     }}
                     className="w-full py-2.5 bg-[#eff4ff] text-[#006b5f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff] flex items-center justify-center gap-2"
                   >
@@ -867,8 +867,8 @@ export default function AdminOnboardingPage() {
                           <button
                             title={`Username: ${row.tenant_profiles.username}`}
                             onClick={() => {
-                              navigator.clipboard.writeText(`Username: ${row.tenant_profiles.username}\nLogin: hyve.sg/portal/login`);
-                              alert(`Username copied to clipboard.\n\nLogin: hyve.sg/portal/login`);
+                              navigator.clipboard.writeText(`Username: ${row.tenant_profiles.username}\nLogin: lazybee.sg/portal/login`);
+                              alert(`Username copied to clipboard.\n\nLogin: lazybee.sg/portal/login`);
                             }}
                             className="p-1.5 rounded-lg hover:bg-[#eff4ff] text-[#6c7a77] hover:text-[#006b5f] transition-colors"
                           >

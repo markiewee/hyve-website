@@ -25,7 +25,7 @@ const Footer = () => {
           </p>
           <div className="flex gap-4 mt-6">
             <a
-              href="https://www.instagram.com/hyve.sg"
+              href="https://www.instagram.com/lazybee.sg"
               target="_blank"
               rel="noopener noreferrer"
               className="text-slate-400 hover:text-teal-500 transition-colors"
@@ -33,7 +33,7 @@ const Footer = () => {
               <span className="material-symbols-outlined">public</span>
             </a>
             <a
-              href="mailto:hello@hyve.sg"
+              href="mailto:hello@lazybee.sg"
               className="text-slate-400 hover:text-teal-500 transition-colors"
             >
               <span className="material-symbols-outlined">alternate_email</span>
@@ -113,7 +113,7 @@ const Footer = () => {
         </p>
         <div className="flex gap-6">
           <a
-            href="https://www.instagram.com/hyve.sg"
+            href="https://www.instagram.com/lazybee.sg"
             target="_blank"
             rel="noopener noreferrer"
             className="text-slate-400 hover:text-[#006b5f] transition-colors"
@@ -121,7 +121,7 @@ const Footer = () => {
             <span className="material-symbols-outlined">public</span>
           </a>
           <a
-            href="mailto:hello@hyve.sg"
+            href="mailto:hello@lazybee.sg"
             className="text-slate-400 hover:text-[#006b5f] transition-colors"
           >
             <span className="material-symbols-outlined">alternate_email</span>

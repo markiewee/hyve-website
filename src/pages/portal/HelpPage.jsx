@@ -13,8 +13,8 @@ const SECTIONS = [
       {
         q: "How do I log in?",
         qZh: "如何登录？",
-        a: "Go to hyve.sg/portal/login and enter the username and password given by your property manager. On first login, you'll be asked to set up your email.",
-        aZh: "前往 hyve.sg/portal/login，输入物业经理提供的用户名和密码。首次登录时，系统会要求您设置电子邮件。",
+        a: "Go to lazybee.sg/portal/login and enter the username and password given by your property manager. On first login, you'll be asked to set up your email.",
+        aZh: "前往 lazybee.sg/portal/login，输入物业经理提供的用户名和密码。首次登录时，系统会要求您设置电子邮件。",
       },
       {
         q: "How do I change my password?",
@@ -292,11 +292,11 @@ export default function HelpPage() {
             WhatsApp +65 8088 5410
           </a>
           <a
-            href="mailto:hello@hyve.sg"
+            href="mailto:hello@lazybee.sg"
             className="inline-flex items-center gap-2 bg-white text-[#006b5f] border border-[#006b5f]/20 px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#f8f9ff] transition-all"
           >
             <span className="material-symbols-outlined text-[18px]">mail</span>
-            hello@hyve.sg
+            hello@lazybee.sg
           </a>
         </div>
       </div>

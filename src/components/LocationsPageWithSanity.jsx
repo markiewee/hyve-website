@@ -103,8 +103,8 @@ const LocationsPage = () => {
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: "https://www.hyve.sg" },
-            { "@type": "ListItem", position: 2, name: "Locations", item: "https://www.hyve.sg/locations" }
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://www.lazybee.sg" },
+            { "@type": "ListItem", position: 2, name: "Locations", item: "https://www.lazybee.sg/locations" }
           ]
         }}
       />

@@ -244,9 +244,9 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
           "@type": "ItemList",
           name: "Hyve Co-living Properties in Singapore",
           itemListElement: [
-            { "@type": "ListItem", position: 1, url: "https://www.hyve.sg/property/thomson-grove", name: "Thomson Grove — Co-living from S$950/month near Bright Hill MRT" },
-            { "@type": "ListItem", position: 2, url: "https://www.hyve.sg/property/chiltern-park", name: "Chiltern Park — Co-living from S$950/month near Serangoon MRT" },
-            { "@type": "ListItem", position: 3, url: "https://www.hyve.sg/property/ivory-heights", name: "Ivory Heights — Co-living from S$950/month near Bukit Batok MRT" }
+            { "@type": "ListItem", position: 1, url: "https://www.lazybee.sg/property/thomson-grove", name: "Thomson Grove — Co-living from S$950/month near Bright Hill MRT" },
+            { "@type": "ListItem", position: 2, url: "https://www.lazybee.sg/property/chiltern-park", name: "Chiltern Park — Co-living from S$950/month near Serangoon MRT" },
+            { "@type": "ListItem", position: 3, url: "https://www.lazybee.sg/property/ivory-heights", name: "Ivory Heights — Co-living from S$950/month near Bukit Batok MRT" }
           ]
         }}
       />

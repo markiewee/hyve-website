@@ -286,11 +286,11 @@ export default function ViewingConfirmPage() {
                       WhatsApp us at +65 8088 5410
                     </a>
                     <a
-                      href="mailto:hello@hyve.sg"
+                      href="mailto:hello@lazybee.sg"
                       className="flex items-center gap-3 justify-center px-6 py-3 bg-white border border-[#e0e3e5] text-[#191c1e] rounded-lg font-bold text-sm hover:bg-[#f7f9fb] transition-all"
                     >
                       <span className="material-symbols-outlined text-lg">mail</span>
-                      Email hello@hyve.sg
+                      Email hello@lazybee.sg
                     </a>
                   </div>
                   <button

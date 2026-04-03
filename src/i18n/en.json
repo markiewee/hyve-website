@@ -136,7 +136,7 @@
     "guideDocumentsTitle": "Your Documents",
     "guideDocumentsDesc": "View your tenancy agreement and upload documents like stamping certificates.",
     "guideHelpTitle": "Need Help?",
-    "guideHelpDesc": "WhatsApp us anytime at +65 8088 5410 or email hello@hyve.sg. We typically respond within an hour."
+    "guideHelpDesc": "WhatsApp us anytime at +65 8088 5410 or email hello@lazybee.sg. We typically respond within an hour."
   },
   "issues": {
     "title": "Need Help?",
@@ -258,7 +258,7 @@
     "welcomeTo": "Welcome to {property}",
     "readThrough": "Here's everything you need to know for a smooth move-in. Please read through before continuing.",
     "needHelp": "Need help?",
-    "needHelpDesc": "WhatsApp us anytime at +65 8088 5410 or email hello@hyve.sg. We typically respond within an hour.",
+    "needHelpDesc": "WhatsApp us anytime at +65 8088 5410 or email hello@lazybee.sg. We typically respond within an hour.",
     "readAck": "I've read the move-in instructions and understand the house guidelines.",
     "continueChecklist": "Continue to Room Checklist",
     "keyCollection": "Key Collection",
@@ -355,7 +355,7 @@
     "settingsTitle": "Settings",
     "settingsText": "Update your personal details, change your password, or set up your email address.",
     "helpTitle": "Need Help?",
-    "helpText": "WhatsApp us anytime at +65 8088 5410 or email hello@hyve.sg. We typically respond within an hour. Enjoy your stay!",
+    "helpText": "WhatsApp us anytime at +65 8088 5410 or email hello@lazybee.sg. We typically respond within an hour. Enjoy your stay!",
     "skipTour": "Skip tour",
     "getStarted": "Get Started"
   },

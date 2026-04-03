@@ -136,7 +136,7 @@
     "guideDocumentsTitle": "您的文件",
     "guideDocumentsDesc": "查看租赁协议，上传印花证明等文件。",
     "guideHelpTitle": "需要帮助？",
-    "guideHelpDesc": "随时通过 WhatsApp 联系我们：+65 8088 5410，或发送邮件至 hello@hyve.sg。我们通常在一小时内回复。"
+    "guideHelpDesc": "随时通过 WhatsApp 联系我们：+65 8088 5410，或发送邮件至 hello@lazybee.sg。我们通常在一小时内回复。"
   },
   "issues": {
     "title": "需要帮助？",
@@ -258,7 +258,7 @@
     "welcomeTo": "欢迎来到 {property}",
     "readThrough": "以下是顺利入住所需了解的所有事项。请在继续前仔细阅读。",
     "needHelp": "需要帮助？",
-    "needHelpDesc": "随时通过 WhatsApp 联系我们：+65 8088 5410，或发送邮件至 hello@hyve.sg。我们通常在一小时内回复。",
+    "needHelpDesc": "随时通过 WhatsApp 联系我们：+65 8088 5410，或发送邮件至 hello@lazybee.sg。我们通常在一小时内回复。",
     "readAck": "我已阅读入住须知，了解相关规则。",
     "continueChecklist": "继续填写房间检查清单",
     "keyCollection": "领取钥匙",
@@ -355,7 +355,7 @@
     "settingsTitle": "设置",
     "settingsText": "更新个人信息、修改密码或设置邮箱地址。",
     "helpTitle": "需要帮助？",
-    "helpText": "随时通过 WhatsApp 联系我们：+65 8088 5410，或发送邮件至 hello@hyve.sg。我们通常在一小时内回复。祝您入住愉快！",
+    "helpText": "随时通过 WhatsApp 联系我们：+65 8088 5410，或发送邮件至 hello@lazybee.sg。我们通常在一小时内回复。祝您入住愉快！",
     "skipTour": "跳过导览",
     "getStarted": "开始使用"
   },

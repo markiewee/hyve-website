@@ -111,7 +111,7 @@ function InvalidState() {
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
-            href="mailto:hello@hyve.sg"
+            href="mailto:hello@lazybee.sg"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-xl text-sm font-bold hover:scale-[1.02] active:scale-95 transition-all"
           >
             <span
@@ -120,7 +120,7 @@ function InvalidState() {
             >
               mail
             </span>
-            hello@hyve.sg
+            hello@lazybee.sg
           </a>
           <a
             href="https://wa.me/6580885410"
@@ -162,7 +162,7 @@ function ExpiredState() {
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
-            href="mailto:hello@hyve.sg"
+            href="mailto:hello@lazybee.sg"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-xl text-sm font-bold hover:scale-[1.02] active:scale-95 transition-all"
           >
             <span
@@ -171,7 +171,7 @@ function ExpiredState() {
             >
               mail
             </span>
-            hello@hyve.sg
+            hello@lazybee.sg
           </a>
           <a
             href="https://wa.me/6580885410"

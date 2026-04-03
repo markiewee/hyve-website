@@ -1092,7 +1092,7 @@ export default function AdminOnboardingDetailPage() {
                     <span className="text-muted-foreground text-xs font-medium">Email</span>
                     <input
                       type="text"
-                      defaultValue={`${onboarding.tenant_profiles.username || ""}@portal.hyve.sg`}
+                      defaultValue={`${onboarding.tenant_profiles.username || ""}@portal.lazybee.sg`}
                       readOnly
                       className="font-mono text-foreground bg-transparent border-0 p-0 focus:outline-none text-xs"
                     />
@@ -1167,7 +1167,7 @@ export default function AdminOnboardingDetailPage() {
                   size="sm"
                   variant="outline"
                   onClick={() => {
-                    navigator.clipboard.writeText(`Username: ${onboarding.tenant_profiles.username}\nLogin: hyve.sg/portal/login`);
+                    navigator.clipboard.writeText(`Username: ${onboarding.tenant_profiles.username}\nLogin: lazybee.sg/portal/login`);
                     setMessage({ type: "success", text: "Credentials copied to clipboard." });
                   }}
                 >
@@ -1195,7 +1195,7 @@ export default function AdminOnboardingDetailPage() {
                       `You can now pay rent, report issues, and view your documents all in one place.`,
                       ``,
                       `🔐 *Login*`,
-                      `hyve.sg/portal/login`,
+                      `lazybee.sg/portal/login`,
                       `Username: ${username}`,
                       ``,
                       `Let me know if you need your password reset!`,

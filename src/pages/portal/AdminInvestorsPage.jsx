@@ -17,7 +17,7 @@ function getMonthStr(date) {
 const INVITE_BASE_URL =
   typeof window !== "undefined"
     ? `${window.location.origin}/portal/investor/signup`
-    : "https://hyve.sg/portal/investor/signup";
+    : "https://lazybee.sg/portal/investor/signup";
 
 export default function AdminInvestorsPage() {
   const [investors, setInvestors] = useState([]);

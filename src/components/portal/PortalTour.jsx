@@ -44,7 +44,7 @@ const TOUR_STEPS = [
   },
   {
     title: "Need Help?",
-    text: "WhatsApp us anytime at +65 8088 5410 or email hello@hyve.sg. We typically respond within an hour. Enjoy your stay!",
+    text: "WhatsApp us anytime at +65 8088 5410 or email hello@lazybee.sg. We typically respond within an hour. Enjoy your stay!",
     icon: "support_agent",
     position: "center",
   },

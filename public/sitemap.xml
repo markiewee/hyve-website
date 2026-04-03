@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.hyve.sg/</loc>
+    <loc>https://www.lazybee.sg/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.hyve.sg/properties</loc>
+    <loc>https://www.lazybee.sg/properties</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.hyve.sg/property/thomson-grove</loc>
+    <loc>https://www.lazybee.sg/property/thomson-grove</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.hyve.sg/property/chiltern-park</loc>
+    <loc>https://www.lazybee.sg/property/chiltern-park</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.hyve.sg/property/ivory-heights</loc>
+    <loc>https://www.lazybee.sg/property/ivory-heights</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.hyve.sg/locations</loc>
+    <loc>https://www.lazybee.sg/locations</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.hyve.sg/about</loc>
+    <loc>https://www.lazybee.sg/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.hyve.sg/blog</loc>
+    <loc>https://www.lazybee.sg/blog</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.hyve.sg/faqs</loc>
+    <loc>https://www.lazybee.sg/faqs</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.hyve.sg/contact</loc>
+    <loc>https://www.lazybee.sg/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.hyve.sg/privacy-policy</loc>
+    <loc>https://www.lazybee.sg/privacy-policy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://www.hyve.sg/terms-of-service</loc>
+    <loc>https://www.lazybee.sg/terms-of-service</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

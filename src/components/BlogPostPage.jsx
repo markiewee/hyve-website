@@ -272,9 +272,9 @@ const BlogPostPage = () => {
           description: post?.excerpt,
           datePublished: post?.publishedAt,
           author: { "@type": "Person", name: post?.author },
-          publisher: { "@type": "Organization", name: "Hyve", url: "https://www.hyve.sg" },
+          publisher: { "@type": "Organization", name: "Hyve", url: "https://www.lazybee.sg" },
           image: post?.featuredImage,
-          mainEntityOfPage: `https://www.hyve.sg/blog/${post?.slug}`
+          mainEntityOfPage: `https://www.lazybee.sg/blog/${post?.slug}`
         }}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

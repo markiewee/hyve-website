@@ -88,7 +88,7 @@ export default function AdminViewingsPage() {
     if (error) {
       setMessage({ type: "error", text: error.message });
     } else {
-      const url = `https://www.hyve.sg/view/${token}`;
+      const url = `https://www.lazybee.sg/view/${token}`;
       setMessage({ type: "success", text: `Viewing created! Link: ${url}`, url });
       setForm({ prospect_name: "", prospect_phone: "", prospect_email: "", property_id: "", viewing_date: "", viewing_time: "", meet_link: "", security_instructions: "", access_code: "", special_notes: "" });
       setShowForm(false);
@@ -239,7 +239,7 @@ export default function AdminViewingsPage() {
         ) : (
           <div className="divide-y divide-[#bbcac6]/10">
             {upcoming.map(v => {
-              const url = `https://www.hyve.sg/view/${v.token}`;
+              const url = `https://www.lazybee.sg/view/${v.token}`;
               return (
                 <div key={v.id} className="px-8 py-5 flex items-center justify-between">
                   <div>

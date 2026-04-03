@@ -125,7 +125,7 @@ const PrivacyPolicy = () => {
             If you have any questions about this privacy policy, please contact us at:
           </p>
           <div className="bg-gray-50 p-4 rounded-lg">
-            <p className="mb-2"><strong>Email:</strong> hello@hyve.sg</p>
+            <p className="mb-2"><strong>Email:</strong> hello@lazybee.sg</p>
             <p className="mb-2"><strong>WhatsApp:</strong> +65 80885410</p>
             <p><strong>Address:</strong> Singapore</p>
           </div>

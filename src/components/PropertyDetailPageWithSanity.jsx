@@ -640,7 +640,7 @@ ${requestFormData.message || 'No additional message provided'}
                         value={requestFormData.email}
                         onChange={(e) => setRequestFormData(prev => ({ ...prev, email: e.target.value }))}
                         className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#006b5f] focus:border-transparent outline-none"
-                        placeholder="hello@hyve.sg"
+                        placeholder="hello@lazybee.sg"
                       />
                     </div>
                     <div>
