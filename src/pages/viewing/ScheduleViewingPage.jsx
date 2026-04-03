@@ -116,7 +116,7 @@ export default function ScheduleViewingPage() {
       property_id: property.id,
       room_id: room?.id || null,
       preferred_move_in: moveInDate || null,
-      source,
+      source: source.toLowerCase().replace(/\/.*/, ""),
       special_notes: specialNotes.trim() || null,
     };
 
