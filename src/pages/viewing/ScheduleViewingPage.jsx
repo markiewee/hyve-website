@@ -45,12 +45,12 @@ function getNextSaturdays(count = 4) {
   return saturdays;
 }
 
-// Check if a slot at THIS property is adjacent to an existing booking at the same property
-function isAdjacentToSameProperty(dateStr, time, existingViewings, propertyId) {
+// Check if a slot is adjacent (±30 min) to ANY existing booking on the same day
+function isAdjacentSlot(dateStr, time, existingViewings) {
   const [h, m] = time.split(":").map(Number);
   const slotMin = h * 60 + m;
   return existingViewings.some((v) => {
-    if (v.viewing_date !== dateStr || v.property_id !== propertyId) return false;
+    if (v.viewing_date !== dateStr) return false;
     const [vh, vm] = v.viewing_time.split(":").map(Number);
     const vMin = vh * 60 + vm;
     return Math.abs(slotMin - vMin) === 30;
@@ -441,13 +441,13 @@ export default function ScheduleViewingPage() {
                 <div className="space-y-4">
                   {saturdays.map((sat) => {
                     const dateStr = formatDateISO(sat);
-                    // If this property has bookings on this Saturday, only show adjacent slots
-                    const hasPropertyBookings = existingViewings.some(
-                      (v) => v.viewing_date === dateStr && v.property_id === property?.id
+                    // If any booking exists on this Saturday, only show adjacent slots
+                    const hasBookings = existingViewings.some(
+                      (v) => v.viewing_date === dateStr
                     );
                     const visibleSlots = TIME_SLOTS.filter((t) => {
                       if (isSlotTaken(dateStr, t)) return false;
-                      if (hasPropertyBookings) return isAdjacentToSameProperty(dateStr, t, existingViewings, property?.id);
+                      if (hasBookings) return isAdjacentSlot(dateStr, t, existingViewings);
                       return true;
                     });
 
