@@ -72,7 +72,7 @@ export function AuthProvider({ children }) {
     let email = identifier;
     if (!identifier.includes("@")) {
       // Construct the placeholder email directly — no DB lookup needed
-      email = `${identifier.toLowerCase().trim()}@portal.lazybee.sg`;
+      email = `${identifier.toLowerCase().trim()}@portal.hyve.sg`;
     }
 
     const { data, error } = await supabase.auth.signInWithPassword({

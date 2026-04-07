@@ -33,7 +33,7 @@ export default function MemberSettingsPage() {
       setEmergencyName(td.emergency_contact_name || "");
       setEmergencyPhone(td.emergency_contact_phone || "");
     }
-    if (user?.email && !user.email.endsWith("@portal.lazybee.sg")) {
+    if (user?.email && !user.email.endsWith("@portal.hyve.sg")) {
       setNewEmail(user.email);
     }
   }, [profile, user]);
@@ -106,7 +106,7 @@ export default function MemberSettingsPage() {
   }
 
   const currentEmail = user?.email || "";
-  const isPlaceholderEmail = currentEmail.endsWith("@portal.lazybee.sg");
+  const isPlaceholderEmail = currentEmail.endsWith("@portal.hyve.sg");
 
   return (
     <PortalLayout>

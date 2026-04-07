@@ -1092,7 +1092,7 @@ export default function AdminOnboardingDetailPage() {
                     <span className="text-muted-foreground text-xs font-medium">Email</span>
                     <input
                       type="text"
-                      defaultValue={`${onboarding.tenant_profiles.username || ""}@portal.lazybee.sg`}
+                      defaultValue={`${onboarding.tenant_profiles.username || ""}@portal.hyve.sg`}
                       readOnly
                       className="font-mono text-foreground bg-transparent border-0 p-0 focus:outline-none text-xs"
                     />
