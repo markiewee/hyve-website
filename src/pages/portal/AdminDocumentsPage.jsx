@@ -181,6 +181,10 @@ export default function AdminDocumentsPage() {
 
       // Open in new window — user prints to PDF
       const w = window.open("", "_blank");
+      if (!w) {
+        setMessage({ type: "error", text: "Popup blocked — please allow popups for this site and try again." });
+        return;
+      }
       w.document.write(html);
       w.document.close();
 
