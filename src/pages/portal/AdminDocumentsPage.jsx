@@ -179,27 +179,18 @@ export default function AdminDocumentsPage() {
       // Clear remaining unfilled FEE_DATE placeholders
       html = html.replace(/\{\{FEE_DATE_\d+\}\}/g, "—");
 
-      // Try popup first, fall back to downloadable link for mobile
-      const w = window.open("", "_blank");
-      if (w) {
-        w.document.write(html);
-        w.document.close();
-        setShowGenerate(false);
-        setMessage({ type: "success", text: "Document opened in new tab. Use Cmd+P (or Ctrl+P) → Save as PDF, then upload the PDF here to send for signing." });
-      } else {
-        // Mobile fallback — create a downloadable HTML blob link
-        const blob = new Blob([html], { type: "text/html" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `Licence-Agreement-${tenant?.rooms?.unit_code || "draft"}.html`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        setShowGenerate(false);
-        setMessage({ type: "success", text: "Agreement downloaded as HTML. Open it in your browser, then use Share → Print → Save as PDF." });
-      }
+      // Download as HTML file — works on both desktop and mobile
+      const blob = new Blob([html], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Licence-Agreement-${tenant?.rooms?.unit_code || "draft"}.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      setShowGenerate(false);
+      setMessage({ type: "success", text: "Agreement downloaded. Open it in your browser → Print → Save as PDF." });
     } catch (err) {
       setMessage({ type: "error", text: "Failed to generate: " + err.message });
     }
