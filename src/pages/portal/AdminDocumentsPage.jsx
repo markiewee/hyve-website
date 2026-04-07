@@ -192,7 +192,7 @@ export default function AdminDocumentsPage() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `Licence-Agreement-${selectedMember?.unit_code || "draft"}.html`;
+        a.download = `Licence-Agreement-${tenant?.rooms?.unit_code || "draft"}.html`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
