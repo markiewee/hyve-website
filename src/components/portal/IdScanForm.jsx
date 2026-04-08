@@ -76,28 +76,33 @@ export default function IdScanForm({ onboarding, advanceStep }) {
   // Auto-detect residency from nationality set in previous step
   const nationality = profile?.tenant_details?.nationality || "";
   const isSgNationality = ["Singaporean", "Singapore PR"].includes(nationality);
+  // Pre-fill from saved tenant_details if returning to this step
+  const td = profile?.tenant_details || {};
+  const savedIsForeigner = td.id_type === "PASSPORT";
+
   const [residency, setResidency] = useState(
+    td.id_type ? (savedIsForeigner ? "FOREIGNER" : "SINGAPOREAN") :
     nationality ? (isSgNationality ? "SINGAPOREAN" : "FOREIGNER") : null
   );
-  const [idType, setIdType] = useState(isSgNationality ? "NRIC" : "PASSPORT");
-  const [form, setForm] = useState({ id_number: "", id_expiry: "" });
+  const [idType, setIdType] = useState(td.id_type || (isSgNationality ? "NRIC" : "PASSPORT"));
+  const [form, setForm] = useState({ id_number: td.id_number || "", id_expiry: td.id_expiry || "" });
   const isForeigner = residency === "FOREIGNER";
   const needsExpiry = isForeigner;
   const [frontFile, setFrontFile] = useState(null);
   const [backFile, setBackFile] = useState(null);
-  const [frontPreview, setFrontPreview] = useState(null);
-  const [backPreview, setBackPreview] = useState(null);
+  const [frontPreview, setFrontPreview] = useState(td.id_front_url || null);
+  const [backPreview, setBackPreview] = useState(td.id_back_url || null);
   const [scanning, setScanning] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
   // Foreigner pass (in addition to passport)
-  const [passType, setPassType] = useState("WORK_PERMIT");
-  const [passNumber, setPassNumber] = useState("");
-  const [passExpiry, setPassExpiry] = useState("");
+  const [passType, setPassType] = useState(td.pass_type || "WORK_PERMIT");
+  const [passNumber, setPassNumber] = useState(td.pass_number || "");
+  const [passExpiry, setPassExpiry] = useState(td.pass_expiry || "");
   const passInputRef = useRef(null);
   const [passFile, setPassFile] = useState(null);
-  const [passPreview, setPassPreview] = useState(null);
+  const [passPreview, setPassPreview] = useState(td.pass_url || null);
 
   function handleChange(e) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -198,7 +203,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
       setError("ID number is required.");
       return;
     }
-    if (!frontFile) {
+    if (!frontFile && !frontPreview) {
       setError("Please upload a photo of the front of your ID.");
       return;
     }
@@ -214,7 +219,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
       setError("Pass expiry date is required.");
       return;
     }
-    if (isForeigner && !passFile) {
+    if (isForeigner && !passFile && !passPreview) {
       setError("Please upload a photo of your pass (Work Permit / EP / S Pass).");
       return;
     }
@@ -231,9 +236,9 @@ export default function IdScanForm({ onboarding, advanceStep }) {
     setSubmitting(true);
 
     try {
-      const frontUrl = await uploadPhoto(frontFile, "front");
-      const backUrl = backFile ? await uploadPhoto(backFile, "back") : null;
-      const passUrl = passFile ? await uploadPhoto(passFile, "pass") : null;
+      const frontUrl = frontFile ? await uploadPhoto(frontFile, "front") : td.id_front_url;
+      const backUrl = backFile ? await uploadPhoto(backFile, "back") : (td.id_back_url || null);
+      const passUrl = passFile ? await uploadPhoto(passFile, "pass") : (td.pass_url || null);
 
       const { error: upsertError } = await supabase
         .from("tenant_details")
