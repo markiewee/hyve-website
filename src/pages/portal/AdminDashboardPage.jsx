@@ -18,6 +18,7 @@ export default function AdminDashboardPage() {
     totalDevices: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [pendingActions, setPendingActions] = useState([]);
 
   // Signature section state
   const sigRef = useRef(null);
@@ -110,7 +111,97 @@ export default function AdminDashboardPage() {
       setLoading(false);
     }
 
+    async function fetchPendingActions() {
+      const actions = [];
+
+      // 1. TAs waiting for admin counter-signature (signed by tenant but not countersigned)
+      const { data: pendingTAs } = await supabase
+        .from("onboarding_progress")
+        .select("tenant_profile_id, ta_signed_url, updated_at, tenant_profiles(username, rooms(unit_code), tenant_details(full_name))")
+        .not("ta_signed_url", "is", null)
+        .or("ta_countersigned_url.is.null,ta_countersigned_at.is.null");
+      if (pendingTAs) {
+        pendingTAs.forEach(ta => {
+          const tp = Array.isArray(ta.tenant_profiles) ? ta.tenant_profiles[0] : ta.tenant_profiles;
+          const name = tp?.tenant_details?.full_name || tp?.username || "Unknown";
+          const unit = tp?.rooms?.unit_code || "";
+          actions.push({
+            type: "counter_sign",
+            icon: "draw",
+            label: `Counter-sign TA — ${name} (${unit})`,
+            to: `/portal/admin/onboarding/${ta.tenant_profile_id}`,
+            time: ta.updated_at,
+          });
+        });
+      }
+
+      // 2. Deposits pending verification
+      const { data: pendingDeposits } = await supabase
+        .from("onboarding_progress")
+        .select("tenant_profile_id, deposit_amount, updated_at, tenant_profiles(username, rooms(unit_code), tenant_details(full_name))")
+        .eq("current_step", "DEPOSIT")
+        .eq("deposit_verified", false);
+      if (pendingDeposits) {
+        pendingDeposits.forEach(d => {
+          const tp = Array.isArray(d.tenant_profiles) ? d.tenant_profiles[0] : d.tenant_profiles;
+          const name = tp?.tenant_details?.full_name || tp?.username || "Unknown";
+          const unit = tp?.rooms?.unit_code || "";
+          actions.push({
+            type: "verify_deposit",
+            icon: "account_balance",
+            label: `Verify deposit — ${name} (${unit}) SGD ${d.deposit_amount || "?"}`,
+            to: `/portal/admin/onboarding/${d.tenant_profile_id}`,
+            time: d.updated_at,
+          });
+        });
+      }
+
+      // 3. Documents pending member signature
+      const { data: pendingDocs } = await supabase
+        .from("document_signing_sessions")
+        .select("id, created_at, tenant_profiles(username, rooms(unit_code), tenant_details(full_name)), document_templates(name)")
+        .eq("status", "PENDING");
+      if (pendingDocs) {
+        pendingDocs.forEach(doc => {
+          const tp = Array.isArray(doc.tenant_profiles) ? doc.tenant_profiles[0] : doc.tenant_profiles;
+          const name = tp?.tenant_details?.full_name || tp?.username || "Unknown";
+          const unit = tp?.rooms?.unit_code || "";
+          const docName = doc.document_templates?.name || "Document";
+          actions.push({
+            type: "pending_doc",
+            icon: "description",
+            label: `Awaiting signature — ${docName} for ${name} (${unit})`,
+            to: "/portal/admin/documents",
+            time: doc.created_at,
+          });
+        });
+      }
+
+      // 4. Overdue rent
+      const { data: overdueRent } = await supabase
+        .from("rent_payments")
+        .select("id, month, rent_amount, tenant_profiles(username, rooms(unit_code), tenant_details(full_name))")
+        .eq("status", "OVERDUE");
+      if (overdueRent) {
+        overdueRent.forEach(r => {
+          const tp = Array.isArray(r.tenant_profiles) ? r.tenant_profiles[0] : r.tenant_profiles;
+          const name = tp?.tenant_details?.full_name || tp?.username || "Unknown";
+          const unit = tp?.rooms?.unit_code || "";
+          actions.push({
+            type: "overdue_rent",
+            icon: "warning",
+            label: `Overdue rent — ${name} (${unit}) SGD ${r.rent_amount}`,
+            to: "/portal/admin/rent",
+            time: r.month,
+          });
+        });
+      }
+
+      setPendingActions(actions);
+    }
+
     fetchCounts();
+    fetchPendingActions();
   }, []);
 
   const stats = [
@@ -213,6 +304,49 @@ export default function AdminDashboardPage() {
           </Link>
         ))}
       </div>
+
+      {/* Pending Actions */}
+      {pendingActions.length > 0 && (
+        <div className="mb-10">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="material-symbols-outlined text-[#ba1a1a] text-[20px]">pending_actions</span>
+            <h2 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#121c2a]">
+              Needs Your Attention ({pendingActions.length})
+            </h2>
+          </div>
+          <div className="space-y-2">
+            {pendingActions.map((action, i) => (
+              <Link
+                key={i}
+                to={action.to}
+                className="flex items-center gap-4 bg-white rounded-xl p-4 border border-[#bbcac6]/15 hover:border-[#006b5f]/30 hover:shadow-md transition-all group"
+              >
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+                  action.type === "overdue_rent" ? "bg-red-50" :
+                  action.type === "counter_sign" ? "bg-amber-50" :
+                  action.type === "verify_deposit" ? "bg-blue-50" :
+                  "bg-[#eff4ff]"
+                }`}>
+                  <span className={`material-symbols-outlined text-[20px] ${
+                    action.type === "overdue_rent" ? "text-red-500" :
+                    action.type === "counter_sign" ? "text-amber-600" :
+                    action.type === "verify_deposit" ? "text-blue-600" :
+                    "text-[#006b5f]"
+                  }`}>
+                    {action.icon}
+                  </span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-['Manrope'] font-semibold text-sm text-[#121c2a] truncate">{action.label}</p>
+                </div>
+                <span className="material-symbols-outlined text-[16px] text-[#6c7a77] group-hover:text-[#006b5f] transition-colors">
+                  arrow_forward
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Quick links */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
