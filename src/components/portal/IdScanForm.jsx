@@ -22,6 +22,7 @@ const PASS_TYPES = [
   { value: "STUDENT_PASS", label: "Student Pass" },
   { value: "DEPENDANT_PASS", label: "Dependant Pass" },
   { value: "LONG_TERM_VISIT_PASS", label: "Long Term Visit Pass" },
+  { value: "OTHER", label: "Other" },
 ];
 
 function compressImage(file, maxPx = 1500, quality = 0.8) {
