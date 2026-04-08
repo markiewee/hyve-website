@@ -981,6 +981,7 @@ export default function AdminOnboardingDetailPage() {
           {showBankTransferApproval && (
             <SectionCard title="Verify Bank Transfer Deposit">
               {onboarding.deposit_proof_url ? (
+                <div className="space-y-3">
                 <DepositProofImage url={onboarding.deposit_proof_url} />
                   <div className="flex gap-2">
                     <Button

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 
@@ -50,6 +50,7 @@ export default function AdminRentPage() {
   const [generating, setGenerating] = useState(false);
   const [generateResult, setGenerateResult] = useState(null);
   const [actionLoading, setActionLoading] = useState(null);
+  const [paymentForm, setPaymentForm] = useState(null); // { id, paid_amount, paid_at, payment_method }
 
   // Ad-hoc charges state
   const [members, setMembers] = useState([]);
@@ -65,7 +66,7 @@ export default function AdminRentPage() {
       .select(
         `id, tenant_profile_id, room_id, month, rent_amount, late_fee, due_date,
          paid_at, paid_amount, payment_method, is_late, status, notes, created_at,
-         tenant_profiles(id, monthly_rent, late_fee_per_day, rooms(unit_code))`
+         tenant_profiles(id, monthly_rent, late_fee_per_day, username, rooms(unit_code), tenant_details(full_name))`
       )
       .order("month", { ascending: false });
 
@@ -211,46 +212,59 @@ export default function AdminRentPage() {
     fetchPayments();
   }
 
-  async function handleMarkPaid(payment) {
-    if (!confirm("Are you sure you want to mark this payment as paid?")) return;
+  function openPaymentForm(payment) {
+    setPaymentForm({
+      id: payment.id,
+      paid_amount: String(payment.rent_amount),
+      paid_at: new Date().toISOString().split("T")[0],
+      payment_method: "PAYNOW",
+    });
+  }
+
+  async function handleConfirmPayment(payment) {
+    if (!paymentForm) return;
     setActionLoading(payment.id);
 
-    const now = new Date();
+    const paidAmount = Number(paymentForm.paid_amount);
+    const paidAt = new Date(paymentForm.paid_at);
     const dueDate = payment.due_date ? new Date(payment.due_date) : null;
-    const isLate = dueDate ? now > dueDate : false;
-    const daysLate = isLate && dueDate ? daysBetween(dueDate, now) : 0;
+    const isLate = dueDate ? paidAt > dueDate : false;
+    const daysLate = isLate && dueDate ? daysBetween(dueDate, paidAt) : 0;
     const lateFeePerDay = payment.tenant_profiles?.late_fee_per_day ?? 5;
     const lateFee = isLate ? daysLate * lateFeePerDay : 0;
-    const totalAmount = Number(payment.rent_amount) + lateFee;
+    const isPartial = paidAmount < Number(payment.rent_amount);
 
     const { error } = await supabase
       .from("rent_payments")
       .update({
-        status: "PAID",
-        paid_at: now.toISOString(),
-        paid_amount: totalAmount,
+        status: isPartial ? "PARTIAL" : "PAID",
+        paid_at: paidAt.toISOString(),
+        paid_amount: paidAmount,
+        payment_method: paymentForm.payment_method,
         is_late: isLate,
         late_fee: lateFee,
       })
       .eq("id", payment.id);
 
     if (error) {
-      console.error("Error marking payment as paid:", error);
+      console.error("Error recording payment:", error);
     } else {
       setRentPayments((prev) =>
         prev.map((p) =>
           p.id === payment.id
             ? {
                 ...p,
-                status: "PAID",
-                paid_at: now.toISOString(),
-                paid_amount: totalAmount,
+                status: isPartial ? "PARTIAL" : "PAID",
+                paid_at: paidAt.toISOString(),
+                paid_amount: paidAmount,
+                payment_method: paymentForm.payment_method,
                 is_late: isLate,
                 late_fee: lateFee,
               }
             : p
         )
       );
+      setPaymentForm(null);
     }
 
     setActionLoading(null);
@@ -440,6 +454,7 @@ export default function AdminRentPage() {
               <thead className="bg-[#eff4ff]">
                 <tr>
                   <th className="text-left px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Room</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Tenant</th>
                   <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Month</th>
                   <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Rent</th>
                   <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Late Fee</th>
@@ -451,8 +466,11 @@ export default function AdminRentPage() {
               </thead>
               <tbody className="divide-y divide-[#bbcac6]/10">
                 {rentPayments.map((p) => {
-                  const unitCode = p.tenant_profiles?.rooms?.unit_code ?? "—";
+                  const tp = p.tenant_profiles;
+                  const unitCode = tp?.rooms?.unit_code ?? "—";
+                  const tenantName = tp?.tenant_details?.full_name || tp?.username || "—";
                   const lateFee = p.late_fee ?? 0;
+                  const showForm = paymentForm?.id === p.id;
                   const total = Number(p.rent_amount) + Number(lateFee);
                   const badgeClass = STATUS_BADGE[p.status] ?? STATUS_BADGE.PENDING;
                   const isActionLoading = actionLoading === p.id;
@@ -463,8 +481,8 @@ export default function AdminRentPage() {
                     new Date(p.due_date) < new Date();
 
                   return (
+                    <React.Fragment key={p.id}>
                     <tr
-                      key={p.id}
                       className={`transition-colors ${
                         p.status === "OVERDUE"
                           ? "bg-[#ffdad6]/20 hover:bg-[#ffdad6]/30"
@@ -475,6 +493,9 @@ export default function AdminRentPage() {
                         <span className="font-['Inter'] text-xs font-bold text-[#006b5f] bg-[#eff4ff] px-2 py-1 rounded">
                           {unitCode}
                         </span>
+                      </td>
+                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#121c2a] whitespace-nowrap truncate max-w-[120px]" title={tenantName}>
+                        {tenantName}
                       </td>
                       <td className="px-4 py-4 font-['Manrope'] text-sm text-[#121c2a] whitespace-nowrap">
                         {formatMonth(p.month)}
@@ -502,9 +523,9 @@ export default function AdminRentPage() {
                       </td>
                       <td className="px-4 py-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          {canMarkPaid && (
+                          {canMarkPaid && !showForm && (
                             <button
-                              onClick={() => handleMarkPaid(p)}
+                              onClick={() => openPaymentForm(p)}
                               disabled={isActionLoading}
                               className="text-xs px-3 py-1.5 rounded-lg bg-[#006b5f] text-white hover:opacity-90 disabled:opacity-50 transition-all font-['Manrope'] font-bold whitespace-nowrap"
                             >
@@ -523,6 +544,60 @@ export default function AdminRentPage() {
                         </div>
                       </td>
                     </tr>
+                    {showForm && (
+                      <tr className="bg-[#f0fdf4]">
+                        <td colSpan={9} className="px-8 py-4">
+                          <div className="flex flex-wrap items-end gap-4">
+                            <div>
+                              <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6c7a77] mb-1">Amount Received</label>
+                              <input
+                                type="number"
+                                step="0.01"
+                                value={paymentForm.paid_amount}
+                                onChange={(e) => setPaymentForm(f => ({ ...f, paid_amount: e.target.value }))}
+                                className="w-32 px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] font-semibold"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6c7a77] mb-1">Date Received</label>
+                              <input
+                                type="date"
+                                value={paymentForm.paid_at}
+                                onChange={(e) => setPaymentForm(f => ({ ...f, paid_at: e.target.value }))}
+                                className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope']"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6c7a77] mb-1">Method</label>
+                              <select
+                                value={paymentForm.payment_method}
+                                onChange={(e) => setPaymentForm(f => ({ ...f, payment_method: e.target.value }))}
+                                className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope']"
+                              >
+                                <option value="PAYNOW">PayNow</option>
+                                <option value="BANK_TRANSFER">Bank Transfer</option>
+                                <option value="CASH">Cash</option>
+                                <option value="OTHER">Other</option>
+                              </select>
+                            </div>
+                            <button
+                              onClick={() => handleConfirmPayment(p)}
+                              disabled={isActionLoading}
+                              className="px-4 py-2 rounded-lg bg-[#006b5f] text-white text-sm font-['Manrope'] font-bold hover:opacity-90 disabled:opacity-50"
+                            >
+                              {isActionLoading ? "Saving…" : "Confirm Payment"}
+                            </button>
+                            <button
+                              onClick={() => setPaymentForm(null)}
+                              className="px-4 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] font-semibold text-[#6c7a77] hover:bg-white"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                    </React.Fragment>
                   );
                 })}
               </tbody>
