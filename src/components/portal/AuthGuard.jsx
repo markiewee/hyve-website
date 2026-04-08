@@ -38,7 +38,8 @@ export default function AuthGuard({ children, requiredRole }) {
   }
 
   // Redirect tenants who haven't completed onboarding
-  const onboarding = profile.onboarding_progress;
+  const rawOnboarding = profile.onboarding_progress;
+  const onboarding = Array.isArray(rawOnboarding) ? rawOnboarding[0] : rawOnboarding;
   if (
     onboarding &&
     !ONBOARDING_COMPLETE_STEPS.includes(onboarding.current_step) &&
