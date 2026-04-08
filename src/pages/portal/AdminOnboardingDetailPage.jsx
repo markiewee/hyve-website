@@ -10,6 +10,46 @@ import { STEPS, STEP_LABELS } from "../../hooks/useOnboarding";
 import { useAuth } from "../../hooks/useAuth";
 import { notifyMember } from "../../lib/notify";
 
+function DepositProofImage({ url }) {
+  const [signedUrl, setSignedUrl] = useState(null);
+  const [imgError, setImgError] = useState(false);
+
+  useEffect(() => {
+    // Extract the storage path from the public URL
+    const match = url?.match(/tenant-documents\/(.+)$/);
+    if (match) {
+      supabase.storage
+        .from("tenant-documents")
+        .createSignedUrl(match[1], 3600)
+        .then(({ data, error }) => {
+          if (data?.signedUrl) setSignedUrl(data.signedUrl);
+          else setImgError(true);
+        });
+    }
+  }, [url]);
+
+  return (
+    <div className="space-y-3">
+      {imgError ? (
+        <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+          <p className="text-sm text-amber-800">Unable to load deposit proof image. <a href={url} target="_blank" rel="noopener noreferrer" className="underline font-semibold">Try opening directly</a></p>
+        </div>
+      ) : signedUrl ? (
+        <a href={signedUrl} target="_blank" rel="noopener noreferrer">
+          <img
+            src={signedUrl}
+            alt="Deposit proof"
+            className="max-w-sm rounded border border-border cursor-pointer hover:opacity-90 transition-opacity"
+            onError={() => setImgError(true)}
+          />
+        </a>
+      ) : (
+        <div className="h-48 w-64 bg-muted animate-pulse rounded" />
+      )}
+    </div>
+  );
+}
+
 function formatDateTime(dateStr) {
   if (!dateStr) return "—";
   return new Date(dateStr).toLocaleString("en-SG", {
@@ -941,12 +981,7 @@ export default function AdminOnboardingDetailPage() {
           {showBankTransferApproval && (
             <SectionCard title="Verify Bank Transfer Deposit">
               {onboarding.deposit_proof_url ? (
-                <div className="space-y-3">
-                  <img
-                    src={onboarding.deposit_proof_url}
-                    alt="Deposit proof"
-                    className="max-w-sm rounded border border-border"
-                  />
+                <DepositProofImage url={onboarding.deposit_proof_url} />
                   <div className="flex gap-2">
                     <Button
                       size="sm"
