@@ -21,6 +21,7 @@ const PropertyDetailPage = () => {
   });
   const [requestSubmitted, setRequestSubmitted] = useState(false);
   const [requestLoading, setRequestLoading] = useState(false);
+  const [moveInDate, setMoveInDate] = useState('');
 
   useEffect(() => {
     const fetchPropertyData = async () => {
@@ -210,8 +211,9 @@ ${requestFormData.message || 'No additional message provided'}
     );
   }
 
-  const neighborhoodName = property.neighborhood?.name || property.neighborhood;
-  const [moveInDate, setMoveInDate] = useState('');
+  const neighborhoodName = typeof property.neighborhood === 'string'
+    ? property.neighborhood
+    : property.neighborhood?.name || '';
 
   // Filter rooms based on move-in date
   const filteredRooms = moveInDate
