@@ -152,6 +152,23 @@ export default function AdminRentPage() {
 
   async function handleMatch(rentPayment) {
     if (!selectedTxn) return;
+    // Calculate late fee per contract: 5% if paid after 5th from due date, +5% after 30 days
+    const paidDate = new Date(selectedTxn.transaction_date);
+    const dueDate = rentPayment.due_date ? new Date(rentPayment.due_date) : null;
+    const duePlusFive = dueDate ? new Date(dueDate.getTime() + 5 * 86400000) : null;
+    const duePlusThirty = dueDate ? new Date(dueDate.getTime() + 30 * 86400000) : null;
+    const rentAmt = Number(rentPayment.rent_amount);
+    let lateFee = 0;
+    let isLate = false;
+    let daysLate = 0;
+    if (duePlusFive && paidDate > duePlusFive) {
+      isLate = true;
+      daysLate = Math.floor((paidDate - dueDate) / 86400000);
+      lateFee = rentAmt * 0.05; // 5% per clause 2.2
+      if (duePlusThirty && paidDate > duePlusThirty) {
+        lateFee += rentAmt * 0.05; // additional 5% per clause 2.3
+      }
+    }
     const { error } = await supabase
       .from("rent_payments")
       .update({
@@ -160,6 +177,8 @@ export default function AdminRentPage() {
         paid_amount: rentPayment.rent_amount,
         payment_reference: selectedTxn.reference,
         payment_method: "PAYNOW",
+        is_late: isLate,
+        late_fee: lateFee,
       })
       .eq("id", rentPayment.id);
     if (error) { console.error("Match error:", error); return; }
@@ -172,11 +191,14 @@ export default function AdminRentPage() {
       txnAmount: selectedTxn.amount,
       txnDate: selectedTxn.transaction_date,
       txnDescription: selectedTxn.description,
+      isLate,
+      daysLate,
+      lateFee,
     }]);
     setAspireTransactions(prev => prev.filter(t => t.reference !== selectedTxn.reference));
     setRentPayments(prev => prev.map(p =>
       p.id === rentPayment.id
-        ? { ...p, status: "PAID", paid_at: selectedTxn.transaction_date, paid_amount: p.rent_amount, payment_method: "PAYNOW", payment_reference: selectedTxn.reference }
+        ? { ...p, status: "PAID", paid_at: selectedTxn.transaction_date, paid_amount: p.rent_amount, payment_method: "PAYNOW", payment_reference: selectedTxn.reference, is_late: isLate, late_fee: lateFee }
         : p
     ));
     setSelectedTxn(null);
@@ -198,6 +220,20 @@ export default function AdminRentPage() {
         : p
     ));
     setMatchedPairs(prev => prev.filter(mp => mp.rentPaymentId !== pair.rentPaymentId));
+  }
+
+  async function handleWaiveLateFee(pair) {
+    const { error } = await supabase
+      .from("rent_payments")
+      .update({ late_fee: 0, is_late: false })
+      .eq("id", pair.rentPaymentId);
+    if (error) { console.error("Waive error:", error); return; }
+    setMatchedPairs(prev => prev.map(mp =>
+      mp.rentPaymentId === pair.rentPaymentId ? { ...mp, lateFee: 0, isLate: false, daysLate: 0 } : mp
+    ));
+    setRentPayments(prev => prev.map(p =>
+      p.id === pair.rentPaymentId ? { ...p, late_fee: 0, is_late: false } : p
+    ));
   }
 
   useEffect(() => {
@@ -831,6 +867,17 @@ export default function AdminRentPage() {
                   <p className="font-['Manrope'] text-sm text-[#121c2a]">{pair.txnDescription} — {formatSGD(pair.txnAmount)}</p>
                   {Number(pair.txnAmount) !== Number(pair.rentAmount) && (
                     <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-amber-100 text-amber-700">Mismatch</span>
+                  )}
+                  {pair.isLate && pair.lateFee > 0 && (
+                    <>
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-[#ffdad6] text-[#ba1a1a]">
+                        {pair.daysLate}d late — {formatSGD(pair.lateFee)} fee
+                      </span>
+                      <button onClick={() => handleWaiveLateFee(pair)}
+                        className="text-xs px-3 py-1.5 rounded-lg bg-amber-100 text-amber-700 hover:bg-amber-200 font-['Manrope'] font-bold shrink-0">
+                        Waive
+                      </button>
+                    </>
                   )}
                   <button onClick={() => handleUnmatch(pair)}
                     className="text-xs px-3 py-1.5 rounded-lg border border-[#bbcac6]/30 text-[#6c7a77] hover:bg-white font-['Manrope'] font-bold shrink-0">
