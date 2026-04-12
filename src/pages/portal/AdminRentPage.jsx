@@ -62,6 +62,8 @@ export default function AdminRentPage() {
   const [chargeActionLoading, setChargeActionLoading] = useState(null);
 
   // Reconciliation state
+  const [aspireAccounts, setAspireAccounts] = useState([]);
+  const [aspireAccountId, setAspireAccountId] = useState("");
   const [aspireTransactions, setAspireTransactions] = useState([]);
   const [aspireLoading, setAspireLoading] = useState(false);
   const [aspireError, setAspireError] = useState(null);
@@ -116,18 +118,29 @@ export default function AdminRentPage() {
     setChargesLoading(false);
   }, []);
 
+  async function handleLoadAspireAccounts() {
+    try {
+      const accs = await aspire.getAccounts();
+      setAspireAccounts(accs);
+      if (accs.length === 1) setAspireAccountId(accs[0].id ?? accs[0].account_id ?? accs[0].accountId ?? "");
+    } catch (err) {
+      console.error("Failed to load Aspire accounts:", err);
+    }
+  }
+
   async function handleFetchAspire() {
+    if (!aspireAccountId) {
+      setAspireError("Select an Aspire account first");
+      return;
+    }
     setAspireLoading(true);
     setAspireError(null);
     try {
-      const accounts = await aspire.getAccounts();
-      if (!accounts.length) throw new Error("No Aspire accounts found");
-      const accountId = accounts[0].id ?? accounts[0].account_id ?? accounts[0].accountId;
       const [year, month] = reconcileMonth.split("-");
       const from_date = `${year}-${month}-01`;
       const lastDay = new Date(Number(year), Number(month), 0).getDate();
       const to_date = `${year}-${month}-${String(lastDay).padStart(2, "0")}`;
-      const txns = await aspire.getTransactions(accountId, { from_date, to_date });
+      const txns = await aspire.getTransactions(aspireAccountId, { from_date, to_date });
       const credits = txns.filter(t => t.transaction_type === "INCOME" && t.amount > 0);
       setAspireTransactions(credits);
     } catch (err) {
@@ -695,10 +708,26 @@ export default function AdminRentPage() {
             <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a]">Reconcile with Aspire</h2>
             <p className="font-['Manrope'] text-[#6c7a77] text-xs mt-0.5">Match incoming bank transfers to tenant rent records.</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
             <input type="month" value={reconcileMonth} onChange={(e) => setReconcileMonth(e.target.value)}
               className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f]" />
-            <button onClick={handleFetchAspire} disabled={aspireLoading}
+            {aspireAccounts.length > 0 ? (
+              <select value={aspireAccountId} onChange={(e) => setAspireAccountId(e.target.value)}
+                className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white max-w-[200px]">
+                <option value="">Select account…</option>
+                {aspireAccounts.map(acc => {
+                  const id = acc.id ?? acc.account_id ?? acc.accountId;
+                  const name = acc.debit_details?.[0]?.account_name ?? acc.name ?? id;
+                  return <option key={id} value={id}>{name}</option>;
+                })}
+              </select>
+            ) : (
+              <button onClick={handleLoadAspireAccounts}
+                className="px-4 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] font-semibold text-[#6c7a77] hover:bg-[#f8f9ff]">
+                Load Accounts
+              </button>
+            )}
+            <button onClick={handleFetchAspire} disabled={aspireLoading || !aspireAccountId}
               className="px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0">
               <span className="material-symbols-outlined text-[18px]">account_balance</span>
               {aspireLoading ? "Fetching…" : "Fetch Aspire"}
