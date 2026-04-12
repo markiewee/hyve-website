@@ -153,9 +153,9 @@ export default function AdminExpenseImportPage() {
     const monthDate = month + "-01";
     const { data } = await supabase
       .from("monthly_financials")
-      .select("id, is_finalized")
+      .select("id, status")
       .eq("month", monthDate)
-      .eq("is_finalized", true)
+      .eq("status", "FINALIZED")
       .limit(1);
     setIsFinalized((data ?? []).length > 0);
   }, []);
@@ -256,12 +256,12 @@ export default function AdminExpenseImportPage() {
       const monthDate = reconcileMonth + "-01";
       const { data: existingExpenses } = await supabase
         .from("property_expenses")
-        .select("description, amount, transaction_date")
+        .select("description, amount")
         .eq("month", monthDate);
 
       const existingSet = new Set(
         (existingExpenses ?? []).map(
-          (e) => `${e.description}|${e.amount}|${e.transaction_date}`
+          (e) => `${e.description}|${e.amount}`
         )
       );
 
@@ -269,7 +269,7 @@ export default function AdminExpenseImportPage() {
       const needsTagging = [];
 
       for (const txn of withKeys) {
-        const sig = `${txn.description}|${txn.amount}|${txn.transaction_date}`;
+        const sig = `${txn.description}|${txn.amount}`;
         if (existingSet.has(sig)) {
           alreadyTagged.push({ ...txn, _alreadyConfirmed: true });
         } else {
@@ -349,9 +349,7 @@ export default function AdminExpenseImportPage() {
         category,
         description: txn.description,
         amount: -absAmount,
-        transaction_date: txn.transaction_date,
         is_recurring: false,
-        ...(roomId ? { room_id: roomId } : {}),
       });
       if (expenseErr) throw expenseErr;
 
@@ -378,7 +376,6 @@ export default function AdminExpenseImportPage() {
             vendor_pattern: vendorPattern,
             property_id: propertyId,
             category,
-            transaction_type: "EXPENSE",
             hit_count: 1,
             last_used_at: new Date().toISOString(),
           });
@@ -460,7 +457,7 @@ export default function AdminExpenseImportPage() {
       // Fetch income from rent_payments
       const { data: rentData } = await supabase
         .from("rent_payments")
-        .select("property_id, rent_amount, paid_amount, status, tenant_profiles(rooms(property_id))")
+        .select("rent_amount, paid_amount, status, tenant_profiles(rooms(property_id))")
         .eq("status", "PAID")
         .eq("month", monthDate);
 
@@ -473,7 +470,7 @@ export default function AdminExpenseImportPage() {
       // Build income by property
       const incomeByProperty = {};
       for (const r of rentData ?? []) {
-        const propId = r.property_id ?? r.tenant_profiles?.rooms?.property_id;
+        const propId = r.tenant_profiles?.rooms?.property_id;
         if (!propId) continue;
         incomeByProperty[propId] =
           (incomeByProperty[propId] || 0) + Number(r.paid_amount ?? r.rent_amount ?? 0);
@@ -528,10 +525,11 @@ export default function AdminExpenseImportPage() {
           {
             property_id: propId,
             month: monthDate,
-            total_income: totalIncome,
+            total_revenue: totalIncome,
             total_expenses: totalExpenses,
             net_profit: netProfit,
-            is_finalized: true,
+            status: "FINALIZED",
+            finalized_at: new Date().toISOString(),
           },
           { onConflict: "property_id,month" }
         );
