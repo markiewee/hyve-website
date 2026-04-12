@@ -271,7 +271,7 @@ export default function AdminRentPage() {
 
     const { data: profiles, error: profilesError } = await supabase
       .from("tenant_profiles")
-      .select("id, monthly_rent, late_fee_per_day, room_id")
+      .select("id, monthly_rent, late_fee_per_day, room_id, onboarding_progress(tenancy_start_date, tenancy_end_date)")
       .eq("is_active", true)
       .not("monthly_rent", "is", null)
       .gt("monthly_rent", 0);
@@ -304,7 +304,17 @@ export default function AdminRentPage() {
     const existingSet = new Set((existing ?? []).map((r) => r.tenant_profile_id));
 
     const toInsert = profiles
-      .filter((p) => !existingSet.has(p.id))
+      .filter((p) => {
+        if (existingSet.has(p.id)) return false;
+        // Skip tenants whose tenancy hasn't started yet
+        const startDate = p.onboarding_progress?.tenancy_start_date;
+        if (startDate) {
+          const startMonth = startDate.substring(0, 7); // "2026-06"
+          const currentMonth = monthStr.substring(0, 7); // "2026-04"
+          if (startMonth > currentMonth) return false;
+        }
+        return true;
+      })
       .map((p) => ({
         tenant_profile_id: p.id,
         room_id: p.room_id,
