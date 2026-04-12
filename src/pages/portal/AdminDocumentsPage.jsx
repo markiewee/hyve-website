@@ -165,7 +165,7 @@ export default function AdminDocumentsPage() {
       REF_NUMBER: ob?.ref_number || "",
       DATE: new Date().toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }),
       FEE_SCHEDULE_ROWS: feeScheduleRows,
-      EXTRA_TERMS: (genExtraTerms || ob?.extra_terms) ? `<section class="pt-8"><div class="flex flex-col md:flex-row gap-8"><aside class="w-full md:w-1/3"><h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Extra Terms</h2><p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Additional terms specific to this agreement.</p></aside><div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text"><p>${genExtraTerms || ob.extra_terms}</p></div></div></section>` : "",
+      EXTRA_TERMS: (genExtraTerms || ob?.extra_terms) ? `<section class="pt-8"><div class="flex flex-col md:flex-row gap-8"><aside class="w-full md:w-1/3"><h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Annex E</h2><p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Additional terms and conditions specific to this agreement.</p></aside><div class="flex-1 space-y-4"><div class="p-6 bg-surface-container-low rounded-lg clause-text"><div class="space-y-3">${(genExtraTerms || ob.extra_terms).split('\n').filter(l => l.trim()).map((line, i) => `<div class="flex gap-4"><span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(${i + 1})</span><p>${line}</p></div>`).join('')}</div></div></div></div></section>` : "",
       ...feeDates,
     };
 
