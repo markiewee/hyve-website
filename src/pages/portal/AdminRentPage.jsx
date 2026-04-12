@@ -64,6 +64,7 @@ export default function AdminRentPage() {
   // Reconciliation state
   const [aspireAccounts, setAspireAccounts] = useState([]);
   const [aspireAccountId, setAspireAccountId] = useState("");
+  const [accountNicknames, setAccountNicknames] = useState({});
   const [aspireTransactions, setAspireTransactions] = useState([]);
   const [aspireLoading, setAspireLoading] = useState(false);
   const [aspireError, setAspireError] = useState(null);
@@ -123,6 +124,11 @@ export default function AdminRentPage() {
       const accs = await aspire.getAccounts();
       setAspireAccounts(accs);
       if (accs.length === 1) setAspireAccountId(accs[0].id ?? accs[0].account_id ?? accs[0].accountId ?? "");
+      // Load nicknames
+      const { data } = await supabase.from("account_nicknames").select("*");
+      const map = {};
+      (data ?? []).forEach(n => { map[n.aspire_account_id] = n.nickname; });
+      setAccountNicknames(map);
     } catch (err) {
       console.error("Failed to load Aspire accounts:", err);
     }
@@ -142,7 +148,14 @@ export default function AdminRentPage() {
       const to_date = `${year}-${month}-${String(lastDay).padStart(2, "0")}`;
       const txns = await aspire.getTransactions(aspireAccountId, { from_date, to_date });
       const credits = txns.filter(t => t.transaction_type === "INCOME" && t.amount > 0);
-      setAspireTransactions(credits);
+      // Filter out transactions already matched to rent payments
+      const { data: matched } = await supabase
+        .from("rent_payments")
+        .select("payment_reference")
+        .not("payment_reference", "is", null);
+      const matchedRefs = new Set((matched ?? []).map(r => r.payment_reference));
+      const unmatched = credits.filter(t => !matchedRefs.has(t.reference));
+      setAspireTransactions(unmatched);
     } catch (err) {
       console.error("Aspire fetch error:", err);
       setAspireError(err.message);
@@ -763,7 +776,7 @@ export default function AdminRentPage() {
                 <option value="">Select account…</option>
                 {aspireAccounts.map(acc => {
                   const id = acc.id ?? acc.account_id ?? acc.accountId;
-                  const name = acc.debit_details?.[0]?.account_name ?? acc.name ?? id;
+                  const name = accountNicknames[id] ?? acc.debit_details?.[0]?.account_name ?? acc.name ?? id;
                   return <option key={id} value={id}>{name}</option>;
                 })}
               </select>
