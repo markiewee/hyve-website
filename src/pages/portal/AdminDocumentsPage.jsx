@@ -43,7 +43,7 @@ export default function AdminDocumentsPage() {
   const fetchData = useCallback(async () => {
     const [tplRes, tenantRes] = await Promise.all([
       supabase.from("document_templates").select("*").order("created_at", { ascending: false }),
-      supabase.from("tenant_profiles").select("id, role, username, monthly_rent, room_id, property_id, rooms(unit_code, name), properties(name, address, common_areas), tenant_details(full_name, email, id_number, phone), onboarding_progress(id, deposit_amount, licence_period, tenancy_start_date, tenancy_end_date, ref_number)")
+      supabase.from("tenant_profiles").select("id, role, username, monthly_rent, room_id, property_id, rooms(unit_code, name), properties(name, address, common_areas), tenant_details(full_name, email, id_number, phone), onboarding_progress(id, deposit_amount, licence_period, tenancy_start_date, tenancy_end_date, ref_number, extra_terms)")
         .eq("role", "TENANT").eq("is_active", true),
     ]);
     setTemplates(tplRes.data ?? []);
@@ -134,6 +134,7 @@ export default function AdminDocumentsPage() {
   // ── Generate from HTML Template ─────────────────────────────
   const [showGenerate, setShowGenerate] = useState(false);
   const [genTenantId, setGenTenantId] = useState("");
+  const [genExtraTerms, setGenExtraTerms] = useState("");
 
   async function handleGenerate() {
     const tenant = tenants.find(t => t.id === genTenantId);
@@ -164,6 +165,7 @@ export default function AdminDocumentsPage() {
       REF_NUMBER: ob?.ref_number || "",
       DATE: new Date().toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }),
       FEE_SCHEDULE_ROWS: feeScheduleRows,
+      EXTRA_TERMS: (genExtraTerms || ob?.extra_terms) ? `<section class="pt-8"><div class="flex flex-col md:flex-row gap-8"><aside class="w-full md:w-1/3"><h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Extra Terms</h2><p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Additional terms specific to this agreement.</p></aside><div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text"><p>${genExtraTerms || ob.extra_terms}</p></div></div></section>` : "",
       ...feeDates,
     };
 
@@ -391,6 +393,14 @@ export default function AdminDocumentsPage() {
                   </div>
                 );
               })()}
+
+              <div className="space-y-1.5">
+                <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Extra Terms (optional)</label>
+                <textarea value={genExtraTerms} onChange={e => setGenExtraTerms(e.target.value)}
+                  placeholder="Any additional terms specific to this tenant..."
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none resize-y min-h-[60px]"
+                  rows={2} />
+              </div>
 
               <div className="flex gap-3">
                 <button onClick={() => setShowGenerate(false)}

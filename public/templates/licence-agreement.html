@@ -735,6 +735,10 @@
 <p class="font-semibold text-on-surface">Air conditioning usage above 10 hours a day S$0.30/hour billed monthly</p>
 </div>
 <div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Booking Fee (Deposit)</label>
+<p class="font-semibold text-on-surface">S${{DEPOSIT_AMOUNT}}</p>
+</div>
+<div>
 <label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Payment Method</label>
 <p class="font-semibold text-on-surface">Bank wire transfer</p>
 </div>
@@ -907,6 +911,9 @@
 </div>
 </div>
 </section>
+
+<!-- EXTRA TERMS (optional — only rendered if content provided) -->
+{{EXTRA_TERMS}}
 
 <!-- Section: Execution & Signatures -->
 <section class="pt-12 border-t border-surface-variant">
