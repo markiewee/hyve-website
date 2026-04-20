@@ -525,8 +525,8 @@ export default function AdminExpenseImportPage() {
           {
             property_id: propId,
             month: monthDate,
-            total_revenue: totalIncome,
-            total_expenses: totalExpenses,
+            revenue: totalIncome,
+            expenses: totalExpenses,
             net_profit: netProfit,
             status: "FINALIZED",
             finalized_at: new Date().toISOString(),
