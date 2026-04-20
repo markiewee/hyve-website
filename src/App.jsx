@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import './App.css';
 
@@ -11,6 +11,7 @@ import PropertyDetailPage from './components/PropertyDetailPageWithSanity';
 import LocationsPage from './components/LocationsPageWithSanity';
 import AboutPage from './components/AboutPage';
 import FAQsPage from './components/FAQsPageWithSanity';
+import TransferOfTenancyPage from './components/TransferOfTenancyPage';
 import ContactPage from './components/ContactPage';
 import BlogPage from './components/BlogPage';
 import BlogPostPage from './components/BlogPostPage';
@@ -102,10 +103,12 @@ function AppContent() {
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faqs" element={<FAQsPage />} />
+          <Route path="/faqs/transfer-of-tenancy" element={<TransferOfTenancyPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/cookie-policy" element={<CookiePolicy />} />
           {/* Portal routes — no Navbar/Footer */}
+          <Route path="/portal" element={<Navigate to="/portal/login" replace />} />
           <Route path="/portal/login" element={<LoginPage />} />
           <Route path="/portal/signup" element={<SignupPage />} />
           <Route
