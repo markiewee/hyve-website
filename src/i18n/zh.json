@@ -581,6 +581,14 @@
       "propertiesFound": "个房源",
       "propertyFound": "个房源"
     },
+    "locations": {
+      "badge": "精选居所",
+      "title": "探索我们的新加坡居住空间",
+      "subtitle": "为社区、专注与宁静而设计的现代空间。",
+      "aboutArea": "关于该区域",
+      "transportation": "交通出行",
+      "viewProperties": "查看所有房源"
+    },
     "faq": {
       "title": "常见问题",
       "backToHome": "返回首页"

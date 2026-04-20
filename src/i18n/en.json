@@ -581,6 +581,14 @@
       "propertiesFound": "properties found",
       "propertyFound": "property found"
     },
+    "locations": {
+      "badge": "Curated Living",
+      "title": "Explore our Singapore Sanctuaries",
+      "subtitle": "Modern spaces designed for community, focus, and serenity.",
+      "aboutArea": "About the Area",
+      "transportation": "Transportation",
+      "viewProperties": "View All Properties"
+    },
     "faq": {
       "title": "Frequently Asked Questions",
       "backToHome": "Back to Home"

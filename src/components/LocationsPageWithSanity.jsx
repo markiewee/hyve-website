@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { client, QUERIES, urlFor } from '../lib/sanity';
 import LocationsMapComponent from './LocationsMapComponent';
 import SEO from './SEO';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const LocationsPage = () => {
+  const { t } = useLanguage();
   const [selectedNeighborhood, setSelectedNeighborhood] = useState(null);
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [properties, setProperties] = useState([]);
@@ -95,13 +97,13 @@ const LocationsPage = () => {
           <div className="p-6 md:p-8">
             <header className="mb-8">
               <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#006b5f] font-bold mb-2 block">
-                Curated Living
+                {t('public.locations.badge')}
               </span>
               <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold tracking-tight text-[#121c2a] leading-tight">
-                Explore our Singapore Sanctuaries
+                {t('public.locations.title')}
               </h1>
               <p className="text-[#3c4947] mt-3 leading-relaxed font-['Manrope']">
-                Modern spaces designed for community, focus, and serenity.
+                {t('public.locations.subtitle')}
               </p>
             </header>
 
@@ -213,7 +215,7 @@ const LocationsPage = () => {
             <div className="p-6 md:p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold mb-4">About the Area</h3>
+                  <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold mb-4">{t('public.locations.aboutArea')}</h3>
                   <p className="text-[#3c4947] mb-6 font-['Manrope'] leading-relaxed">
                     {selectedNeighborhood.description}
                   </p>
@@ -237,7 +239,7 @@ const LocationsPage = () => {
                     <div className="mb-6">
                       <h4 className="font-['Plus_Jakarta_Sans'] font-bold mb-2 flex items-center gap-2">
                         <span className="material-symbols-outlined text-[#006b5f]">train</span>
-                        Transportation
+                        {t('public.locations.transportation')}
                       </h4>
                       {selectedNeighborhood.transport.map((transport, index) => (
                         <p key={index} className="text-sm text-[#3c4947] mb-1 font-['Manrope']">
@@ -302,7 +304,7 @@ const LocationsPage = () => {
                   to="/properties"
                   className="flex-1 bg-[#006b5f] text-white py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-center hover:opacity-90 transition-all"
                 >
-                  View All Properties
+                  {t('public.locations.viewProperties')}
                 </Link>
                 <button
                   onClick={() => setSelectedNeighborhood(null)}
