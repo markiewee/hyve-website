@@ -214,12 +214,12 @@ const ResidentGuidePage = () => {
   const toggle = (id) => setOpen(prev => ({ ...prev, [id]: !prev[id] }));
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pt-24">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-3">Hyve Resident Guide</h1>
           <p className="text-lg text-gray-600">Everything you need to know during your stay.</p>
-          <p className="text-sm text-gray-400 mt-2">Last updated: 19 Feb 2026</p>
+          <p className="text-sm text-gray-400 mt-2">Last updated: 20 Apr 2026</p>
         </div>
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 divide-y divide-gray-200">
