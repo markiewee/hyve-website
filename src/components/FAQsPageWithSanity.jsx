@@ -192,7 +192,12 @@ const FAQsPage = () => {
     subtitle: 'Find answers to common questions about our coliving spaces, booking process, and community guidelines.'
   };
 
-  const faqSections = faqContent?.faqSections || defaultFaqSections;
+  const sanityTitles = new Set((faqContent?.faqSections || []).map(s => s.title));
+  const merged = [
+    ...(faqContent?.faqSections || []),
+    ...defaultFaqSections.filter(s => !sanityTitles.has(s.title))
+  ];
+  const faqSections = merged.length > 0 ? merged : defaultFaqSections;
 
   const ctaContent = faqContent?.cta || {
     title: 'Still have questions?',

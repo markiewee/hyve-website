@@ -54,7 +54,7 @@ ${formData.message}`;
     },
     {
       question: 'Do you require a security deposit?',
-      answer: 'Most of our properties require no security deposit. Contact us for specific property details.'
+      answer: 'We require a refundable security deposit equivalent to one month\'s rent, returned at the end of your stay subject to room condition.'
     }
   ];
 
