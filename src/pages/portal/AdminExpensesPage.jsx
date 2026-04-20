@@ -191,7 +191,7 @@ export default function AdminExpensesPage() {
       </div>
 
       {/* Metric cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
         <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
           <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Total Expenses</p>
           <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">

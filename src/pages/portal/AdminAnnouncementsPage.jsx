@@ -146,7 +146,7 @@ export default function AdminAnnouncementsPage() {
         </div>
         <button
           onClick={() => setShowForm((v) => !v)}
-          className={`px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm transition-all flex items-center gap-2 shrink-0 ${
+          className={`px-3 sm:px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm transition-all flex items-center gap-2 shrink-0 ${
             showForm
               ? "bg-[#eff4ff] text-[#555f6f] hover:bg-[#d9e3f6]"
               : "bg-[#006b5f] text-white hover:opacity-90 shadow-sm"
@@ -155,7 +155,8 @@ export default function AdminAnnouncementsPage() {
           <span className="material-symbols-outlined text-[18px]">
             {showForm ? "close" : "add"}
           </span>
-          {showForm ? "Cancel" : "New Announcement"}
+          <span className="hidden sm:inline">{showForm ? "Cancel" : "New Announcement"}</span>
+          <span className="sm:hidden">{showForm ? "" : "New"}</span>
         </button>
       </div>
 

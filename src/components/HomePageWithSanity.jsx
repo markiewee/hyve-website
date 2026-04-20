@@ -245,11 +245,11 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[600px]">
-              <div className="md:col-span-8 rounded-[2.5rem] bg-slate-200 animate-pulse"></div>
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 min-h-[300px] md:h-[600px]">
+              <div className="md:col-span-8 rounded-[2.5rem] bg-slate-200 animate-pulse min-h-[300px]"></div>
               <div className="md:col-span-4 grid grid-rows-2 gap-6">
-                <div className="rounded-[2.5rem] bg-slate-200 animate-pulse"></div>
-                <div className="rounded-[2.5rem] bg-slate-200 animate-pulse"></div>
+                <div className="rounded-[2.5rem] bg-slate-200 animate-pulse min-h-[140px]"></div>
+                <div className="rounded-[2.5rem] bg-slate-200 animate-pulse min-h-[140px]"></div>
               </div>
             </div>
           ) : featuredProperties.length > 0 ? (
