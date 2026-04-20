@@ -11,6 +11,7 @@ import PropertyDetailPage from './components/PropertyDetailPageWithSanity';
 import LocationsPage from './components/LocationsPageWithSanity';
 import AboutPage from './components/AboutPage';
 import FAQsPage from './components/FAQsPageWithSanity';
+import ResidentGuidePage from './components/ResidentGuidePage';
 import ContactPage from './components/ContactPage';
 import BlogPage from './components/BlogPage';
 import BlogPostPage from './components/BlogPostPage';
@@ -102,6 +103,7 @@ function AppContent() {
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faqs" element={<FAQsPage />} />
+          <Route path="/residents" element={<ResidentGuidePage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/cookie-policy" element={<CookiePolicy />} />
