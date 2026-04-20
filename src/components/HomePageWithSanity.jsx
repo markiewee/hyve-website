@@ -112,7 +112,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
-                to="/properties"
+                to="/locations"
                 className="bg-[#006b5f] text-white px-8 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:shadow-lg transition-all inline-block"
               >
                 {t('public.hero.exploreLocations')}

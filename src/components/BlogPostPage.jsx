@@ -104,67 +104,67 @@ const BlogPostPage = () => {
     // Simple markdown parsing for headers and lists
     const lines = content.split('\n');
     const elements = [];
-    
-    lines.forEach((line, index) => {
+    let index = 0;
+
+    while (index < lines.length) {
+      const line = lines[index];
       if (line.startsWith('## ')) {
         elements.push(
           <h2 key={index} className="text-2xl font-bold text-gray-900 mt-8 mb-4">
             {line.substring(3)}
           </h2>
         );
+        index++;
       } else if (line.startsWith('### ')) {
         elements.push(
           <h3 key={index} className="text-xl font-semibold text-gray-900 mt-6 mb-3">
             {line.substring(4)}
           </h3>
         );
+        index++;
       } else if (line.startsWith('- ')) {
-        // Handle list items
+        // Handle list items — consume all consecutive '- ' lines
         const nextLines = [];
-        let i = index;
-        while (i < lines.length && lines[i].startsWith('- ')) {
-          nextLines.push(lines[i].substring(2));
-          i++;
+        const startIndex = index;
+        while (index < lines.length && lines[index].startsWith('- ')) {
+          nextLines.push(lines[index].substring(2));
+          index++;
         }
-        if (nextLines.length > 0) {
-          elements.push(
-            <ul key={index} className="list-disc list-inside space-y-2 mb-4 text-gray-700">
-              {nextLines.map((item, itemIndex) => (
-                <li key={itemIndex} className="leading-relaxed">
-                  {item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').split('<strong>').map((part, partIndex) => {
-                    if (partIndex % 2 === 0) return part;
-                    const [bold, rest] = part.split('</strong>');
-                    return <><strong key={partIndex}>{bold}</strong>{rest}</>;
-                  })}
-                </li>
-              ))}
-            </ul>
-          );
-        }
+        elements.push(
+          <ul key={startIndex} className="list-disc list-inside space-y-2 mb-4 text-gray-700">
+            {nextLines.map((item, itemIndex) => (
+              <li key={itemIndex} className="leading-relaxed">
+                {item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').split('<strong>').map((part, partIndex) => {
+                  if (partIndex % 2 === 0) return part;
+                  const [bold, rest] = part.split('</strong>');
+                  return <><strong key={partIndex}>{bold}</strong>{rest}</>;
+                })}
+              </li>
+            ))}
+          </ul>
+        );
       } else if (line.match(/^\d+\. /)) {
-        // Handle numbered lists
+        // Handle numbered lists — consume all consecutive numbered lines
         const nextLines = [];
-        let i = index;
-        while (i < lines.length && lines[i].match(/^\d+\. /)) {
-          nextLines.push(lines[i].replace(/^\d+\. /, ''));
-          i++;
+        const startIndex = index;
+        while (index < lines.length && lines[index].match(/^\d+\. /)) {
+          nextLines.push(lines[index].replace(/^\d+\. /, ''));
+          index++;
         }
-        if (nextLines.length > 0) {
-          elements.push(
-            <ol key={index} className="list-decimal list-inside space-y-2 mb-4 text-gray-700">
-              {nextLines.map((item, itemIndex) => (
-                <li key={itemIndex} className="leading-relaxed">
-                  {item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').split('<strong>').map((part, partIndex) => {
-                    if (partIndex % 2 === 0) return part;
-                    const [bold, rest] = part.split('</strong>');
-                    return <><strong key={partIndex}>{bold}</strong>{rest}</>;
-                  })}
-                </li>
-              ))}
-            </ol>
-          );
-        }
-      } else if (line.trim() && !line.startsWith('#') && !line.startsWith('- ') && !line.match(/^\d+\. /)) {
+        elements.push(
+          <ol key={startIndex} className="list-decimal list-inside space-y-2 mb-4 text-gray-700">
+            {nextLines.map((item, itemIndex) => (
+              <li key={itemIndex} className="leading-relaxed">
+                {item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').split('<strong>').map((part, partIndex) => {
+                  if (partIndex % 2 === 0) return part;
+                  const [bold, rest] = part.split('</strong>');
+                  return <><strong key={partIndex}>{bold}</strong>{rest}</>;
+                })}
+              </li>
+            ))}
+          </ol>
+        );
+      } else if (line.trim() && !line.startsWith('#')) {
         elements.push(
           <p key={index} className="text-gray-700 leading-relaxed mb-4">
             {line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').split('<strong>').map((part, partIndex) => {
@@ -174,9 +174,12 @@ const BlogPostPage = () => {
             })}
           </p>
         );
+        index++;
+      } else {
+        index++;
       }
-    });
-    
+    }
+
     return elements;
   };
 

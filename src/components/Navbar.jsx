@@ -5,7 +5,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { t, lang, setLanguage } = useLanguage();
+  const { t } = useLanguage();
 
   const navigation = [
     { name: t('public.nav.properties'), href: '/properties' },
@@ -15,10 +15,6 @@ const Navbar = () => {
   ];
 
   const isActive = (path) => location.pathname === path;
-
-  const toggleLang = () => {
-    setLanguage(lang === 'en' ? 'zh' : 'en');
-  };
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-sm">
@@ -47,12 +43,6 @@ const Navbar = () => {
 
         {/* Right: Actions */}
         <div className="hidden md:flex items-center gap-4">
-          <button
-            onClick={toggleLang}
-            className="font-['Inter'] text-xs font-bold tracking-wide text-slate-500 hover:text-teal-600 px-3 py-1.5 rounded-lg border border-slate-200 hover:border-teal-300 transition-all"
-          >
-            {lang === 'en' ? '中文' : 'EN'}
-          </button>
           <Link
             to="/portal/login"
             className="font-['Plus_Jakarta_Sans'] font-bold tracking-tight text-slate-600 hover:text-teal-600 px-4 py-2 transition-all text-sm"
@@ -97,12 +87,6 @@ const Navbar = () => {
               </Link>
             ))}
             <div className="pt-4 space-y-3 border-t border-slate-100 mt-2">
-              <button
-                onClick={toggleLang}
-                className="block w-full text-center px-4 py-3 font-['Inter'] text-sm font-bold text-slate-500 rounded-xl hover:bg-slate-50 border border-slate-200"
-              >
-                {lang === 'en' ? '切换中文' : 'Switch to English'}
-              </button>
               <Link
                 to="/portal/login"
                 onClick={() => setIsOpen(false)}

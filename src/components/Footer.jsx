@@ -4,12 +4,17 @@ import { useLanguage } from '../i18n/LanguageContext';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
   const { t } = useLanguage();
 
   const handleNewsletterSubmit = (e) => {
     e.preventDefault();
-    // Future: integrate with mailing list
+    if (!email.trim()) return;
+    // Not wired to a backend yet — confirm intent locally so users know their submit registered.
+    // TODO: integrate with mailing list provider.
+    setSubscribed(true);
     setEmail('');
+    setTimeout(() => setSubscribed(false), 6000);
   };
 
   return (
@@ -25,7 +30,7 @@ const Footer = () => {
           </p>
           <div className="flex gap-4 mt-6">
             <a
-              href="https://www.instagram.com/lazybee.sg"
+              href="https://www.instagram.com/hyve.singapore"
               target="_blank"
               rel="noopener noreferrer"
               className="text-slate-400 hover:text-teal-500 transition-colors"
@@ -88,21 +93,28 @@ const Footer = () => {
         {/* Newsletter */}
         <div className="space-y-4">
           <h4 className="font-['Inter'] text-xs uppercase tracking-widest text-teal-600 font-bold">{t('public.footer.joinHyve')}</h4>
-          <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="bg-white border-none text-xs p-3 rounded-lg w-full outline-1 outline-[rgba(187,202,198,0.15)] focus:outline-[#006b5f]"
-              placeholder={t('public.contact.email')}
-            />
-            <button
-              type="submit"
-              className="bg-[#006b5f] text-white p-3 rounded-lg hover:opacity-90 transition-opacity flex-shrink-0"
-            >
-              <span className="material-symbols-outlined text-sm">arrow_forward</span>
-            </button>
-          </form>
+          {subscribed ? (
+            <p className="text-xs text-teal-600 font-['Manrope'] py-3" role="status">
+              Thanks! We&apos;ll keep you posted.
+            </p>
+          ) : (
+            <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="bg-white border-none text-xs p-3 rounded-lg w-full outline-1 outline-[rgba(187,202,198,0.15)] focus:outline-[#006b5f]"
+                placeholder={t('public.contact.email')}
+              />
+              <button
+                type="submit"
+                className="bg-[#006b5f] text-white p-3 rounded-lg hover:opacity-90 transition-opacity flex-shrink-0"
+              >
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              </button>
+            </form>
+          )}
         </div>
       </div>
 
@@ -113,7 +125,7 @@ const Footer = () => {
         </p>
         <div className="flex gap-6">
           <a
-            href="https://www.instagram.com/lazybee.sg"
+            href="https://www.instagram.com/hyve.singapore"
             target="_blank"
             rel="noopener noreferrer"
             className="text-slate-400 hover:text-[#006b5f] transition-colors"

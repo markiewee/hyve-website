@@ -42,7 +42,7 @@ const AboutPage = () => {
           description: "Singapore's leading co-living operator offering fully furnished rooms from S$950/month across Thomson, Hougang, and Bukit Batok.",
           foundingDate: "2023",
           areaServed: { "@type": "Country", name: "Singapore" },
-          sameAs: ["https://www.instagram.com/lazybee.sg"]
+          sameAs: ["https://www.instagram.com/hyve.singapore"]
         }}
       />
       {/* Hero Section */}
@@ -59,10 +59,17 @@ const AboutPage = () => {
           </p>
         </div>
         <div className="relative">
-          <div className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl">
+          <div className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl bg-[#dee9fc]">
             <img
               className="w-full h-full object-cover"
-              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&h=1200&fit=crop&q=80"
+              src="/hero_coliving_interior.jpg"
+              onError={(e) => {
+                if (e.currentTarget.dataset.fallbackUsed !== '1') {
+                  e.currentTarget.dataset.fallbackUsed = '1';
+                  e.currentTarget.src =
+                    'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&h=1200&fit=crop&q=80';
+                }
+              }}
               alt="Modern architectural coliving space"
               loading="lazy"
             />
@@ -86,7 +93,7 @@ const AboutPage = () => {
                 Founded in 2023, Hyve was born from a simple observation: young professionals and students in Singapore were seeking connection, not just square footage.
               </p>
               <p>
-                Our journey began with a small team sketching a model for living that balanced private sanctuary with vibrant shared ecosystems. Today, we operate 3 properties across Singapore&apos;s most vibrant neighborhoods, housing over 100 residents from 15+ nationalities.
+                Our journey began with a small team sketching a model for living that balanced private sanctuary with vibrant shared ecosystems. Today, we operate 3 properties across Singapore&apos;s most vibrant neighborhoods, home to 16 residents and growing, from multiple nationalities.
               </p>
               <p>
                 Everything is designed to foster connection while respecting personal space. From sun-drenched common areas to private, well-appointed rooms, Hyve isn&apos;t just a place to stay &mdash; it&apos;s a curated lifestyle for the modern professional.
@@ -144,18 +151,21 @@ const AboutPage = () => {
           <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
             {team.map((member, index) => (
               <div key={index} className="flex flex-col items-center text-center">
-                <div className="w-48 h-48 rounded-[2rem] overflow-hidden bg-slate-200 mb-6">
-                  {member.photo ? (
+                <div className="w-48 h-48 rounded-[2rem] overflow-hidden bg-teal-100 mb-6 relative">
+                  {/* Initials rendered behind the image; becomes visible if the image fails to load */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-3xl font-bold text-teal-600">
+                      {member.name.split(' ').map(n => n[0]).join('')}
+                    </span>
+                  </div>
+                  {member.photo && (
                     <img
-                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                      className="relative w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
                       src={member.photo}
                       alt={member.name}
                       loading="lazy"
+                      onError={(e) => { e.currentTarget.style.display = 'none'; }}
                     />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-teal-100">
-                      <span className="text-3xl font-bold text-teal-600">{member.name.split(' ').map(n => n[0]).join('')}</span>
-                    </div>
                   )}
                 </div>
                 <span className="font-['Inter'] text-xs font-bold text-[#006b5f] uppercase tracking-widest block mb-2">
@@ -173,12 +183,11 @@ const AboutPage = () => {
 
       {/* Stats */}
       <section className="py-20 px-6 md:px-8 bg-[#f8f9ff]">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-8 text-center">
           {[
-            { number: '100+', label: 'Happy Residents' },
+            { number: '16', label: 'Residents and growing' },
             { number: '3', label: 'Properties' },
-            { number: '15+', label: 'Nationalities' },
-            { number: '4.9', label: 'Average Rating' }
+            { number: 'Multiple', label: 'Nationalities' }
           ].map((stat, index) => (
             <div key={index}>
               <div className="text-4xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f] mb-2">{stat.number}</div>

@@ -3,6 +3,11 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { client, QUERIES, urlFor } from '../lib/sanity';
 import ApiService from '../services/api';
 import SEO from './SEO';
+import {
+  HYVE_FALLBACK_PROPERTIES,
+  HYVE_FALLBACK_ROOMS,
+  HYVE_FALLBACK_HERO_IMAGE,
+} from '../data/hyveFallback';
 
 const PropertyDetailPage = () => {
   const { id } = useParams();
@@ -45,6 +50,12 @@ const PropertyDetailPage = () => {
         if (sanityProperty) {
           setProperty(sanityProperty);
           setPropertyRooms(sanityRooms);
+        } else if (HYVE_FALLBACK_PROPERTIES[id]) {
+          // Known Hyve property missing from Sanity — use hardcoded fallback
+          // so the page never renders blank.
+          console.warn(`Property "${id}" not found in Sanity — using hardcoded fallback.`);
+          setProperty(HYVE_FALLBACK_PROPERTIES[id]);
+          setPropertyRooms(HYVE_FALLBACK_ROOMS[id] || []);
         } else {
           try {
             const [propertyData, roomsData] = await Promise.all([
@@ -68,6 +79,11 @@ const PropertyDetailPage = () => {
         }
       } catch (error) {
         console.error('Error fetching property data:', error);
+        // Last-resort fallback for known Hyve slugs so the page never blanks.
+        if (HYVE_FALLBACK_PROPERTIES[id]) {
+          setProperty(HYVE_FALLBACK_PROPERTIES[id]);
+          setPropertyRooms(HYVE_FALLBACK_ROOMS[id] || []);
+        }
       } finally {
         setLoading(false);
       }
@@ -92,21 +108,38 @@ const PropertyDetailPage = () => {
     }
   };
 
+  const slugKey = property?.slug?.current || id;
+  const localHero = HYVE_FALLBACK_HERO_IMAGE[slugKey];
+  const GENERIC_HERO_FALLBACK =
+    'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=800&fit=crop&q=80';
+  const GENERIC_ROOM_FALLBACK =
+    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop&q=80';
+
+  const safeUrlFor = (img, w, h) => {
+    try {
+      return urlFor(img).width(w).height(h).url();
+    } catch (err) {
+      console.warn('urlFor failed:', err);
+      return null;
+    }
+  };
+
   const getCurrentImageSrc = () => {
-    if (!property?.images?.length) return 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=800&fit=crop&q=80';
+    if (!property?.images?.length) return localHero || GENERIC_HERO_FALLBACK;
     const currentImage = property.images[currentImageIndex];
     if (currentImage?.image) {
-      return urlFor(currentImage.image).width(1200).height(800).url();
+      return safeUrlFor(currentImage.image, 1200, 800) || localHero || GENERIC_HERO_FALLBACK;
     }
-    return `/${currentImage}`;
+    if (typeof currentImage === 'string') return `/${currentImage}`;
+    return localHero || GENERIC_HERO_FALLBACK;
   };
 
   const getRoomImageSrc = (room) => {
-    if (room.images?.[0]?.image) {
-      return urlFor(room.images[0].image).width(800).height(600).url();
+    if (room?.images?.[0]?.image) {
+      return safeUrlFor(room.images[0].image, 800, 600) || localHero || GENERIC_ROOM_FALLBACK;
     }
-    if (room.images?.[0]) return `/${room.images[0]}`;
-    return 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop&q=80';
+    if (typeof room?.images?.[0] === 'string') return `/${room.images[0]}`;
+    return localHero || GENERIC_ROOM_FALLBACK;
   };
 
   const formatAvailableDate = (dateString) => {
@@ -239,7 +272,7 @@ ${requestFormData.message || 'No additional message provided'}
         description={property?.description?.slice(0, 155)}
         canonical={`/property/${property?._id}`}
         type="article"
-        ogImage={property?.images?.[0]?.image ? urlFor(property.images[0].image).width(1200).height(630).url() : undefined}
+        ogImage={property?.images?.[0]?.image ? (safeUrlFor(property.images[0].image, 1200, 630) || undefined) : undefined}
         schema={property ? {
           "@context": "https://schema.org",
           "@type": "Apartment",
@@ -349,7 +382,7 @@ ${requestFormData.message || 'No additional message provided'}
               >
                 <img
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                  src={property.images[1]?.image ? urlFor(property.images[1].image).width(600).height(400).url() : `/${property.images[1]}`}
+                  src={property.images[1]?.image ? (safeUrlFor(property.images[1].image, 600, 400) || localHero || GENERIC_HERO_FALLBACK) : (typeof property.images[1] === 'string' ? `/${property.images[1]}` : (localHero || GENERIC_HERO_FALLBACK))}
                   alt={property.images[1]?.alt || `${property.name} photo 2`}
                   loading="lazy"
                 />
@@ -362,7 +395,7 @@ ${requestFormData.message || 'No additional message provided'}
               >
                 <img
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                  src={property.images[2]?.image ? urlFor(property.images[2].image).width(600).height(400).url() : `/${property.images[2]}`}
+                  src={property.images[2]?.image ? (safeUrlFor(property.images[2].image, 600, 400) || localHero || GENERIC_HERO_FALLBACK) : (typeof property.images[2] === 'string' ? `/${property.images[2]}` : (localHero || GENERIC_HERO_FALLBACK))}
                   alt={property.images[2]?.alt || `${property.name} photo 3`}
                   loading="lazy"
                 />
@@ -537,10 +570,15 @@ ${requestFormData.message || 'No additional message provided'}
                             <div>
                               <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-lg">{room.roomNumber}</h4>
                               <p className="text-[#3c4947] text-sm">{room.roomType}</p>
-                              {room.availableFrom && (
+                              {room.availableFrom ? (
                                 <p className="text-xs font-['Inter'] font-semibold text-[#b8860b] mt-1 flex items-center gap-1">
                                   <span className="material-symbols-outlined text-xs">event_available</span>
                                   Available {formatAvailableDate(room.availableFrom)}
+                                </p>
+                              ) : (
+                                <p className="text-xs font-['Inter'] font-semibold text-[#8a6d3b] mt-1 flex items-center gap-1">
+                                  <span className="material-symbols-outlined text-xs">do_not_disturb_on</span>
+                                  Currently Occupied
                                 </p>
                               )}
                             </div>
@@ -549,12 +587,18 @@ ${requestFormData.message || 'No additional message provided'}
                             <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
                               ${room.priceMonthly}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
                             </p>
-                            <button
-                              onClick={() => handleRoomRequest(room)}
-                              className="bg-[#006b5f] text-white px-5 py-2 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#006b5f]/90 transition-colors"
-                            >
-                              Book Viewing
-                            </button>
+                            {room.availableFrom ? (
+                              <button
+                                onClick={() => handleRoomRequest(room)}
+                                className="bg-[#006b5f] text-white px-5 py-2 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#006b5f]/90 transition-colors"
+                              >
+                                Join Waitlist
+                              </button>
+                            ) : (
+                              <span className="bg-slate-200 text-slate-500 px-5 py-2 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest">
+                                Unavailable
+                              </span>
+                            )}
                           </div>
                         </div>
                       ))}
