@@ -343,6 +343,12 @@ ${requestFormData.message || 'No additional message provided'}
                 src={getCurrentImageSrc()}
                 alt={property.name}
                 loading="lazy"
+                onError={(e) => {
+                  if (e.currentTarget.dataset.fallbackUsed !== '1') {
+                    e.currentTarget.dataset.fallbackUsed = '1';
+                    e.currentTarget.src = localHero || GENERIC_HERO_FALLBACK;
+                  }
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
               <div className="absolute bottom-8 left-8">
