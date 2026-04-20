@@ -82,6 +82,10 @@ export default function MemberSettingsPage() {
 
   async function handleChangePassword(e) {
     e.preventDefault();
+    if (!currentPassword) {
+      toast.error("Please enter your current password.");
+      return;
+    }
     if (newPassword.length < 8) {
       toast.error("Password must be at least 8 characters.");
       return;
@@ -92,6 +96,16 @@ export default function MemberSettingsPage() {
     }
     setPwSaving(true);
     try {
+      // Verify current password before allowing change
+      const { error: verifyErr } = await supabase.auth.signInWithPassword({
+        email: user.email,
+        password: currentPassword,
+      });
+      if (verifyErr) {
+        toast.error("Current password is incorrect.");
+        setPwSaving(false);
+        return;
+      }
       const { error } = await supabase.auth.updateUser({ password: newPassword });
       if (error) throw error;
       toast.success("Password updated successfully.");
@@ -235,6 +249,16 @@ export default function MemberSettingsPage() {
           </h2>
           <form onSubmit={handleChangePassword} className="space-y-4">
             <div className="space-y-1.5">
+              <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Current Password</label>
+              <input
+                type="password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                placeholder="Enter current password"
+                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+              />
+            </div>
+            <div className="space-y-1.5">
               <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">New Password</label>
               <input
                 type="password"
@@ -257,7 +281,7 @@ export default function MemberSettingsPage() {
             </div>
             <button
               type="submit"
-              disabled={pwSaving || !newPassword}
+              disabled={pwSaving || !currentPassword || !newPassword}
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-50"
             >
               {pwSaving ? "Updating..." : "Change Password"}
