@@ -102,7 +102,7 @@ const FAQsPage = () => {
         },
         {
           question: 'Who handles the transfer?',
-          answer: [{ _type: 'block', children: [{ text: 'The outgoing tenant is responsible for the transfer process — this must be done by the tenant themselves and not delegated to Hyve. This includes sourcing a suitable replacement, introducing them to Hyve, answering their queries, having them review and agree to the Transfer of Tenancy Agreement, coordinating the handover, and ensuring the room is in good condition. Hyve only handles: issuing the updated licence to the incoming tenant, and processing the deposit refund once the transfer is complete.' }]}]
+          answer: [{ _type: 'block', children: [{ text: 'The outgoing tenant is responsible for the transfer process — this must be done by the tenant themselves and not delegated to Hyve. This includes sourcing a suitable replacement, introducing them to Hyve, answering their queries, having them review and agree to the Transfer of Tenancy Agreement (sample available at lazybee.sg/docs/transfer-of-tenancy-sample.html), coordinating the handover, and ensuring the room is in good condition. Hyve only handles: issuing the updated licence to the incoming tenant, and processing the deposit refund once the transfer is complete.' }]}]
         },
         {
           question: 'What are the terms for the new tenant?',
