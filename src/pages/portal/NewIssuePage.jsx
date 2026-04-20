@@ -150,7 +150,7 @@ export default function NewIssuePage() {
         </p>
       </div>
 
-      <div className="max-w-2xl">
+      <div className="max-w-2xl pb-28">
         {/* Phase 1: Select Category */}
         {phase === "select" && (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">

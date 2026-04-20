@@ -39,11 +39,11 @@ function TaskCard({ task, onUpdate, onDelete }) {
     <div className={`bg-white rounded-xl border ${isOverdue ? "border-red-300" : "border-[#bbcac6]/20"} p-5 hover:shadow-md transition-shadow`}>
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${cat.bg} ${cat.text} border ${cat.border}`}>
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
+            <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider whitespace-nowrap shrink-0 ${cat.bg} ${cat.text} border ${cat.border}`}>
               {task.category.replace("_", " ")}
             </span>
-            <span className={`text-xs font-semibold ${PRIORITY_COLORS[task.priority]}`}>
+            <span className={`text-xs font-semibold whitespace-nowrap shrink-0 ${PRIORITY_COLORS[task.priority]}`}>
               {task.priority === "URGENT" ? "🔴" : task.priority === "HIGH" ? "🟠" : task.priority === "MEDIUM" ? "🟡" : "⚪"} {task.priority}
             </span>
           </div>
@@ -56,7 +56,7 @@ function TaskCard({ task, onUpdate, onDelete }) {
               if (!confirm(`Are you sure you want to change status to ${e.target.value.replace("_", " ")}?`)) return;
               onUpdate(task.id, { status: e.target.value, completed_at: e.target.value === "COMPLETED" ? new Date().toISOString() : null });
             }}
-            className="text-xs bg-transparent border border-[#bbcac6]/30 rounded-lg px-2 py-1 font-['Inter'] text-[#6c7a77] focus:ring-1 focus:ring-[#006b5f] outline-none"
+            className="text-xs bg-transparent border border-[#bbcac6]/30 rounded-lg px-2 py-1 font-['Inter'] text-[#6c7a77] focus:ring-1 focus:ring-[#006b5f] outline-none whitespace-nowrap"
           >
             {STATUSES.map((s) => (
               <option key={s} value={s}>{s.replace("_", " ")}</option>
@@ -256,7 +256,7 @@ export default function AdminTasksPage() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {[
             { label: "Active", value: counts.active, icon: "pending_actions", color: "text-[#006b5f]" },
             { label: "Overdue", value: counts.overdue, icon: "warning", color: "text-red-500" },
