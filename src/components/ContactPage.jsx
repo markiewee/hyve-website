@@ -62,14 +62,14 @@ ${formData.message}`;
     <div className="min-h-screen bg-[#f8f9ff] pt-24">
       <SEO
         title="Contact Hyve"
-        description="Get in touch with Hyve co-living. WhatsApp us at +65 8088 5410, email hello@lazybee.sg, or schedule a property viewing today."
+        description="Get in touch with Hyve co-living. WhatsApp us at +65 8088 5410, email hello@hyve.sg, or schedule a property viewing today."
         canonical="/contact"
         schema={{
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           name: "Hyve Co-living",
           telephone: "+6580885410",
-          email: "hello@lazybee.sg",
+          email: "hello@hyve.sg",
           url: "https://www.lazybee.sg",
           address: { "@type": "PostalAddress", addressCountry: "SG", addressLocality: "Singapore" },
           openingHoursSpecification: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], opens: "00:00", closes: "23:59" }
@@ -218,7 +218,7 @@ ${formData.message}`;
                   </div>
                 </a>
                 <a
-                  href="mailto:hello@lazybee.sg"
+                  href="mailto:hello@hyve.sg"
                   className="flex items-start gap-4 p-3 rounded-xl hover:bg-[#eff4ff] transition-colors"
                 >
                   <div className="w-10 h-10 bg-[#14b8a6]/20 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -226,7 +226,7 @@ ${formData.message}`;
                   </div>
                   <div>
                     <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">{t('public.contact.email')}</h4>
-                    <p className="text-sm text-[#3c4947]">hello@lazybee.sg</p>
+                    <p className="text-sm text-[#3c4947]">hello@hyve.sg</p>
                   </div>
                 </a>
               </div>

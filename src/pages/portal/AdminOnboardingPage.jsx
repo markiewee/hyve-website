@@ -788,8 +788,10 @@ export default function AdminOnboardingPage() {
           <p className="text-[#6c7a77] font-['Manrope'] text-sm">No onboarding records found.</p>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
-          <table className="w-full">
+        <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm relative">
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10 sm:hidden rounded-r-2xl"></div>
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[600px]">
             <thead className="bg-[#eff4ff]">
               <tr>
                 <th className="text-left px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
@@ -918,6 +920,7 @@ export default function AdminOnboardingPage() {
               })}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </PortalLayout>

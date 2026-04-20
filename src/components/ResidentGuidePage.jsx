@@ -202,7 +202,7 @@ const sections = [
         <li><strong>Tenant portal:</strong> <a href="https://lazybee.sg/portal" className="text-blue-600 underline">lazybee.sg/portal</a></li>
         <li><strong>Public FAQs:</strong> <a href="/faqs" className="text-blue-600 underline">lazybee.sg/faqs</a></li>
         <li><strong>Transfer sample agreement:</strong> <a href="/docs/transfer-of-tenancy-sample.html" className="text-blue-600 underline" target="_blank" rel="noreferrer">lazybee.sg/docs/transfer-of-tenancy-sample.html</a></li>
-        <li><strong>Email:</strong> <a href="mailto:admin@lazybee.sg" className="text-blue-600 underline">admin@lazybee.sg</a></li>
+        <li><strong>Email:</strong> <a href="mailto:hello@hyve.sg" className="text-blue-600 underline">hello@hyve.sg</a></li>
         <li><strong>WhatsApp:</strong> your house group, or message Hyve directly</li>
       </ul>
     )
@@ -240,7 +240,7 @@ const ResidentGuidePage = () => {
         </div>
 
         <div className="mt-8 text-center text-sm text-gray-500">
-          Questions? Email <a href="mailto:admin@lazybee.sg" className="text-blue-600 underline">admin@lazybee.sg</a>
+          Questions? Email <a href="mailto:hello@hyve.sg" className="text-blue-600 underline">hello@hyve.sg</a>
         </div>
       </div>
     </div>

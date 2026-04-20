@@ -37,7 +37,7 @@ const AboutPage = () => {
           name: "Hyve",
           legalName: "Makery Pte. Ltd.",
           url: "https://www.lazybee.sg",
-          email: "hello@lazybee.sg",
+          email: "hello@hyve.sg",
           telephone: "+6580885410",
           description: "Singapore's leading co-living operator offering fully furnished rooms from S$950/month across Thomson, Hougang, and Bukit Batok.",
           foundingDate: "2023",

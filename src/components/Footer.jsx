@@ -38,7 +38,7 @@ const Footer = () => {
               <span className="material-symbols-outlined">public</span>
             </a>
             <a
-              href="mailto:hello@lazybee.sg"
+              href="mailto:hello@hyve.sg"
               className="text-slate-400 hover:text-teal-500 transition-colors"
             >
               <span className="material-symbols-outlined">alternate_email</span>
@@ -133,7 +133,7 @@ const Footer = () => {
             <span className="material-symbols-outlined">public</span>
           </a>
           <a
-            href="mailto:hello@lazybee.sg"
+            href="mailto:hello@hyve.sg"
             className="text-slate-400 hover:text-[#006b5f] transition-colors"
           >
             <span className="material-symbols-outlined">alternate_email</span>

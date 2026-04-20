@@ -292,11 +292,11 @@ export default function HelpPage() {
             WhatsApp +65 8088 5410
           </a>
           <a
-            href="mailto:hello@lazybee.sg"
+            href="mailto:hello@hyve.sg"
             className="inline-flex items-center gap-2 bg-white text-[#006b5f] border border-[#006b5f]/20 px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#f8f9ff] transition-all"
           >
             <span className="material-symbols-outlined text-[18px]">mail</span>
-            hello@lazybee.sg
+            hello@hyve.sg
           </a>
         </div>
       </div>

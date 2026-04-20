@@ -582,7 +582,8 @@ export default function AdminRentPage() {
       </div>
 
       {/* Rent Payment Table */}
-      <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden relative">
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10 sm:hidden rounded-r-2xl"></div>
         <div className="px-8 py-6 border-b border-[#bbcac6]/15">
           <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a]">
             All Rent Payments
