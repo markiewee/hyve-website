@@ -123,6 +123,7 @@ export default function AdminExpensesPage() {
   }
 
   async function handleDelete(id) {
+    if (!window.confirm("Are you sure?")) return;
     const { error } = await supabase
       .from("property_expenses")
       .delete()

@@ -74,6 +74,7 @@ export default function AdminAnnouncementsPage() {
   }, []);
 
   async function handleDeactivate(id) {
+    if (!window.confirm("Are you sure?")) return;
     const { error } = await supabase
       .from("announcements")
       .update({ is_active: false })

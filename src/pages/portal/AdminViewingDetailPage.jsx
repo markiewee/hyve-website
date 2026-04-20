@@ -175,6 +175,7 @@ export default function AdminViewingDetailPage() {
   }
 
   async function handleResendPoll() {
+    if (!window.confirm("This will delete all existing poll responses. Continue?")) return;
     if (!poll) return;
 
     const newProspectToken = generateToken();
@@ -212,6 +213,7 @@ export default function AdminViewingDetailPage() {
   }
 
   async function handleCancel() {
+    if (!window.confirm("Are you sure?")) return;
     const { error: vErr } = await supabase
       .from("property_viewings")
       .update({ status: "CANCELLED", updated_at: new Date().toISOString() })
