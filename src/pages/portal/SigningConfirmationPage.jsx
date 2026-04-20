@@ -39,14 +39,13 @@ export default function SigningConfirmationPage() {
           setSignedAt(onboarding.ta_signed_at ?? new Date().toISOString());
           setOnboardingId(onboarding.id);
         } else {
-          // Fallback: query directly
-          const { data: { user } } = await supabase.auth.getUser();
-          if (!user) return;
+          // Fallback: query directly using tenant_profile_id
+          if (!profile?.id) return;
 
           const { data } = await supabase
             .from("onboarding_progress")
             .select("id, ta_signed_at, ta_signed_url")
-            .eq("user_id", user.id)
+            .eq("tenant_profile_id", profile.id)
             .single();
 
           if (data) {

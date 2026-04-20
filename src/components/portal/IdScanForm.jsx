@@ -162,11 +162,13 @@ export default function IdScanForm({ onboarding, advanceStep }) {
 
     if (uploadError) throw uploadError;
 
-    const { data } = supabase.storage
+    const { data, error: signedUrlError } = await supabase.storage
       .from("tenant-documents")
-      .getPublicUrl(path);
+      .createSignedUrl(path, 3600);
 
-    return data.publicUrl;
+    if (signedUrlError) throw signedUrlError;
+
+    return data.signedUrl;
   }
 
   // Check if pass is expiring within 3 months

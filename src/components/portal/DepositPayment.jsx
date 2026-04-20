@@ -22,6 +22,7 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
   const [bankSubmitting, setBankSubmitting] = useState(false);
   const [stripeLoading, setStripeLoading] = useState(false);
   const [error, setError] = useState(null);
+  const advancedRef = useRef(false);
 
   const depositAmount = onboarding?.deposit_amount ?? 0;
   const stripeFee = Math.round(depositAmount * 0.04 * 100) / 100;
@@ -35,9 +36,10 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
     }
   }, [location.search, refetch]);
 
-  // Auto-advance if deposit already verified
+  // Auto-advance if deposit already verified (guarded against re-mount)
   useEffect(() => {
-    if (onboarding?.deposit_verified) {
+    if (onboarding?.deposit_verified && !advancedRef.current) {
+      advancedRef.current = true;
       advanceStep("deposit_paid_at").catch(console.error);
     }
   }, [onboarding?.deposit_verified]);
@@ -95,9 +97,13 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
     setStripeLoading(true);
     setError(null);
     try {
+      const { data: { session } } = await supabase.auth.getSession();
       const res = await fetch("/api/portal/deposit-checkout", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
+        },
         body: JSON.stringify({ onboarding_id: onboarding.id }),
       });
 
@@ -106,8 +112,8 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
         throw new Error(body.error ?? "Failed to create checkout session");
       }
 
-      const { url } = await res.json();
-      window.location.href = url;
+      const { checkout_url } = await res.json();
+      window.location.href = checkout_url;
     } catch (err) {
       console.error("Stripe checkout failed:", err);
       setError(err.message ?? "Something went wrong. Please try again.");

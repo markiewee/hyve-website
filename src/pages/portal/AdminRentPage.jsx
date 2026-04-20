@@ -4,6 +4,7 @@ import { aspire } from "../../lib/aspire";
 import PortalLayout from "../../components/portal/PortalLayout";
 
 function formatMonth(monthStr) {
+  if (!monthStr) return "\u2014";
   const [year, month] = monthStr.split("-");
   const date = new Date(Number(year), Number(month) - 1, 1);
   return date.toLocaleDateString("en-SG", { month: "long", year: "numeric" });
