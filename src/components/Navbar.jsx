@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '../i18n/LanguageContext';
 
@@ -6,6 +6,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { t } = useLanguage();
+
+  useEffect(() => { setIsOpen(false); }, [location.pathname]);
 
   const navigation = [
     { name: t('public.nav.properties'), href: '/properties' },

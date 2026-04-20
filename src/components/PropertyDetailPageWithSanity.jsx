@@ -302,35 +302,6 @@ ${requestFormData.message || 'No additional message provided'}
         } : undefined}
       />
 
-      {property && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Apartment",
-          "name": `${property.name} — Hyve Coliving`,
-          "description": property.description,
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": property.address,
-            "addressLocality": property.neighborhood?.name,
-            "addressCountry": "SG"
-          },
-          "numberOfRooms": property.totalRooms,
-          "amenityFeature": (property.amenities || []).map(a => ({
-            "@type": "LocationFeatureSpecification",
-            "name": a,
-            "value": true
-          })),
-          "offers": {
-            "@type": "AggregateOffer",
-            "lowPrice": property.startingPrice,
-            "priceCurrency": "SGD",
-            "unitText": "MONTH",
-            "availability": property.availableRooms > 0
-              ? "https://schema.org/InStock"
-              : "https://schema.org/OutOfStock"
-          }
-        })}} />
-      )}
 
       <div className="min-h-screen bg-[#f8f9ff] pt-20">
         {/* Hero Gallery */}

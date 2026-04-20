@@ -186,19 +186,6 @@ const LocationsPage = () => {
             }}
           />
 
-          {/* Search overlay */}
-          <div className="absolute top-6 left-6 right-6 md:right-auto md:w-[400px] z-10">
-            <div className="relative group">
-              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                <span className="material-symbols-outlined text-[#6c7a77]">search</span>
-              </div>
-              <input
-                className="w-full bg-white/90 backdrop-blur-md border-none rounded-2xl py-4 pl-12 pr-4 shadow-xl text-[#121c2a] focus:ring-2 focus:ring-[#006b5f] transition-all font-['Manrope']"
-                placeholder="Search by district or MRT..."
-                type="text"
-              />
-            </div>
-          </div>
         </section>
       </div>
 

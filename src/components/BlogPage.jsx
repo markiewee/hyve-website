@@ -160,6 +160,7 @@ const BlogPage = () => {
                       src={featuredPost.featuredImage}
                       alt={featuredPost.title}
                       loading="lazy"
+                      onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-blog.jpg'; }}
                     />
                     <div className="absolute top-6 left-6">
                       <span className="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-['Inter'] font-bold text-[#006b5f] shadow-sm uppercase tracking-widest">
@@ -192,6 +193,7 @@ const BlogPage = () => {
                       src={sidebarPost.featuredImage}
                       alt={sidebarPost.title}
                       loading="lazy"
+                      onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-blog.jpg'; }}
                     />
                     <div className="absolute top-4 left-4">
                       <span className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-['Inter'] font-bold text-[#006b5f] shadow-sm uppercase tracking-widest">
@@ -221,6 +223,7 @@ const BlogPage = () => {
                       src={post.featuredImage}
                       alt={post.title}
                       loading="lazy"
+                      onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-blog.jpg'; }}
                     />
                     <div className="absolute top-4 left-4">
                       <span className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-['Inter'] font-bold text-[#006b5f] shadow-sm uppercase tracking-widest">
