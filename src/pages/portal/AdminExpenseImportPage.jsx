@@ -348,7 +348,7 @@ export default function AdminExpenseImportPage() {
         month: monthDate,
         category,
         description: txn.description,
-        amount: -absAmount,
+        amount: absAmount,
         is_recurring: false,
       });
       if (expenseErr) throw expenseErr;
