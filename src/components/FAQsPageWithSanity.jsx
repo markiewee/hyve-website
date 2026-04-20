@@ -91,6 +91,98 @@ const FAQsPage = () => {
           answer: [{ _type: 'block', children: [{ text: 'You have two options: (1) Obtain it yourself from IRAS (Inland Revenue Authority of Singapore) — you can do this online via the IRAS e-Stamping portal. (2) Request it from us — we\'ll handle the process for you, but please allow 2-3 working days. The stamping certificate is required by most condo managements in Singapore as proof that stamp duty has been paid on your tenancy.' }]}]
         }
       ]
+    },
+    {
+      id: 'transfer-of-tenancy',
+      sectionTitle: 'Transfer of Tenancy',
+      questions: [
+        {
+          question: 'What is a licence transfer?',
+          answer: [{ _type: 'block', children: [{ text: 'A licence transfer is when an existing tenant passes their remaining lease term to a new tenant. Instead of ending the lease early and forfeiting the deposit, the current tenant finds a replacement who takes over the room on the existing terms.' }]}]
+        },
+        {
+          question: 'Who handles the transfer?',
+          answer: [{ _type: 'block', children: [{ text: 'The outgoing tenant is responsible for the transfer process — this must be done by the tenant themselves and not delegated to Hyve. This includes sourcing a suitable replacement, introducing them to Hyve, answering their queries, having them review and agree to the Transfer of Tenancy Agreement, coordinating the handover, and ensuring the room is in good condition. Hyve only handles: issuing the updated licence to the incoming tenant, and processing the deposit refund once the transfer is complete.' }]}]
+        },
+        {
+          question: 'What are the terms for the new tenant?',
+          answer: [{ _type: 'block', children: [{ text: 'The incoming tenant inherits the outgoing tenant\'s existing licence — same rent, same deposit, same remaining term, and all associated liabilities. There is no renegotiation at transfer. The new tenant takes on the remaining lease term, existing liabilities, and responsibility for the room from the takeover date.' }]}]
+        },
+        {
+          question: 'When do I get my deposit back?',
+          answer: [{ _type: 'block', children: [{ text: 'Your deposit is refunded once the new tenant (1) signs the licence agreement, (2) pays their deposit and first month\'s rent, and (3) officially moves in. Refunds are processed within 7 working days of all three conditions being met.' }]}]
+        },
+        {
+          question: 'What gets deducted from my deposit?',
+          answer: [{ _type: 'block', children: [{ text: 'Unpaid rent or utilities up to the takeover date, damage beyond normal wear and tear, missing inventory (furniture, keys, access cards), and cleaning fees if deep cleaning is required.' }]}]
+        },
+        {
+          question: 'What if the new tenant I found chooses a different Hyve unit?',
+          answer: [{ _type: 'block', children: [{ text: 'Your transfer is not completed and your deposit is not yet refundable. You\'ll need to continue sourcing a replacement for your original room. However, you still earn our $100 SGD referral bonus for bringing them to Hyve.' }]}]
+        },
+        {
+          question: 'What if I found someone but they\'re moving in later than my exit date?',
+          answer: [{ _type: 'block', children: [{ text: 'You remain on the hook for the rent until the new tenant\'s takeover date. The licence is still active in your name until the transfer is executed, so unpaid rent during that gap period is your responsibility.' }]}]
+        },
+        {
+          question: 'What if I can\'t find a replacement?',
+          answer: [{ _type: 'block', children: [{ text: 'Your deposit is forfeited as per the early termination clause. You remain liable for rent until the room is re-let or until your lease naturally ends, whichever is earlier. Hyve will begin marketing the room through our own channels.' }]}]
+        },
+        {
+          question: 'Can I transfer to anyone?',
+          answer: [{ _type: 'block', children: [{ text: 'The incoming tenant must pass Hyve\'s standard screening (employment, references, ID), commit to at least the remaining term, agree to house rules, and be compatible with existing housemates. Hyve has final approval.' }]}]
+        },
+        {
+          question: 'How does the referral bonus work?',
+          answer: [{ _type: 'block', children: [{ text: 'Refer someone who signs a licence with Hyve (any unit, any property) → $100 SGD after they complete their first month. Applies whether or not they take over your specific room.' }]}]
+        },
+        {
+          question: 'Can my friend just replace me unofficially?',
+          answer: [{ _type: 'block', children: [{ text: 'No. All transfers must go through Hyve\'s process. Unauthorised subletting is grounds for immediate termination.' }]}]
+        }
+      ]
+    },
+    {
+      id: 'issues-maintenance',
+      sectionTitle: 'Issues & Maintenance',
+      questions: [
+        {
+          question: 'How do I report an issue or maintenance request?',
+          answer: [{ _type: 'block', children: [{ text: 'Please follow this escalation path: (1) First, check the FAQs and documentation to see if it can be self-resolved. (2) If not, raise it with your house captain — they handle day-to-day issues and can often resolve things on the spot. (3) If the house captain can\'t resolve it, escalate to Hyve via the tenant portal at lazybee.sg/portal under the Maintenance tab, or WhatsApp us. Following this path keeps things moving fast and avoids bottlenecks.' }]}]
+        },
+        {
+          question: 'Who is my house captain?',
+          answer: [{ _type: 'block', children: [{ text: 'Each Hyve property has a designated house captain — usually a long-term tenant who knows the property inside out. They handle minor maintenance, coordinate shared-space matters, and are your first point of contact for most issues. Your house captain\'s contact will be shared when you move in.' }]}]
+        },
+        {
+          question: 'How quickly will my issue be resolved?',
+          answer: [{ _type: 'block', children: [{ text: 'Urgent issues (safety, major leaks, no power/water) are addressed within 24 hours. Standard maintenance (appliance repairs, leaks, broken fixtures) is handled within 3-5 working days. Cosmetic issues are batched into a monthly maintenance sweep.' }]}]
+        },
+        {
+          question: 'What counts as an urgent issue?',
+          answer: [{ _type: 'block', children: [{ text: 'Urgent: water leaks affecting the unit, complete power outage, no water supply, gas leaks, broken locks, flooding, fire, or anything causing a safety risk. For these, call or WhatsApp us directly — do not just submit via portal.' }]}]
+        },
+        {
+          question: 'Who pays for repairs?',
+          answer: [{ _type: 'block', children: [{ text: 'Hyve covers repairs caused by normal wear and tear, appliance failures, and landlord-responsibility items. Tenants are responsible for repairs caused by misuse, negligence, or damage beyond normal use. Costs for tenant-caused damage will be deducted from your deposit.' }]}]
+        },
+        {
+          question: 'What if my housemates are the problem?',
+          answer: [{ _type: 'block', children: [{ text: 'For issues involving housemates (noise, cleanliness, shared-space disputes), first try to resolve it directly and respectfully. If that doesn\'t work, message your house captain or Hyve directly. We mediate and, in serious cases, can enforce house rules.' }]}]
+        },
+        {
+          question: 'How do I report a pest issue?',
+          answer: [{ _type: 'block', children: [{ text: 'Report pest issues (ants, cockroaches, rodents, bed bugs) immediately via WhatsApp with photos. We\'ll arrange pest control. Prevention is a shared responsibility — please wash dishes promptly, dispose of food properly, and don\'t leave food out in shared spaces.' }]}]
+        },
+        {
+          question: 'What if I\'m locked out?',
+          answer: [{ _type: 'block', children: [{ text: 'Most of our properties are moving to digital/fingerprint locks which eliminates lockouts. If your unit still has a physical key and you\'re locked out, WhatsApp us — we keep spare keys. After-hours call-outs may incur a service fee.' }]}]
+        },
+        {
+          question: 'Can I do small repairs myself?',
+          answer: [{ _type: 'block', children: [{ text: 'For minor fixes (changing light bulbs, replacing batteries), feel free. For anything involving plumbing, electrical, appliances, or structural work — please raise a ticket. Unauthorised repairs that cause damage will be charged to you.' }]}]
+        }
+      ]
     }
   ];
 
