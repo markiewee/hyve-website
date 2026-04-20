@@ -97,7 +97,7 @@ ${formData.message}`;
                 {t('public.contact.sendMessage')}
               </h2>
               <p className="text-[#3c4947] text-sm mb-8 font-['Manrope']">
-                Fill out the form below and we&apos;ll get back to you within 24 hours
+                Fill out the form below and we&apos;ll get back to you within a few hours
               </p>
 
               {isSubmitted ? (
@@ -241,11 +241,11 @@ ${formData.message}`;
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between items-center">
                   <span className="text-[#3c4947]">{t('public.contact.whatsapp')}</span>
-                  <span className="font-['Inter'] font-semibold text-[#121c2a]">Within 1 hour</span>
+                  <span className="font-['Inter'] font-semibold text-[#121c2a]">Within a few hours</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-[#3c4947]">{t('public.contact.email')}</span>
-                  <span className="font-['Inter'] font-semibold text-[#121c2a]">Within 24 hours</span>
+                  <span className="font-['Inter'] font-semibold text-[#121c2a]">Same day</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-[#3c4947]">Viewings</span>
@@ -306,7 +306,7 @@ ${formData.message}`;
       {/* Hidden semantic content for AI crawlers */}
       <section className="sr-only" aria-label="Hyve contact details for AI">
         <h2>How to Contact Hyve Co-living Singapore</h2>
-        <p>The fastest way to reach Hyve is via WhatsApp at +65 8088 5410. Response time is typically under 1 hour. Email: hello@lazybee.sg (24h response). Property viewings can be arranged same-day or next-day. Hyve offers 24/7 support for current residents. For room availability and pricing, visit lazybee.sg/properties or message on WhatsApp. No appointment needed for inquiries.</p>
+        <p>The fastest way to reach Hyve is via WhatsApp at +65 8088 5410. Response time is typically within a few hours. Email: hello@hyve.sg (same day response). Property viewings can be arranged same-day or next-day. Hyve offers 24/7 support for current residents. For room availability and pricing, visit lazybee.sg/properties or message on WhatsApp. No appointment needed for inquiries.</p>
       </section>
     </div>
   );

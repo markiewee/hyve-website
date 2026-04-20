@@ -278,8 +278,8 @@ export default function HelpPage() {
         </h3>
         <p className="font-['Manrope'] text-sm text-[#3c4947] mb-4">
           {isZh
-            ? "WhatsApp 我们，通常1小时内回复。"
-            : "WhatsApp us — we typically reply within 1 hour."}
+            ? "WhatsApp 我们，通常几小时内回复。"
+            : "WhatsApp us — we typically reply within a few hours."}
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
