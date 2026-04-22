@@ -88,7 +88,7 @@ export default async function handler(req, res) {
         property_id,
         role,
         username: cleanUsername,
-        is_active: true,
+        is_active: false,
       })
       .select("id")
       .single();

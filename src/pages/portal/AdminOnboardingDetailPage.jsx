@@ -118,6 +118,16 @@ export default function AdminOnboardingDetailPage() {
   const [licencePeriod, setLicencePeriod] = useState("");
   const [tenancyDetailsSaving, setTenancyDetailsSaving] = useState(false);
 
+  // Auto-calculate end date from start date + licence period
+  function autoCalcEndDate(start, period) {
+    const months = parseInt(period, 10);
+    if (!start || isNaN(months) || months <= 0) return;
+    const d = new Date(start);
+    d.setMonth(d.getMonth() + months);
+    d.setDate(d.getDate() - 1); // e.g. 1 Apr + 6 months = 30 Sep
+    setTenancyEndDate(d.toISOString().split("T")[0]);
+  }
+
   // Signature placement
   const [signaturePositions, setSignaturePositions] = useState(null);
   const [sigPlacerUrl, setSigPlacerUrl] = useState(null);
@@ -383,12 +393,26 @@ export default function AdminOnboardingDetailPage() {
     if (error) {
       setMessage({ type: "error", text: "Failed to approve deposit: " + error.message });
     } else {
+      // Activate tenant — TA is signed and deposit is verified
+      const activateUpdates = { is_active: true, updated_at: new Date().toISOString() };
+      if (onboarding.tenancy_end_date) {
+        activateUpdates.lease_end = onboarding.tenancy_end_date;
+      }
+      if (onboarding.licence_period) {
+        const months = parseInt(onboarding.licence_period, 10);
+        if (!isNaN(months)) activateUpdates.lease_months = months;
+      }
+      await supabase
+        .from("tenant_profiles")
+        .update(activateUpdates)
+        .eq("id", onboarding.tenant_profile_id);
+
       // Notify member that their deposit has been verified
       try {
         await notifyMember(onboarding.tenant_profile_id, "DEPOSIT_VERIFIED", {});
       } catch (_) { /* non-blocking */ }
 
-      setMessage({ type: "success", text: "Deposit approved. Tenant advanced to House Rules." });
+      setMessage({ type: "success", text: "Deposit approved. Tenant is now active." });
       await fetchData();
     }
     setActionLoading(false);
@@ -709,7 +733,10 @@ export default function AdminOnboardingDetailPage() {
                 <input
                   type="text"
                   value={licencePeriod}
-                  onChange={(e) => setLicencePeriod(e.target.value)}
+                  onChange={(e) => {
+                    setLicencePeriod(e.target.value);
+                    autoCalcEndDate(tenancyStartDate, e.target.value);
+                  }}
                   placeholder="e.g. 12 months"
                   className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
                 />
@@ -719,7 +746,10 @@ export default function AdminOnboardingDetailPage() {
                 <input
                   type="date"
                   value={tenancyStartDate}
-                  onChange={(e) => setTenancyStartDate(e.target.value)}
+                  onChange={(e) => {
+                    setTenancyStartDate(e.target.value);
+                    autoCalcEndDate(e.target.value, licencePeriod);
+                  }}
                   className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
                 />
               </div>
