@@ -105,10 +105,13 @@ export default function AdminRentPage() {
   const fetchMembers = useCallback(async () => {
     const { data } = await supabase
       .from("tenant_profiles")
-      .select("id, username, full_name, rooms(unit_code)")
+      .select("id, username, rooms(unit_code), tenant_details(full_name)")
       .eq("is_active", true)
       .order("username");
-    setMembers(data ?? []);
+    setMembers((data ?? []).map(m => ({
+      ...m,
+      full_name: m.tenant_details?.full_name ?? null,
+    })));
   }, []);
 
   const fetchCharges = useCallback(async () => {
