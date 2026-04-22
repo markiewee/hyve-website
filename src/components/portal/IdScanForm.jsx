@@ -21,7 +21,8 @@ const PASS_TYPES = [
   { value: "S_PASS", label: "S Pass" },
   { value: "STUDENT_PASS", label: "Student Pass" },
   { value: "DEPENDANT_PASS", label: "Dependant Pass" },
-  { value: "LONG_TERM_VISIT_PASS", label: "Long Term Visit Pass" },
+  { value: "LONG_TERM_VISIT_PASS", label: "Long Term Visit Pass (LTVP)" },
+  { value: "IPA", label: "In-Principle Approval (IPA)" },
   { value: "OTHER", label: "Other" },
 ];
 

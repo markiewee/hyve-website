@@ -117,7 +117,7 @@ export default function AdminDashboardPage() {
       // 1. TAs waiting for admin counter-signature (signed by tenant but not countersigned)
       const { data: pendingTAs } = await supabase
         .from("onboarding_progress")
-        .select("tenant_profile_id, ta_signed_url, updated_at, tenant_profiles(username, rooms(unit_code), tenant_details(full_name))")
+        .select("id, tenant_profile_id, ta_signed_url, updated_at, tenant_profiles(username, rooms(unit_code), tenant_details(full_name))")
         .not("ta_signed_url", "is", null)
         .or("ta_countersigned_url.is.null,ta_countersigned_at.is.null");
       if (pendingTAs) {
@@ -129,7 +129,7 @@ export default function AdminDashboardPage() {
             type: "counter_sign",
             icon: "draw",
             label: `Counter-sign TA — ${name} (${unit})`,
-            to: `/portal/admin/onboarding/${ta.tenant_profile_id}`,
+            to: `/portal/admin/onboarding/${ta.id}`,
             time: ta.updated_at,
           });
         });
@@ -138,7 +138,7 @@ export default function AdminDashboardPage() {
       // 2. Deposits pending verification
       const { data: pendingDeposits } = await supabase
         .from("onboarding_progress")
-        .select("tenant_profile_id, deposit_amount, updated_at, tenant_profiles(username, rooms(unit_code), tenant_details(full_name))")
+        .select("id, tenant_profile_id, deposit_amount, updated_at, tenant_profiles(username, rooms(unit_code), tenant_details(full_name))")
         .eq("current_step", "DEPOSIT")
         .eq("deposit_verified", false);
       if (pendingDeposits) {
@@ -150,7 +150,7 @@ export default function AdminDashboardPage() {
             type: "verify_deposit",
             icon: "account_balance",
             label: `Verify deposit — ${name} (${unit}) SGD ${d.deposit_amount || "?"}`,
-            to: `/portal/admin/onboarding/${d.tenant_profile_id}`,
+            to: `/portal/admin/onboarding/${d.id}`,
             time: d.updated_at,
           });
         });

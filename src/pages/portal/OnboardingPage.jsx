@@ -13,7 +13,7 @@ import HouseRulesView from "../../components/portal/HouseRulesView";
 import MoveInInstructions from "../../components/portal/MoveInInstructions";
 import RoomChecklistForm from "../../components/portal/RoomChecklistForm";
 import WelcomeSplash from "../../components/portal/WelcomeSplash";
-import { STEP_LABELS } from "../../hooks/useOnboarding";
+import { STEP_LABELS, REGISTRATION_STEPS, ONBOARDING_STEPS } from "../../hooks/useOnboarding";
 
 const STEP_DESCRIPTIONS = {
   WELCOME:
@@ -327,15 +327,15 @@ function OnboardingContent() {
             {/* Timeline sidebar */}
             <aside className="lg:col-span-1">
               <div className="bg-white border border-[#bbcac6]/15 rounded-2xl p-5 shadow-sm">
-                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-5">
-                  Progress
+                {/* Phase 1: Registration */}
+                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-4">
+                  Registration
                 </p>
                 <div className="space-y-1">
-                  {STEP_ORDER.filter((s) => s !== "ACTIVE").map((step, idx) => {
+                  {REGISTRATION_STEPS.map((step, idx) => {
                     const stepIdx = STEP_ORDER.indexOf(step);
                     const isCurrent = step === currentStep;
                     const isCompleted = stepIdx < currentStepIndex;
-                    const isPending = stepIdx > currentStepIndex;
 
                     return (
                       <div
@@ -377,7 +377,7 @@ function OnboardingContent() {
                               </span>
                             )}
                           </div>
-                          {idx < STEP_ORDER.filter((s) => s !== "ACTIVE").length - 1 && (
+                          {idx < REGISTRATION_STEPS.length - 1 && (
                             <div
                               className={`w-0.5 h-4 mt-1 ${
                                 isCompleted ? "bg-[#006b5f]" : "bg-[#eff4ff]"
@@ -407,6 +407,104 @@ function OnboardingContent() {
                     );
                   })}
                 </div>
+
+                {/* Divider between phases */}
+                <div className="my-5 border-t border-dashed border-[#bbcac6]/40" />
+
+                {/* Phase 2: Move-in */}
+                {(() => {
+                  const taFullyExecuted = onboarding?.signing_status === "FULLY_EXECUTED";
+                  const inOnboardingPhase = ONBOARDING_STEPS.includes(currentStep) || currentStep === "ACTIVE";
+                  const phaseUnlocked = taFullyExecuted || inOnboardingPhase;
+                  return (
+                    <>
+                      <div className="flex items-center gap-2 mb-4">
+                        <p className={`font-['Inter'] text-[10px] uppercase tracking-widest font-bold ${phaseUnlocked ? "text-[#6c7a77]" : "text-[#bbcac6]"}`}>
+                          Move-in
+                        </p>
+                        {!phaseUnlocked && (
+                          <span className="material-symbols-outlined text-[14px] text-[#bbcac6]">lock</span>
+                        )}
+                      </div>
+                      <div className={`space-y-1 ${!phaseUnlocked ? "opacity-40" : ""}`}>
+                        {ONBOARDING_STEPS.map((step, idx) => {
+                          const stepIdx = STEP_ORDER.indexOf(step);
+                          const isCurrent = step === currentStep;
+                          const isCompleted = stepIdx < currentStepIndex;
+
+                          return (
+                            <div
+                              key={step}
+                              className={`flex items-start gap-3 py-2 rounded-lg px-1 transition-colors ${
+                                isCompleted && !isCurrent && phaseUnlocked ? "cursor-pointer hover:bg-[#eff4ff]" : ""
+                              }`}
+                              onClick={isCompleted && !isCurrent && phaseUnlocked ? () => goToStep(step) : undefined}
+                            >
+                              <div className="relative flex flex-col items-center">
+                                <div
+                                  className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
+                                    isCompleted
+                                      ? "bg-[#006b5f]"
+                                      : isCurrent
+                                      ? "bg-[#006b5f]/10 border-2 border-[#006b5f]"
+                                      : "bg-[#eff4ff] border border-[#bbcac6]/30"
+                                  }`}
+                                >
+                                  {isCompleted ? (
+                                    <span
+                                      className="material-symbols-outlined text-white text-[14px]"
+                                      style={{ fontVariationSettings: "'FILL' 1" }}
+                                    >
+                                      check
+                                    </span>
+                                  ) : (
+                                    <span
+                                      className={`material-symbols-outlined text-[14px] ${
+                                        isCurrent ? "text-[#006b5f]" : "text-[#bbcac6]"
+                                      }`}
+                                      style={
+                                        isCurrent
+                                          ? { fontVariationSettings: "'FILL' 1" }
+                                          : undefined
+                                      }
+                                    >
+                                      {STEP_ICONS[step] || "circle"}
+                                    </span>
+                                  )}
+                                </div>
+                                {idx < ONBOARDING_STEPS.length - 1 && (
+                                  <div
+                                    className={`w-0.5 h-4 mt-1 ${
+                                      isCompleted ? "bg-[#006b5f]" : "bg-[#eff4ff]"
+                                    }`}
+                                  />
+                                )}
+                              </div>
+                              <div className="pt-0.5">
+                                <p
+                                  className={`font-['Manrope'] text-xs font-semibold ${
+                                    isCurrent
+                                      ? "text-[#121c2a]"
+                                      : isCompleted
+                                      ? "text-[#006b5f]"
+                                      : "text-[#bbcac6]"
+                                  }`}
+                                >
+                                  {STEP_LABELS[step] ?? step}
+                                </p>
+                                {isCurrent && (
+                                  <span className="font-['Inter'] text-[10px] font-bold uppercase tracking-widest text-[#006b5f]">
+                                    Current
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </>
+                  );
+                })()}
 
                 {/* Overall progress */}
                 {currentStep !== "ACTIVE" && (
@@ -482,7 +580,9 @@ function OnboardingContent() {
                       <div />
                     )}
                     <p className="text-[10px] font-['Inter'] text-[#bbcac6] uppercase tracking-widest">
-                      Step {STEP_ORDER.indexOf(currentStep) + 1} of {STEP_ORDER.length - 1}
+                      {REGISTRATION_STEPS.includes(currentStep)
+                        ? `Registration ${REGISTRATION_STEPS.indexOf(currentStep) + 1} of ${REGISTRATION_STEPS.length}`
+                        : `Move-in ${ONBOARDING_STEPS.indexOf(currentStep) + 1} of ${ONBOARDING_STEPS.length}`}
                     </p>
                   </div>
                 )}

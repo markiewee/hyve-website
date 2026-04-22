@@ -27,6 +27,9 @@ export const STEP_LABELS = {
   END_OF_TENANCY: "End of Tenancy",
 };
 
+export const REGISTRATION_STEPS = ["WELCOME", "PERSONAL_DETAILS", "ID_VERIFICATION", "SIGN_TA"];
+export const ONBOARDING_STEPS = ["DEPOSIT", "HOUSE_RULES", "MOVE_IN_INSTRUCTIONS", "MOVE_IN_CHECKLIST"];
+
 const DASHBOARD_ACCESS_STEPS = ["MOVE_IN_CHECKLIST", "ACTIVE", "END_OF_TENANCY"];
 
 export function useOnboarding(profileId) {
