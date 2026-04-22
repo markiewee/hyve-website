@@ -139,7 +139,7 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
           return {
             name: area.name,
             condition: area.condition,
-            notes: area.notes.trim() || null,
+            notes: (area.notes || '').trim() || null,
             photo_urls: photoUrls,
           };
         })
@@ -163,7 +163,7 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
             items: area.items.map(item => ({
               name: item.name,
               condition: item.condition,
-              notes: item.notes.trim() || null,
+              notes: (item.notes || '').trim() || null,
             })),
             photo_urls: formattedAreas[i]?.photo_urls || [],
           })),
