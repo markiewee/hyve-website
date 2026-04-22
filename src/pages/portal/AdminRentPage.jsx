@@ -332,16 +332,32 @@ export default function AdminRentPage() {
         }
         return true;
       })
-      .map((p) => ({
-        tenant_profile_id: p.id,
-        room_id: p.room_id,
-        month: monthStr,
-        rent_amount: p.monthly_rent,
-        late_fee: 0,
-        due_date: dueDateStr,
-        status: "PENDING",
-        is_late: false,
-      }));
+      .map((p) => {
+        // Prorate rent if tenant starts mid-month
+        let rentAmount = Number(p.monthly_rent);
+        const startDate = p.onboarding_progress?.tenancy_start_date;
+        if (startDate) {
+          const startMonth = startDate.substring(0, 7);
+          const currentMonth = monthStr.substring(0, 7);
+          if (startMonth === currentMonth) {
+            const startDay = parseInt(startDate.substring(8, 10), 10);
+            const monthDate = new Date(monthStr);
+            const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
+            const daysOccupied = daysInMonth - startDay + 1;
+            rentAmount = Math.round((rentAmount * daysOccupied / daysInMonth) * 100) / 100;
+          }
+        }
+        return {
+          tenant_profile_id: p.id,
+          room_id: p.room_id,
+          month: monthStr,
+          rent_amount: rentAmount,
+          late_fee: 0,
+          due_date: dueDateStr,
+          status: "PENDING",
+          is_late: false,
+        };
+      });
 
     if (toInsert.length === 0) {
       setGenerateResult({
@@ -389,8 +405,9 @@ export default function AdminRentPage() {
     const dueDate = payment.due_date ? new Date(payment.due_date) : null;
     const isLate = dueDate ? paidAt > dueDate : false;
     const daysLate = isLate && dueDate ? daysBetween(dueDate, paidAt) : 0;
-    const lateFeePerDay = payment.tenant_profiles?.late_fee_per_day ?? 5;
-    const lateFee = isLate ? daysLate * lateFeePerDay : 0;
+    // Late fee per contract: 5% after 5 days, additional 5% after 30 days
+    const outstanding = Number(payment.rent_amount);
+    const lateFee = !isLate ? 0 : daysLate > 30 ? Math.round(outstanding * 0.10 * 100) / 100 : Math.round(outstanding * 0.05 * 100) / 100;
     const isPartial = paidAmount < Number(payment.rent_amount);
 
     const { error } = await supabase
@@ -441,8 +458,9 @@ export default function AdminRentPage() {
 
     const now = new Date();
     const daysOverdue = daysBetween(dueDate, now);
-    const lateFeePerDay = payment.tenant_profiles?.late_fee_per_day ?? 5;
-    const newLateFee = daysOverdue * lateFeePerDay;
+    // Late fee per contract: 5% after 5 days, additional 5% after 30 days
+    const outstanding = Number(payment.rent_amount);
+    const newLateFee = daysOverdue > 30 ? Math.round(outstanding * 0.10 * 100) / 100 : Math.round(outstanding * 0.05 * 100) / 100;
 
     const { error } = await supabase
       .from("rent_payments")
