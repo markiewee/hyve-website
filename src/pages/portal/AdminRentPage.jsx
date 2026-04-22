@@ -776,15 +776,45 @@ export default function AdminRentPage() {
             <input type="month" value={reconcileMonth} onChange={(e) => setReconcileMonth(e.target.value)}
               className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f]" />
             {aspireAccounts.length > 0 ? (
-              <select value={aspireAccountId} onChange={(e) => setAspireAccountId(e.target.value)}
-                className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white max-w-[200px]">
-                <option value="">Select account…</option>
-                {aspireAccounts.map(acc => {
-                  const id = acc.id ?? acc.account_id ?? acc.accountId;
-                  const name = accountNicknames[id] ?? acc.debit_details?.[0]?.account_name ?? acc.name ?? id;
-                  return <option key={id} value={id}>{name}</option>;
-                })}
-              </select>
+              <>
+                <select value={aspireAccountId} onChange={(e) => setAspireAccountId(e.target.value)}
+                  className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white max-w-[200px]">
+                  <option value="">Select account…</option>
+                  {aspireAccounts.map(acc => {
+                    const id = acc.id ?? acc.account_id ?? acc.accountId;
+                    const name = accountNicknames[id] ?? acc.debit_details?.[0]?.account_name ?? acc.name ?? id;
+                    return <option key={id} value={id}>{name}</option>;
+                  })}
+                </select>
+                {aspireAccountId && (
+                  <button
+                    onClick={async () => {
+                      const current = accountNicknames[aspireAccountId] || "";
+                      const nickname = prompt("Nickname for this account:", current);
+                      if (nickname === null) return;
+                      const clean = nickname.trim();
+                      if (clean) {
+                        await supabase.from("account_nicknames").upsert(
+                          { aspire_account_id: aspireAccountId, nickname: clean, account_type: "ASPIRE" },
+                          { onConflict: "aspire_account_id" }
+                        );
+                        setAccountNicknames(prev => ({ ...prev, [aspireAccountId]: clean }));
+                      } else {
+                        await supabase.from("account_nicknames").delete().eq("aspire_account_id", aspireAccountId);
+                        setAccountNicknames(prev => {
+                          const next = { ...prev };
+                          delete next[aspireAccountId];
+                          return next;
+                        });
+                      }
+                    }}
+                    className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-[#6c7a77] hover:bg-[#f8f9ff] transition-colors"
+                    title="Edit nickname"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">edit</span>
+                  </button>
+                )}
+              </>
             ) : (
               <button onClick={handleLoadAspireAccounts}
                 className="px-4 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] font-semibold text-[#6c7a77] hover:bg-[#f8f9ff]">

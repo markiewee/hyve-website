@@ -36,7 +36,7 @@ export default async function handler(req, res) {
     .eq("is_active", true)
     .single();
 
-  if (profileError || !callerProfile || callerProfile.role !== "ADMIN") {
+  if (profileError || !callerProfile || !["ADMIN", "SUPER_ADMIN"].includes(callerProfile.role)) {
     return res.status(403).json({ error: "Admin role required" });
   }
 

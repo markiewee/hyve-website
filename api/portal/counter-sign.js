@@ -28,7 +28,7 @@ export default async function handler(req, res) {
     .eq("user_id", authData.user.id)
     .maybeSingle();
 
-  if (!adminProfile || adminProfile.role !== "ADMIN") {
+  if (!adminProfile || !["ADMIN", "SUPER_ADMIN"].includes(adminProfile.role)) {
     return res.status(403).json({ error: "Admin access required" });
   }
 

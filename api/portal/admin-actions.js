@@ -20,7 +20,7 @@ async function verifyAdmin(req) {
     .eq("user_id", authData.user.id)
     .eq("is_active", true)
     .single();
-  if (!profile || profile.role !== "ADMIN") return null;
+  if (!profile || !["ADMIN", "SUPER_ADMIN"].includes(profile.role)) return null;
   return authData.user;
 }
 

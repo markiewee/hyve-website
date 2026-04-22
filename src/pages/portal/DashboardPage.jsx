@@ -34,8 +34,9 @@ export default function DashboardPage() {
   const { profile } = useAuth();
   const { t } = useLanguage();
 
-  // Admin should see admin dashboard, not tenant dashboard
-  if (profile?.role === "ADMIN") {
+  // Super admin should see admin dashboard, not tenant dashboard
+  // Regular admins can still see tenant dashboard (they might be residents too)
+  if (profile?.role === "SUPER_ADMIN") {
     return <Navigate to="/portal/admin" replace />;
   }
 

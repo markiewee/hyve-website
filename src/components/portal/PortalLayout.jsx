@@ -32,29 +32,41 @@ function useNavLinks(role) {
       { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
     ];
 
-    const ADMIN_NAV = [
+    const ADMIN_MANAGE_SECTION = {
+      label: t("nav.manage"),
+      icon: "manage_accounts",
+      children: [
+        { label: t("nav.tasks"), to: "/portal/admin/tasks", icon: "checklist" },
+        { label: t("nav.members"), to: "/portal/admin/onboarding", icon: "how_to_reg" },
+        { label: t("nav.rent"), to: "/portal/admin/rent", icon: "receipt_long" },
+        { label: t("nav.documents"), to: "/portal/admin/documents", icon: "description" },
+        { label: t("nav.announcements"), to: "/portal/admin/announcements", icon: "campaign" },
+        { label: t("nav.viewings"), to: "/portal/admin/viewings", icon: "visibility" },
+        { label: t("nav.locks"), to: "/portal/admin/locks", icon: "lock" },
+        { label: t("nav.devices"), to: "/portal/admin/devices", icon: "router" },
+        { label: t("nav.investors"), to: "/portal/admin/investors", icon: "trending_up" },
+        { label: t("nav.expenses"), to: "/portal/admin/expenses", icon: "account_balance" },
+        { label: t("nav.import"), to: "/portal/admin/expenses/import", icon: "upload_file" },
+        { label: t("nav.financials"), to: "/portal/admin/financials", icon: "bar_chart" },
+      ],
+    };
+
+    // Super admin: admin-only, no tenant/resident views
+    const SUPER_ADMIN_NAV = [
       { label: t("nav.admin"), to: "/portal/admin", icon: "admin_panel_settings" },
-      {
-        label: t("nav.manage"),
-        icon: "manage_accounts",
-        children: [
-          { label: t("nav.tasks"), to: "/portal/admin/tasks", icon: "checklist" },
-          { label: t("nav.members"), to: "/portal/admin/onboarding", icon: "how_to_reg" },
-          { label: t("nav.rent"), to: "/portal/admin/rent", icon: "receipt_long" },
-          { label: t("nav.documents"), to: "/portal/admin/documents", icon: "description" },
-          { label: t("nav.announcements"), to: "/portal/admin/announcements", icon: "campaign" },
-          { label: t("nav.viewings"), to: "/portal/admin/viewings", icon: "visibility" },
-          { label: t("nav.locks"), to: "/portal/admin/locks", icon: "lock" },
-          { label: t("nav.devices"), to: "/portal/admin/devices", icon: "router" },
-          { label: t("nav.investors"), to: "/portal/admin/investors", icon: "trending_up" },
-          { label: t("nav.expenses"), to: "/portal/admin/expenses", icon: "account_balance" },
-          { label: t("nav.import"), to: "/portal/admin/expenses/import", icon: "upload_file" },
-          { label: t("nav.financials"), to: "/portal/admin/financials", icon: "bar_chart" },
-        ],
-      },
+      ADMIN_MANAGE_SECTION,
     ];
 
-    if (role === "ADMIN") return ADMIN_NAV;
+    // Admin who's also a resident/house captain: sees both admin AND tenant/captain nav
+    const ADMIN_RESIDENT_NAV = [
+      ...HOUSE_CAPTAIN_NAV.filter(l => l.to !== "/portal/settings"),
+      { label: t("nav.admin"), to: "/portal/admin", icon: "admin_panel_settings" },
+      ADMIN_MANAGE_SECTION,
+      { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
+    ];
+
+    if (role === "SUPER_ADMIN") return SUPER_ADMIN_NAV;
+    if (role === "ADMIN") return ADMIN_RESIDENT_NAV;
     if (role === "HOUSE_CAPTAIN") return HOUSE_CAPTAIN_NAV;
     return TENANT_NAV;
   }, [role, t]);
@@ -145,9 +157,9 @@ function LanguageToggle() {
 
 function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTour }) {
   const { t } = useLanguage();
-  const isAdmin = profile?.role === "ADMIN";
-  const unitCode = isAdmin ? "" : (profile?.rooms?.unit_code ?? profile?.room_id ?? "");
-  const propertyName = isAdmin ? "Admin" : (profile?.properties?.name ?? profile?.rooms?.name ?? "Hyve");
+  const isSuperAdmin = profile?.role === "SUPER_ADMIN";
+  const unitCode = isSuperAdmin ? "" : (profile?.rooms?.unit_code ?? profile?.room_id ?? "");
+  const propertyName = isSuperAdmin ? "Super Admin" : (profile?.properties?.name ?? profile?.rooms?.name ?? "Hyve");
   const displayName = profile?.tenant_details?.full_name ?? profile?.full_name ?? profile?.email ?? t("nav.defaultName");
   const firstName = displayName.split(" ")[0];
 
@@ -295,7 +307,8 @@ export default function PortalLayout({ children }) {
 
   // Show tour on first visit (non-admin)
   useEffect(() => {
-    if (profile && profile.role !== "ADMIN" && !localStorage.getItem("hyve_tour_done")) {
+    const isAnyAdmin = profile?.role === "ADMIN" || profile?.role === "SUPER_ADMIN";
+    if (profile && !isAnyAdmin && !localStorage.getItem("hyve_tour_done")) {
       const timer = setTimeout(() => setShowTour(true), 1000);
       return () => clearTimeout(timer);
     }
@@ -312,7 +325,7 @@ export default function PortalLayout({ children }) {
           location={location}
           onLinkClick={() => {}}
           signOut={signOut}
-          onStartTour={profile?.role !== "ADMIN" ? () => setShowTour(true) : undefined}
+          onStartTour={profile?.role !== "ADMIN" && profile?.role !== "SUPER_ADMIN" ? () => setShowTour(true) : undefined}
         />
       </div>
 
@@ -339,7 +352,7 @@ export default function PortalLayout({ children }) {
               location={location}
               onLinkClick={() => setSidebarOpen(false)}
               signOut={() => { setSidebarOpen(false); signOut(); }}
-              onStartTour={profile?.role !== "ADMIN" ? () => { setSidebarOpen(false); setShowTour(true); } : undefined}
+              onStartTour={profile?.role !== "ADMIN" && profile?.role !== "SUPER_ADMIN" ? () => { setSidebarOpen(false); setShowTour(true); } : undefined}
             />
           </div>
         </>
