@@ -33,10 +33,6 @@ function useNavLinks(role) {
     ];
 
     const ADMIN_NAV = [
-      { label: t("nav.dashboard"), to: "/portal/dashboard", icon: "dashboard" },
-      { label: "My Property", to: "/portal/guide", icon: "home" },
-      { label: t("nav.billing"), to: "/portal/billing", icon: "payments" },
-      { label: t("nav.issues"), to: "/portal/issues", icon: "build" },
       { label: t("nav.admin"), to: "/portal/admin", icon: "admin_panel_settings" },
       {
         label: t("nav.manage"),
