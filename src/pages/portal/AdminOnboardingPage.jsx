@@ -4,7 +4,7 @@ import { supabase } from "../../lib/supabase";
 import { useAuth } from "../../hooks/useAuth";
 import { generateFeeScheduleHtml } from "../../lib/feeSchedule";
 import PortalLayout from "../../components/portal/PortalLayout";
-import { STEP_LABELS } from "../../hooks/useOnboarding";
+import { STEP_LABELS, REGISTRATION_STEPS, ONBOARDING_STEPS } from "../../hooks/useOnboarding";
 import { notifyMember } from "../../lib/notify";
 
 const STEP_BADGE_COLORS = {
@@ -307,12 +307,18 @@ export default function AdminOnboardingPage() {
 
   const [lifecycleFilter, setLifecycleFilter] = useState("ALL");
 
-  const onboardingCount = rows.filter((r) => ["ONBOARDING", "IN_PROGRESS"].includes(r.status)).length;
+  const isInProgress = (r) => ["ONBOARDING", "IN_PROGRESS"].includes(r.status);
+  const isRegistrationStep = (r) => REGISTRATION_STEPS.includes(r.current_step);
+  const isOnboardingStep = (r) => ONBOARDING_STEPS.includes(r.current_step);
+
+  const registrationCount = rows.filter(r => isInProgress(r) && isRegistrationStep(r)).length;
+  const onboardingCount = rows.filter(r => isInProgress(r) && isOnboardingStep(r)).length;
   const activeCount = rows.filter((r) => r.status === "ACTIVE").length;
   const archivedCount = rows.filter((r) => r.status === "ARCHIVED" || r.status === "MOVED_OUT").length;
 
   const filteredRows = lifecycleFilter === "ALL" ? rows.filter(r => r.status !== "ARCHIVED" && r.status !== "MOVED_OUT")
-    : lifecycleFilter === "ONBOARDING" ? rows.filter(r => ["ONBOARDING", "IN_PROGRESS"].includes(r.status))
+    : lifecycleFilter === "REGISTRATION" ? rows.filter(r => isInProgress(r) && isRegistrationStep(r))
+    : lifecycleFilter === "ONBOARDING" ? rows.filter(r => isInProgress(r) && isOnboardingStep(r))
     : lifecycleFilter === "ACTIVE" ? rows.filter(r => r.status === "ACTIVE")
     : lifecycleFilter === "ARCHIVED" ? rows.filter(r => ["ARCHIVED", "MOVED_OUT", "END_OF_TENANCY"].includes(r.status))
     : rows;
@@ -729,9 +735,10 @@ export default function AdminOnboardingPage() {
       )}
 
       {/* Stat cards — clickable to filter */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 mb-6">
         {[
           { label: "Total", count: rows.length, filter: "ALL", color: "text-[#121c2a]", bg: "bg-white" },
+          { label: "Registration", count: registrationCount, filter: "REGISTRATION", color: "text-purple-600", bg: "bg-white" },
           { label: "Onboarding", count: onboardingCount, filter: "ONBOARDING", color: "text-blue-600", bg: "bg-white" },
           { label: "Active", count: activeCount, filter: "ACTIVE", color: "text-[#006b5f]", bg: "bg-white" },
           { label: "Archived", count: archivedCount, filter: "ARCHIVED", color: "text-gray-500", bg: "bg-white" },
@@ -844,9 +851,15 @@ export default function AdminOnboardingPage() {
                       </div>
                     </td>
                     <td className="px-6 py-5">
-                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${statusColor}`}>
-                        {row.status ?? "—"}
-                      </span>
+                      {isInProgress(row) && isRegistrationStep(row) ? (
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-purple-100 text-purple-700">
+                          REGISTRATION
+                        </span>
+                      ) : (
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${statusColor}`}>
+                          {row.status ?? "—"}
+                        </span>
+                      )}
                     </td>
                     <td className="px-6 py-5">
                       <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${stepColor}`}>
