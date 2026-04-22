@@ -274,7 +274,7 @@
     "wasteRecycling": "Waste & Recycling",
     "wasteRecyclingDesc": "Dispose of rubbish in the bins at the designated area. Separate recyclables where possible.",
     "airConditioning": "Air Conditioning",
-    "airConditioningDesc": "Your AC usage is tracked. The first 300 hours/month are included in rent. Additional usage is charged at S$0.30/hour.",
+    "airConditioningDesc": "Your AC usage is tracked. 10 hours/day are included in rent. Additional usage is charged at S$0.30/hour, billed monthly.",
     "rentPayment": "Rent Payment",
     "rentPaymentDesc": "Rent is due on the 1st of each month via bank transfer. Details are in your Billing page. Late fees apply after the 5th.",
     "maintenance": "Maintenance Issues",

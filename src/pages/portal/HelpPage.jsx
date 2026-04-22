@@ -123,8 +123,8 @@ const SECTIONS = [
       {
         q: "How much AC is included?",
         qZh: "空调包含多少？",
-        a: "300 hours per month. Usage beyond that is charged at SGD 0.30/hour. Check your Dashboard for current usage.",
-        aZh: "每月300小时。超出部分按每小时 SGD 0.30 收费。在仪表板查看当前使用情况。",
+        a: "10 hours per day included in your rent. Usage beyond that is charged at SGD 0.30/hour, billed monthly. Check your Dashboard for current usage.",
+        aZh: "每天包含10小时。超出部分按每小时 SGD 0.30 收费，按月结算。在仪表板查看当前使用情况。",
       },
       {
         q: "Can I have overnight guests?",

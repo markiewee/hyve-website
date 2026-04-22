@@ -15,7 +15,13 @@ import DocumentsList from "../../components/portal/DocumentsList";
 import CheckoutStatusCard from "../../components/portal/CheckoutStatusCard";
 import AnnouncementBanner from "../../components/portal/AnnouncementBanner";
 
-const FREE_HOURS = 300;
+const FREE_HOURS_PER_DAY = 10;
+
+function getFreeHours() {
+  const now = new Date();
+  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  return FREE_HOURS_PER_DAY * daysInMonth;
+}
 
 function getDayOfMonth() {
   return new Date().getDate();
@@ -200,9 +206,9 @@ export default function DashboardPage() {
             </div>
           ) : (
             <>
-              <UsageProgressBar totalHours={totalHours} freeHours={FREE_HOURS} />
+              <UsageProgressBar totalHours={totalHours} freeHours={getFreeHours()} />
               <p className="font-['Manrope'] text-sm text-[#555f6f] mt-4">
-                {t("dashboard.usageSummary", { used: totalHours.toFixed(1), free: FREE_HOURS })}
+                {t("dashboard.usageSummary", { used: totalHours.toFixed(1), free: getFreeHours() })}
               </p>
             </>
           )}
@@ -246,7 +252,7 @@ export default function DashboardPage() {
             {usageLoading ? (
               <SkeletonLine className="h-7 w-16" />
             ) : (
-              <p className={`font-['Plus_Jakarta_Sans'] text-3xl font-black ${projected > FREE_HOURS ? "text-[#ba1a1a]" : "text-[#121c2a]"}`}>
+              <p className={`font-['Plus_Jakarta_Sans'] text-3xl font-black ${projected > getFreeHours() ? "text-[#ba1a1a]" : "text-[#121c2a]"}`}>
                 {projected.toFixed(0)}
                 <span className="text-base font-['Manrope'] font-normal text-[#6c7a77] ml-1">h</span>
               </p>

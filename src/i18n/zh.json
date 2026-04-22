@@ -274,7 +274,7 @@
     "wasteRecycling": "垃圾与回收",
     "wasteRecyclingDesc": "请将垃圾投放到指定区域的垃圾桶。尽量做好垃圾分类。",
     "airConditioning": "空调",
-    "airConditioningDesc": "您的空调用量将被记录。每月前 300 小时包含在租金中，超出部分按 S$0.30/小时收费。",
+    "airConditioningDesc": "您的空调用量将被记录。每天 10 小时包含在租金中，超出部分按 S$0.30/小时收费，按月结算。",
     "rentPayment": "租金缴纳",
     "rentPaymentDesc": "租金每月 1 号通过银行转账支付，详情请查看账单页面。5 号后将产生滞纳金。",
     "maintenance": "维修问题",

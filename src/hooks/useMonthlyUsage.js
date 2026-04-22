@@ -23,7 +23,7 @@ export function useMonthlyUsage(roomId) {
           return {
             label,
             hours: Math.round((row.total_hours || 0) * 10) / 10,
-            free: row.free_hours || 300,
+            free: row.free_hours || (new Date(row.month + '-01').getDate() ? 10 * new Date(new Date(row.month).getFullYear(), new Date(row.month).getMonth() + 1, 0).getDate() : 300),
             overage: Math.round((row.overage_hours || 0) * 10) / 10,
           };
         });
