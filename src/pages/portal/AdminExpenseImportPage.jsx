@@ -4,7 +4,7 @@ import CsvUploader from "../../components/portal/CsvUploader";
 import { useTransactionImport } from "../../hooks/useTransactionImport";
 import { aspire } from "../../lib/aspire";
 import { supabase } from "../../lib/supabase";
-import { autoTagTransactions, extractVendorPattern } from "../../lib/tagging";
+import { extractVendorPattern } from "../../lib/tagging";
 
 // ─── Constants ─────────────────────────────────────────────────────────────────
 
@@ -98,7 +98,6 @@ export default function AdminExpenseImportPage() {
   // Reference data
   const [properties, setProperties] = useState([]);
   const [rooms, setRooms] = useState([]);
-  const [taggingRules, setTaggingRules] = useState([]);
 
   // Per-card editing state: { [txnRef]: { property_id, room_id, category } }
   const [edits, setEdits] = useState({});
@@ -144,12 +143,6 @@ export default function AdminExpenseImportPage() {
     setRooms(data ?? []);
   }, []);
 
-  const fetchTaggingRules = useCallback(async () => {
-    const { data } = await supabase.from("tagging_rules").select("*");
-    setTaggingRules(data ?? []);
-    return data ?? [];
-  }, []);
-
   const checkFinalized = useCallback(async (month) => {
     const monthDate = month + "-01";
     const { data } = await supabase
@@ -165,8 +158,7 @@ export default function AdminExpenseImportPage() {
     fetchNicknames();
     fetchProperties();
     fetchRooms();
-    fetchTaggingRules();
-  }, [fetchNicknames, fetchProperties, fetchRooms, fetchTaggingRules]);
+  }, [fetchNicknames, fetchProperties, fetchRooms]);
 
   useEffect(() => {
     checkFinalized(reconcileMonth);
@@ -243,12 +235,8 @@ export default function AdminExpenseImportPage() {
         return;
       }
 
-      // Auto-tag using rules
-      const rules = await fetchTaggingRules();
-      const taggedTxns = autoTagTransactions(debitTxns, rules);
-
       // Add unique keys for tracking
-      const withKeys = taggedTxns.map((t, i) => ({
+      const withKeys = debitTxns.map((t, i) => ({
         ...t,
         _key: t.reference || `txn-${i}-${t.transaction_date}-${t.amount}`,
       }));
@@ -755,19 +743,13 @@ export default function AdminExpenseImportPage() {
                       </p>
                     ) : (
                       untagged.map((txn) => {
-                        const isAutoTagged = txn.status === "AUTO_TAGGED";
                         const edit = getEdit(txn._key);
-                        const isEditing = edit._editing;
                         const isSaving = saving === txn._key;
 
                         return (
                           <div
                             key={txn._key}
-                            className={`rounded-xl border p-4 transition-all ${
-                              isAutoTagged
-                                ? "bg-amber-50 border-amber-200"
-                                : "bg-white border-[#bbcac6]/15"
-                            }`}
+                            className="rounded-xl border p-4 transition-all bg-white border-[#bbcac6]/15"
                           >
                             {/* Transaction header */}
                             <div className="flex items-start justify-between gap-3 mb-2">
@@ -789,57 +771,7 @@ export default function AdminExpenseImportPage() {
                               </p>
                             </div>
 
-                            {/* Auto-tagged suggestion */}
-                            {isAutoTagged && !isEditing && (
-                              <div className="mt-2">
-                                <div className="flex items-center gap-2 mb-2">
-                                  <span className="material-symbols-outlined text-amber-600 text-[14px]">
-                                    auto_awesome
-                                  </span>
-                                  <span className="text-xs font-['Manrope'] font-semibold text-amber-700">
-                                    Auto-tagged:{" "}
-                                    {getPropertyCode(txn.property_id)} | {categoryLabel(txn.category)}
-                                  </span>
-                                  {txn.confidence != null && (
-                                    <span className="text-[10px] text-[#6c7a77]">
-                                      {Math.round(txn.confidence * 100)}%
-                                    </span>
-                                  )}
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <button
-                                    onClick={() =>
-                                      handleConfirm(txn, txn.property_id, txn.category)
-                                    }
-                                    disabled={isSaving}
-                                    className="px-3 py-1.5 bg-[#006b5f] text-white text-xs font-bold rounded-lg hover:opacity-90 disabled:opacity-50 flex items-center gap-1"
-                                  >
-                                    <span className="material-symbols-outlined text-[14px]">
-                                      check
-                                    </span>
-                                    Confirm
-                                  </button>
-                                  <button
-                                    onClick={() => setEdit(txn._key, "_editing", true)}
-                                    className="px-3 py-1.5 bg-[#eff4ff] text-[#006b5f] text-xs font-bold rounded-lg hover:bg-[#e6eeff] flex items-center gap-1"
-                                  >
-                                    <span className="material-symbols-outlined text-[14px]">
-                                      edit
-                                    </span>
-                                    Change
-                                  </button>
-                                  <button
-                                    onClick={() => handleIgnore(txn)}
-                                    className="px-3 py-1.5 text-[#6c7a77] text-xs font-bold rounded-lg hover:bg-gray-100"
-                                  >
-                                    Ignore
-                                  </button>
-                                </div>
-                              </div>
-                            )}
-
-                            {/* Manual tagging form (for untagged or when editing auto-tagged) */}
-                            {(!isAutoTagged || isEditing) && (
+                            {/* Tagging form */}
                               <div className="mt-3 space-y-2">
                                 <div className="flex flex-wrap gap-2">
                                   {/* Property dropdown */}
@@ -936,17 +868,8 @@ export default function AdminExpenseImportPage() {
                                   >
                                     Ignore
                                   </button>
-                                  {isEditing && (
-                                    <button
-                                      onClick={() => setEdit(txn._key, "_editing", false)}
-                                      className="px-3 py-1.5 text-[#6c7a77] text-xs rounded-lg hover:bg-gray-100"
-                                    >
-                                      Cancel
-                                    </button>
-                                  )}
                                 </div>
                               </div>
-                            )}
                           </div>
                         );
                       })
