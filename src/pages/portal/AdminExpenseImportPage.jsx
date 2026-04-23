@@ -106,6 +106,10 @@ export default function AdminExpenseImportPage() {
   const [saving, setSaving] = useState(null);
   const [message, setMessage] = useState(null);
 
+  // Resume state
+  const [resumeAvailable, setResumeAvailable] = useState(false);
+  const [resumeLoading, setResumeLoading] = useState(false);
+
   // P&L report
   const [showPnl, setShowPnl] = useState(false);
   const [pnlData, setPnlData] = useState(null);
@@ -160,9 +164,89 @@ export default function AdminExpenseImportPage() {
     fetchRooms();
   }, [fetchNicknames, fetchProperties, fetchRooms]);
 
+  // ─── Check for resumable bank_transactions ────────────────────────────────────
+
+  const checkResumable = useCallback(async (month) => {
+    const { from, to } = getMonthRange(month);
+    const { count } = await supabase
+      .from("bank_transactions")
+      .select("id", { count: "exact", head: true })
+      .gte("transaction_date", from)
+      .lte("transaction_date", to);
+    setResumeAvailable((count ?? 0) > 0);
+  }, []);
+
+  async function handleResume() {
+    if (!reconcileMonth) return;
+    setResumeLoading(true);
+    setFetchError(null);
+    setUntagged([]);
+    setTagged([]);
+    setIgnored([]);
+    setEdits({});
+    setMessage(null);
+    setShowPnl(false);
+    setPnlData(null);
+
+    try {
+      const { from, to } = getMonthRange(reconcileMonth);
+
+      const { data: rows, error } = await supabase
+        .from("bank_transactions")
+        .select("*")
+        .gte("transaction_date", from)
+        .lte("transaction_date", to)
+        .order("transaction_date", { ascending: true });
+
+      if (error) throw error;
+      if (!rows || rows.length === 0) {
+        setFetchError("No saved transactions found for this month.");
+        return;
+      }
+
+      const withKeys = rows.map((r) => ({
+        ...r,
+        _key: r.reference || `bt-${r.id}`,
+        amount: Number(r.amount),
+      }));
+
+      const resumedUntagged = [];
+      const resumedTagged = [];
+      const resumedIgnored = [];
+
+      for (const txn of withKeys) {
+        if (txn.status === "CONFIRMED") {
+          resumedTagged.push({
+            ...txn,
+            _alreadyConfirmed: false,
+            _accrualMonth: txn.transaction_date?.slice(0, 7) || reconcileMonth,
+            _bankTxnId: txn.id,
+          });
+        } else if (txn.status === "IGNORED") {
+          resumedIgnored.push({ ...txn, _bankTxnId: txn.id });
+        } else {
+          resumedUntagged.push({ ...txn, _bankTxnId: txn.id });
+        }
+      }
+
+      setUntagged(resumedUntagged);
+      setTagged(resumedTagged);
+      setIgnored(resumedIgnored);
+      setMessage({
+        type: "success",
+        text: `Resumed ${withKeys.length} transactions (${resumedTagged.length} tagged, ${resumedIgnored.length} ignored, ${resumedUntagged.length} pending).`,
+      });
+    } catch (err) {
+      setFetchError(err?.message ?? "Failed to resume transactions.");
+    } finally {
+      setResumeLoading(false);
+    }
+  }
+
   useEffect(() => {
     checkFinalized(reconcileMonth);
-  }, [reconcileMonth, checkFinalized]);
+    checkResumable(reconcileMonth);
+  }, [reconcileMonth, checkFinalized, checkResumable]);
 
   // ─── Load Aspire accounts ─────────────────────────────────────────────────────
 
@@ -241,6 +325,41 @@ export default function AdminExpenseImportPage() {
         _key: t.reference || `txn-${i}-${t.transaction_date}-${t.amount}`,
       }));
 
+      // Save to bank_transactions (upsert by reference to avoid duplicates)
+      const btRows = withKeys
+        .filter((t) => t.reference) // only upsert rows that have a reference
+        .map((t) => ({
+          reference: t.reference,
+          transaction_date: t.transaction_date,
+          description: t.description,
+          amount: Number(t.amount),
+          currency: t.currency || "SGD",
+          status: "UNTAGGED",
+          transaction_type: Number(t.amount) < 0 ? "EXPENSE" : "INCOME",
+        }));
+
+      if (btRows.length > 0) {
+        const { error: upsertErr } = await supabase
+          .from("bank_transactions")
+          .upsert(btRows, { onConflict: "reference", ignoreDuplicates: true });
+        if (upsertErr) {
+          console.warn("[ExpenseImport] bank_transactions upsert warning:", upsertErr.message);
+        }
+      }
+
+      // Fetch bank_transactions IDs for these references (to link _bankTxnId)
+      const refs = withKeys.map((t) => t.reference).filter(Boolean);
+      let btIdMap = {};
+      if (refs.length > 0) {
+        const { data: btData } = await supabase
+          .from("bank_transactions")
+          .select("id, reference, status, property_id, category, room_id")
+          .in("reference", refs);
+        for (const bt of btData ?? []) {
+          btIdMap[bt.reference] = bt;
+        }
+      }
+
       // Check which have already been confirmed in property_expenses for this month
       const monthDate = reconcileMonth + "-01";
       const { data: existingExpenses } = await supabase
@@ -258,16 +377,40 @@ export default function AdminExpenseImportPage() {
       const needsTagging = [];
 
       for (const txn of withKeys) {
-        const sig = `${txn.description}|${txn.amount}`;
-        if (existingSet.has(sig)) {
-          alreadyTagged.push({ ...txn, _alreadyConfirmed: true });
+        const btRow = btIdMap[txn.reference];
+        const enriched = { ...txn, _bankTxnId: btRow?.id };
+
+        // If bank_transactions says CONFIRMED or IGNORED, respect that
+        if (btRow?.status === "CONFIRMED") {
+          alreadyTagged.push({
+            ...enriched,
+            _alreadyConfirmed: true,
+            property_id: btRow.property_id,
+            category: btRow.category,
+            room_id: btRow.room_id,
+            _accrualMonth: txn.transaction_date?.slice(0, 7) || reconcileMonth,
+          });
+        } else if (btRow?.status === "IGNORED") {
+          // Will go to ignored list below
+          needsTagging.push({ ...enriched, _wasIgnored: true });
         } else {
-          needsTagging.push(txn);
+          const sig = `${txn.description}|${txn.amount}`;
+          if (existingSet.has(sig)) {
+            alreadyTagged.push({ ...enriched, _alreadyConfirmed: true });
+          } else {
+            needsTagging.push(enriched);
+          }
         }
       }
 
-      setUntagged(needsTagging);
+      // Split out previously ignored
+      const actuallyIgnored = needsTagging.filter((t) => t._wasIgnored);
+      const actuallyUntagged = needsTagging.filter((t) => !t._wasIgnored);
+
+      setUntagged(actuallyUntagged);
       setTagged(alreadyTagged);
+      setIgnored(actuallyIgnored);
+      setResumeAvailable(true);
     } catch (err) {
       setFetchError(err?.message ?? "Failed to fetch transactions.");
     } finally {
@@ -372,7 +515,20 @@ export default function AdminExpenseImportPage() {
         }
       }
 
-      // 3. Move from untagged to tagged
+      // 3. Update bank_transactions status
+      if (txn._bankTxnId) {
+        await supabase
+          .from("bank_transactions")
+          .update({
+            status: "CONFIRMED",
+            property_id: propertyId,
+            category,
+            room_id: roomId,
+          })
+          .eq("id", txn._bankTxnId);
+      }
+
+      // 4. Move from untagged to tagged
       const confirmedTxn = {
         ...txn,
         property_id: propertyId,
@@ -398,14 +554,28 @@ export default function AdminExpenseImportPage() {
 
   // ─── Ignore a transaction ─────────────────────────────────────────────────────
 
-  function handleIgnore(txn) {
+  async function handleIgnore(txn) {
     setUntagged((prev) => prev.filter((t) => t._key !== txn._key));
     setIgnored((prev) => [...prev, txn]);
+    // Persist to bank_transactions
+    if (txn._bankTxnId) {
+      await supabase
+        .from("bank_transactions")
+        .update({ status: "IGNORED" })
+        .eq("id", txn._bankTxnId);
+    }
   }
 
-  function handleUnignore(txn) {
+  async function handleUnignore(txn) {
     setIgnored((prev) => prev.filter((t) => t._key !== txn._key));
     setUntagged((prev) => [...prev, txn]);
+    // Persist to bank_transactions
+    if (txn._bankTxnId) {
+      await supabase
+        .from("bank_transactions")
+        .update({ status: "UNTAGGED" })
+        .eq("id", txn._bankTxnId);
+    }
   }
 
   async function handleUndoTagged(txn) {
@@ -420,6 +590,13 @@ export default function AdminExpenseImportPage() {
         return;
       }
     }
+    // Reset bank_transactions status
+    if (txn._bankTxnId) {
+      await supabase
+        .from("bank_transactions")
+        .update({ status: "UNTAGGED", property_id: null, category: null, room_id: null })
+        .eq("id", txn._bankTxnId);
+    }
     // Move back to untagged
     setTagged((prev) => prev.filter((t) => t._key !== txn._key));
     setUntagged((prev) => [...prev, { ...txn, status: "UNTAGGED", _expenseId: undefined, _accrualMonth: undefined }]);
@@ -427,18 +604,21 @@ export default function AdminExpenseImportPage() {
 
   // ─── Summary computation ──────────────────────────────────────────────────────
 
+  // Group tagged transactions by property -> accrualMonth -> category
   const summary = useMemo(() => {
     const byProperty = {};
     for (const txn of tagged) {
       const propId = txn.property_id;
       if (!propId) continue;
+      const month = txn._accrualMonth || reconcileMonth;
       if (!byProperty[propId]) byProperty[propId] = {};
+      if (!byProperty[propId][month]) byProperty[propId][month] = {};
       const cat = txn.category || "OTHER_EXPENSE";
-      byProperty[propId][cat] =
-        (byProperty[propId][cat] || 0) + Math.abs(Number(txn.amount));
+      byProperty[propId][month][cat] =
+        (byProperty[propId][month][cat] || 0) + Math.abs(Number(txn.amount));
     }
     return byProperty;
-  }, [tagged]);
+  }, [tagged, reconcileMonth]);
 
   function getPropertyName(propId) {
     const p = properties.find((p) => p.id === propId);
@@ -574,9 +754,11 @@ export default function AdminExpenseImportPage() {
   const hasFetched = untagged.length > 0 || tagged.length > 0 || ignored.length > 0;
   const totalSummary = useMemo(() => {
     let total = 0;
-    for (const propCats of Object.values(summary)) {
-      for (const amt of Object.values(propCats)) {
-        total += amt;
+    for (const months of Object.values(summary)) {
+      for (const cats of Object.values(months)) {
+        for (const amt of Object.values(cats)) {
+          total += amt;
+        }
       }
     }
     return total;
@@ -691,6 +873,16 @@ export default function AdminExpenseImportPage() {
                 <span className="material-symbols-outlined text-[18px]">account_balance</span>
                 {fetching ? "Fetching..." : "Fetch Aspire"}
               </button>
+              {resumeAvailable && !hasFetched && (
+                <button
+                  onClick={handleResume}
+                  disabled={resumeLoading}
+                  className="px-5 py-2.5 bg-white text-[#006b5f] border-2 border-[#006b5f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006b5f]/5 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+                >
+                  <span className="material-symbols-outlined text-[18px]">history</span>
+                  {resumeLoading ? "Loading..." : "Resume Progress"}
+                </button>
+              )}
             </div>
           )}
         </div>
@@ -989,7 +1181,7 @@ export default function AdminExpenseImportPage() {
                 Summary by Property
               </h2>
               <p className="font-['Manrope'] text-[#6c7a77] text-xs mt-0.5">
-                {formatMonthLabel(reconcileMonth)} -- Total expenses: {formatSGD(totalSummary)}
+                Total expenses across all periods: {formatSGD(totalSummary)}
               </p>
             </div>
             <button
@@ -1004,8 +1196,12 @@ export default function AdminExpenseImportPage() {
 
           <div className="px-8 py-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {Object.entries(summary).map(([propId, cats]) => {
-                const propTotal = Object.values(cats).reduce((s, v) => s + v, 0);
+              {Object.entries(summary).map(([propId, months]) => {
+                const propTotal = Object.values(months).reduce(
+                  (s, cats) => s + Object.values(cats).reduce((ss, v) => ss + v, 0),
+                  0
+                );
+                const sortedMonths = Object.keys(months).sort();
                 return (
                   <div
                     key={propId}
@@ -1019,23 +1215,41 @@ export default function AdminExpenseImportPage() {
                         {formatSGD(propTotal)}
                       </p>
                     </div>
-                    <div className="space-y-1">
-                      {Object.entries(cats)
-                        .sort(([, a], [, b]) => b - a)
-                        .map(([cat, amt]) => (
-                          <div
-                            key={cat}
-                            className="flex items-center justify-between text-xs"
-                          >
-                            <span className="font-['Manrope'] text-[#6c7a77]">
-                              {categoryLabel(cat)}
-                            </span>
-                            <span className="font-['Plus_Jakarta_Sans'] font-semibold text-[#121c2a] tabular-nums">
-                              {formatSGD(amt)}
-                            </span>
+                    {sortedMonths.map((month) => {
+                      const cats = months[month];
+                      const monthTotal = Object.values(cats).reduce((s, v) => s + v, 0);
+                      return (
+                        <div key={month} className={sortedMonths.length > 1 ? "mb-3 last:mb-0" : ""}>
+                          {sortedMonths.length > 1 && (
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="font-['Inter'] text-[9px] uppercase tracking-widest text-[#006b5f] font-bold">
+                                {formatMonthLabel(month)}
+                              </span>
+                              <span className="font-['Plus_Jakarta_Sans'] text-[10px] font-semibold text-[#006b5f] tabular-nums">
+                                {formatSGD(monthTotal)}
+                              </span>
+                            </div>
+                          )}
+                          <div className="space-y-1">
+                            {Object.entries(cats)
+                              .sort(([, a], [, b]) => b - a)
+                              .map(([cat, amt]) => (
+                                <div
+                                  key={cat}
+                                  className="flex items-center justify-between text-xs"
+                                >
+                                  <span className="font-['Manrope'] text-[#6c7a77]">
+                                    {categoryLabel(cat)}
+                                  </span>
+                                  <span className="font-['Plus_Jakarta_Sans'] font-semibold text-[#121c2a] tabular-nums">
+                                    {formatSGD(amt)}
+                                  </span>
+                                </div>
+                              ))}
                           </div>
-                        ))}
-                    </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 );
               })}
