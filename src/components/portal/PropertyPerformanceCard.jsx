@@ -11,8 +11,8 @@ export default function PropertyPerformanceCard({ property, investment, financia
   const netProfit = Number(financial?.net_profit ?? 0);
   const isProfitable = netProfit >= 0;
 
-  const revenue = Number(financial?.revenue ?? 0);
-  const expenses = Number(financial?.expenses ?? 0);
+  const revenue = Number(financial?.total_revenue ?? financial?.revenue ?? 0);
+  const expenses = Number(financial?.total_expenses ?? financial?.expenses ?? 0);
   const sharePercent = Number(investment?.share_percentage ?? 0);
   const yourShare = (netProfit * sharePercent) / 100;
 
