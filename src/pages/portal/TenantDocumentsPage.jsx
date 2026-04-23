@@ -80,18 +80,23 @@ export default function TenantDocumentsPage() {
 
     try {
       const ts = Date.now();
-      const ext = uploadFile.name.split(".").pop() || "pdf";
+      // Safely extract extension — fallback to mime type or "bin"
+      const nameParts = uploadFile.name.split(".");
+      const ext = nameParts.length > 1 ? nameParts.pop().toLowerCase() : (uploadFile.type?.split("/")[1] || "bin");
+      const mimeType = uploadFile.type || "application/octet-stream";
       const storagePath = `tenants/${profile.id}/uploads/${uploadType.toLowerCase()}-${ts}.${ext}`;
+
+      // Convert to ArrayBuffer for mobile browser compatibility
+      const arrayBuffer = await uploadFile.arrayBuffer();
 
       const { error: uploadError } = await supabase.storage
         .from("tenant-documents")
-        .upload(storagePath, uploadFile, { upsert: false });
+        .upload(storagePath, arrayBuffer, { upsert: false, contentType: mimeType });
 
       if (uploadError) throw new Error("Upload failed: " + uploadError.message);
 
-      const { data: urlData } = supabase.storage
-        .from("tenant-documents")
-        .getPublicUrl(storagePath);
+      // Store the path — use signed URLs for private bucket
+      const fileUrl = `tenant-documents/${storagePath}`;
 
       const { error: insertError } = await supabase
         .from("tenant_documents")
@@ -100,7 +105,7 @@ export default function TenantDocumentsPage() {
           doc_type: uploadType,
           title: uploadTitle.trim() || DOC_TYPE_LABELS[uploadType] || "Document",
           status: "UPLOADED",
-          file_url: urlData.publicUrl,
+          file_url: fileUrl,
         });
 
       if (insertError) throw new Error("Failed to save record: " + insertError.message);
