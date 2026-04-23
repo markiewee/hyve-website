@@ -340,7 +340,8 @@ export default function AdminExpenseImportPage() {
     setMessage(null);
 
     try {
-      const monthDate = reconcileMonth + "-01";
+      const accrualMonth = edit.accrual_month ?? reconcileMonth;
+      const monthDate = accrualMonth + "-01";
       const absAmount = Math.abs(Number(txn.amount));
 
       // 1. Insert into property_expenses
@@ -855,6 +856,17 @@ export default function AdminExpenseImportPage() {
                                       </option>
                                     ))}
                                   </select>
+
+                                  {/* Accounting period override */}
+                                  <input
+                                    type="month"
+                                    value={edit.accrual_month ?? reconcileMonth}
+                                    onChange={(e) =>
+                                      setEdit(txn._key, "accrual_month", e.target.value)
+                                    }
+                                    title="Accounting period (defaults to reconciliation month)"
+                                    className="min-w-[120px] px-2 py-1.5 rounded-lg border border-[#bbcac6]/30 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white"
+                                  />
                                 </div>
 
                                 <div className="flex items-center gap-2">
