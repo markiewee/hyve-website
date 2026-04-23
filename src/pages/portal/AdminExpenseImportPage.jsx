@@ -651,7 +651,7 @@ export default function AdminExpenseImportPage() {
   }
 
   async function handleUndoTagged(txn) {
-    // Delete from property_expenses if we have the ID
+    // Delete from property_expenses — by ID if available, otherwise by description+amount match
     if (txn._expenseId) {
       const { error } = await supabase
         .from("property_expenses")
@@ -661,6 +661,12 @@ export default function AdminExpenseImportPage() {
         setMessage({ type: "error", text: `Failed to undo: ${error.message}` });
         return;
       }
+    } else if (txn.description) {
+      await supabase
+        .from("property_expenses")
+        .delete()
+        .eq("description", txn.description)
+        .eq("amount", Math.abs(Number(txn.amount)));
     }
     // Reset bank_transactions status
     if (txn._bankTxnId) {
@@ -1226,20 +1232,13 @@ export default function AdminExpenseImportPage() {
                                 <p className="font-['Plus_Jakarta_Sans'] font-bold text-xs tabular-nums text-[#121c2a] shrink-0">
                                   {formatSGD(txn.amount)}
                                 </p>
-                                {txn._alreadyConfirmed && (
-                                  <span className="material-symbols-outlined text-[14px] text-[#6c7a77]" title="Previously confirmed">
-                                    history
-                                  </span>
-                                )}
-                                {!txn._alreadyConfirmed && (
-                                  <button
-                                    onClick={() => handleUndoTagged(txn)}
-                                    className="text-[#6c7a77] hover:text-[#ba1a1a] transition-colors shrink-0"
-                                    title="Undo — move back to untagged"
-                                  >
-                                    <span className="material-symbols-outlined text-[16px]">undo</span>
-                                  </button>
-                                )}
+                                <button
+                                  onClick={() => handleUndoTagged(txn)}
+                                  className="text-[#6c7a77] hover:text-[#ba1a1a] transition-colors shrink-0"
+                                  title="Undo — move back to untagged"
+                                >
+                                  <span className="material-symbols-outlined text-[16px]">undo</span>
+                                </button>
                               </div>
                             ))}
                           </div>
