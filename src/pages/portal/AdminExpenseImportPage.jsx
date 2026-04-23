@@ -72,6 +72,12 @@ function categoryLabel(key) {
   return cat ? cat.label : key?.replace(/_/g, " ") ?? "--";
 }
 
+function getPreviousMonth(monthStr) {
+  const [y, m] = monthStr.split("-").map(Number);
+  const d = new Date(y, m - 2, 1); // m-1 is current (0-indexed), m-2 is previous
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+}
+
 // ─── Component ─────────────────────────────────────────────────────────────────
 
 export default function AdminExpenseImportPage() {
@@ -120,6 +126,7 @@ export default function AdminExpenseImportPage() {
   const [pnlLoading, setPnlLoading] = useState(false);
   const [isFinalized, setIsFinalized] = useState(false);
   const [finalizing, setFinalizing] = useState(false);
+  const [pnlNotes, setPnlNotes] = useState({});
 
   // CSV fallback
   const { importFromCsv, importing, progress, error: csvError } = useTransactionImport();
@@ -722,15 +729,14 @@ export default function AdminExpenseImportPage() {
 
     try {
       const monthDate = reconcileMonth + "-01";
-      const [y, m] = reconcileMonth.split("-").map(Number);
-      const lastDay = new Date(y, m, 0).getDate();
-      const monthEnd = `${y}-${String(m).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`;
+      const prevMonth = getPreviousMonth(reconcileMonth);
+      const prevMonthDate = prevMonth + "-01";
 
       // Fetch income from rent_payments
       const { data: rentData } = await supabase
         .from("rent_payments")
         .select("rent_amount, paid_amount, status, tenant_profiles(rooms(property_id))")
-        .eq("status", "PAID")
+        .in("status", ["PAID", "PARTIAL"])
         .eq("month", monthDate);
 
       // Fetch expenses from property_expenses
@@ -738,6 +744,35 @@ export default function AdminExpenseImportPage() {
         .from("property_expenses")
         .select("property_id, category, amount")
         .eq("month", monthDate);
+
+      // Fetch previous month's monthly_financials for carried_loss
+      const { data: prevFinancials } = await supabase
+        .from("monthly_financials")
+        .select("property_id, carried_loss, notes")
+        .eq("month", prevMonthDate);
+
+      // Fetch current month's monthly_financials for existing notes
+      const { data: currentFinancials } = await supabase
+        .from("monthly_financials")
+        .select("property_id, notes")
+        .eq("month", monthDate);
+
+      // Build carried loss map from previous month
+      const prevCarriedLoss = {};
+      for (const f of prevFinancials ?? []) {
+        if (f.carried_loss && Number(f.carried_loss) > 0) {
+          prevCarriedLoss[f.property_id] = Number(f.carried_loss);
+        }
+      }
+
+      // Load existing notes for current month
+      const loadedNotes = {};
+      for (const f of currentFinancials ?? []) {
+        if (f.notes) {
+          loadedNotes[f.property_id] = f.notes;
+        }
+      }
+      setPnlNotes(loadedNotes);
 
       // Build income by property
       const incomeByProperty = {};
@@ -766,12 +801,60 @@ export default function AdminExpenseImportPage() {
         ...new Set([...Object.keys(incomeByProperty), ...Object.keys(expenseByPropCat)]),
       ];
 
+      // Calculate loss rollover and management fee logic per property
+      const carriedLossFromPrev = {};
+      const carriedLossForward = {};
+      const mgmtFeeApplied = {};
+      const mgmtFeeWaived = {};
+      const netProfitCalc = {};
+
+      for (const propId of allPropIds) {
+        const income = incomeByProperty[propId] || 0;
+        const propExpenses = expenseByPropCat[propId] || {};
+
+        // Split expenses: exclude MANAGEMENT_FEES
+        let expensesExclMgmt = 0;
+        let mgmtFee = 0;
+        for (const [cat, amt] of Object.entries(propExpenses)) {
+          if (cat === "MANAGEMENT_FEES") {
+            mgmtFee += amt;
+          } else {
+            expensesExclMgmt += amt;
+          }
+        }
+
+        const carriedLoss = prevCarriedLoss[propId] || 0;
+        carriedLossFromPrev[propId] = carriedLoss;
+
+        const grossProfit = income - expensesExclMgmt;
+        const netAfterCarry = grossProfit - carriedLoss;
+
+        if (netAfterCarry > 0) {
+          // Profitable after carry — management fee applies
+          mgmtFeeApplied[propId] = mgmtFee;
+          mgmtFeeWaived[propId] = false;
+          netProfitCalc[propId] = netAfterCarry - mgmtFee;
+          carriedLossForward[propId] = 0;
+        } else {
+          // Loss or breakeven — no management fee
+          mgmtFeeApplied[propId] = 0;
+          mgmtFeeWaived[propId] = mgmtFee > 0;
+          netProfitCalc[propId] = netAfterCarry;
+          carriedLossForward[propId] = Math.abs(netAfterCarry);
+        }
+      }
+
       setPnlData({
         month: reconcileMonth,
         properties: allPropIds,
         income: incomeByProperty,
         expenses: expenseByPropCat,
         categories: [...allCategories].sort(),
+        carriedLossFromPrev,
+        carriedLossForward,
+        mgmtFeeApplied,
+        mgmtFeeWaived,
+        netProfitCalc,
       });
     } catch (err) {
       setMessage({ type: "error", text: `Failed to generate P&L: ${err.message}` });
@@ -791,9 +874,10 @@ export default function AdminExpenseImportPage() {
         const totalIncome = pnlData.income[propId] || 0;
         const propExpenses = pnlData.expenses[propId] || {};
         const totalExpenses = Object.values(propExpenses).reduce((s, v) => s + v, 0);
-        const netProfit = totalIncome - totalExpenses;
+        const netProfit = pnlData.netProfitCalc?.[propId] ?? (totalIncome - totalExpenses);
+        const carriedLoss = pnlData.carriedLossForward?.[propId] ?? 0;
 
-        // 1. Upsert monthly_financials
+        // 1. Upsert monthly_financials (with notes and carried_loss)
         await supabase.from("monthly_financials").upsert(
           {
             property_id: propId,
@@ -803,12 +887,13 @@ export default function AdminExpenseImportPage() {
             net_profit: netProfit,
             status: "FINALIZED",
             finalized_at: new Date().toISOString(),
+            notes: pnlNotes[propId] || null,
+            carried_loss: carriedLoss,
           },
           { onConflict: "property_id,month" }
         );
 
-        // 2. Auto-create investor report with financials
-        const propName = properties.find((p) => p.id === propId)?.name ?? "";
+        // 2. Auto-create investor report with financials (with notes)
         await supabase.from("investor_reports").upsert(
           {
             property_id: propId,
@@ -818,6 +903,7 @@ export default function AdminExpenseImportPage() {
             total_revenue: totalIncome,
             total_expenses: totalExpenses,
             net_income: netProfit,
+            notes: pnlNotes[propId] || null,
           },
           { onConflict: "property_id,month,category" }
         );
@@ -1443,7 +1529,7 @@ export default function AdminExpenseImportPage() {
                   </td>
                 </tr>
 
-                {/* Expenses section */}
+                {/* Expenses section (excluding management fees — shown separately) */}
                 <tr className="bg-[#ffdad6]/10">
                   <td
                     colSpan={pnlData.properties.length + 2}
@@ -1452,7 +1538,7 @@ export default function AdminExpenseImportPage() {
                     Expenses
                   </td>
                 </tr>
-                {pnlData.categories.map((cat) => (
+                {pnlData.categories.filter((cat) => cat !== "MANAGEMENT_FEES").map((cat) => (
                   <tr key={cat} className="border-b border-[#bbcac6]/10">
                     <td className="py-2 pr-4 font-['Manrope'] text-[#121c2a]">
                       {categoryLabel(cat)}
@@ -1476,17 +1562,16 @@ export default function AdminExpenseImportPage() {
                   </tr>
                 ))}
 
-                {/* Total Expenses */}
+                {/* Total Expenses (excl management fees) */}
                 <tr className="border-b border-[#bbcac6]/15">
                   <td className="py-2 pr-4 font-['Manrope'] font-bold text-[#121c2a]">
                     Total Expenses
                   </td>
                   {pnlData.properties.map((propId) => {
                     const propExpenses = pnlData.expenses[propId] || {};
-                    const total = Object.values(propExpenses).reduce(
-                      (s, v) => s + v,
-                      0
-                    );
+                    const total = Object.entries(propExpenses)
+                      .filter(([cat]) => cat !== "MANAGEMENT_FEES")
+                      .reduce((s, [, v]) => s + v, 0);
                     return (
                       <td
                         key={propId}
@@ -1502,12 +1587,73 @@ export default function AdminExpenseImportPage() {
                         const propExpenses = pnlData.expenses[p] || {};
                         return (
                           s +
-                          Object.values(propExpenses).reduce((ss, v) => ss + v, 0)
+                          Object.entries(propExpenses)
+                            .filter(([cat]) => cat !== "MANAGEMENT_FEES")
+                            .reduce((ss, [, v]) => ss + v, 0)
                         );
                       }, 0)
                     )}
                   </td>
                 </tr>
+
+                {/* Carried Loss (prev month) — only show if any property has carried loss */}
+                {pnlData.carriedLossFromPrev && pnlData.properties.some((p) => (pnlData.carriedLossFromPrev[p] || 0) > 0) && (
+                  <tr className="border-b border-[#bbcac6]/10 bg-amber-50/30">
+                    <td className="py-2 pr-4 font-['Manrope'] text-[#121c2a] italic">
+                      Carried Loss (prev month)
+                    </td>
+                    {pnlData.properties.map((propId) => {
+                      const carried = pnlData.carriedLossFromPrev[propId] || 0;
+                      return (
+                        <td
+                          key={propId}
+                          className="py-2 px-4 text-right font-['Plus_Jakarta_Sans'] font-semibold tabular-nums text-amber-700"
+                        >
+                          {carried > 0 ? `(${formatSGD(carried)})` : "--"}
+                        </td>
+                      );
+                    })}
+                    <td className="py-2 pl-4 text-right font-['Plus_Jakarta_Sans'] font-semibold tabular-nums text-amber-700">
+                      {formatSGD(
+                        pnlData.properties.reduce(
+                          (s, p) => s + (pnlData.carriedLossFromPrev[p] || 0),
+                          0
+                        )
+                      )}
+                    </td>
+                  </tr>
+                )}
+
+                {/* Management Fee row */}
+                {pnlData.categories.includes("MANAGEMENT_FEES") && (
+                  <tr className="border-b border-[#bbcac6]/10">
+                    <td className="py-2 pr-4 font-['Manrope'] text-[#121c2a]">
+                      Management Fee
+                    </td>
+                    {pnlData.properties.map((propId) => {
+                      const applied = pnlData.mgmtFeeApplied?.[propId] ?? 0;
+                      const waived = pnlData.mgmtFeeWaived?.[propId] ?? false;
+                      return (
+                        <td
+                          key={propId}
+                          className={`py-2 px-4 text-right font-['Plus_Jakarta_Sans'] font-semibold tabular-nums ${
+                            waived ? "text-amber-600 italic" : "text-[#121c2a]"
+                          }`}
+                        >
+                          {waived ? "Waived (loss)" : formatSGD(applied)}
+                        </td>
+                      );
+                    })}
+                    <td className="py-2 pl-4 text-right font-['Plus_Jakarta_Sans'] font-semibold text-[#121c2a] tabular-nums">
+                      {formatSGD(
+                        pnlData.properties.reduce(
+                          (s, p) => s + (pnlData.mgmtFeeApplied?.[p] || 0),
+                          0
+                        )
+                      )}
+                    </td>
+                  </tr>
+                )}
 
                 {/* Net Profit */}
                 <tr className="bg-[#eff4ff]/30">
@@ -1515,13 +1661,7 @@ export default function AdminExpenseImportPage() {
                     Net Profit
                   </td>
                   {pnlData.properties.map((propId) => {
-                    const income = pnlData.income[propId] || 0;
-                    const propExpenses = pnlData.expenses[propId] || {};
-                    const totalExp = Object.values(propExpenses).reduce(
-                      (s, v) => s + v,
-                      0
-                    );
-                    const net = income - totalExp;
+                    const net = pnlData.netProfitCalc?.[propId] ?? 0;
                     return (
                       <td
                         key={propId}
@@ -1535,15 +1675,10 @@ export default function AdminExpenseImportPage() {
                   })}
                   <td className="py-3 pl-4 text-right">
                     {(() => {
-                      const totalNet = pnlData.properties.reduce((s, p) => {
-                        const income = pnlData.income[p] || 0;
-                        const propExpenses = pnlData.expenses[p] || {};
-                        const totalExp = Object.values(propExpenses).reduce(
-                          (ss, v) => ss + v,
-                          0
-                        );
-                        return s + (income - totalExp);
-                      }, 0);
+                      const totalNet = pnlData.properties.reduce(
+                        (s, p) => s + (pnlData.netProfitCalc?.[p] ?? 0),
+                        0
+                      );
                       return (
                         <span
                           className={`font-['Plus_Jakarta_Sans'] font-bold text-lg tabular-nums ${
@@ -1557,6 +1692,59 @@ export default function AdminExpenseImportPage() {
                       );
                     })()}
                   </td>
+                </tr>
+
+                {/* Loss Carried Forward — only show if any property has loss to carry */}
+                {pnlData.carriedLossForward && pnlData.properties.some((p) => (pnlData.carriedLossForward[p] || 0) > 0) && (
+                  <tr className="border-t border-[#bbcac6]/10 bg-amber-50/20">
+                    <td className="py-2 pr-4 font-['Manrope'] font-semibold text-amber-700 italic">
+                      Loss Carried Forward
+                    </td>
+                    {pnlData.properties.map((propId) => {
+                      const lossForward = pnlData.carriedLossForward[propId] || 0;
+                      return (
+                        <td
+                          key={propId}
+                          className="py-2 px-4 text-right font-['Plus_Jakarta_Sans'] font-semibold tabular-nums text-amber-700"
+                        >
+                          {lossForward > 0 ? `(${formatSGD(lossForward)})` : "--"}
+                        </td>
+                      );
+                    })}
+                    <td className="py-2 pl-4 text-right font-['Plus_Jakarta_Sans'] font-semibold tabular-nums text-amber-700">
+                      {formatSGD(
+                        pnlData.properties.reduce(
+                          (s, p) => s + (pnlData.carriedLossForward[p] || 0),
+                          0
+                        )
+                      )}
+                    </td>
+                  </tr>
+                )}
+
+                {/* Notes per property */}
+                <tr>
+                  <td className="py-3 pr-4 align-top font-['Manrope'] font-semibold text-[#6c7a77] text-xs pt-4">
+                    Notes
+                  </td>
+                  {pnlData.properties.map((propId) => (
+                    <td key={propId} className="py-3 px-4 align-top">
+                      <textarea
+                        value={pnlNotes[propId] || ""}
+                        onChange={(e) =>
+                          setPnlNotes((prev) => ({
+                            ...prev,
+                            [propId]: e.target.value,
+                          }))
+                        }
+                        placeholder={`Notes for ${getPropertyName(propId)}...`}
+                        rows={3}
+                        disabled={isFinalized}
+                        className="w-full px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-xs font-['Manrope'] text-[#121c2a] placeholder:text-[#bbcac6] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white resize-y disabled:bg-gray-50 disabled:opacity-60"
+                      />
+                    </td>
+                  ))}
+                  <td className="py-3 pl-4" />
                 </tr>
               </tbody>
             </table>
