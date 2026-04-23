@@ -893,15 +893,22 @@ export default function AdminExpenseImportPage() {
                                   </select>
 
                                   {/* Accounting period override */}
-                                  <input
-                                    type="month"
+                                  <select
                                     value={edit.accrual_month ?? reconcileMonth}
                                     onChange={(e) =>
                                       setEdit(txn._key, "accrual_month", e.target.value)
                                     }
-                                    title="Accounting period (defaults to reconciliation month)"
-                                    className="min-w-[120px] px-2 py-1.5 rounded-lg border border-[#bbcac6]/30 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white"
-                                  />
+                                    title="Accounting period"
+                                    className="min-w-[110px] px-2 py-1.5 rounded-lg border border-[#bbcac6]/30 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white"
+                                  >
+                                    {Array.from({ length: 12 }, (_, i) => {
+                                      const d = new Date();
+                                      d.setMonth(d.getMonth() - 6 + i);
+                                      const val = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+                                      const label = d.toLocaleDateString("en-SG", { month: "short", year: "numeric" });
+                                      return <option key={val} value={val}>{label}</option>;
+                                    })}
+                                  </select>
                                 </div>
 
                                 <div className="flex items-center gap-2">
