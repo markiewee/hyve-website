@@ -42,21 +42,9 @@ export default function PropertyPerformanceCard({ property, investment, financia
       </CardHeader>
 
       <CardContent>
-        {/* Your share */}
-        <div className="flex items-center justify-between mb-3 py-3 px-4 bg-muted/40 rounded-md">
-          <p className="text-sm text-muted-foreground">Your Share</p>
-          <p
-            className={`text-lg font-bold tabular-nums ${
-              yourShare >= 0 ? "text-green-700" : "text-muted-foreground"
-            }`}
-          >
-            SGD {formatSGD(Math.max(yourShare, 0))}
-          </p>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <p className="text-xs text-muted-foreground">Capital Contributed</p>
-          <p className="text-xs font-medium tabular-nums">
+        <div className="flex items-center justify-between py-3 px-4 bg-muted/40 rounded-md">
+          <p className="text-sm text-muted-foreground">Capital Contributed</p>
+          <p className="text-lg font-bold tabular-nums text-[#121c2a]">
             SGD {formatSGD(investment?.capital_contributed)}
           </p>
         </div>
