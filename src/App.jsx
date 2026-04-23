@@ -57,6 +57,7 @@ import MemberSettingsPage from './pages/portal/MemberSettingsPage';
 import HelpPage from './pages/portal/HelpPage';
 import MaintenanceSchedulePage from './pages/portal/MaintenanceSchedulePage';
 import InvestorDashboardPage from './pages/portal/InvestorDashboardPage';
+import InvestorReportsPage from './pages/portal/InvestorReportsPage';
 import InvestorSignupPage from './pages/portal/InvestorSignupPage';
 import OnboardingPage from './pages/portal/OnboardingPage';
 import SigningConfirmationPage from './pages/portal/SigningConfirmationPage';
@@ -360,6 +361,14 @@ function AppContent() {
             element={
               <AuthGuard>
                 <InvestorDashboardPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/investor/reports"
+            element={
+              <AuthGuard>
+                <InvestorReportsPage />
               </AuthGuard>
             }
           />

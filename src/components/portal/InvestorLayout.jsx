@@ -7,6 +7,11 @@ const INVESTOR_NAV = [
     to: "/portal/investor/dashboard",
     icon: "dashboard",
   },
+  {
+    label: "Reports",
+    to: "/portal/investor/reports",
+    icon: "description",
+  },
 ];
 
 export default function InvestorLayout({ children }) {

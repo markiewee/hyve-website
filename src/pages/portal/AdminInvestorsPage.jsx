@@ -42,6 +42,22 @@ export default function AdminInvestorsPage() {
   const [approvingAll, setApprovingAll] = useState(false);
   const [approvingId, setApprovingId] = useState(null);
 
+  // Reports state
+  const [reportMonth, setReportMonth] = useState(getMonthStr(new Date()));
+  const [reportPropertyId, setReportPropertyId] = useState("");
+  const [reportTitle, setReportTitle] = useState("");
+  const [reportCategory, setReportCategory] = useState("Monthly P&L");
+  const [reportRevenue, setReportRevenue] = useState("");
+  const [reportExpenses, setReportExpenses] = useState("");
+  const [reportDistribution, setReportDistribution] = useState("");
+  const [reportNotes, setReportNotes] = useState("");
+  const [reportFile, setReportFile] = useState(null);
+  const [reportSaving, setReportSaving] = useState(false);
+  const [reportError, setReportError] = useState(null);
+  const [reportSuccess, setReportSuccess] = useState(null);
+  const [existingReports, setExistingReports] = useState([]);
+  const [reportsLoading, setReportsLoading] = useState(false);
+
   const fetchInvestors = useCallback(async () => {
     const { data, error } = await supabase
       .from("investors")
@@ -321,6 +337,98 @@ export default function AdminInvestorsPage() {
     }
     setApprovingAll(false);
     fetchDistributions();
+  }
+
+  // ─── Reports ─────────────────────────────────────────────────────────────────
+
+  const fetchReports = useCallback(async () => {
+    setReportsLoading(true);
+    const { data, error } = await supabase
+      .from("investor_reports")
+      .select("*, properties(name, code)")
+      .order("month", { ascending: false })
+      .limit(20);
+
+    if (error) console.error("Error fetching reports:", error);
+    setExistingReports(data ?? []);
+    setReportsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    fetchReports();
+  }, [fetchReports]);
+
+  async function handleSaveReport(e) {
+    e.preventDefault();
+    setReportSaving(true);
+    setReportError(null);
+    setReportSuccess(null);
+
+    try {
+      const revenue = Number(reportRevenue) || 0;
+      const expenses = Number(reportExpenses) || 0;
+      const net = revenue - expenses;
+      const distribution = Number(reportDistribution) || 0;
+
+      let fileUrl = null;
+
+      // Upload PDF if provided
+      if (reportFile) {
+        const ext = reportFile.name.split(".").pop();
+        const path = `${reportPropertyId}/${reportMonth}-${Date.now()}.${ext}`;
+        const { error: uploadError } = await supabase.storage
+          .from("investor-reports")
+          .upload(path, reportFile);
+
+        if (uploadError) throw new Error(`Upload failed: ${uploadError.message}`);
+
+        const { data: urlData } = supabase.storage
+          .from("investor-reports")
+          .getPublicUrl(path);
+
+        fileUrl = urlData.publicUrl;
+      }
+
+      const { error: insertError } = await supabase
+        .from("investor_reports")
+        .upsert(
+          {
+            property_id: reportPropertyId,
+            month: `${reportMonth}-01`,
+            title: reportTitle || `${reportMonth} Monthly Report`,
+            category: reportCategory,
+            total_revenue: revenue,
+            total_expenses: expenses,
+            net_income: net,
+            distribution_amount: distribution,
+            notes: reportNotes || null,
+            ...(fileUrl ? { file_url: fileUrl } : {}),
+          },
+          { onConflict: "property_id,month,category" }
+        );
+
+      if (insertError) throw new Error(insertError.message);
+
+      setReportSuccess("Report saved.");
+      setReportTitle("");
+      setReportRevenue("");
+      setReportExpenses("");
+      setReportDistribution("");
+      setReportNotes("");
+      setReportFile(null);
+      fetchReports();
+    } catch (err) {
+      setReportError(err.message);
+    } finally {
+      setReportSaving(false);
+    }
+  }
+
+  async function handleDeleteReport(id) {
+    if (!confirm("Delete this report?")) return;
+    const { error } = await supabase.from("investor_reports").delete().eq("id", id);
+    if (error) console.error("Error deleting report:", error);
+    fetchReports();
   }
 
   const totalCapitalAll = investors.reduce(
@@ -810,6 +918,211 @@ export default function AdminInvestorsPage() {
           </p>
         </div>
       )}
+
+      {/* ─── Reports Section ───────────────────────────────────────────── */}
+      <div className="mt-12 pt-8 border-t-2 border-[#bbcac6]/15">
+        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#121c2a] mb-6 flex items-center gap-2">
+          <span className="material-symbols-outlined text-[#006b5f]">description</span>
+          Investor Reports
+        </h2>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Upload form */}
+          <div className="lg:col-span-5">
+            <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
+              <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-5">
+                Add / Update Report
+              </h3>
+              <form onSubmit={handleSaveReport} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                      Month
+                    </label>
+                    <input
+                      type="month"
+                      value={reportMonth}
+                      onChange={(e) => setReportMonth(e.target.value)}
+                      required
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                      Property
+                    </label>
+                    <select
+                      value={reportPropertyId}
+                      onChange={(e) => setReportPropertyId(e.target.value)}
+                      required
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                    >
+                      <option value="">Select...</option>
+                      {properties.map((p) => (
+                        <option key={p.id} value={p.id}>{p.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                    Title
+                  </label>
+                  <input
+                    type="text"
+                    value={reportTitle}
+                    onChange={(e) => setReportTitle(e.target.value)}
+                    placeholder={`${reportMonth} Monthly Report`}
+                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                  />
+                </div>
+
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                      Revenue
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={reportRevenue}
+                      onChange={(e) => setReportRevenue(e.target.value)}
+                      placeholder="0.00"
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none tabular-nums"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                      Expenses
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={reportExpenses}
+                      onChange={(e) => setReportExpenses(e.target.value)}
+                      placeholder="0.00"
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none tabular-nums"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                      Distributed
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={reportDistribution}
+                      onChange={(e) => setReportDistribution(e.target.value)}
+                      placeholder="0.00"
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] outline-none tabular-nums"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                    Notes (optional)
+                  </label>
+                  <textarea
+                    value={reportNotes}
+                    onChange={(e) => setReportNotes(e.target.value)}
+                    rows={2}
+                    placeholder="Any commentary for investors..."
+                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none resize-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                    PDF Report (optional)
+                  </label>
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    onChange={(e) => setReportFile(e.target.files?.[0] ?? null)}
+                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-[#006b5f] file:text-white file:font-semibold file:text-xs"
+                  />
+                </div>
+
+                {reportError && (
+                  <p className="text-sm text-red-600 font-['Manrope']">{reportError}</p>
+                )}
+                {reportSuccess && (
+                  <p className="text-sm text-green-600 font-['Manrope']">{reportSuccess}</p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={reportSaving || !reportPropertyId}
+                  className="w-full py-3 rounded-xl font-['Manrope'] font-bold text-white bg-[#006b5f] hover:bg-[#005a50] disabled:opacity-50 transition-colors"
+                >
+                  {reportSaving ? "Saving..." : "Save Report"}
+                </button>
+              </form>
+            </div>
+          </div>
+
+          {/* Existing reports list */}
+          <div className="lg:col-span-7">
+            <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
+              <div className="px-6 py-4 border-b border-[#bbcac6]/10">
+                <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
+                  Recent Reports
+                </h3>
+              </div>
+              {reportsLoading ? (
+                <div className="p-6 space-y-3">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="h-10 bg-[#eff4ff] animate-pulse rounded-xl" />
+                  ))}
+                </div>
+              ) : existingReports.length === 0 ? (
+                <div className="p-6 text-center text-[#6c7a77] font-['Manrope']">
+                  No reports yet.
+                </div>
+              ) : (
+                <div className="divide-y divide-[#bbcac6]/10">
+                  {existingReports.map((r) => (
+                    <div key={r.id} className="px-6 py-4 flex items-center justify-between">
+                      <div className="min-w-0">
+                        <p className="font-['Manrope'] font-semibold text-[#121c2a] text-sm truncate">
+                          {r.title}
+                        </p>
+                        <p className="font-['Inter'] text-xs text-[#6c7a77]">
+                          {r.properties?.name ?? "\u2014"} &middot;{" "}
+                          {new Date(r.month).toLocaleDateString("en-SG", { month: "short", year: "numeric" })}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-3 flex-shrink-0">
+                        <span className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#006b5f] tabular-nums">
+                          {formatSGD(r.net_income)}
+                        </span>
+                        {r.file_url && (
+                          <a
+                            href={r.file_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#006b5f] hover:text-[#005a50]"
+                          >
+                            <span className="material-symbols-outlined text-[18px]">download</span>
+                          </a>
+                        )}
+                        <button
+                          onClick={() => handleDeleteReport(r.id)}
+                          className="text-[#6c7a77] hover:text-[#ba1a1a] transition-colors"
+                        >
+                          <span className="material-symbols-outlined text-[18px]">delete</span>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </PortalLayout>
   );
 }
