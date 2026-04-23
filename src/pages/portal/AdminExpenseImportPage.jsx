@@ -110,6 +110,9 @@ export default function AdminExpenseImportPage() {
   const [resumeAvailable, setResumeAvailable] = useState(false);
   const [resumeLoading, setResumeLoading] = useState(false);
 
+  // Save state
+  const [savingAll, setSavingAll] = useState(false);
+
   // P&L report
   const [showPnl, setShowPnl] = useState(false);
   const [pnlData, setPnlData] = useState(null);
@@ -439,6 +442,62 @@ export default function AdminExpenseImportPage() {
       }
     } catch (err) {
       setMessage({ type: "error", text: err?.message ?? "CSV import failed." });
+    }
+  }
+
+  // ─── Save All Progress ────────────────────────────────────────────────────────
+
+  async function handleSaveAll() {
+    setSavingAll(true);
+    setMessage(null);
+
+    try {
+      const allTxns = [
+        ...untagged.map((t) => ({ ...t, _status: "UNTAGGED" })),
+        ...tagged.map((t) => ({ ...t, _status: "CONFIRMED" })),
+        ...ignored.map((t) => ({ ...t, _status: "IGNORED" })),
+      ];
+
+      let saved = 0;
+      for (const txn of allTxns) {
+        if (!txn.reference) continue;
+
+        const row = {
+          reference: txn.reference,
+          transaction_date: txn.transaction_date,
+          description: txn.description,
+          amount: Math.abs(Number(txn.amount)),
+          currency: txn.currency || "SGD",
+          status: txn._status,
+          transaction_type: Number(txn.amount) < 0 ? "EXPENSE" : "INCOME",
+          property_id: txn.property_id || null,
+          category: txn.category || null,
+          room_id: txn.room_id || null,
+        };
+
+        // Try update first, insert if not exists
+        const { data: existing } = await supabase
+          .from("bank_transactions")
+          .select("id")
+          .eq("reference", txn.reference)
+          .limit(1);
+
+        if (existing && existing.length > 0) {
+          await supabase
+            .from("bank_transactions")
+            .update(row)
+            .eq("id", existing[0].id);
+        } else {
+          await supabase.from("bank_transactions").insert(row);
+        }
+        saved++;
+      }
+
+      setMessage({ type: "success", text: `Progress saved — ${saved} transactions stored.` });
+    } catch (err) {
+      setMessage({ type: "error", text: `Save failed: ${err.message}` });
+    } finally {
+      setSavingAll(false);
     }
   }
 
@@ -888,6 +947,16 @@ export default function AdminExpenseImportPage() {
                 >
                   <span className="material-symbols-outlined text-[18px]">history</span>
                   {resumeLoading ? "Loading..." : "Resume Progress"}
+                </button>
+              )}
+              {hasFetched && (
+                <button
+                  onClick={handleSaveAll}
+                  disabled={savingAll}
+                  className="px-5 py-2.5 bg-amber-500 text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-amber-600 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+                >
+                  <span className="material-symbols-outlined text-[18px]">save</span>
+                  {savingAll ? "Saving..." : "Save Progress"}
                 </button>
               )}
             </div>
