@@ -26,9 +26,16 @@ const STATUS_BADGE = {
 };
 
 function DistributionRows({ items, showCumulative }) {
-  let cumulative = 0;
+  // Pre-calculate cumulative from oldest to newest, then display in original (newest-first) order
+  const cumulativeMap = {};
+  let runningTotal = 0;
+  const sorted = [...items].sort((a, b) => (a.month ?? "").localeCompare(b.month ?? ""));
+  for (const d of sorted) {
+    if (d.status === "PAID") runningTotal += Number(d.amount ?? 0);
+    cumulativeMap[d.id] = runningTotal;
+  }
+
   return items.map((d) => {
-    if (d.status === "PAID") cumulative += Number(d.amount ?? 0);
     const badgeClass = STATUS_BADGE[d.status] ?? STATUS_BADGE.PENDING;
     return (
       <tr key={d.id} className="hover:bg-muted/30 transition-colors">
@@ -54,7 +61,7 @@ function DistributionRows({ items, showCumulative }) {
         </td>
         {showCumulative && (
           <td className="px-4 py-3 text-right tabular-nums text-muted-foreground whitespace-nowrap">
-            {d.status === "PAID" ? formatSGD(cumulative) : "—"}
+            {d.status === "PAID" ? formatSGD(cumulativeMap[d.id]) : "—"}
           </td>
         )}
       </tr>
