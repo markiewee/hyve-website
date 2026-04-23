@@ -204,9 +204,9 @@ export default function AdminExpenseImportPage() {
         return;
       }
 
-      const withKeys = rows.map((r) => ({
+      const withKeys = rows.map((r, i) => ({
         ...r,
-        _key: r.reference || `bt-${r.id}`,
+        _key: r.reference || `bt-${r.id}-${i}`,
         amount: Number(r.amount),
       }));
 
@@ -319,24 +319,22 @@ export default function AdminExpenseImportPage() {
         return;
       }
 
-      // Add unique keys for tracking
+      // Add unique keys for tracking (reference alone isn't unique — combine with amount + date + description)
       const withKeys = debitTxns.map((t, i) => ({
         ...t,
-        _key: t.reference || `txn-${i}-${t.transaction_date}-${t.amount}`,
+        _key: `${t.reference || "no-ref"}-${t.transaction_date}-${t.amount}-${(t.description || "").slice(0, 20)}-${i}`,
       }));
 
-      // Save to bank_transactions (upsert by reference to avoid duplicates)
-      const btRows = withKeys
-        .filter((t) => t.reference) // only upsert rows that have a reference
-        .map((t) => ({
-          reference: t.reference,
-          transaction_date: t.transaction_date,
-          description: t.description,
-          amount: Number(t.amount),
-          currency: t.currency || "SGD",
-          status: "UNTAGGED",
-          transaction_type: Number(t.amount) < 0 ? "EXPENSE" : "INCOME",
-        }));
+      // Save to bank_transactions — use composite key (reference + date + amount + description) for dedup
+      const btRows = withKeys.map((t) => ({
+        reference: `${t.reference || "no-ref"}-${t.transaction_date}-${t.amount}-${(t.description || "").slice(0, 30)}`,
+        transaction_date: t.transaction_date,
+        description: t.description,
+        amount: Number(t.amount),
+        currency: t.currency || "SGD",
+        status: "UNTAGGED",
+        transaction_type: Number(t.amount) < 0 ? "EXPENSE" : "INCOME",
+      }));
 
       if (btRows.length > 0) {
         const { error: upsertErr } = await supabase
