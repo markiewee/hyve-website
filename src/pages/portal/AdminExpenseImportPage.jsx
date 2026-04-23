@@ -20,6 +20,7 @@ const EXPENSE_CATEGORIES = [
   { key: "PLATFORM_FEES", label: "Platform Fees", icon: "devices" },
   { key: "FURNISHING", label: "Furnishing", icon: "chair" },
   { key: "MARKETING", label: "Marketing", icon: "campaign" },
+  { key: "GOODS_TRANSPORT", label: "Goods Transportation", icon: "local_shipping" },
   { key: "OTHER_EXPENSE", label: "Other Expense", icon: "more_horiz" },
 ];
 

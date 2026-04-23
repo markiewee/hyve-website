@@ -10,6 +10,7 @@ const EXPENSE_CATEGORIES = [
   "SUPPLIES",
   "STAFF",
   "PLATFORM_FEES",
+  "GOODS_TRANSPORT",
   "OTHER",
 ];
 
@@ -24,6 +25,7 @@ const CATEGORY_BADGE = {
   SUPPLIES: "bg-[#e6eeff] text-[#555f6f]",
   STAFF: "bg-violet-100 text-violet-700",
   PLATFORM_FEES: "bg-cyan-100 text-cyan-700",
+  GOODS_TRANSPORT: "bg-teal-100 text-teal-700",
   OTHER: "bg-[#eff4ff] text-[#6c7a77]",
 };
 
