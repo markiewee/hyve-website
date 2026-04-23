@@ -19,11 +19,7 @@ export default function PropertyPerformanceCard({ property, investment, financia
   const occupancyRate = financial?.occupancy_rate;
 
   return (
-    <Card
-      className={`border-l-4 ${
-        isProfitable ? "border-l-green-500" : "border-l-red-500"
-      }`}
-    >
+    <Card className="border-l-4 border-l-green-500">
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">
           <div>
@@ -46,43 +42,19 @@ export default function PropertyPerformanceCard({ property, investment, financia
       </CardHeader>
 
       <CardContent>
-        {/* Financial row */}
-        <div className="grid grid-cols-3 gap-2 text-center mb-4 py-3 bg-muted/40 rounded-md">
-          <div>
-            <p className="text-xs text-muted-foreground mb-0.5">Revenue</p>
-            <p className="text-sm font-semibold tabular-nums">{formatSGD(revenue)}</p>
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground mb-0.5">Expenses</p>
-            <p className="text-sm font-semibold tabular-nums text-red-600">
-              {formatSGD(expenses)}
-            </p>
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground mb-0.5">Net Profit</p>
-            <p
-              className={`text-sm font-semibold tabular-nums ${
-                isProfitable ? "text-green-700" : "text-red-600"
-              }`}
-            >
-              {formatSGD(netProfit)}
-            </p>
-          </div>
-        </div>
-
         {/* Your share */}
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">Your Share ({sharePercent.toFixed(1)}%)</p>
+        <div className="flex items-center justify-between mb-3 py-3 px-4 bg-muted/40 rounded-md">
+          <p className="text-sm text-muted-foreground">Your Share</p>
           <p
-            className={`text-sm font-bold tabular-nums ${
-              yourShare >= 0 ? "text-green-700" : "text-red-600"
+            className={`text-lg font-bold tabular-nums ${
+              yourShare >= 0 ? "text-green-700" : "text-muted-foreground"
             }`}
           >
-            SGD {formatSGD(yourShare)}
+            SGD {formatSGD(Math.max(yourShare, 0))}
           </p>
         </div>
 
-        <div className="flex items-center justify-between mt-1">
+        <div className="flex items-center justify-between">
           <p className="text-xs text-muted-foreground">Capital Contributed</p>
           <p className="text-xs font-medium tabular-nums">
             SGD {formatSGD(investment?.capital_contributed)}

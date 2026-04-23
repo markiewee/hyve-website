@@ -179,18 +179,6 @@ export default function InvestorDashboardPage() {
         </div>
       </div>
 
-      {/* Portfolio Summary component (catches any additional metrics) */}
-      {!dashLoading && (
-        <div className="mb-12">
-          <PortfolioSummary
-            totalCapital={totalCapital}
-            thisMonthDistribution={thisMonthDistribution}
-            totalDistributions={totalDistributions}
-            returnRate={returnRate}
-            loading={dashLoading}
-          />
-        </div>
-      )}
 
       {/* Property performance cards */}
       {investments.length > 0 && (
