@@ -345,14 +345,14 @@ export default function AdminExpenseImportPage() {
       const absAmount = Math.abs(Number(txn.amount));
 
       // 1. Insert into property_expenses
-      const { error: expenseErr } = await supabase.from("property_expenses").insert({
+      const { data: expenseRow, error: expenseErr } = await supabase.from("property_expenses").insert({
         property_id: propertyId,
         month: monthDate,
         category,
         description: txn.description,
         amount: absAmount,
         is_recurring: false,
-      });
+      }).select("id").single();
       if (expenseErr) throw expenseErr;
 
       // 2. Upsert tagging rule
@@ -391,6 +391,8 @@ export default function AdminExpenseImportPage() {
         category,
         room_id: roomId,
         status: "CONFIRMED",
+        _expenseId: expenseRow?.id,
+        _accrualMonth: accrualMonth,
       };
       setUntagged((prev) => prev.filter((t) => t._key !== txn._key));
       setTagged((prev) => [confirmedTxn, ...prev]);
@@ -416,6 +418,23 @@ export default function AdminExpenseImportPage() {
   function handleUnignore(txn) {
     setIgnored((prev) => prev.filter((t) => t._key !== txn._key));
     setUntagged((prev) => [...prev, txn]);
+  }
+
+  async function handleUndoTagged(txn) {
+    // Delete from property_expenses if we have the ID
+    if (txn._expenseId) {
+      const { error } = await supabase
+        .from("property_expenses")
+        .delete()
+        .eq("id", txn._expenseId);
+      if (error) {
+        setMessage({ type: "error", text: `Failed to undo: ${error.message}` });
+        return;
+      }
+    }
+    // Move back to untagged
+    setTagged((prev) => prev.filter((t) => t._key !== txn._key));
+    setUntagged((prev) => [...prev, { ...txn, status: "UNTAGGED", _expenseId: undefined, _accrualMonth: undefined }]);
   }
 
   // ─── Summary computation ──────────────────────────────────────────────────────
@@ -992,6 +1011,11 @@ export default function AdminExpenseImportPage() {
                                 <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-[#eff4ff] text-[#555f6f]">
                                   {categoryLabel(txn.category)}
                                 </span>
+                                {txn._accrualMonth && txn._accrualMonth !== reconcileMonth && (
+                                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-amber-100 text-amber-700" title="Accounting period differs from reconciliation month">
+                                    {txn._accrualMonth}
+                                  </span>
+                                )}
                                 <p className="font-['Manrope'] text-xs text-[#121c2a] flex-1 min-w-0 truncate">
                                   {txn.description}
                                 </p>
@@ -1002,6 +1026,15 @@ export default function AdminExpenseImportPage() {
                                   <span className="material-symbols-outlined text-[14px] text-[#6c7a77]" title="Previously confirmed">
                                     history
                                   </span>
+                                )}
+                                {!txn._alreadyConfirmed && (
+                                  <button
+                                    onClick={() => handleUndoTagged(txn)}
+                                    className="text-[#6c7a77] hover:text-[#ba1a1a] transition-colors shrink-0"
+                                    title="Undo — move back to untagged"
+                                  >
+                                    <span className="material-symbols-outlined text-[16px]">undo</span>
+                                  </button>
                                 )}
                               </div>
                             ))}
