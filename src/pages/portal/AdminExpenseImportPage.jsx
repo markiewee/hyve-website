@@ -829,19 +829,12 @@ export default function AdminExpenseImportPage() {
         const grossProfit = income - expensesExclMgmt;
         const netAfterCarry = grossProfit - carriedLoss;
 
-        if (netAfterCarry > 0) {
-          // Profitable after carry — management fee applies
-          mgmtFeeApplied[propId] = mgmtFee;
-          mgmtFeeWaived[propId] = false;
-          netProfitCalc[propId] = netAfterCarry - mgmtFee;
-          carriedLossForward[propId] = 0;
-        } else {
-          // Loss or breakeven — no management fee
-          mgmtFeeApplied[propId] = 0;
-          mgmtFeeWaived[propId] = mgmtFee > 0;
-          netProfitCalc[propId] = netAfterCarry;
-          carriedLossForward[propId] = Math.abs(netAfterCarry);
-        }
+        // Always charge management fee — carry losses forward
+        mgmtFeeApplied[propId] = mgmtFee;
+        mgmtFeeWaived[propId] = false;
+        const netAfterMgmt = netAfterCarry - mgmtFee;
+        netProfitCalc[propId] = netAfterMgmt;
+        carriedLossForward[propId] = netAfterMgmt < 0 ? Math.abs(netAfterMgmt) : 0;
       }
 
       setPnlData({
