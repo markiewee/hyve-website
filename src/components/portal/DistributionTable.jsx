@@ -56,7 +56,7 @@ function DistributionRows({ items, showCumulative }) {
         <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">
           {d.paid_at ? formatDate(d.paid_at) : "—"}
         </td>
-        <td className="px-4 py-3 text-muted-foreground max-w-[200px] truncate">
+        <td className="px-4 py-3 text-muted-foreground max-w-[300px]">
           {d.notes || "—"}
         </td>
         {showCumulative && (
