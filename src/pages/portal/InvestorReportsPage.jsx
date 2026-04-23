@@ -127,7 +127,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
     if (roomIds.length > 0) {
       const { data: rents, error: rentErr } = await supabase
         .from("rent_payments")
-        .select("rent_amount, status, room_id")
+        .select("rent_amount, paid_amount, status, room_id")
         .eq("month", monthDate)
         .in("status", ["PAID", "PARTIAL"])
         .in("room_id", roomIds);
@@ -154,7 +154,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
       const pid = roomToProperty[rent.room_id];
       if (pid) {
         incomeByProperty[pid] =
-          (incomeByProperty[pid] || 0) + Math.abs(Number(rent.rent_amount));
+          (incomeByProperty[pid] || 0) + Math.abs(Number(rent.paid_amount ?? rent.rent_amount));
       }
     }
 
