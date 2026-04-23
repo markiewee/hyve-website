@@ -77,20 +77,34 @@ function ReportCard({ report }) {
       .eq("month", monthDate)
       .order("amount", { ascending: false });
 
-    // Fetch rent breakdown
-    const { data: rents } = await supabase
-      .from("rent_payments")
-      .select("rent_amount, status, tenant_profiles(tenant_details(full_name), rooms(unit_code))")
-      .eq("month", monthDate)
-      .in("status", ["PAID", "PARTIAL"]);
-
-    // Filter rents to this property via room's property
+    // Fetch rooms for this property
     const { data: rooms } = await supabase
       .from("rooms")
-      .select("id")
+      .select("id, unit_code")
       .eq("property_id", propertyId);
 
-    const roomIds = new Set((rooms ?? []).map((r) => r.id));
+    const roomIds = (rooms ?? []).map((r) => r.id);
+    const roomMap = {};
+    for (const r of rooms ?? []) roomMap[r.id] = r.unit_code;
+
+    // Fetch rent breakdown — filter by room IDs for this property
+    let rentList = [];
+    if (roomIds.length > 0) {
+      const { data: rents } = await supabase
+        .from("rent_payments")
+        .select("rent_amount, status, room_id, tenant_profiles(tenant_details(full_name))")
+        .eq("month", monthDate)
+        .in("status", ["PAID", "PARTIAL"])
+        .in("room_id", roomIds);
+
+      rentList = (rents ?? []).map((r) => ({
+        name: r.tenant_profiles?.tenant_details?.[0]?.full_name ||
+              r.tenant_profiles?.tenant_details?.full_name || "Unknown",
+        room: roomMap[r.room_id] || "—",
+        amount: Number(r.rent_amount),
+        status: r.status,
+      }));
+    }
 
     // Group expenses by category
     const expenseByCategory = {};
@@ -99,20 +113,6 @@ function ReportCard({ report }) {
       if (!expenseByCategory[cat]) expenseByCategory[cat] = 0;
       expenseByCategory[cat] += Math.abs(Number(e.amount));
     }
-
-    // Filter and map rents
-    const rentList = (rents ?? [])
-      .filter((r) => {
-        const roomId = r.tenant_profiles?.rooms?.id;
-        return roomId && roomIds.has(roomId);
-      })
-      .map((r) => ({
-        name: r.tenant_profiles?.tenant_details?.[0]?.full_name ||
-              r.tenant_profiles?.tenant_details?.full_name || "Unknown",
-        room: r.tenant_profiles?.rooms?.unit_code || "—",
-        amount: Number(r.rent_amount),
-        status: r.status,
-      }));
 
     setDetails({ expenseByCategory, rentList });
     setLoading(false);

@@ -7,6 +7,12 @@ function formatMonth(monthStr) {
   return date.toLocaleDateString("en-SG", { month: "short", year: "numeric" });
 }
 
+function formatDate(dateStr) {
+  if (!dateStr) return "—";
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" });
+}
+
 function formatSGD(amount) {
   return `$${Number(amount ?? 0).toLocaleString("en-SG", {
     minimumFractionDigits: 2,
@@ -53,22 +59,22 @@ export default function DistributionTable({ distributions }) {
             <thead className="bg-muted/50 border-b border-border">
               <tr>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground whitespace-nowrap">
-                  Month
+                  Period
                 </th>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground whitespace-nowrap">
                   Property
-                </th>
-                <th className="text-right px-4 py-3 font-medium text-muted-foreground whitespace-nowrap">
-                  Gross Profit
-                </th>
-                <th className="text-right px-4 py-3 font-medium text-muted-foreground whitespace-nowrap">
-                  Share %
                 </th>
                 <th className="text-right px-4 py-3 font-medium text-muted-foreground whitespace-nowrap">
                   Amount
                 </th>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground whitespace-nowrap">
                   Status
+                </th>
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground whitespace-nowrap">
+                  Paid On
+                </th>
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground whitespace-nowrap">
+                  Notes
                 </th>
                 <th className="text-right px-4 py-3 font-medium text-muted-foreground whitespace-nowrap">
                   Cumulative
@@ -86,14 +92,6 @@ export default function DistributionTable({ distributions }) {
                     <td className="px-4 py-3 whitespace-nowrap">
                       {d.properties?.name ?? "—"}
                     </td>
-                    <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap">
-                      {d.gross_profit != null ? formatSGD(d.gross_profit) : "—"}
-                    </td>
-                    <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap">
-                      {d.share_percentage != null
-                        ? `${Number(d.share_percentage).toFixed(1)}%`
-                        : "—"}
-                    </td>
                     <td className="px-4 py-3 text-right font-semibold tabular-nums whitespace-nowrap">
                       {formatSGD(d.amount)}
                     </td>
@@ -103,6 +101,12 @@ export default function DistributionTable({ distributions }) {
                       >
                         {d.status}
                       </span>
+                    </td>
+                    <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">
+                      {d.paid_at ? formatDate(d.paid_at) : "—"}
+                    </td>
+                    <td className="px-4 py-3 text-muted-foreground max-w-[200px] truncate">
+                      {d.notes || "—"}
                     </td>
                     <td className="px-4 py-3 text-right tabular-nums text-muted-foreground whitespace-nowrap">
                       {d.status === "PAID" ? formatSGD(d._cumulative) : "—"}
@@ -114,7 +118,7 @@ export default function DistributionTable({ distributions }) {
             <tfoot className="border-t border-border bg-muted/30">
               <tr>
                 <td
-                  colSpan={4}
+                  colSpan={2}
                   className="px-4 py-3 text-sm font-semibold text-right"
                 >
                   Total
@@ -122,7 +126,7 @@ export default function DistributionTable({ distributions }) {
                 <td className="px-4 py-3 text-right font-bold tabular-nums whitespace-nowrap">
                   {formatSGD(total)}
                 </td>
-                <td colSpan={2} />
+                <td colSpan={4} />
               </tr>
             </tfoot>
           </table>
