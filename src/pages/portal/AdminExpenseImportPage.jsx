@@ -325,21 +325,32 @@ export default function AdminExpenseImportPage() {
         _key: `${t.reference || "no-ref"}-${t.transaction_date}-${t.amount}-${(t.description || "").slice(0, 20)}-${i}`,
       }));
 
-      // Save to bank_transactions — use composite key (reference + date + amount + description) for dedup
-      const btRows = withKeys.map((t) => ({
-        reference: `${t.reference || "no-ref"}-${t.transaction_date}-${t.amount}-${(t.description || "").slice(0, 30)}`,
-        transaction_date: t.transaction_date,
-        description: t.description,
-        amount: Number(t.amount),
-        currency: t.currency || "SGD",
-        status: "UNTAGGED",
-        transaction_type: Number(t.amount) < 0 ? "EXPENSE" : "INCOME",
-      }));
+      // Save to bank_transactions — keep original reference, skip if already exists
+      const existingRefs = new Set();
+      if (withKeys.some((t) => t.reference)) {
+        const { data: existingBt } = await supabase
+          .from("bank_transactions")
+          .select("reference")
+          .in("reference", withKeys.filter((t) => t.reference).map((t) => t.reference));
+        for (const r of existingBt ?? []) existingRefs.add(r.reference);
+      }
+
+      const btRows = withKeys
+        .filter((t) => t.reference && !existingRefs.has(t.reference))
+        .map((t) => ({
+          reference: t.reference,
+          transaction_date: t.transaction_date,
+          description: t.description,
+          amount: Number(t.amount),
+          currency: t.currency || "SGD",
+          status: "UNTAGGED",
+          transaction_type: Number(t.amount) < 0 ? "EXPENSE" : "INCOME",
+        }));
 
       if (btRows.length > 0) {
         const { error: upsertErr } = await supabase
           .from("bank_transactions")
-          .upsert(btRows, { onConflict: "reference", ignoreDuplicates: true });
+          .insert(btRows);
         if (upsertErr) {
           console.warn("[ExpenseImport] bank_transactions upsert warning:", upsertErr.message);
         }
@@ -358,12 +369,10 @@ export default function AdminExpenseImportPage() {
         }
       }
 
-      // Check which have already been confirmed in property_expenses for this month
-      const monthDate = reconcileMonth + "-01";
+      // Check which have already been confirmed in property_expenses (any month)
       const { data: existingExpenses } = await supabase
         .from("property_expenses")
-        .select("description, amount")
-        .eq("month", monthDate);
+        .select("description, amount");
 
       const existingSet = new Set(
         (existingExpenses ?? []).map(
