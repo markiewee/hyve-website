@@ -971,6 +971,14 @@ export default function AdminExpenseImportPage() {
                   {savingAll ? "Saving..." : "Save Progress"}
                 </button>
               )}
+              <button
+                onClick={handleGeneratePnl}
+                disabled={pnlLoading}
+                className="px-5 py-2.5 bg-white text-[#006b5f] border-2 border-[#006b5f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006b5f]/5 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+              >
+                <span className="material-symbols-outlined text-[18px]">assessment</span>
+                {pnlLoading ? "Generating..." : "Generate P&L"}
+              </button>
             </div>
           )}
         </div>
