@@ -295,10 +295,6 @@ export default function AdminExpenseImportPage() {
 
     setFetching(true);
     setFetchError(null);
-    // Keep existing tagged items when switching accounts
-    setUntagged([]);
-    setIgnored([]);
-    setEdits({});
     setMessage(null);
     setShowPnl(false);
     setPnlData(null);
@@ -418,12 +414,21 @@ export default function AdminExpenseImportPage() {
       const actuallyIgnored = needsTagging.filter((t) => t._wasIgnored);
       const actuallyUntagged = needsTagging.filter((t) => !t._wasIgnored);
 
-      setUntagged(actuallyUntagged);
-      // Merge with existing tagged — don't lose items from other accounts
+      // Append to existing — don't replace, so multiple fetches stack up
+      setUntagged((prev) => {
+        const existingKeys = new Set(prev.map((t) => t._key));
+        const newUntagged = actuallyUntagged.filter((t) => !existingKeys.has(t._key));
+        return [...prev, ...newUntagged];
+      });
       setTagged((prev) => {
         const existingKeys = new Set(prev.map((t) => t._key));
         const newTagged = alreadyTagged.filter((t) => !existingKeys.has(t._key));
         return [...prev, ...newTagged];
+      });
+      setIgnored((prev) => {
+        const existingKeys = new Set(prev.map((t) => t._key));
+        const newIgnored = actuallyIgnored.filter((t) => !existingKeys.has(t._key));
+        return [...prev, ...newIgnored];
       });
       setIgnored(actuallyIgnored);
       setResumeAvailable(true);
@@ -979,6 +984,16 @@ export default function AdminExpenseImportPage() {
                 <span className="material-symbols-outlined text-[18px]">assessment</span>
                 {pnlLoading ? "Generating..." : "Generate P&L"}
               </button>
+              {hasFetched && (
+                <button
+                  onClick={() => { setUntagged([]); setTagged([]); setIgnored([]); setEdits({}); setShowPnl(false); setPnlData(null); }}
+                  className="px-3 py-2.5 text-[#6c7a77] hover:text-[#ba1a1a] rounded-xl font-['Manrope'] font-bold text-xs transition-colors flex items-center gap-1 shrink-0"
+                  title="Clear all transactions from view"
+                >
+                  <span className="material-symbols-outlined text-[16px]">clear_all</span>
+                  Clear
+                </button>
+              )}
             </div>
           )}
         </div>
