@@ -60,18 +60,19 @@ export function useInvestorDashboard(investorId) {
       );
       setTotalCapital(capital);
 
+      // Only count regular distributions for ROI (exclude ADHOC like partner exits)
       const paidDist = distList
-        .filter((d) => d.status === "PAID")
+        .filter((d) => d.status === "PAID" && d.type !== "ADHOC")
         .reduce((sum, d) => sum + Number(d.amount ?? 0), 0);
       setTotalDistributions(paidDist);
 
       setReturnRate(capital > 0 ? (paidDist / capital) * 100 : 0);
 
-      // This month's distributions (any status)
+      // This month's distributions (regular only)
       const now = new Date();
       const thisMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
       const thisMonthDist = distList
-        .filter((d) => d.month === thisMonth)
+        .filter((d) => d.month === thisMonth && d.type !== "ADHOC")
         .reduce((sum, d) => sum + Number(d.amount ?? 0), 0);
       setThisMonthDistribution(thisMonthDist);
 
