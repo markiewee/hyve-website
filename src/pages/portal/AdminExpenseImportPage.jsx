@@ -295,8 +295,8 @@ export default function AdminExpenseImportPage() {
 
     setFetching(true);
     setFetchError(null);
+    // Keep existing tagged items when switching accounts
     setUntagged([]);
-    setTagged([]);
     setIgnored([]);
     setEdits({});
     setMessage(null);
@@ -419,7 +419,12 @@ export default function AdminExpenseImportPage() {
       const actuallyUntagged = needsTagging.filter((t) => !t._wasIgnored);
 
       setUntagged(actuallyUntagged);
-      setTagged(alreadyTagged);
+      // Merge with existing tagged — don't lose items from other accounts
+      setTagged((prev) => {
+        const existingKeys = new Set(prev.map((t) => t._key));
+        const newTagged = alreadyTagged.filter((t) => !existingKeys.has(t._key));
+        return [...prev, ...newTagged];
+      });
       setIgnored(actuallyIgnored);
       setResumeAvailable(true);
     } catch (err) {
