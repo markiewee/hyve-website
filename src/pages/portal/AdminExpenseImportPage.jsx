@@ -21,6 +21,7 @@ const EXPENSE_CATEGORIES = [
   { key: "FURNISHING", label: "Furnishing", icon: "chair" },
   { key: "MARKETING", label: "Marketing", icon: "campaign" },
   { key: "GOODS_TRANSPORT", label: "Goods Transportation", icon: "local_shipping" },
+  { key: "MANAGEMENT_FEES", label: "Management Fees", icon: "admin_panel_settings" },
   { key: "OTHER_EXPENSE", label: "Other Expense", icon: "more_horiz" },
 ];
 
