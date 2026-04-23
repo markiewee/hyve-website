@@ -523,6 +523,7 @@ export default function AdminExpenseImportPage() {
         const totalExpenses = Object.values(propExpenses).reduce((s, v) => s + v, 0);
         const netProfit = totalIncome - totalExpenses;
 
+        // 1. Upsert monthly_financials
         await supabase.from("monthly_financials").upsert(
           {
             property_id: propId,
@@ -534,6 +535,21 @@ export default function AdminExpenseImportPage() {
             finalized_at: new Date().toISOString(),
           },
           { onConflict: "property_id,month" }
+        );
+
+        // 2. Auto-create investor report with financials
+        const propName = properties.find((p) => p.id === propId)?.name ?? "";
+        await supabase.from("investor_reports").upsert(
+          {
+            property_id: propId,
+            month: monthDate,
+            title: `${formatMonthLabel(reconcileMonth)} Monthly Report`,
+            category: "Monthly P&L",
+            total_revenue: totalIncome,
+            total_expenses: totalExpenses,
+            net_income: netProfit,
+          },
+          { onConflict: "property_id,month,category" }
         );
       }
 

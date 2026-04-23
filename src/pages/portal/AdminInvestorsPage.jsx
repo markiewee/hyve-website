@@ -334,6 +334,26 @@ export default function AdminInvestorsPage() {
       if (error) {
         console.error("Error approving all distributions:", error);
       }
+
+      // Update distribution_amount on investor_reports per property
+      const monthStart = `${distMonth}-01`;
+      const totalByProperty = {};
+      for (const d of distributions) {
+        if (!totalByProperty[d.property_id]) totalByProperty[d.property_id] = 0;
+        totalByProperty[d.property_id] += Math.abs(Number(d.amount ?? 0));
+      }
+      for (const [propId, total] of Object.entries(totalByProperty)) {
+        await supabase.from("investor_reports").upsert(
+          {
+            property_id: propId,
+            month: monthStart,
+            title: `${distMonth} Monthly Report`,
+            category: "Monthly P&L",
+            distribution_amount: total,
+          },
+          { onConflict: "property_id,month,category" }
+        );
+      }
     }
     setApprovingAll(false);
     fetchDistributions();
