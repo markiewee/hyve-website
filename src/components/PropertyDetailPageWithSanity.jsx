@@ -52,6 +52,40 @@ const PROPERTY_ID_MAP = {
   'thomson-grove': 'd3e7e40f-a32c-4c8e-a54f-59e8f9cbc4a6',
 };
 
+// Curated nearby places per property
+const NEARBY_PLACES = {
+  'chiltern-park': [
+    { icon: 'shopping_bag', name: 'NEX Shopping Mall', time: '5 min' },
+    { icon: 'restaurant', name: 'Chomp Chomp Food Centre', time: '8 min' },
+    { icon: 'local_mall', name: 'myVillage', time: '6 min' },
+    { icon: 'fitness_center', name: 'ActiveSG Gym', time: '10 min' },
+    { icon: 'park', name: 'Serangoon Garden', time: '5 min' },
+    { icon: 'local_hospital', name: 'Sengkang General Hospital', time: '12 min' },
+    { icon: 'school', name: 'Nanyang JC', time: '7 min' },
+    { icon: 'local_grocery_store', name: 'FairPrice Finest', time: '4 min' },
+  ],
+  'ivory-heights': [
+    { icon: 'local_mall', name: 'Westgate Mall', time: '5 min' },
+    { icon: 'shopping_bag', name: 'JEM', time: '6 min' },
+    { icon: 'storefront', name: 'IMM Outlet Mall', time: '8 min' },
+    { icon: 'park', name: 'Jurong Lake Gardens', time: '10 min' },
+    { icon: 'restaurant', name: 'Yuhua Market & Hawker', time: '4 min' },
+    { icon: 'local_hospital', name: 'Ng Teng Fong Hospital', time: '7 min' },
+    { icon: 'school', name: 'NUS (Buona Vista)', time: '15 min' },
+    { icon: 'local_grocery_store', name: 'Giant Supermarket', time: '3 min' },
+  ],
+  'thomson-grove': [
+    { icon: 'local_mall', name: 'Thomson Plaza', time: '8 min' },
+    { icon: 'shopping_bag', name: 'Ang Mo Kio Hub', time: '10 min' },
+    { icon: 'park', name: 'Lower Peirce Reservoir', time: '12 min' },
+    { icon: 'restaurant', name: 'Ang Mo Kio 628 Market', time: '7 min' },
+    { icon: 'fitness_center', name: 'ActiveSG Gym', time: '10 min' },
+    { icon: 'local_hospital', name: 'AMK-Thye Hua Kwan Hospital', time: '11 min' },
+    { icon: 'forest', name: 'Windsor Nature Park', time: '15 min' },
+    { icon: 'local_grocery_store', name: 'FairPrice', time: '5 min' },
+  ],
+};
+
 // ---- What's Included icon definitions ----
 const UNIVERSAL_ICONS = [
   { icon: 'bolt', label: 'Utilities Included' },
@@ -804,18 +838,12 @@ ${requestFormData.message || 'No additional message provided'}
                               </p>
                               <p className="text-[10px] text-[#6c7a77] font-['Inter']">per month, all-inclusive</p>
                             </div>
-                            {room.availableFrom ? (
-                              <button
-                                onClick={() => handleRoomRequest(room)}
-                                className="bg-[#006b5f] text-white px-5 py-2.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#006b5f]/90 transition-colors"
-                              >
-                                Enquire
-                              </button>
-                            ) : (
-                              <span className="bg-slate-200 text-slate-500 px-5 py-2.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest">
-                                Unavailable
-                              </span>
-                            )}
+                            <button
+                              onClick={() => handleRoomRequest(room)}
+                              className="bg-[#006b5f] text-white px-5 py-2.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#006b5f]/90 transition-colors"
+                            >
+                              Enquire
+                            </button>
                           </div>
                         </div>
                       ))}
@@ -857,7 +885,7 @@ ${requestFormData.message || 'No additional message provided'}
                   <div className="flex flex-wrap gap-3 mt-4">
                     {property.nearbyMRT.map((mrt, index) => (
                       <div key={index} className="flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl border border-[rgba(187,202,198,0.15)]">
-                        <span className="material-symbols-outlined text-[#006b5f] text-sm">train</span>
+                        <span className="material-symbols-outlined text-[#006b5f] text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>train</span>
                         <span className="font-['Inter'] text-sm font-medium text-[#121c2a]">
                           {mrt.station || mrt}
                         </span>
@@ -868,6 +896,24 @@ ${requestFormData.message || 'No additional message provided'}
                         )}
                       </div>
                     ))}
+                  </div>
+                )}
+
+                {/* Nearby places grid */}
+                {NEARBY_PLACES[id] && (
+                  <div className="mt-6">
+                    <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">What's Nearby</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      {NEARBY_PLACES[id].map((place, index) => (
+                        <div key={index} className="flex items-center gap-2.5 bg-white px-3 py-2.5 rounded-xl border border-[rgba(187,202,198,0.15)]">
+                          <span className="material-symbols-outlined text-[#006b5f] text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>{place.icon}</span>
+                          <div className="min-w-0">
+                            <p className="font-['Manrope'] text-xs font-medium text-[#121c2a] truncate">{place.name}</p>
+                            <p className="font-['Inter'] text-[10px] text-[#6c7a77]">{place.time}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
