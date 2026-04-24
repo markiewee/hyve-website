@@ -153,8 +153,9 @@ const LocationsMapComponent = ({
           scrollWheelZoom={true}
         >
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+            className="hyve-map-tiles"
           />
 
           <ZoomTracker onZoomChange={setCurrentZoom} />
@@ -167,10 +168,11 @@ const LocationsMapComponent = ({
               const lng = neighborhood.location?.longitude;
               if (!lat || !lng) return null;
 
-              const propertiesInNeighborhood = properties.filter((property) => {
+              const matchingProperties = properties.filter((property) => {
                 const neighborhoodName = property.neighborhood?.name || property.neighborhood;
                 return neighborhoodName === neighborhood.name;
-              }).length;
+              });
+              const propertiesInNeighborhood = matchingProperties.length;
 
               return (
                 <Marker key={`n-${idx}`} position={[lat, lng]} icon={neighborhoodIcon}>
@@ -203,9 +205,29 @@ const LocationsMapComponent = ({
                           ))}
                         </div>
                       )}
-                      <p style={{ margin: '8px 0 0', color: '#999', fontSize: 11, fontStyle: 'italic' }}>
-                        Zoom in to see individual properties
-                      </p>
+                      {matchingProperties.length > 0 && (
+                        <div style={{ marginTop: 8, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                          {matchingProperties.map((p) => (
+                            <a
+                              key={p._id || p.id}
+                              href={`/property/${p.slug?.current || p.id || p._id}`}
+                              style={{
+                                display: 'block',
+                                padding: '6px 10px',
+                                background: '#006b5f',
+                                color: '#fff',
+                                borderRadius: 6,
+                                fontSize: 12,
+                                fontWeight: 600,
+                                textDecoration: 'none',
+                                textAlign: 'center',
+                              }}
+                            >
+                              {p.name} — from ${p.startingPrice}/mo
+                            </a>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </Popup>
                 </Marker>
