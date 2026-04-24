@@ -1,301 +1,296 @@
-import { useState, useEffect, useRef } from 'react';
-import { MapPin, Navigation, RotateCcw } from 'lucide-react';
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { RotateCcw } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
+import L from 'leaflet';
 
-const LocationsMapComponent = ({ 
-  properties = [],
-  neighborhoods = [], 
-  height = '600px',
-  className = '',
-  onPropertySelect
-}) => {
-  const mapRef = useRef(null);
-  const [map, setMap] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [selectedProperty, setSelectedProperty] = useState(null);
-  const [currentZoom, setCurrentZoom] = useState(11);
-  const [neighborhoodMarkers, setNeighborhoodMarkers] = useState([]);
-  const [propertyMarkers, setPropertyMarkers] = useState([]);
+// Fix default marker icon issue with bundlers (webpack/vite strip the default icon paths)
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
-  const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyB3cHdRaUsbf_HtV4t8CFfCcK0bdpDGzMA';
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
+// Hyve teal neighborhood icon
+const neighborhoodIcon = new L.DivIcon({
+  className: 'custom-neighborhood-icon',
+  html: `<div style="
+    width: 36px; height: 36px;
+    background: #006b5f;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    display: flex; align-items: center; justify-content: center;
+  ">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+  </div>`,
+  iconSize: [36, 36],
+  iconAnchor: [18, 18],
+  popupAnchor: [0, -20],
+});
+
+// Property marker icon (orange)
+const propertyIcon = new L.DivIcon({
+  className: 'custom-property-icon',
+  html: `<div style="
+    width: 32px; height: 32px;
+    background: #f97316;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    display: flex; align-items: center; justify-content: center;
+  ">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+      <circle cx="12" cy="10" r="3"/>
+    </svg>
+  </div>`,
+  iconSize: [32, 32],
+  iconAnchor: [16, 16],
+  popupAnchor: [0, -18],
+});
+
+// Component to track zoom level changes
+function ZoomTracker({ onZoomChange }) {
+  useMapEvents({
+    zoomend: (e) => {
+      onZoomChange(e.target.getZoom());
+    },
+  });
+  return null;
+}
+
+// Component to handle "Fit All" from outside the map
+function FitBoundsControl({ bounds, trigger }) {
+  const map = useMap();
 
   useEffect(() => {
-    const loadGoogleMaps = () => {
-      if (window.google && window.google.maps) {
-        initializeMap();
-        return;
-      }
+    if (trigger > 0 && bounds && bounds.isValid()) {
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
+    }
+  }, [trigger, bounds, map]);
 
-      const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places,geometry&v=3.exp`;
-      script.async = true;
-      script.defer = true;
-      script.onload = initializeMap;
-      document.head.appendChild(script);
-    };
+  return null;
+}
 
-    const initializeMap = () => {
-      if (!mapRef.current) return;
+const LocationsMapComponent = ({
+  properties = [],
+  neighborhoods = [],
+  height = '600px',
+  className = '',
+  onPropertySelect,
+}) => {
+  const [currentZoom, setCurrentZoom] = useState(12);
+  const [selectedProperty, setSelectedProperty] = useState(null);
+  const [fitTrigger, setFitTrigger] = useState(0);
 
-      // Default to Singapore center
-      const center = { lat: 1.3521, lng: 103.8198 };
-      
-      // If we have properties, calculate center
-      if (properties.length > 0) {
-        const validProperties = properties.filter(p => 
-          (p.location?.latitude || p.latitude) && (p.location?.longitude || p.longitude)
-        );
-        
-        if (validProperties.length > 0) {
-          const avgLat = validProperties.reduce((sum, p) => 
-            sum + (p.location?.latitude || p.latitude), 0) / validProperties.length;
-          const avgLng = validProperties.reduce((sum, p) => 
-            sum + (p.location?.longitude || p.longitude), 0) / validProperties.length;
-          center.lat = avgLat;
-          center.lng = avgLng;
-        }
-      }
+  const showProperties = currentZoom >= 14;
 
-      const mapOptions = {
-        center,
-        zoom: properties.length > 0 ? 12 : 11,
-        mapTypeId: 'roadmap',
-        styles: [
-          {
-            featureType: 'poi',
-            elementType: 'labels',
-            stylers: [{ visibility: 'on' }]
-          }
-        ],
-        mapTypeControl: true,
-        streetViewControl: true,
-        fullscreenControl: true,
-        zoomControl: true,
-        gestureHandling: 'cooperative'
-      };
+  // Calculate map center from properties or fall back to Singapore
+  const center = useMemo(() => {
+    const validProperties = properties.filter(
+      (p) => (p.location?.latitude || p.latitude) && (p.location?.longitude || p.longitude)
+    );
+    if (validProperties.length > 0) {
+      const avgLat =
+        validProperties.reduce((sum, p) => sum + (p.location?.latitude || p.latitude), 0) /
+        validProperties.length;
+      const avgLng =
+        validProperties.reduce((sum, p) => sum + (p.location?.longitude || p.longitude), 0) /
+        validProperties.length;
+      return [avgLat, avgLng];
+    }
+    return [1.3521, 103.8198];
+  }, [properties]);
 
-      const newMap = new window.google.maps.Map(mapRef.current, mapOptions);
-      
-      // Add zoom change listener
-      newMap.addListener('zoom_changed', () => {
-        const zoom = newMap.getZoom();
-        setCurrentZoom(zoom);
-        updateMarkersBasedOnZoom(newMap, zoom);
-      });
-
-      setMap(newMap);
-      setIsLoaded(true);
-      
-      // Create all markers after map is set
-      createAllMarkers(newMap);
-    };
-
-    loadGoogleMaps();
+  // Compute bounds for fit-all
+  const bounds = useMemo(() => {
+    const allPoints = [];
+    properties.forEach((p) => {
+      const lat = p.location?.latitude || p.latitude;
+      const lng = p.location?.longitude || p.longitude;
+      if (lat && lng) allPoints.push([lat, lng]);
+    });
+    neighborhoods.forEach((n) => {
+      const lat = n.location?.latitude;
+      const lng = n.location?.longitude;
+      if (lat && lng) allPoints.push([lat, lng]);
+    });
+    if (allPoints.length > 0) {
+      return L.latLngBounds(allPoints);
+    }
+    return L.latLngBounds([[1.25, 103.7], [1.45, 103.95]]);
   }, [properties, neighborhoods]);
 
-  const createAllMarkers = (map) => {
-    // Clear existing markers
-    neighborhoodMarkers.forEach(marker => marker.setMap(null));
-    propertyMarkers.forEach(marker => marker.setMap(null));
-    
-    const currentZoom = map.getZoom();
-    const showProperties = currentZoom >= 14;
-    
-    // Create neighborhood markers
-    const newNeighborhoodMarkers = [];
-    neighborhoods.forEach(neighborhood => {
-      const lat = neighborhood.location?.latitude;
-      const lng = neighborhood.location?.longitude;
-      
-      if (!lat || !lng) return;
-
-      // Calculate number of properties in this neighborhood
-      const propertiesInNeighborhood = properties.filter(property => {
-        const neighborhoodName = property.neighborhood?.name || property.neighborhood;
-        return neighborhoodName === neighborhood.name;
-      }).length;
-
-      // Add neighborhood center marker with property count
-      const marker = new window.google.maps.Marker({
-        position: { lat, lng },
-        map: showProperties ? null : map, // Show only when not showing properties
-        title: neighborhood.name,
-        icon: {
-          url: '/hyve_map_pin_green.png',
-          scaledSize: new window.google.maps.Size(50, 50),
-          anchor: new window.google.maps.Point(25, 50)
-        }
-      });
-
-      const infoWindow = new window.google.maps.InfoWindow({
-        content: `
-          <div style="padding: 12px; max-width: 280px;">
-            <h4 style="margin: 0 0 8px 0; color: #22c55e; font-size: 16px; font-weight: bold;">${neighborhood.name}</h4>
-            <p style="margin: 0 0 8px 0; color: #666; font-size: 14px;">${neighborhood.description || 'Popular neighborhood'}</p>
-            <p style="margin: 0 0 8px 0; color: #0d9488; font-weight: bold;">${propertiesInNeighborhood} ${propertiesInNeighborhood === 1 ? 'property' : 'properties'} available</p>
-            ${neighborhood.highlights ? `
-              <div style="margin-top: 8px;">
-                ${neighborhood.highlights.slice(0, 3).map(highlight => `
-                  <span style="display: inline-block; background: #f3f4f6; color: #374151; padding: 3px 8px; border-radius: 6px; font-size: 12px; margin: 2px;">${highlight}</span>
-                `).join('')}
-              </div>
-            ` : ''}
-            <p style="margin: 8px 0 0 0; color: #666; font-size: 12px; font-style: italic;">Zoom in to see individual properties</p>
-          </div>
-        `
-      });
-
-      marker.addListener('click', () => {
-        infoWindow.open(map, marker);
-      });
-
-      newNeighborhoodMarkers.push(marker);
-    });
-    
-    // Create property markers
-    const newPropertyMarkers = [];
-    properties.forEach((property) => {
-      const lat = property.location?.latitude || property.latitude;
-      const lng = property.location?.longitude || property.longitude;
-      
-      if (!lat || !lng) {
-        console.warn('Property missing coordinates:', property.name, { lat, lng });
-        return;
-      }
-
-      const marker = new window.google.maps.Marker({
-        position: { lat: parseFloat(lat), lng: parseFloat(lng) },
-        map: showProperties ? map : null, // Show only when zoomed in
-        title: property.name,
-        icon: {
-          url: '/hyve_map_pin_orange.png',
-          scaledSize: new window.google.maps.Size(40, 40),
-          anchor: new window.google.maps.Point(20, 40)
-        }
-      });
-
-      const infoWindow = new window.google.maps.InfoWindow({
-        content: `
-          <div style="padding: 12px; max-width: 300px;">
-            <h3 style="margin: 0 0 8px 0; color: #f97316; font-size: 16px; font-weight: bold;">${property.name}</h3>
-            <p style="margin: 0 0 8px 0; color: #666; font-size: 14px;">${property.address || ''}</p>
-            <p style="margin: 0 0 8px 0; color: #666; font-size: 13px;">${property.neighborhood?.name || property.neighborhood || ''}</p>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <p style="margin: 0; color: #0d9488; font-weight: bold; font-size: 15px;">From $${property.startingPrice || property.priceMonthly || 'N/A'}/month</p>
-              <p style="margin: 0; color: #666; font-size: 12px;">${property.availableRooms || property.totalRooms || 'N/A'} available</p>
-            </div>
-          </div>
-        `
-      });
-
-      marker.addListener('click', () => {
-        infoWindow.open(map, marker);
-        setSelectedProperty(property);
-        if (onPropertySelect) {
-          onPropertySelect(property);
-        }
-      });
-
-      newPropertyMarkers.push(marker);
-    });
-    
-    setNeighborhoodMarkers(newNeighborhoodMarkers);
-    setPropertyMarkers(newPropertyMarkers);
-  };
-
-  // Function to update marker visibility based on zoom level
-  const updateMarkersBasedOnZoom = (map, zoom) => {
-    const showProperties = zoom >= 14; // Show individual properties when zoomed in
-    
-    // Toggle neighborhood markers
-    neighborhoodMarkers.forEach(marker => {
-      marker.setMap(showProperties ? null : map);
-    });
-    
-    // Toggle property markers
-    propertyMarkers.forEach(marker => {
-      marker.setMap(showProperties ? map : null);
-    });
+  const handlePropertyClick = (property) => {
+    setSelectedProperty(property);
+    if (onPropertySelect) {
+      onPropertySelect(property);
+    }
   };
 
   const resetView = () => {
-    if (!map) return;
-    
-    if (properties.length > 0) {
-      const bounds = new window.google.maps.LatLngBounds();
-      properties.forEach(property => {
-        const lat = property.location?.latitude || property.latitude;
-        const lng = property.location?.longitude || property.longitude;
-        if (lat && lng) {
-          bounds.extend({ lat, lng });
-        }
-      });
-      map.fitBounds(bounds);
-    } else {
-      map.setCenter({ lat: 1.3521, lng: 103.8198 });
-      map.setZoom(11);
-    }
+    setFitTrigger((t) => t + 1);
   };
 
   return (
     <Card className={className}>
       <CardContent className="p-0 relative">
-        <div 
-          ref={mapRef} 
+        <MapContainer
+          center={center}
+          zoom={properties.length > 0 ? 12 : 11}
           style={{ height, width: '100%' }}
-          className="rounded-lg"
-        />
-        
-        {!isLoaded && (
-          <div className="absolute inset-0 bg-gray-100 rounded-lg flex items-center justify-center">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600 mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading locations map...</p>
-            </div>
-          </div>
-        )}
+          className="rounded-lg z-0"
+          scrollWheelZoom={true}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
 
-        {isLoaded && (
-          <div className="absolute top-4 right-4 flex flex-col gap-2">
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={resetView}
-              className="bg-white/90 hover:bg-white shadow-md"
-            >
-              <RotateCcw className="w-4 h-4 mr-1" />
-              Fit All
-            </Button>
-          </div>
-        )}
+          <ZoomTracker onZoomChange={setCurrentZoom} />
+          <FitBoundsControl bounds={bounds} trigger={fitTrigger} />
 
+          {/* Neighborhood markers - shown when zoomed out */}
+          {!showProperties &&
+            neighborhoods.map((neighborhood, idx) => {
+              const lat = neighborhood.location?.latitude;
+              const lng = neighborhood.location?.longitude;
+              if (!lat || !lng) return null;
+
+              const propertiesInNeighborhood = properties.filter((property) => {
+                const neighborhoodName = property.neighborhood?.name || property.neighborhood;
+                return neighborhoodName === neighborhood.name;
+              }).length;
+
+              return (
+                <Marker key={`n-${idx}`} position={[lat, lng]} icon={neighborhoodIcon}>
+                  <Popup>
+                    <div style={{ maxWidth: 260 }}>
+                      <h4 style={{ margin: '0 0 6px', color: '#006b5f', fontSize: 15, fontWeight: 700 }}>
+                        {neighborhood.name}
+                      </h4>
+                      <p style={{ margin: '0 0 6px', color: '#666', fontSize: 13 }}>
+                        {neighborhood.description || 'Popular neighborhood'}
+                      </p>
+                      <p style={{ margin: '0 0 6px', color: '#006b5f', fontWeight: 600, fontSize: 13 }}>
+                        {propertiesInNeighborhood} {propertiesInNeighborhood === 1 ? 'property' : 'properties'} available
+                      </p>
+                      {neighborhood.highlights && (
+                        <div style={{ marginTop: 6, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                          {neighborhood.highlights.slice(0, 3).map((h, i) => (
+                            <span
+                              key={i}
+                              style={{
+                                background: '#f3f4f6',
+                                color: '#374151',
+                                padding: '2px 8px',
+                                borderRadius: 6,
+                                fontSize: 11,
+                              }}
+                            >
+                              {h}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      <p style={{ margin: '8px 0 0', color: '#999', fontSize: 11, fontStyle: 'italic' }}>
+                        Zoom in to see individual properties
+                      </p>
+                    </div>
+                  </Popup>
+                </Marker>
+              );
+            })}
+
+          {/* Property markers - shown when zoomed in */}
+          {showProperties &&
+            properties.map((property, idx) => {
+              const lat = property.location?.latitude || property.latitude;
+              const lng = property.location?.longitude || property.longitude;
+              if (!lat || !lng) return null;
+
+              return (
+                <Marker
+                  key={`p-${idx}`}
+                  position={[parseFloat(lat), parseFloat(lng)]}
+                  icon={propertyIcon}
+                  eventHandlers={{ click: () => handlePropertyClick(property) }}
+                >
+                  <Popup>
+                    <div style={{ maxWidth: 280 }}>
+                      <h3 style={{ margin: '0 0 6px', color: '#f97316', fontSize: 15, fontWeight: 700 }}>
+                        {property.name}
+                      </h3>
+                      <p style={{ margin: '0 0 4px', color: '#666', fontSize: 13 }}>
+                        {property.address || ''}
+                      </p>
+                      <p style={{ margin: '0 0 6px', color: '#666', fontSize: 12 }}>
+                        {property.neighborhood?.name || property.neighborhood || ''}
+                      </p>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ color: '#006b5f', fontWeight: 700, fontSize: 14 }}>
+                          From ${property.startingPrice || property.priceMonthly || 'N/A'}/month
+                        </span>
+                        <span style={{ color: '#666', fontSize: 12 }}>
+                          {property.availableRooms || property.totalRooms || 'N/A'} available
+                        </span>
+                      </div>
+                    </div>
+                  </Popup>
+                </Marker>
+              );
+            })}
+        </MapContainer>
+
+        {/* Controls overlay */}
+        <div className="absolute top-4 right-4 flex flex-col gap-2" style={{ zIndex: 1000 }}>
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={resetView}
+            className="bg-white/90 hover:bg-white shadow-md"
+          >
+            <RotateCcw className="w-4 h-4 mr-1" />
+            Fit All
+          </Button>
+        </div>
 
         {/* Map Info Overlay */}
-        {isLoaded && (
-          <div className="absolute bottom-4 left-4 bg-white/95 rounded-lg p-3 shadow-md">
-            <div className="text-xs text-gray-600">
-              {currentZoom >= 14 ? (
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 bg-orange-500 rounded-full border border-orange-600"></div>
-                  <span>Showing individual properties</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 bg-green-500 rounded-full border border-green-600"></div>
-                  <span>Showing neighborhoods • Zoom in for properties</span>
-                </div>
-              )}
-            </div>
+        <div className="absolute bottom-4 left-4 bg-white/95 rounded-lg p-3 shadow-md" style={{ zIndex: 1000 }}>
+          <div className="text-xs text-gray-600">
+            {showProperties ? (
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-orange-500 rounded-full border border-orange-600"></div>
+                <span>Showing individual properties</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded-full border-2" style={{ background: '#006b5f', borderColor: '#005049' }}></div>
+                <span>Showing neighborhoods - Zoom in for properties</span>
+              </div>
+            )}
           </div>
-        )}
+        </div>
 
+        {/* Selected property info */}
         {selectedProperty && (
-          <div className="absolute bottom-4 right-4 bg-white/95 rounded-lg p-3 shadow-md max-w-xs">
+          <div className="absolute bottom-4 right-4 bg-white/95 rounded-lg p-3 shadow-md max-w-xs" style={{ zIndex: 1000 }}>
             <h4 className="font-semibold text-sm mb-1">{selectedProperty.name}</h4>
-            <p className="text-xs text-gray-600 mb-1">{selectedProperty.neighborhood?.name || selectedProperty.neighborhood}</p>
-            <p className="text-xs text-teal-600 font-semibold">
-              From ${selectedProperty.startingPrice}/mo • {selectedProperty.availableRooms} available
+            <p className="text-xs text-gray-600 mb-1">
+              {selectedProperty.neighborhood?.name || selectedProperty.neighborhood}
+            </p>
+            <p className="text-xs font-semibold" style={{ color: '#006b5f' }}>
+              From ${selectedProperty.startingPrice}/mo - {selectedProperty.availableRooms} available
             </p>
           </div>
         )}
