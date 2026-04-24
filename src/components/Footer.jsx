@@ -65,6 +65,11 @@ const Footer = () => {
                 {t('public.footer.blog')}
               </Link>
             </li>
+            <li>
+              <Link to="/about" className="font-['Inter'] text-xs uppercase tracking-widest text-slate-400 hover:text-teal-500 transition-colors duration-300 underline-offset-4 hover:underline decoration-teal-500/30">
+                {t('public.nav.about') || 'About'}
+              </Link>
+            </li>
           </ul>
         </div>
 

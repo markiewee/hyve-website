@@ -156,7 +156,11 @@ const LocationsPage = () => {
                     {/* Price range */}
                     {neighborhood.priceRange?.rentRange && (
                       <p className="mt-3 text-sm font-['Inter'] font-semibold text-[#006b5f]">
-                        {neighborhood.priceRange.rentRange}
+                        {neighborhood.priceRange.rentRange.replace(/(\d[\d,]*)/g, (m, num, offset, str) => {
+                          // Only prepend $ if not already preceded by $
+                          if (offset > 0 && str[offset - 1] === '$') return num;
+                          return '$' + num;
+                        })}
                       </p>
                     )}
                   </div>
@@ -251,7 +255,10 @@ const LocationsPage = () => {
                         Typical Rent
                       </h4>
                       <p className="text-lg font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
-                        {selectedNeighborhood.priceRange.rentRange}
+                        {selectedNeighborhood.priceRange.rentRange.replace(/(\d[\d,]*)/g, (m, num, offset, str) => {
+                          if (offset > 0 && str[offset - 1] === '$') return num;
+                          return '$' + num;
+                        })}
                       </p>
                     </div>
                   )}

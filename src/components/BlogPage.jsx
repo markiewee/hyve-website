@@ -87,6 +87,13 @@ const BlogPage = () => {
           <div className="absolute inset-0 z-0">
             <div className="w-full h-full bg-gradient-to-r from-[#f8f9ff] via-[#f8f9ff]/80 to-transparent"></div>
           </div>
+          {/* Decorative elements */}
+          <div className="absolute right-12 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-6 z-0 opacity-20">
+            <div className="w-48 h-48 rounded-full border-[3px] border-[#006b5f]"></div>
+            <div className="w-32 h-32 rounded-full bg-[#71f8e4]/40 -mt-20 ml-24"></div>
+            <div className="w-24 h-24 rounded-2xl border-[3px] border-[#14b8a6] rotate-12 -mt-10 ml-4"></div>
+          </div>
+          <div className="absolute -right-8 -bottom-8 w-64 h-64 bg-[#89f5e7]/20 rounded-full blur-3xl z-0"></div>
           <div className="relative z-10 max-w-3xl px-8 md:px-20">
             <span className="inline-block py-1 px-4 rounded-full bg-[#71f8e4] text-[#00201c] font-['Inter'] font-semibold text-xs tracking-wider mb-6">
               JOURNAL

@@ -237,7 +237,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
               <p className="text-[#3c4947] text-lg">{t('public.hero.featuredSubtitle')}</p>
             </div>
             <Link
-              to="/properties"
+              to="/locations"
               className="font-['Plus_Jakarta_Sans'] font-bold text-[#006b5f] flex items-center gap-2 hover:translate-x-1 transition-all"
             >
               {t('public.hero.viewAllLocations')} <span className="material-symbols-outlined">arrow_forward</span>
@@ -334,9 +334,9 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
               <div className="w-20 h-20 rounded-full border-4 border-white shadow-[0_20px_40px_rgba(18,28,42,0.06)] overflow-hidden mb-4 bg-teal-100 flex items-center justify-center">
                 <span className="material-symbols-outlined text-teal-600 text-3xl">person</span>
               </div>
-              <p className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-lg">Happy Resident</p>
+              <p className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-lg">Rebekah F.</p>
               <p className="font-['Inter'] text-xs text-[#3c4947] uppercase tracking-widest">
-                Resident since 2024 &bull; Singapore
+                Resident since 2026 &bull; Thomson Grove
               </p>
             </div>
           </div>

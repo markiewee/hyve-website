@@ -108,6 +108,18 @@ const PropertyDetailPage = () => {
     }
   };
 
+  // Map internal room type codes to user-friendly labels
+  const formatRoomType = (type) => {
+    if (!type) return '';
+    const map = {
+      single: 'Standard Room',
+      common: 'Premium Room',
+      master: 'Master Bedroom',
+      loft: 'Loft Room',
+    };
+    return map[type.toLowerCase()] || type;
+  };
+
   const slugKey = property?.slug?.current || id;
   const localHero = HYVE_FALLBACK_HERO_IMAGE[slugKey];
   const GENERIC_HERO_FALLBACK =
@@ -175,7 +187,7 @@ const PropertyDetailPage = () => {
       const message = `🏠 *${roomType}* from Hyve Website
 
 *Property:* ${property.name}
-*Room:* ${selectedRoom.roomNumber} (${selectedRoom.roomType})
+*Room:* ${selectedRoom.roomNumber} (${formatRoomType(selectedRoom.roomType)})
 *Monthly Rent:* $${selectedRoom.priceMonthly}
 *Availability:* ${availabilityInfo}
 
@@ -262,6 +274,12 @@ ${requestFormData.message || 'No additional message provided'}
   const availableRooms = filteredRooms.filter(room => room.isAvailable);
   const unavailableRooms = filteredRooms.filter(room => !room.isAvailable);
 
+  // Compute actual minimum price from room data (overrides CMS startingPrice if rooms exist)
+  const computedStartingPrice = propertyRooms.length > 0
+    ? Math.min(...propertyRooms.map(r => r.priceMonthly).filter(Boolean))
+    : property.startingPrice;
+  const displayStartingPrice = computedStartingPrice || property.startingPrice;
+
   // Get today's date in YYYY-MM-DD for the min attribute
   const todayStr = new Date().toISOString().split('T')[0];
 
@@ -292,7 +310,7 @@ ${requestFormData.message || 'No additional message provided'}
           })),
           "offers": {
             "@type": "AggregateOffer",
-            "lowPrice": property.startingPrice,
+            "lowPrice": displayStartingPrice,
             "priceCurrency": "SGD",
             "unitText": "MONTH",
             "availability": property.availableRooms > 0
@@ -324,13 +342,13 @@ ${requestFormData.message || 'No additional message provided'}
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
               <div className="absolute bottom-8 left-8">
                 <span className="bg-[#006b5f] text-white px-4 py-1 rounded-full text-xs font-['Inter'] tracking-widest uppercase mb-4 inline-block">
-                  {property.propertyType || 'Coliving'}
+                  Co-living
                 </span>
                 <h1 className="text-white text-3xl md:text-5xl font-['Plus_Jakarta_Sans'] font-extrabold tracking-tight">
                   {property.name}
                 </h1>
                 <p className="text-white/80 font-['Manrope'] mt-2">
-                  {neighborhoodName} &bull; From ${property.startingPrice}/mo
+                  {neighborhoodName} &bull; From ${displayStartingPrice}/mo
                 </p>
               </div>
               {/* Image nav arrows */}
@@ -490,7 +508,7 @@ ${requestFormData.message || 'No additional message provided'}
                           <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-lg">{room.roomNumber}</h4>
                           <p className="text-[#3c4947] text-sm flex items-center gap-1">
                             <span className="material-symbols-outlined text-xs">square_foot</span>
-                            {room.roomType}
+                            {formatRoomType(room.roomType)}
                           </p>
                           {room.availableFrom && new Date(room.availableFrom) > new Date() && (
                             <p className="text-xs font-['Inter'] font-semibold text-[#006b5f] mt-1 flex items-center gap-1">
@@ -519,7 +537,7 @@ ${requestFormData.message || 'No additional message provided'}
                     <>
                       <div className="pt-4">
                         <p className="text-sm text-[#555f6f] font-['Inter'] uppercase tracking-widest font-bold mb-4">
-                          Coming Soon ({unavailableRooms.length})
+                          Coming Soon ({unavailableRooms.filter(r => r.availableFrom).length})
                         </p>
                       </div>
                       {unavailableRooms
@@ -546,7 +564,7 @@ ${requestFormData.message || 'No additional message provided'}
                             </div>
                             <div>
                               <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-lg">{room.roomNumber}</h4>
-                              <p className="text-[#3c4947] text-sm">{room.roomType}</p>
+                              <p className="text-[#3c4947] text-sm">{formatRoomType(room.roomType)}</p>
                               {room.availableFrom ? (
                                 <p className="text-xs font-['Inter'] font-semibold text-[#b8860b] mt-1 flex items-center gap-1">
                                   <span className="material-symbols-outlined text-xs">event_available</span>
@@ -569,7 +587,7 @@ ${requestFormData.message || 'No additional message provided'}
                                 onClick={() => handleRoomRequest(room)}
                                 className="bg-[#006b5f] text-white px-5 py-2 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#006b5f]/90 transition-colors"
                               >
-                                Join Waitlist
+                                Enquire
                               </button>
                             ) : (
                               <span className="bg-slate-200 text-slate-500 px-5 py-2 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest">
@@ -678,7 +696,7 @@ ${requestFormData.message || 'No additional message provided'}
             ) : (
               <>
                 <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold mb-2">
-                  {selectedRoom?.isAvailable ? 'Request Room' : 'Join Waitlist'}
+                  {selectedRoom?.isAvailable ? 'Request Room' : 'Enquire'}
                 </h3>
                 <p className="text-sm text-[#3c4947] mb-6">
                   {selectedRoom?.roomNumber} &bull; ${selectedRoom?.priceMonthly}/mo
