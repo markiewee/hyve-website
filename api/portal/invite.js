@@ -88,7 +88,7 @@ export default async function handler(req, res) {
         property_id,
         role,
         username: cleanUsername,
-        is_active: false,
+        is_active: true,
       })
       .select("id")
       .single();
@@ -130,7 +130,7 @@ export default async function handler(req, res) {
       role,
       invite_token,
       invite_expires_at,
-      is_active: false,
+      is_active: true,
     })
     .select("id, invite_expires_at")
     .single();
