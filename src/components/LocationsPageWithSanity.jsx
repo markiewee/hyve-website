@@ -177,11 +177,11 @@ const LocationsPage = () => {
         </aside>
 
         {/* Map Area */}
-        <section className="flex-1 relative bg-[#e6eeff] min-h-[400px] md:min-h-0">
+        <section className="flex-1 relative bg-[#e6eeff]">
           <LocationsMapComponent
             properties={properties}
             neighborhoods={neighborhoods}
-            height="100%"
+            height="calc(100vh - 80px)"
             onPropertySelect={(property) => {
               console.log('Selected property:', property);
             }}
