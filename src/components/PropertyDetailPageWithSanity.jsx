@@ -76,7 +76,7 @@ const LIFESTYLE_ICONS = [
   { icon: 'local_laundry_service', label: 'Laundry' },
   { icon: 'train', label: 'Near MRT' },
   { icon: 'money_off', label: 'No Agent Fees' },
-  { icon: 'event_available', label: 'Flexible Lease (6mo)' },
+  { icon: 'event_available', label: 'Flexible Lease (3mo)' },
 ];
 
 const PropertyDetailPage = () => {
@@ -610,34 +610,12 @@ ${requestFormData.message || 'No additional message provided'}
                 What&apos;s Included
               </h3>
 
-              {/* Universal icons */}
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mb-6">
-                {UNIVERSAL_ICONS.map((item) => (
-                  <div key={item.icon} className="flex flex-col items-center text-center gap-2">
-                    <span className="material-symbols-outlined text-2xl text-[#006b5f]">{item.icon}</span>
-                    <span className="font-['Inter'] text-xs text-[#555f6f] leading-tight">{item.label}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Facility icons (from amenities) */}
-              {facilityIcons.length > 0 && (
-                <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mb-6">
-                  {facilityIcons.map((item) => (
-                    <div key={item.icon} className="flex flex-col items-center text-center gap-2">
-                      <span className="material-symbols-outlined text-2xl text-[#006b5f]">{item.icon}</span>
-                      <span className="font-['Inter'] text-xs text-[#555f6f] leading-tight">{item.label}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Lifestyle icons */}
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-4">
-                {LIFESTYLE_ICONS.map((item) => (
-                  <div key={item.icon} className="flex flex-col items-center text-center gap-2">
-                    <span className="material-symbols-outlined text-2xl text-[#006b5f]">{item.icon}</span>
-                    <span className="font-['Inter'] text-xs text-[#555f6f] leading-tight">{item.label}</span>
+              {/* All icons in a single clean grid — icon + label inline */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-8 gap-y-4">
+                {[...UNIVERSAL_ICONS, ...facilityIcons, ...LIFESTYLE_ICONS].map((item) => (
+                  <div key={item.icon} className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-[22px] text-[#006b5f] flex-shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
+                    <span className="text-sm font-['Manrope'] text-[#3c4947] font-medium">{item.label}</span>
                   </div>
                 ))}
               </div>
@@ -785,9 +763,25 @@ ${requestFormData.message || 'No additional message provided'}
                               <div className="flex items-center gap-2 mb-1">
                                 <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-lg">{room.roomNumber}</h4>
                                 {room.availableFrom ? (
-                                  <span className="bg-amber-50 text-amber-700 text-[10px] font-['Inter'] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
-                                    Available {formatAvailableDateShort(room.availableFrom)}
-                                  </span>
+                                  <>
+                                    <span className="bg-amber-50 text-amber-700 text-[10px] font-['Inter'] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+                                      Available {formatAvailableDateShort(room.availableFrom)}
+                                    </span>
+                                    {(() => {
+                                      const avail = new Date(room.availableFrom);
+                                      const now = new Date();
+                                      const diffMonths = (avail.getFullYear() - now.getFullYear()) * 12 + (avail.getMonth() - now.getMonth());
+                                      if (diffMonths <= 3) {
+                                        return (
+                                          <span className="bg-rose-50 text-rose-600 text-[10px] font-['Inter'] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full flex items-center gap-1">
+                                            <span className="material-symbols-outlined text-[12px]">local_fire_department</span>
+                                            Move In Now — Special Rate
+                                          </span>
+                                        );
+                                      }
+                                      return null;
+                                    })()}
+                                  </>
                                 ) : (
                                   <span className="bg-slate-100 text-slate-500 text-[10px] font-['Inter'] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
                                     Occupied
