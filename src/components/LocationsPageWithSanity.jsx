@@ -52,7 +52,7 @@ const LocationsPage = () => {
     if (neighborhood.images?.[0]?.image) {
       return urlFor(neighborhood.images[0].image).width(800).height(600).url();
     }
-    return 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=600&fit=crop&q=80';
+    return '/photos/tg-hero.jpg';
   };
 
   if (loading) {

@@ -75,7 +75,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
     if (property.images?.[0] && typeof property.images[0] === 'string') {
       return `/${property.images[0]}`;
     }
-    return 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=600&fit=crop&q=80';
+    return '/photos/tg-hero.jpg';
   };
 
   return (
@@ -137,7 +137,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
               ) : (
                 <img
                   className="w-full h-full object-cover"
-                  src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=600&fit=crop&q=80"
+                  src="/photos/tg-hero.jpg"
                   alt="Modern coliving space"
                   loading="lazy"
                 />

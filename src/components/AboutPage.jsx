@@ -67,7 +67,7 @@ const AboutPage = () => {
                 if (e.currentTarget.dataset.fallbackUsed !== '1') {
                   e.currentTarget.dataset.fallbackUsed = '1';
                   e.currentTarget.src =
-                    'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&h=1200&fit=crop&q=80';
+                    '/photos/cp-hero.jpg';
                 }
               }}
               alt="Modern architectural coliving space"
