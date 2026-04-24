@@ -7,9 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { toast } from "sonner";
 
 const BANK_DETAILS = {
-  bank: "DBS Bank",
-  accountName: "Makery Pte Ltd",
-  accountNumber: "DBS 072-905765-8",
+  bank: "DBS Bank Ltd",
+  accountName: "Makery Pte. Ltd.",
+  accountNumber: "885215368634",
+  note: "Local SGD transfers only",
 };
 
 export default function DepositPayment({ onboarding, advanceStep, refetch }) {

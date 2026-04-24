@@ -45,8 +45,8 @@ const SECTIONS = [
       {
         q: "How do I pay rent?",
         qZh: "如何支付租金？",
-        a: "Option 1: Bank transfer to DBS Bank — Makery Pte Ltd — Account 072-905765-8 (no fee). Option 2: Click 'Pay' on the Billing page to pay via Stripe/card (4% processing fee).",
-        aZh: "方式1：银行转账至 DBS Bank — Makery Pte Ltd — 账号 072-905765-8（无手续费）。方式2：在账单页面点击「支付」通过 Stripe/信用卡支付（4% 手续费）。",
+        a: "Option 1: Bank transfer to DBS Bank Ltd — Makery Pte. Ltd. — Account 885215368634 (no fee, local SGD only). Option 2: Click 'Pay' on the Billing page to pay via Stripe/card (4% processing fee).",
+        aZh: "方式1：银行转账至 DBS Bank Ltd — Makery Pte. Ltd. — 账号 885215368634（无手续费，仅限本地新币转账）。方式2：在账单页面点击「支付」通过 Stripe/信用卡支付（4% 手续费）。",
       },
       {
         q: "How do I pay other charges (stamping fee, damage, etc.)?",
