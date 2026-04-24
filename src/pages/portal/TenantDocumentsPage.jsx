@@ -131,82 +131,9 @@ export default function TenantDocumentsPage() {
           My Documents
         </h1>
         <p className="text-[#555f6f] font-['Manrope'] mt-1">
-          View your agreements and upload documents like stamping certificates.
+          View your agreements and documents.
         </p>
       </header>
-
-      {/* Upload Section */}
-      <section className="bg-white rounded-xl p-6 border border-[#bbcac6]/15 shadow-sm mb-8">
-        <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg mb-4 flex items-center gap-2 text-[#121c2a]">
-          <span className="material-symbols-outlined text-[#006b5f] text-[20px]">cloud_upload</span>
-          Upload Document
-        </h2>
-
-        {message && (
-          <div className={`mb-4 px-4 py-3 rounded-xl text-sm font-['Manrope'] ${
-            message.type === "error"
-              ? "bg-[#ffdad6]/40 text-[#ba1a1a] border border-[#ba1a1a]/15"
-              : "bg-[#d1fae5] text-[#065f46] border border-[#065f46]/15"
-          }`}>
-            {message.text}
-          </div>
-        )}
-
-        <form onSubmit={handleUpload} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">
-                Document Type
-              </label>
-              <select
-                value={uploadType}
-                onChange={(e) => setUploadType(e.target.value)}
-                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
-              >
-                {UPLOAD_TYPES.map(({ value, label }) => (
-                  <option key={value} value={value}>{label}</option>
-                ))}
-              </select>
-            </div>
-            <div className="space-y-1.5">
-              <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">
-                Title <span className="text-[#bbcac6] normal-case tracking-normal">(optional)</span>
-              </label>
-              <input
-                type="text"
-                value={uploadTitle}
-                onChange={(e) => setUploadTitle(e.target.value)}
-                placeholder={DOC_TYPE_LABELS[uploadType]}
-                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-1.5">
-            <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">
-              File
-            </label>
-            <input
-              id="doc-upload-input"
-              type="file"
-              accept="image/*,application/pdf,.doc,.docx"
-              onChange={(e) => setUploadFile(e.target.files?.[0] ?? null)}
-              className="w-full text-sm text-[#555f6f] file:mr-3 file:px-4 file:py-2 file:rounded-xl file:border-0 file:bg-[#006b5f] file:text-white file:text-xs file:font-bold file:cursor-pointer hover:file:opacity-90"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={uploading || !uploadFile}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <span className="material-symbols-outlined text-[18px]">
-              {uploading ? "progress_activity" : "upload_file"}
-            </span>
-            {uploading ? "Uploading..." : "Upload Document"}
-          </button>
-        </form>
-      </section>
 
       {/* Documents List */}
       <section className="bg-white rounded-xl p-6 border border-[#bbcac6]/15 shadow-sm">
