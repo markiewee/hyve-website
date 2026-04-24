@@ -125,11 +125,6 @@ const LocationsPage = () => {
                           {neighborhoodProperties.length} propert{neighborhoodProperties.length !== 1 ? 'ies' : 'y'}
                         </p>
                       </div>
-                      {neighborhood.featured && (
-                        <span className="bg-[#71f8e4] text-[#00201c] px-3 py-1 rounded-full text-xs font-bold font-['Inter'] uppercase">
-                          Popular
-                        </span>
-                      )}
                     </div>
 
                     <div className="aspect-[16/9] rounded-lg overflow-hidden mb-4 relative">
