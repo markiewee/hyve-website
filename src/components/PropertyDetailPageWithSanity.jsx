@@ -1,13 +1,83 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { client, QUERIES, urlFor } from '../lib/sanity';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import L from 'leaflet';
 import ApiService from '../services/api';
 import SEO from './SEO';
+import HousematePreview from './HousematePreview';
 import {
   HYVE_FALLBACK_PROPERTIES,
   HYVE_FALLBACK_ROOMS,
   HYVE_FALLBACK_HERO_IMAGE,
 } from '../data/hyveFallback';
+
+// Fix default marker icon issue with bundlers
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
+// Hyve teal map marker
+const propertyMarkerIcon = new L.DivIcon({
+  className: 'custom-property-marker',
+  html: `<div style="
+    width: 36px; height: 36px;
+    background: #006b5f;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    display: flex; align-items: center; justify-content: center;
+  ">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+  </div>`,
+  iconSize: [36, 36],
+  iconAnchor: [18, 18],
+  popupAnchor: [0, -20],
+});
+
+// Supabase property ID mapping (Sanity slug -> Supabase UUID)
+const PROPERTY_ID_MAP = {
+  'chiltern-park': '1d1cff29-0542-4520-bcf7-dfe0f7e8cb48',
+  'ivory-heights': '358c5333-00fd-4efb-b330-3d6e131e9b10',
+  'thomson-grove': 'd3e7e40f-a32c-4c8e-a54f-59e8f9cbc4a6',
+};
+
+// ---- What's Included icon definitions ----
+const UNIVERSAL_ICONS = [
+  { icon: 'bolt', label: 'Utilities Included' },
+  { icon: 'wifi', label: 'High-Speed WiFi' },
+  { icon: 'cleaning_services', label: 'Weekly Cleaning' },
+  { icon: 'chair', label: 'Fully Furnished' },
+  { icon: 'ac_unit', label: 'Aircon' },
+  { icon: 'kitchen', label: 'Shared Kitchen' },
+];
+
+const FACILITY_ICONS = [
+  { icon: 'pool', label: 'Swimming Pool', match: ['pool', 'swimming pool', 'swimming'] },
+  { icon: 'fitness_center', label: 'Gym', match: ['gym', 'fitness', 'fitness center', 'gymnasium'] },
+  { icon: 'local_parking', label: 'Parking', match: ['parking', 'car park', 'carpark'] },
+  { icon: 'toys', label: 'Playground', match: ['playground', 'play area'] },
+  { icon: 'lock', label: '24hr Security', match: ['security', '24hr security', '24-hour security', 'cctv'] },
+];
+
+const LIFESTYLE_ICONS = [
+  { icon: 'pets', label: 'Pets Welcome' },
+  { icon: 'group', label: 'Couples Allowed' },
+  { icon: 'local_laundry_service', label: 'Laundry' },
+  { icon: 'train', label: 'Near MRT' },
+  { icon: 'money_off', label: 'No Agent Fees' },
+  { icon: 'event_available', label: 'Flexible Lease (6mo)' },
+];
 
 const PropertyDetailPage = () => {
   const { id } = useParams();
@@ -18,6 +88,7 @@ const PropertyDetailPage = () => {
   const [propertyRooms, setPropertyRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showRequestDialog, setShowRequestDialog] = useState(false);
+  const [showAllPhotos, setShowAllPhotos] = useState(false);
   const [requestFormData, setRequestFormData] = useState({
     name: '',
     email: '',
@@ -51,8 +122,6 @@ const PropertyDetailPage = () => {
           setProperty(sanityProperty);
           setPropertyRooms(sanityRooms);
         } else if (HYVE_FALLBACK_PROPERTIES[id]) {
-          // Known Hyve property missing from Sanity — use hardcoded fallback
-          // so the page never renders blank.
           console.warn(`Property "${id}" not found in Sanity — using hardcoded fallback.`);
           setProperty(HYVE_FALLBACK_PROPERTIES[id]);
           setPropertyRooms(HYVE_FALLBACK_ROOMS[id] || []);
@@ -79,7 +148,6 @@ const PropertyDetailPage = () => {
         }
       } catch (error) {
         console.error('Error fetching property data:', error);
-        // Last-resort fallback for known Hyve slugs so the page never blanks.
         if (HYVE_FALLBACK_PROPERTIES[id]) {
           setProperty(HYVE_FALLBACK_PROPERTIES[id]);
           setPropertyRooms(HYVE_FALLBACK_ROOMS[id] || []);
@@ -108,7 +176,6 @@ const PropertyDetailPage = () => {
     }
   };
 
-  // Map internal room type codes to user-friendly labels
   const formatRoomType = (type) => {
     if (!type) return '';
     const map = {
@@ -136,14 +203,17 @@ const PropertyDetailPage = () => {
     }
   };
 
+  const getImageSrc = (imageObj, w, h) => {
+    if (imageObj?.image) {
+      return safeUrlFor(imageObj.image, w, h) || localHero || GENERIC_HERO_FALLBACK;
+    }
+    if (typeof imageObj === 'string') return `/${imageObj}`;
+    return localHero || GENERIC_HERO_FALLBACK;
+  };
+
   const getCurrentImageSrc = () => {
     if (!property?.images?.length) return localHero || GENERIC_HERO_FALLBACK;
-    const currentImage = property.images[currentImageIndex];
-    if (currentImage?.image) {
-      return safeUrlFor(currentImage.image, 1200, 800) || localHero || GENERIC_HERO_FALLBACK;
-    }
-    if (typeof currentImage === 'string') return `/${currentImage}`;
-    return localHero || GENERIC_HERO_FALLBACK;
+    return getImageSrc(property.images[currentImageIndex], 1200, 800);
   };
 
   const getRoomImageSrc = (room) => {
@@ -169,6 +239,17 @@ const PropertyDetailPage = () => {
     }
   };
 
+  const formatAvailableDateShort = (dateString) => {
+    if (!dateString) return null;
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return dateString;
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    } catch (error) {
+      return dateString;
+    }
+  };
+
   const handleRoomRequest = (room) => {
     const slug = property?.slug?.current || id;
     const roomCode = room.unit_code || room.roomNumber;
@@ -184,7 +265,7 @@ const PropertyDetailPage = () => {
         ? `Available from: ${formatAvailableDate(selectedRoom.availableFrom)}`
         : 'Currently occupied';
 
-      const message = `🏠 *${roomType}* from Hyve Website
+      const message = `\u{1F3E0} *${roomType}* from Hyve Website
 
 *Property:* ${property.name}
 *Room:* ${selectedRoom.roomNumber} (${formatRoomType(selectedRoom.roomType)})
@@ -192,9 +273,9 @@ const PropertyDetailPage = () => {
 *Availability:* ${availabilityInfo}
 
 *Prospect Details:*
-👤 *Name:* ${requestFormData.name}
-📧 *Email:* ${requestFormData.email}
-📱 *Phone:* ${requestFormData.phone}
+\u{1F464} *Name:* ${requestFormData.name}
+\u{1F4E7} *Email:* ${requestFormData.email}
+\u{1F4F1} *Phone:* ${requestFormData.phone}
 
 *Message:*
 ${requestFormData.message || 'No additional message provided'}
@@ -220,11 +301,30 @@ ${requestFormData.message || 'No additional message provided'}
     }
   };
 
+  // Resolve Supabase property ID for housemates
+  const supabasePropertyId = useMemo(() => {
+    if (!property) return null;
+    const slug = property.slug?.current || id;
+    // Try the slug mapping first
+    if (PROPERTY_ID_MAP[slug]) return PROPERTY_ID_MAP[slug];
+    // Fall back to the Sanity document _id (they should match)
+    return property._id || null;
+  }, [property, id]);
+
+  // Facility icons filtered by property amenities
+  const facilityIcons = useMemo(() => {
+    if (!property?.amenities) return [];
+    const amenitiesLower = property.amenities.map(a => a.toLowerCase());
+    return FACILITY_ICONS.filter(f =>
+      f.match.some(m => amenitiesLower.some(a => a.includes(m)))
+    );
+  }, [property?.amenities]);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[#f8f9ff] pt-20">
         <div className="animate-pulse">
-          <div className="h-[716px] bg-slate-200"></div>
+          <div className="h-[500px] bg-slate-200"></div>
           <div className="max-w-7xl mx-auto px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-16">
             <div className="lg:col-span-2 space-y-6">
               <div className="h-8 bg-slate-200 rounded w-2/3"></div>
@@ -260,7 +360,6 @@ ${requestFormData.message || 'No additional message provided'}
     ? property.neighborhood
     : property.neighborhood?.name || '';
 
-  // Filter rooms based on move-in date
   const filteredRooms = moveInDate
     ? propertyRooms.filter(room => {
         if (room.isAvailable) return true;
@@ -274,14 +373,27 @@ ${requestFormData.message || 'No additional message provided'}
   const availableRooms = filteredRooms.filter(room => room.isAvailable);
   const unavailableRooms = filteredRooms.filter(room => !room.isAvailable);
 
-  // Compute actual minimum price from room data (overrides CMS startingPrice if rooms exist)
   const computedStartingPrice = propertyRooms.length > 0
     ? Math.min(...propertyRooms.map(r => r.priceMonthly).filter(Boolean))
     : property.startingPrice;
   const displayStartingPrice = computedStartingPrice || property.startingPrice;
 
-  // Get today's date in YYYY-MM-DD for the min attribute
   const todayStr = new Date().toISOString().split('T')[0];
+
+  const images = property.images || [];
+  const galleryThumbs = images.slice(1, 5);
+  const remainingPhotos = images.length - 5;
+
+  // MRT info for overlay
+  const primaryMRT = property.nearbyMRT?.[0];
+  const mrtLabel = primaryMRT
+    ? `${primaryMRT.station || primaryMRT} ${primaryMRT.walkingMinutes ? `(${primaryMRT.walkingMinutes} min walk)` : ''}`
+    : null;
+
+  // Map location
+  const propertyLat = property.location?.latitude || property.latitude;
+  const propertyLng = property.location?.longitude || property.longitude;
+  const hasLocation = propertyLat && propertyLng;
 
   return (
     <>
@@ -320,18 +432,108 @@ ${requestFormData.message || 'No additional message provided'}
         } : undefined}
       />
 
-
       <div className="min-h-screen bg-[#f8f9ff] pt-20">
-        {/* Hero Gallery */}
-        <section className="px-4 md:px-8 pt-8 pb-12">
-          <div className="grid grid-cols-12 grid-rows-2 gap-4 h-auto md:h-[500px] lg:h-[600px] max-w-7xl mx-auto">
-            {/* Main image */}
-            <div className="col-span-12 md:col-span-8 row-span-2 relative overflow-hidden rounded-xl group">
+        {/* ==================== HERO GALLERY ==================== */}
+        <section className="relative">
+          {/* Desktop Gallery Grid */}
+          <div className="hidden md:block px-4 md:px-8 pt-6 pb-0">
+            <div className="max-w-7xl mx-auto grid grid-cols-5 grid-rows-2 gap-2 h-[480px] lg:h-[540px] rounded-2xl overflow-hidden relative">
+              {/* Main image — left 60% (3 of 5 cols), full height */}
+              <div
+                className="col-span-3 row-span-2 relative overflow-hidden cursor-pointer group"
+                onClick={() => setShowAllPhotos(true)}
+              >
+                <img
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  src={getImageSrc(images[0], 1200, 800)}
+                  alt={property.name}
+                  loading="eager"
+                  onError={(e) => {
+                    if (e.currentTarget.dataset.fallbackUsed !== '1') {
+                      e.currentTarget.dataset.fallbackUsed = '1';
+                      e.currentTarget.src = localHero || GENERIC_HERO_FALLBACK;
+                    }
+                  }}
+                />
+              </div>
+
+              {/* Right 40% — 4 thumbnail grid (2x2) */}
+              {galleryThumbs.map((img, i) => (
+                <div
+                  key={i}
+                  className="relative overflow-hidden cursor-pointer group"
+                  onClick={() => { setCurrentImageIndex(i + 1); setShowAllPhotos(true); }}
+                >
+                  <img
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    src={getImageSrc(img, 600, 400)}
+                    alt={img?.alt || `${property.name} photo ${i + 2}`}
+                    loading="lazy"
+                  />
+                  {/* "+X Photos" overlay on last thumbnail */}
+                  {i === galleryThumbs.length - 1 && remainingPhotos > 0 && (
+                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center hover:bg-black/40 transition-colors">
+                      <span className="text-white font-['Plus_Jakarta_Sans'] font-bold text-lg">
+                        +{remainingPhotos} Photos
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {/* Fill empty thumbnail slots if fewer than 4 side images */}
+              {galleryThumbs.length < 4 && Array.from({ length: 4 - galleryThumbs.length }).map((_, i) => (
+                <div key={`empty-${i}`} className="bg-slate-100" />
+              ))}
+
+              {/* Rooms available badge — top-left */}
+              {availableRooms.length > 0 && (
+                <div className="absolute top-4 left-4 z-10">
+                  <span className="bg-[#006b5f] text-white px-4 py-2 rounded-full text-sm font-['Inter'] font-bold shadow-lg">
+                    {availableRooms.length} {availableRooms.length === 1 ? 'room' : 'rooms'} available
+                  </span>
+                </div>
+              )}
+
+              {/* Bottom overlay bar */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent px-8 pb-6 pt-16 z-10 col-span-5">
+                <div className="flex items-end justify-between">
+                  <div>
+                    <h1 className="text-white text-3xl lg:text-4xl font-['Plus_Jakarta_Sans'] font-extrabold tracking-tight">
+                      {property.name}
+                    </h1>
+                    <div className="flex items-center gap-3 mt-2 text-white/80 font-['Manrope'] text-sm">
+                      {neighborhoodName && <span>{neighborhoodName}</span>}
+                      {mrtLabel && (
+                        <>
+                          <span className="text-white/40">|</span>
+                          <span className="flex items-center gap-1">
+                            <span className="material-symbols-outlined text-sm">train</span>
+                            {mrtLabel}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-white/60 font-['Inter'] text-xs uppercase tracking-widest">From</p>
+                    <p className="text-white text-2xl font-['Plus_Jakarta_Sans'] font-extrabold">
+                      ${displayStartingPrice}<span className="text-base font-normal text-white/70">/mo</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Carousel */}
+          <div className="md:hidden relative">
+            <div className="relative h-[320px] overflow-hidden">
               <img
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 min-h-[300px]"
+                className="w-full h-full object-cover"
                 src={getCurrentImageSrc()}
                 alt={property.name}
-                loading="lazy"
+                loading="eager"
                 onError={(e) => {
                   if (e.currentTarget.dataset.fallbackUsed !== '1') {
                     e.currentTarget.dataset.fallbackUsed = '1';
@@ -339,75 +541,57 @@ ${requestFormData.message || 'No additional message provided'}
                   }
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-              <div className="absolute bottom-8 left-8">
-                <span className="bg-[#006b5f] text-white px-4 py-1 rounded-full text-xs font-['Inter'] tracking-widest uppercase mb-4 inline-block">
-                  Co-living
-                </span>
-                <h1 className="text-white text-3xl md:text-5xl font-['Plus_Jakarta_Sans'] font-extrabold tracking-tight">
-                  {property.name}
-                </h1>
-                <p className="text-white/80 font-['Manrope'] mt-2">
-                  {neighborhoodName} &bull; From ${displayStartingPrice}/mo
-                </p>
-              </div>
-              {/* Image nav arrows */}
-              {property.images && property.images.length > 1 && (
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+
+              {/* Rooms badge */}
+              {availableRooms.length > 0 && (
+                <div className="absolute top-4 left-4">
+                  <span className="bg-[#006b5f] text-white px-3 py-1.5 rounded-full text-xs font-['Inter'] font-bold">
+                    {availableRooms.length} {availableRooms.length === 1 ? 'room' : 'rooms'} available
+                  </span>
+                </div>
+              )}
+
+              {/* Image counter */}
+              {images.length > 1 && (
+                <div className="absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-xs font-['Inter']">
+                  {currentImageIndex + 1} / {images.length}
+                </div>
+              )}
+
+              {/* Nav arrows */}
+              {images.length > 1 && (
                 <>
                   <button
                     onClick={prevImage}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1.5 rounded-full"
                   >
-                    <span className="material-symbols-outlined">chevron_left</span>
+                    <span className="material-symbols-outlined text-lg">chevron_left</span>
                   </button>
                   <button
                     onClick={nextImage}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1.5 rounded-full"
                   >
-                    <span className="material-symbols-outlined">chevron_right</span>
+                    <span className="material-symbols-outlined text-lg">chevron_right</span>
                   </button>
                 </>
               )}
+
+              {/* Bottom info */}
+              <div className="absolute bottom-0 left-0 right-0 px-5 pb-4">
+                <h1 className="text-white text-2xl font-['Plus_Jakarta_Sans'] font-extrabold">
+                  {property.name}
+                </h1>
+                <p className="text-white/80 font-['Manrope'] text-sm mt-1">
+                  {neighborhoodName} &bull; From ${displayStartingPrice}/mo
+                </p>
+              </div>
             </div>
-            {/* Side images */}
-            {property.images && property.images.length > 1 && (
-              <div
-                className="hidden md:block col-span-4 row-span-1 relative overflow-hidden rounded-xl cursor-pointer"
-                onClick={() => setCurrentImageIndex(1)}
-              >
-                <img
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                  src={property.images[1]?.image ? (safeUrlFor(property.images[1].image, 600, 400) || localHero || GENERIC_HERO_FALLBACK) : (typeof property.images[1] === 'string' ? `/${property.images[1]}` : (localHero || GENERIC_HERO_FALLBACK))}
-                  alt={property.images[1]?.alt || `${property.name} photo 2`}
-                  loading="lazy"
-                />
-              </div>
-            )}
-            {property.images && property.images.length > 2 && (
-              <div
-                className="hidden md:block col-span-4 row-span-1 relative overflow-hidden rounded-xl cursor-pointer"
-                onClick={() => setCurrentImageIndex(2)}
-              >
-                <img
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                  src={property.images[2]?.image ? (safeUrlFor(property.images[2].image, 600, 400) || localHero || GENERIC_HERO_FALLBACK) : (typeof property.images[2] === 'string' ? `/${property.images[2]}` : (localHero || GENERIC_HERO_FALLBACK))}
-                  alt={property.images[2]?.alt || `${property.name} photo 3`}
-                  loading="lazy"
-                />
-                {property.images.length > 3 && (
-                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                    <span className="text-white font-['Plus_Jakarta_Sans'] font-bold text-lg">
-                      +{property.images.length - 3} Photos
-                    </span>
-                  </div>
-                )}
-              </div>
-            )}
           </div>
         </section>
 
-        {/* Content Grid */}
-        <section className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16 pb-24">
+        {/* ==================== CONTENT GRID ==================== */}
+        <section className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16 pt-10 pb-24">
           {/* Left Column */}
           <div className="lg:col-span-2 space-y-12 md:space-y-16">
             {/* Description */}
@@ -420,24 +604,51 @@ ${requestFormData.message || 'No additional message provided'}
               </div>
             </div>
 
-            {/* Amenities */}
-            {property.amenities && property.amenities.length > 0 && (
-              <div>
-                <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold mb-6">Curated Amenities</h3>
-                <div className="flex flex-wrap gap-3">
-                  {property.amenities.map((amenity, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-2 px-5 py-3 rounded-xl bg-[#dee9fc] text-[#555f6f]"
-                    >
-                      <span className="font-['Inter'] text-sm font-medium">{amenity}</span>
+            {/* ==================== WHAT'S INCLUDED ==================== */}
+            <div>
+              <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-6">
+                What&apos;s Included
+              </h3>
+
+              {/* Universal icons */}
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mb-6">
+                {UNIVERSAL_ICONS.map((item) => (
+                  <div key={item.icon} className="flex flex-col items-center text-center gap-2">
+                    <span className="material-symbols-outlined text-2xl text-[#006b5f]">{item.icon}</span>
+                    <span className="font-['Inter'] text-xs text-[#555f6f] leading-tight">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Facility icons (from amenities) */}
+              {facilityIcons.length > 0 && (
+                <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mb-6">
+                  {facilityIcons.map((item) => (
+                    <div key={item.icon} className="flex flex-col items-center text-center gap-2">
+                      <span className="material-symbols-outlined text-2xl text-[#006b5f]">{item.icon}</span>
+                      <span className="font-['Inter'] text-xs text-[#555f6f] leading-tight">{item.label}</span>
                     </div>
                   ))}
                 </div>
+              )}
+
+              {/* Lifestyle icons */}
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-4">
+                {LIFESTYLE_ICONS.map((item) => (
+                  <div key={item.icon} className="flex flex-col items-center text-center gap-2">
+                    <span className="material-symbols-outlined text-2xl text-[#006b5f]">{item.icon}</span>
+                    <span className="font-['Inter'] text-xs text-[#555f6f] leading-tight">{item.label}</span>
+                  </div>
+                ))}
               </div>
+            </div>
+
+            {/* ==================== MEET YOUR HOUSEMATES ==================== */}
+            {supabasePropertyId && (
+              <HousematePreview propertyId={supabasePropertyId} />
             )}
 
-            {/* Room Listings */}
+            {/* ==================== ROOM LISTINGS ==================== */}
             {propertyRooms && propertyRooms.length > 0 && (
               <div>
                 <div className="flex justify-between items-end mb-4">
@@ -472,6 +683,7 @@ ${requestFormData.message || 'No additional message provided'}
                     </button>
                   )}
                 </div>
+
                 <div className="space-y-4">
                   {/* No results for date filter */}
                   {moveInDate && filteredRooms.length === 0 && (
@@ -487,7 +699,7 @@ ${requestFormData.message || 'No additional message provided'}
                     </div>
                   )}
 
-                  {/* Available rooms first */}
+                  {/* Available rooms */}
                   {availableRooms
                     .sort((a, b) => (a.roomNumber || '').localeCompare(b.roomNumber || ''))
                     .map((room) => (
@@ -496,7 +708,7 @@ ${requestFormData.message || 'No additional message provided'}
                       className="bg-white p-4 md:p-6 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between border border-[rgba(187,202,198,0.15)] hover:border-[#006b5f]/30 transition-colors gap-4"
                     >
                       <div className="flex items-center gap-4 md:gap-6 w-full md:w-auto">
-                        <div className="w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden flex-shrink-0">
+                        <div className="w-28 h-28 md:w-40 md:h-32 rounded-xl overflow-hidden flex-shrink-0">
                           <img
                             className="w-full h-full object-cover"
                             src={getRoomImageSrc(room)}
@@ -504,27 +716,35 @@ ${requestFormData.message || 'No additional message provided'}
                             loading="lazy"
                           />
                         </div>
-                        <div>
-                          <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-lg">{room.roomNumber}</h4>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-lg">{room.roomNumber}</h4>
+                            <span className="bg-emerald-50 text-emerald-700 text-[10px] font-['Inter'] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+                              Available Now
+                            </span>
+                          </div>
                           <p className="text-[#3c4947] text-sm flex items-center gap-1">
                             <span className="material-symbols-outlined text-xs">square_foot</span>
                             {formatRoomType(room.roomType)}
                           </p>
-                          {room.availableFrom && new Date(room.availableFrom) > new Date() && (
-                            <p className="text-xs font-['Inter'] font-semibold text-[#006b5f] mt-1 flex items-center gap-1">
-                              <span className="material-symbols-outlined text-xs">event_available</span>
-                              Available {formatAvailableDate(room.availableFrom)}
+                          <div className="mt-3 md:hidden">
+                            <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
+                              ${room.priceMonthly}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
                             </p>
-                          )}
+                            <p className="text-[10px] text-[#6c7a77] font-['Inter']">per month, all-inclusive</p>
+                          </div>
                         </div>
                       </div>
-                      <div className="text-left md:text-right flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-1 w-full md:w-auto justify-between">
-                        <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
-                          ${room.priceMonthly}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
-                        </p>
+                      <div className="text-left md:text-right flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-2 w-full md:w-auto justify-between">
+                        <div className="hidden md:block">
+                          <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
+                            ${room.priceMonthly}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
+                          </p>
+                          <p className="text-[10px] text-[#6c7a77] font-['Inter']">per month, all-inclusive</p>
+                        </div>
                         <button
                           onClick={() => handleRoomRequest(room)}
-                          className="bg-[#006b5f] text-white px-5 py-2 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#006b5f]/90 transition-colors"
+                          className="bg-[#006b5f] text-white px-5 py-2.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#006b5f]/90 transition-colors"
                         >
                           Book Viewing
                         </button>
@@ -542,7 +762,6 @@ ${requestFormData.message || 'No additional message provided'}
                       </div>
                       {unavailableRooms
                         .sort((a, b) => {
-                          // Sort by availableFrom date (earliest first), rooms without dates last
                           if (a.availableFrom && b.availableFrom) return new Date(a.availableFrom) - new Date(b.availableFrom);
                           if (a.availableFrom) return -1;
                           if (b.availableFrom) return 1;
@@ -551,10 +770,10 @@ ${requestFormData.message || 'No additional message provided'}
                         .map((room) => (
                         <div
                           key={room._id || room.id}
-                          className="bg-white/60 p-4 md:p-6 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between border border-[rgba(187,202,198,0.15)] gap-4 opacity-70"
+                          className="bg-white/60 p-4 md:p-6 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between border border-[rgba(187,202,198,0.15)] gap-4 opacity-80"
                         >
                           <div className="flex items-center gap-4 md:gap-6 w-full md:w-auto">
-                            <div className="w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden flex-shrink-0">
+                            <div className="w-28 h-28 md:w-40 md:h-32 rounded-xl overflow-hidden flex-shrink-0">
                               <img
                                 className="w-full h-full object-cover"
                                 src={getRoomImageSrc(room)}
@@ -562,35 +781,44 @@ ${requestFormData.message || 'No additional message provided'}
                                 loading="lazy"
                               />
                             </div>
-                            <div>
-                              <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-lg">{room.roomNumber}</h4>
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-1">
+                                <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-lg">{room.roomNumber}</h4>
+                                {room.availableFrom ? (
+                                  <span className="bg-amber-50 text-amber-700 text-[10px] font-['Inter'] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+                                    Available {formatAvailableDateShort(room.availableFrom)}
+                                  </span>
+                                ) : (
+                                  <span className="bg-slate-100 text-slate-500 text-[10px] font-['Inter'] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+                                    Occupied
+                                  </span>
+                                )}
+                              </div>
                               <p className="text-[#3c4947] text-sm">{formatRoomType(room.roomType)}</p>
-                              {room.availableFrom ? (
-                                <p className="text-xs font-['Inter'] font-semibold text-[#b8860b] mt-1 flex items-center gap-1">
-                                  <span className="material-symbols-outlined text-xs">event_available</span>
-                                  Available {formatAvailableDate(room.availableFrom)}
+                              <div className="mt-3 md:hidden">
+                                <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
+                                  ${room.priceMonthly}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
                                 </p>
-                              ) : (
-                                <p className="text-xs font-['Inter'] font-semibold text-[#8a6d3b] mt-1 flex items-center gap-1">
-                                  <span className="material-symbols-outlined text-xs">do_not_disturb_on</span>
-                                  Currently Occupied
-                                </p>
-                              )}
+                                <p className="text-[10px] text-[#6c7a77] font-['Inter']">per month, all-inclusive</p>
+                              </div>
                             </div>
                           </div>
-                          <div className="text-left md:text-right flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-1 w-full md:w-auto justify-between">
-                            <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
-                              ${room.priceMonthly}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
-                            </p>
+                          <div className="text-left md:text-right flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-2 w-full md:w-auto justify-between">
+                            <div className="hidden md:block">
+                              <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
+                                ${room.priceMonthly}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
+                              </p>
+                              <p className="text-[10px] text-[#6c7a77] font-['Inter']">per month, all-inclusive</p>
+                            </div>
                             {room.availableFrom ? (
                               <button
                                 onClick={() => handleRoomRequest(room)}
-                                className="bg-[#006b5f] text-white px-5 py-2 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#006b5f]/90 transition-colors"
+                                className="bg-[#006b5f] text-white px-5 py-2.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#006b5f]/90 transition-colors"
                               >
                                 Enquire
                               </button>
                             ) : (
-                              <span className="bg-slate-200 text-slate-500 px-5 py-2 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest">
+                              <span className="bg-slate-200 text-slate-500 px-5 py-2.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest">
                                 Unavailable
                               </span>
                             )}
@@ -603,8 +831,56 @@ ${requestFormData.message || 'No additional message provided'}
               </div>
             )}
 
-            {/* Nearby MRT */}
-            {property.nearbyMRT && property.nearbyMRT.length > 0 && (
+            {/* ==================== LOCATION MINI-MAP ==================== */}
+            {hasLocation && (
+              <div>
+                <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-6">
+                  Location &amp; Transport
+                </h3>
+                <div className="rounded-2xl overflow-hidden border border-[rgba(187,202,198,0.15)]" style={{ height: '300px' }}>
+                  <MapContainer
+                    center={[parseFloat(propertyLat), parseFloat(propertyLng)]}
+                    zoom={15}
+                    style={{ height: '100%', width: '100%' }}
+                    scrollWheelZoom={false}
+                    dragging={true}
+                    zoomControl={true}
+                  >
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+                      url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                      className="hyve-map-tiles"
+                    />
+                    <Marker
+                      position={[parseFloat(propertyLat), parseFloat(propertyLng)]}
+                      icon={propertyMarkerIcon}
+                    />
+                  </MapContainer>
+                </div>
+
+                {/* MRT badges below map */}
+                {property.nearbyMRT && property.nearbyMRT.length > 0 && (
+                  <div className="flex flex-wrap gap-3 mt-4">
+                    {property.nearbyMRT.map((mrt, index) => (
+                      <div key={index} className="flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl border border-[rgba(187,202,198,0.15)]">
+                        <span className="material-symbols-outlined text-[#006b5f] text-sm">train</span>
+                        <span className="font-['Inter'] text-sm font-medium text-[#121c2a]">
+                          {mrt.station || mrt}
+                        </span>
+                        {mrt.walkingMinutes && (
+                          <span className="text-[#6c7a77] text-xs font-['Inter']">
+                            {mrt.walkingMinutes} min walk
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Nearby MRT (fallback if no map location) */}
+            {!hasLocation && property.nearbyMRT && property.nearbyMRT.length > 0 && (
               <div>
                 <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold mb-6">Nearby MRT</h3>
                 <div className="flex flex-wrap gap-3">
@@ -619,19 +895,70 @@ ${requestFormData.message || 'No additional message provided'}
                 </div>
               </div>
             )}
+
+            {/* ==================== SOCIAL PROOF ==================== */}
+            <div className="bg-white rounded-2xl border border-[rgba(187,202,198,0.15)] p-8">
+              <div className="text-center mb-8">
+                <p className="text-[10px] font-['Inter'] font-bold uppercase tracking-[0.2em] text-[#006b5f] mb-2">
+                  Social Proof
+                </p>
+                <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
+                  Trusted by 50+ residents across Singapore
+                </h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-[#f8f9ff] rounded-xl p-6">
+                  <div className="flex items-center gap-1 mb-3">
+                    {[1, 2, 3, 4, 5].map(i => (
+                      <span key={i} className="material-symbols-outlined text-amber-400 text-lg">star</span>
+                    ))}
+                  </div>
+                  <p className="text-[#3c4947] font-['Manrope'] text-sm leading-relaxed mb-4">
+                    &ldquo;Moving to Singapore was daunting, but Hyve made it so easy. Everything is included in the rent, the housemates are great, and the location is perfect for getting around.&rdquo;
+                  </p>
+                  <p className="font-['Inter'] text-xs font-bold text-[#006b5f]">
+                    Priya, 26 &mdash; Thomson Grove
+                  </p>
+                </div>
+                <div className="bg-[#f8f9ff] rounded-xl p-6">
+                  <div className="flex items-center gap-1 mb-3">
+                    {[1, 2, 3, 4, 5].map(i => (
+                      <span key={i} className="material-symbols-outlined text-amber-400 text-lg">star</span>
+                    ))}
+                  </div>
+                  <p className="text-[#3c4947] font-['Manrope'] text-sm leading-relaxed mb-4">
+                    &ldquo;Best value co-living in Singapore. The weekly cleaning, fast WiFi, and fully furnished rooms meant I could just move in and start living. No hidden costs either.&rdquo;
+                  </p>
+                  <p className="font-['Inter'] text-xs font-bold text-[#006b5f]">
+                    Marcus, 28 &mdash; Ivory Heights
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Right Column: Inquiry Sidebar */}
+          {/* ==================== RIGHT COLUMN: STICKY SIDEBAR ==================== */}
           <div className="lg:col-span-1">
             <div className="sticky top-28 space-y-8">
               <div className="bg-white p-8 rounded-2xl shadow-sm border border-[rgba(187,202,198,0.15)]">
-                <h4 className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#121c2a] mb-2">
+                {/* Price */}
+                <div className="mb-6">
+                  <p className="text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6c7a77] mb-1">
+                    Starting from
+                  </p>
+                  <p className="text-3xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
+                    ${displayStartingPrice}<span className="text-lg font-normal text-[#3c4947]">/mo</span>
+                  </p>
+                  <p className="text-xs text-[#6c7a77] font-['Inter'] mt-1">All-inclusive, no hidden fees</p>
+                </div>
+
+                <h4 className="text-xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#121c2a] mb-2">
                   Book a Viewing
                 </h4>
-                <p className="text-[#3c4947] text-sm mb-8 font-['Manrope']">
-                  Connect with us to tour the space and meet your potential housemates.
+                <p className="text-[#3c4947] text-sm mb-6 font-['Manrope']">
+                  Tour the space and meet your potential housemates.
                 </p>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <Link
                     to={`/view/schedule/${property.slug?.current || id}`}
                     className="w-full bg-[#006b5f] text-white py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#006b5f]/90 transition-all active:scale-95 shadow-lg shadow-[#006b5f]/20 flex items-center justify-center gap-2"
@@ -650,7 +977,7 @@ ${requestFormData.message || 'No additional message provided'}
                   </a>
                 </div>
 
-                <div className="mt-8 pt-8 border-t border-[rgba(187,202,198,0.15)] flex items-center justify-between">
+                <div className="mt-6 pt-6 border-t border-[rgba(187,202,198,0.15)] flex items-center justify-between">
                   <p className="text-[10px] font-['Inter'] text-[#3c4947] font-bold uppercase tracking-widest">
                     {propertyRooms.length} TOTAL ROOMS
                   </p>
@@ -671,9 +998,67 @@ ${requestFormData.message || 'No additional message provided'}
             </div>
           </div>
         </section>
+
+        {/* ==================== MOBILE STICKY BOTTOM BAR ==================== */}
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#bbcac6] px-4 py-3 z-40 flex items-center justify-between gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+          <div>
+            <p className="text-xs text-[#6c7a77] font-['Inter']">From</p>
+            <p className="text-xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
+              ${displayStartingPrice}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <a
+              href={`https://wa.me/6580885410?text=${encodeURIComponent(`Hi! I'm interested in ${property.name}.`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-[#bbcac6] text-[#006b5f]"
+              aria-label="WhatsApp"
+            >
+              <span className="material-symbols-outlined text-lg">chat</span>
+            </a>
+            <Link
+              to={`/view/schedule/${property.slug?.current || id}`}
+              className="bg-[#006b5f] text-white px-5 py-3 rounded-full font-['Plus_Jakarta_Sans'] font-bold text-sm hover:bg-[#006b5f]/90 transition-all active:scale-95 shadow-lg shadow-[#006b5f]/20"
+            >
+              Schedule Viewing
+            </Link>
+          </div>
+        </div>
+        {/* Spacer for mobile bottom bar */}
+        <div className="lg:hidden h-20" />
       </div>
 
-      {/* Room Request Dialog */}
+      {/* ==================== FULL-SCREEN PHOTO GALLERY MODAL ==================== */}
+      {showAllPhotos && (
+        <div className="fixed inset-0 bg-black z-50 overflow-y-auto">
+          <div className="sticky top-0 bg-black/90 backdrop-blur-sm z-10 flex items-center justify-between px-6 py-4">
+            <h3 className="text-white font-['Plus_Jakarta_Sans'] font-bold text-lg">
+              {property.name} &mdash; All Photos ({images.length})
+            </h3>
+            <button
+              onClick={() => setShowAllPhotos(false)}
+              className="text-white/80 hover:text-white p-2"
+            >
+              <span className="material-symbols-outlined text-2xl">close</span>
+            </button>
+          </div>
+          <div className="max-w-4xl mx-auto px-4 py-4 space-y-4">
+            {images.map((img, i) => (
+              <div key={i} className="rounded-xl overflow-hidden">
+                <img
+                  className="w-full object-contain max-h-[80vh]"
+                  src={getImageSrc(img, 1400, 900)}
+                  alt={img?.alt || `${property.name} photo ${i + 1}`}
+                  loading={i < 3 ? 'eager' : 'lazy'}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ==================== ROOM REQUEST DIALOG ==================== */}
       {showRequestDialog && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl max-w-md w-full p-8 relative">
