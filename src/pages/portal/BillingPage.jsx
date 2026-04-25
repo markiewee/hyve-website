@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { supabase } from "../../lib/supabase";
 import { useRentPayments } from "../../hooks/useRentPayments";
+import { useInvoices } from "../../hooks/useInvoices";
 import { useNavigate } from "react-router-dom";
 import PortalLayout from "../../components/portal/PortalLayout";
 import InvoiceCard from "../../components/portal/InvoiceCard";
@@ -16,6 +17,13 @@ export default function BillingPage() {
   const navigate = useNavigate();
 
   const { payments: rentPayments, loading: rentLoading } = useRentPayments(profileId);
+  const { invoices: tenantInvoices } = useInvoices(profileId);
+
+  // Map rent payment month to matching invoice for click-through
+  const invoiceByMonth = {};
+  for (const inv of tenantInvoices) {
+    if (inv.month) invoiceByMonth[inv.month] = inv;
+  }
 
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -160,8 +168,14 @@ export default function BillingPage() {
           </div>
         ) : (
           <div className="divide-y divide-[#bbcac6]/10">
-            {rentPayments.map((payment) => (
-              <div key={payment.id} className="flex items-center justify-between px-8 py-4">
+            {rentPayments.map((payment) => {
+              const matchingInvoice = invoiceByMonth[payment.month];
+              return (
+              <div
+                key={payment.id}
+                className={`flex items-center justify-between px-8 py-4${matchingInvoice ? " cursor-pointer hover:bg-[#f8f9ff] transition-colors" : ""}`}
+                onClick={matchingInvoice ? () => navigate(`/portal/billing/${matchingInvoice.id}`) : undefined}
+              >
                 <div className="flex-1 min-w-0">
                   <RentPaymentCard
                     payment={payment}
@@ -177,7 +191,8 @@ export default function BillingPage() {
                   </button>
                 )}
               </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </section>
