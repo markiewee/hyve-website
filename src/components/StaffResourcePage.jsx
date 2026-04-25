@@ -4,7 +4,20 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './ui/accordion';
 import { ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import L from 'leaflet';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import 'leaflet/dist/leaflet.css';
 import SEO from './SEO';
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
 
 const PROPERTY_ORDER = ['CP', 'IH', 'TG'];
 
@@ -207,6 +220,43 @@ function PropertySection({ property }) {
             </ul>
           </div>
         )}
+
+        {/* Map + Property Photos */}
+        <div className="mt-6 pt-6 border-t border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {p.latitude && p.longitude && (
+            <div>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-2">Location</h3>
+              <div className="rounded-xl overflow-hidden h-48 border border-gray-200">
+                <MapContainer
+                  center={[parseFloat(p.latitude), parseFloat(p.longitude)]}
+                  zoom={15}
+                  style={{ height: '100%', width: '100%' }}
+                  scrollWheelZoom={false}
+                >
+                  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                  <Marker position={[parseFloat(p.latitude), parseFloat(p.longitude)]} />
+                </MapContainer>
+              </div>
+            </div>
+          )}
+
+          {p.images?.length > 0 && (
+            <div>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-2">Common Areas</h3>
+              <div className="flex gap-2 overflow-x-auto pb-2">
+                {p.images.map((url, i) => (
+                  <img
+                    key={i}
+                    src={url}
+                    alt={`${p.name} common area ${i + 1}`}
+                    className="w-40 h-28 rounded-lg object-cover flex-shrink-0"
+                    loading="lazy"
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       <div>
