@@ -148,8 +148,8 @@ function RoomCard({ room }) {
                 </div>
               )}
 
-              {/* Pricing tiers — only for available rooms */}
-              {isAvailable && room.price_monthly && (
+              {/* Pricing tiers */}
+              {room.price_monthly && (
                 <div>
                   <p className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-2">Pricing by Lease Length</p>
                   <div className="grid grid-cols-4 gap-2">
