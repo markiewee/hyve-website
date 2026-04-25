@@ -193,6 +193,37 @@ function RoomCard({ room }) {
               {room.description && (
                 <p className="text-sm text-[#3c4947] italic">{room.description}</p>
               )}
+
+              {/* Upcoming bookings from Millia */}
+              {room.upcoming_bookings?.length > 0 && (
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-1.5">Upcoming Bookings</p>
+                  <div className="space-y-1.5">
+                    {room.upcoming_bookings.map((b, i) => (
+                      <div
+                        key={i}
+                        className={`flex items-center justify-between text-xs px-3 py-2 rounded-lg ${
+                          b.overlap
+                            ? 'bg-red-50 border border-red-200'
+                            : 'bg-gray-50 border border-gray-200'
+                        }`}
+                      >
+                        <span className={`font-medium ${b.overlap ? 'text-red-800' : 'text-[#121c2a]'}`}>
+                          {formatDate(b.checkin)} → {formatDate(b.checkout)}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          {b.overlap && (
+                            <span className="px-1.5 py-0.5 bg-red-100 text-red-700 text-[10px] font-bold rounded uppercase">
+                              Overlap
+                            </span>
+                          )}
+                          <span className="text-[#3c4947] capitalize">{b.channel}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </motion.div>
         )}
