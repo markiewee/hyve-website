@@ -62,15 +62,46 @@ export default async function handler(req, res) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
-    await supabase
-      .from("onboarding_progress")
-      .update({
-        deposit_completed_at: new Date().toISOString(),
-        deposit_verified: true,
-        deposit_method: "STRIPE",
-        current_step: "HOUSE_RULES",
-      })
-      .eq("deposit_stripe_session_id", session.id);
+
+    // Handle invoice payments
+    if (session.metadata?.type === "invoice") {
+      const invoiceId = session.metadata.invoice_id;
+      const amountPaid = session.amount_total / 100 / 1.04; // Remove 4% fee
+
+      const { data: inv } = await supabase
+        .from("invoices")
+        .select("total_due, total_paid")
+        .eq("id", invoiceId)
+        .single();
+
+      if (inv) {
+        const newTotalPaid = Number(inv.total_paid) + amountPaid;
+        const fullyPaid = newTotalPaid >= Number(inv.total_due);
+
+        await supabase
+          .from("invoices")
+          .update({
+            total_paid: Math.round(newTotalPaid * 100) / 100,
+            status: fullyPaid ? "PAID" : "PARTIALLY_PAID",
+            paid_at: fullyPaid ? new Date().toISOString() : null,
+            stripe_checkout_url: null,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", invoiceId);
+      }
+    }
+
+    if (session.metadata?.type !== "invoice") {
+      await supabase
+        .from("onboarding_progress")
+        .update({
+          deposit_completed_at: new Date().toISOString(),
+          deposit_verified: true,
+          deposit_method: "STRIPE",
+          current_step: "HOUSE_RULES",
+        })
+        .eq("deposit_stripe_session_id", session.id);
+    }
   }
 
   return res.status(200).json({ received: true });
