@@ -267,7 +267,7 @@ function PropertySection({ property }) {
           {p.latitude && p.longitude && (
             <div>
               <h3 className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-2">Location</h3>
-              <div className="rounded-xl overflow-hidden h-48 border border-gray-200">
+              <div className="rounded-xl overflow-hidden h-48 border border-gray-200 relative z-0">
                 <MapContainer
                   center={[parseFloat(p.latitude), parseFloat(p.longitude)]}
                   zoom={15}
