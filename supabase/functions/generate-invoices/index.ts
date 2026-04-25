@@ -5,15 +5,34 @@ const supabase = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
 );
 
-async function nextInvoiceCode(): Promise<string> {
+/**
+ * Invoice Code: {3-digit property}{1-digit room}{3-digit seq}
+ * TG=100, CP=200, IH=300
+ * MR=0, PR1=1..PR4=4, STD1=5..STD4=8
+ */
+const PROPERTY_CODES: Record<string, string> = { TG: "100", CP: "200", IH: "300" };
+const ROOM_DIGITS: Record<string, string> = {
+  MR: "0", PR1: "1", PR2: "2", PR3: "3", PR4: "4",
+  STD1: "5", STD2: "6", STD3: "7", STD4: "8",
+};
+
+async function nextInvoiceCode(propertyCode: string, roomUnitCode: string): Promise<string> {
+  const propCode = PROPERTY_CODES[propertyCode] ?? "000";
+  const roomSuffix = roomUnitCode.includes("-") ? roomUnitCode.split("-").slice(1).join("-") : roomUnitCode;
+  const roomDigit = ROOM_DIGITS[roomSuffix] ?? "9";
+  const prefix = `${propCode}${roomDigit}`;
+
+  // Find highest seq for this property+room prefix
   const { data } = await supabase
     .from("invoices")
     .select("invoice_code")
-    .order("created_at", { ascending: false })
+    .like("invoice_code", `${prefix}%`)
+    .order("invoice_code", { ascending: false })
     .limit(1);
+
   const last = data?.[0]?.invoice_code;
-  const lastNum = last ? parseInt(last, 10) : 10000;
-  return String((isNaN(lastNum) ? 10000 : lastNum) + 1);
+  const lastSeq = last ? parseInt(last.slice(-3), 10) : 0;
+  return `${prefix}${String((isNaN(lastSeq) ? 0 : lastSeq) + 1).padStart(3, "0")}`;
 }
 
 Deno.serve(async (req) => {
@@ -68,7 +87,7 @@ Deno.serve(async (req) => {
           continue;
         }
 
-        const invoiceCode = await nextInvoiceCode();
+        const invoiceCode = await nextInvoiceCode(property.code, room.unit_code);
 
         // Create invoice
         const { data: invoice, error: invError } = await supabase
