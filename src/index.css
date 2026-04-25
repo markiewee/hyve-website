@@ -1,0 +1,32 @@
+@media print {
+  /* Hide everything by default */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Show only the invoice */
+  #invoice-print,
+  #invoice-print * {
+    visibility: visible;
+  }
+
+  /* Position invoice at top-left */
+  #invoice-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  /* Hide navigation, sidebar, buttons */
+  nav, aside, header, footer,
+  [data-sidebar], [data-nav],
+  button, a {
+    display: none !important;
+  }
+
+  /* But show links inside the invoice as text */
+  #invoice-print a {
+    display: inline !important;
+  }
+}
