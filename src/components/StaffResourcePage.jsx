@@ -519,16 +519,28 @@ export default function StaffResourcePage() {
 
   useEffect(() => {
     async function fetchData() {
-      const { data, error: fetchError } = await supabase
-        .from('properties')
-        .select('*, rooms(*, tenant_profiles(username, gender, is_active, monthly_rent, lease_end, tenant_details(full_name, nationality)))')
-        .order('name');
-      if (fetchError) {
-        setError(fetchError.message);
+      const [propRes, tenantRes] = await Promise.all([
+        supabase.from('properties').select('*, rooms(*)').order('name'),
+        supabase.from('tenant_profiles')
+          .select('room_id, username, gender, is_active, monthly_rent, lease_end, tenant_details(full_name, nationality)')
+          .eq('is_active', true),
+      ]);
+      if (propRes.error) {
+        setError(propRes.error.message);
       } else {
-        const sorted = PROPERTY_ORDER.map(code => data.find(p => p.code === code)).filter(Boolean);
+        // Build tenant lookup by room_id
+        const tenantsByRoom = {};
+        (tenantRes.data || []).forEach(t => {
+          if (!tenantsByRoom[t.room_id]) tenantsByRoom[t.room_id] = [];
+          tenantsByRoom[t.room_id].push(t);
+        });
+        // Merge tenants into rooms
+        const sorted = PROPERTY_ORDER.map(code => propRes.data.find(p => p.code === code)).filter(Boolean);
         sorted.forEach(p => {
-          if (p.rooms) p.rooms.sort((a, b) => a.unit_code.localeCompare(b.unit_code));
+          if (p.rooms) {
+            p.rooms.sort((a, b) => a.unit_code.localeCompare(b.unit_code));
+            p.rooms.forEach(r => { r.tenant_profiles = tenantsByRoom[r.id] || []; });
+          }
         });
         setProperties(sorted);
       }
