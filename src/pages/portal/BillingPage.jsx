@@ -161,20 +161,20 @@ export default function BillingPage() {
         ) : (
           <div className="divide-y divide-[#bbcac6]/10">
             {rentPayments.map((payment) => (
-              <div key={payment.id} className="relative group">
-                <RentPaymentCard
-                  payment={payment}
-                  lateFeePerDay={lateFeePerDay}
-                />
+              <div key={payment.id} className="flex items-center justify-between px-8 py-4">
+                <div className="flex-1 min-w-0">
+                  <RentPaymentCard
+                    payment={payment}
+                    lateFeePerDay={lateFeePerDay}
+                  />
+                </div>
                 {payment.status === "PAID" && (
-                  <div className="absolute right-8 top-1/2 -translate-y-1/2">
-                    <button
-                      onClick={() => setReceiptPayment({ ...payment, _type: "rent" })}
-                      className="text-xs font-medium text-[#006b5f] hover:underline whitespace-nowrap"
-                    >
-                      Receipt
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => setReceiptPayment({ ...payment, _type: "rent" })}
+                    className="ml-4 shrink-0 px-3 py-1 text-xs font-medium text-[#006b5f] bg-[#006b5f]/10 rounded-lg hover:bg-[#006b5f]/20 whitespace-nowrap"
+                  >
+                    Receipt
+                  </button>
                 )}
               </div>
             ))}
