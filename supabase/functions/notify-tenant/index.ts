@@ -183,6 +183,42 @@ Deno.serve(async (req) => {
       `;
       break;
     }
+    case "INVOICE_ISSUED": {
+      const tenantName = details.tenant_name || "there";
+      subject = `Your Hyve invoice ${details.invoice_code} for $${details.amount} is ready`;
+      html = `<p>Hi ${tenantName},</p>
+    <p>Your invoice <strong>${details.invoice_code}</strong> for <strong>$${details.amount}</strong> is ready.</p>
+    <p>Due date: ${details.due_date}</p>
+    <p><a href="https://hyve.sg/portal/billing/${details.invoice_id}">View and pay in the portal</a></p>`;
+      break;
+    }
+    case "INVOICE_UPDATED": {
+      const tenantName = details.tenant_name || "there";
+      subject = `Your invoice ${details.invoice_code} has been updated — new total: $${details.amount}`;
+      html = `<p>Hi ${tenantName},</p>
+    <p>Your invoice <strong>${details.invoice_code}</strong> has been updated with usage charges.</p>
+    <p>New total: <strong>$${details.amount}</strong></p>
+    <p><a href="https://hyve.sg/portal/billing/${details.invoice_id}">View details in the portal</a></p>`;
+      break;
+    }
+    case "INVOICE_PAID": {
+      const tenantName = details.tenant_name || "there";
+      subject = `Payment received — invoice ${details.invoice_code} is now PAID`;
+      html = `<p>Hi ${tenantName},</p>
+    <p>We've received your payment of <strong>$${details.amount}</strong>.</p>
+    <p>Invoice <strong>${details.invoice_code}</strong> is now fully paid. Thank you!</p>`;
+      break;
+    }
+    case "INVOICE_OVERDUE": {
+      const tenantName = details.tenant_name || "there";
+      subject = `Invoice ${details.invoice_code} is overdue — late fee applied`;
+      html = `<p>Hi ${tenantName},</p>
+    <p>Your invoice <strong>${details.invoice_code}</strong> is <strong>${details.days_overdue} days overdue</strong>.</p>
+    <p>A late fee of <strong>$${details.late_fee}</strong> has been applied.</p>
+    <p>Please settle the outstanding amount as soon as possible.</p>
+    <p><a href="https://hyve.sg/portal/billing/${details.invoice_id}">Pay now in the portal</a></p>`;
+      break;
+    }
     default:
       return new Response(JSON.stringify({ error: "Unknown event_type" }), {
         status: 400,
