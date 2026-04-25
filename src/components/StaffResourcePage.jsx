@@ -167,14 +167,16 @@ function RoomCard({ room }) {
                       </div>
                     ))}
                   </div>
-                  <div className="mt-2 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-                    <p className="text-xs font-semibold text-amber-800">
-                      Immediate move-in: $50 off first 2 months
-                    </p>
-                    <p className="text-[10px] text-amber-600 mt-0.5">
-                      Applies to any lease length. Total saving: $100.
-                    </p>
-                  </div>
+                  {room.next_available && (
+                    <div className="mt-2 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                      <p className="text-xs font-semibold text-amber-800">
+                        Early bird: $50 off first 2 months if booked before {formatDate(room.next_available)}
+                      </p>
+                      <p className="text-[10px] text-amber-600 mt-0.5">
+                        Commit before current lease ends. Total saving: $100.
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
 
