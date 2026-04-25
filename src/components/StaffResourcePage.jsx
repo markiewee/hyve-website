@@ -173,6 +173,34 @@ function RoomCard({ room }) {
                 <Detail label="Min stay" value={room.min_stay_months ? `${room.min_stay_months} months` : null} />
               </div>
 
+              {/* Current tenant */}
+              {(() => {
+                const tenants = room.tenant_profiles?.filter(t => t.is_active && t.monthly_rent > 0) || [];
+                if (tenants.length === 0) return null;
+                return (
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-1">Current Tenant{tenants.length > 1 ? 's' : ''}</p>
+                    <div className="space-y-1">
+                      {tenants.map((t, i) => {
+                        const detail = t.tenant_details?.[0];
+                        const name = detail?.full_name || t.username;
+                        const nat = detail?.nationality;
+                        return (
+                          <div key={i} className="flex items-center gap-2 text-sm">
+                            <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${t.gender === 'F' ? 'bg-pink-100 text-pink-700' : 'bg-blue-100 text-blue-700'}`}>
+                              {t.gender || '?'}
+                            </span>
+                            <span className="text-[#121c2a] font-medium">{name}</span>
+                            {nat && <span className="text-[#3c4947] text-xs">({nat})</span>}
+                            {t.lease_end && <span className="text-[#3c4947] text-xs ml-auto">until {formatDate(t.lease_end)}</span>}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })()}
+
               {room.amenities?.length > 0 && (
                 <div>
                   <p className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-1">Amenities</p>
@@ -243,7 +271,16 @@ function PropertySection({ property }) {
     <div className="space-y-8">
       <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
         <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#121c2a] mb-1">{p.name}</h2>
-        <p className="text-[#3c4947] text-sm mb-4">{p.address}</p>
+        <p className="text-[#3c4947] text-sm mb-2">{p.address}</p>
+        <div className="flex gap-4 mb-4 text-sm">
+          <span className="text-[#3c4947]"><span className="font-semibold text-[#121c2a]">{p.rooms?.length || 0}</span> rooms</span>
+          {p.num_bathrooms && <span className="text-[#3c4947]"><span className="font-semibold text-[#121c2a]">{p.num_bathrooms}</span> bathroom{p.num_bathrooms > 1 ? 's' : ''}</span>}
+          <span className="text-[#3c4947]">
+            <span className="font-semibold text-[#121c2a]">
+              {p.rooms?.reduce((count, r) => count + (r.tenant_profiles?.filter(t => t.is_active && t.monthly_rent > 0).length || 0), 0)}
+            </span> tenants
+          </span>
+        </div>
         {p.description && <p className="text-[#3c4947] mb-6 font-['Manrope']">{p.description}</p>}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -468,7 +505,7 @@ export default function StaffResourcePage() {
     async function fetchData() {
       const { data, error: fetchError } = await supabase
         .from('properties')
-        .select('*, rooms(*)')
+        .select('*, rooms(*, tenant_profiles(username, gender, is_active, monthly_rent, lease_end, tenant_details(full_name, nationality)))')
         .order('name');
       if (fetchError) {
         setError(fetchError.message);
