@@ -84,7 +84,7 @@ export default function AdminInvestorsPage() {
     setDistLoading(true);
     const { data, error } = await supabase
       .from("distributions")
-      .select("*, investors(full_name, email), properties(name, code)")
+      .select("*, investors(name, email), properties(name, code)")
       .eq("month", `${distMonth}-01`)
       .order("created_at", { ascending: false });
 
@@ -857,7 +857,7 @@ export default function AdminInvestorsPage() {
                 {pendingDistributions.map((dist) => (
                   <tr key={dist.id} className="hover:bg-[#f8f9ff] transition-colors">
                     <td className="px-4 py-3 font-['Manrope'] text-sm font-medium text-[#121c2a]">
-                      {dist.investors?.full_name ?? dist.investors?.email ?? "—"}
+                      {dist.investors?.name ?? dist.investors?.email ?? "—"}
                     </td>
                     <td className="px-4 py-3 font-['Manrope'] text-sm text-[#6c7a77]">
                       {dist.properties?.name ?? "—"}
@@ -920,7 +920,7 @@ export default function AdminInvestorsPage() {
                 {paidDistributions.map((dist) => (
                   <tr key={dist.id} className="hover:bg-[#f8f9ff] transition-colors">
                     <td className="px-4 py-3 font-['Manrope'] text-sm font-medium text-[#121c2a]">
-                      {dist.investors?.full_name ?? "—"}
+                      {dist.investors?.name ?? "—"}
                     </td>
                     <td className="px-4 py-3 font-['Manrope'] text-sm text-[#6c7a77]">
                       {dist.properties?.name ?? "—"}
