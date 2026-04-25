@@ -239,7 +239,7 @@ function LeaseTermsSection() {
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#121c2a] mb-6">Lease Terms</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <TermCard title="Minimum Stay" value="6 months" />
+          <TermCard title="Minimum Stay" value="3 months" />
           <TermCard title="Deposit" value="1 month rent" subtitle="Fully refundable" />
           <TermCard title="Notice Period" value="1 month" />
           <TermCard title="Payment" value="Bank transfer" subtitle="Due 1st of each month" />
