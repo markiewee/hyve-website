@@ -21,6 +21,20 @@ L.Icon.Default.mergeOptions({
 
 const PROPERTY_ORDER = ['CP', 'IH', 'TG'];
 
+const NAT_TO_FLAG = {
+  'American': '🇺🇸', 'Singaporean': '🇸🇬', 'Indian': '🇮🇳', 'Indonesian': '🇮🇩',
+  'Thai': '🇹🇭', 'Vietnamese': '🇻🇳', 'Lithuanian': '🇱🇹', 'Filipino': '🇵🇭',
+  'Ukrainian': '🇺🇦', 'Malaysian': '🇲🇾', 'Chinese': '🇨🇳', 'Japanese': '🇯🇵',
+  'Korean': '🇰🇷', 'British': '🇬🇧', 'Australian': '🇦🇺', 'French': '🇫🇷',
+  'German': '🇩🇪', 'Myanmar': '🇲🇲', 'Bangladeshi': '🇧🇩', 'Sri Lankan': '🇱🇰',
+  'Other': '🏳️',
+};
+
+function getFlag(nationality) {
+  if (!nationality) return '🏳️';
+  return NAT_TO_FLAG[nationality] || '🏳️';
+}
+
 function formatDate(dateStr) {
   if (!dateStr) return null;
   return new Date(dateStr).toLocaleDateString('en-SG', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -173,34 +187,6 @@ function RoomCard({ room }) {
                 <Detail label="Min stay" value={room.min_stay_months ? `${room.min_stay_months} months` : null} />
               </div>
 
-              {/* Current tenant */}
-              {(() => {
-                const tenants = room.tenant_profiles?.filter(t => t.is_active && t.monthly_rent > 0) || [];
-                if (tenants.length === 0) return null;
-                return (
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-1">Current Tenant{tenants.length > 1 ? 's' : ''}</p>
-                    <div className="space-y-1">
-                      {tenants.map((t, i) => {
-                        const detail = t.tenant_details?.[0];
-                        const name = detail?.full_name || t.username;
-                        const nat = detail?.nationality;
-                        return (
-                          <div key={i} className="flex items-center gap-2 text-sm">
-                            <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${t.gender === 'F' ? 'bg-pink-100 text-pink-700' : 'bg-blue-100 text-blue-700'}`}>
-                              {t.gender || '?'}
-                            </span>
-                            <span className="text-[#121c2a] font-medium">{name}</span>
-                            {nat && <span className="text-[#3c4947] text-xs">({nat})</span>}
-                            {t.lease_end && <span className="text-[#3c4947] text-xs ml-auto">until {formatDate(t.lease_end)}</span>}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })()}
-
               {room.amenities?.length > 0 && (
                 <div>
                   <p className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-1">Amenities</p>
@@ -282,6 +268,44 @@ function PropertySection({ property }) {
           </span>
         </div>
         {p.description && <p className="text-[#3c4947] mb-6 font-['Manrope']">{p.description}</p>}
+
+        {/* Tenant Composition */}
+        {(() => {
+          const allTenants = p.rooms?.flatMap(r =>
+            (r.tenant_profiles || []).filter(t => t.is_active && t.monthly_rent > 0).map(t => ({
+              ...t,
+              nationality: t.tenant_details?.[0]?.nationality,
+              name: t.tenant_details?.[0]?.full_name || t.username,
+            }))
+          ) || [];
+          if (allTenants.length === 0) return null;
+          const mCount = allTenants.filter(t => t.gender === 'M').length;
+          const fCount = allTenants.filter(t => t.gender === 'F').length;
+          const mPct = Math.round((mCount / allTenants.length) * 100);
+          const nationalities = [...new Set(allTenants.map(t => t.nationality).filter(Boolean))];
+          return (
+            <div className="mb-6 bg-[#f8f9ff] rounded-xl p-4 flex flex-wrap items-center gap-6">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full overflow-hidden flex border-2 border-white shadow-sm" title={`${mCount}M / ${fCount}F`}>
+                    <div className="bg-blue-400 h-full" style={{ width: `${mPct}%` }} />
+                    <div className="bg-pink-400 h-full" style={{ width: `${100 - mPct}%` }} />
+                  </div>
+                </div>
+                <span className="text-sm text-[#3c4947]">
+                  <span className="font-semibold text-blue-600">{mCount}M</span>
+                  {' / '}
+                  <span className="font-semibold text-pink-600">{fCount}F</span>
+                </span>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                {nationalities.map((nat, i) => (
+                  <span key={i} className="text-lg" title={nat}>{getFlag(nat)}</span>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {p.facilities?.length > 0 && (
