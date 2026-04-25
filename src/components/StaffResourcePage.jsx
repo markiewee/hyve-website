@@ -58,9 +58,20 @@ function Detail({ label, value }) {
   );
 }
 
+function getPricingTiers(basePrice) {
+  if (!basePrice) return null;
+  return [
+    { label: '3 months', price: basePrice + 100 },
+    { label: '6 months', price: basePrice + 50 },
+    { label: '12 months', price: basePrice, highlight: true },
+    { label: '24 months', price: basePrice - 50 },
+  ];
+}
+
 function RoomCard({ room }) {
   const [expanded, setExpanded] = useState(false);
   const status = getAvailabilityStatus(room);
+  const isAvailable = status.color === 'green' || status.color === 'amber' && !room.next_available;
   const roomTypeLabel = room.room_type
     ? room.room_type.charAt(0).toUpperCase() + room.room_type.slice(1)
     : '—';
@@ -115,6 +126,36 @@ function RoomCard({ room }) {
                       loading="lazy"
                     />
                   ))}
+                </div>
+              )}
+
+              {/* Pricing tiers — only for available rooms */}
+              {isAvailable && room.price_monthly && (
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-2">Pricing by Lease Length</p>
+                  <div className="grid grid-cols-4 gap-2">
+                    {getPricingTiers(room.price_monthly).map((tier) => (
+                      <div
+                        key={tier.label}
+                        className={`rounded-lg p-2 text-center ${
+                          tier.highlight
+                            ? 'bg-[#006b5f] text-white'
+                            : 'bg-gray-50 text-[#121c2a]'
+                        }`}
+                      >
+                        <p className="text-[10px] font-bold uppercase tracking-wider opacity-80">{tier.label}</p>
+                        <p className="text-sm font-bold">${tier.price.toLocaleString()}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-2 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                    <p className="text-xs font-semibold text-amber-800">
+                      Immediate move-in: $50 off first 2 months
+                    </p>
+                    <p className="text-[10px] text-amber-600 mt-0.5">
+                      Applies to any lease length. Total saving: $100.
+                    </p>
+                  </div>
                 </div>
               )}
 
