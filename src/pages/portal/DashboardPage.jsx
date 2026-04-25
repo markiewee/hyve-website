@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { supabase } from "../../lib/supabase";
 import { useAcStatus } from "../../hooks/useAcStatus";
@@ -14,6 +14,7 @@ import UsageChart from "../../components/portal/UsageChart";
 import DocumentsList from "../../components/portal/DocumentsList";
 import CheckoutStatusCard from "../../components/portal/CheckoutStatusCard";
 import AnnouncementBanner from "../../components/portal/AnnouncementBanner";
+import { useInvoices } from "../../hooks/useInvoices";
 
 const FREE_HOURS_PER_DAY = 10;
 
@@ -47,6 +48,8 @@ export default function DashboardPage() {
   }
 
   const roomId = profile?.room_id;
+  const navigate = useNavigate();
+  const { invoices: invoiceList, loading: invoicesLoading } = useInvoices(profile?.id);
 
   const { status, loading: statusLoading } = useAcStatus(roomId);
   const { usage, todayHours, loading: usageLoading } = useAcUsage(roomId);
@@ -94,6 +97,47 @@ export default function DashboardPage() {
 
       {/* Announcements — full-width above grid */}
       <AnnouncementBanner propertyId={profile?.property_id} />
+
+      {/* Outstanding Invoices */}
+      {!invoicesLoading && invoiceList.filter(inv => inv.status !== "PAID" && inv.status !== "VOID").length > 0 && (
+        <div className="mb-8 max-w-6xl">
+          <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-4 flex items-center gap-2 text-[#121c2a]">
+            <span className="material-symbols-outlined text-[#006b5f] text-[22px]">receipt_long</span>
+            Outstanding Invoices
+          </h3>
+          <div className="space-y-3">
+            {invoiceList.filter(inv => inv.status !== "PAID" && inv.status !== "VOID").map((inv) => {
+              const statusColor = {
+                ISSUED: "bg-yellow-100 text-yellow-800",
+                PARTIALLY_PAID: "bg-orange-100 text-orange-800",
+              }[inv.status] ?? "bg-gray-100";
+              return (
+                <div
+                  key={inv.id}
+                  onClick={() => navigate(`/portal/billing/${inv.id}`)}
+                  className="bg-white rounded-xl border border-[#bbcac6]/15 p-4 flex justify-between items-center cursor-pointer hover:shadow-md transition-all"
+                >
+                  <div>
+                    <p className="font-['Manrope'] font-bold text-sm text-[#121c2a]">Invoice #{inv.invoice_code}</p>
+                    <p className="font-['Manrope'] text-xs text-[#6c7a77]">
+                      Due {new Date(inv.due_date).toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" })}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="font-['Manrope'] font-bold text-sm text-[#121c2a]">
+                      ${Number(inv.total_due).toFixed(2)}
+                    </span>
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${statusColor}`}>
+                      {inv.status}
+                    </span>
+                    <span className="material-symbols-outlined text-[#006b5f] text-[18px]">arrow_forward</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Bento Grid */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 max-w-6xl">

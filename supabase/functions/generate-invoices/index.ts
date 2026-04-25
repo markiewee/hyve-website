@@ -5,22 +5,15 @@ const supabase = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
 );
 
-function generateInvoiceCode(
-  propertyCode: string,
-  roomUnitCode: string,
-  month: string,
-  type: string,
-  seq = 1
-): string {
-  const roomSuffix = roomUnitCode.includes("-")
-    ? roomUnitCode.split("-").slice(1).join("-")
-    : roomUnitCode;
-  const yyyymm = month.substring(0, 7).replace("-", "");
-  let suffix: string;
-  if (type === "MOVE_IN") suffix = "MI";
-  else if (type === "MOVE_OUT") suffix = "MO";
-  else suffix = String(seq).padStart(3, "0");
-  return `HV-${propertyCode}-${roomSuffix}-${yyyymm}-${suffix}`;
+async function nextInvoiceCode(): Promise<string> {
+  const { data } = await supabase
+    .from("invoices")
+    .select("invoice_code")
+    .order("created_at", { ascending: false })
+    .limit(1);
+  const last = data?.[0]?.invoice_code;
+  const lastNum = last ? parseInt(last, 10) : 10000;
+  return String((isNaN(lastNum) ? 10000 : lastNum) + 1);
 }
 
 Deno.serve(async (req) => {
@@ -75,7 +68,7 @@ Deno.serve(async (req) => {
           continue;
         }
 
-        const invoiceCode = generateInvoiceCode(property.code, room.unit_code, targetMonth, "MONTHLY");
+        const invoiceCode = await nextInvoiceCode();
 
         // Create invoice
         const { data: invoice, error: invError } = await supabase
