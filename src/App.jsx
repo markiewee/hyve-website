@@ -63,6 +63,8 @@ import InvestorSignupPage from './pages/portal/InvestorSignupPage';
 import OnboardingPage from './pages/portal/OnboardingPage';
 import SigningConfirmationPage from './pages/portal/SigningConfirmationPage';
 import PropertyGuidePage from './pages/portal/PropertyGuidePage';
+import InvoiceDetailPage from "./pages/portal/InvoiceDetailPage";
+import AdminInvoicesPage from "./pages/portal/AdminInvoicesPage";
 
 function AppContent() {
   const location = useLocation();
@@ -170,6 +172,7 @@ function AppContent() {
               </AuthGuard>
             }
           />
+          <Route path="/portal/billing/:invoiceId" element={<AuthGuard><InvoiceDetailPage /></AuthGuard>} />
           <Route
             path="/portal/issues"
             element={
@@ -356,6 +359,7 @@ function AppContent() {
               </AuthGuard>
             }
           />
+          <Route path="/portal/admin/invoices" element={<AuthGuard><AdminInvoicesPage /></AuthGuard>} />
           {/* Investor routes */}
           <Route path="/portal/investor/signup" element={<InvestorSignupPage />} />
           <Route
