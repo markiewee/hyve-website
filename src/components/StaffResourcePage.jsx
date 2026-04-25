@@ -60,11 +60,12 @@ function Detail({ label, value }) {
 
 function getPricingTiers(basePrice) {
   if (!basePrice) return null;
+  const base = Number(basePrice);
   return [
-    { label: '3 months', price: basePrice + 100 },
-    { label: '6 months', price: basePrice + 50 },
-    { label: '12 months', price: basePrice, highlight: true },
-    { label: '24 months', price: basePrice - 50 },
+    { label: '3 months', price: base + 100 },
+    { label: '6 months', price: base + 50 },
+    { label: '12 months', price: base, highlight: true },
+    { label: '24 months', price: base - 50 },
   ];
 }
 
@@ -118,13 +119,17 @@ function RoomCard({ room }) {
               {room.photos?.length > 0 && (
                 <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
                   {room.photos.map((url, i) => (
-                    <img
-                      key={i}
-                      src={url}
-                      alt={`${room.unit_code} photo ${i + 1}`}
-                      className="w-32 h-24 rounded-lg object-cover flex-shrink-0"
-                      loading="lazy"
-                    />
+                    <a key={i} href={url} download={`${room.unit_code}-${i + 1}.jpg`} className="flex-shrink-0 relative group">
+                      <img
+                        src={url}
+                        alt={`${room.unit_code} photo ${i + 1}`}
+                        className="w-32 h-24 rounded-lg object-cover"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 rounded-lg transition-colors flex items-center justify-center">
+                        <span className="material-symbols-outlined text-white opacity-0 group-hover:opacity-100 transition-opacity text-lg">download</span>
+                      </div>
+                    </a>
                   ))}
                 </div>
               )}
