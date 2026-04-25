@@ -282,17 +282,32 @@ export default function AdminInvestorsPage() {
         throw new Error("No investor investments found for properties with transactions this month.");
       }
 
-      // Delete existing pending distributions for this month before inserting new ones
-      await supabase
+      // Find already-paid distributions for this month so we don't overwrite them
+      const { data: paidDists } = await supabase
         .from("distributions")
-        .delete()
+        .select("investor_id, property_id")
         .eq("month", monthStart)
-        .eq("status", "PENDING");
+        .eq("status", "PAID");
 
-      // 6. Insert distributions
+      const paidKeys = new Set(
+        (paidDists || []).map((d) => `${d.investor_id}_${d.property_id}`)
+      );
+
+      // Filter out any distributions that are already paid
+      const pendingOnly = newDistributions.filter(
+        (d) => !paidKeys.has(`${d.investor_id}_${d.property_id}`)
+      );
+
+      if (pendingOnly.length === 0) {
+        setCalcError("All distributions for this month are already marked as PAID.");
+        setCalculating(false);
+        return;
+      }
+
+      // Upsert only unpaid distributions
       const { error: distError } = await supabase
         .from("distributions")
-        .insert(newDistributions);
+        .upsert(pendingOnly, { onConflict: "investor_id,property_id,month" });
 
       if (distError) throw new Error(`Failed to insert distributions: ${distError.message}`);
 
