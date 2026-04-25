@@ -279,28 +279,18 @@ function PropertySection({ property }) {
             }))
           ) || [];
           if (allTenants.length === 0) return null;
-          const mCount = allTenants.filter(t => t.gender === 'M').length;
-          const fCount = allTenants.filter(t => t.gender === 'F').length;
-          const mPct = Math.round((mCount / allTenants.length) * 100);
-          const nationalities = [...new Set(allTenants.map(t => t.nationality).filter(Boolean))];
           return (
-            <div className="mb-6 bg-[#f8f9ff] rounded-xl p-4 flex flex-wrap items-center gap-6">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full overflow-hidden flex border-2 border-white shadow-sm" title={`${mCount}M / ${fCount}F`}>
-                    <div className="bg-blue-400 h-full" style={{ width: `${mPct}%` }} />
-                    <div className="bg-pink-400 h-full" style={{ width: `${100 - mPct}%` }} />
+            <div className="mb-6 bg-[#f8f9ff] rounded-xl p-4">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-3">Housemates</h3>
+              <div className="space-y-1.5">
+                {allTenants.map((t, i) => (
+                  <div key={i} className="flex items-center gap-2 text-sm">
+                    <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${t.gender === 'F' ? 'bg-pink-100 text-pink-700' : 'bg-blue-100 text-blue-700'}`}>
+                      {t.gender || '?'}
+                    </span>
+                    <span className="text-base">{getFlag(t.nationality)}</span>
+                    <span className="text-[#121c2a]">{t.name}</span>
                   </div>
-                </div>
-                <span className="text-sm text-[#3c4947]">
-                  <span className="font-semibold text-blue-600">{mCount}M</span>
-                  {' / '}
-                  <span className="font-semibold text-pink-600">{fCount}F</span>
-                </span>
-              </div>
-              <div className="flex items-center gap-2 flex-wrap">
-                {nationalities.map((nat, i) => (
-                  <span key={i} className="text-lg" title={nat}>{getFlag(nat)}</span>
                 ))}
               </div>
             </div>
