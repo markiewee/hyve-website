@@ -9,7 +9,7 @@ import { toast } from "sonner";
 const BANK_DETAILS = {
   bank: "DBS Bank Ltd",
   accountName: "Makery Pte. Ltd.",
-  accountNumber: "885215368634",
+  accountNumber: "885215114103",
   note: "Local SGD transfers only",
 };
 
