@@ -37,6 +37,26 @@ export default function MoveInInstructions({ advanceStep }) {
     }
   }
 
+  // Parse access codes — only reveal on/after tenancy start date (Singapore time)
+  const accessSection = getSection("access_codes");
+  let mainDoorCode = "";
+  let roomCode = "";
+  if (accessSection?.content) {
+    try {
+      const parsed = JSON.parse(accessSection.content);
+      mainDoorCode = parsed.main_door ?? "";
+      roomCode = parsed.rooms?.[unitCode] ?? "";
+    } catch {
+      // not JSON — keep both blank
+    }
+  }
+
+  const rawOnboarding = profile?.onboarding_progress;
+  const onboardingRecord = Array.isArray(rawOnboarding) ? rawOnboarding[0] : rawOnboarding;
+  const tenancyStartDate = onboardingRecord?.tenancy_start_date ?? null;
+  const todaySg = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Singapore" });
+  const codesUnlocked = Boolean(tenancyStartDate) && todaySg >= tenancyStartDate;
+
   function handleCopy() {
     if (!wifiPassword) return;
     navigator.clipboard.writeText(wifiPassword).then(() => {
@@ -206,12 +226,40 @@ export default function MoveInInstructions({ advanceStep }) {
         <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-base text-[#191c1e] mb-4">
           Unit Access Codes
         </h3>
-        <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 flex items-start gap-3">
-          <span className="material-symbols-outlined text-slate-400 text-[20px] mt-0.5">lock</span>
-          <p className="text-sm text-[#3c4947] font-['Inter'] leading-relaxed">
-            Your door codes will be shared by your house captain before move-in day.
-          </p>
-        </div>
+        {codesUnlocked && (mainDoorCode || roomCode) ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {mainDoorCode && (
+              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="material-symbols-outlined text-[#14B8A6] text-[18px]">door_front</span>
+                  <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">
+                    Main Door
+                  </p>
+                </div>
+                <p className="font-mono font-bold text-xl text-[#191c1e]">{mainDoorCode}</p>
+              </div>
+            )}
+            {roomCode && (
+              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="material-symbols-outlined text-[#14B8A6] text-[18px]">meeting_room</span>
+                  <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">
+                    Your Room {unitCode ? `(${unitCode})` : ""}
+                  </p>
+                </div>
+                <p className="font-mono font-bold text-xl text-[#191c1e]">{roomCode}</p>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 flex items-start gap-3">
+            <span className="material-symbols-outlined text-slate-400 text-[20px] mt-0.5">lock</span>
+            <p className="text-sm text-[#3c4947] font-['Inter'] leading-relaxed">
+              Your door codes will appear here on your move-in day
+              {tenancyStartDate ? ` (${tenancyStartDate})` : ""}.
+            </p>
+          </div>
+        )}
       </section>
 
       {/* Need Help? */}
