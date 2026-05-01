@@ -14,6 +14,7 @@ import UsageChart from "../../components/portal/UsageChart";
 import DocumentsList from "../../components/portal/DocumentsList";
 import CheckoutStatusCard from "../../components/portal/CheckoutStatusCard";
 import AnnouncementBanner from "../../components/portal/AnnouncementBanner";
+import AccessCodesCard from "../../components/portal/AccessCodesCard";
 import { useInvoices } from "../../hooks/useInvoices";
 
 const FREE_HOURS_PER_DAY = 10;
@@ -141,6 +142,9 @@ export default function DashboardPage() {
 
       {/* Bento Grid */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 max-w-6xl">
+
+        {/* Access codes — only renders on/after move-in date */}
+        <AccessCodesCard profile={profile} />
 
         {/* ── Row 1 ── */}
 
