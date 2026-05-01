@@ -14,10 +14,10 @@ export default function InvoiceDetailPage() {
     setPaying(true);
     setPayError(null);
     try {
-      const res = await fetch("/api/portal/invoice-checkout", {
+      const res = await fetch("/api/portal/deposit-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ invoice_id: invoice.id }),
+        body: JSON.stringify({ type: "invoice", invoice_id: invoice.id }),
       });
       const data = await res.json();
       if (data.error) throw new Error(data.error);

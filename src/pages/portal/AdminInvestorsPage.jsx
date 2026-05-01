@@ -88,6 +88,7 @@ export default function AdminInvestorsPage() {
       .eq("month", `${distMonth}-01`)
       .order("created_at", { ascending: false });
 
+    console.log("[DEBUG distributions]", { month: `${distMonth}-01`, data, error });
     if (error) {
       console.error("Error fetching distributions:", error);
     }
