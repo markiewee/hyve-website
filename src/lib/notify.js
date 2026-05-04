@@ -45,6 +45,7 @@ export async function notifyTicketStatusChange(
             ticket_category: ticket.category,
             new_status: newStatus,
             resolution_note: resolutionNote || null,
+            ticket_id: ticket.id || null,
           },
         }),
       }

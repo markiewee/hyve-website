@@ -90,15 +90,66 @@ Deno.serve(async (req) => {
 
   switch (event_type) {
     case "TICKET_STATUS_CHANGED": {
-      const { ticket_category, new_status, resolution_note } = details;
-      subject = `Issue Update: ${ticket_category} — ${new_status}`;
+      const { ticket_category, new_status, resolution_note, ticket_id } = details;
+
+      const { data: td } = await supabase
+        .from("tenant_details")
+        .select("full_name")
+        .eq("tenant_profile_id", tenant_profile_id)
+        .maybeSingle();
+      let unitCode: string | null = null;
+      let description: string | null = null;
+      if (ticket_id) {
+        const { data: tk } = await supabase
+          .from("maintenance_tickets")
+          .select("description, rooms(unit_code)")
+          .eq("id", ticket_id)
+          .maybeSingle();
+        unitCode = (tk as any)?.rooms?.unit_code ?? null;
+        description = (tk as any)?.description ?? null;
+      }
+      const firstName = (td?.full_name || "").split(" ")[0] || "there";
+      const cat = String(ticket_category || "").toLowerCase();
+
+      const COPY: Record<string, { subject: string; lead: string }> = {
+        OPEN: {
+          subject: `We've received your ${cat} request`,
+          lead: `Thanks for letting us know — we've logged your ${cat} request and a team member will look into it shortly.`,
+        },
+        ACKNOWLEDGED: {
+          subject: `We've seen your ${cat} request`,
+          lead: `Quick note to confirm we've seen your ${cat} request. Someone from the team will be in touch with next steps soon.`,
+        },
+        IN_PROGRESS: {
+          subject: `We're on your ${cat} request now`,
+          lead: `A team member is actively working on this. We'll let you know as soon as it's resolved.`,
+        },
+        ESCALATED: {
+          subject: `Your ${cat} request has been escalated`,
+          lead: `We've escalated this so it gets priority attention. Expect an update from a senior team member shortly.`,
+        },
+        RESOLVED: {
+          subject: `Your ${cat} request is resolved`,
+          lead: `Good news — this is marked as resolved. Reply to this email or open a new ticket if anything still isn't right.`,
+        },
+      };
+      const copy = COPY[new_status] ?? {
+        subject: `Update on your ${cat} request`,
+        lead: `Your maintenance ticket status is now ${new_status}.`,
+      };
+
+      subject = copy.subject;
+      const showResolution = new_status === "RESOLVED" && resolution_note;
       html = `
-        <h2>Your maintenance ticket has been updated</h2>
-        <p><strong>Category:</strong> ${ticket_category}</p>
-        <p><strong>New Status:</strong> ${new_status}</p>
-        ${resolution_note ? `<p><strong>Resolution:</strong> ${resolution_note}</p>` : ""}
-        <p><a href="https://hyve.sg/portal/issues">View in Portal</a></p>
-        <p style="color:#888;font-size:12px">— Hyve Co-Living</p>
+        <p>Hi ${firstName},</p>
+        <p>${copy.lead}</p>
+        <table style="border-collapse:collapse;margin:16px 0;font-size:14px">
+          <tr><td style="padding:4px 12px 4px 0;color:#666">Issue</td><td style="padding:4px 0"><strong>${ticket_category}</strong>${unitCode ? ` &middot; ${unitCode}` : ""}</td></tr>
+          ${description ? `<tr><td style="padding:4px 12px 4px 0;color:#666;vertical-align:top">Details</td><td style="padding:4px 0">${description}</td></tr>` : ""}
+          ${showResolution ? `<tr><td style="padding:4px 12px 4px 0;color:#666;vertical-align:top">Resolution</td><td style="padding:4px 0">${resolution_note}</td></tr>` : ""}
+        </table>
+        <p><a href="https://www.lazybee.sg/portal/issues" style="background:#006b5f;color:#fff;text-decoration:none;padding:10px 16px;border-radius:6px;display:inline-block">View in Portal</a></p>
+        <p style="color:#888;font-size:12px;margin-top:24px">&mdash; Hyve Co-Living</p>
       `;
       break;
     }
