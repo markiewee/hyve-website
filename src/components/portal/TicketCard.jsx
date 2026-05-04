@@ -6,6 +6,7 @@ const CATEGORY_BADGE = "bg-secondary text-secondary-foreground";
 
 const STATUS_CONFIG = {
   OPEN: { label: "Open", class: "bg-red-100 text-red-700" },
+  ACKNOWLEDGED: { label: "Acknowledged", class: "bg-blue-100 text-blue-700" },
   IN_PROGRESS: { label: "In Progress", class: "bg-yellow-100 text-yellow-700" },
   ESCALATED: { label: "Escalated", class: "bg-orange-100 text-orange-700" },
   RESOLVED: { label: "Resolved", class: "bg-green-100 text-green-700" },
@@ -22,6 +23,7 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
     rooms,
     created_at,
     submitter,
+    is_flagged,
   } = ticket;
 
   const isCaptainTicket = submitter?.role === "HOUSE_CAPTAIN";
@@ -66,9 +68,24 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
   }
 
   return (
-    <div className="border rounded-lg p-4 space-y-3 bg-card">
+    <div
+      className={`rounded-lg p-4 space-y-3 bg-card border ${
+        is_flagged ? "border-red-400 border-2 ring-1 ring-red-200" : ""
+      }`}
+    >
       {/* Header row */}
       <div className="flex items-center gap-2 flex-wrap">
+        {/* Flag indicator */}
+        {is_flagged && (
+          <span
+            className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700"
+            title="Flagged urgent"
+          >
+            <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>flag</span>
+            Urgent
+          </span>
+        )}
+
         {/* Category badge */}
         <span
           className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${CATEGORY_BADGE}`}
@@ -129,7 +146,32 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
       {/* Action buttons (captain/admin) */}
       {onAction && (
         <div className="flex flex-wrap gap-2 pt-1">
+          {/* Flag toggle — always available unless resolved */}
+          {status !== "RESOLVED" && (
+            <button
+              type="button"
+              onClick={() => onAction(id, is_flagged ? "unflag" : "flag")}
+              className={`px-3 py-1 rounded text-xs font-medium transition-colors inline-flex items-center gap-1 ${
+                is_flagged
+                  ? "bg-red-100 text-red-700 hover:bg-red-200"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              <span className="material-symbols-outlined text-[14px]" style={is_flagged ? { fontVariationSettings: "'FILL' 1" } : {}}>flag</span>
+              {is_flagged ? "Unflag" : "Flag"}
+            </button>
+          )}
           {(status === "OPEN" || status === "ESCALATED") && (
+            <button
+              type="button"
+              onClick={() => onAction(id, "acknowledge")}
+              className="px-3 py-1 rounded text-xs font-medium bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors"
+              title="Tell the resident we've seen this"
+            >
+              Acknowledge
+            </button>
+          )}
+          {(status === "OPEN" || status === "ACKNOWLEDGED" || status === "ESCALATED") && (
             <button
               type="button"
               onClick={() => onAction(id, "assign")}
@@ -138,7 +180,7 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
               Assign to me
             </button>
           )}
-          {(status === "OPEN" || status === "IN_PROGRESS") && (
+          {(status === "OPEN" || status === "ACKNOWLEDGED" || status === "IN_PROGRESS") && (
             <button
               type="button"
               onClick={() => onAction(id, "escalate")}

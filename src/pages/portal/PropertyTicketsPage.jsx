@@ -6,7 +6,13 @@ import { notifyTicketStatusChange } from "../../lib/notify";
 import PortalLayout from "../../components/portal/PortalLayout";
 import TicketCard from "../../components/portal/TicketCard";
 
-const OPEN_STATUSES = ["OPEN", "IN_PROGRESS", "ESCALATED"];
+const OPEN_STATUSES = ["OPEN", "ACKNOWLEDGED", "IN_PROGRESS", "ESCALATED"];
+
+// Sort: flagged first, then by created_at desc (newer first within each group).
+function sortByFlagThenDate(a, b) {
+  if (!!a.is_flagged !== !!b.is_flagged) return a.is_flagged ? -1 : 1;
+  return new Date(b.created_at) - new Date(a.created_at);
+}
 
 export default function PropertyTicketsPage() {
   const { user, profile } = useAuth();
@@ -38,13 +44,27 @@ export default function PropertyTicketsPage() {
 
   const { tickets, loading } = useTickets(null, propertyIdForQuery, scope);
 
-  const openTickets = tickets.filter((t) => OPEN_STATUSES.includes(t.status));
-  const resolvedTickets = tickets.filter((t) => !OPEN_STATUSES.includes(t.status));
+  const openTickets = tickets
+    .filter((t) => OPEN_STATUSES.includes(t.status))
+    .sort(sortByFlagThenDate);
+  const resolvedTickets = tickets
+    .filter((t) => !OPEN_STATUSES.includes(t.status))
+    .sort(sortByFlagThenDate);
 
   async function handleAction(ticketId, action) {
     let updates = {};
 
-    if (action === "assign") {
+    if (action === "flag") {
+      updates = { is_flagged: true };
+    } else if (action === "unflag") {
+      updates = { is_flagged: false };
+    } else if (action === "acknowledge") {
+      updates = {
+        status: "ACKNOWLEDGED",
+        acknowledged_by: user.id,
+        acknowledged_at: new Date().toISOString(),
+      };
+    } else if (action === "assign") {
       updates = { status: "IN_PROGRESS", assigned_to: user.id };
     } else if (action === "escalate") {
       updates = { status: "ESCALATED" };

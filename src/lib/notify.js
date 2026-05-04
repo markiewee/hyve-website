@@ -15,9 +15,18 @@ export async function notifyTicketStatusChange(
       data: { session },
     } = await supabase.auth.getSession();
 
-    // tenant_profile_id is the canonical field; fall back to submitted_by
-    const tenantProfileId =
-      ticket.tenant_profile_id || ticket.submitted_by || null;
+    // maintenance_tickets.submitted_by references auth.users(id), not
+    // tenant_profiles. Resolve the tenant_profile_id by user_id so the
+    // edge function can look up the email.
+    let tenantProfileId = ticket.tenant_profile_id || null;
+    if (!tenantProfileId && ticket.submitted_by) {
+      const { data: profile } = await supabase
+        .from("tenant_profiles")
+        .select("id")
+        .eq("user_id", ticket.submitted_by)
+        .maybeSingle();
+      tenantProfileId = profile?.id || null;
+    }
 
     if (!tenantProfileId) return;
 
