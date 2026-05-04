@@ -48,6 +48,8 @@ import AdminLocksPage from './pages/portal/AdminLocksPage';
 import AdminViewingsPage from './pages/portal/AdminViewingsPageV2';
 import AdminViewingDetailPage from './pages/portal/AdminViewingDetailPage';
 import CaptainViewingsPage from './pages/portal/CaptainViewingsPage';
+import CaptainClaimsPage from './pages/portal/CaptainClaimsPage';
+import CaptainClaimFormPage from './pages/portal/CaptainClaimFormPage';
 import ViewingPage from './pages/ViewingPage';
 import ScheduleViewingPage from './pages/viewing/ScheduleViewingPage';
 import ViewingPollPage from './pages/viewing/ViewingPollPage';
@@ -235,6 +237,22 @@ function AppContent() {
             element={
               <AuthGuard requiredRole="HOUSE_CAPTAIN">
                 <CaptainViewingsPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/captain/claims"
+            element={
+              <AuthGuard requiredRole="HOUSE_CAPTAIN">
+                <CaptainClaimsPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/captain/claims/new"
+            element={
+              <AuthGuard requiredRole="HOUSE_CAPTAIN">
+                <CaptainClaimFormPage />
               </AuthGuard>
             }
           />

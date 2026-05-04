@@ -29,6 +29,7 @@ function useNavLinks(role) {
       { label: t("nav.tickets"), to: "/portal/property/tickets", icon: "confirmation_number" },
       { label: t("nav.members"), to: "/portal/property/tenants", icon: "group" },
       { label: "Viewings", to: "/portal/viewings", icon: "visibility" },
+      { label: t("nav.claims"), to: "/portal/captain/claims", icon: "request_quote" },
       { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
     ];
 
