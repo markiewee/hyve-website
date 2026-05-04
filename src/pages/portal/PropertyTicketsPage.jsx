@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useTickets } from "../../hooks/useTickets";
 import { supabase } from "../../lib/supabase";
@@ -9,9 +10,33 @@ const OPEN_STATUSES = ["OPEN", "IN_PROGRESS", "ESCALATED"];
 
 export default function PropertyTicketsPage() {
   const { user, profile } = useAuth();
-  const propertyId = profile?.property_id ?? profile?.rooms?.property_id;
+  const isAdmin = profile?.role === "ADMIN" || profile?.role === "SUPER_ADMIN";
+  const captainPropertyId = profile?.property_id ?? profile?.rooms?.property_id;
 
-  const { tickets, loading } = useTickets(null, propertyId, "property");
+  const [propertyFilter, setPropertyFilter] = useState("ALL");
+  const [allProperties, setAllProperties] = useState([]);
+
+  useEffect(() => {
+    if (!isAdmin) return;
+    supabase
+      .from("properties")
+      .select("id, name, code")
+      .order("name")
+      .then(({ data }) => setAllProperties(data ?? []));
+  }, [isAdmin]);
+
+  const scope = isAdmin
+    ? propertyFilter === "ALL"
+      ? "all"
+      : "property"
+    : "property";
+  const propertyIdForQuery = isAdmin
+    ? propertyFilter === "ALL"
+      ? null
+      : propertyFilter
+    : captainPropertyId;
+
+  const { tickets, loading } = useTickets(null, propertyIdForQuery, scope);
 
   const openTickets = tickets.filter((t) => OPEN_STATUSES.includes(t.status));
   const resolvedTickets = tickets.filter((t) => !OPEN_STATUSES.includes(t.status));
@@ -53,18 +78,37 @@ export default function PropertyTicketsPage() {
   return (
     <PortalLayout>
       {/* Page header */}
-      <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
-          Property Tickets
-          {!loading && openTickets.length > 0 && (
-            <span className="ml-3 font-['Manrope'] text-lg font-semibold text-[#6c7a77]">
-              ({openTickets.length} open)
-            </span>
-          )}
-        </h1>
-        <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
-          Manage and action maintenance tickets for this property.
-        </p>
+      <div className="mb-10 flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+            {isAdmin ? "All Tickets" : "Property Tickets"}
+            {!loading && openTickets.length > 0 && (
+              <span className="ml-3 font-['Manrope'] text-lg font-semibold text-[#6c7a77]">
+                ({openTickets.length} open)
+              </span>
+            )}
+          </h1>
+          <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
+            {isAdmin
+              ? "Review and action maintenance tickets across all properties."
+              : "Manage and action maintenance tickets for this property."}
+          </p>
+        </div>
+
+        {isAdmin && (
+          <select
+            value={propertyFilter}
+            onChange={(e) => setPropertyFilter(e.target.value)}
+            className="rounded border border-gray-300 px-3 py-2 text-sm bg-white"
+          >
+            <option value="ALL">All Properties</option>
+            {allProperties.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
 
       {loading ? (
@@ -94,7 +138,9 @@ export default function PropertyTicketsPage() {
                 No tickets
               </h3>
               <p className="text-[#6c7a77] font-['Manrope'] text-sm">
-                This property has no maintenance tickets.
+                {isAdmin && propertyFilter === "ALL"
+                  ? "There are no maintenance tickets in any property."
+                  : "This property has no maintenance tickets."}
               </p>
             </div>
           ) : (

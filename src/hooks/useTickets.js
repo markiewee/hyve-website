@@ -6,15 +6,15 @@ import { supabase } from "../lib/supabase";
  *
  * @param {string|null} roomId
  * @param {string|null} propertyId
- * @param {"room"|"property"} scope - "room" filters by roomId, "property" filters by propertyId
+ * @param {"room"|"property"|"all"} scope - "room" filters by roomId, "property" filters by propertyId, "all" returns every ticket (admin only)
  */
 export function useTickets(roomId, propertyId, scope = "room") {
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const filterId = scope === "property" ? propertyId : roomId;
-    if (!filterId) {
+    const filterId = scope === "property" ? propertyId : scope === "room" ? roomId : null;
+    if (scope !== "all" && !filterId) {
       setLoading(false);
       return;
     }
@@ -22,12 +22,12 @@ export function useTickets(roomId, propertyId, scope = "room") {
     async function fetchTickets() {
       const query = supabase
         .from("maintenance_tickets")
-        .select("*, ticket_photos(*), rooms(name, unit_code), submitter:tenant_profiles!submitted_by(role)")
+        .select("*, ticket_photos(*), rooms(name, unit_code, property_id), submitter:tenant_profiles!submitted_by(role)")
         .order("created_at", { ascending: false });
 
       if (scope === "property") {
         query.eq("property_id", filterId);
-      } else {
+      } else if (scope === "room") {
         query.eq("room_id", filterId);
       }
 
