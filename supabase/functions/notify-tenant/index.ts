@@ -90,14 +90,7 @@ function renderEmail(opts: LayoutInput & { variant: "generic" | "urgent" }): str
   <tr><td align="center" style="padding:32px 16px">
     <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;width:100%">
       <!-- Header -->
-      <tr><td style="padding:0 0 24px 0">
-        <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-          <td style="vertical-align:middle;padding-right:10px">
-            <img src="${LOGO_URL}" alt="Hyve" width="28" height="28" style="display:block;width:28px;height:28px;border:0">
-          </td>
-          <td style="vertical-align:middle;font-size:18px;font-weight:700;color:${primary};letter-spacing:-0.3px">${subBrand}</td>
-        </tr></table>
-      </td></tr>
+      <tr><td style="padding:0 0 24px 0;font-size:18px;font-weight:700;color:${primary};letter-spacing:-0.3px">${subBrand}</td></tr>
       <!-- Hero -->
       <tr><td style="padding:0 0 24px 0">
         <img src="${heroSrc}" alt="" width="560" style="display:block;width:100%;max-width:560px;height:auto;border-radius:16px;border:0">
@@ -127,7 +120,7 @@ function renderEmail(opts: LayoutInput & { variant: "generic" | "urgent" }): str
       </td></tr>
       <tr><td align="center" style="padding:24px 0 0 0">
         <p style="margin:0 0 4px 0;font-size:12px;font-weight:600;color:#191c20">Hyve Co-living HQ</p>
-        <p style="margin:0 0 16px 0;font-size:11px;color:#6e7976">72 Robinson Road, #14-01, Singapore 068895</p>
+        <p style="margin:0 0 16px 0;font-size:11px;color:#6e7976">39 Jalan Kelulut, Singapore 809056</p>
         <p style="margin:0;font-size:10px;color:#9aa3a1;letter-spacing:0.2em;text-transform:uppercase">&copy; 2026 Hyve Living</p>
         <p style="margin:8px 0 0 0;font-size:11px;color:#6e7976">
           <a href="${PORTAL_BASE}/privacy-policy" style="color:#6e7976;text-decoration:underline">Privacy</a>
