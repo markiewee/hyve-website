@@ -38,6 +38,7 @@ function useNavLinks(role) {
       icon: "manage_accounts",
       children: [
         { label: t("nav.tasks"), to: "/portal/admin/tasks", icon: "checklist" },
+        { label: t("nav.tickets"), to: "/portal/property/tickets", icon: "confirmation_number" },
         { label: t("nav.members"), to: "/portal/admin/members", icon: "group" },
         { label: t("nav.onboarding"), to: "/portal/admin/onboarding", icon: "how_to_reg" },
         { label: t("nav.rent"), to: "/portal/admin/rent", icon: "receipt_long" },
