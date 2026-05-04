@@ -21,17 +21,30 @@ async function sendEmail(to: string, subject: string, html: string) {
 }
 
 async function getTenantEmail(tenantProfileId: string): Promise<string | null> {
-  const { data } = await supabase
+  // Prefer tenant_details.email — that's the resident's real inbox.
+  // Fall back to auth.users.email only if tenant_details has no email
+  // (auth email is usually <username>@portal.hyve.sg for portal logins).
+  const { data: details } = await supabase
+    .from("tenant_details")
+    .select("email")
+    .eq("tenant_profile_id", tenantProfileId)
+    .maybeSingle();
+  if (details?.email) return details.email;
+
+  const { data: profile } = await supabase
     .from("tenant_profiles")
     .select("user_id")
     .eq("id", tenantProfileId)
-    .single();
-  if (!data?.user_id) return null;
+    .maybeSingle();
+  if (!profile?.user_id) return null;
 
   const { data: userData } = await supabase.auth.admin.getUserById(
-    data.user_id
+    profile.user_id
   );
-  return userData?.user?.email || null;
+  const email = userData?.user?.email || null;
+  // Don't email the synthetic portal address.
+  if (email && email.endsWith("@portal.hyve.sg")) return null;
+  return email;
 }
 
 Deno.serve(async (req) => {
