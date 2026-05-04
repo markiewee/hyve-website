@@ -1,5 +1,4 @@
 import { createClient } from "@supabase/supabase-js";
-import { Resend } from "resend";
 import crypto from "crypto";
 
 const supabase = createClient(
@@ -32,24 +31,6 @@ async function handleResetPassword(req, res) {
   const { error } = await supabase.auth.admin.updateUserById(user_id, { password: new_password });
   if (error) return res.status(500).json({ error: error.message });
   return res.status(200).json({ success: true });
-}
-
-// ── Notify (email) ──────────────────────────────────────────────
-async function handleNotify(req, res) {
-  const resendKey = process.env.RESEND_API_KEY;
-  if (!resendKey) return res.status(500).json({ error: "RESEND_API_KEY not configured" });
-  const secret = req.headers["x-notify-secret"];
-  if (secret !== process.env.NOTIFY_SECRET) return res.status(401).json({ error: "Unauthorized" });
-  const { to, subject, html } = req.body;
-  if (!to || !subject || !html) return res.status(400).json({ error: "to, subject, and html required" });
-  try {
-    const resend = new Resend(resendKey);
-    const { data, error } = await resend.emails.send({ from: "Hyve <onboarding@resend.dev>", to, subject, html });
-    if (error) return res.status(500).json({ error: error.message });
-    res.status(200).json({ id: data.id });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
 }
 
 // ── TTLock ───────────────────────────────────────────────────────
@@ -180,10 +161,15 @@ export default async function handler(req, res) {
 
   const { action } = req.body || {};
 
-  // Notify doesn't need admin auth (uses x-notify-secret)
-  if (action === "notify") return handleNotify(req, res);
+  // Notify is now handled by Supabase edge functions (notify-tenant /
+  // viewing-notify) calling Resend directly. The notify action used to
+  // live here but the Vercel-side Resend key drifted out of sync.
+  if (action === "notify") {
+    return res
+      .status(410)
+      .json({ error: "notify is now handled by Supabase edge functions" });
+  }
 
-  // Everything else needs admin
   const admin = await verifyAdmin(req);
   if (!admin) return res.status(403).json({ error: "Admin role required" });
 

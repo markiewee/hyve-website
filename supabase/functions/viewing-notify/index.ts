@@ -5,19 +5,27 @@ const supabase = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
 );
 
-const NOTIFY_URL =
-  Deno.env.get("NOTIFY_URL") || "https://lazybee.sg/api/portal/admin-actions";
-const NOTIFY_SECRET = Deno.env.get("NOTIFY_SECRET") || "";
+const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") || "";
 
 async function sendEmail(to: string, subject: string, html: string) {
-  await fetch(NOTIFY_URL, {
+  if (!RESEND_API_KEY) throw new Error("RESEND_API_KEY not configured");
+  const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
+      Authorization: `Bearer ${RESEND_API_KEY}`,
       "Content-Type": "application/json",
-      "x-notify-secret": NOTIFY_SECRET,
     },
-    body: JSON.stringify({ action: "notify", to, subject, html }),
+    body: JSON.stringify({
+      from: "Hyve Viewings <hello@lazybee.sg>",
+      reply_to: "hello@lazybee.sg",
+      to: [to],
+      subject,
+      html,
+    }),
   });
+  const text = await r.text();
+  if (!r.ok) throw new Error(`resend ${r.status}: ${text.slice(0, 500)}`);
+  return text;
 }
 
 Deno.serve(async (req) => {

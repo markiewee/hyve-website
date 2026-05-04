@@ -141,32 +141,23 @@ const urgent = (o: LayoutInput) => renderEmail({ ...o, variant: "urgent" });
 // ─── Send via Resend (or NOTIFY_URL fallback) ──────────────────────
 
 async function sendEmail(to: string, subject: string, html: string) {
-  if (RESEND_API_KEY) {
-    const r = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: "Hyve <onboarding@resend.dev>",
-        to: [to],
-        subject,
-        html,
-      }),
-    });
-    const text = await r.text();
-    if (!r.ok) throw new Error(`resend ${r.status}: ${text.slice(0, 500)}`);
-    return text;
-  }
-
-  const r = await fetch(NOTIFY_URL, {
+  if (!RESEND_API_KEY) throw new Error("RESEND_API_KEY not configured");
+  const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
-    headers: { "Content-Type": "application/json", "x-notify-secret": NOTIFY_SECRET },
-    body: JSON.stringify({ action: "notify", to, subject, html }),
+    headers: {
+      Authorization: `Bearer ${RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: "Hyve Co-living <hello@lazybee.sg>",
+      reply_to: "hello@lazybee.sg",
+      to: [to],
+      subject,
+      html,
+    }),
   });
   const text = await r.text();
-  if (!r.ok) throw new Error(`notify endpoint ${r.status}: ${text.slice(0, 500)}`);
+  if (!r.ok) throw new Error(`resend ${r.status}: ${text.slice(0, 500)}`);
   return text;
 }
 
@@ -520,6 +511,90 @@ async function buildEmail(
           paragraphs: [
             `Your invoice <strong>${escape(details.invoice_code)}</strong> is <strong>${days(details.days_overdue)}</strong> overdue. A late fee of <strong>SGD ${escape(String(details.late_fee))}</strong> has been applied.`,
             "Please settle the outstanding amount as soon as possible.",
+          ],
+          cta: { label: "Pay Now", url: `${PORTAL_BASE}/portal/billing/${details.invoice_id}` },
+        }),
+      };
+    }
+
+    case "INVOICE_LATE_NOTICE": {
+      return {
+        subject: `Friendly reminder — rent for ${details.month_label || "this month"} is overdue`,
+        html: generic({
+          badge: "Payment Reminder",
+          headline: `Just a heads up — your rent is overdue.`,
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            `We noticed your invoice <strong>${escape(details.invoice_code)}</strong> for <strong>SGD ${escape(String(details.amount))}</strong> hasn't come through yet.`,
+            "If you've already paid, ignore this — it can take a day to clear. Otherwise, please settle it when you get a chance.",
+          ],
+          details: [{ label: "Outstanding", value: `<strong>SGD ${escape(String(details.amount))}</strong>` }],
+          cta: { label: "View & Pay", url: `${PORTAL_BASE}/portal/billing/${details.invoice_id}` },
+        }),
+      };
+    }
+
+    case "INVOICE_LATE_FEE_WARNING": {
+      return {
+        subject: `Late fee will be applied tomorrow — invoice ${details.invoice_code}`,
+        html: urgent({
+          badge: "Late Fee Tomorrow",
+          headline: `Pay today to avoid a late fee.`,
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            `Your invoice <strong>${escape(details.invoice_code)}</strong> for <strong>SGD ${escape(String(details.amount))}</strong> is now <strong>${days(details.days_overdue)}</strong> overdue.`,
+            `If it's not settled by tomorrow, a <strong>5% late fee (~SGD ${escape(String(details.estimated_late_fee))})</strong> will be added to your invoice automatically.`,
+          ],
+          cta: { label: "Pay Now", url: `${PORTAL_BASE}/portal/billing/${details.invoice_id}` },
+        }),
+      };
+    }
+
+    case "INVOICE_OVERDUE_REMINDER": {
+      const d = Number(details.days_overdue);
+      const tier = d >= 25 ? "final" : d >= 15 ? "firm" : "soft";
+      const badge = tier === "final" ? "Urgent — Final Reminders" : tier === "firm" ? "Outstanding Balance" : "Still Outstanding";
+      const headline =
+        tier === "final"
+          ? `Last reminders before escalation.`
+          : tier === "firm"
+            ? `Your invoice is still unpaid.`
+            : `Just a follow-up on your unpaid invoice.`;
+      const closing =
+        tier === "final"
+          ? `If this isn't paid within the next few days, we'll escalate to a final notice and begin the eviction process. Please pay or contact us today.`
+          : tier === "firm"
+            ? `Please settle this as soon as possible. If there's a problem with payment, reply to this email so we can sort it out.`
+            : `Please settle when you can. Reply to this email if you need anything.`;
+      return {
+        subject:
+          tier === "final"
+            ? `URGENT — Invoice ${details.invoice_code} is ${d} days overdue`
+            : `Reminder: invoice ${details.invoice_code} is ${d} days overdue`,
+        html: (tier === "soft" ? generic : urgent)({
+          badge,
+          headline,
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            `Your invoice <strong>${escape(details.invoice_code)}</strong> is now <strong>${days(d)}</strong> overdue with <strong>SGD ${escape(String(details.amount))}</strong> outstanding.`,
+            closing,
+          ],
+          cta: { label: "Pay Now", url: `${PORTAL_BASE}/portal/billing/${details.invoice_id}` },
+        }),
+      };
+    }
+
+    case "INVOICE_FINAL_NOTICE": {
+      return {
+        subject: `FINAL NOTICE — Invoice ${details.invoice_code} (eviction proceedings)`,
+        html: urgent({
+          badge: "Final Notice",
+          headline: `This is a final notice before eviction.`,
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            `Your invoice <strong>${escape(details.invoice_code)}</strong> for <strong>SGD ${escape(String(details.amount))}</strong> is now <strong>${days(details.days_overdue)}</strong> overdue.`,
+            `A second 5% late fee of <strong>SGD ${escape(String(details.late_fee))}</strong> has been applied. Per your licence agreement, continued non-payment is grounds for termination of your tenancy.`,
+            `<strong>Please settle the full outstanding amount within 7 days</strong>, or contact us immediately to discuss. Failure to do so will result in formal notice to vacate and the deposit being forfeited toward outstanding amounts.`,
           ],
           cta: { label: "Pay Now", url: `${PORTAL_BASE}/portal/billing/${details.invoice_id}` },
         }),
