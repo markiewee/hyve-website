@@ -48,6 +48,7 @@ async function getTenantEmail(tenantProfileId: string): Promise<string | null> {
 }
 
 Deno.serve(async (req) => {
+  try {
   const { event_type, ticket_id, tenant_profile_id, details } =
     await req.json();
 
@@ -239,7 +240,13 @@ Deno.serve(async (req) => {
   }
 
   await sendEmail(email, subject, html);
-  return new Response(JSON.stringify({ sent: true, event_type }), {
+  return new Response(JSON.stringify({ sent: true, event_type, email }), {
     status: 200,
   });
+  } catch (err) {
+    console.error("notify-tenant error:", err);
+    return new Response(JSON.stringify({ error: String(err?.message || err), stack: String(err?.stack || "") }), {
+      status: 500, headers: { "Content-Type": "application/json" },
+    });
+  }
 });
