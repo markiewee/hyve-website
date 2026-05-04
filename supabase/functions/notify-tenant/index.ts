@@ -13,7 +13,7 @@ const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") || "";
 const PORTAL_BASE = "https://www.lazybee.sg";
 const LOGO_URL = `${PORTAL_BASE}/hyve_green.png`;
 const HERO_GENERIC = `${PORTAL_BASE}/hero_email_generic.jpg`;
-const HERO_URGENT = `${PORTAL_BASE}/modern_condo_exterior.jpg`; // pending replacement
+const HERO_URGENT = `${PORTAL_BASE}/hero_email_urgent.jpg`;
 
 // ─── Email layout helpers ──────────────────────────────────────────
 // Email-safe HTML: table layouts, inline CSS, hex colors, no JS,
