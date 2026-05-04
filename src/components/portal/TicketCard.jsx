@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "../../lib/supabase";
+import CaptainBadge from "./CaptainBadge";
 
 const CATEGORY_BADGE = "bg-secondary text-secondary-foreground";
 
@@ -20,7 +21,10 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
     ticket_photos = [],
     rooms,
     created_at,
+    submitter,
   } = ticket;
+
+  const isCaptainTicket = submitter?.role === "HOUSE_CAPTAIN";
 
   const [withdrawing, setWithdrawing] = useState(false);
 
@@ -79,8 +83,9 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
           {statusCfg.label}
         </span>
 
-        {/* Date + Unit code */}
+        {/* Date + Unit code + Captain badge */}
         <span className="text-xs text-muted-foreground ml-auto flex items-center gap-2">
+          {isCaptainTicket && <CaptainBadge size="sm" />}
           {dateStr}
           {unitCode && (
             <span className="font-mono bg-muted px-2 py-0.5 rounded">

@@ -22,7 +22,7 @@ export function useTickets(roomId, propertyId, scope = "room") {
     async function fetchTickets() {
       const query = supabase
         .from("maintenance_tickets")
-        .select("*, ticket_photos(*), rooms(name, unit_code)")
+        .select("*, ticket_photos(*), rooms(name, unit_code), submitter:tenant_profiles!submitted_by(role)")
         .order("created_at", { ascending: false });
 
       if (scope === "property") {
