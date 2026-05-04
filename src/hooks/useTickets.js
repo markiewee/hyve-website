@@ -22,7 +22,7 @@ export function useTickets(roomId, propertyId, scope = "room") {
     async function fetchTickets() {
       const query = supabase
         .from("maintenance_tickets")
-        .select("*, ticket_photos(*), rooms(name, unit_code, property_id), submitter:tenant_profiles!submitted_by(role)")
+        .select("*, ticket_photos(*), rooms(name, unit_code, property_id)")
         .order("created_at", { ascending: false });
 
       if (scope === "property") {
@@ -34,8 +34,35 @@ export function useTickets(roomId, propertyId, scope = "room") {
       const { data, error } = await query;
       if (error) {
         console.error("Error fetching tickets:", error);
+        setTickets([]);
+        setLoading(false);
+        return;
       }
-      setTickets(data ?? []);
+
+      const ticketsList = data ?? [];
+
+      // Look up submitter roles in a second query — maintenance_tickets.submitted_by
+      // references auth.users(id), not tenant_profiles, so we can't embed directly.
+      const submitterIds = [...new Set(ticketsList.map((t) => t.submitted_by).filter(Boolean))];
+      let roleByUserId = {};
+      if (submitterIds.length > 0) {
+        const { data: profiles, error: profileErr } = await supabase
+          .from("tenant_profiles")
+          .select("user_id, role")
+          .in("user_id", submitterIds);
+        if (profileErr) {
+          console.error("Error fetching submitter roles:", profileErr);
+        } else {
+          roleByUserId = Object.fromEntries((profiles ?? []).map((p) => [p.user_id, p.role]));
+        }
+      }
+
+      setTickets(
+        ticketsList.map((t) => ({
+          ...t,
+          submitter: t.submitted_by ? { role: roleByUserId[t.submitted_by] ?? null } : null,
+        }))
+      );
       setLoading(false);
     }
 
