@@ -38,7 +38,8 @@ function useNavLinks(role) {
       icon: "manage_accounts",
       children: [
         { label: t("nav.tasks"), to: "/portal/admin/tasks", icon: "checklist" },
-        { label: t("nav.members"), to: "/portal/admin/onboarding", icon: "how_to_reg" },
+        { label: t("nav.members"), to: "/portal/admin/members", icon: "group" },
+        { label: t("nav.onboarding"), to: "/portal/admin/onboarding", icon: "how_to_reg" },
         { label: t("nav.rent"), to: "/portal/admin/rent", icon: "receipt_long" },
         { label: t("nav.documents"), to: "/portal/admin/documents", icon: "description" },
         { label: t("nav.announcements"), to: "/portal/admin/announcements", icon: "campaign" },

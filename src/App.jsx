@@ -67,6 +67,7 @@ import SigningConfirmationPage from './pages/portal/SigningConfirmationPage';
 import PropertyGuidePage from './pages/portal/PropertyGuidePage';
 import InvoiceDetailPage from "./pages/portal/InvoiceDetailPage";
 import AdminInvoicesPage from "./pages/portal/AdminInvoicesPage";
+import AdminMembersPage from './pages/portal/AdminMembersPage';
 
 function AppContent() {
   const location = useLocation();
@@ -378,6 +379,14 @@ function AppContent() {
             }
           />
           <Route path="/portal/admin/invoices" element={<AuthGuard><AdminInvoicesPage /></AuthGuard>} />
+          <Route
+            path="/portal/admin/members"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminMembersPage />
+              </AuthGuard>
+            }
+          />
           {/* Investor routes */}
           <Route path="/portal/investor/signup" element={<InvestorSignupPage />} />
           <Route
