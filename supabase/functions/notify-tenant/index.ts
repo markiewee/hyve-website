@@ -9,8 +9,31 @@ const NOTIFY_URL =
   Deno.env.get("NOTIFY_URL") || "https://hyve.sg/api/portal/admin-actions";
 const NOTIFY_SECRET = Deno.env.get("NOTIFY_SECRET") || "";
 
+const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") || "";
+
 async function sendEmail(to: string, subject: string, html: string) {
-  await fetch(NOTIFY_URL, {
+  // Prefer direct Resend call — cuts out the lazybee.sg/admin-actions middleman.
+  // Falls back to NOTIFY_URL if RESEND_API_KEY isn't set on this edge function.
+  if (RESEND_API_KEY) {
+    const r = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "Hyve <onboarding@resend.dev>",
+        to: [to],
+        subject,
+        html,
+      }),
+    });
+    const text = await r.text();
+    if (!r.ok) throw new Error(`resend ${r.status}: ${text.slice(0, 500)}`);
+    return text;
+  }
+
+  const r = await fetch(NOTIFY_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,6 +41,9 @@ async function sendEmail(to: string, subject: string, html: string) {
     },
     body: JSON.stringify({ action: "notify", to, subject, html }),
   });
+  const text = await r.text();
+  if (!r.ok) throw new Error(`notify endpoint ${r.status}: ${text.slice(0, 500)}`);
+  return text;
 }
 
 async function getTenantEmail(tenantProfileId: string): Promise<string | null> {
