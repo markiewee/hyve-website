@@ -4,14 +4,19 @@ import { useAuth } from "../../hooks/useAuth";
 import { supabase } from "../../lib/supabase";
 
 const CATEGORIES = ["AC", "PLUMBING", "ELECTRICAL", "FURNITURE", "CLEANING", "OTHER"];
-const LOCATIONS = ["My Room", "Kitchen", "Living Room", "Bathroom (Shared)", "Corridor", "Laundry Area", "Other"];
+const SHARED_LOCATIONS = ["Kitchen", "Living Room", "Bathroom (Shared)", "Corridor", "Laundry Area", "Other"];
 
 export default function TicketForm({ preselectedCategory = null }) {
   const { user, profile } = useAuth();
   const navigate = useNavigate();
 
+  // Use the resident's actual room code as the "My Room" option so the
+  // ticket prefix says e.g. [CP-STD1] instead of generic [My Room].
+  const myRoomLabel = profile?.rooms?.unit_code || profile?.room?.unit_code || "My Room";
+  const LOCATIONS = [myRoomLabel, ...SHARED_LOCATIONS];
+
   const [category, setCategory] = useState(preselectedCategory);
-  const [location, setLocation] = useState("My Room");
+  const [location, setLocation] = useState(myRoomLabel);
   const [description, setDescription] = useState("");
   const [photos, setPhotos] = useState([]);
   const [submitting, setSubmitting] = useState(false);
