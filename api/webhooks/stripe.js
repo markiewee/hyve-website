@@ -70,7 +70,7 @@ export default async function handler(req, res) {
 
       const { data: inv } = await supabase
         .from("invoices")
-        .select("total_due, total_paid")
+        .select("total_due, total_paid, invoice_code, tenant_profile_id")
         .eq("id", invoiceId)
         .single();
 
@@ -88,6 +88,33 @@ export default async function handler(req, res) {
             updated_at: new Date().toISOString(),
           })
           .eq("id", invoiceId);
+
+        // Fire INVOICE_PAID receipt only on full payment.
+        if (fullyPaid && inv.tenant_profile_id) {
+          try {
+            await fetch(
+              `${process.env.VITE_IOT_SUPABASE_URL}/functions/v1/notify-tenant`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${process.env.IOT_SUPABASE_SERVICE_ROLE_KEY}`,
+                },
+                body: JSON.stringify({
+                  event_type: "INVOICE_PAID",
+                  tenant_profile_id: inv.tenant_profile_id,
+                  details: {
+                    invoice_id: invoiceId,
+                    invoice_code: inv.invoice_code,
+                    amount: Math.round(newTotalPaid * 100) / 100,
+                  },
+                }),
+              }
+            );
+          } catch (e) {
+            console.error("notify-tenant INVOICE_PAID failed (non-blocking):", e);
+          }
+        }
       }
     }
 

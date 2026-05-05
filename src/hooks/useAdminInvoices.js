@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../lib/supabase";
+import { notifyMember } from "../lib/notify";
 
 export function useAdminInvoices({ propertyId, month, status } = {}) {
   const [invoices, setInvoices] = useState([]);
@@ -45,6 +46,15 @@ export function useAdminInvoices({ propertyId, month, status } = {}) {
       .eq("id", invoiceId);
 
     if (error) console.error("Error marking paid:", error);
+
+    if (!error && fullyPaid && invoice.tenant_profile_id) {
+      notifyMember(invoice.tenant_profile_id, "INVOICE_PAID", {
+        invoice_id: invoice.id,
+        invoice_code: invoice.invoice_code,
+        amount: Math.round(newTotalPaid * 100) / 100,
+      });
+    }
+
     await fetchInvoices();
     return !error;
   }
