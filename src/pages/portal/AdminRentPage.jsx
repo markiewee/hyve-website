@@ -1,7 +1,16 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { supabase } from "../../lib/supabase";
 import { aspire } from "../../lib/aspire";
+import { notifyMember } from "../../lib/notify";
 import PortalLayout from "../../components/portal/PortalLayout";
+
+async function fireRentPaidEmail(tenantProfileId, monthStr, amount) {
+  if (!tenantProfileId || !monthStr) return;
+  await notifyMember(tenantProfileId, "RENT_PAID", {
+    month: formatMonth(monthStr),
+    amount: Number(amount) || 0,
+  });
+}
 
 function formatMonth(monthStr) {
   if (!monthStr) return "\u2014";
@@ -199,6 +208,7 @@ export default function AdminRentPage() {
       })
       .eq("id", rentPayment.id);
     if (error) { console.error("Match error:", error); return; }
+    fireRentPaidEmail(rentPayment.tenant_profile_id, rentPayment.month, rentPayment.rent_amount);
     setMatchedPairs(prev => [...prev, {
       rentPaymentId: rentPayment.id,
       transactionRef: selectedTxn.reference,
@@ -440,6 +450,9 @@ export default function AdminRentPage() {
             : p
         )
       );
+      if (!isPartial) {
+        fireRentPaidEmail(payment.tenant_profile_id, payment.month, paidAmount);
+      }
       setPaymentForm(null);
     }
 
