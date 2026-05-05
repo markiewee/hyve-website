@@ -1,316 +1,308 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
-
-async function ttlockApi(action, params = {}) {
-  const { data: { session } } = await supabase.auth.getSession();
-  const res = await fetch("/api/portal/admin-actions", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${session?.access_token}` },
-    body: JSON.stringify({ action: "ttlock", ttlock_action: action, ...params }),
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || "TTLock API failed");
-  return data;
-}
+import { toast } from "sonner";
 
 export default function AdminLocksPage() {
-  const [locks, setLocks] = useState([]);
+  const [propertyData, setPropertyData] = useState([]); // [{ property, guideId, mainDoor, roomCodes, rooms }]
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [message, setMessage] = useState(null);
+  const [editing, setEditing] = useState(null); // { propertyId, key } where key = "main_door" or unit_code
+  const [editValue, setEditValue] = useState("");
+  const [saving, setSaving] = useState(false);
 
-  // Selected lock
-  const [selectedLock, setSelectedLock] = useState(null);
-  const [passcodes, setPasscodes] = useState([]);
-  const [records, setRecords] = useState([]);
-  const [passcodesLoading, setPasscodesLoading] = useState(false);
+  useEffect(() => { loadAll(); }, []);
 
-  // Generate form
-  const [genName, setGenName] = useState("");
-  const [genType, setGenType] = useState("2");
-  const [genCustomCode, setGenCustomCode] = useState("");
-  const [genTenantId, setGenTenantId] = useState("");
-  const [generating, setGenerating] = useState(false);
-
-  // Tenants for dropdown
-  const [tenants, setTenants] = useState([]);
-
-  useEffect(() => {
-    fetchLocks();
-    supabase.from("tenant_profiles").select("id, username, rooms(unit_code), tenant_details(full_name)")
-      .eq("role", "TENANT").eq("is_active", true)
-      .then(({ data }) => setTenants(data ?? []));
-  }, []);
-
-  async function fetchLocks() {
+  async function loadAll() {
     setLoading(true);
-    setError(null);
     try {
-      const data = await ttlockApi("list_locks");
-      setLocks(data.list || []);
+      // Properties with their rooms (sorted) and tenant assigned per room
+      const { data: properties, error: pErr } = await supabase
+        .from("properties")
+        .select("id, code, name, rooms(id, unit_code, name, tenant_profiles!tenant_profiles_room_id_fkey(id, role, is_active, tenant_details(full_name)))")
+        .order("code");
+      if (pErr) throw pErr;
+
+      // Existing access_codes guides
+      const { data: guides, error: gErr } = await supabase
+        .from("property_guides")
+        .select("id, property_id, content")
+        .eq("section", "access_codes");
+      if (gErr) throw gErr;
+
+      const guideByProperty = Object.fromEntries(
+        (guides || []).map((g) => {
+          let parsed = { main_door: "", rooms: {} };
+          try { parsed = JSON.parse(g.content); } catch {}
+          return [g.property_id, { id: g.id, mainDoor: parsed.main_door || "", roomCodes: parsed.rooms || {} }];
+        })
+      );
+
+      const merged = (properties || []).map((p) => {
+        const g = guideByProperty[p.id] || { id: null, mainDoor: "", roomCodes: {} };
+        const sortedRooms = (p.rooms || []).slice().sort((a, b) => (a.unit_code || "").localeCompare(b.unit_code || ""));
+        return {
+          property: p,
+          guideId: g.id,
+          mainDoor: g.mainDoor,
+          roomCodes: g.roomCodes,
+          rooms: sortedRooms,
+        };
+      });
+      setPropertyData(merged);
     } catch (err) {
-      setError(err.message);
+      toast.error(err.message || "Failed to load access codes.");
     }
     setLoading(false);
   }
 
-  async function selectLock(lock) {
-    setSelectedLock(lock);
-    setPasscodesLoading(true);
-    try {
-      const [codes, recs] = await Promise.all([
-        ttlockApi("list_passcodes", { lockId: lock.lockId }),
-        ttlockApi("lock_records", { lockId: lock.lockId }),
-      ]);
-      setPasscodes(codes.list || []);
-      setRecords(recs.list || []);
-    } catch (err) {
-      setMessage({ type: "error", text: err.message });
-    }
-    setPasscodesLoading(false);
+  function startEdit(propertyId, key, currentValue) {
+    setEditing({ propertyId, key });
+    setEditValue(currentValue || "");
   }
 
-  async function handleGenerate(e) {
-    e.preventDefault();
-    if (!selectedLock) return;
-    setGenerating(true);
-    setMessage(null);
-    try {
-      const params = {
-        lockId: selectedLock.lockId,
-        name: genName || `Code for ${genTenantId ? "member" : "general"}`,
-        type: genType,
-        tenantProfileId: genTenantId || null,
-      };
+  function cancelEdit() {
+    setEditing(null);
+    setEditValue("");
+  }
 
-      let result;
-      if (genCustomCode) {
-        result = await ttlockApi("add_passcode", { ...params, passcode: genCustomCode });
+  async function saveEdit(propertyId, key) {
+    setSaving(true);
+    try {
+      const block = propertyData.find((b) => b.property.id === propertyId);
+      if (!block) throw new Error("Property not found");
+
+      const newCodes = { ...(block.roomCodes || {}) };
+      let newMain = block.mainDoor;
+      if (key === "main_door") {
+        newMain = editValue.trim();
       } else {
-        result = await ttlockApi("generate_passcode", params);
+        if (editValue.trim() === "") delete newCodes[key];
+        else newCodes[key] = editValue.trim();
       }
 
-      setMessage({ type: "success", text: `Code generated: ${result.keyboardPwd || genCustomCode}` });
-      setGenName("");
-      setGenCustomCode("");
-      setGenTenantId("");
+      const newContent = JSON.stringify({ main_door: newMain, rooms: newCodes });
 
-      // Refresh passcodes
-      const codes = await ttlockApi("list_passcodes", { lockId: selectedLock.lockId });
-      setPasscodes(codes.list || []);
+      if (block.guideId) {
+        const { error } = await supabase
+          .from("property_guides")
+          .update({ content: newContent, updated_at: new Date().toISOString() })
+          .eq("id", block.guideId);
+        if (error) throw error;
+      } else {
+        const { data, error } = await supabase
+          .from("property_guides")
+          .insert({ property_id: propertyId, section: "access_codes", content: newContent })
+          .select("id")
+          .single();
+        if (error) throw error;
+        block.guideId = data.id;
+      }
+
+      setPropertyData((prev) =>
+        prev.map((b) =>
+          b.property.id === propertyId
+            ? { ...b, mainDoor: newMain, roomCodes: newCodes, guideId: block.guideId }
+            : b
+        )
+      );
+      toast.success("Code updated.");
+      cancelEdit();
     } catch (err) {
-      setMessage({ type: "error", text: err.message });
+      toast.error(err.message || "Save failed.");
     }
-    setGenerating(false);
+    setSaving(false);
   }
 
-  async function handleDeletePasscode(passcodeId) {
-    if (!confirm("Delete this passcode?")) return;
-    try {
-      await ttlockApi("delete_passcode", { lockId: selectedLock.lockId, passcodeId });
-      setPasscodes(prev => prev.filter(p => p.keyboardPwdId !== passcodeId));
-      setMessage({ type: "success", text: "Passcode deleted." });
-    } catch (err) {
-      setMessage({ type: "error", text: err.message });
-    }
+  function copyCode(code) {
+    if (!code) return;
+    navigator.clipboard.writeText(code);
+    toast.success(`Copied ${code}`);
   }
 
-  const PASSCODE_TYPES = { "1": "Timed", "2": "Permanent", "3": "One-time", "4": "Erase" };
+  function tenantNameForRoom(room) {
+    const tp = (room.tenant_profiles || []).find((t) => t.is_active && t.role === "TENANT");
+    return tp?.tenant_details?.full_name || tp?.tenant_details?.[0]?.full_name || null;
+  }
 
   return (
     <PortalLayout>
-      <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
-          Smart Locks
-        </h1>
-        <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
-          Manage TTLock smart locks, generate passcodes, and view access history.
-        </p>
+      <div className="mb-10 flex items-start justify-between">
+        <div>
+          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+            Smart Locks
+          </h1>
+          <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
+            Manage access codes for all property doors and rooms.
+          </p>
+        </div>
+        <button
+          onClick={loadAll}
+          className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-[#bbcac6]/30 text-[#121c2a] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#eff4ff]"
+        >
+          <span className="material-symbols-outlined text-[18px]">refresh</span>
+          Refresh
+        </button>
       </div>
 
-      {message && (
-        <div className={`mb-6 px-4 py-3 rounded-xl text-sm font-['Manrope'] ${message.type === "error" ? "bg-[#ffdad6]/40 text-[#ba1a1a]" : "bg-[#d1fae5] text-[#065f46]"}`}>
-          {message.text}
+      {loading ? (
+        <div className="space-y-6">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="h-48 bg-white border border-[#bbcac6]/15 rounded-2xl animate-pulse" />
+          ))}
+        </div>
+      ) : (
+        <div className="space-y-10">
+          {propertyData.map((block) => {
+            const { property, mainDoor, roomCodes, rooms } = block;
+            const isEditingMain = editing?.propertyId === property.id && editing?.key === "main_door";
+
+            return (
+              <section key={property.id}>
+                {/* Property header */}
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="px-3 py-1 bg-[#006b5f] text-white rounded-full font-['Inter'] text-xs font-bold tracking-widest">
+                    {property.code}
+                  </div>
+                  <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-xl text-[#121c2a]">{property.name}</h2>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  {/* Main door card */}
+                  <LockCard
+                    icon="door_front"
+                    label="Main Door"
+                    sublabel="Building entrance"
+                    code={mainDoor}
+                    accent="#006b5f"
+                    isEditing={isEditingMain}
+                    editValue={editValue}
+                    setEditValue={setEditValue}
+                    onCopy={() => copyCode(mainDoor)}
+                    onEdit={() => startEdit(property.id, "main_door", mainDoor)}
+                    onCancel={cancelEdit}
+                    onSave={() => saveEdit(property.id, "main_door")}
+                    saving={saving}
+                  />
+
+                  {/* One card per room */}
+                  {rooms.map((room) => {
+                    const code = roomCodes[room.unit_code] || "";
+                    const tenantName = tenantNameForRoom(room);
+                    const isEditingRoom = editing?.propertyId === property.id && editing?.key === room.unit_code;
+                    return (
+                      <LockCard
+                        key={room.id}
+                        icon="meeting_room"
+                        label={room.unit_code}
+                        sublabel={tenantName || room.name || "Unassigned"}
+                        code={code}
+                        accent="#3e4946"
+                        isEditing={isEditingRoom}
+                        editValue={editValue}
+                        setEditValue={setEditValue}
+                        onCopy={() => copyCode(code)}
+                        onEdit={() => startEdit(property.id, room.unit_code, code)}
+                        onCancel={cancelEdit}
+                        onSave={() => saveEdit(property.id, room.unit_code)}
+                        saving={saving}
+                      />
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })}
         </div>
       )}
+    </PortalLayout>
+  );
+}
 
-      {error && (
-        <div className="mb-6 bg-amber-50 border border-amber-200 rounded-xl p-4">
-          <p className="text-sm text-amber-800 font-semibold">TTLock not configured</p>
-          <p className="text-xs text-amber-700 mt-1">{error}</p>
-          <p className="text-xs text-amber-600 mt-2">Add these environment variables in Vercel:</p>
-          <ul className="text-xs text-amber-700 mt-1 space-y-0.5 font-mono">
-            <li>TTLOCK_CLIENT_ID</li>
-            <li>TTLOCK_CLIENT_SECRET</li>
-            <li>TTLOCK_USERNAME</li>
-            <li>TTLOCK_PASSWORD_MD5</li>
-          </ul>
+function LockCard({
+  icon,
+  label,
+  sublabel,
+  code,
+  accent,
+  isEditing,
+  editValue,
+  setEditValue,
+  onCopy,
+  onEdit,
+  onCancel,
+  onSave,
+  saving,
+}) {
+  const isEmpty = !code;
+
+  return (
+    <div className="bg-white rounded-2xl border border-[#bbcac6]/20 shadow-sm p-5 flex flex-col gap-3">
+      <div className="flex items-start justify-between">
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="material-symbols-outlined text-[20px]" style={{ color: accent }}>{icon}</span>
+          <div className="min-w-0">
+            <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a] truncate">{label}</p>
+            <p className="text-[11px] text-[#6c7a77] truncate">{sublabel}</p>
+          </div>
         </div>
-      )}
+        {!isEditing && (
+          <button
+            onClick={onEdit}
+            className="p-1.5 rounded-lg hover:bg-[#eff4ff] text-[#6c7a77] hover:text-[#006b5f] transition-colors flex-shrink-0"
+            title="Edit code"
+          >
+            <span className="material-symbols-outlined text-[16px]">edit</span>
+          </button>
+        )}
+      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Lock List */}
-        <div className="lg:col-span-1">
-          <section className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm">
-            <div className="px-6 py-4 border-b border-[#bbcac6]/15">
-              <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#006b5f] text-[20px]">lock</span>
-                Locks
-              </h2>
-            </div>
-            {loading ? (
-              <div className="p-6 space-y-3">
-                {[1, 2, 3].map(i => <div key={i} className="h-12 bg-[#eff4ff] animate-pulse rounded-lg" />)}
-              </div>
-            ) : locks.length === 0 ? (
-              <div className="p-6 text-center text-sm text-[#6c7a77]">
-                {error ? "Connect TTLock to see your locks." : "No locks found."}
-              </div>
-            ) : (
-              <div className="divide-y divide-[#bbcac6]/10">
-                {locks.map(lock => (
-                  <button
-                    key={lock.lockId}
-                    onClick={() => selectLock(lock)}
-                    className={`w-full text-left px-6 py-4 hover:bg-[#f8f9ff] transition-colors ${selectedLock?.lockId === lock.lockId ? "bg-[#006b5f]/5 border-l-2 border-[#006b5f]" : ""}`}
-                  >
-                    <p className="font-['Manrope'] font-bold text-sm text-[#121c2a]">{lock.lockAlias || lock.lockName || `Lock ${lock.lockId}`}</p>
-                    <p className="font-['Inter'] text-xs text-[#6c7a77]">
-                      {lock.electricQuantity != null ? `Battery: ${lock.electricQuantity}%` : ""} · ID: {lock.lockId}
-                    </p>
-                  </button>
-                ))}
-              </div>
-            )}
-          </section>
+      {isEditing ? (
+        <div className="space-y-2">
+          <input
+            type="text"
+            value={editValue}
+            onChange={(e) => setEditValue(e.target.value)}
+            placeholder="e.g. 1234#"
+            autoFocus
+            className="w-full bg-[#eff4ff] border-0 rounded-xl px-3 py-2 text-base font-mono font-bold text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+          />
+          <div className="flex gap-2">
+            <button
+              onClick={onSave}
+              disabled={saving}
+              className="flex-1 px-3 py-2 bg-[#006b5f] text-white rounded-lg font-['Manrope'] font-bold text-xs hover:bg-[#005047] disabled:opacity-50"
+            >
+              {saving ? "Saving..." : "Save"}
+            </button>
+            <button
+              onClick={onCancel}
+              disabled={saving}
+              className="px-3 py-2 bg-[#eff4ff] text-[#3e4946] rounded-lg font-['Manrope'] font-bold text-xs hover:bg-[#dde6e3]"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
-
-        {/* Lock Detail */}
-        <div className="lg:col-span-2 space-y-6">
-          {selectedLock ? (
-            <>
-              {/* Generate Passcode */}
-              <section className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm p-6">
-                <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-4 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#006b5f] text-[20px]">password</span>
-                  Generate Passcode — {selectedLock.lockAlias || selectedLock.lockId}
-                </h3>
-                <form onSubmit={handleGenerate} className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-1.5">
-                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Code Type</label>
-                      <select value={genType} onChange={e => setGenType(e.target.value)}
-                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none">
-                        <option value="2">Permanent</option>
-                        <option value="3">One-time</option>
-                        <option value="1">Timed</option>
-                      </select>
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Assign to Member</label>
-                      <select value={genTenantId} onChange={e => setGenTenantId(e.target.value)}
-                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none">
-                        <option value="">General / unassigned</option>
-                        {tenants.map(t => (
-                          <option key={t.id} value={t.id}>
-                            {t.tenant_details?.full_name || t.username || "Unnamed"} — {t.rooms?.unit_code}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-1.5">
-                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Label</label>
-                      <input type="text" value={genName} onChange={e => setGenName(e.target.value)}
-                        placeholder="e.g. Edward's code"
-                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none" />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">
-                        Custom Code <span className="normal-case tracking-normal text-[#bbcac6]">(leave blank for random)</span>
-                      </label>
-                      <input type="text" value={genCustomCode} onChange={e => setGenCustomCode(e.target.value)}
-                        placeholder="e.g. 123456"
-                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none" />
-                    </div>
-                  </div>
-                  <button type="submit" disabled={generating}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40">
-                    <span className="material-symbols-outlined text-[18px]">{generating ? "progress_activity" : "vpn_key"}</span>
-                    {generating ? "Generating..." : "Generate Code"}
-                  </button>
-                </form>
-              </section>
-
-              {/* Active Passcodes */}
-              <section className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm">
-                <div className="px-6 py-4 border-b border-[#bbcac6]/15">
-                  <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#006b5f] text-[20px]">dialpad</span>
-                    Active Passcodes
-                  </h3>
-                </div>
-                {passcodesLoading ? (
-                  <div className="p-6"><div className="h-20 bg-[#eff4ff] animate-pulse rounded-lg" /></div>
-                ) : passcodes.length === 0 ? (
-                  <div className="p-6 text-center text-sm text-[#6c7a77]">No passcodes for this lock.</div>
-                ) : (
-                  <div className="divide-y divide-[#bbcac6]/10">
-                    {passcodes.map(p => (
-                      <div key={p.keyboardPwdId} className="px-6 py-4 flex items-center justify-between">
-                        <div>
-                          <p className="font-mono font-bold text-[#121c2a]">{p.keyboardPwd}</p>
-                          <p className="text-xs text-[#6c7a77]">
-                            {p.keyboardPwdName || "Unnamed"} · {PASSCODE_TYPES[p.keyboardPwdType] || "Unknown"}
-                          </p>
-                        </div>
-                        <button onClick={() => handleDeletePasscode(p.keyboardPwdId)}
-                          className="p-2 rounded-lg hover:bg-red-50 text-[#6c7a77] hover:text-red-600 transition-colors">
-                          <span className="material-symbols-outlined text-[18px]">delete</span>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </section>
-
-              {/* Access History */}
-              <section className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm">
-                <div className="px-6 py-4 border-b border-[#bbcac6]/15">
-                  <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#006b5f] text-[20px]">history</span>
-                    Recent Access (7 days)
-                  </h3>
-                </div>
-                {records.length === 0 ? (
-                  <div className="p-6 text-center text-sm text-[#6c7a77]">No recent access records.</div>
-                ) : (
-                  <div className="divide-y divide-[#bbcac6]/10 max-h-[300px] overflow-y-auto">
-                    {records.map((r, i) => (
-                      <div key={i} className="px-6 py-3 flex items-center justify-between">
-                        <div>
-                          <p className="text-sm text-[#121c2a] font-['Manrope']">{r.username || r.keyboardPwd || "Unknown"}</p>
-                          <p className="text-xs text-[#6c7a77]">{r.recordTypeStr || `Type ${r.recordType}`}</p>
-                        </div>
-                        <span className="text-xs text-[#6c7a77] font-['Inter']">
-                          {r.lockDate ? new Date(r.lockDate).toLocaleString("en-SG", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "—"}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </section>
-            </>
+      ) : (
+        <button
+          onClick={onCopy}
+          disabled={isEmpty}
+          className={`text-left px-3 py-2.5 rounded-xl border transition-colors ${
+            isEmpty
+              ? "bg-[#fff8e1] border-[#fde68a] text-[#92400e] cursor-default"
+              : "bg-[#eff4ff] border-transparent hover:border-[#14b8a6]/40"
+          }`}
+        >
+          {isEmpty ? (
+            <p className="text-xs font-['Manrope'] font-semibold">No code set — click ✏️ to add</p>
           ) : (
-            <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm p-12 text-center">
-              <span className="material-symbols-outlined text-4xl text-[#bbcac6] mb-3 block">lock</span>
-              <p className="text-sm text-[#6c7a77]">Select a lock from the list to manage passcodes and view access history.</p>
+            <div className="flex items-center justify-between gap-2">
+              <p className="font-mono font-extrabold text-lg tracking-wider text-[#121c2a]">{code}</p>
+              <span className="material-symbols-outlined text-[16px] text-[#6c7a77]">content_copy</span>
             </div>
           )}
-        </div>
-      </div>
-    </PortalLayout>
+        </button>
+      )}
+    </div>
   );
 }

@@ -64,15 +64,32 @@ export default function MemberSettingsPage() {
 
   async function handleUpdateEmail(e) {
     e.preventDefault();
-    if (!newEmail.trim() || !newEmail.includes("@")) {
-      toast.error("Please enter a valid email.");
+    const trimmed = newEmail.trim().toLowerCase();
+    if (!trimmed || !trimmed.includes("@") || trimmed.endsWith("@portal.hyve.sg")) {
+      toast.error("Please enter a valid personal email.");
       return;
     }
     setEmailSaving(true);
     try {
-      const { error } = await supabase.auth.updateUser({ email: newEmail.trim() });
-      if (error) throw error;
-      toast.success("Verification email sent to your new address. Please check your inbox.");
+      // 1. Update tenant_details.email immediately — this is what notify-tenant reads
+      //    so invoice + late-payment reminders start going to the new address right away.
+      const { error: detailsErr } = await supabase
+        .from("tenant_details")
+        .upsert({
+          tenant_profile_id: profile.id,
+          email: trimmed,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: "tenant_profile_id" });
+      if (detailsErr) throw detailsErr;
+
+      // 2. Update auth login email (sends verification — only takes effect once confirmed).
+      const { error: authErr } = await supabase.auth.updateUser({ email: trimmed });
+      if (authErr) {
+        // Notification email still updated; tell user to confirm verification too
+        toast.success("Notification email updated. Verification for login email failed — please retry.");
+      } else {
+        toast.success("Email updated. Reminders will now go to your new address. Check your inbox to confirm the new login email.");
+      }
     } catch (err) {
       toast.error(err.message || "Failed to update email.");
     } finally {
