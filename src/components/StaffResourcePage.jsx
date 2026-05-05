@@ -21,40 +21,18 @@ L.Icon.Default.mergeOptions({
 
 const PROPERTY_ORDER = ['CP', 'IH', 'TG'];
 
-// Use flagcdn.com (free, SVG flags by ISO 3166-1 alpha-2 code) instead of
-// emoji flags — emoji flags don't render on Windows or older browsers
-// and were showing as letter pairs like "SG", "IN".
-const NAT_TO_ISO = {
-  'American': 'us', 'Singaporean': 'sg', 'Indian': 'in', 'Indonesian': 'id',
-  'Thai': 'th', 'Vietnamese': 'vn', 'Lithuanian': 'lt', 'Filipino': 'ph',
-  'Ukrainian': 'ua', 'Malaysian': 'my', 'Chinese': 'cn', 'Japanese': 'jp',
-  'Korean': 'kr', 'British': 'gb', 'Australian': 'au', 'French': 'fr',
-  'German': 'de', 'Myanmar': 'mm', 'Bangladeshi': 'bd', 'Sri Lankan': 'lk',
+const NAT_TO_FLAG = {
+  'American': '🇺🇸', 'Singaporean': '🇸🇬', 'Indian': '🇮🇳', 'Indonesian': '🇮🇩',
+  'Thai': '🇹🇭', 'Vietnamese': '🇻🇳', 'Lithuanian': '🇱🇹', 'Filipino': '🇵🇭',
+  'Ukrainian': '🇺🇦', 'Malaysian': '🇲🇾', 'Chinese': '🇨🇳', 'Japanese': '🇯🇵',
+  'Korean': '🇰🇷', 'British': '🇬🇧', 'Australian': '🇦🇺', 'French': '🇫🇷',
+  'German': '🇩🇪', 'Myanmar': '🇲🇲', 'Bangladeshi': '🇧🇩', 'Sri Lankan': '🇱🇰',
+  'Other': '🏳️',
 };
 
-function Flag({ nationality, size = 18 }) {
-  const iso = nationality ? NAT_TO_ISO[nationality] : null;
-  if (!iso) {
-    return (
-      <span
-        title={nationality || 'Unknown'}
-        style={{ width: size * 1.33, height: size, display: 'inline-block' }}
-        className="bg-gray-200 rounded-sm"
-      />
-    );
-  }
-  return (
-    <img
-      src={`https://flagcdn.com/${size * 2}x${size * 1.5 | 0}/${iso}.png`}
-      srcSet={`https://flagcdn.com/${size * 4}x${size * 3 | 0}/${iso}.png 2x`}
-      width={size * 1.33 | 0}
-      height={size}
-      alt={nationality || ''}
-      title={nationality || ''}
-      className="inline-block rounded-sm align-middle"
-      loading="lazy"
-    />
-  );
+function getFlag(nationality) {
+  if (!nationality) return '🏳️';
+  return NAT_TO_FLAG[nationality] || '🏳️';
 }
 
 function formatDate(dateStr) {
@@ -312,7 +290,7 @@ function PropertySection({ property }) {
                     <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${t.gender === 'F' ? 'bg-pink-100 text-pink-700' : 'bg-blue-100 text-blue-700'}`}>
                       {t.gender || '?'}
                     </span>
-                    <Flag nationality={t.nationality} size={14} />
+                    <span className="text-base">{getFlag(t.nationality)}</span>
                     <span className="text-[#121c2a]">{t.name}</span>
                   </div>
                 ))}
