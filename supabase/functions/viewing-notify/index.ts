@@ -192,7 +192,7 @@ async function loadViewing(viewing_id: string) {
   const { data, error } = await supabase
     .from("property_viewings")
     .select(
-      "*, properties(name, code, address), rooms(name, unit_code)"
+      "*, properties(name, code, address, default_access_code, default_security_instructions), rooms(name, unit_code)"
     )
     .eq("id", viewing_id)
     .single();
@@ -356,9 +356,24 @@ function tplReminder2h(args: { viewing: any; captain: { name: string; phone: str
   const slotIso = viewing.slot_start || `${viewing.viewing_date}T${viewing.viewing_time}+08:00`;
   const propertyName = viewing.properties?.name || "Hyve";
   const propertyAddress = viewing.properties?.address || "";
-  const accessCode = viewing.access_code || viewing.rooms?.access_code || null;
+  // Resolution order: per-viewing override → per-room → property default. The
+  // property default ensures the prospect gets the code even when no captain
+  // is assigned — they should never have to wait on someone to let them in.
+  const accessCode =
+    viewing.access_code ||
+    viewing.rooms?.access_code ||
+    viewing.properties?.default_access_code ||
+    null;
   const securityInstructions =
-    viewing.security_instructions || viewing.rooms?.security_instructions || null;
+    viewing.security_instructions ||
+    viewing.rooms?.security_instructions ||
+    viewing.properties?.default_security_instructions ||
+    null;
+  const captainLine = captain.phone
+    ? `${captain.name} — ${captain.phone}`
+    : captain.name && captain.name !== "House Captain"
+      ? captain.name
+      : "Self-serve — use the code above";
 
   const html = shell({
     title: "See you in ~2 hours",
@@ -368,11 +383,11 @@ function tplReminder2h(args: { viewing: any; captain: { name: string; phone: str
       <p style="font-size:15px;color:#3c4947;">Your viewing is coming up at <strong>${escapeHtml(fmtTime(slotIso))}</strong>. Here's everything you need to get in:</p>
       ${detailsTable([
         ["Address", propertyAddress],
-        ["Door code", accessCode || "Captain will let you in"],
-        ["Captain", captain.name + (captain.phone ? ` — ${captain.phone}` : "")],
+        ["Door code", accessCode || "Message us on WhatsApp on arrival"],
+        ["Contact", captainLine],
         ["Mailbox / parking", securityInstructions || "—"],
       ])}
-      <p style="font-size:14px;color:#3c4947;">If you're running late, message the captain directly. See you soon.</p>
+      <p style="font-size:14px;color:#3c4947;">If you're running late, just WhatsApp us. See you soon.</p>
     `,
   });
   return { subject: `In ~2h: viewing at ${propertyName}`, html };
