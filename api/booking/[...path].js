@@ -413,7 +413,7 @@ async function handleAuthLogin(req, res) {
   const clientSecret = process.env.GOOGLE_OAUTH_CLIENT_SECRET;
   const redirectUri =
     process.env.GOOGLE_OAUTH_REDIRECT_URI ||
-    `${req.headers["x-forwarded-proto"] || "https"}://${req.headers.host}/api/booking/auth/callback`;
+    `${req.headers["x-forwarded-proto"] || "https"}://${req.headers.host}/api/booking/auth-callback`;
   if (!clientId || !clientSecret) {
     return res.status(500).json({
       error: "GOOGLE_OAUTH_CLIENT_ID / GOOGLE_OAUTH_CLIENT_SECRET not configured",
@@ -439,7 +439,7 @@ async function handleAuthCallback(req, res) {
   const clientSecret = process.env.GOOGLE_OAUTH_CLIENT_SECRET;
   const redirectUri =
     process.env.GOOGLE_OAUTH_REDIRECT_URI ||
-    `${req.headers["x-forwarded-proto"] || "https"}://${req.headers.host}/api/booking/auth/callback`;
+    `${req.headers["x-forwarded-proto"] || "https"}://${req.headers.host}/api/booking/auth-callback`;
 
   try {
     const oauth2 = new google.auth.OAuth2(clientId, clientSecret, redirectUri);
@@ -556,8 +556,10 @@ export default async function handler(req, res) {
         return await handleCreate(req, res);
       case "cancel":
         return await handleCancel(req, res);
+      case "auth-login":
       case "auth/login":
         return await handleAuthLogin(req, res);
+      case "auth-callback":
       case "auth/callback":
         return await handleAuthCallback(req, res);
       case "cron":
