@@ -44,9 +44,22 @@ export const PROPERTY_META = {
 
 export const PROPERTY_CODES = Object.keys(PROPERTY_META);
 
+// Common aliases people type or paste — Members Dashboard uses CHP, some
+// internal docs use TGV/THM, etc. Keep this loose so a wrong code in a
+// pasted link still resolves to the right property.
+const PROPERTY_ALIASES = {
+  CHP: "CP",
+  CHILTERN: "CP",
+  THOMSON: "TG",
+  TGV: "TG",
+  IVORY: "IH",
+  IHJ: "IH",
+};
+
 export function getPropertyByCode(code) {
   if (!code) return null;
-  return PROPERTY_META[code.toUpperCase()] || null;
+  const k = code.toUpperCase();
+  return PROPERTY_META[k] || PROPERTY_META[PROPERTY_ALIASES[k]] || null;
 }
 
 // Allowed booking-source codes (kept in sync with the API contract).

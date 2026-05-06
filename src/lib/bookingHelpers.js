@@ -3,10 +3,12 @@
 
 import crypto from "crypto";
 
-// Property code mapping (CHP/IH/TG → friendly long names live in properties.name)
+// Property code mapping. Canonical codes match `properties.code` in Supabase
+// (CP, IH, TG). CHP is a tolerated alias for CP because some internal docs
+// and the Members Dashboard use it.
 export const PROPERTY_CODES = {
-  CP: "CHP", // tolerated alias
-  CHP: "CHP",
+  CP: "CP",
+  CHP: "CP", // tolerated alias for Chiltern Park
   IH: "IH",
   TG: "TG",
 };
