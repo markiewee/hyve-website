@@ -536,8 +536,16 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   if (req.method === "OPTIONS") return res.status(200).end();
 
-  // path is an array from the catch-all segment
-  const segments = Array.isArray(req.query?.path) ? req.query.path : [];
+  // Resolve the route from URL (req.query.path is unreliable for catch-all
+  // in non-Next.js Vercel functions). Strip the /api/booking/ prefix.
+  let pathFromQuery = req.query?.path;
+  if (typeof pathFromQuery === "string") pathFromQuery = pathFromQuery.split("/").filter(Boolean);
+  const segmentsFromUrl = (req.url || "")
+    .split("?")[0]
+    .replace(/^\/api\/booking\/?/, "")
+    .split("/")
+    .filter(Boolean);
+  const segments = Array.isArray(pathFromQuery) && pathFromQuery.length > 0 ? pathFromQuery : segmentsFromUrl;
   const route = segments.join("/");
 
   try {
