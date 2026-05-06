@@ -23,5 +23,8 @@
         }
       ]
     }
+  ],
+  "crons": [
+    { "path": "/api/cron/viewing-reminders", "schedule": "0 * * * *" }
   ]
 }

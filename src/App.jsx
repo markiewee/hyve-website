@@ -45,15 +45,17 @@ import AdminExpenseImportPage from './pages/portal/AdminExpenseImportPage';
 import AdminFinancialsPage from './pages/portal/AdminFinancialsPage';
 import AdminDocumentsPage from './pages/portal/AdminDocumentsPage';
 import AdminLocksPage from './pages/portal/AdminLocksPage';
-import AdminViewingsPage from './pages/portal/AdminViewingsPageV2';
+import AdminViewingsPage from './pages/portal/AdminViewingsPage';
 import AdminViewingDetailPage from './pages/portal/AdminViewingDetailPage';
-import CaptainViewingsPage from './pages/portal/CaptainViewingsPage';
 import CaptainClaimsPage from './pages/portal/CaptainClaimsPage';
 import CaptainClaimFormPage from './pages/portal/CaptainClaimFormPage';
 import ViewingPage from './pages/ViewingPage';
 import ScheduleViewingPage from './pages/viewing/ScheduleViewingPage';
-import ViewingPollPage from './pages/viewing/ViewingPollPage';
 import ViewingConfirmPage from './pages/viewing/ViewingConfirmPage';
+import BookLandingPage from './pages/book/BookLandingPage';
+import { BookPropertyPage, BookRoomPage } from './pages/book/BookingFlow';
+import BookConfirmedPage from './pages/book/BookConfirmedPage';
+import BookCancelPage from './pages/book/BookCancelPage';
 import AdminTasksPage from './pages/portal/AdminTasksPage';
 import TenantDocumentsPage from './pages/portal/TenantDocumentsPage';
 import MemberSettingsPage from './pages/portal/MemberSettingsPage';
@@ -72,7 +74,7 @@ import AdminMembersPage from './pages/portal/AdminMembersPage';
 function AppContent() {
   const location = useLocation();
   const isPortal = location.pathname.startsWith('/portal');
-  const isViewing = location.pathname.startsWith('/view/');
+  const isViewing = location.pathname.startsWith('/view/') || location.pathname.startsWith('/book');
 
   const [searchFilters, setSearchFilters] = useState({
     location: '',
@@ -230,14 +232,6 @@ function AppContent() {
             element={
               <AuthGuard requiredRole="HOUSE_CAPTAIN">
                 <PropertyTenantsPage />
-              </AuthGuard>
-            }
-          />
-          <Route
-            path="/portal/viewings"
-            element={
-              <AuthGuard requiredRole="HOUSE_CAPTAIN">
-                <CaptainViewingsPage />
               </AuthGuard>
             }
           />
@@ -406,8 +400,14 @@ function AppContent() {
             }
           />
           {/* Public viewing pages — no auth */}
+          {/* V2 booking flow */}
+          <Route path="/book" element={<BookLandingPage />} />
+          <Route path="/book/cancel" element={<BookCancelPage />} />
+          <Route path="/book/confirmed/:viewing_id" element={<BookConfirmedPage />} />
+          <Route path="/book/:property" element={<BookPropertyPage />} />
+          <Route path="/book/:property/:room" element={<BookRoomPage />} />
+          {/* V1 — legacy, kept until V2 cutover is verified */}
           <Route path="/view/schedule/:propertySlug/:roomSlug?" element={<ScheduleViewingPage />} />
-          <Route path="/view/poll/:token" element={<ViewingPollPage />} />
           <Route path="/view/confirm/:token" element={<ViewingConfirmPage />} />
           <Route path="/view/:token" element={<ViewingPage />} />
           <Route path="*" element={
