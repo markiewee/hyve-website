@@ -28,7 +28,7 @@ const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") || "";
 const SENDER = "Hyve Co-living <hello@lazybee.sg>";
 const ADMIN_EMAIL = Deno.env.get("HYVE_ADMIN_EMAIL") || "admin@lazybee.sg";
 const ADMIN_CC = Deno.env.get("HYVE_ADMIN_CC") || "mark@meetmillia.com";
-const PUBLIC_SITE_URL = Deno.env.get("PUBLIC_SITE_URL") || "https://hyve.sg";
+const PUBLIC_SITE_URL = Deno.env.get("PUBLIC_SITE_URL") || "https://lazybee.sg";
 
 // ── Resend helper ─────────────────────────────────────────────────────
 async function sendEmail(opts: {
@@ -171,7 +171,7 @@ function shell(args: { title: string; preheader?: string; bodyHtml: string }): s
     </div>
     <div style="padding:32px;background:white;border-radius:0 0 12px 12px;">
       ${args.bodyHtml}
-      <p style="font-size:12px;color:#bbcac6;margin-top:32px;">— Hyve Co-living · <a href="${PUBLIC_SITE_URL}" style="color:#bbcac6;">hyve.sg</a></p>
+      <p style="font-size:12px;color:#bbcac6;margin-top:32px;">— Hyve Co-living · <a href="${PUBLIC_SITE_URL}" style="color:#bbcac6;">lazybee.sg</a></p>
     </div>
   </div>`;
 }
