@@ -31,7 +31,7 @@ export function getOAuthClient({ withRefreshToken = true } = {}) {
   const clientSecret = env("GOOGLE_OAUTH_CLIENT_SECRET");
   const redirectUri =
     process.env.GOOGLE_OAUTH_REDIRECT_URI ||
-    "https://hyve.sg/api/auth/google/callback";
+    "https://lazybee.sg/api/booking/auth-callback";
 
   const oauth2 = new google.auth.OAuth2(clientId, clientSecret, redirectUri);
 

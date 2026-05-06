@@ -57,7 +57,7 @@ export function normalizeSource(s) {
 }
 
 export function publicBaseUrl() {
-  return process.env.PUBLIC_SITE_URL || "https://hyve.sg";
+  return process.env.PUBLIC_SITE_URL || "https://lazybee.sg";
 }
 
 export function cancelUrlFor(token) {

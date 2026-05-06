@@ -994,7 +994,7 @@ function DeepLinkMenu({ onCopy, onClose }) {
       .order("unit_code")
       .then(({ data }) => setRooms(data || []));
   }, []);
-  const origin = typeof window !== "undefined" ? window.location.origin : "https://hyve.sg";
+  const origin = typeof window !== "undefined" ? window.location.origin : "https://lazybee.sg";
 
   return (
     <div className="max-h-96 overflow-y-auto">

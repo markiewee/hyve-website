@@ -239,6 +239,7 @@ async function handleCreate(req, res) {
       slot_end: slotEnd,
       status: "confirmed",
       source,
+      token: cancelToken,
       cancel_token: cancelToken,
       special_notes: notes,
     })
