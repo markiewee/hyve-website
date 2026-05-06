@@ -1,5 +1,8 @@
 // /api/cron/viewing-reminders
-// Hourly Vercel cron — sends 24h and 2h reminder emails for confirmed viewings.
+// Daily Vercel cron at 12:00 UTC = 8pm SGT — sends "next-day" reminder emails
+// for confirmed viewings happening 12-36h out. (2h reminder disabled on Hobby
+// plan since cron limited to once-per-day. Re-enable when on Pro: schedule
+// `0 * * * *` and uncomment sweep2h.)
 //
 // Protected via Authorization: Bearer <CRON_SECRET> header (Vercel Cron sends
 // the value of CRON_SECRET as the Authorization header automatically when
@@ -44,9 +47,12 @@ async function fireNotify(event, viewingId) {
 }
 
 async function sweep24h() {
+  // Daily cron — broadened window (12-36h) to catch all next-day viewings
+  // since we only fire once per day. Idempotency comes from reminder_24h_sent_at
+  // so re-runs do not duplicate.
   const now = Date.now();
-  const lo = new Date(now + 23 * 60 * 60 * 1000).toISOString();
-  const hi = new Date(now + 25 * 60 * 60 * 1000).toISOString();
+  const lo = new Date(now + 12 * 60 * 60 * 1000).toISOString();
+  const hi = new Date(now + 36 * 60 * 60 * 1000).toISOString();
 
   const { data, error } = await supabase
     .from("property_viewings")
@@ -96,7 +102,11 @@ export default async function handler(req, res) {
   if (!authorized(req)) return res.status(403).json({ error: "Forbidden" });
 
   try {
-    const [r24, r2] = await Promise.all([sweep24h(), sweep2h()]);
+    // 2h reminder disabled — Hobby plan cron is daily only, can't fire 2h
+    // sweep accurately. Manually invoke this endpoint with ?secret=... to
+    // force a 2h sweep, or upgrade Vercel plan + re-enable.
+    const r24 = await sweep24h();
+    const r2 = req.query?.include_2h ? await sweep2h() : { skipped: "daily-cron" };
     return res.status(200).json({
       ok: true,
       ts: new Date().toISOString(),
