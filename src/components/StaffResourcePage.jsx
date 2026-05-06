@@ -106,7 +106,7 @@ function RoomCard({ room }) {
             className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
           />
         </div>
-        <div className="flex items-center gap-3 text-sm mb-2">
+        <div className="flex items-center gap-3 text-sm mb-2 flex-wrap">
           {room.price_monthly && (
             <span className="font-semibold text-[#121c2a]">${room.price_monthly.toLocaleString()}/mo</span>
           )}
@@ -114,6 +114,12 @@ function RoomCard({ room }) {
             <span className="text-[#3c4947]">{room.size_sqm} sqm</span>
           )}
           <span className="text-[#3c4947]">{roomTypeLabel}</span>
+          {room.max_occupancy > 1 && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
+              <span className="material-symbols-outlined text-[14px]">group</span>
+              Sleeps {room.max_occupancy}
+            </span>
+          )}
         </div>
         <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[status.color]}`}>
           {status.label}
@@ -187,6 +193,7 @@ function RoomCard({ room }) {
                 <Detail label="Furnishing" value={room.furnishing_level?.replace(/_/g, ' ')} />
                 <Detail label="Deposit" value={room.deposit_months ? `${room.deposit_months} month${room.deposit_months > 1 ? 's' : ''}` : null} />
                 <Detail label="Min stay" value={room.min_stay_months ? `${room.min_stay_months} months` : null} />
+                <Detail label="Max pax" value={room.max_occupancy ? `${room.max_occupancy} ${room.max_occupancy > 1 ? 'people' : 'person'}` : null} />
               </div>
 
               {room.amenities?.length > 0 && (
