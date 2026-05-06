@@ -114,6 +114,18 @@ function RoomCard({ room }) {
             <span className="text-[#3c4947]">{room.size_sqm} sqm</span>
           )}
           <span className="text-[#3c4947]">{roomTypeLabel}</span>
+          {room.bed_size && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-800 capitalize">
+              <span className="material-symbols-outlined text-[14px]">bed</span>
+              {room.bed_size.replace(/_/g, ' ')}
+            </span>
+          )}
+          {room.has_private_bathroom && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-teal-50 text-teal-700">
+              <span className="material-symbols-outlined text-[14px]">bathtub</span>
+              Ensuite
+            </span>
+          )}
           {room.max_occupancy > 1 && (
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
               <span className="material-symbols-outlined text-[14px]">group</span>
@@ -188,7 +200,8 @@ function RoomCard({ room }) {
 
               <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
                 <Detail label="Floor" value={room.floor} />
-                <Detail label="Bathroom" value={room.has_private_bathroom ? 'Private' : 'Shared'} />
+                <Detail label="Bed" value={room.bed_size?.replace(/_/g, ' ')} />
+                <Detail label="Bathroom" value={room.has_private_bathroom ? 'Private (Ensuite)' : 'Shared'} />
                 <Detail label="Aircon" value={room.has_aircon ? 'Yes' : 'No'} />
                 <Detail label="Furnishing" value={room.furnishing_level?.replace(/_/g, ' ')} />
                 <Detail label="Deposit" value={room.deposit_months ? `${room.deposit_months} month${room.deposit_months > 1 ? 's' : ''}` : null} />
