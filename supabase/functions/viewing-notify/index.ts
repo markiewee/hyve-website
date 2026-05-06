@@ -192,7 +192,7 @@ async function loadViewing(viewing_id: string) {
   const { data, error } = await supabase
     .from("property_viewings")
     .select(
-      "*, properties(name, code, address), rooms(name, unit_code, security_instructions, access_code)"
+      "*, properties(name, code, address), rooms(name, unit_code)"
     )
     .eq("id", viewing_id)
     .single();
