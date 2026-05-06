@@ -1,3 +1,13 @@
+-- Ensure updated_at trigger function exists (idempotent — defined in initial_schema
+-- but re-declared here so this migration is self-contained for fresh DBs)
+CREATE OR REPLACE FUNCTION update_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = now();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 -- Claims: house captain expense reimbursement requests
 CREATE TABLE claims (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

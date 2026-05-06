@@ -1,4 +1,4 @@
--- Captain can read their own claims
+-- Captain reads own claims
 CREATE POLICY "Captains read own claims"
   ON claims FOR SELECT
   USING (
@@ -11,7 +11,7 @@ CREATE POLICY "Captains read own claims"
     )
   );
 
--- Captain can insert their own claims (status forced to SUBMITTED)
+-- Captain inserts own claims
 CREATE POLICY "Captains insert own claims"
   ON claims FOR INSERT
   WITH CHECK (
@@ -26,7 +26,7 @@ CREATE POLICY "Captains insert own claims"
     )
   );
 
--- Admin can read all claims
+-- Admin reads all claims
 CREATE POLICY "Admins read all claims"
   ON claims FOR SELECT
   USING (
@@ -38,7 +38,7 @@ CREATE POLICY "Admins read all claims"
     )
   );
 
--- Admin can update claims (status, comment, payment ref, reviewed/paid timestamps)
+-- Admin updates claims
 CREATE POLICY "Admins update claims"
   ON claims FOR UPDATE
   USING (

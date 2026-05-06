@@ -1,4 +1,4 @@
-// Thin wrapper around the /api/book/* contract from the V2 spec.
+// Thin wrapper around the /api/booking/* contract from the V2 spec.
 // Backend agent is building these in parallel — this file is the only place
 // the frontend talks to those endpoints, so when the contract evolves we have
 // one knob to turn.
@@ -29,36 +29,36 @@ async function jsonFetch(path, init = {}) {
 export function fetchSlots({ property, date, room, signal } = {}) {
   const qs = new URLSearchParams({ property, date });
   if (room) qs.set("room", room);
-  return jsonFetch(`/api/book/slots?${qs.toString()}`, { signal });
+  return jsonFetch(`/api/booking/slots?${qs.toString()}`, { signal });
 }
 
 export function createBooking(payload) {
-  return jsonFetch(`/api/book/create`, {
+  return jsonFetch(`/api/booking/create`, {
     method: "POST",
     body: JSON.stringify(payload),
   });
 }
 
 export function fetchCancelDetails(token, signal) {
-  return jsonFetch(`/api/book/cancel?token=${encodeURIComponent(token)}`, { signal });
+  return jsonFetch(`/api/booking/cancel?token=${encodeURIComponent(token)}`, { signal });
 }
 
 export function confirmCancel(token) {
-  return jsonFetch(`/api/book/cancel?token=${encodeURIComponent(token)}`, {
+  return jsonFetch(`/api/booking/cancel?token=${encodeURIComponent(token)}`, {
     method: "POST",
   });
 }
 
 // Admin-side helpers (backend may expose later — used by the admin calendar tab).
 export function blockSlot({ property, slot_start, slot_end, reason }) {
-  return jsonFetch(`/api/book/block`, {
+  return jsonFetch(`/api/booking/block`, {
     method: "POST",
     body: JSON.stringify({ property, slot_start, slot_end, reason }),
   });
 }
 
 export function cancelViewingAdmin(viewing_id) {
-  return jsonFetch(`/api/book/admin-cancel`, {
+  return jsonFetch(`/api/booking/admin-cancel`, {
     method: "POST",
     body: JSON.stringify({ viewing_id }),
   });
