@@ -69,7 +69,7 @@ export default function BookConfirmedPage() {
         const { data, error: dbErr } = await supabase
           .from("property_viewings")
           .select(
-            "id, prospect_name, prospect_email, prospect_whatsapp, slot_start, slot_end, viewing_date, viewing_time, cancel_token, status, properties(name, code, address), rooms(name, unit_code), captain:tenant_profiles!captain_id(full_name, phone)"
+            "id, prospect_name, prospect_email, prospect_whatsapp, slot_start, slot_end, viewing_date, viewing_time, cancel_token, status, properties(name, code, address), rooms(name, unit_code), captain:tenant_profiles!captain_id(id, tenant_details(full_name, phone))"
           )
           .eq("id", viewingId)
           .single();
@@ -141,7 +141,10 @@ export default function BookConfirmedPage() {
   const propertyName = viewing.properties?.name || propMeta?.name || "Hyve";
   const address = viewing.properties?.address || propMeta?.address || "";
   const meetingPoint = propMeta?.meetingPoint || "We'll send the meeting point in a reminder.";
-  const captainPhone = viewing.captain?.phone || null;
+  const captainDetails = Array.isArray(viewing.captain?.tenant_details)
+    ? viewing.captain?.tenant_details?.[0]
+    : viewing.captain?.tenant_details;
+  const captainPhone = captainDetails?.phone || null;
 
   const cancelUrl = viewing.cancel_token
     ? `/book/cancel?token=${viewing.cancel_token}`
