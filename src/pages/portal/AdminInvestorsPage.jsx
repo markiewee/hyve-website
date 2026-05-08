@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
+import { confirm } from "../../lib/confirm";
 
 function formatSGD(amount) {
   if (amount == null) return "—";
@@ -461,7 +462,7 @@ export default function AdminInvestorsPage() {
   }
 
   async function handleDeleteReport(id) {
-    if (!confirm("Delete this report?")) return;
+    if (!await confirm({ title: "Delete this report?" })) return;
     const { error } = await supabase.from("investor_reports").delete().eq("id", id);
     if (error) console.error("Error deleting report:", error);
     fetchReports();

@@ -4,6 +4,7 @@ import { supabase } from "../../lib/supabase";
 import { useAuth } from "../../hooks/useAuth";
 import PortalLayout from "../../components/portal/PortalLayout";
 import AvailabilityGrid from "../../components/viewing/AvailabilityGrid";
+import { confirm } from "../../lib/confirm";
 
 /* ──────────────────────── helpers ──────────────────────── */
 
@@ -175,7 +176,7 @@ export default function AdminViewingDetailPage() {
   }
 
   async function handleResendPoll() {
-    if (!window.confirm("This will delete all existing poll responses. Continue?")) return;
+    if (!await confirm({ title: "This will delete all existing poll responses. Continue?" })) return;
     if (!poll) return;
 
     const newProspectToken = generateToken();
@@ -213,7 +214,7 @@ export default function AdminViewingDetailPage() {
   }
 
   async function handleCancel() {
-    if (!window.confirm("Are you sure?")) return;
+    if (!await confirm({ title: "Are you sure?" })) return;
     const { error: vErr } = await supabase
       .from("property_viewings")
       .update({ status: "CANCELLED", updated_at: new Date().toISOString() })

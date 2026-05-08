@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
+import { confirm } from "../../lib/confirm";
 
 const PRIORITY_BADGE = {
   INFO: "bg-blue-100 text-blue-700",
@@ -82,7 +83,7 @@ export default function AdminAnnouncementsPage() {
   }, []);
 
   async function handleDeactivate(id) {
-    if (!window.confirm("Are you sure?")) return;
+    if (!await confirm({ title: "Are you sure?" })) return;
     const { error } = await supabase
       .from("announcements")
       .update({ is_active: false })

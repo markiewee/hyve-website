@@ -4,6 +4,7 @@ import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { PROPERTY_META, PROPERTY_CODES, getPropertyByCode } from "../book/_propertyMeta";
 import { blockSlot, cancelViewingAdmin } from "../book/_bookApi";
+import { confirm } from "../../lib/confirm";
 
 /* ───────────────────────────── helpers ───────────────────────────── */
 
@@ -359,7 +360,7 @@ function ViewingModal({ viewing, onClose, onChanged }) {
   const meta = code ? getPropertyByCode(code) : null;
 
   async function handleCancel() {
-    if (!window.confirm("Cancel this viewing? The prospect will be emailed.")) return;
+    if (!await confirm({ title: "Cancel this viewing? The prospect will be emailed." })) return;
     setCancelling(true);
     setError(null);
     try {

@@ -70,6 +70,7 @@ import PropertyGuidePage from './pages/portal/PropertyGuidePage';
 import InvoiceDetailPage from "./pages/portal/InvoiceDetailPage";
 import AdminInvoicesPage from "./pages/portal/AdminInvoicesPage";
 import AdminMembersPage from './pages/portal/AdminMembersPage';
+import { ConfirmHost } from './lib/confirm';
 
 function AppContent() {
   const location = useLocation();
@@ -429,6 +430,7 @@ function App() {
     <Router>
       <AuthProvider>
         <AppContent />
+        <ConfirmHost />
       </AuthProvider>
     </Router>
   );

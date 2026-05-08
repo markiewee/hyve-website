@@ -3,6 +3,7 @@ import { supabase } from "../../lib/supabase";
 import { aspire } from "../../lib/aspire";
 import { notifyMember } from "../../lib/notify";
 import PortalLayout from "../../components/portal/PortalLayout";
+import { confirm } from "../../lib/confirm";
 
 async function fireRentPaidEmail(tenantProfileId, monthStr, amount) {
   if (!tenantProfileId || !monthStr) return;
@@ -284,13 +285,15 @@ export default function AdminRentPage() {
       .limit(1);
 
     if (existingCheck && existingCheck.length > 0) {
-      if (!window.confirm(
-        `Rent records already exist for ${formatMonth(monthStr)}. Do you want to continue and generate records for any remaining tenants?`
-      )) return;
+      if (!await confirm({
+        title: `Rent records exist for ${formatMonth(monthStr)}`,
+        description: "Continue and generate records for any remaining tenants?",
+      })) return;
     } else {
-      if (!window.confirm(
-        `Generate rent records for all active tenants for ${formatMonth(monthStr)}?`
-      )) return;
+      if (!await confirm({
+        title: `Generate rent for ${formatMonth(monthStr)}?`,
+        description: "Creates rent records for all active tenants.",
+      })) return;
     }
 
     setGenerating(true);
@@ -460,7 +463,7 @@ export default function AdminRentPage() {
   }
 
   async function handleAddLateFee(payment) {
-    if (!confirm("Are you sure you want to add a late fee?")) return;
+    if (!await confirm({ title: "Are you sure you want to add a late fee?" })) return;
     setActionLoading(payment.id);
 
     const dueDate = payment.due_date ? new Date(payment.due_date) : null;
@@ -522,7 +525,7 @@ export default function AdminRentPage() {
   }
 
   async function handleMarkChargePaid(chargeId) {
-    if (!confirm("Mark this charge as paid?")) return;
+    if (!await confirm({ title: "Mark this charge as paid?" })) return;
     setChargeActionLoading(chargeId);
     const { error } = await supabase.from("member_charges").update({ status: "PAID", paid_at: new Date().toISOString() }).eq("id", chargeId);
     if (!error) {

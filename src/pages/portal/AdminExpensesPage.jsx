@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
+import { confirm } from "../../lib/confirm";
 
 const EXPENSE_CATEGORIES = [
   "MASTER_LEASE",
@@ -126,7 +127,7 @@ export default function AdminExpensesPage() {
   }
 
   async function handleDelete(id) {
-    if (!window.confirm("Are you sure?")) return;
+    if (!await confirm({ title: "Are you sure?" })) return;
     const { error } = await supabase
       .from("property_expenses")
       .delete()
