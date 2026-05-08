@@ -5,12 +5,12 @@ import './App.css';
 // Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import HomePage from './components/HomePageWithSanity';
-import PropertiesPage from './components/PropertiesPageWithSanity';
-import PropertyDetailPage from './components/PropertyDetailPageWithSanity';
-import LocationsPage from './components/LocationsPageWithSanity';
+import HomePage from './components/HomePage';
+import PropertiesPage from './components/PropertiesPage';
+import PropertyDetailPage from './components/PropertyDetailPage';
+import LocationsPage from './components/LocationsPage';
 import AboutPage from './components/AboutPage';
-import FAQsPage from './components/FAQsPageWithSanity';
+import FAQsPage from './components/FAQsPage';
 import ResidentGuidePage from './components/ResidentGuidePage';
 import ContactPage from './components/ContactPage';
 import BlogPage from './components/BlogPage';

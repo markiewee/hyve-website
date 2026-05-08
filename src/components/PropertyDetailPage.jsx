@@ -5,11 +5,6 @@ import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import SEO from './SEO';
 import HousematePreview from './HousematePreview';
-import {
-  LAZYBEE_FALLBACK_PROPERTIES,
-  LAZYBEE_FALLBACK_ROOMS,
-  LAZYBEE_FALLBACK_HERO_IMAGE,
-} from '../data/lazybeeFallback';
 
 // Fix default marker icon issue with bundlers
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
@@ -137,54 +132,21 @@ const PropertyDetailPage = () => {
       try {
         setLoading(true);
         let sanityProperty = null;
-        let sanityRooms = [];
+        let propertyRooms = [];
 
-        try {
-          sanityProperty = await client.fetch(QUERIES.propertyDetail, { id });
-
-          if (sanityProperty) {
-            sanityRooms = await client.fetch(QUERIES.roomsByProperty, {
-              propertyId: sanityProperty._id
-            });
-          }
-        } catch (sanityError) {
-          console.log('Sanity fetch failed, trying API/sample data:', sanityError);
-        }
-
+        sanityProperty = await client.fetch(QUERIES.propertyDetail, { id });
         if (sanityProperty) {
-          setProperty(sanityProperty);
-          setPropertyRooms(sanityRooms);
-        } else if (LAZYBEE_FALLBACK_PROPERTIES[id]) {
-          console.warn(`Property "${id}" not found in Sanity — using hardcoded fallback.`);
-          setProperty(LAZYBEE_FALLBACK_PROPERTIES[id]);
-          setPropertyRooms(LAZYBEE_FALLBACK_ROOMS[id] || []);
-        } else {
-          try {
-            const [propertyData, roomsData] = await Promise.all([
-              ApiService.getProperty(id),
-              ApiService.getPropertyRooms(id)
-            ]);
-            setProperty(propertyData);
-            setPropertyRooms(roomsData);
-          } catch (error) {
-            console.error('API failed, using sample data:', error);
-            const { properties, rooms } = await import('../data/sampleData');
-            const sampleProperty = properties.find(p =>
-              p.id === parseInt(id) || p.id === id || p.slug === id
-            );
-            const sampleRooms = rooms.filter(r =>
-              r.propertyId === parseInt(id) || r.propertyId === id
-            );
-            setProperty(sampleProperty);
-            setPropertyRooms(sampleRooms);
-          }
+          propertyRooms = await client.fetch(QUERIES.roomsByProperty, {
+            propertyId: sanityProperty._id,
+          });
         }
+
+        setProperty(sanityProperty);
+        setPropertyRooms(propertyRooms);
       } catch (error) {
         console.error('Error fetching property data:', error);
-        if (LAZYBEE_FALLBACK_PROPERTIES[id]) {
-          setProperty(LAZYBEE_FALLBACK_PROPERTIES[id]);
-          setPropertyRooms(LAZYBEE_FALLBACK_ROOMS[id] || []);
-        }
+        setProperty(null);
+        setPropertyRooms([]);
       } finally {
         setLoading(false);
       }
@@ -220,8 +182,7 @@ const PropertyDetailPage = () => {
     return map[type.toLowerCase()] || type;
   };
 
-  const slugKey = property?.slug?.current || id;
-  const localHero = LAZYBEE_FALLBACK_HERO_IMAGE[slugKey];
+  const localHero = null;
   const GENERIC_HERO_FALLBACK =
     'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=800&fit=crop&q=80';
   const GENERIC_ROOM_FALLBACK =
