@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { client, QUERIES, urlFor } from '../lib/sanity';
+import { client, QUERIES, urlFor } from '../lib/cms';
 import LocationsMapComponent from './LocationsMapComponent';
 import SEO from './SEO';
 import { useLanguage } from '../i18n/LanguageContext';

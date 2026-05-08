@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { client, QUERIES, urlFor } from '../lib/sanity';
+import { client, QUERIES, urlFor } from '../lib/cms';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import ApiService from '../services/api';

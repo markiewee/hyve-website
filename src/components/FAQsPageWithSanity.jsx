@@ -3,7 +3,7 @@ import { ArrowLeft, ChevronDown, ChevronRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { client, QUERIES } from '../lib/sanity';
+import { client, QUERIES } from '../lib/cms';
 import SEO from './SEO';
 import { useLanguage } from '../i18n/LanguageContext';
 
