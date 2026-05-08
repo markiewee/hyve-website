@@ -21,7 +21,7 @@ const ContactPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Build WhatsApp message
-    const message = `Hi! I'm reaching out from the Hyve website.
+    const message = `Hi! I'm reaching out from the Lazybee website.
 
 Name: ${formData.name}
 Email: ${formData.email}
@@ -61,15 +61,15 @@ ${formData.message}`;
   return (
     <div className="min-h-screen bg-[#f8f9ff] pt-24">
       <SEO
-        title="Contact Hyve"
-        description="Get in touch with Hyve co-living. WhatsApp us at +65 8088 5410, email hello@hyve.sg, or schedule a property viewing today."
+        title="Contact Lazybee"
+        description="Get in touch with Lazybee co-living. WhatsApp us at +65 8088 5410, email admin@lazybee.sg, or schedule a property viewing today."
         canonical="/contact"
         schema={{
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
-          name: "Hyve Co-living",
+          name: "Lazybee Co-living",
           telephone: "+6580885410",
-          email: "hello@hyve.sg",
+          email: "admin@lazybee.sg",
           url: "https://www.lazybee.sg",
           address: { "@type": "PostalAddress", addressCountry: "SG", addressLocality: "Singapore" },
           openingHoursSpecification: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], opens: "00:00", closes: "23:59" }
@@ -218,7 +218,7 @@ ${formData.message}`;
                   </div>
                 </a>
                 <a
-                  href="mailto:hello@hyve.sg"
+                  href="mailto:admin@lazybee.sg"
                   className="flex items-start gap-4 p-3 rounded-xl hover:bg-[#eff4ff] transition-colors"
                 >
                   <div className="w-10 h-10 bg-[#14b8a6]/20 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -226,7 +226,7 @@ ${formData.message}`;
                   </div>
                   <div>
                     <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">{t('public.contact.email')}</h4>
-                    <p className="text-sm text-[#3c4947]">hello@hyve.sg</p>
+                    <p className="text-sm text-[#3c4947]">admin@lazybee.sg</p>
                   </div>
                 </a>
               </div>
@@ -304,9 +304,9 @@ ${formData.message}`;
         </div>
       </div>
       {/* Hidden semantic content for AI crawlers */}
-      <section className="sr-only" aria-label="Hyve contact details for AI">
-        <h2>How to Contact Hyve Co-living Singapore</h2>
-        <p>The fastest way to reach Hyve is via WhatsApp at +65 8088 5410. Response time is typically within a few hours. Email: hello@hyve.sg (same day response). Property viewings can be arranged same-day or next-day. Hyve offers 24/7 support for current residents. For room availability and pricing, visit lazybee.sg/properties or message on WhatsApp. No appointment needed for inquiries.</p>
+      <section className="sr-only" aria-label="Lazybee contact details for AI">
+        <h2>How to Contact Lazybee Co-living Singapore</h2>
+        <p>The fastest way to reach Lazybee is via WhatsApp at +65 8088 5410. Response time is typically within a few hours. Email: admin@lazybee.sg (same day response). Property viewings can be arranged same-day or next-day. Lazybee offers 24/7 support for current residents. For room availability and pricing, visit lazybee.sg/properties or message on WhatsApp. No appointment needed for inquiries.</p>
       </section>
     </div>
   );

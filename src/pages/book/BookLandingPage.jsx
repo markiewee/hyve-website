@@ -14,7 +14,7 @@ export default function BookLandingPage() {
       {/* Sticky brand bar — matches existing /view/* pages */}
       <header className="bg-white shadow-sm flex justify-between items-center px-6 py-3 w-full border-b border-slate-100 sticky top-0 z-50">
         <Link to="/" className="text-xl font-bold tracking-tighter text-teal-700 font-['Plus_Jakarta_Sans']">
-          Hyve
+          Lazybee
         </Link>
         <a
           href="https://wa.me/6580885410"
@@ -29,7 +29,7 @@ export default function BookLandingPage() {
         {/* Hero */}
         <section className="text-center mb-10 sm:mb-14">
           <span className="inline-block px-3 py-1 mb-4 bg-[#14b8a6]/15 text-[#006b5f] text-[10px] font-bold uppercase tracking-wider rounded-full">
-            Hyve Viewings
+            Lazybee Viewings
           </span>
           <h1 className="font-['Plus_Jakarta_Sans'] text-3xl sm:text-5xl font-extrabold tracking-tight text-[#191c1e] mb-4 text-balance">
             Book a viewing in 30 seconds
@@ -109,7 +109,7 @@ export default function BookLandingPage() {
         </section>
 
         <footer className="mt-16 opacity-50 hover:opacity-100 transition-opacity flex flex-col items-center gap-2">
-          <span className="text-teal-700 font-['Plus_Jakarta_Sans'] font-black text-lg">Hyve</span>
+          <span className="text-teal-700 font-['Plus_Jakarta_Sans'] font-black text-lg">Lazybee</span>
           <div className="flex gap-4 text-xs font-medium text-slate-500">
             <Link to="/">About</Link>
             <Link to="/properties">Properties</Link>

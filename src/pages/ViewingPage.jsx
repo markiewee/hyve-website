@@ -7,8 +7,8 @@ const PROPERTY_INFO = {
     address: "588 Yio Chu Kang Road, Singapore 787072",
     mrt: "Bright Hill MRT (TE7)",
     mrtWalk: "7 min walk via Exit B",
-    defaultSecurity: "Tell the guard you're visiting Hyve at Block 588",
-    defaultSecurityZh: "告诉保安您来参观 Block 588 的 Hyve",
+    defaultSecurity: "Tell the guard you're visiting Lazybee at Block 588",
+    defaultSecurityZh: "告诉保安您来参观 Block 588 的 Lazybee",
     image: "/properties/thomson-grove.jpg",
   },
   "Chiltern Park 135": {
@@ -23,8 +23,8 @@ const PROPERTY_INFO = {
     address: "Blk 122 Jurong East St 13, Singapore 600122",
     mrt: "Jurong East MRT (NS1/EW24)",
     mrtWalk: "8 min walk",
-    defaultSecurity: "Tell the guard you're visiting Hyve coliving at Block 122",
-    defaultSecurityZh: "告诉保安您来参观 Block 122 的 Hyve",
+    defaultSecurity: "Tell the guard you're visiting Lazybee coliving at Block 122",
+    defaultSecurityZh: "告诉保安您来参观 Block 122 的 Lazybee",
     image: "/properties/ivory-heights.jpg",
   },
 };
@@ -102,7 +102,7 @@ function getCountdown(date, time, lang) {
 }
 
 function detectLang() {
-  const saved = localStorage.getItem("hyve_lang");
+  const saved = localStorage.getItem("lazybee_lang");
   if (saved) return saved;
   const nav = navigator.language || "";
   return nav.startsWith("zh") ? "zh" : "en";
@@ -120,7 +120,7 @@ export default function ViewingPage() {
   const toggleLang = () => {
     const next = lang === "en" ? "zh" : "en";
     setLang(next);
-    localStorage.setItem("hyve_lang", next);
+    localStorage.setItem("lazybee_lang", next);
   };
 
   useEffect(() => {
@@ -149,7 +149,7 @@ export default function ViewingPage() {
     return (
       <div className="min-h-screen bg-[#f7f9fb] flex items-center justify-center p-6">
         <div className="text-center">
-          <img src="/hyve-logo.png" alt="Hyve" className="h-8 mx-auto mb-6" />
+          <img src="/lazybee-logo.png" alt="Lazybee" className="h-8 mx-auto mb-6" />
           <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#191c1e] mb-2">{t.notFound}</h1>
           <p className="text-[#3c4947] font-['Inter']">{t.notFoundDesc}</p>
           <a href="https://wa.me/6580885410" className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-lg font-['Inter'] font-semibold text-sm">
@@ -160,7 +160,7 @@ export default function ViewingPage() {
     );
   }
 
-  const propertyName = viewing.properties?.name || "Hyve Property";
+  const propertyName = viewing.properties?.name || "Lazybee Property";
   const propInfo = Object.entries(PROPERTY_INFO).find(([k]) => propertyName.includes(k.split(" ")[0]))?.[1] || {};
   const address = viewing.properties?.address || propInfo.address || "";
   const countdown = getCountdown(viewing.viewing_date, viewing.viewing_time, lang);
@@ -365,7 +365,7 @@ export default function ViewingPage() {
 
       {/* Minimal footer */}
       <div className="text-center py-8 text-[#bbcac6] text-xs font-['Inter']">
-        © {new Date().getFullYear()} Hyve Living · Makery Pte. Ltd.
+        © {new Date().getFullYear()} Lazybee Living · Makery Pte. Ltd.
       </div>
     </div>
   );

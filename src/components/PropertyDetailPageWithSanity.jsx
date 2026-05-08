@@ -7,10 +7,10 @@ import ApiService from '../services/api';
 import SEO from './SEO';
 import HousematePreview from './HousematePreview';
 import {
-  HYVE_FALLBACK_PROPERTIES,
-  HYVE_FALLBACK_ROOMS,
-  HYVE_FALLBACK_HERO_IMAGE,
-} from '../data/hyveFallback';
+  LAZYBEE_FALLBACK_PROPERTIES,
+  LAZYBEE_FALLBACK_ROOMS,
+  LAZYBEE_FALLBACK_HERO_IMAGE,
+} from '../data/lazybeeFallback';
 
 // Fix default marker icon issue with bundlers
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
@@ -24,7 +24,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-// Hyve teal map marker
+// Lazybee teal map marker
 const propertyMarkerIcon = new L.DivIcon({
   className: 'custom-property-marker',
   html: `<div style="
@@ -155,10 +155,10 @@ const PropertyDetailPage = () => {
         if (sanityProperty) {
           setProperty(sanityProperty);
           setPropertyRooms(sanityRooms);
-        } else if (HYVE_FALLBACK_PROPERTIES[id]) {
+        } else if (LAZYBEE_FALLBACK_PROPERTIES[id]) {
           console.warn(`Property "${id}" not found in Sanity — using hardcoded fallback.`);
-          setProperty(HYVE_FALLBACK_PROPERTIES[id]);
-          setPropertyRooms(HYVE_FALLBACK_ROOMS[id] || []);
+          setProperty(LAZYBEE_FALLBACK_PROPERTIES[id]);
+          setPropertyRooms(LAZYBEE_FALLBACK_ROOMS[id] || []);
         } else {
           try {
             const [propertyData, roomsData] = await Promise.all([
@@ -182,9 +182,9 @@ const PropertyDetailPage = () => {
         }
       } catch (error) {
         console.error('Error fetching property data:', error);
-        if (HYVE_FALLBACK_PROPERTIES[id]) {
-          setProperty(HYVE_FALLBACK_PROPERTIES[id]);
-          setPropertyRooms(HYVE_FALLBACK_ROOMS[id] || []);
+        if (LAZYBEE_FALLBACK_PROPERTIES[id]) {
+          setProperty(LAZYBEE_FALLBACK_PROPERTIES[id]);
+          setPropertyRooms(LAZYBEE_FALLBACK_ROOMS[id] || []);
         }
       } finally {
         setLoading(false);
@@ -222,7 +222,7 @@ const PropertyDetailPage = () => {
   };
 
   const slugKey = property?.slug?.current || id;
-  const localHero = HYVE_FALLBACK_HERO_IMAGE[slugKey];
+  const localHero = LAZYBEE_FALLBACK_HERO_IMAGE[slugKey];
   const GENERIC_HERO_FALLBACK =
     'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=800&fit=crop&q=80';
   const GENERIC_ROOM_FALLBACK =
@@ -299,7 +299,7 @@ const PropertyDetailPage = () => {
         ? `Available from: ${formatAvailableDate(selectedRoom.availableFrom)}`
         : 'Currently occupied';
 
-      const message = `\u{1F3E0} *${roomType}* from Hyve Website
+      const message = `\u{1F3E0} *${roomType}* from Lazybee Website
 
 *Property:* ${property.name}
 *Room:* ${selectedRoom.roomNumber} (${formatRoomType(selectedRoom.roomType)})
@@ -314,7 +314,7 @@ const PropertyDetailPage = () => {
 *Message:*
 ${requestFormData.message || 'No additional message provided'}
 
-*Submitted via:* Hyve Website
+*Submitted via:* Lazybee Website
 *Time:* ${new Date().toLocaleString()}`;
 
       const phoneNumber = '6580885410';
@@ -440,7 +440,7 @@ ${requestFormData.message || 'No additional message provided'}
         schema={property ? {
           "@context": "https://schema.org",
           "@type": "Apartment",
-          "name": `${property.name} — Hyve Coliving`,
+          "name": `${property.name} — Lazybee Coliving`,
           "description": property.description,
           "address": {
             "@type": "PostalAddress",
@@ -871,7 +871,7 @@ ${requestFormData.message || 'No additional message provided'}
                     <TileLayer
                       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
                       url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-                      className="hyve-map-tiles"
+                      className="lazybee-map-tiles"
                     />
                     <Marker
                       position={[parseFloat(propertyLat), parseFloat(propertyLng)]}
@@ -954,7 +954,7 @@ ${requestFormData.message || 'No additional message provided'}
                     ))}
                   </div>
                   <p className="text-[#3c4947] font-['Manrope'] text-sm leading-relaxed mb-4">
-                    &ldquo;Moving to Singapore was daunting, but Hyve made it so easy. Everything is included in the rent, the housemates are great, and the location is perfect for getting around.&rdquo;
+                    &ldquo;Moving to Singapore was daunting, but Lazybee made it so easy. Everything is included in the rent, the housemates are great, and the location is perfect for getting around.&rdquo;
                   </p>
                   <p className="font-['Inter'] text-xs font-bold text-[#006b5f]">
                     Priya, 26 &mdash; Thomson Grove
@@ -1151,7 +1151,7 @@ ${requestFormData.message || 'No additional message provided'}
                         value={requestFormData.email}
                         onChange={(e) => setRequestFormData(prev => ({ ...prev, email: e.target.value }))}
                         className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#006b5f] focus:border-transparent outline-none"
-                        placeholder="hello@hyve.sg"
+                        placeholder="admin@lazybee.sg"
                       />
                     </div>
                     <div>

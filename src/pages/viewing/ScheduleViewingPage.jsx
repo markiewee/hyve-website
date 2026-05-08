@@ -421,7 +421,7 @@ export default function ScheduleViewingPage() {
         </div>
 
         <footer className="mt-12 opacity-40 hover:opacity-100 transition-opacity flex flex-col items-center gap-2">
-          <span className="text-teal-700 font-['Plus_Jakarta_Sans'] font-black text-lg">Hyve</span>
+          <span className="text-teal-700 font-['Plus_Jakarta_Sans'] font-black text-lg">Lazybee</span>
           <div className="flex gap-4 text-xs font-medium text-slate-500">
             <a href="/">About</a>
             <a href="/properties">Properties</a>
@@ -438,7 +438,7 @@ export default function ScheduleViewingPage() {
   return (
     <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e]">
       <header className="bg-white shadow-sm flex justify-between items-center px-6 py-3 w-full border-b border-slate-100 sticky top-0 z-50">
-        <span className="text-xl font-bold tracking-tighter text-teal-700 font-['Plus_Jakarta_Sans']">Hyve</span>
+        <span className="text-xl font-bold tracking-tighter text-teal-700 font-['Plus_Jakarta_Sans']">Lazybee</span>
         <a href="https://wa.me/6580885410" className="material-symbols-outlined text-slate-500 cursor-pointer hover:bg-slate-50 p-2 rounded-full transition-colors">
           help_outline
         </a>
@@ -664,7 +664,7 @@ export default function ScheduleViewingPage() {
         </div>
 
         <footer className="mt-12 opacity-40 hover:opacity-100 transition-opacity flex flex-col items-center gap-2">
-          <span className="text-teal-700 font-['Plus_Jakarta_Sans'] font-black text-lg">Hyve</span>
+          <span className="text-teal-700 font-['Plus_Jakarta_Sans'] font-black text-lg">Lazybee</span>
           <div className="flex gap-4 text-xs font-medium text-slate-500">
             <a href="/">About</a>
             <a href="/properties">Properties</a>

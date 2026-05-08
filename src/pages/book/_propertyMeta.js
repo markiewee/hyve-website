@@ -13,7 +13,7 @@ export const PROPERTY_META = {
     rooms: 6,
     priceFrom: 800,
     priceTo: 2200,
-    meetingPoint: "Tell the guard you're visiting Hyve at Block 588.",
+    meetingPoint: "Tell the guard you're visiting Lazybee at Block 588.",
     badge: { bg: "bg-blue-100", text: "text-blue-700", border: "border-blue-500" },
   },
   IH: {
@@ -25,7 +25,7 @@ export const PROPERTY_META = {
     rooms: 7,
     priceFrom: 800,
     priceTo: 1190,
-    meetingPoint: "Tell the guard you're visiting Hyve at Block 122.",
+    meetingPoint: "Tell the guard you're visiting Lazybee at Block 122.",
     badge: { bg: "bg-teal-100", text: "text-teal-700", border: "border-teal-500" },
   },
   CP: {
@@ -37,7 +37,7 @@ export const PROPERTY_META = {
     rooms: 6,
     priceFrom: 900,
     priceTo: 2200,
-    meetingPoint: "Tell the guard you're visiting Hyve at Block 135.",
+    meetingPoint: "Tell the guard you're visiting Lazybee at Block 135.",
     badge: { bg: "bg-amber-100", text: "text-amber-700", border: "border-amber-500" },
   },
 };
@@ -94,13 +94,13 @@ export function isValidPhone(phone) {
   return false;
 }
 
-// Captain WhatsApp fallback — generic Hyve number until the API resolves a per-property captain.
-export const HYVE_WA_NUMBER = "6580885410";
+// Captain WhatsApp fallback — generic Lazybee number until the API resolves a per-property captain.
+export const LAZYBEE_WA_NUMBER = "6580885410";
 
 export function buildCaptainWaLink({ phone, propertyName, slotStart }) {
-  const number = (phone || HYVE_WA_NUMBER).replace(/[^\d]/g, "");
+  const number = (phone || LAZYBEE_WA_NUMBER).replace(/[^\d]/g, "");
   const text = encodeURIComponent(
-    `Hi, just confirming my Hyve viewing at ${propertyName}${
+    `Hi, just confirming my Lazybee viewing at ${propertyName}${
       slotStart ? ` on ${slotStart}` : ""
     }.`
   );

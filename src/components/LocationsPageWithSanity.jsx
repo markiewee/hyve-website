@@ -80,7 +80,7 @@ const LocationsPage = () => {
     <div className="min-h-screen bg-[#f8f9ff] pt-20">
       <SEO
         title="Co-living Locations in Singapore"
-        description="Discover Hyve co-living locations across Singapore. Find rooms near MRT stations in Thomson, Hougang, Bukit Batok and more."
+        description="Discover Lazybee co-living locations across Singapore. Find rooms near MRT stations in Thomson, Hougang, Bukit Batok and more."
         canonical="/locations"
         schema={{
           "@context": "https://schema.org",
@@ -170,7 +170,7 @@ const LocationsPage = () => {
 
             <footer className="mt-12 py-8 text-center">
               <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-slate-400">
-                &copy; {new Date().getFullYear()} Hyve Living. Architectural Sanctuary.
+                &copy; {new Date().getFullYear()} Lazybee Living. Architectural Sanctuary.
               </p>
             </footer>
           </div>

@@ -1,14 +1,14 @@
-# Hyve Viewing Booking — V2 Design
+# Lazybee Viewing Booking — V2 Design
 
 **Date:** 2026-05-06
 **Status:** Approved by Mark, ready for implementation
-**Replaces:** `2026-04-01-hyve-viewing-booking-system-design.md` (3-way poll workflow — DELETED)
+**Replaces:** `2026-04-01-lazybee-viewing-booking-system-design.md` (3-way poll workflow — DELETED)
 
 ---
 
 ## Goal
 
-Make booking a Hyve room viewing **bulletproof** — kill the failure modes that have been bleeding leads:
+Make booking a Lazybee room viewing **bulletproof** — kill the failure modes that have been bleeding leads:
 1. **No-shows** (A)
 2. **Captain conflicts** (B)
 3. **Multi-channel chaos** (C) — leads from Roomies/Carousell/PG/IG/WA fall through cracks
@@ -27,12 +27,12 @@ Out of scope for V2:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  Public:  hyve.sg/book                    /book/[prop]/[room]│
-│  Admin:   hyve.sg/portal/admin/viewings                     │
+│  Public:  lazybee.sg/book                    /book/[prop]/[room]│
+│  Admin:   lazybee.sg/portal/admin/viewings                     │
 └──────────────────┬──────────────────────────────────────────┘
                    │
 ┌──────────────────▼──────────────────────────────────────────┐
-│  Next.js API routes (hyve-website)                          │
+│  Next.js API routes (lazybee-website)                          │
 │  - /api/book/slots?property=X&date=Y                        │
 │  - /api/book/create                                          │
 │  - /api/book/cancel?token=...                                │
@@ -43,23 +43,23 @@ Out of scope for V2:
    ▼               ▼                            ▼
 ┌────────┐   ┌──────────────┐         ┌────────────────────┐
 │Supabase│   │Google Cal API│         │ Resend             │
-│(hyve-  │   │              │         │                    │
-│ iot,   │   │"Hyve Viewings│         │ confirm / 24h /    │
+│(lazybee-  │   │              │         │                    │
+│ iot,   │   │"Lazybee Viewings│         │ confirm / 24h /    │
 │ diiilq │   │  " calendar  │         │ 2h / cancel /      │
 │ pfmlxj │   │              │         │ captain notify     │
 │ wiae)  │   │              │         │                    │
 └────────┘   └──────────────┘         └────────────────────┘
 ```
 
-**One-line flow:** Prospect lands on deep-link → page calls `/api/book/slots` (time bands MINUS busy events on Hyve Viewings cal) → prospect picks slot + fills form → `/api/book/create` writes Supabase row, creates Google Cal event, sends 3 emails (prospect confirmation w/ .ics, captain notify, you notify).
+**One-line flow:** Prospect lands on deep-link → page calls `/api/book/slots` (time bands MINUS busy events on Lazybee Viewings cal) → prospect picks slot + fills form → `/api/book/create` writes Supabase row, creates Google Cal event, sends 3 emails (prospect confirmation w/ .ics, captain notify, you notify).
 
 ---
 
 ## Hybrid intake (kills C — multi-channel chaos)
 
 Every reply across Roomies / Carousell / PropertyGuru / IG / WhatsApp contains the **same booking URL**. Deep links per room land prospect on a pre-filled booking page:
-- `hyve.sg/book/IH/PR1` → "Book a viewing for Premium Room 1 at Ivory Heights"
-- `hyve.sg/book` → generic landing, prospect picks property → room
+- `lazybee.sg/book/IH/PR1` → "Book a viewing for Premium Room 1 at Ivory Heights"
+- `lazybee.sg/book` → generic landing, prospect picks property → room
 
 If prospect goes silent on chat, Claudine pivots to concierge mode (existing behavior, unchanged).
 
@@ -119,16 +119,16 @@ A booking creates BOTH a `property_viewings` row AND a `leads` row (if no existi
 
 1. Google Cloud Console → OAuth 2.0 Client ID (Web app)
 2. Authorized redirect URIs:
-   - `https://hyve.sg/api/auth/google/callback`
+   - `https://lazybee.sg/api/auth/google/callback`
    - `http://localhost:3000/api/auth/google/callback`
-3. Create dedicated **"Hyve Viewings"** Google Calendar
+3. Create dedicated **"Lazybee Viewings"** Google Calendar
 4. Drop **Client ID + Secret + Calendar ID** into Vercel env
 
 ### Code
 
 `src/lib/googleCalendar.js`:
 - `getOAuthClient()` — uses stored refresh token in env var
-- `listFreeBusy(startISO, endISO)` — read busy ranges on Hyve Viewings cal
+- `listFreeBusy(startISO, endISO)` — read busy ranges on Lazybee Viewings cal
 - `createEvent({summary, description, start, end, attendees})` — write event, returns `{id, htmlLink}`
 - `cancelEvent(eventId)` — cancel by ID
 - `getAvailableSlots(date, propertyCode)` — apply BOOKING_BANDS env, subtract busy ranges, return free 30-min slots
@@ -183,14 +183,14 @@ Logic (in transaction):
 3. Insert `property_viewings` row (status=`confirmed`)
 4. Upsert `leads` row, link via `viewing_id`
 5. Create Google Cal event:
-   - Summary: `Hyve Viewing — Jane Doe @ IH-PR1`
+   - Summary: `Lazybee Viewing — Jane Doe @ IH-PR1`
    - Description: prospect details + cancel link
    - Attendees: prospect email
 6. Update viewing row with `gcal_event_id`
 7. Fire 3 emails via Resend:
    - Prospect: confirmation w/ .ics + cancel link
    - Captain (assigned to property): notify
-   - Mark (admin@hyve.sg): notify
+   - Mark (admin@lazybee.sg): notify
 
 Response:
 ```json
@@ -289,7 +289,7 @@ Same as above, room pre-selected.
 - Live calendar grid (next 14 days) — green = free, blue = booked
 - List view: upcoming viewings, sortable by date / property / captain
 - Click viewing → modal with full details + cancel button
-- "Override availability" — block out a slot manually (creates a non-bookable event on Hyve Viewings cal)
+- "Override availability" — block out a slot manually (creates a non-bookable event on Lazybee Viewings cal)
 - Lead tab: all leads, filter by status
 
 Delete `AdminViewingsPageV2.jsx` and `CaptainViewingsPage.jsx` (poll-era).
@@ -311,7 +311,7 @@ Delete `AdminViewingsPageV2.jsx` and `CaptainViewingsPage.jsx` (poll-era).
 
 ## Cleanup (DELETE before/during build)
 
-**Tables (Supabase, hyve-iot project `diiilqpfmlxjwiaeophb`):**
+**Tables (Supabase, lazybee-iot project `diiilqpfmlxjwiaeophb`):**
 - `viewing_polls`
 - `viewing_poll_responses`
 
@@ -322,8 +322,8 @@ Delete `AdminViewingsPageV2.jsx` and `CaptainViewingsPage.jsx` (poll-era).
 - Old `/view/{token}` poll routes (refactor to `/book/[property]/[room]`)
 
 **Docs:**
-- `docs/superpowers/specs/2026-04-01-hyve-viewing-booking-system-design.md`
-- `docs/superpowers/specs/2026-04-01-hyve-viewing-pages-stitch-brief.md`
+- `docs/superpowers/specs/2026-04-01-lazybee-viewing-booking-system-design.md`
+- `docs/superpowers/specs/2026-04-01-lazybee-viewing-pages-stitch-brief.md`
 
 ---
 

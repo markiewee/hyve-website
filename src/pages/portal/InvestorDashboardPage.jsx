@@ -69,7 +69,7 @@ export default function InvestorDashboardPage() {
             Portfolio Overview
           </h2>
           <p className="font-['Manrope'] text-[#555f6f] text-lg leading-relaxed">
-            Your investment performance across Hyve properties.
+            Your investment performance across Lazybee properties.
             {returnRate > 0 && (
               <> Your portfolio is performing{" "}
                 <span className="text-[#006b5f] font-bold">+{returnRate.toFixed(1)}%</span> return.

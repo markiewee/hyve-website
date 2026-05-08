@@ -295,7 +295,7 @@ export default function AdminViewingDetailPage() {
   if (viewing) {
     timeline.push({
       title: "Viewing Requested",
-      description: `Hyve initiated a viewing request for ${viewing.rooms?.name || "room"} at ${viewing.properties?.name || "property"}`,
+      description: `Lazybee initiated a viewing request for ${viewing.rooms?.name || "room"} at ${viewing.properties?.name || "property"}`,
       time: viewing.created_at,
       type: "created",
     });

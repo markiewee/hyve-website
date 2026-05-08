@@ -71,8 +71,8 @@ const BlogPostPage = () => {
   };
 
   const shareUrl = window.location.href;
-  const shareTitle = post ? `${post.title} - Hyve Blog` : 'Hyve Blog';
-  const shareText = post ? post.excerpt : 'Check out this article from Hyve';
+  const shareTitle = post ? `${post.title} - Lazybee Blog` : 'Lazybee Blog';
+  const shareText = post ? post.excerpt : 'Check out this article from Lazybee';
 
   const handleCopyLink = async () => {
     try {
@@ -275,7 +275,7 @@ const BlogPostPage = () => {
           description: post?.excerpt,
           datePublished: post?.publishedAt,
           author: { "@type": "Person", name: post?.author },
-          publisher: { "@type": "Organization", name: "Hyve", url: "https://www.lazybee.sg" },
+          publisher: { "@type": "Organization", name: "Lazybee", url: "https://www.lazybee.sg" },
           image: post?.featuredImage,
           mainEntityOfPage: `https://www.lazybee.sg/blog/${post?.slug}`
         }}
@@ -500,7 +500,7 @@ const BlogPostPage = () => {
             </p>
             <Button 
               className="bg-teal-600 hover:bg-teal-700"
-              onClick={() => window.open('https://t.me/hyve_sg', '_blank', 'noopener,noreferrer')}
+              onClick={() => window.open('https://t.me/lazybee_sg', '_blank', 'noopener,noreferrer')}
             >
               Join our Telegram Community
             </Button>

@@ -1,8 +1,8 @@
-# Hyve Portal — Admin Operations Guide
+# Lazybee Portal — Admin Operations Guide
 
 **Version:** 1.0
 **Last updated:** 27 March 2026
-**For:** Hyve property administrators
+**For:** Lazybee property administrators
 
 ---
 
@@ -29,8 +29,8 @@
 
 | Field | Value |
 |-------|-------|
-| **URL** | [hyve.sg/portal/login](https://hyve.sg/portal/login) |
-| **Email** | admin@hyve.sg |
+| **URL** | [lazybee.sg/portal/login](https://lazybee.sg/portal/login) |
+| **Email** | admin@lazybee.sg |
 | **Password** | Test1234! |
 
 After logging in, you are taken to the **Admin Dashboard** at `/portal/admin`.
@@ -541,8 +541,8 @@ For foreign members with work passes or employment passes:
 - **Database:** Supabase (project: diiilqpfmlxjwiaeophb)
 - **Payments:** Stripe (live keys in production, test keys in preview/staging)
 - **Emails:** Sent via Supabase Edge Function + Resend API
-- **Branches:** `master` = production (hyve.sg), `staging` = development/testing
+- **Branches:** `master` = production (lazybee.sg), `staging` = development/testing
 
 ---
 
-*For technical support, contact the development team or refer to the codebase at `/Users/mark/Desktop/hyve-website`.*
+*For technical support, contact the development team or refer to the codebase at `/Users/mark/Desktop/lazybee-website`.*

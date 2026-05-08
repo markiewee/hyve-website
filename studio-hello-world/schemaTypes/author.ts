@@ -27,7 +27,7 @@ export default defineType({
       name: 'role',
       title: 'Role',
       type: 'string',
-      description: 'Job title or role at Hyve',
+      description: 'Job title or role at Lazybee',
       validation: (rule) => rule.required(),
     }),
     defineField({

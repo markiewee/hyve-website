@@ -25,14 +25,14 @@ const STEP_DESCRIPTIONS = {
   SIGN_TA:
     "Review and sign your Tenancy Agreement to confirm your room booking.",
   DEPOSIT:
-    "Pay your security deposit to secure your room at Hyve.",
+    "Pay your security deposit to secure your room at Lazybee.",
   HOUSE_RULES:
     "Read and acknowledge our community house rules before moving in.",
   MOVE_IN_INSTRUCTIONS:
     "Everything you need to know for a smooth move-in day.",
   MOVE_IN_CHECKLIST:
     "Record the condition of your room at move-in for your protection.",
-  ACTIVE: "You're all set! Welcome to Hyve.",
+  ACTIVE: "You're all set! Welcome to Lazybee.",
 };
 
 const STEP_ORDER = [
@@ -144,7 +144,7 @@ function StepContent({ currentStep, onboarding, advanceStep, updateOnboarding, r
               <span className="material-symbols-outlined text-[#006b5f] text-[40px]" style={{ fontVariationSettings: "'FILL' 1" }}>celebration</span>
             </div>
             <h3 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] mb-3">
-              Welcome to the Hyve Community!
+              Welcome to the Lazybee Community!
             </h3>
             <p className="font-['Manrope'] text-[#555f6f] text-sm max-w-md mx-auto leading-relaxed">
               You're all set. Here's a quick guide to help you settle in and make the most of your stay.
@@ -176,7 +176,7 @@ function StepContent({ currentStep, onboarding, advanceStep, updateOnboarding, r
             <div className="bg-white border border-[#bbcac6]/15 rounded-xl p-5 space-y-2 sm:col-span-2">
               <span className="material-symbols-outlined text-[#006b5f] text-[24px]">support_agent</span>
               <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a]">Need Help?</h4>
-              <p className="text-xs text-[#555f6f] font-['Manrope'] leading-relaxed">WhatsApp us anytime at <strong>+65 8088 5410</strong> or email <strong>hello@hyve.sg</strong>. We typically respond within an hour.</p>
+              <p className="text-xs text-[#555f6f] font-['Manrope'] leading-relaxed">WhatsApp us anytime at <strong>+65 8088 5410</strong> or email <strong>admin@lazybee.sg</strong>. We typically respond within an hour.</p>
             </div>
           </div>
 
@@ -239,7 +239,7 @@ function OnboardingContent() {
             Onboarding Not Found
           </h1>
           <p className="font-['Manrope'] text-sm text-[#555f6f] mb-8 leading-relaxed">
-            Your onboarding record could not be found. Please contact Hyve
+            Your onboarding record could not be found. Please contact Lazybee
             support.
           </p>
           <Link
@@ -254,7 +254,7 @@ function OnboardingContent() {
   }
 
   const roomName = profile?.rooms?.name ?? "your room";
-  const propertyName = profile?.properties?.name ?? "Hyve";
+  const propertyName = profile?.properties?.name ?? "Lazybee";
   const unitCode = profile?.rooms?.unit_code;
 
   const currentStepIndex = STEP_ORDER.indexOf(currentStep);
@@ -281,7 +281,7 @@ function OnboardingContent() {
               </span>
             </div>
             <span className="font-['Plus_Jakarta_Sans'] font-extrabold text-[#121c2a] text-sm group-hover:text-[#006b5f] transition-colors">
-              Hyve Portal
+              Lazybee Portal
             </span>
           </Link>
           <div className="flex items-center gap-3">
@@ -316,7 +316,7 @@ function OnboardingContent() {
               </p>
             )}
             <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
-              Welcome to Hyve
+              Welcome to Lazybee
             </h1>
             <p className="font-['Manrope'] text-[#6c7a77] font-medium mt-1">
               {roomName} &mdash; {propertyName}

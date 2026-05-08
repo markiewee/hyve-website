@@ -177,7 +177,7 @@ export default function AdminDevicesPage() {
                   .maybeSingle();
 
                 if (!existingKey) {
-                  const apiKey = "hyve_" + Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, "0")).join("");
+                  const apiKey = "lazybee_" + Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, "0")).join("");
                   const { error: e2 } = await supabase.from("device_keys").insert({
                     room_id: assignRoom,
                     api_key: apiKey,

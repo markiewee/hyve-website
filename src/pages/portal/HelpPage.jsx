@@ -117,8 +117,8 @@ const SECTIONS = [
       {
         q: "What's the WiFi password?",
         qZh: "WiFi密码是什么？",
-        a: "Network: Hyve WiFi — Password: check the sticker on the router or ask your property manager.",
-        aZh: "网络名：Hyve WiFi — 密码：查看路由器上的贴纸或询问物业经理。",
+        a: "Network: Lazybee WiFi — Password: check the sticker on the router or ask your property manager.",
+        aZh: "网络名：Lazybee WiFi — 密码：查看路由器上的贴纸或询问物业经理。",
       },
       {
         q: "How much AC is included?",
@@ -162,7 +162,7 @@ export default function HelpPage() {
         <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
           {isZh
             ? "查找有关门户、账单、维修和居住的常见问题解答。"
-            : "Find answers about the portal, billing, maintenance, and living at Hyve."}
+            : "Find answers about the portal, billing, maintenance, and living at Lazybee."}
         </p>
       </div>
 
@@ -292,11 +292,11 @@ export default function HelpPage() {
             WhatsApp +65 8088 5410
           </a>
           <a
-            href="mailto:hello@hyve.sg"
+            href="mailto:admin@lazybee.sg"
             className="inline-flex items-center gap-2 bg-white text-[#006b5f] border border-[#006b5f]/20 px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#f8f9ff] transition-all"
           >
             <span className="material-symbols-outlined text-[18px]">mail</span>
-            hello@hyve.sg
+            admin@lazybee.sg
           </a>
         </div>
       </div>

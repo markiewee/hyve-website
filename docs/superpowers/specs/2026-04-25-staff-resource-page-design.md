@@ -6,7 +6,7 @@
 
 ## Purpose
 
-An unlisted internal page on hyve.sg where remote sales staff can quickly look up unit details, facilities, amenities, availability, and policies to answer prospect questions accurately during conversations — without needing to ask Mark.
+An unlisted internal page on lazybee.sg where remote sales staff can quickly look up unit details, facilities, amenities, availability, and policies to answer prospect questions accurately during conversations — without needing to ask Mark.
 
 ## Target Users
 
@@ -17,7 +17,7 @@ Remote sales staff handling inquiries on WhatsApp, Roomies, Carousell, and other
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
 | Access model | Unlisted public page (no auth, not in navbar) | No login friction — staff just bookmarks the URL |
-| Data source | Supabase (hyve-iot) | Moving away from Sanity; Supabase is source of truth |
+| Data source | Supabase (lazybee-iot) | Moving away from Sanity; Supabase is source of truth |
 | Navigation | Property tabs (CP / IH / TG) | Staff knows which property the prospect is asking about |
 | Availability | Derived from `next_available` + `available_until` fields, synced from Millia | Always accurate, no manual updates |
 
@@ -65,8 +65,8 @@ Remote sales staff handling inquiries on WhatsApp, Roomies, Carousell, and other
 
 After migration, seed all 3 properties and 19 rooms with real data. Source from:
 - Existing Sanity CMS content
-- Room photos from `/Users/mark/Desktop/claudine/hyve-photos/`
-- Pricing from current listings (Roomies, Carousell, hyve-ops.json)
+- Room photos from `/Users/mark/Desktop/claudine/lazybee-photos/`
+- Pricing from current listings (Roomies, Carousell, lazybee-ops.json)
 - Availability from tenant_profiles + Millia
 
 ### 1.4 RLS
@@ -87,7 +87,7 @@ The `rooms` and `properties` tables already allow anon reads (the public Schedul
 
 ```
 ┌─────────────────────────────────────────┐
-│  Hyve Staff Resource Guide              │
+│  Lazybee Staff Resource Guide              │
 │  "Quick reference for sales & ops"      │
 ├────────┬────────┬───────────────────────┤
 │  CP    │  IH    │  TG                   │  ← property tabs

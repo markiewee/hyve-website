@@ -1,4 +1,4 @@
-# Hyve Viewing Booking System — Implementation Plan
+# Lazybee Viewing Booking System — Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -10,7 +10,7 @@
 
 **Key constraint:** 2-day minimum lead time — availability grid starts from today + 2 days.
 
-**Stitch HTML templates:** `/Users/mark/Desktop/hyve-viewing-screens/` — use these as visual reference for component styling.
+**Stitch HTML templates:** `/Users/mark/Desktop/lazybee-viewing-screens/` — use these as visual reference for component styling.
 
 ---
 
@@ -499,7 +499,7 @@ feat: add useViewingPoll hook with matching algorithm
 **Files:**
 - Create: `src/components/viewing/AvailabilityGrid.jsx`
 
-**Reference:** Stitch template at `/Users/mark/Desktop/hyve-viewing-screens/prospect_availability_poll/code.html`
+**Reference:** Stitch template at `/Users/mark/Desktop/lazybee-viewing-screens/prospect_availability_poll/code.html`
 
 - [ ] **Step 1: Create the shared grid component**
 
@@ -654,7 +654,7 @@ feat: add AvailabilityGrid shared component for When2Meet-style polling
 - Create: `src/pages/viewing/ScheduleViewingPage.jsx`
 - Modify: `src/App.jsx` — add route
 
-**Reference:** Stitch template at `/Users/mark/Desktop/hyve-viewing-screens/schedule_a_viewing_form/code.html`
+**Reference:** Stitch template at `/Users/mark/Desktop/lazybee-viewing-screens/schedule_a_viewing_form/code.html`
 
 - [ ] **Step 1: Create the page**
 
@@ -664,7 +664,7 @@ The form shows the room context card at top (auto-filled from URL params). Field
 
 After submit → show "Check your email!" success state with poll link.
 
-See the Stitch HTML template for exact styling. Convert to React component using existing Hyve patterns (Plus Jakarta Sans headings, Manrope body, #006b5f teal, rounded-2xl cards).
+See the Stitch HTML template for exact styling. Convert to React component using existing Lazybee patterns (Plus Jakarta Sans headings, Manrope body, #006b5f teal, rounded-2xl cards).
 
 Key details:
 - Property/room info fetched from Supabase using slug params
@@ -695,7 +695,7 @@ feat: add public Schedule a Viewing form page
 - Create: `src/pages/viewing/ViewingPollPage.jsx`
 - Modify: `src/App.jsx` — add route
 
-**Reference:** Stitch template at `/Users/mark/Desktop/hyve-viewing-screens/prospect_availability_poll/code.html`
+**Reference:** Stitch template at `/Users/mark/Desktop/lazybee-viewing-screens/prospect_availability_poll/code.html`
 
 - [ ] **Step 1: Create the poll page**
 
@@ -741,7 +741,7 @@ feat: add public prospect availability poll page with When2Meet grid
 - Create: `src/pages/viewing/ViewingConfirmPage.jsx`
 - Modify: `src/App.jsx` — add route
 
-**Reference:** Stitch template at `/Users/mark/Desktop/hyve-viewing-screens/viewing_confirmation_page/code.html`
+**Reference:** Stitch template at `/Users/mark/Desktop/lazybee-viewing-screens/viewing_confirmation_page/code.html`
 
 - [ ] **Step 1: Create the page**
 
@@ -774,7 +774,7 @@ feat: add viewing confirmation page (still coming? yes/reschedule)
 - Modify: `src/App.jsx` — add route
 - Modify: `src/components/portal/PortalLayout.jsx` — add nav item
 
-**Reference:** Stitch template at `/Users/mark/Desktop/hyve-viewing-screens/captain_portal_viewings/code.html`
+**Reference:** Stitch template at `/Users/mark/Desktop/lazybee-viewing-screens/captain_portal_viewings/code.html`
 
 - [ ] **Step 1: Create the page**
 
@@ -832,7 +832,7 @@ feat: add captain Viewings portal page with inline availability grid
 - Create: `src/pages/portal/AdminViewingsPageV2.jsx`
 - Modify: `src/App.jsx` — update route to use V2
 
-**Reference:** Stitch template at `/Users/mark/Desktop/hyve-viewing-screens/admin_viewings_management/code.html`
+**Reference:** Stitch template at `/Users/mark/Desktop/lazybee-viewing-screens/admin_viewings_management/code.html`
 
 - [ ] **Step 1: Create the pipeline page**
 
@@ -870,7 +870,7 @@ feat: replace admin viewings page with Kanban pipeline view
 - Create: `src/pages/portal/AdminViewingDetailPage.jsx`
 - Modify: `src/App.jsx` — add route
 
-**Reference:** Stitch template at `/Users/mark/Desktop/hyve-viewing-screens/admin_viewing_detail/code.html`
+**Reference:** Stitch template at `/Users/mark/Desktop/lazybee-viewing-screens/admin_viewing_detail/code.html`
 
 - [ ] **Step 1: Create the detail page**
 
@@ -951,7 +951,7 @@ feat: add Schedule a Viewing buttons to property listing pages
 
 Same structure as IH guides — wifi, property_info, building_guide, nearby, faq, welcome sections.
 
-TG WiFi: network "hyve", password "Thehyve2027@"
+TG WiFi: network "lazybee", password "Thelazybee2027@"
 CP WiFi: need from Mark (use placeholder)
 
 Door codes: TG 808856, CP 112233#

@@ -78,7 +78,7 @@ const BlogPage = () => {
     <div className="min-h-screen bg-[#f8f9ff] pt-24 pb-32">
       <SEO
         title="Blog — Co-living Stories & Tips"
-        description="Read about co-living in Singapore: tips, stories, neighborhood guides, and lifestyle content from the Hyve community."
+        description="Read about co-living in Singapore: tips, stories, neighborhood guides, and lifestyle content from the Lazybee community."
         canonical="/blog"
       />
       {/* Hero */}
@@ -267,7 +267,7 @@ const BlogPage = () => {
                   JOIN OUR COMMUNITY
                 </p>
                 <button
-                  onClick={() => window.open('https://t.me/hyve_sg', '_blank', 'noopener,noreferrer')}
+                  onClick={() => window.open('https://t.me/lazybee_sg', '_blank', 'noopener,noreferrer')}
                   className="w-full bg-white text-[#006b5f] rounded-xl px-4 py-3 font-['Plus_Jakarta_Sans'] font-bold hover:bg-slate-50 transition-colors"
                 >
                   Join Telegram

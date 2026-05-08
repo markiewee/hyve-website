@@ -57,7 +57,7 @@ function getPropertyAddress(propertyName, dbAddress) {
 }
 
 function getPropertyShortName(propertyName) {
-  if (!propertyName) return "Hyve Property";
+  if (!propertyName) return "Lazybee Property";
   for (const key of Object.keys(PROPERTY_PHOTOS)) {
     if (propertyName.includes(key)) return key;
   }
@@ -132,7 +132,7 @@ export default function ViewingConfirmPage() {
             <div className="w-10 h-10 bg-gradient-to-br from-[#006b5f] to-[#14b8a6] rounded-lg flex items-center justify-center text-white">
               <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>apartment</span>
             </div>
-            <span className="font-['Plus_Jakarta_Sans'] font-bold text-2xl tracking-tighter text-[#006b5f]">Hyve</span>
+            <span className="font-['Plus_Jakarta_Sans'] font-bold text-2xl tracking-tighter text-[#006b5f]">Lazybee</span>
           </div>
           <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#191c1e] mb-2">Viewing Not Found</h1>
           <p className="text-[#3c4947] font-['Inter'] mb-6">
@@ -149,7 +149,7 @@ export default function ViewingConfirmPage() {
     );
   }
 
-  const propertyName = viewing.properties?.name || "Hyve Property";
+  const propertyName = viewing.properties?.name || "Lazybee Property";
   const shortName = getPropertyShortName(propertyName);
   const photo = getPropertyPhoto(propertyName);
   const address = getPropertyAddress(propertyName, viewing.properties?.address);
@@ -166,7 +166,7 @@ export default function ViewingConfirmPage() {
               <div className="w-10 h-10 bg-gradient-to-br from-[#006b5f] to-[#14b8a6] rounded-lg flex items-center justify-center text-white">
                 <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>apartment</span>
               </div>
-              <span className="font-['Plus_Jakarta_Sans'] font-bold text-2xl tracking-tighter text-[#006b5f]">Hyve</span>
+              <span className="font-['Plus_Jakarta_Sans'] font-bold text-2xl tracking-tighter text-[#006b5f]">Lazybee</span>
             </div>
           </div>
 
@@ -286,11 +286,11 @@ export default function ViewingConfirmPage() {
                       WhatsApp us at +65 8088 5410
                     </a>
                     <a
-                      href="mailto:hello@hyve.sg"
+                      href="mailto:admin@lazybee.sg"
                       className="flex items-center gap-3 justify-center px-6 py-3 bg-white border border-[#e0e3e5] text-[#191c1e] rounded-lg font-bold text-sm hover:bg-[#f7f9fb] transition-all"
                     >
                       <span className="material-symbols-outlined text-lg">mail</span>
-                      Email hello@hyve.sg
+                      Email admin@lazybee.sg
                     </a>
                   </div>
                   <button
@@ -338,7 +338,7 @@ export default function ViewingConfirmPage() {
 
       <footer className="p-8 text-center">
         <p className="text-[#3c4947]/40 text-xs font-['Inter']">
-          &copy; {new Date().getFullYear()} Hyve. All rights reserved.
+          &copy; {new Date().getFullYear()} Lazybee. All rights reserved.
         </p>
       </footer>
     </div>

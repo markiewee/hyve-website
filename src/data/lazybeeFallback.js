@@ -1,9 +1,9 @@
-// Static fallback data for Hyve properties.
+// Static fallback data for Lazybee properties.
 // Used when Sanity fetch fails or returns null so pages never go blank.
 // Structure mirrors the shape returned by the Sanity `propertyDetail` GROQ query
 // so the PropertyDetailPageWithSanity component can consume it unchanged.
 
-export const HYVE_FALLBACK_PROPERTIES = {
+export const LAZYBEE_FALLBACK_PROPERTIES = {
   'ivory-heights': {
     _id: 'fallback-ivory-heights',
     name: 'Ivory Heights',
@@ -74,7 +74,7 @@ export const HYVE_FALLBACK_PROPERTIES = {
   },
 };
 
-export const HYVE_FALLBACK_ROOMS = {
+export const LAZYBEE_FALLBACK_ROOMS = {
   'ivory-heights': [
     { _id: 'fb-ih-p1', roomNumber: 'Premium 1', roomType: 'Premium', priceMonthly: 1500, sizeSqm: 20, isAvailable: false, availableFrom: '2026-05-05', amenities: ['WiFi', 'Study Table', 'Double Bed'], hasAircon: true },
     { _id: 'fb-ih-p2', roomNumber: 'Premium 2', roomType: 'Premium', priceMonthly: 1500, sizeSqm: 20, isAvailable: false, availableFrom: '2026-07-12', amenities: ['WiFi', 'Study Table', 'Double Bed'], hasAircon: true },
@@ -89,7 +89,7 @@ export const HYVE_FALLBACK_ROOMS = {
 };
 
 // Public-folder image paths used as fallback when Sanity image refs can't be resolved.
-export const HYVE_FALLBACK_HERO_IMAGE = {
+export const LAZYBEE_FALLBACK_HERO_IMAGE = {
   'ivory-heights': '/properties/ivory-heights.jpg',
   'chiltern-park': '/properties/chiltern-park.jpg',
   'thomson-grove': '/properties/thomson-grove.jpg',

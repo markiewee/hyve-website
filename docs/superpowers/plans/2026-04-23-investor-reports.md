@@ -770,7 +770,7 @@ git commit -m "feat: add admin UI for uploading investor reports with financials
 - [ ] **Step 1: Run dev server and verify investor reports page**
 
 ```bash
-cd /Users/mark/Desktop/hyve-website && npm run dev
+cd /Users/mark/Desktop/lazybee-website && npm run dev
 ```
 
 Open `http://localhost:5173/portal/investor/reports` logged in as an investor. Verify:

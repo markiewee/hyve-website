@@ -1,14 +1,14 @@
-# Hyve Portal — How to Use / 如何使用 Hyve 门户
+# Lazybee Portal — How to Use / 如何使用 Lazybee 门户
 
-Welcome to the Hyve Member Portal! This guide shows you how to do everything you need as a resident.
+Welcome to the Lazybee Member Portal! This guide shows you how to do everything you need as a resident.
 
-欢迎使用 Hyve 会员门户！本指南将向您展示如何完成所有日常操作。
+欢迎使用 Lazybee 会员门户！本指南将向您展示如何完成所有日常操作。
 
 ---
 
 ## Logging In / 登录
 
-1. Go to **hyve.sg/portal/login**
+1. Go to **lazybee.sg/portal/login**
 2. Enter your **username** (given by your property manager) and **password**
 3. Click **Sign In**
 
@@ -179,7 +179,7 @@ When you log in, your Dashboard shows:
 If you need help at any time:
 
 - **WhatsApp:** [+65 8088 5410](https://wa.me/6580885410) (fastest — usually responds within 1 hour)
-- **Email:** hello@hyve.sg (responds within 24 hours)
+- **Email:** admin@lazybee.sg (responds within 24 hours)
 - **In Portal:** Click **"Quick Support"** button in the sidebar
 
 **Emergency?** WhatsApp us immediately. For non-urgent issues, use the portal's Issue reporting feature.
@@ -195,7 +195,7 @@ Rent is due on the **1st of each month**. Late fees apply after the 5th.
 租金在每月**1日**到期。5日后将产生滞纳金。
 
 ### What's the WiFi password? / WiFi密码是什么？
-Network: **Hyve WiFi** / Password: **Thehyve2027@**
+Network: **Lazybee WiFi** / Password: **Thelazybee2027@**
 
 ### How do I get my key? / 如何获取钥匙？
 Keys are provided during move-in. Contact your property manager if you need a replacement.
@@ -216,4 +216,4 @@ Give **1 month written notice** to management. Your deposit will be refunded wit
 ---
 
 *Last updated: March 2026*
-*Hyve Co-living · Makery Pte. Ltd. · Singapore*
+*Lazybee Co-living · Makery Pte. Ltd. · Singapore*

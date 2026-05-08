@@ -307,7 +307,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
           </Link>
           <div>
             <span className="text-base font-bold tracking-tighter text-teal-700 font-['Plus_Jakarta_Sans']">
-              Hyve · {property.name}
+              Lazybee · {property.name}
             </span>
             {room && (
               <span className="block text-[10px] text-slate-500 font-medium">
@@ -337,7 +337,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-5">
               <div>
                 <span className="inline-block px-3 py-1 mb-2 bg-[#14b8a6] text-[#00423b] text-[10px] font-bold uppercase tracking-wider rounded-full">
-                  Hyve · {property.code}
+                  Lazybee · {property.code}
                 </span>
                 <h1 className="text-white font-['Plus_Jakarta_Sans'] text-2xl font-extrabold tracking-tight">
                   {property.name}
@@ -613,7 +613,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
         </div>
 
         <footer className="mt-10 opacity-50 hover:opacity-100 transition-opacity flex flex-col items-center gap-2">
-          <span className="text-teal-700 font-['Plus_Jakarta_Sans'] font-black text-lg">Hyve</span>
+          <span className="text-teal-700 font-['Plus_Jakarta_Sans'] font-black text-lg">Lazybee</span>
           <div className="flex gap-4 text-xs font-medium text-slate-500">
             <Link to="/">About</Link>
             <Link to="/properties">Properties</Link>

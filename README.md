@@ -1,6 +1,6 @@
-# Hyve Website
+# Lazybee Website
 
-A modern React-based website for Hyve co-living spaces in Singapore, featuring property listings, location details, and an interactive user experience.
+A modern React-based website for Lazybee co-living spaces in Singapore, featuring property listings, location details, and an interactive user experience.
 
 ## Features
 

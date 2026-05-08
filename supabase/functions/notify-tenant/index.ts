@@ -11,7 +11,7 @@ const NOTIFY_SECRET = Deno.env.get("NOTIFY_SECRET") || "";
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") || "";
 
 const PORTAL_BASE = "https://www.lazybee.sg";
-const LOGO_URL = `${PORTAL_BASE}/hyve_green.png`;
+const LOGO_URL = `${PORTAL_BASE}/lazybee_green.png`;
 const HERO_GENERIC = `${PORTAL_BASE}/hero_email_generic.jpg`;
 const HERO_URGENT = `${PORTAL_BASE}/hero_email_urgent.jpg`;
 
@@ -66,7 +66,7 @@ function renderEmail(opts: LayoutInput & { variant: "generic" | "urgent" }): str
   const badgeBg = isUrgent ? "#ffdad6" : "#d7e6e2";
   const badgeFg = isUrgent ? "#93000a" : "#005047";
   const heroSrc = isUrgent ? HERO_URGENT : HERO_GENERIC;
-  const subBrand = isUrgent ? "Hyve Updates" : "Hyve Co-living";
+  const subBrand = isUrgent ? "Lazybee Updates" : "Lazybee Co-living";
 
   const preheader = opts.preheader || opts.headline;
   const greeting = opts.greeting ? `<p style="margin:0 0 16px 0">${escape(opts.greeting)}</p>` : "";
@@ -119,9 +119,9 @@ function renderEmail(opts: LayoutInput & { variant: "generic" | "urgent" }): str
         </table>
       </td></tr>
       <tr><td align="center" style="padding:24px 0 0 0">
-        <p style="margin:0 0 4px 0;font-size:12px;font-weight:600;color:#191c20">Hyve Co-living HQ</p>
+        <p style="margin:0 0 4px 0;font-size:12px;font-weight:600;color:#191c20">Lazybee Co-living HQ</p>
         <p style="margin:0 0 16px 0;font-size:11px;color:#6e7976">39 Jalan Kelulut, Singapore 809056</p>
-        <p style="margin:0;font-size:10px;color:#9aa3a1;letter-spacing:0.2em;text-transform:uppercase">&copy; 2026 Hyve Living</p>
+        <p style="margin:0;font-size:10px;color:#9aa3a1;letter-spacing:0.2em;text-transform:uppercase">&copy; 2026 Lazybee Living</p>
         <p style="margin:8px 0 0 0;font-size:11px;color:#6e7976">
           <a href="${PORTAL_BASE}/privacy-policy" style="color:#6e7976;text-decoration:underline">Privacy</a>
           &nbsp;&middot;&nbsp;
@@ -149,7 +149,7 @@ async function sendEmail(to: string, subject: string, html: string) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "Hyve Co-living <hello@lazybee.sg>",
+      from: "Lazybee Co-living <hello@lazybee.sg>",
       reply_to: "hello@lazybee.sg",
       to: [to],
       subject,
@@ -180,7 +180,7 @@ async function getTenantContext(tenantProfileId: string) {
   if (!email && profile?.user_id) {
     const { data: userData } = await supabase.auth.admin.getUserById(profile.user_id);
     const authEmail = userData?.user?.email || null;
-    if (authEmail && !authEmail.endsWith("@portal.hyve.sg")) email = authEmail;
+    if (authEmail && !authEmail.endsWith("@portal.lazybee.sg")) email = authEmail;
   }
   const fullName = details?.full_name || "";
   const firstName = fullName.split(" ")[0] || "there";
@@ -333,13 +333,13 @@ async function buildEmail(
     case "MEMBER_CREATED": {
       const { username, password, login_url } = details;
       return {
-        subject: "Welcome to Hyve — your account is ready",
+        subject: "Welcome to Lazybee — your account is ready",
         html: generic({
           badge: "Welcome",
           headline: "Your member account is ready.",
           greeting: `Hi ${firstName},`,
           paragraphs: [
-            "Welcome to the Hyve community. Use the credentials below to sign in for the first time, then change your password from the settings page.",
+            "Welcome to the Lazybee community. Use the credentials below to sign in for the first time, then change your password from the settings page.",
           ],
           details: [
             { label: "Username", value: `<code style="font-family:monospace;background:#eff4ff;padding:2px 8px;border-radius:4px;font-size:13px">${escape(username)}</code>` },
@@ -409,7 +409,7 @@ async function buildEmail(
       const isUrgent = priority === "URGENT";
       const fn = isUrgent ? urgent : generic;
       return {
-        subject: isUrgent ? `[Urgent] ${title}` : `Hyve announcement: ${title}`,
+        subject: isUrgent ? `[Urgent] ${title}` : `Lazybee announcement: ${title}`,
         html: fn({
           badge: isUrgent ? "Urgent" : priority === "WARNING" ? "Important" : "Announcement",
           headline: title,
@@ -446,7 +446,7 @@ async function buildEmail(
           headline: "You're an active member.",
           greeting: `Hi ${firstName},`,
           paragraphs: [
-            `Your onboarding is complete and you're now part of the Hyve community${property_name ? ` at <strong>${escape(property_name)}</strong>` : ""}${room_code ? ` (Room <strong>${escape(room_code)}</strong>)` : ""}.`,
+            `Your onboarding is complete and you're now part of the Lazybee community${property_name ? ` at <strong>${escape(property_name)}</strong>` : ""}${room_code ? ` (Room <strong>${escape(room_code)}</strong>)` : ""}.`,
             "Head to your dashboard to track AC usage, pay rent, and report any issues.",
           ],
           cta: { label: "Go to Dashboard", url: `${PORTAL_BASE}/portal/dashboard` },

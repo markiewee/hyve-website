@@ -6,7 +6,7 @@ const translations = { en, zh };
 const LanguageContext = createContext();
 
 function detectLanguage() {
-  const saved = localStorage.getItem("hyve_lang");
+  const saved = localStorage.getItem("lazybee_lang");
   if (saved) return saved;
   // Auto-detect from browser
   const browserLang = navigator.language || navigator.userLanguage || "";
@@ -19,7 +19,7 @@ export function LanguageProvider({ children }) {
 
   function setLanguage(l) {
     setLang(l);
-    localStorage.setItem("hyve_lang", l);
+    localStorage.setItem("lazybee_lang", l);
   }
 
   function t(key, params = {}) {

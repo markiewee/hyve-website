@@ -40,10 +40,10 @@ function buildCalendarLink(date, propertyName, address, viewingType) {
   const fmt = (d) =>
     d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
   const title = encodeURIComponent(
-    `Hyve Viewing — ${propertyName || "Property"}`
+    `Lazybee Viewing — ${propertyName || "Property"}`
   );
   const details = encodeURIComponent(
-    `${viewingType === "virtual" ? "Virtual tour" : "In-person viewing"} at ${propertyName || "Hyve"}.`
+    `${viewingType === "virtual" ? "Virtual tour" : "In-person viewing"} at ${propertyName || "Lazybee"}.`
   );
   const location = encodeURIComponent(address || "");
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${fmt(start)}/${fmt(end)}&details=${details}&location=${location}`;
@@ -111,7 +111,7 @@ function InvalidState() {
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
-            href="mailto:hello@hyve.sg"
+            href="mailto:admin@lazybee.sg"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-xl text-sm font-bold hover:scale-[1.02] active:scale-95 transition-all"
           >
             <span
@@ -120,7 +120,7 @@ function InvalidState() {
             >
               mail
             </span>
-            hello@hyve.sg
+            admin@lazybee.sg
           </a>
           <a
             href="https://wa.me/6580885410"
@@ -162,7 +162,7 @@ function ExpiredState() {
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
-            href="mailto:hello@hyve.sg"
+            href="mailto:admin@lazybee.sg"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-xl text-sm font-bold hover:scale-[1.02] active:scale-95 transition-all"
           >
             <span
@@ -171,7 +171,7 @@ function ExpiredState() {
             >
               mail
             </span>
-            hello@hyve.sg
+            admin@lazybee.sg
           </a>
           <a
             href="https://wa.me/6580885410"
@@ -224,7 +224,7 @@ function WaitingState() {
 }
 
 function ConfirmationState({ matchedSlot, viewing, property }) {
-  const propertyName = property?.name || "Hyve Property";
+  const propertyName = property?.name || "Lazybee Property";
   const propertyAddress = viewing?.properties?.address || property?.address || "";
   const doorCode = getDoorCode(propertyName);
   const viewingType = viewing?.viewing_type || "in_person";
@@ -257,7 +257,7 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
             className="text-xl font-bold tracking-tighter text-teal-700 font-headline"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
-            Hyve
+            Lazybee
           </span>
         </div>
       </header>
@@ -415,7 +415,7 @@ export default function ViewingPollPage() {
   const [submitting, setSubmitting] = useState(false);
   const [justMatched, setJustMatched] = useState(null);
 
-  const propertyName = property?.name || "Hyve Property";
+  const propertyName = property?.name || "Lazybee Property";
   const propertyAddress =
     viewing?.properties?.address || property?.address || "";
   const propertyImage = getPropertyImage(propertyName);
@@ -479,7 +479,7 @@ export default function ViewingPollPage() {
             className="text-xl font-bold tracking-tighter text-teal-700 font-headline"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
-            Hyve
+            Lazybee
           </span>
         </div>
         <div className="flex items-center gap-4">

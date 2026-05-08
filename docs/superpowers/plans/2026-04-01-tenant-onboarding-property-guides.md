@@ -256,7 +256,7 @@ Run via `mcp__supabase__execute_sql`:
 ```sql
 INSERT INTO property_guides (property_id, section, title, content, icon, sort_order) VALUES
 -- WiFi
-('358c5333-00fd-4efb-b330-3d6e131e9b10', 'wifi', 'WiFi', '{"network": "Hyve", "password": "Thehyve2027@"}', 'wifi', 1),
+('358c5333-00fd-4efb-b330-3d6e131e9b10', 'wifi', 'WiFi', '{"network": "Lazybee", "password": "Thelazybee2027@"}', 'wifi', 1),
 
 -- Property Info
 ('358c5333-00fd-4efb-b330-3d6e131e9b10', 'property_info', 'Your Property', 'Ivory Heights, 122 Jurong East Street 21, Singapore', 'home', 2),
@@ -343,7 +343,7 @@ export function usePropertyGuides(propertyId) {
 - [ ] **Step 2: Commit**
 
 ```bash
-cd /Users/mark/Desktop/hyve-website
+cd /Users/mark/Desktop/lazybee-website
 git add src/hooks/usePropertyGuides.js
 git commit -m "feat: add usePropertyGuides hook for property guide data"
 ```
@@ -391,7 +391,7 @@ function GuideCard({ icon, title, content }) {
 export default function WelcomeSplash({ onContinue }) {
   const { profile } = useAuth();
   const propertyId = profile?.rooms?.property_id ?? profile?.property_id;
-  const propertyName = profile?.properties?.name ?? "Hyve";
+  const propertyName = profile?.properties?.name ?? "Lazybee";
   const { getSections, getSection, loading } = usePropertyGuides(propertyId);
 
   const welcomeGuides = getSections("welcome_");
@@ -476,7 +476,7 @@ export default function WelcomeSplash({ onContinue }) {
 - [ ] **Step 2: Commit**
 
 ```bash
-cd /Users/mark/Desktop/hyve-website
+cd /Users/mark/Desktop/lazybee-website
 git add src/components/portal/WelcomeSplash.jsx
 git commit -m "feat: add WelcomeSplash pre-move-in guide component"
 ```
@@ -555,14 +555,14 @@ case "WELCOME":
 
 - [ ] **Step 3: Verify the onboarding flow still renders correctly**
 
-Run: `cd /Users/mark/Desktop/hyve-website && npm run dev`
+Run: `cd /Users/mark/Desktop/lazybee-website && npm run dev`
 
 Navigate to `/portal/onboarding` — should show WELCOME as first step with the splash content, then Personal Details as step 2.
 
 - [ ] **Step 4: Commit**
 
 ```bash
-cd /Users/mark/Desktop/hyve-website
+cd /Users/mark/Desktop/lazybee-website
 git add src/hooks/useOnboarding.js src/pages/portal/OnboardingPage.jsx
 git commit -m "feat: add WELCOME pre-move-in guide as first onboarding step"
 ```
@@ -784,7 +784,7 @@ function HouseRulesCard({ propertyId }) {
 export default function PropertyGuidePage() {
   const { profile } = useAuth();
   const propertyId = profile?.rooms?.property_id ?? profile?.property_id;
-  const propertyName = profile?.properties?.name ?? "Hyve";
+  const propertyName = profile?.properties?.name ?? "Lazybee";
   const { guides, loading, getSection } = usePropertyGuides(propertyId);
 
   const wifi = getSection("wifi");
@@ -839,14 +839,14 @@ export default function PropertyGuidePage() {
               </div>
             </div>
 
-            {/* Contact Hyve — last resort */}
+            {/* Contact Lazybee — last resort */}
             <div className="bg-[#eff4ff] border border-[#bbcac6]/10 rounded-2xl p-6">
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0">
                   <span className="material-symbols-outlined text-[#006b5f] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>support</span>
                 </div>
                 <div>
-                  <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#121c2a] mb-1">Contact Hyve</h3>
+                  <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#121c2a] mb-1">Contact Lazybee</h3>
                   <p className="font-['Manrope'] text-xs text-[#6c7a77] mb-2">Checked the FAQ and submitted a ticket first?</p>
                   <a
                     href="https://wa.me/6580885410"
@@ -871,7 +871,7 @@ export default function PropertyGuidePage() {
 - [ ] **Step 2: Commit**
 
 ```bash
-cd /Users/mark/Desktop/hyve-website
+cd /Users/mark/Desktop/lazybee-website
 git add src/pages/portal/PropertyGuidePage.jsx
 git commit -m "feat: add PropertyGuidePage with WiFi, building guide, FAQ, house captain, and escalation hierarchy"
 ```
@@ -945,14 +945,14 @@ const ADMIN_NAV = [
 
 - [ ] **Step 3: Verify**
 
-Run: `cd /Users/mark/Desktop/hyve-website && npm run dev`
+Run: `cd /Users/mark/Desktop/lazybee-website && npm run dev`
 
 Check that "My Property" appears in the sidebar for all roles, and navigating to `/portal/guide` shows the guide page.
 
 - [ ] **Step 4: Commit**
 
 ```bash
-cd /Users/mark/Desktop/hyve-website
+cd /Users/mark/Desktop/lazybee-website
 git add src/App.jsx src/components/portal/PortalLayout.jsx
 git commit -m "feat: add /portal/guide route and My Property nav link for all roles"
 ```
@@ -965,10 +965,10 @@ git commit -m "feat: add /portal/guide route and My Property nav link for all ro
 
 - [ ] **Step 1: Run dev server and verify Property Guide page**
 
-Run: `cd /Users/mark/Desktop/hyve-website && npm run dev`
+Run: `cd /Users/mark/Desktop/lazybee-website && npm run dev`
 
 Check `/portal/guide`:
-- WiFi card shows network "Hyve" and password "Thehyve2027@" with copy button
+- WiFi card shows network "Lazybee" and password "Thelazybee2027@" with copy button
 - Property info card shows Ivory Heights address
 - House captain card shows Edward with WhatsApp link
 - Building Guide shows access card replacement steps
@@ -976,7 +976,7 @@ Check `/portal/guide`:
 - House Rules card shows with expand/collapse
 - FAQ accordion works — all 8 questions expand correctly
 - "Submit an Issue" button links to `/portal/issues/new`
-- "Contact Hyve" WhatsApp link works
+- "Contact Lazybee" WhatsApp link works
 - Correct escalation order: FAQ → Ticket → Contact
 
 - [ ] **Step 2: Verify Welcome Splash in onboarding**
@@ -1046,8 +1046,8 @@ Look up Edward's WhatsApp chat by phone `+6583654765`.
 
 Send 5 messages sequentially:
 
-1. `Hey Edward! This is Claudine from Hyve. We've just launched our tenant portal and you've been set up as the house captain for Ivory Heights.`
-2. `Here's your invite link: https://hyve-website.vercel.app/portal/signup?token=[EDWARD_TOKEN]`
+1. `Hey Edward! This is Claudine from Lazybee. We've just launched our tenant portal and you've been set up as the house captain for Ivory Heights.`
+2. `Here's your invite link: https://lazybee-website.vercel.app/portal/signup?token=[EDWARD_TOKEN]`
 3. `As house captain you can:\n- See all rooms and tenants in the apartment\n- Triage maintenance tickets and assign to vendors\n- Access the full property guide\n- Plus everything regular tenants get (TA download, AC usage, billing)`
 4. `The other tenants will also be getting their invite links today. They'll be told you're the house captain for day-to-day stuff.`
 5. `Any questions just ping me here!`
@@ -1056,8 +1056,8 @@ Send 5 messages sequentially:
 
 For each of: Dev, Siti Syafiqah, Newtron, Paul, Jessi Dang, Ciara — look up WhatsApp by phone and send 5 messages:
 
-1. `Hey [Name]! This is Claudine from Hyve. We've just launched our tenant portal — it's where you'll manage everything for your stay.`
-2. `Here's your invite link to set up your account: https://hyve-website.vercel.app/portal/signup?token=[TOKEN]`
+1. `Hey [Name]! This is Claudine from Lazybee. We've just launched our tenant portal — it's where you'll manage everything for your stay.`
+2. `Here's your invite link to set up your account: https://lazybee-website.vercel.app/portal/signup?token=[TOKEN]`
 3. `Once you're in you can:\n- Download your signed Tenancy Agreement\n- Submit maintenance issues (gets assigned to vendors directly)\n- Track your AC usage and billing\n- Access your property guide (WiFi, building info, etc.)`
 4. `Quick heads up — if you need a replacement access card, the process is: download your TA from the portal, get it stamped at IRAS (or we can do it for $30, takes 2 working days), then bring both docs to the management office.`
 5. `Any questions just ping me here. Edward is also your house captain so he can help with day-to-day stuff at the apartment.`
@@ -1073,7 +1073,7 @@ Check Beeper to confirm all 7 conversations have the invite messages.
 - [ ] **Step 1: Push all changes**
 
 ```bash
-cd /Users/mark/Desktop/hyve-website
+cd /Users/mark/Desktop/lazybee-website
 git push origin master
 ```
 
@@ -1081,6 +1081,6 @@ Vercel auto-deploys from master. Wait for deployment to complete.
 
 - [ ] **Step 2: Verify deployment**
 
-Navigate to `https://hyve-website.vercel.app/portal/guide` — should show the Property Guide page (will show login prompt since not authenticated).
+Navigate to `https://lazybee-website.vercel.app/portal/guide` — should show the Property Guide page (will show login prompt since not authenticated).
 
-Test one invite link by navigating to `https://hyve-website.vercel.app/portal/signup?token=[ANY_TOKEN]` — should show the signup form.
+Test one invite link by navigating to `https://lazybee-website.vercel.app/portal/signup?token=[ANY_TOKEN]` — should show the signup form.

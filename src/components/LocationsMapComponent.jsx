@@ -17,7 +17,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-// Hyve teal neighborhood icon
+// Lazybee teal neighborhood icon
 const neighborhoodIcon = new L.DivIcon({
   className: 'custom-neighborhood-icon',
   html: `<div style="
@@ -155,7 +155,7 @@ const LocationsMapComponent = ({
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
             url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-            className="hyve-map-tiles"
+            className="lazybee-map-tiles"
           />
 
           <ZoomTracker onZoomChange={setCurrentZoom} />

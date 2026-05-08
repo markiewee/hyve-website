@@ -37,7 +37,7 @@ function buildIcs({ uid, summary, description, location, startISO, endISO }) {
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Hyve//Viewings//EN",
+    "PRODID:-//Lazybee//Viewings//EN",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "BEGIN:VEVENT",
@@ -119,7 +119,7 @@ export default function BookConfirmedPage() {
             className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm"
           >
             <span className="material-symbols-outlined text-sm">chat</span>
-            WhatsApp Hyve
+            WhatsApp Lazybee
           </a>
         </div>
       </div>
@@ -138,7 +138,7 @@ export default function BookConfirmedPage() {
     (startISO ? new Date(new Date(startISO).getTime() + 30 * 60 * 1000).toISOString() : null);
 
   const propMeta = getPropertyByCode(viewing.properties?.code);
-  const propertyName = viewing.properties?.name || propMeta?.name || "Hyve";
+  const propertyName = viewing.properties?.name || propMeta?.name || "Lazybee";
   const address = viewing.properties?.address || propMeta?.address || "";
   const meetingPoint = propMeta?.meetingPoint || "We'll send the meeting point in a reminder.";
   const captainDetails = Array.isArray(viewing.captain?.tenant_details)
@@ -153,11 +153,11 @@ export default function BookConfirmedPage() {
   function downloadIcs() {
     if (!startISO || !endISO) return;
     const ics = buildIcs({
-      uid: `hyve-viewing-${viewing.id}@hyve.sg`,
-      summary: `Hyve Viewing — ${propertyName}`,
-      description: `Viewing with Hyve at ${propertyName}.${
+      uid: `lazybee-viewing-${viewing.id}@lazybee.sg`,
+      summary: `Lazybee Viewing — ${propertyName}`,
+      description: `Viewing with Lazybee at ${propertyName}.${
         viewing.rooms?.unit_code ? ` Room: ${viewing.rooms.unit_code}.` : ""
-      } Cancel: https://hyve.sg/book/cancel?token=${viewing.cancel_token || ""}`,
+      } Cancel: https://lazybee.sg/book/cancel?token=${viewing.cancel_token || ""}`,
       location: address,
       startISO,
       endISO,
@@ -166,7 +166,7 @@ export default function BookConfirmedPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `hyve-viewing-${propertyName.replace(/\s+/g, "-").toLowerCase()}.ics`;
+    a.download = `lazybee-viewing-${propertyName.replace(/\s+/g, "-").toLowerCase()}.ics`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
@@ -284,7 +284,7 @@ export default function BookConfirmedPage() {
       </div>
 
       <footer className="mt-10 opacity-50 hover:opacity-100 transition-opacity flex flex-col items-center gap-2">
-        <span className="text-teal-700 font-['Plus_Jakarta_Sans'] font-black text-lg">Hyve</span>
+        <span className="text-teal-700 font-['Plus_Jakarta_Sans'] font-black text-lg">Lazybee</span>
         <div className="flex gap-4 text-xs font-medium text-slate-500">
           <Link to="/">About</Link>
           <Link to="/properties">Properties</Link>

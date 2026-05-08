@@ -10,7 +10,7 @@ export default defineMigration({
       
       // Set default meta title if not present
       if (doc.title && (!doc.seo?.metaTitle || doc.seo?.metaTitle === '')) {
-        updates.push(at("seo.metaTitle", set(`${doc.title} | Hyve Blog`)));
+        updates.push(at("seo.metaTitle", set(`${doc.title} | Lazybee Blog`)));
       }
       
       // Set default meta description if not present

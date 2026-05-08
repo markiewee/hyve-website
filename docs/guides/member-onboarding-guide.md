@@ -1,4 +1,4 @@
-# Hyve Portal — Member Onboarding Guide / Hyve 入住指南
+# Lazybee Portal — Member Onboarding Guide / Lazybee 入住指南
 
 **Version:** 1.0
 **Last updated:** 27 March 2026
@@ -24,9 +24,9 @@
 
 ## 1. Logging In / 登录
 
-Your Hyve admin will create an account for you and provide a **username** and **password**.
+Your Lazybee admin will create an account for you and provide a **username** and **password**.
 
-1. Open your browser and go to **[hyve.sg/portal/login](https://hyve.sg/portal/login)**
+1. Open your browser and go to **[lazybee.sg/portal/login](https://lazybee.sg/portal/login)**
 2. Enter your **username** (not email) and **password**
 3. Click **Log In**
 
@@ -143,7 +143,7 @@ After transferring:
 
 ## Step 5: House Rules / 住房规则
 
-Every Hyve property has house rules to ensure a comfortable living environment for all members.
+Every Lazybee property has house rules to ensure a comfortable living environment for all members.
 
 1. Read through the house rules carefully
 2. Scroll to the bottom
@@ -176,8 +176,8 @@ Your room key and main door access will be provided. Digital lock codes (if appl
 
 | Detail | Value |
 |--------|-------|
-| **Network** | Hyve WiFi |
-| **Password** | `Thehyve2027@` |
+| **Network** | Lazybee WiFi |
+| **Password** | `Thelazybee2027@` |
 
 The router is located in the common area.
 
@@ -263,7 +263,7 @@ Click **Submit Checklist** when done.
 
 ## Step 8: Welcome! / 欢迎！
 
-Congratulations — you are now an active Hyve member!
+Congratulations — you are now an active Lazybee member!
 
 You will see a welcome screen with a short guided tour of the portal dashboard. The tour covers:
 
@@ -361,10 +361,10 @@ Guests are welcome, but overnight stays require prior notice to the property man
 
 | Detail | Value |
 |--------|-------|
-| **Network** | Hyve WiFi |
-| **Password** | `Thehyve2027@` |
+| **Network** | Lazybee WiFi |
+| **Password** | `Thelazybee2027@` |
 
-### What are the Hyve properties? / Hyve物业有哪些？
+### What are the Lazybee properties? / Lazybee物业有哪些？
 
 | Property | Address |
 |----------|---------|
@@ -376,9 +376,9 @@ Guests are welcome, but overnight stays require prior notice to the property man
 
 - **WhatsApp:** +65 8088 5410
 - **Portal:** Report an issue via the Issues page
-- **Email:** admin@hyve.sg
+- **Email:** admin@lazybee.sg
 
 ---
 
-*Welcome to Hyve. We are glad to have you as part of our community.*
-*欢迎来到 Hyve。很高兴您成为我们社区的一员。*
+*Welcome to Lazybee. We are glad to have you as part of our community.*
+*欢迎来到 Lazybee。很高兴您成为我们社区的一员。*

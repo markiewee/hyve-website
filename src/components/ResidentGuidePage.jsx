@@ -11,7 +11,7 @@ const sections = [
         <ol className="list-decimal pl-6 space-y-2 mb-4">
           <li><strong>Check the FAQs / this guide first</strong> — most common questions are answered here</li>
           <li><strong>Ask your house captain</strong> — they handle day-to-day stuff and can often resolve things on the spot</li>
-          <li><strong>Escalate to Hyve</strong> — if the house captain can't resolve it, raise a ticket on the tenant portal (<a href="https://lazybee.sg/portal" className="text-blue-600 underline">lazybee.sg/portal</a>) or WhatsApp us</li>
+          <li><strong>Escalate to Lazybee</strong> — if the house captain can't resolve it, raise a ticket on the tenant portal (<a href="https://lazybee.sg/portal" className="text-blue-600 underline">lazybee.sg/portal</a>) or WhatsApp us</li>
         </ol>
         <h4 className="font-semibold mt-4 mb-2">What counts as urgent?</h4>
         <p>Call or WhatsApp us directly (don't just raise a ticket) for:</p>
@@ -52,7 +52,7 @@ const sections = [
           <li><strong>Due date:</strong> 5th of each month</li>
           <li><strong>Payment methods:</strong> PayNow (preferred, no fee) or credit card via portal (processing fee applies)</li>
           <li><strong>Late fee:</strong> $50 kicks in after the 10th</li>
-          <li><strong>Security deposit:</strong> equivalent to one month's rent, held by Hyve</li>
+          <li><strong>Security deposit:</strong> equivalent to one month's rent, held by Lazybee</li>
         </ul>
         <h4 className="font-semibold mt-3 mb-1">Can I pay by credit card?</h4>
         <p className="mb-3">Yes — via the portal Stripe link. Processing fee applies.</p>
@@ -74,17 +74,17 @@ const sections = [
         <p className="mb-3">You pass your remaining lease term to a new tenant who takes over the room on your existing terms.</p>
 
         <h4 className="font-semibold mt-4 mb-1">Who handles the transfer?</h4>
-        <p className="mb-2"><strong>You (the outgoing tenant) handle the process — this is not delegated to Hyve.</strong></p>
+        <p className="mb-2"><strong>You (the outgoing tenant) handle the process — this is not delegated to Lazybee.</strong></p>
         <p className="mb-1">Your responsibilities:</p>
         <ul className="list-disc pl-6 space-y-1 mb-3">
           <li>Source a suitable replacement yourself</li>
-          <li>Introduce them to Hyve</li>
+          <li>Introduce them to Lazybee</li>
           <li>Answer their queries</li>
           <li>Have them review and agree to the Transfer of Tenancy Agreement (<a href="/docs/transfer-of-tenancy-sample.html" className="text-blue-600 underline" target="_blank" rel="noreferrer">sample here</a>)</li>
           <li>Coordinate the handover date</li>
           <li>Ensure the room is in good condition for handover</li>
         </ul>
-        <p className="mb-1">Hyve only handles:</p>
+        <p className="mb-1">Lazybee only handles:</p>
         <ul className="list-disc pl-6 space-y-1 mb-4">
           <li>Issuing the updated licence to the incoming tenant</li>
           <li>Processing your deposit refund once the transfer is complete</li>
@@ -104,8 +104,8 @@ const sections = [
           <li>Deep cleaning if required</li>
         </ul>
 
-        <h4 className="font-semibold mt-4 mb-1">What if the new tenant chooses a different Hyve unit?</h4>
-        <p className="mb-3">Your transfer is not completed and your deposit is not yet refundable. You still earn our <strong>$100 SGD referral bonus</strong> for bringing them to Hyve.</p>
+        <h4 className="font-semibold mt-4 mb-1">What if the new tenant chooses a different Lazybee unit?</h4>
+        <p className="mb-3">Your transfer is not completed and your deposit is not yet refundable. You still earn our <strong>$100 SGD referral bonus</strong> for bringing them to Lazybee.</p>
 
         <h4 className="font-semibold mt-4 mb-1">What if they're moving in later than my exit date?</h4>
         <p className="mb-3"><strong>You remain on the hook for rent</strong> until the new tenant's takeover date. The licence is still in your name until the transfer is executed.</p>
@@ -114,10 +114,10 @@ const sections = [
         <p className="mb-3">Your deposit is forfeited per the early termination clause. You remain liable for rent until the room is re-let or your lease ends.</p>
 
         <h4 className="font-semibold mt-4 mb-1">Can I transfer to anyone?</h4>
-        <p className="mb-3">The incoming tenant must pass Hyve's standard screening, commit to at least the remaining term, agree to house rules, and be compatible with housemates. Hyve has final approval.</p>
+        <p className="mb-3">The incoming tenant must pass Lazybee's standard screening, commit to at least the remaining term, agree to house rules, and be compatible with housemates. Lazybee has final approval.</p>
 
         <h4 className="font-semibold mt-4 mb-1">How does the referral bonus work?</h4>
-        <p className="mb-3">Refer someone who signs a licence with Hyve → <strong>$100 SGD</strong> after they complete their first month. Applies whether or not they take over your specific room.</p>
+        <p className="mb-3">Refer someone who signs a licence with Lazybee → <strong>$100 SGD</strong> after they complete their first month. Applies whether or not they take over your specific room.</p>
 
         <h4 className="font-semibold mt-4 mb-1">Can my friend just replace me unofficially?</h4>
         <p>No. Unauthorised subletting = immediate termination.</p>
@@ -130,7 +130,7 @@ const sections = [
     content: (
       <>
         <h4 className="font-semibold mb-1">How do I report an issue?</h4>
-        <p className="mb-3">Follow the escalation path: docs → house captain → Hyve via portal or WhatsApp.</p>
+        <p className="mb-3">Follow the escalation path: docs → house captain → Lazybee via portal or WhatsApp.</p>
 
         <h4 className="font-semibold mt-3 mb-1">How quickly will my issue be resolved?</h4>
         <ul className="list-disc pl-6 space-y-1 mb-3">
@@ -141,7 +141,7 @@ const sections = [
 
         <h4 className="font-semibold mt-3 mb-1">Who pays for repairs?</h4>
         <ul className="list-disc pl-6 space-y-1 mb-3">
-          <li><strong>Hyve covers:</strong> normal wear and tear, appliance failures, landlord-responsibility items</li>
+          <li><strong>Lazybee covers:</strong> normal wear and tear, appliance failures, landlord-responsibility items</li>
           <li><strong>You cover:</strong> repairs caused by misuse, negligence, or damage beyond normal use</li>
         </ul>
 
@@ -155,7 +155,7 @@ const sections = [
         <p className="mb-3">Light bulbs and batteries — yes. Plumbing/electrical/appliances/structural — raise a ticket. Unauthorised repairs that cause damage will be charged to you.</p>
 
         <h4 className="font-semibold mt-3 mb-1">What if my housemates are the problem?</h4>
-        <p>Try to resolve directly first. If that doesn't work, message your house captain or Hyve. We mediate and, in serious cases, enforce house rules.</p>
+        <p>Try to resolve directly first. If that doesn't work, message your house captain or Lazybee. We mediate and, in serious cases, enforce house rules.</p>
       </>
     )
   },
@@ -202,8 +202,8 @@ const sections = [
         <li><strong>Tenant portal:</strong> <a href="https://lazybee.sg/portal" className="text-blue-600 underline">lazybee.sg/portal</a></li>
         <li><strong>Public FAQs:</strong> <a href="/faqs" className="text-blue-600 underline">lazybee.sg/faqs</a></li>
         <li><strong>Transfer sample agreement:</strong> <a href="/docs/transfer-of-tenancy-sample.html" className="text-blue-600 underline" target="_blank" rel="noreferrer">lazybee.sg/docs/transfer-of-tenancy-sample.html</a></li>
-        <li><strong>Email:</strong> <a href="mailto:hello@hyve.sg" className="text-blue-600 underline">hello@hyve.sg</a></li>
-        <li><strong>WhatsApp:</strong> your house group, or message Hyve directly</li>
+        <li><strong>Email:</strong> <a href="mailto:admin@lazybee.sg" className="text-blue-600 underline">admin@lazybee.sg</a></li>
+        <li><strong>WhatsApp:</strong> your house group, or message Lazybee directly</li>
       </ul>
     )
   }
@@ -217,7 +217,7 @@ const ResidentGuidePage = () => {
     <div className="min-h-screen bg-gray-50 pt-24">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-3">Hyve Resident Guide</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-3">Lazybee Resident Guide</h1>
           <p className="text-lg text-gray-600">Everything you need to know during your stay.</p>
           <p className="text-sm text-gray-400 mt-2">Last updated: 20 Apr 2026</p>
         </div>
@@ -240,7 +240,7 @@ const ResidentGuidePage = () => {
         </div>
 
         <div className="mt-8 text-center text-sm text-gray-500">
-          Questions? Email <a href="mailto:hello@hyve.sg" className="text-blue-600 underline">hello@hyve.sg</a>
+          Questions? Email <a href="mailto:admin@lazybee.sg" className="text-blue-600 underline">admin@lazybee.sg</a>
         </div>
       </div>
     </div>

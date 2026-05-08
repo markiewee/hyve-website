@@ -162,7 +162,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
   const { t } = useLanguage();
   const isSuperAdmin = profile?.role === "SUPER_ADMIN";
   const unitCode = isSuperAdmin ? "" : (profile?.rooms?.unit_code ?? profile?.room_id ?? "");
-  const propertyName = isSuperAdmin ? "Super Admin" : (profile?.properties?.name ?? profile?.rooms?.name ?? "Hyve");
+  const propertyName = isSuperAdmin ? "Super Admin" : (profile?.properties?.name ?? profile?.rooms?.name ?? "Lazybee");
   const displayName = profile?.tenant_details?.full_name ?? profile?.full_name ?? profile?.email ?? t("nav.defaultName");
   const firstName = displayName.split(" ")[0];
 
@@ -171,7 +171,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
       {/* Logo + user profile */}
       <div className="mb-10 px-4">
         <div className="mb-8">
-          <img src="/hyve-logo.png" alt="Hyve" className="h-8" />
+          <img src="/lazybee-logo.png" alt="Lazybee" className="h-8" />
         </div>
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#006b5f] font-bold text-sm shrink-0">
@@ -221,7 +221,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
           <LanguageToggle />
           {onStartTour && (
             <button
-              onClick={() => { localStorage.removeItem("hyve_tour_done"); onStartTour(); }}
+              onClick={() => { localStorage.removeItem("lazybee_tour_done"); onStartTour(); }}
               className="w-full flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#006b5f] text-sm transition-colors"
             >
               <span className="material-symbols-outlined text-[18px]">tour</span>
@@ -311,7 +311,7 @@ export default function PortalLayout({ children }) {
   // Show tour on first visit (non-admin)
   useEffect(() => {
     const isAnyAdmin = profile?.role === "ADMIN" || profile?.role === "SUPER_ADMIN";
-    if (profile && !isAnyAdmin && !localStorage.getItem("hyve_tour_done")) {
+    if (profile && !isAnyAdmin && !localStorage.getItem("lazybee_tour_done")) {
       const timer = setTimeout(() => setShowTour(true), 1000);
       return () => clearTimeout(timer);
     }

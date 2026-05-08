@@ -58,7 +58,7 @@ export default async function handler(req, res) {
     // Send email
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
-      to: 'hello@hyve.sg',
+      to: 'admin@lazybee.sg',
       subject: `Room Request for ${propertyName} - Room ${roomNumber}`,
       text: emailContent,
       html: `

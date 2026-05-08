@@ -171,7 +171,7 @@ const PropertyMapComponent = ({
         map: newMap,
         title: property.name,
         icon: {
-          url: '/hyve_map_pin_orange.png',
+          url: '/lazybee_map_pin_orange.png',
           scaledSize: new window.google.maps.Size(50, 50),
           anchor: new window.google.maps.Point(25, 50)
         }

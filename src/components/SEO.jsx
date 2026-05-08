@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet-async";
 
 export default function SEO({ title, description, canonical, ogImage, type = "website", schema, noindex = false }) {
-  const siteName = "Hyve";
+  const siteName = "Lazybee";
   const baseUrl = "https://www.lazybee.sg";
-  const fullTitle = title ? `${title} | ${siteName}` : "Hyve — Co-living in Singapore";
+  const fullTitle = title ? `${title} | ${siteName}` : "Lazybee — Co-living in Singapore";
   const fullCanonical = canonical ? `${baseUrl}${canonical}` : baseUrl;
   const defaultDescription = "Premium co-living rooms in Singapore from S$950/month. Fully furnished, all bills included. Thomson, Hougang, Bukit Batok.";
   const desc = description || defaultDescription;

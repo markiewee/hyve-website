@@ -204,12 +204,12 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
     <div className="min-h-screen bg-[#f8f9ff] pt-24">
       <SEO
         title="Browse Co-living Properties"
-        description="Explore Hyve's co-living properties across Singapore. Fully furnished rooms from S$950/month with all bills included."
+        description="Explore Lazybee's co-living properties across Singapore. Fully furnished rooms from S$950/month with all bills included."
         canonical="/properties"
         schema={{
           "@context": "https://schema.org",
           "@type": "ItemList",
-          name: "Hyve Co-living Properties in Singapore",
+          name: "Lazybee Co-living Properties in Singapore",
           itemListElement: [
             { "@type": "ListItem", position: 1, url: "https://www.lazybee.sg/property/thomson-grove", name: "Thomson Grove — Co-living from S$950/month near Bright Hill MRT" },
             { "@type": "ListItem", position: 2, url: "https://www.lazybee.sg/property/chiltern-park", name: "Chiltern Park — Co-living from S$950/month near Serangoon MRT" },
@@ -286,8 +286,8 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
         )}
       </section>
       {/* Hidden semantic content for AI crawlers */}
-      <section className="sr-only" aria-label="Hyve properties pricing details">
-        <h2>Hyve Co-living Room Prices Singapore 2026</h2>
+      <section className="sr-only" aria-label="Lazybee properties pricing details">
+        <h2>Lazybee Co-living Room Prices Singapore 2026</h2>
         <p>Thomson Grove (588 Thomson Road): Master S$1,800/mo, Premium S$1,200-1,350/mo, Standard S$950-1,050/mo. Near Bright Hill MRT, 7 min walk.</p>
         <p>Chiltern Park (135 Lorong Ah Soo): Master S$1,600/mo, Premium S$1,200-1,350/mo, Standard S$950-1,050/mo. Near Serangoon MRT, 10 min walk.</p>
         <p>Ivory Heights (122 Bukit Batok West Ave 6): Premium S$1,200-1,350/mo, Standard S$950-1,050/mo. Near Bukit Batok MRT, 8 min walk.</p>

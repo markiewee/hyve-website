@@ -1,4 +1,4 @@
-# Hyve Portal Invoice System — Design Spec
+# Lazybee Portal Invoice System — Design Spec
 
 **Date:** 2026-04-25
 **Status:** Approved
@@ -6,7 +6,7 @@
 
 ## Overview
 
-A consolidated monthly invoice system for the Hyve co-living portal. Each tenant receives one invoice per month covering all charges: rent, wifi, AC overage, utilities, member charges, and late fees. Invoices are auto-generated, viewable and printable in the tenant portal, and payable via DBS bank transfer or Stripe (+4% fee).
+A consolidated monthly invoice system for the Lazybee co-living portal. Each tenant receives one invoice per month covering all charges: rent, wifi, AC overage, utilities, member charges, and late fees. Invoices are auto-generated, viewable and printable in the tenant portal, and payable via DBS bank transfer or Stripe (+4% fee).
 
 ## Goals
 
@@ -259,7 +259,7 @@ Triggered when admin initiates move-out:
 - Click row to expand or navigate to detail
 
 **Invoice detail view (`/portal/billing/:invoiceId`):**
-- Hyve branded header with logo
+- Lazybee branded header with logo
 - Invoice code (prominent)
 - Tenant name, room, property
 - Billing period
@@ -325,12 +325,12 @@ Using existing `notify-tenant` edge function pattern:
 
 | Event | Subject | Timing |
 |-------|---------|--------|
-| Invoice issued | "Your Hyve invoice {code} for ${amount} is ready" | Last day of month |
+| Invoice issued | "Your Lazybee invoice {code} for ${amount} is ready" | Last day of month |
 | Post items added | "Your invoice {code} has been updated — new total: ${amount}" | 5th of month |
 | Payment received | "Payment received — invoice {code} is now PAID" | On payment confirmation |
 | Overdue reminder | "Invoice {code} is overdue — late fee applied" | Daily check, >5 days |
-| Move-in invoice | "Welcome to Hyve — your move-in invoice {code}" | At onboarding |
-| Move-out invoice | "Your final invoice {code} from Hyve" | At move-out |
+| Move-in invoice | "Welcome to Lazybee — your move-in invoice {code}" | At onboarding |
+| Move-out invoice | "Your final invoice {code} from Lazybee" | At move-out |
 
 ---
 

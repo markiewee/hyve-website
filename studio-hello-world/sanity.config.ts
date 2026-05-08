@@ -5,7 +5,7 @@ import {schemaTypes} from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
-  title: 'Hyve',
+  title: 'Lazybee',
 
   projectId: 'ydn0o1zt',
   dataset: 'production',

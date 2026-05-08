@@ -24,7 +24,7 @@ const Navbar = () => {
         {/* Left: Logo + Links */}
         <div className="flex items-center gap-12">
           <Link to="/">
-            <img src="/hyve-logo.png" alt="Hyve" className="h-8" />
+            <img src="/lazybee-logo.png" alt="Lazybee" className="h-8" />
           </Link>
           <div className="hidden md:flex items-center gap-8">
             {navigation.map((item) => (

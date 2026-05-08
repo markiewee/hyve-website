@@ -1158,7 +1158,7 @@ export default function AdminOnboardingDetailPage() {
                     <span className="text-muted-foreground text-xs font-medium">Email</span>
                     <input
                       type="text"
-                      defaultValue={tenantDetails?.email || `${onboarding.tenant_profiles.username || ""}@portal.hyve.sg`}
+                      defaultValue={tenantDetails?.email || `${onboarding.tenant_profiles.username || ""}@portal.lazybee.sg`}
                       readOnly
                       className="font-mono text-foreground bg-transparent border-0 p-0 focus:outline-none text-xs"
                     />
@@ -1256,7 +1256,7 @@ export default function AdminOnboardingDetailPage() {
                       : "";
 
                     const msg = [
-                      `Hi ${firstName}! We've just launched a new member portal for Hyve 🏠`,
+                      `Hi ${firstName}! We've just launched a new member portal for Lazybee 🏠`,
                       ``,
                       `You can now pay rent, report issues, and view your documents all in one place.`,
                       ``,

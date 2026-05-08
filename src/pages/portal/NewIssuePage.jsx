@@ -44,11 +44,11 @@ const DIAGNOSTICS = {
     icon: "wifi",
     title: "WiFi / Internet",
     steps: [
-      { text: "Can you see the WiFi network 'Hyve WiFi' in your device's WiFi list?", action: "If not visible, the router may need a restart. Find the router (usually in the living room) and check if it's powered on." },
+      { text: "Can you see the WiFi network 'Lazybee WiFi' in your device's WiFi list?", action: "If not visible, the router may need a restart. Find the router (usually in the living room) and check if it's powered on." },
       { text: "Restart the router: unplug the power cable, wait 30 seconds, then plug it back in.", action: "Wait 2-3 minutes for the router to fully restart. The lights should turn solid green." },
-      { text: "Connected but no internet? Try forgetting the network and reconnecting.", action: "Go to WiFi settings → Forget 'Hyve WiFi' → Reconnect. Password: check the sticker on the router." },
+      { text: "Connected but no internet? Try forgetting the network and reconnecting.", action: "Go to WiFi settings → Forget 'Lazybee WiFi' → Reconnect. Password: check the sticker on the router." },
       { text: "Slow speeds? Check how many devices are connected and try moving closer to the router.", action: "Walls and distance reduce signal. For best speed, stay within 2 rooms of the router." },
-      { text: "Still not working? Try connecting to the 5GHz network if available (usually named 'Hyve WiFi_5G').", action: "5GHz is faster but shorter range. Use regular 'Hyve WiFi' (2.4GHz) if you're far from the router." },
+      { text: "Still not working? Try connecting to the 5GHz network if available (usually named 'Lazybee WiFi_5G').", action: "5GHz is faster but shorter range. Use regular 'Lazybee WiFi' (2.4GHz) if you're far from the router." },
     ],
   },
   LOCK: {
