@@ -3,7 +3,6 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { client, QUERIES, urlFor } from '../lib/cms';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
-import ApiService from '../services/api';
 import SEO from './SEO';
 import HousematePreview from './HousematePreview';
 import {

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { client, QUERIES, urlFor } from '../lib/cms';
-import ApiService from '../services/api';
 import SEO from './SEO';
 import { useLanguage } from '../i18n/LanguageContext';
 
