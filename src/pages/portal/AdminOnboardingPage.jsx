@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import { useAuth } from "../../hooks/useAuth";
 import { generateFeeScheduleHtml } from "../../lib/feeSchedule";
@@ -58,6 +58,7 @@ function formatDate(dateStr) {
 
 export default function AdminOnboardingPage() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { user } = useAuth();
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -133,6 +134,24 @@ export default function AdminOnboardingPage() {
         setOccupiedRoomMap(map);
       });
   }, []);
+
+  // Auto-open invite wizard with prefill when ?invite=1&name=...&room_id=...
+  // (e.g. from "Convert to Member" on AdminViewingDetailPage)
+  useEffect(() => {
+    if (searchParams.get("invite") !== "1") return;
+    const name = searchParams.get("name");
+    const roomId = searchParams.get("room_id");
+    setShowInvite(true);
+    setWizardStep(1);
+    setInviteResult(null);
+    setWizardErrors({});
+    if (name) setInviteUsername(name);
+    if (roomId) setInviteRoomId(roomId);
+    // Strip the params so a refresh doesn't reopen the wizard
+    const sp = new URLSearchParams(searchParams);
+    ["invite", "name", "email", "phone", "room_id"].forEach((k) => sp.delete(k));
+    setSearchParams(sp, { replace: true });
+  }, [searchParams, setSearchParams]);
 
   // Auto-generate ref number when room changes
   useEffect(() => {

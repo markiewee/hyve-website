@@ -466,6 +466,22 @@ export default function AdminViewingDetailPage() {
               <span className="material-symbols-outlined text-lg">verified</span>
               Force Book
             </button>
+            <button
+              onClick={() => {
+                const params = new URLSearchParams();
+                params.set("invite", "1");
+                if (viewing.prospect_name) params.set("name", viewing.prospect_name);
+                if (viewing.prospect_email) params.set("email", viewing.prospect_email);
+                if (viewing.prospect_phone) params.set("phone", viewing.prospect_phone);
+                if (viewing.rooms?.id) params.set("room_id", viewing.rooms.id);
+                window.location.href = `/portal/admin/onboarding?${params.toString()}`;
+              }}
+              className="bg-[#FFD24A] text-[#121c2a] font-bold px-6 py-2.5 rounded-lg text-sm font-['Manrope'] shadow-md hover:opacity-90 active:scale-95 transition-all flex items-center gap-2"
+              title="Open onboarding invite wizard pre-filled with this prospect"
+            >
+              <span className="material-symbols-outlined text-lg">person_add</span>
+              Convert to Member
+            </button>
           </div>
         </div>
 
