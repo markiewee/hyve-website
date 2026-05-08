@@ -70,6 +70,7 @@ import PropertyGuidePage from './pages/portal/PropertyGuidePage';
 import InvoiceDetailPage from "./pages/portal/InvoiceDetailPage";
 import AdminInvoicesPage from "./pages/portal/AdminInvoicesPage";
 import AdminMembersPage from './pages/portal/AdminMembersPage';
+import AdminInboxPage from './pages/portal/AdminInboxPage';
 import { ConfirmHost } from './lib/confirm';
 
 function AppContent() {
@@ -379,6 +380,22 @@ function AppContent() {
             element={
               <AuthGuard requiredRole="ADMIN">
                 <AdminMembersPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/tickets"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <PropertyTicketsPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/inbox"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminInboxPage />
               </AuthGuard>
             }
           />
