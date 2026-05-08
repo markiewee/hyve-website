@@ -46,7 +46,7 @@ export default function InvestorLayout({ children }) {
                 trending_up
               </span>
             </div>
-            <img src="/hyve-logo.png" alt="Hyve" className="h-6" />
+            <img src="/lazybee-logo.png" alt="Lazybee" className="h-6" />
           </Link>
         </div>
 
@@ -126,7 +126,7 @@ export default function InvestorLayout({ children }) {
             </span>
           </div>
           <span className="font-['Plus_Jakarta_Sans'] font-extrabold text-[#121c2a] text-sm">
-            Hyve Investor
+            Lazybee Investor
           </span>
         </Link>
         <button

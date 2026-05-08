@@ -32,7 +32,7 @@ export default function SignupPage() {
           <CardHeader>
             <CardTitle className="text-2xl text-center">Invalid Invite</CardTitle>
             <CardDescription className="text-center">
-              This invitation link is missing or invalid. Please contact Hyve for a
+              This invitation link is missing or invalid. Please contact Lazybee for a
               valid invite link.
             </CardDescription>
           </CardHeader>
@@ -61,7 +61,7 @@ export default function SignupPage() {
         <CardHeader>
           <CardTitle className="text-2xl text-center">Create Your Account</CardTitle>
           <CardDescription className="text-center">
-            Set up your Hyve tenant account
+            Set up your Lazybee tenant account
           </CardDescription>
         </CardHeader>
         <CardContent>

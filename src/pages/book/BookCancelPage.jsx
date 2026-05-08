@@ -110,7 +110,7 @@ export default function BookCancelPage() {
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm"
           >
             <span className="material-symbols-outlined text-sm">chat</span>
-            WhatsApp Hyve
+            WhatsApp Lazybee
           </a>
         </div>
       </div>
@@ -148,7 +148,7 @@ export default function BookCancelPage() {
   }
 
   const startISO = viewing.slot_start;
-  const propertyName = viewing.property_name || viewing.property || "Hyve";
+  const propertyName = viewing.property_name || viewing.property || "Lazybee";
 
   return (
     <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e] flex items-center justify-center p-6">

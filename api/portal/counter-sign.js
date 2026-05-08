@@ -255,7 +255,7 @@ export default async function handler(req, res) {
         tenantEmail = tenantAuthData?.user?.email ?? null;
       }
 
-      const emailSubject = "Hyve \u2014 Your Signed Licence Agreement";
+      const emailSubject = "Lazybee \u2014 Your Signed Licence Agreement";
       const emailHtml = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <h2 style="color: #006b5f; margin-bottom: 16px;">Your Licence Agreement Has Been Fully Executed</h2>
@@ -271,13 +271,13 @@ export default async function handler(req, res) {
           <p style="color: #888; font-size: 12px;">This download link will expire in 7 days.</p>
           ` : '<p style="color: #888;">The signed document is available in your tenant portal.</p>'}
           <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;" />
-          <p style="color: #999; font-size: 12px;">Hyve Living</p>
+          <p style="color: #999; font-size: 12px;">Lazybee Living</p>
         </div>
       `;
 
       const notifyBaseUrl = process.env.VERCEL_URL
         ? `https://${process.env.VERCEL_URL}`
-        : (process.env.VITE_SITE_URL || "https://hyve.sg");
+        : (process.env.VITE_SITE_URL || "https://lazybee.sg");
       const notifyUrl = `${notifyBaseUrl}/api/portal/notify`;
       const notifyHeaders = {
         "Content-Type": "application/json",

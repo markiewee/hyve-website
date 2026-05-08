@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import { useAuth } from "../../hooks/useAuth";
 import { generateFeeScheduleHtml } from "../../lib/feeSchedule";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { STEP_LABELS, REGISTRATION_STEPS, ONBOARDING_STEPS } from "../../hooks/useOnboarding";
 import { notifyMember } from "../../lib/notify";
+import { confirm } from "../../lib/confirm";
 
 const STEP_BADGE_COLORS = {
   PERSONAL_DETAILS: "bg-[#e6eeff] text-[#555f6f]",
@@ -57,6 +58,7 @@ function formatDate(dateStr) {
 
 export default function AdminOnboardingPage() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { user } = useAuth();
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -132,6 +134,24 @@ export default function AdminOnboardingPage() {
         setOccupiedRoomMap(map);
       });
   }, []);
+
+  // Auto-open invite wizard with prefill when ?invite=1&name=...&room_id=...
+  // (e.g. from "Convert to Member" on AdminViewingDetailPage)
+  useEffect(() => {
+    if (searchParams.get("invite") !== "1") return;
+    const name = searchParams.get("name");
+    const roomId = searchParams.get("room_id");
+    setShowInvite(true);
+    setWizardStep(1);
+    setInviteResult(null);
+    setWizardErrors({});
+    if (name) setInviteUsername(name);
+    if (roomId) setInviteRoomId(roomId);
+    // Strip the params so a refresh doesn't reopen the wizard
+    const sp = new URLSearchParams(searchParams);
+    ["invite", "name", "email", "phone", "room_id"].forEach((k) => sp.delete(k));
+    setSearchParams(sp, { replace: true });
+  }, [searchParams, setSearchParams]);
 
   // Auto-generate ref number when room changes
   useEffect(() => {
@@ -893,7 +913,7 @@ export default function AdminOnboardingPage() {
                         {row.status === "ACTIVE" && (
                           <button
                             onClick={async () => {
-                              if (!confirm("Start offboarding for this tenant?")) return;
+                              if (!await confirm({ title: "Start offboarding for this tenant?" })) return;
                               await supabase.from("onboarding_progress").update({ status: "END_OF_TENANCY", current_step: "END_OF_TENANCY" }).eq("id", row.id);
                               fetchOnboarding();
                             }}
@@ -906,7 +926,7 @@ export default function AdminOnboardingPage() {
                         {row.status !== "ARCHIVED" && row.status !== "MOVED_OUT" && (
                           <button
                             onClick={async () => {
-                              if (!confirm("Archive this tenant? They will be deactivated.")) return;
+                              if (!await confirm({ title: "Archive this tenant? They will be deactivated." })) return;
                               const { error: e1 } = await supabase.from("onboarding_progress").update({ status: "ARCHIVED" }).eq("id", row.id);
                               if (e1) { alert("Archive failed: " + e1.message); return; }
                               const { error: e2 } = await supabase.from("tenant_profiles").update({ is_active: false }).eq("id", row.tenant_profile_id);

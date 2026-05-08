@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import PortalLayout from "../../components/portal/PortalLayout";
+import PageHeader from "../../components/portal/PageHeader";
 import MembersRoster from "../../components/portal/MembersRoster";
 import MembersAlerts from "../../components/portal/MembersAlerts";
 import MembersCaptains from "../../components/portal/MembersCaptains";
@@ -33,22 +34,24 @@ export default function AdminMembersPage() {
 
   return (
     <PortalLayout>
-      <div className="max-w-6xl mx-auto p-4 space-y-4">
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <h1 className="text-2xl font-semibold">Members</h1>
-          <select
-            value={propertyFilter}
-            onChange={(e) => setPropertyFilter(e.target.value)}
-            className="rounded border border-gray-300 px-3 py-1 text-sm"
-          >
-            <option value="ALL">All Properties</option>
-            {allProperties.map((p) => (
-              <option key={p.id} value={p.id}>{p.name}</option>
-            ))}
-          </select>
-        </div>
+      <div className="space-y-4">
+        <PageHeader
+          title="Members"
+          action={
+            <select
+              value={propertyFilter}
+              onChange={(e) => setPropertyFilter(e.target.value)}
+              className="rounded border border-gray-300 px-3 py-1 text-sm"
+            >
+              <option value="ALL">All Properties</option>
+              {allProperties.map((p) => (
+                <option key={p.id} value={p.id}>{p.name}</option>
+              ))}
+            </select>
+          }
+        />
 
-        <div className="flex gap-2 border-b border-gray-200">
+        <div className="flex gap-2 border-b border-[#bbcac6]/30">
           {MODES.map((m) => {
             const dot = m.key === "CLAIMS" && pendingClaimCount > 0;
             return (
@@ -58,13 +61,13 @@ export default function AdminMembersPage() {
                 onClick={() => { setMode(m.key); setCaptainFilter(null); }}
                 className={`relative px-4 py-2 text-sm font-medium ${
                   mode === m.key
-                    ? "border-b-2 border-blue-600 text-blue-700"
-                    : "text-gray-600"
+                    ? "border-b-2 border-[#006b5f] text-[#006b5f]"
+                    : "text-[#6c7a77] hover:text-[#121c2a]"
                 }`}
               >
                 {m.label}
                 {dot && (
-                  <span className="ml-2 inline-flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] px-1.5 py-0.5">
+                  <span className="ml-2 inline-flex items-center justify-center rounded-full bg-[#FF5C5C] text-white text-[10px] px-1.5 py-0.5">
                     {pendingClaimCount}
                   </span>
                 )}

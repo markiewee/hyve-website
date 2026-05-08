@@ -360,7 +360,7 @@ export default function CaptainBadge({ size = "md", className }) {
 
 - [ ] **Step 2: Manual smoke test**
 
-Start dev server: `cd /Users/mark/Desktop/hyve-website && npm run dev`. Temporarily render `<CaptainBadge />` in `DashboardPage.jsx` or a test page. Confirm the pill renders with `🏠 House Captain` text. Remove the temporary import.
+Start dev server: `cd /Users/mark/Desktop/lazybee-website && npm run dev`. Temporarily render `<CaptainBadge />` in `DashboardPage.jsx` or a test page. Confirm the pill renders with `🏠 House Captain` text. Remove the temporary import.
 
 - [ ] **Step 3: Commit**
 
@@ -1971,7 +1971,7 @@ git commit -m "feat(portal): show CaptainBadge on captain-filed tickets"
 - [ ] **Step 1: Run lint**
 
 ```bash
-cd /Users/mark/Desktop/hyve-website && npm run lint
+cd /Users/mark/Desktop/lazybee-website && npm run lint
 ```
 Expected: no errors. Fix any introduced.
 

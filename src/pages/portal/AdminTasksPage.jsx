@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { supabase } from "../../lib/supabase";
+import { confirm } from "../../lib/confirm";
 
 const CATEGORIES = ["MOVE_OUT", "MOVE_IN", "MAINTENANCE", "DOCUMENT", "BILLING", "ONBOARDING", "OTHER"];
 const STATUSES = ["PENDING", "IN_PROGRESS", "COMPLETED", "CANCELLED"];
@@ -52,9 +53,10 @@ function TaskCard({ task, onUpdate, onDelete }) {
         <div className="flex items-center gap-1 shrink-0">
           <select
             value={task.status}
-            onChange={(e) => {
-              if (!confirm(`Are you sure you want to change status to ${e.target.value.replace("_", " ")}?`)) return;
-              onUpdate(task.id, { status: e.target.value, completed_at: e.target.value === "COMPLETED" ? new Date().toISOString() : null });
+            onChange={async (e) => {
+              const next = e.target.value;
+              if (!await confirm({ title: `Change status to ${next.replace("_", " ")}?` })) return;
+              onUpdate(task.id, { status: next, completed_at: next === "COMPLETED" ? new Date().toISOString() : null });
             }}
             className="text-xs bg-transparent border border-[#bbcac6]/30 rounded-lg px-2 py-1 font-['Inter'] text-[#6c7a77] focus:ring-1 focus:ring-[#006b5f] outline-none whitespace-nowrap"
           >

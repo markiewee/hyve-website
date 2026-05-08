@@ -484,7 +484,7 @@ function MoveInProcessSection() {
     { num: '2', title: 'Sign Agreement', desc: 'Choose your room and sign the digital licence agreement.' },
     { num: '3', title: 'Pay Deposit', desc: "Pay security deposit + first month's rent via bank transfer." },
     { num: '4', title: 'Get Access', desc: 'Receive your door code and move-in instructions.' },
-    { num: '5', title: 'Move In', desc: 'Move in on your start date. Welcome to Hyve!' },
+    { num: '5', title: 'Move In', desc: 'Move in on your start date. Welcome to Lazybee!' },
   ];
 
   return (
@@ -512,7 +512,7 @@ function FAQSection() {
     { q: 'Can I have guests overnight?', a: 'Yes, overnight guests are allowed with advance notice to your housemates. Extended stays (3+ nights) require approval.' },
     { q: "What's the WiFi speed?", a: 'All properties have high-speed fibre broadband (300Mbps+). Each room has strong coverage.' },
     { q: 'Is cooking allowed?', a: 'Yes, the shared kitchen is fully equipped. Please clean up after cooking and use the exhaust fan when cooking with strong spices.' },
-    { q: 'How do I report a maintenance issue?', a: 'Submit a ticket through the Hyve tenant portal, or message us on WhatsApp. We aim to respond within 24 hours.' },
+    { q: 'How do I report a maintenance issue?', a: 'Submit a ticket through the Lazybee tenant portal, or message us on WhatsApp. We aim to respond within 24 hours.' },
     { q: 'Can I end my lease early?', a: 'Early termination requires 1 month written notice. The security deposit may be forfeited depending on circumstances.' },
     { q: 'What happens to my deposit?', a: 'Your deposit is fully refundable within 14 days of move-out, subject to a room condition inspection. Deductions apply for damages beyond normal wear and tear.' },
     { q: 'Are utilities included?', a: 'Yes — water, electricity (with a monthly AC allowance), WiFi, and weekly common area cleaning are all included in rent. AC usage above the allowance is charged separately.' },
@@ -600,7 +600,7 @@ export default function StaffResourcePage() {
     <div className="min-h-screen bg-[#f8f9ff] pt-24">
       <SEO
         title="Staff Resource Guide"
-        description="Internal reference for Hyve sales and operations staff."
+        description="Internal reference for Lazybee sales and operations staff."
         noindex={true}
       />
 

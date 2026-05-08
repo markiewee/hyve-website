@@ -13,7 +13,7 @@
 //   GET  /api/booking/auth/callback           → OAuth callback, displays refresh token once
 //   GET  /api/booking/cron                    → runs reminder sweep (CRON_SECRET-gated)
 //
-// Spec: docs/superpowers/specs/2026-05-06-hyve-viewing-booking-v2-design.md
+// Spec: docs/superpowers/specs/2026-05-06-lazybee-viewing-booking-v2-design.md
 
 import { google } from "googleapis";
 import { createClient } from "@supabase/supabase-js";
@@ -299,7 +299,7 @@ async function handleCreate(req, res) {
   // Google Cal event (non-fatal)
   let gcalEventId = null;
   try {
-    const summary = `Hyve Viewing — ${name} @ ${propertyCode}${roomName ? "-" + roomName : ""}`;
+    const summary = `Lazybee Viewing — ${name} @ ${propertyCode}${roomName ? "-" + roomName : ""}`;
     const description = [
       `Prospect: ${name}`,
       email ? `Email: ${email}` : null,
@@ -458,7 +458,7 @@ async function handleAuthCallback(req, res) {
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.setHeader("Cache-Control", "no-store");
     return res.status(200).send(`<!doctype html>
-<html><head><meta charset="utf-8"><title>Hyve OAuth — refresh token</title>
+<html><head><meta charset="utf-8"><title>Lazybee OAuth — refresh token</title>
 <style>
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:760px;margin:48px auto;padding:0 16px;color:#121c2a}
   pre{background:#f3f4f6;padding:16px;border-radius:8px;word-break:break-all;white-space:pre-wrap;font-size:13px}

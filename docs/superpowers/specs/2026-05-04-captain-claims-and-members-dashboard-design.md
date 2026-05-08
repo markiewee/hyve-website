@@ -2,13 +2,13 @@
 
 **Date:** 2026-05-04
 **Status:** Draft → for implementation planning
-**Codebase:** `/Users/mark/Desktop/hyve-website`
+**Codebase:** `/Users/mark/Desktop/lazybee-website`
 
 ---
 
 ## 1. Goal
 
-Three changes to the Hyve portal, all reinforcing the house captain role:
+Three changes to the Lazybee portal, all reinforcing the house captain role:
 
 1. **Captains can submit expense reimbursement claims** — receipt + item photo + category + amount.
 2. **Admin "Members Dashboard"** — single screen showing all tenants by property with mode toggle (Roster / Alerts / Captains / Claims) and property filter.

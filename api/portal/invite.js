@@ -63,7 +63,7 @@ export default async function handler(req, res) {
       return res.status(409).json({ error: "Username already taken" });
     }
 
-    const placeholderEmail = `${cleanUsername}@portal.hyve.sg`;
+    const placeholderEmail = `${cleanUsername}@portal.lazybee.sg`;
     const defaultPassword = crypto.randomBytes(4).toString("hex") + "A1!"; // e.g. "a3f2b1c9A1!"
 
     // Create auth user
@@ -113,7 +113,7 @@ export default async function handler(req, res) {
       profile_id: newProfile.id,
       username: cleanUsername,
       default_password: defaultPassword,
-      login_url: "https://hyve.sg/portal/login",
+      login_url: "https://lazybee.sg/portal/login",
       message: `Tenant can login with username "${cleanUsername}" and password "${defaultPassword}". They will be prompted to set their email on first login.`,
     });
   }
@@ -160,7 +160,7 @@ export default async function handler(req, res) {
     console.error("Error creating onboarding_progress:", onboardingError);
   }
 
-  const invite_url = `https://hyve.sg/portal/signup?token=${invite_token}`;
+  const invite_url = `https://lazybee.sg/portal/signup?token=${invite_token}`;
 
   return res.status(200).json({
     invite_url,

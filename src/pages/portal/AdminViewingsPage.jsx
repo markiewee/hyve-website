@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { PROPERTY_META, PROPERTY_CODES, getPropertyByCode } from "../book/_propertyMeta";
 import { blockSlot, cancelViewingAdmin } from "../book/_bookApi";
+import { confirm } from "../../lib/confirm";
 
 /* ───────────────────────────── helpers ───────────────────────────── */
 
@@ -359,7 +360,7 @@ function ViewingModal({ viewing, onClose, onChanged }) {
   const meta = code ? getPropertyByCode(code) : null;
 
   async function handleCancel() {
-    if (!window.confirm("Cancel this viewing? The prospect will be emailed.")) return;
+    if (!await confirm({ title: "Cancel this viewing? The prospect will be emailed." })) return;
     setCancelling(true);
     setError(null);
     try {
@@ -556,6 +557,7 @@ function LeadsTab() {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState("");
+  const [staleOnly, setStaleOnly] = useState(false);
   const [activeLead, setActiveLead] = useState(null);
   const [hasLeadsTable, setHasLeadsTable] = useState(true);
 
@@ -592,9 +594,17 @@ function LeadsTab() {
   }, []);
 
   const filtered = useMemo(() => {
-    if (!statusFilter) return leads;
-    return leads.filter((l) => l.status === statusFilter);
-  }, [leads, statusFilter]);
+    let out = statusFilter ? leads.filter((l) => l.status === statusFilter) : leads;
+    if (staleOnly) {
+      const cutoff = Date.now() - 3 * 24 * 60 * 60 * 1000;
+      out = out.filter((l) => {
+        if (l.status !== "viewed") return false;
+        const ts = new Date(l.updated_at || l.created_at || 0).getTime();
+        return ts && ts < cutoff;
+      });
+    }
+    return out;
+  }, [leads, statusFilter, staleOnly]);
 
   const counts = useMemo(() => {
     const c = Object.fromEntries(LEAD_STATUSES.map((s) => [s.key, 0]));
@@ -655,6 +665,18 @@ function LeadsTab() {
             </span>
           </button>
         ))}
+        <button
+          onClick={() => setStaleOnly((v) => !v)}
+          title="Viewed leads with no status change for 3+ days"
+          className={`ml-auto px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
+            staleOnly
+              ? "bg-[#FF9D4D] text-white"
+              : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
+          }`}
+        >
+          <span className="material-symbols-outlined text-[14px]">history</span>
+          Pending follow-up
+        </button>
       </div>
 
       {/* Table */}
@@ -893,7 +915,14 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
 /* ───────────────────────────── Page shell ───────────────────────────── */
 
 export default function AdminViewingsPage() {
-  const [tab, setTab] = useState("calendar");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tab = searchParams.get("tab") === "leads" ? "leads" : "calendar";
+  const setTab = (next) => {
+    const sp = new URLSearchParams(searchParams);
+    if (next === "calendar") sp.delete("tab");
+    else sp.set("tab", next);
+    setSearchParams(sp, { replace: true });
+  };
   const [viewings, setViewings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showCopyMenu, setShowCopyMenu] = useState(false);

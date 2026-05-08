@@ -50,7 +50,7 @@ function GuideCard({ icon, title, content }) {
 export default function WelcomeSplash({ onContinue }) {
   const { profile } = useAuth();
   const propertyId = profile?.rooms?.property_id ?? profile?.property_id;
-  const propertyName = profile?.properties?.name ?? "Hyve";
+  const propertyName = profile?.properties?.name ?? "Lazybee";
   const { getSections, getSection, loading } = usePropertyGuides(propertyId);
 
   const welcomeGuides = getSections("welcome_");

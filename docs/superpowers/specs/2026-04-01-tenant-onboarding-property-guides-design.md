@@ -2,19 +2,19 @@
 
 **Date:** 2026-04-01
 **Status:** Draft
-**Domain:** hyve-website.vercel.app (switching to lazybee.sg on April 4)
+**Domain:** lazybee-website.vercel.app (switching to lazybee.sg on April 4)
 
 ---
 
 ## Problem
 
-16 active tenants across 3 Hyve properties have never logged into the tenant portal. Most were bulk-seeded into the IoT DB with incomplete data. Tenants are already asking for documents (signed TAs) and there's no self-service way to access property info, submit issues, or find condo-specific guides (e.g. IH access card replacement). Mark is handling everything manually over WhatsApp.
+16 active tenants across 3 Lazybee properties have never logged into the tenant portal. Most were bulk-seeded into the IoT DB with incomplete data. Tenants are already asking for documents (signed TAs) and there's no self-service way to access property info, submit issues, or find condo-specific guides (e.g. IH access card replacement). Mark is handling everything manually over WhatsApp.
 
 ## Goals
 
 1. Get all active tenants onboarded through the full 7-step portal flow
 2. Add a persistent Property Guide page tenants can access anytime after onboarding
-3. Establish a self-service hierarchy: FAQ → Ticket → Contact Hyve (calling Mark is last resort)
+3. Establish a self-service hierarchy: FAQ → Ticket → Contact Lazybee (calling Mark is last resort)
 4. Assign Edward Jeremy Lo as IH house captain with appropriate permissions
 5. Send invite messages to all IH tenants via Beeper (Claudine sends after Mark approves template)
 
@@ -117,7 +117,7 @@ Rendered as card sections, ordered top to bottom:
 
 | Order | Section | Icon | Content | Source |
 |-------|---------|------|---------|--------|
-| 1 | WiFi | wifi | Network name + password | `property_guides` table (seeded from known values: Network "Hyve", Password "Thehyve2027@") |
+| 1 | WiFi | wifi | Network name + password | `property_guides` table (seeded from known values: Network "Lazybee", Password "Thelazybee2027@") |
 | 2 | Your Property | home | Address, unit number, building info | Property data |
 | 3 | House Captain | person | Name, phone, role description | Auto-populated from HOUSE_CAPTAIN role in tenant_profiles |
 | 4 | Building Guide | badge | Property-specific instructions (IH: access card replacement + stamping service) | `property_guides` table |
@@ -125,7 +125,7 @@ Rendered as card sections, ordered top to bottom:
 | 6 | House Rules | gavel | Re-read the rules they acknowledged during onboarding | Existing `house_rules` table |
 | 7 | FAQ | help | Common questions — AC billing, rent payment, noise policy, guest policy, etc. | `property_guides` table |
 | 8 | Submit an Issue | build | CTA linking to `/portal/issues/new` — for maintenance, repairs, complaints | Static link |
-| 9 | Contact Hyve | support | WhatsApp +65 8088 5410 — with note: "Checked the FAQ and tickets first?" | Static |
+| 9 | Contact Lazybee | support | WhatsApp +65 8088 5410 — with note: "Checked the FAQ and tickets first?" | Static |
 
 ### 2.3 IH Building Guide Content
 
@@ -184,7 +184,7 @@ Shown as the first thing tenants see after creating their account, before step 1
 
 | Order | Section | Icon | Content |
 |-------|---------|------|---------|
-| 1 | Welcome | celebration | "Welcome to Hyve at [Property Name]!" — brief intro |
+| 1 | Welcome | celebration | "Welcome to Lazybee at [Property Name]!" — brief intro |
 | 2 | What to Bring | luggage | Bedding (optional — provided?), personal toiletries, any personal items |
 | 3 | What's Provided | inventory_2 | Furnished room, WiFi, kitchen appliances, washing machine, cleaning supplies |
 | 4 | Check-In Instructions | door_front | Address, how to get there, door code / key collection, security gate instructions |
@@ -217,10 +217,10 @@ Add "My Property" link to the portal sidebar (`PortalLayout.jsx`) for all roles:
 Sent from Claudine via Beeper to each tenant's WhatsApp number. Five messages per tenant:
 
 **Message 1:**
-> Hey [Name]! This is Claudine from Hyve. We've just launched our tenant portal — it's where you'll manage everything for your stay.
+> Hey [Name]! This is Claudine from Lazybee. We've just launched our tenant portal — it's where you'll manage everything for your stay.
 
 **Message 2:**
-> Here's your invite link to set up your account: https://hyve-website.vercel.app/portal/signup?token=[token]
+> Here's your invite link to set up your account: https://lazybee-website.vercel.app/portal/signup?token=[token]
 
 **Message 3:**
 > Once you're in you can:
@@ -242,10 +242,10 @@ Sent from Claudine via Beeper to each tenant's WhatsApp number. Five messages pe
 Edward gets a slightly different message since he's house captain:
 
 **Message 1:**
-> Hey Edward! This is Claudine from Hyve. We've just launched our tenant portal and you've been set up as the house captain for Ivory Heights.
+> Hey Edward! This is Claudine from Lazybee. We've just launched our tenant portal and you've been set up as the house captain for Ivory Heights.
 
 **Message 2:**
-> Here's your invite link: https://hyve-website.vercel.app/portal/signup?token=[token]
+> Here's your invite link: https://lazybee-website.vercel.app/portal/signup?token=[token]
 
 **Message 3:**
 > As house captain you can:
@@ -292,4 +292,4 @@ Parked for a separate spec. Key requirements captured:
 - **No new dependencies required.** Uses existing Supabase client, shadcn/ui components, Material icons.
 - **Portal route addition:** One new route in App.jsx (`/portal/guide` → PropertyGuidePage), one new page component, one new sidebar link.
 - **DB migration:** One new table (`property_guides`) + seed data for IH. Applied via `mcp__supabase__apply_migration`.
-- **Domain:** Links use `hyve-website.vercel.app` until April 4, then `lazybee.sg`.
+- **Domain:** Links use `lazybee-website.vercel.app` until April 4, then `lazybee.sg`.

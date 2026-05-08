@@ -164,7 +164,7 @@ export default function SigningConfirmationPage() {
             </p>
           </div>
           <p className="font-['Manrope'] text-xs text-amber-700 mt-1.5">
-            The Hyve team will countersign your agreement shortly. You'll receive an email once it's fully executed.
+            The Lazybee team will countersign your agreement shortly. You'll receive an email once it's fully executed.
           </p>
         </div>
 

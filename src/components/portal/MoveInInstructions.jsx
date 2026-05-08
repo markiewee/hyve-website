@@ -9,7 +9,7 @@ export default function MoveInInstructions({ advanceStep }) {
 
   const [copied, setCopied] = useState(false);
 
-  const propertyName = profile?.properties?.name ?? "Hyve";
+  const propertyName = profile?.properties?.name ?? "Lazybee";
   const unitCode = profile?.rooms?.unit_code ?? "";
 
   // Parse WiFi data
@@ -316,7 +316,7 @@ export default function MoveInInstructions({ advanceStep }) {
       {/* Footer */}
       <div className="pt-4 border-t border-slate-100 text-center">
         <p className="text-xs text-slate-400 font-medium font-['Inter']">
-          Welcome to {propertyName} • Managed by Hyve
+          Welcome to {propertyName} • Managed by Lazybee
         </p>
       </div>
 

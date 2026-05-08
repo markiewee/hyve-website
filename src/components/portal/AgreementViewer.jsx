@@ -213,7 +213,7 @@ function TenantSignedView({ onboarding }) {
               Waiting for admin counter-signature
             </p>
             <p className="text-xs text-muted-foreground mt-0.5">
-              The Hyve team will countersign your agreement shortly. You'll receive an email once it's fully executed.
+              The Lazybee team will countersign your agreement shortly. You'll receive an email once it's fully executed.
             </p>
           </div>
         </div>

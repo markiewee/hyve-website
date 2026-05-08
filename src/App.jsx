@@ -5,12 +5,12 @@ import './App.css';
 // Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import HomePage from './components/HomePageWithSanity';
-import PropertiesPage from './components/PropertiesPageWithSanity';
-import PropertyDetailPage from './components/PropertyDetailPageWithSanity';
-import LocationsPage from './components/LocationsPageWithSanity';
+import HomePage from './components/HomePage';
+import PropertiesPage from './components/PropertiesPage';
+import PropertyDetailPage from './components/PropertyDetailPage';
+import LocationsPage from './components/LocationsPage';
 import AboutPage from './components/AboutPage';
-import FAQsPage from './components/FAQsPageWithSanity';
+import FAQsPage from './components/FAQsPage';
 import ResidentGuidePage from './components/ResidentGuidePage';
 import ContactPage from './components/ContactPage';
 import BlogPage from './components/BlogPage';
@@ -70,6 +70,9 @@ import PropertyGuidePage from './pages/portal/PropertyGuidePage';
 import InvoiceDetailPage from "./pages/portal/InvoiceDetailPage";
 import AdminInvoicesPage from "./pages/portal/AdminInvoicesPage";
 import AdminMembersPage from './pages/portal/AdminMembersPage';
+import AdminInboxPage from './pages/portal/AdminInboxPage';
+import AdminBillingPage from './pages/portal/AdminBillingPage';
+import { ConfirmHost } from './lib/confirm';
 
 function AppContent() {
   const location = useLocation();
@@ -381,6 +384,30 @@ function AppContent() {
               </AuthGuard>
             }
           />
+          <Route
+            path="/portal/admin/tickets"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <PropertyTicketsPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/inbox"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminInboxPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/billing"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminBillingPage />
+              </AuthGuard>
+            }
+          />
           {/* Investor routes */}
           <Route path="/portal/investor/signup" element={<InvestorSignupPage />} />
           <Route
@@ -429,6 +456,7 @@ function App() {
     <Router>
       <AuthProvider>
         <AppContent />
+        <ConfirmHost />
       </AuthProvider>
     </Router>
   );

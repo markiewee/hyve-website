@@ -34,7 +34,7 @@ const TermsOfService = () => {
 
           <h2>2. Description of Service</h2>
           <p>
-            Hyve provides coliving accommodation services, including but not limited to room 
+            Lazybee provides coliving accommodation services, including but not limited to room 
             rentals, shared living spaces, and related amenities in Singapore.
           </p>
 
@@ -125,7 +125,7 @@ const TermsOfService = () => {
             to the terms specified in their rental agreement.
           </p>
 
-          <h3>By Hyve</h3>
+          <h3>By Lazybee</h3>
           <p>
             We may terminate agreements for violations of these terms, non-payment, or 
             other material breaches.
@@ -156,7 +156,7 @@ const TermsOfService = () => {
             For questions about these Terms of Service, please contact us:
           </p>
           <div className="bg-gray-50 p-4 rounded-lg">
-            <p className="mb-2"><strong>Email:</strong> hello@hyve.sg</p>
+            <p className="mb-2"><strong>Email:</strong> admin@lazybee.sg</p>
             <p className="mb-2"><strong>WhatsApp:</strong> +65 80885410</p>
             <p><strong>Address:</strong> Singapore</p>
           </div>

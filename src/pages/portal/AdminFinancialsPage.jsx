@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
+import { confirm } from "../../lib/confirm";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -367,7 +368,7 @@ export default function AdminFinancialsPage() {
     : null;
 
   async function handleFinalizeMonth() {
-    if (!window.confirm(`Are you sure you want to finalize ${formatMonthLabel(selectedMonth)}? This will lock the P&L into monthly_financials records.`)) {
+    if (!await confirm({ title: `Finalize ${formatMonthLabel(selectedMonth)}?`, description: "This will lock the P&L into monthly_financials records.", destructive: true })) {
       return;
     }
     setFinalizing(true);

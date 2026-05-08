@@ -232,7 +232,7 @@ function HouseRulesCard({ propertyId }) {
 export default function PropertyGuidePage() {
   const { profile } = useAuth();
   const propertyId = profile?.rooms?.property_id ?? profile?.property_id;
-  const propertyName = profile?.properties?.name ?? "Hyve";
+  const propertyName = profile?.properties?.name ?? "Lazybee";
   const { guides, loading, getSection } = usePropertyGuides(propertyId);
 
   const wifi = getSection("wifi");
@@ -291,7 +291,7 @@ export default function PropertyGuidePage() {
                   <span className="material-symbols-outlined text-[#006b5f] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>support</span>
                 </div>
                 <div>
-                  <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#121c2a] mb-1">Contact Hyve</h3>
+                  <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#121c2a] mb-1">Contact Lazybee</h3>
                   <p className="font-['Manrope'] text-xs text-[#6c7a77] mb-2">Checked the FAQ and submitted a ticket first?</p>
                   <a
                     href="https://wa.me/6580885410"

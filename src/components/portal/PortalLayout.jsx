@@ -36,21 +36,41 @@ function useNavLinks(role) {
     const ADMIN_MANAGE_SECTION = {
       label: t("nav.manage"),
       icon: "manage_accounts",
-      children: [
-        { label: t("nav.tasks"), to: "/portal/admin/tasks", icon: "checklist" },
-        { label: t("nav.tickets"), to: "/portal/property/tickets", icon: "confirmation_number" },
-        { label: t("nav.members"), to: "/portal/admin/members", icon: "group" },
-        { label: t("nav.onboarding"), to: "/portal/admin/onboarding", icon: "how_to_reg" },
-        { label: t("nav.rent"), to: "/portal/admin/rent", icon: "receipt_long" },
-        { label: t("nav.documents"), to: "/portal/admin/documents", icon: "description" },
-        { label: t("nav.announcements"), to: "/portal/admin/announcements", icon: "campaign" },
-        { label: t("nav.viewings"), to: "/portal/admin/viewings", icon: "visibility" },
-        { label: t("nav.locks"), to: "/portal/admin/locks", icon: "lock" },
-        { label: t("nav.devices"), to: "/portal/admin/devices", icon: "router" },
-        { label: t("nav.investors"), to: "/portal/admin/investors", icon: "trending_up" },
-        { label: t("nav.expenses"), to: "/portal/admin/expenses", icon: "account_balance" },
-        { label: t("nav.import"), to: "/portal/admin/expenses/import", icon: "upload_file" },
-        { label: t("nav.financials"), to: "/portal/admin/financials", icon: "bar_chart" },
+      groups: [
+        {
+          label: "Today",
+          children: [
+            { label: "Inbox", to: "/portal/admin/inbox", icon: "inbox" },
+            { label: t("nav.tasks"), to: "/portal/admin/tasks", icon: "checklist" },
+            { label: t("nav.announcements"), to: "/portal/admin/announcements", icon: "campaign" },
+          ],
+        },
+        {
+          label: "People",
+          children: [
+            { label: t("nav.members"), to: "/portal/admin/members", icon: "group" },
+            { label: t("nav.onboarding"), to: "/portal/admin/onboarding", icon: "how_to_reg" },
+            { label: t("nav.investors"), to: "/portal/admin/investors", icon: "trending_up" },
+          ],
+        },
+        {
+          label: "Money",
+          children: [
+            { label: "Billing", to: "/portal/admin/billing", icon: "receipt_long" },
+            { label: t("nav.expenses"), to: "/portal/admin/expenses", icon: "account_balance" },
+            { label: t("nav.financials"), to: "/portal/admin/financials", icon: "bar_chart" },
+          ],
+        },
+        {
+          label: "Ops",
+          children: [
+            { label: t("nav.viewings"), to: "/portal/admin/viewings", icon: "visibility" },
+            { label: t("nav.tickets"), to: "/portal/admin/tickets", icon: "confirmation_number" },
+            { label: t("nav.locks"), to: "/portal/admin/locks", icon: "lock" },
+            { label: t("nav.devices"), to: "/portal/admin/devices", icon: "router" },
+            { label: t("nav.documents"), to: "/portal/admin/documents", icon: "description" },
+          ],
+        },
       ],
     };
 
@@ -99,7 +119,11 @@ function NavLink({ link, location, onClick }) {
 }
 
 function AdminDropdown({ link, location, onLinkClick }) {
-  const isChildActive = link.children.some((c) => location.pathname === c.to);
+  // Supports two shapes: legacy `children: [...]` flat list, OR `groups: [{label, children}]` grouped.
+  const allChildren = link.groups
+    ? link.groups.flatMap((g) => g.children)
+    : link.children || [];
+  const isChildActive = allChildren.some((c) => location.pathname === c.to);
   const [open, setOpen] = useState(isChildActive);
 
   return (
@@ -120,9 +144,20 @@ function AdminDropdown({ link, location, onLinkClick }) {
       </button>
       {open && (
         <div className="ml-4 space-y-0.5 border-l border-[#bbcac6]/30 pl-4 mb-1">
-          {link.children.map((child) => (
-            <NavLink key={child.to} link={child} location={location} onClick={onLinkClick} />
-          ))}
+          {link.groups
+            ? link.groups.map((g) => (
+                <div key={g.label} className="mb-2 last:mb-0">
+                  <div className="px-4 pt-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-[#6c7a77]/70 font-['Manrope']">
+                    {g.label}
+                  </div>
+                  {g.children.map((child) => (
+                    <NavLink key={child.to} link={child} location={location} onClick={onLinkClick} />
+                  ))}
+                </div>
+              ))
+            : (link.children || []).map((child) => (
+                <NavLink key={child.to} link={child} location={location} onClick={onLinkClick} />
+              ))}
         </div>
       )}
     </div>
@@ -162,7 +197,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
   const { t } = useLanguage();
   const isSuperAdmin = profile?.role === "SUPER_ADMIN";
   const unitCode = isSuperAdmin ? "" : (profile?.rooms?.unit_code ?? profile?.room_id ?? "");
-  const propertyName = isSuperAdmin ? "Super Admin" : (profile?.properties?.name ?? profile?.rooms?.name ?? "Hyve");
+  const propertyName = isSuperAdmin ? "Super Admin" : (profile?.properties?.name ?? profile?.rooms?.name ?? "Lazybee");
   const displayName = profile?.tenant_details?.full_name ?? profile?.full_name ?? profile?.email ?? t("nav.defaultName");
   const firstName = displayName.split(" ")[0];
 
@@ -171,7 +206,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
       {/* Logo + user profile */}
       <div className="mb-10 px-4">
         <div className="mb-8">
-          <img src="/hyve-logo.png" alt="Hyve" className="h-8" />
+          <img src="/lazybee-logo.png" alt="Lazybee" className="h-8" />
         </div>
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#006b5f] font-bold text-sm shrink-0">
@@ -221,7 +256,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
           <LanguageToggle />
           {onStartTour && (
             <button
-              onClick={() => { localStorage.removeItem("hyve_tour_done"); onStartTour(); }}
+              onClick={() => { localStorage.removeItem("lazybee_tour_done"); onStartTour(); }}
               className="w-full flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#006b5f] text-sm transition-colors"
             >
               <span className="material-symbols-outlined text-[18px]">tour</span>
@@ -252,16 +287,20 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
 function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
   // For dropdown items (e.g. "Manage"), show a button that opens the full sidebar
   // instead of flattening and losing child links
-  const hasDropdown = navLinks.some((link) => link.children);
+  const isDropdown = (l) => l.children || l.groups;
+  const hasDropdown = navLinks.some(isDropdown);
 
   // Top-level links only (no children expansion)
-  const topLinks = navLinks.filter((link) => !link.children);
+  const topLinks = navLinks.filter((link) => !isDropdown(link));
   // Take up to 4 top-level links if there's a dropdown, otherwise up to 5
   const visibleLinks = hasDropdown ? topLinks.slice(0, 4) : topLinks.slice(0, 5);
 
   // Find the first dropdown for the "More" button label/icon
-  const dropdownLink = navLinks.find((link) => link.children);
-  const isDropdownChildActive = dropdownLink?.children?.some((c) => location.pathname === c.to);
+  const dropdownLink = navLinks.find(isDropdown);
+  const dropdownChildren = dropdownLink?.groups
+    ? dropdownLink.groups.flatMap((g) => g.children)
+    : (dropdownLink?.children || []);
+  const isDropdownChildActive = dropdownChildren.some((c) => location.pathname === c.to);
 
   return (
     <div className="md:hidden fixed bottom-0 w-full bg-white border-t border-[#bbcac6]/20 px-6 py-3 flex justify-between items-center z-50">
@@ -311,7 +350,7 @@ export default function PortalLayout({ children }) {
   // Show tour on first visit (non-admin)
   useEffect(() => {
     const isAnyAdmin = profile?.role === "ADMIN" || profile?.role === "SUPER_ADMIN";
-    if (profile && !isAnyAdmin && !localStorage.getItem("hyve_tour_done")) {
+    if (profile && !isAnyAdmin && !localStorage.getItem("lazybee_tour_done")) {
       const timer = setTimeout(() => setShowTour(true), 1000);
       return () => clearTimeout(timer);
     }
@@ -363,7 +402,7 @@ export default function PortalLayout({ children }) {
 
       {/* Main content */}
       <main className="md:ml-64 min-h-screen">
-        <div className="px-6 py-8 lg:px-12 lg:py-10 pb-24 md:pb-10">
+        <div className="px-6 py-8 lg:px-12 lg:py-10 pb-24 md:pb-10 max-w-7xl mx-auto">
           {children}
         </div>
       </main>

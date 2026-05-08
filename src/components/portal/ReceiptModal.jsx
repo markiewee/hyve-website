@@ -5,7 +5,7 @@ function generateReceiptId(dateStr) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const rand = String(Math.floor(1000 + Math.random() * 9000));
-  return `HYVE-${year}-${month}-${rand}`;
+  return `LAZYBEE-${year}-${month}-${rand}`;
 }
 
 function formatDate(dateStr) {
@@ -27,8 +27,8 @@ function formatSGD(amount) {
 // ─── Print-specific stylesheet injected once ──────────────────────────────────
 const PRINT_STYLE = `
 @media print {
-  body > *:not(#hyve-receipt-print-root) { display: none !important; }
-  #hyve-receipt-print-root { display: block !important; position: static !important; }
+  body > *:not(#lazybee-receipt-print-root) { display: none !important; }
+  #lazybee-receipt-print-root { display: block !important; position: static !important; }
   .no-print { display: none !important; }
   .receipt-card {
     box-shadow: none !important;
@@ -44,7 +44,7 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
 
   // Inject print styles once
   useEffect(() => {
-    const id = "hyve-receipt-print-style";
+    const id = "lazybee-receipt-print-style";
     if (!document.getElementById(id)) {
       const style = document.createElement("style");
       style.id = id;
@@ -102,7 +102,7 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
         onClick={onClose}
       >
         <div
-          id="hyve-receipt-print-root"
+          id="lazybee-receipt-print-root"
           className="relative z-50 w-full max-w-lg"
           onClick={(e) => e.stopPropagation()}
         >
@@ -124,7 +124,7 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 pointer-events-none" />
               <div className="relative">
                 <p className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-white tracking-tight">
-                  Hyve Living
+                  Lazybee Living
                 </p>
                 <p className="text-white/60 text-xs mt-0.5 font-['Manrope']">
                   Makery Pte. Ltd. · Singapore

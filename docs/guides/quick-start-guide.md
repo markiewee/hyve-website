@@ -1,4 +1,4 @@
-# Hyve Portal — Quick Start Guide / 快速入门指南
+# Lazybee Portal — Quick Start Guide / 快速入门指南
 
 **Support / 客服:** WhatsApp +65 8088 5410
 
@@ -8,7 +8,7 @@
 
 | Action | English | 中文 |
 |--------|---------|------|
-| **Login** | Go to [hyve.sg/portal/login](https://hyve.sg/portal/login), enter your username and password | 打开 [hyve.sg/portal/login](https://hyve.sg/portal/login)，输入用户名和密码 |
+| **Login** | Go to [lazybee.sg/portal/login](https://lazybee.sg/portal/login), enter your username and password | 打开 [lazybee.sg/portal/login](https://lazybee.sg/portal/login)，输入用户名和密码 |
 | **Dashboard** | After login, view your billing summary, AC usage, and announcements | 登录后查看账单摘要、空调使用情况和公告 |
 | **Pay Rent** | Billing → find current month → Pay Now (Stripe) or bank transfer to DBS 072-905765-8 | 账单 → 找到当月租金 → 立即支付（Stripe）或转账至 DBS 072-905765-8 |
 | **Report Issue** | Issues → Report Issue → select category & location → describe → submit | 问题 → 报告问题 → 选择类别和位置 → 描述 → 提交 |
@@ -16,7 +16,7 @@
 | **Change Password** | Settings → enter new password → Update | 设置 → 输入新密码 → 更新 |
 | **View Agreement** | Documents → find your signed Licence Agreement | 文件 → 查看已签署的许可协议 |
 | **Check AC Usage** | Dashboard → AC usage card shows hours used and remaining | 仪表板 → 空调使用卡片显示已用和剩余小时数 |
-| **Contact Support** | WhatsApp +65 8088 5410 or email admin@hyve.sg | WhatsApp +65 8088 5410 或邮件 admin@hyve.sg |
+| **Contact Support** | WhatsApp +65 8088 5410 or email admin@lazybee.sg | WhatsApp +65 8088 5410 或邮件 admin@lazybee.sg |
 
 ---
 
@@ -49,8 +49,8 @@
 
 | | |
 |---|---|
-| **Network / 网络名** | Hyve WiFi |
-| **Password / 密码** | `Thehyve2027@` |
+| **Network / 网络名** | Lazybee WiFi |
+| **Password / 密码** | `Thelazybee2027@` |
 
 ---
 
@@ -87,4 +87,4 @@
 
 ---
 
-> **Need help? / 需要帮助？** WhatsApp +65 8088 5410 · admin@hyve.sg
+> **Need help? / 需要帮助？** WhatsApp +65 8088 5410 · admin@lazybee.sg

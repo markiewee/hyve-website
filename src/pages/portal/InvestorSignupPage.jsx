@@ -29,7 +29,7 @@ export default function InvestorSignupPage() {
           </h2>
           <p className="font-['Manrope'] text-[#555f6f] text-sm leading-relaxed mb-8">
             This investor invitation link is missing or invalid. Please contact
-            Hyve for a valid invite link.
+            Lazybee for a valid invite link.
           </p>
           <a
             href="/portal/login"
@@ -69,7 +69,7 @@ export default function InvestorSignupPage() {
         <div className="relative z-10 flex flex-col justify-between p-16 w-full h-full">
           <div>
             <span className="font-['Plus_Jakarta_Sans'] text-[#71f8e4] font-extrabold tracking-tighter text-3xl">
-              Hyve Living
+              Lazybee Living
             </span>
           </div>
           <div className="max-w-md">
@@ -135,7 +135,7 @@ export default function InvestorSignupPage() {
           <div className="mb-12">
             <div className="lg:hidden mb-8">
               <span className="font-['Plus_Jakarta_Sans'] text-[#006b5f] font-extrabold tracking-tighter text-2xl">
-                Hyve Living
+                Lazybee Living
               </span>
             </div>
             <h2 className="font-['Plus_Jakarta_Sans'] text-3xl font-bold text-[#121c2a] mb-3 tracking-tight">

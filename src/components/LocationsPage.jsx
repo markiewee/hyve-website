@@ -1,341 +1,326 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Train, ShoppingBag, Coffee, Star, Building } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Badge } from './ui/badge';
-import { Button } from './ui/button';
-import { neighborhoods, properties } from '../data/sampleData';
-import riverValleyImg from '../assets/river_valley_exterior.jpg';
-import orchardImg from '../assets/orchard_building.jpg';
-import tiongBahruImg from '../assets/tiong_bahru_neighborhood.jpg';
-import modernCondoImg from '../assets/modern_condo_exterior.jpg';
+import { client, QUERIES, urlFor } from '../lib/cms';
+import LocationsMapComponent from './LocationsMapComponent';
+import SEO from './SEO';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const LocationsPage = () => {
+  const { t } = useLanguage();
   const [selectedNeighborhood, setSelectedNeighborhood] = useState(null);
+  const [neighborhoods, setNeighborhoods] = useState([]);
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const neighborhoodImages = {
-    'River Valley': riverValleyImg,
-    'Orchard': orchardImg,
-    'Tiong Bahru': tiongBahruImg,
-    'Lentor': modernCondoImg
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [sanityNeighborhoods, sanityProperties] = await Promise.all([
+          client.fetch(QUERIES.neighborhoodsFull),
+          client.fetch(QUERIES.properties)
+        ]);
+
+        if (sanityNeighborhoods && sanityNeighborhoods.length > 0) {
+          setNeighborhoods(sanityNeighborhoods);
+          setProperties(sanityProperties || []);
+        } else {
+          const { neighborhoods: sampleNeighborhoods, properties: sampleProperties } = await import('../data/sampleData');
+          setNeighborhoods(sampleNeighborhoods);
+          setProperties(sampleProperties);
+        }
+      } catch (error) {
+        console.error('Error fetching data from Sanity:', error);
+        const { neighborhoods: sampleNeighborhoods, properties: sampleProperties } = await import('../data/sampleData');
+        setNeighborhoods(sampleNeighborhoods);
+        setProperties(sampleProperties);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const getPropertiesInNeighborhood = (neighborhoodName) => {
-    return properties.filter(property => property.neighborhood === neighborhoodName);
+    return properties.filter(property => {
+      const propNeighborhood = property.neighborhood?.name || property.neighborhood;
+      return propNeighborhood === neighborhoodName;
+    });
   };
 
-  const NeighborhoodCard = ({ neighborhood }) => {
-    const neighborhoodProperties = getPropertiesInNeighborhood(neighborhood.name);
-    const image = neighborhoodImages[neighborhood.name];
-
-    return (
-      <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer">
-        <div className="relative h-64 overflow-hidden">
-          <img
-            src={image}
-            alt={neighborhood.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-          <div className="absolute bottom-4 left-4 text-white">
-            <h3 className="text-2xl font-bold mb-1">{neighborhood.name}</h3>
-            <div className="flex items-center space-x-2">
-              <Badge className="bg-white/20 text-white border-white/30">
-                {neighborhoodProperties.length} properties
-              </Badge>
-              <div className="flex items-center space-x-1">
-                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                <span className="text-sm">4.8</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <CardHeader>
-          <CardDescription className="text-gray-600">
-            {neighborhood.description}
-          </CardDescription>
-        </CardHeader>
-        
-        <CardContent>
-          {/* Highlights */}
-          <div className="mb-4">
-            <h4 className="font-semibold text-gray-900 mb-2">Highlights</h4>
-            <div className="flex flex-wrap gap-2">
-              {neighborhood.highlights.map((highlight, index) => (
-                <Badge key={index} variant="outline" className="text-xs">
-                  {highlight}
-                </Badge>
-              ))}
-            </div>
-          </div>
-          
-          {/* Transport */}
-          <div className="mb-4">
-            <div className="flex items-center space-x-2 mb-2">
-              <Train className="w-4 h-4 text-teal-600" />
-              <h4 className="font-semibold text-gray-900">Transport</h4>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {neighborhood.transport.map((transport, index) => (
-                <Badge key={index} variant="secondary" className="text-xs">
-                  {transport}
-                </Badge>
-              ))}
-            </div>
-          </div>
-          
-          {/* Amenities */}
-          <div className="mb-6">
-            <div className="flex items-center space-x-2 mb-2">
-              <ShoppingBag className="w-4 h-4 text-teal-600" />
-              <h4 className="font-semibold text-gray-900">Nearby Amenities</h4>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {neighborhood.amenities.slice(0, 3).map((amenity, index) => (
-                <Badge key={index} variant="secondary" className="text-xs">
-                  {amenity}
-                </Badge>
-              ))}
-              {neighborhood.amenities.length > 3 && (
-                <Badge variant="secondary" className="text-xs">
-                  +{neighborhood.amenities.length - 3} more
-                </Badge>
-              )}
-            </div>
-          </div>
-          
-          <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-600">
-              Starting from <span className="font-semibold text-teal-600">
-                ${Math.min(...neighborhoodProperties.map(p => p.startingPrice))}/mo
-              </span>
-            </div>
-            <Button 
-              size="sm" 
-              className="bg-teal-600 hover:bg-teal-700"
-              onClick={() => setSelectedNeighborhood(neighborhood)}
-            >
-              Explore Area
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    );
+  const getNeighborhoodImage = (neighborhood) => {
+    if (neighborhood.images?.[0]?.image) {
+      return urlFor(neighborhood.images[0].image).width(800).height(600).url();
+    }
+    return '/photos/tg-hero.jpg';
   };
 
-  const NeighborhoodDetail = ({ neighborhood }) => {
-    const neighborhoodProperties = getPropertiesInNeighborhood(neighborhood.name);
-    const image = neighborhoodImages[neighborhood.name];
-
+  if (loading) {
     return (
-      <div className="space-y-8">
-        {/* Header */}
-        <div className="relative h-96 rounded-2xl overflow-hidden">
-          <img
-            src={image}
-            alt={neighborhood.name}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-          <div className="absolute bottom-8 left-8 text-white">
-            <h1 className="text-5xl font-bold mb-4">{neighborhood.name}</h1>
-            <p className="text-xl text-gray-200 max-w-2xl">
-              {neighborhood.description}
-            </p>
-          </div>
-          <Button
-            variant="secondary"
-            className="absolute top-8 left-8"
-            onClick={() => setSelectedNeighborhood(null)}
-          >
-            ← Back to All Locations
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Properties in this area */}
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Properties in {neighborhood.name}
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {neighborhoodProperties.map((property) => (
-                  <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                    <div className="relative h-48 overflow-hidden">
-                      <img
-                        src={`/src/assets/${property.images[0]}`}
-                        alt={property.name}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute top-4 left-4">
-                        <Badge className="bg-teal-600 text-white">
-                          {property.availableRooms} available
-                        </Badge>
-                      </div>
-                      <div className="absolute top-4 right-4">
-                        <Badge variant="secondary" className="bg-white/90 text-gray-900">
-                          From ${property.startingPrice}/mo
-                        </Badge>
-                      </div>
-                    </div>
-                    
-                    <CardHeader>
-                      <CardTitle className="text-lg">{property.name}</CardTitle>
-                      <CardDescription>
-                        {property.description.substring(0, 100)}...
-                      </CardDescription>
-                    </CardHeader>
-                    
-                    <CardContent>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-1">
-                          <Building className="w-4 h-4 text-gray-400" />
-                          <span className="text-sm text-gray-600">{property.totalRooms} rooms</span>
-                        </div>
-                        <Link to={`/property/${property.id}`}>
-                          <Button size="sm" className="bg-teal-600 hover:bg-teal-700">
-                            View Details
-                          </Button>
-                        </Link>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+      <div className="min-h-screen bg-[#f8f9ff] pt-20">
+        <div className="flex h-[calc(100vh-80px)]">
+          <div className="w-full md:w-[420px] bg-[#eff4ff] p-8 animate-pulse space-y-6">
+            <div className="h-8 bg-slate-200 rounded w-2/3"></div>
+            <div className="h-4 bg-slate-200 rounded w-full"></div>
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="bg-white p-6 rounded-xl space-y-4">
+                <div className="h-6 bg-slate-200 rounded w-1/2"></div>
+                <div className="aspect-[16/9] bg-slate-200 rounded-lg"></div>
+                <div className="h-4 bg-slate-200 rounded w-full"></div>
               </div>
-            </div>
+            ))}
           </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Quick Facts */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Area Highlights</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {neighborhood.highlights.map((highlight, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-teal-600 rounded-full"></div>
-                      <span className="text-sm">{highlight}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Transportation */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Train className="w-5 h-5 text-teal-600" />
-                  <span>Transportation</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {neighborhood.transport.map((transport, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                      <span className="text-sm">{transport}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Amenities */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Coffee className="w-5 h-5 text-teal-600" />
-                  <span>Nearby Amenities</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {neighborhood.amenities.map((amenity, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                      <span className="text-sm">{amenity}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Contact */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Interested in this area?</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Button className="w-full bg-teal-600 hover:bg-teal-700">
-                  Get Area Guide
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+          <div className="hidden md:block flex-1 bg-slate-200 animate-pulse"></div>
         </div>
       </div>
     );
-  };
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {selectedNeighborhood ? (
-          <NeighborhoodDetail neighborhood={selectedNeighborhood} />
-        ) : (
-          <>
-            {/* Header */}
-            <div className="text-center mb-12">
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                Explore Singapore's Best Neighborhoods
+    <div className="min-h-screen bg-[#f8f9ff] pt-20">
+      <SEO
+        title="Co-living Locations in Singapore"
+        description="Discover Lazybee co-living locations across Singapore. Find rooms near MRT stations in Thomson, Hougang, Bukit Batok and more."
+        canonical="/locations"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://www.lazybee.sg" },
+            { "@type": "ListItem", position: 2, name: "Locations", item: "https://www.lazybee.sg/locations" }
+          ]
+        }}
+      />
+      <div className="flex flex-col md:flex-row h-auto md:h-[calc(100vh-80px)]">
+        {/* Side Panel: Area Guides */}
+        <aside className="w-full md:w-[420px] bg-[#eff4ff] md:h-full flex flex-col z-10 shadow-2xl overflow-y-auto scrollbar-hide">
+          <div className="p-6 md:p-8">
+            <header className="mb-8">
+              <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#006b5f] font-bold mb-2 block">
+                {t('public.locations.badge')}
+              </span>
+              <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold tracking-tight text-[#121c2a] leading-tight">
+                {t('public.locations.title')}
               </h1>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Discover the unique character and amenities of each area where our coliving spaces are located
+              <p className="text-[#3c4947] mt-3 leading-relaxed font-['Manrope']">
+                {t('public.locations.subtitle')}
               </p>
+            </header>
+
+            <div className="space-y-6">
+              {neighborhoods.map((neighborhood) => {
+                const neighborhoodProperties = getPropertiesInNeighborhood(neighborhood.name);
+                return (
+                  <div
+                    key={neighborhood._id || neighborhood.name}
+                    className="group bg-white p-6 rounded-xl border border-[rgba(187,202,198,0.15)] hover:shadow-lg transition-all duration-300 cursor-pointer"
+                    onClick={() => setSelectedNeighborhood(neighborhood)}
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <h3 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#121c2a]">
+                          {neighborhood.name}
+                        </h3>
+                        <p className="font-['Inter'] text-sm text-[#555f6f]">
+                          {neighborhoodProperties.length} propert{neighborhoodProperties.length !== 1 ? 'ies' : 'y'}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="aspect-[16/9] rounded-lg overflow-hidden mb-4 relative">
+                      <img
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        src={getNeighborhoodImage(neighborhood)}
+                        alt={neighborhood.name}
+                        loading="lazy"
+                      />
+                    </div>
+
+                    {/* Tags */}
+                    {neighborhood.highlights && neighborhood.highlights.length > 0 && (
+                      <div className="flex gap-2 mb-4 overflow-x-auto scrollbar-hide">
+                        {neighborhood.highlights.slice(0, 3).map((highlight, idx) => (
+                          <div key={idx} className="flex items-center gap-1 bg-[#dee9fc] px-3 py-1 rounded-full whitespace-nowrap">
+                            <span className="text-xs font-['Inter']">{highlight}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <p className="text-sm text-[#3c4947] leading-relaxed">
+                      {neighborhood.description
+                        ? neighborhood.description.substring(0, 120) + '...'
+                        : `Discover ${neighborhood.name}, one of Singapore's most vibrant neighborhoods.`}
+                    </p>
+
+                    {/* Price range */}
+                    {neighborhood.priceRange?.rentRange && (
+                      <p className="mt-3 text-sm font-['Inter'] font-semibold text-[#006b5f]">
+                        {neighborhood.priceRange.rentRange.replace(/(\d[\d,]*)/g, (m, num, offset, str) => {
+                          // Only prepend $ if not already preceded by $
+                          if (offset > 0 && str[offset - 1] === '$') return num;
+                          return '$' + num;
+                        })}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
-            {/* Neighborhoods Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {neighborhoods.map((neighborhood) => (
-                <NeighborhoodCard key={neighborhood.name} neighborhood={neighborhood} />
-              ))}
+            <footer className="mt-12 py-8 text-center">
+              <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-slate-400">
+                &copy; {new Date().getFullYear()} Lazybee Living. Architectural Sanctuary.
+              </p>
+            </footer>
+          </div>
+        </aside>
+
+        {/* Map Area */}
+        <section className="flex-1 relative bg-[#e6eeff]">
+          <LocationsMapComponent
+            properties={properties}
+            neighborhoods={neighborhoods}
+            height="calc(100vh - 80px)"
+            onPropertySelect={(property) => {
+              console.log('Selected property:', property);
+            }}
+          />
+
+        </section>
+      </div>
+
+      {/* Neighborhood Detail Modal */}
+      {selectedNeighborhood && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="relative">
+              <img
+                src={getNeighborhoodImage(selectedNeighborhood)}
+                alt={selectedNeighborhood.name}
+                className="w-full aspect-[3/2] object-cover rounded-t-2xl"
+              />
+              <button
+                className="absolute top-4 right-4 bg-white/90 hover:bg-white p-2 rounded-full transition-colors"
+                onClick={() => setSelectedNeighborhood(null)}
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+              <div className="absolute bottom-6 left-8 text-white">
+                <h2 className="text-3xl font-['Plus_Jakarta_Sans'] font-bold drop-shadow-lg">{selectedNeighborhood.name}</h2>
+              </div>
             </div>
 
-            {/* Map Section Placeholder */}
-            <div className="mt-16">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-2xl text-center">Interactive Map</CardTitle>
-                  <CardDescription className="text-center">
-                    Explore all our locations on an interactive map
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-96 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <div className="text-center">
-                      <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                      <p className="text-gray-600">Interactive map coming soon</p>
-                      <p className="text-sm text-gray-500 mt-2">
-                        Will feature Google Maps 3D integration with property markers
+            <div className="p-6 md:p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold mb-4">{t('public.locations.aboutArea')}</h3>
+                  <p className="text-[#3c4947] mb-6 font-['Manrope'] leading-relaxed">
+                    {selectedNeighborhood.description}
+                  </p>
+
+                  {selectedNeighborhood.highlights && (
+                    <div className="mb-6">
+                      <h4 className="font-['Plus_Jakarta_Sans'] font-bold mb-2">Highlights</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedNeighborhood.highlights.map((highlight, index) => (
+                          <span key={index} className="bg-[#eff4ff] text-[#121c2a] px-3 py-1 rounded-full text-sm font-['Inter']">
+                            {highlight}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  {selectedNeighborhood.transport && selectedNeighborhood.transport.length > 0 && (
+                    <div className="mb-6">
+                      <h4 className="font-['Plus_Jakarta_Sans'] font-bold mb-2 flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[#006b5f]">train</span>
+                        {t('public.locations.transportation')}
+                      </h4>
+                      {selectedNeighborhood.transport.map((transport, index) => (
+                        <p key={index} className="text-sm text-[#3c4947] mb-1 font-['Manrope']">
+                          <strong>{transport.type}:</strong> {transport.description}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+
+                  {selectedNeighborhood.priceRange?.rentRange && (
+                    <div className="mb-6">
+                      <h4 className="font-['Plus_Jakarta_Sans'] font-bold mb-1 flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[#006b5f]">payments</span>
+                        Typical Rent
+                      </h4>
+                      <p className="text-lg font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
+                        {selectedNeighborhood.priceRange.rentRange.replace(/(\d[\d,]*)/g, (m, num, offset, str) => {
+                          if (offset > 0 && str[offset - 1] === '$') return num;
+                          return '$' + num;
+                        })}
                       </p>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  )}
+                </div>
+              </div>
+
+              {/* Properties in this neighborhood */}
+              <div className="border-t border-slate-100 pt-6 mt-4">
+                <h4 className="font-['Plus_Jakarta_Sans'] font-bold mb-4">Available Properties</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {getPropertiesInNeighborhood(selectedNeighborhood.name).map((property) => (
+                    <Link
+                      key={property.id || property._id}
+                      to={`/property/${property.id || property.slug?.current || property._id}`}
+                      className="group bg-[#eff4ff] rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
+                    >
+                      <div className="relative aspect-[3/2]">
+                        <img
+                          src={
+                            property.images?.[0]?.image
+                              ? urlFor(property.images[0].image).width(800).height(600).url()
+                              : `/${property.images?.[0] || 'stock_apart1.png'}`
+                          }
+                          alt={property.name}
+                          loading="lazy"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <span className="absolute top-3 right-3 bg-[#006b5f] text-white px-3 py-1 rounded-full text-xs font-['Inter'] font-bold">
+                          ${property.startingPrice}/mo
+                        </span>
+                      </div>
+                      <div className="p-4">
+                        <h5 className="font-['Plus_Jakarta_Sans'] font-bold mb-1">{property.name}</h5>
+                        <p className="text-sm text-[#555f6f] font-['Manrope']">
+                          {property.availableRooms} rooms available
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-6 flex gap-3">
+                <Link
+                  to="/properties"
+                  className="flex-1 bg-[#006b5f] text-white py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-center hover:opacity-90 transition-all"
+                >
+                  {t('public.locations.viewProperties')}
+                </Link>
+                <button
+                  onClick={() => setSelectedNeighborhood(null)}
+                  className="flex-1 border border-slate-200 py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-center hover:bg-slate-50 transition-all"
+                >
+                  Close
+                </button>
+              </div>
             </div>
-          </>
-        )}
-      </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default LocationsPage;
-

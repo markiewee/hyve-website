@@ -6,7 +6,7 @@
 
 **Architecture:** Supabase migration adds detail columns to `rooms` and `properties` tables. A new React component fetches all data in one query (`properties` with nested `rooms`) and renders property tabs with expandable room cards. Static policy sections (lease terms, move-in process, FAQ) are hardcoded. Page is public but unlisted and noindexed.
 
-**Tech Stack:** React 19, Vite, Tailwind CSS, Supabase (hyve-iot, project `diiilqpfmlxjwiaeophb`), Radix UI Tabs + Accordion, Framer Motion, existing `ui/` component library.
+**Tech Stack:** React 19, Vite, Tailwind CSS, Supabase (lazybee-iot, project `diiilqpfmlxjwiaeophb`), Radix UI Tabs + Accordion, Framer Motion, existing `ui/` component library.
 
 **Spec:** `docs/superpowers/specs/2026-04-25-staff-resource-page-design.md`
 
@@ -139,7 +139,7 @@ ALTER TABLE properties
 **Files:**
 - Modify: Supabase `properties` table data via `mcp__supabase__execute_sql`
 
-Before seeding, check the existing Sanity CMS data and hyve-ops.json for accurate details. Also check `/Users/mark/Desktop/claudine/hyve-photos/` for photo inventory.
+Before seeding, check the existing Sanity CMS data and lazybee-ops.json for accurate details. Also check `/Users/mark/Desktop/claudine/lazybee-photos/` for photo inventory.
 
 - [ ] **Step 1: Seed Chiltern Park (CP)**
 
@@ -208,7 +208,7 @@ Expected: 3 rows, all with populated counts.
 **Files:**
 - Modify: Supabase `rooms` table data via `mcp__supabase__execute_sql`
 
-Before seeding, cross-reference pricing from Sanity CMS data, hyve-ops.json, and current listings. Check tenant_profiles for current occupancy to set `next_available`. Room types are derived from unit_code naming: MR = master, PR = premium, STD = standard.
+Before seeding, cross-reference pricing from Sanity CMS data, lazybee-ops.json, and current listings. Check tenant_profiles for current occupancy to set `next_available`. Room types are derived from unit_code naming: MR = master, PR = premium, STD = standard.
 
 - [ ] **Step 1: Seed Chiltern Park rooms**
 
@@ -276,7 +276,7 @@ UPDATE rooms SET
 WHERE unit_code = 'CP-STD1';
 ```
 
-**Important:** Before running, verify actual prices and room sizes from current listings or hyve-ops.json. The prices above are placeholders — replace with real numbers.
+**Important:** Before running, verify actual prices and room sizes from current listings or lazybee-ops.json. The prices above are placeholders — replace with real numbers.
 
 - [ ] **Step 2: Seed Ivory Heights rooms (7 rooms)**
 
@@ -492,7 +492,7 @@ export default function StaffResourcePage() {
     <div className="min-h-screen bg-[#f8f9ff] pt-24">
       <SEO
         title="Staff Resource Guide"
-        description="Internal reference for Hyve sales and operations staff."
+        description="Internal reference for Lazybee sales and operations staff."
         noindex={true}
       />
 
@@ -802,7 +802,7 @@ function MoveInProcessSection() {
     { num: '2', title: 'Sign Agreement', desc: 'Choose your room and sign the digital licence agreement.' },
     { num: '3', title: 'Pay Deposit', desc: 'Pay security deposit + first month\'s rent via bank transfer.' },
     { num: '4', title: 'Get Access', desc: 'Receive your door code and move-in instructions.' },
-    { num: '5', title: 'Move In', desc: 'Move in on your start date. Welcome to Hyve!' },
+    { num: '5', title: 'Move In', desc: 'Move in on your start date. Welcome to Lazybee!' },
   ];
 
   return (
@@ -830,7 +830,7 @@ function FAQSection() {
     { q: 'Can I have guests overnight?', a: 'Yes, overnight guests are allowed with advance notice to your housemates. Extended stays (3+ nights) require approval.' },
     { q: "What's the WiFi speed?", a: 'All properties have high-speed fibre broadband (300Mbps+). Each room has strong coverage.' },
     { q: 'Is cooking allowed?', a: 'Yes, the shared kitchen is fully equipped. Please clean up after cooking and use the exhaust fan when cooking with strong spices.' },
-    { q: 'How do I report a maintenance issue?', a: 'Submit a ticket through the Hyve tenant portal, or message us on WhatsApp. We aim to respond within 24 hours.' },
+    { q: 'How do I report a maintenance issue?', a: 'Submit a ticket through the Lazybee tenant portal, or message us on WhatsApp. We aim to respond within 24 hours.' },
     { q: 'Can I end my lease early?', a: 'Early termination requires 1 month written notice. The security deposit may be forfeited depending on circumstances.' },
     { q: 'What happens to my deposit?', a: 'Your deposit is fully refundable within 14 days of move-out, subject to a room condition inspection. Deductions apply for damages beyond normal wear and tear.' },
     { q: 'Are utilities included?', a: 'Yes — water, electricity (with a monthly AC allowance), WiFi, and weekly common area cleaning are all included in rent. AC usage above the allowance is charged separately.' },
@@ -862,7 +862,7 @@ function FAQSection() {
 
 - [ ] **Step 5: Verify the file compiles**
 
-Run from `/Users/mark/Desktop/hyve-website`:
+Run from `/Users/mark/Desktop/lazybee-website`:
 ```bash
 npx vite build --mode development 2>&1 | head -20
 ```
@@ -902,7 +902,7 @@ After line 110 (`<Route path="/cookie-policy" element={<CookiePolicy />} />`), a
 - [ ] **Step 3: Start dev server and verify**
 
 ```bash
-cd /Users/mark/Desktop/hyve-website && npm run dev
+cd /Users/mark/Desktop/lazybee-website && npm run dev
 ```
 
 Open `http://localhost:5173/staff` in browser. Verify:

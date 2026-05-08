@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 
 const TOUR_STEPS = [
   {
-    title: "Welcome to Hyve Portal!",
+    title: "Welcome to Lazybee Portal!",
     text: "Let us show you around. This quick tour will help you get familiar with everything.",
     icon: "waving_hand",
     position: "center",
@@ -44,7 +44,7 @@ const TOUR_STEPS = [
   },
   {
     title: "Need Help?",
-    text: "WhatsApp us anytime at +65 8088 5410 or email hello@hyve.sg. We typically respond within an hour. Enjoy your stay!",
+    text: "WhatsApp us anytime at +65 8088 5410 or email admin@lazybee.sg. We typically respond within an hour. Enjoy your stay!",
     icon: "support_agent",
     position: "center",
   },
@@ -85,13 +85,13 @@ export default function PortalTour({ onComplete }) {
     if (step < TOUR_STEPS.length - 1) {
       setStep(s => s + 1);
     } else {
-      localStorage.setItem("hyve_tour_done", "1");
+      localStorage.setItem("lazybee_tour_done", "1");
       onComplete();
     }
   }
 
   function handleSkip() {
-    localStorage.setItem("hyve_tour_done", "1");
+    localStorage.setItem("lazybee_tour_done", "1");
     onComplete();
   }
 

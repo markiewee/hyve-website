@@ -1,8 +1,8 @@
 // ──────────────────────────────────────────────────────────────────────
-// Google Calendar integration for Hyve Viewing Booking V2
+// Google Calendar integration for Lazybee Viewing Booking V2
 //
 // Used by /api/book/* routes to:
-//   - Read busy ranges on the "Hyve Viewings" calendar
+//   - Read busy ranges on the "Lazybee Viewings" calendar
 //   - Compute free 30-min slots within configured booking bands
 //   - Create/cancel events when prospects book/cancel
 //
@@ -49,12 +49,12 @@ function getCalendarClient() {
 }
 
 function getCalendarId() {
-  return env("HYVE_VIEWINGS_CAL_ID");
+  return env("LAZYBEE_VIEWINGS_CAL_ID");
 }
 
 // ── Free/busy lookup ──────────────────────────────────────────────────
 /**
- * Returns busy intervals on the Hyve Viewings calendar between startISO/endISO.
+ * Returns busy intervals on the Lazybee Viewings calendar between startISO/endISO.
  * @param {string} startISO ISO 8601 with timezone
  * @param {string} endISO   ISO 8601 with timezone
  * @returns {Promise<Array<{start: string, end: string}>>}
@@ -76,7 +76,7 @@ export async function listFreeBusy(startISO, endISO) {
 
 // ── Event create / cancel ─────────────────────────────────────────────
 /**
- * Create an event on the Hyve Viewings calendar.
+ * Create an event on the Lazybee Viewings calendar.
  * @param {{summary: string, description?: string, start: string, end: string, attendees?: string[]}} args
  *        start/end are ISO 8601 with offset (e.g. "2026-05-10T11:00:00+08:00")
  * @returns {Promise<{id: string, htmlLink: string}>}
@@ -100,7 +100,7 @@ export async function createEvent({ summary, description = "", start, end, atten
 }
 
 /**
- * Cancel (delete) an event on the Hyve Viewings calendar.
+ * Cancel (delete) an event on the Lazybee Viewings calendar.
  * Idempotent — swallows 404/410 if the event is already gone.
  */
 export async function cancelEvent(eventId) {

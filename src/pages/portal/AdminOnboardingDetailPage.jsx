@@ -9,6 +9,7 @@ import { Button } from "../../components/ui/button";
 import { STEPS, STEP_LABELS } from "../../hooks/useOnboarding";
 import { useAuth } from "../../hooks/useAuth";
 import { notifyMember } from "../../lib/notify";
+import { confirm } from "../../lib/confirm";
 
 function DepositProofImage({ url }) {
   const [signedUrl, setSignedUrl] = useState(null);
@@ -235,7 +236,7 @@ export default function AdminOnboardingDetailPage() {
   }
 
   async function handleMarkChargePaid(chargeId) {
-    if (!confirm("Mark this charge as paid?")) return;
+    if (!await confirm({ title: "Mark this charge as paid?" })) return;
     setChargeActionLoading(chargeId);
     const { error } = await supabase.from("member_charges").update({ status: "PAID", paid_at: new Date().toISOString() }).eq("id", chargeId);
     if (error) {
@@ -1158,7 +1159,7 @@ export default function AdminOnboardingDetailPage() {
                     <span className="text-muted-foreground text-xs font-medium">Email</span>
                     <input
                       type="text"
-                      defaultValue={tenantDetails?.email || `${onboarding.tenant_profiles.username || ""}@portal.hyve.sg`}
+                      defaultValue={tenantDetails?.email || `${onboarding.tenant_profiles.username || ""}@portal.lazybee.sg`}
                       readOnly
                       className="font-mono text-foreground bg-transparent border-0 p-0 focus:outline-none text-xs"
                     />
@@ -1256,7 +1257,7 @@ export default function AdminOnboardingDetailPage() {
                       : "";
 
                     const msg = [
-                      `Hi ${firstName}! We've just launched a new member portal for Hyve 🏠`,
+                      `Hi ${firstName}! We've just launched a new member portal for Lazybee 🏠`,
                       ``,
                       `You can now pay rent, report issues, and view your documents all in one place.`,
                       ``,
@@ -1397,7 +1398,7 @@ export default function AdminOnboardingDetailPage() {
                       setMessage({ type: "error", text: "Please confirm all payments are cleared first." });
                       return;
                     }
-                    if (!confirm("Complete offboarding and archive this member?")) return;
+                    if (!await confirm({ title: "Complete offboarding and archive this member?" })) return;
                     setMoveOutSaving(true);
                     setMessage(null);
                     try {
@@ -1539,7 +1540,7 @@ export default function AdminOnboardingDetailPage() {
                     size="sm"
                     variant="outline"
                     onClick={async () => {
-                      if (!confirm("Start offboarding for this member?")) return;
+                      if (!await confirm({ title: "Start offboarding for this member?" })) return;
                       setActionLoading(true);
                       await supabase.from("onboarding_progress").update({ status: "END_OF_TENANCY", current_step: "END_OF_TENANCY" }).eq("id", id);
                       setMessage({ type: "success", text: "Member marked for offboarding." });
@@ -1566,7 +1567,7 @@ export default function AdminOnboardingDetailPage() {
                     variant="outline"
                     className="border-amber-300 text-amber-700 hover:bg-amber-100"
                     onClick={async () => {
-                      if (!confirm("Archive this member? Their login will be deactivated.")) return;
+                      if (!await confirm({ title: "Archive this member? Their login will be deactivated." })) return;
                       setActionLoading(true);
                       try {
                         const { error: e1 } = await supabase.from("onboarding_progress").update({ status: "ARCHIVED" }).eq("id", id);
@@ -1598,7 +1599,7 @@ export default function AdminOnboardingDetailPage() {
                   size="sm"
                   variant="destructive"
                   onClick={async () => {
-                    if (!confirm("DELETE this member permanently?\n\nThis removes their account, documents, and all data. Cannot be undone.")) return;
+                    if (!await confirm({ title: "DELETE this member permanently?\n\nThis removes their account, documents, and all data. Cannot be undone." })) return;
                     const confirmText = prompt("Type 'delete' to confirm:");
                     if (confirmText?.toLowerCase() !== "delete") { setMessage({ type: "error", text: "Cancelled." }); return; }
                     setActionLoading(true);

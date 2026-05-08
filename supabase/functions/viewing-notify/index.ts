@@ -1,6 +1,6 @@
 // supabase/functions/viewing-notify/index.ts
 //
-// Event-driven viewing notifications for Hyve Booking V2.
+// Event-driven viewing notifications for Lazybee Booking V2.
 //
 // Invocation:
 //   POST { event: <event-type>, viewing_id: <uuid> }
@@ -25,9 +25,9 @@ const supabase = createClient(
 );
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") || "";
-const SENDER = "Hyve Co-living <hello@lazybee.sg>";
-const ADMIN_EMAIL = Deno.env.get("HYVE_ADMIN_EMAIL") || "admin@lazybee.sg";
-const ADMIN_CC = Deno.env.get("HYVE_ADMIN_CC") || "mark@meetmillia.com";
+const SENDER = "Lazybee Co-living <hello@lazybee.sg>";
+const ADMIN_EMAIL = Deno.env.get("LAZYBEE_ADMIN_EMAIL") || "admin@lazybee.sg";
+const ADMIN_CC = Deno.env.get("LAZYBEE_ADMIN_CC") || "mark@meetmillia.com";
 const PUBLIC_SITE_URL = Deno.env.get("PUBLIC_SITE_URL") || "https://lazybee.sg";
 
 // ── Resend helper ─────────────────────────────────────────────────────
@@ -125,11 +125,11 @@ function buildIcs(args: {
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Hyve Co-living//Viewing//EN",
+    "PRODID:-//Lazybee Co-living//Viewing//EN",
     "CALSCALE:GREGORIAN",
     "METHOD:" + (args.status === "CANCELLED" ? "CANCEL" : "REQUEST"),
     "BEGIN:VEVENT",
-    `UID:${args.uid}@hyve.sg`,
+    `UID:${args.uid}@lazybee.sg`,
     `DTSTAMP:${toIcsDateUtc(new Date().toISOString())}`,
     `DTSTART:${toIcsDateUtc(args.start)}`,
     `DTEND:${toIcsDateUtc(args.end)}`,
@@ -171,7 +171,7 @@ function shell(args: { title: string; preheader?: string; bodyHtml: string }): s
     </div>
     <div style="padding:32px;background:white;border-radius:0 0 12px 12px;">
       ${args.bodyHtml}
-      <p style="font-size:12px;color:#bbcac6;margin-top:32px;">— Hyve Co-living · <a href="${PUBLIC_SITE_URL}" style="color:#bbcac6;">lazybee.sg</a></p>
+      <p style="font-size:12px;color:#bbcac6;margin-top:32px;">— Lazybee Co-living · <a href="${PUBLIC_SITE_URL}" style="color:#bbcac6;">lazybee.sg</a></p>
     </div>
   </div>`;
 }
@@ -227,7 +227,7 @@ function tplConfirmation(args: {
   const { viewing, captain, cancelUrl } = args;
   const slotIso = viewing.slot_start || `${viewing.viewing_date}T${viewing.viewing_time}+08:00`;
   const slotEndIso = viewing.slot_end || slotIso;
-  const propertyName = viewing.properties?.name || "Hyve property";
+  const propertyName = viewing.properties?.name || "Lazybee property";
   const propertyAddress = viewing.properties?.address || "";
   const propertyCode = viewing.properties?.code || "";
   const roomName = viewing.rooms?.name || viewing.rooms?.unit_code || "any available room";
@@ -256,8 +256,8 @@ function tplConfirmation(args: {
     uid: viewing.id,
     start: slotIso,
     end: slotEndIso,
-    summary: `Hyve viewing — ${propertyName}`,
-    description: `Hyve room viewing.\nProperty: ${propertyName}\nRoom: ${roomName}\nCaptain: ${captain.name}${captain.phone ? " " + captain.phone : ""}\n\nCancel: ${cancelUrl}`,
+    summary: `Lazybee viewing — ${propertyName}`,
+    description: `Lazybee room viewing.\nProperty: ${propertyName}\nRoom: ${roomName}\nCaptain: ${captain.name}${captain.phone ? " " + captain.phone : ""}\n\nCancel: ${cancelUrl}`,
     location: propertyAddress || propertyName,
     status: "CONFIRMED",
   });
@@ -322,7 +322,7 @@ function tplAdminNotify(args: { viewing: any }) {
     `,
   });
   return {
-    subject: `[Hyve] Viewing: ${viewing.prospect_name} · ${propertyCode} · ${fmtDateTime(slotIso)}`,
+    subject: `[Lazybee] Viewing: ${viewing.prospect_name} · ${propertyCode} · ${fmtDateTime(slotIso)}`,
     html,
   };
 }
@@ -330,14 +330,14 @@ function tplAdminNotify(args: { viewing: any }) {
 function tplReminder24h(args: { viewing: any; cancelUrl: string }) {
   const { viewing, cancelUrl } = args;
   const slotIso = viewing.slot_start || `${viewing.viewing_date}T${viewing.viewing_time}+08:00`;
-  const propertyName = viewing.properties?.name || "Hyve";
+  const propertyName = viewing.properties?.name || "Lazybee";
   const propertyAddress = viewing.properties?.address || "";
   const html = shell({
     title: "Reminder — viewing tomorrow",
     preheader: `${propertyName} on ${fmtDateTime(slotIso)}`,
     bodyHtml: `
       <p style="font-size:16px;color:#121c2a;">Hi ${escapeHtml(viewing.prospect_name || "there")},</p>
-      <p style="font-size:15px;color:#3c4947;">Quick reminder — your Hyve viewing is in about 24 hours.</p>
+      <p style="font-size:15px;color:#3c4947;">Quick reminder — your Lazybee viewing is in about 24 hours.</p>
       ${detailsTable([
         ["When", fmtDateTime(slotIso)],
         ["Property", propertyName],
@@ -354,7 +354,7 @@ function tplReminder24h(args: { viewing: any; cancelUrl: string }) {
 function tplReminder2h(args: { viewing: any; captain: { name: string; phone: string | null } }) {
   const { viewing, captain } = args;
   const slotIso = viewing.slot_start || `${viewing.viewing_date}T${viewing.viewing_time}+08:00`;
-  const propertyName = viewing.properties?.name || "Hyve";
+  const propertyName = viewing.properties?.name || "Lazybee";
   const propertyAddress = viewing.properties?.address || "";
   // Resolution order: per-viewing override → per-room → property default. The
   // property default ensures the prospect gets the code even when no captain
@@ -397,7 +397,7 @@ function tplCancelled(args: { viewing: any; recipientType: "prospect" | "captain
   const { viewing, recipientType } = args;
   const slotIso = viewing.slot_start || `${viewing.viewing_date}T${viewing.viewing_time}+08:00`;
   const slotEndIso = viewing.slot_end || slotIso;
-  const propertyName = viewing.properties?.name || "Hyve";
+  const propertyName = viewing.properties?.name || "Lazybee";
   const propertyCode = viewing.properties?.code || "";
   const roomName = viewing.rooms?.name || viewing.rooms?.unit_code || "(flexible)";
 
@@ -447,7 +447,7 @@ function tplCancelled(args: { viewing: any; recipientType: "prospect" | "captain
                 uid: viewing.id,
                 start: slotIso,
                 end: slotEndIso,
-                summary: `Hyve viewing — ${propertyName}`,
+                summary: `Lazybee viewing — ${propertyName}`,
                 description: "Cancelled.",
                 location: viewing.properties?.address || propertyName,
                 status: "CANCELLED",

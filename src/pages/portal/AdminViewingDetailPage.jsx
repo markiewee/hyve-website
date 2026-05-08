@@ -4,6 +4,7 @@ import { supabase } from "../../lib/supabase";
 import { useAuth } from "../../hooks/useAuth";
 import PortalLayout from "../../components/portal/PortalLayout";
 import AvailabilityGrid from "../../components/viewing/AvailabilityGrid";
+import { confirm } from "../../lib/confirm";
 
 /* ──────────────────────── helpers ──────────────────────── */
 
@@ -175,7 +176,7 @@ export default function AdminViewingDetailPage() {
   }
 
   async function handleResendPoll() {
-    if (!window.confirm("This will delete all existing poll responses. Continue?")) return;
+    if (!await confirm({ title: "This will delete all existing poll responses. Continue?" })) return;
     if (!poll) return;
 
     const newProspectToken = generateToken();
@@ -213,7 +214,7 @@ export default function AdminViewingDetailPage() {
   }
 
   async function handleCancel() {
-    if (!window.confirm("Are you sure?")) return;
+    if (!await confirm({ title: "Are you sure?" })) return;
     const { error: vErr } = await supabase
       .from("property_viewings")
       .update({ status: "CANCELLED", updated_at: new Date().toISOString() })
@@ -295,7 +296,7 @@ export default function AdminViewingDetailPage() {
   if (viewing) {
     timeline.push({
       title: "Viewing Requested",
-      description: `Hyve initiated a viewing request for ${viewing.rooms?.name || "room"} at ${viewing.properties?.name || "property"}`,
+      description: `Lazybee initiated a viewing request for ${viewing.rooms?.name || "room"} at ${viewing.properties?.name || "property"}`,
       time: viewing.created_at,
       type: "created",
     });
@@ -464,6 +465,22 @@ export default function AdminViewingDetailPage() {
               className="bg-[#006b5f] text-white font-bold px-6 py-2.5 rounded-lg text-sm font-['Manrope'] shadow-md shadow-[#006b5f]/20 hover:opacity-90 active:scale-95 transition-all flex items-center gap-2">
               <span className="material-symbols-outlined text-lg">verified</span>
               Force Book
+            </button>
+            <button
+              onClick={() => {
+                const params = new URLSearchParams();
+                params.set("invite", "1");
+                if (viewing.prospect_name) params.set("name", viewing.prospect_name);
+                if (viewing.prospect_email) params.set("email", viewing.prospect_email);
+                if (viewing.prospect_phone) params.set("phone", viewing.prospect_phone);
+                if (viewing.rooms?.id) params.set("room_id", viewing.rooms.id);
+                window.location.href = `/portal/admin/onboarding?${params.toString()}`;
+              }}
+              className="bg-[#FFD24A] text-[#121c2a] font-bold px-6 py-2.5 rounded-lg text-sm font-['Manrope'] shadow-md hover:opacity-90 active:scale-95 transition-all flex items-center gap-2"
+              title="Open onboarding invite wizard pre-filled with this prospect"
+            >
+              <span className="material-symbols-outlined text-lg">person_add</span>
+              Convert to Member
             </button>
           </div>
         </div>

@@ -8,13 +8,13 @@ const AboutPage = () => {
     {
       name: 'Mark Wee',
       role: 'Co-Founder & CEO',
-      bio: 'Visionary leader driving Hyve\'s growth and strategic direction in Singapore\'s coliving market.',
+      bio: 'Visionary leader driving Lazybee\'s growth and strategic direction in Singapore\'s coliving market.',
       photo: '/mark.jpeg'
     },
     {
       name: 'Jason Park',
       role: 'Co-Founder & CTO',
-      bio: 'Operations-driven co-founder managing technology and resident experience across all Hyve properties.',
+      bio: 'Operations-driven co-founder managing technology and resident experience across all Lazybee properties.',
       photo: '/jason.jpeg'
     },
     {
@@ -28,21 +28,21 @@ const AboutPage = () => {
   return (
     <div className="min-h-screen bg-[#f8f9ff] pt-24">
       <SEO
-        title="About Hyve"
-        description="Hyve is Singapore's premium co-living brand. Learn about our mission to create urban sanctuaries for modern professionals."
+        title="About Lazybee"
+        description="Lazybee is Singapore's premium co-living brand. Learn about our mission to create urban sanctuaries for modern professionals."
         canonical="/about"
         schema={{
           "@context": "https://schema.org",
           "@type": "Organization",
-          name: "Hyve",
+          name: "Lazybee",
           legalName: "Makery Pte. Ltd.",
           url: "https://www.lazybee.sg",
-          email: "hello@hyve.sg",
+          email: "admin@lazybee.sg",
           telephone: "+6580885410",
           description: "Singapore's leading co-living operator offering fully furnished rooms from S$950/month across Thomson, Hougang, and Bukit Batok.",
           foundingDate: "2023",
           areaServed: { "@type": "Country", name: "Singapore" },
-          sameAs: ["https://www.instagram.com/hyve.singapore"]
+          sameAs: ["https://www.instagram.com/lazybee.singapore"]
         }}
       />
       {/* Hero Section */}
@@ -55,7 +55,7 @@ const AboutPage = () => {
             Architecting the <span className="text-[#006b5f] italic">future</span> of urban sanctuary.
           </h1>
           <p className="text-[#3c4947] text-lg lg:text-xl leading-relaxed max-w-xl font-['Manrope']">
-            We believe living spaces should be more than a residence. Hyve is a movement toward intentional, community-driven living that honors design and connection.
+            We believe living spaces should be more than a residence. Lazybee is a movement toward intentional, community-driven living that honors design and connection.
           </p>
         </div>
         <div className="relative">
@@ -84,19 +84,19 @@ const AboutPage = () => {
           <div className="grid lg:grid-cols-12 gap-12">
             <div className="lg:col-span-5">
               <h2 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold tracking-tight text-[#121c2a] mb-6">
-                The Hyve Story
+                The Lazybee Story
               </h2>
               <div className="w-20 h-1.5 bg-[#006b5f] rounded-full mb-8"></div>
             </div>
             <div className="lg:col-span-7 space-y-6 text-[#3c4947] text-lg font-['Manrope'] leading-loose">
               <p>
-                Founded in 2023, Hyve was born from a simple observation: young professionals and students in Singapore were seeking connection, not just square footage.
+                Founded in 2023, Lazybee was born from a simple observation: young professionals and students in Singapore were seeking connection, not just square footage.
               </p>
               <p>
                 Our journey began with a small team sketching a model for living that balanced private sanctuary with vibrant shared ecosystems. Today, we operate 3 properties across Singapore&apos;s most vibrant neighborhoods, home to 16 residents and growing, from multiple nationalities.
               </p>
               <p>
-                Everything is designed to foster connection while respecting personal space. From sun-drenched common areas to private, well-appointed rooms, Hyve isn&apos;t just a place to stay &mdash; it&apos;s a curated lifestyle for the modern professional.
+                Everything is designed to foster connection while respecting personal space. From sun-drenched common areas to private, well-appointed rooms, Lazybee isn&apos;t just a place to stay &mdash; it&apos;s a curated lifestyle for the modern professional.
               </p>
             </div>
           </div>
@@ -107,7 +107,7 @@ const AboutPage = () => {
       <section className="py-24 lg:py-32 px-6 md:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-20">
           <h2 className="font-['Plus_Jakarta_Sans'] text-4xl font-extrabold tracking-tight mb-4">Core Pillars</h2>
-          <p className="font-['Manrope'] text-[#3c4947]">The foundation of every Hyve residence.</p>
+          <p className="font-['Manrope'] text-[#3c4947]">The foundation of every Lazybee residence.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
@@ -213,7 +213,7 @@ const AboutPage = () => {
               {t('public.about.exploreLocations')}
             </Link>
             <a
-              href="https://wa.me/6580885410?text=Hi!%20I'm%20interested%20in%20a%20room%20at%20Hyve."
+              href="https://wa.me/6580885410?text=Hi!%20I'm%20interested%20in%20a%20room%20at%20Lazybee."
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#14b8a6]/20 text-white border border-[#71f8e4]/30 backdrop-blur-md px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-extrabold hover:bg-[#14b8a6]/30 transition-colors inline-block"
@@ -224,9 +224,9 @@ const AboutPage = () => {
         </div>
       </section>
       {/* Hidden semantic content for AI crawlers */}
-      <section className="sr-only" aria-label="About Hyve detailed summary">
-        <h2>About Hyve Co-living Singapore</h2>
-        <p>Hyve is operated by Makery Pte. Ltd. and is Singapore&apos;s fastest-growing co-living brand. Founded with the mission to make quality urban living accessible, Hyve manages 19 rooms across 3 properties in Singapore. The brand is known for its all-inclusive pricing model (from S$950/month), zero agent fees, and 3-month minimum lease. Hyve properties are strategically located near MRT stations in Thomson, Hougang, and Bukit Batok, making them ideal for professionals working anywhere in Singapore. Hyve is expanding to Johor Bahru, Malaysia in 2026 with The Pureloft brand.</p>
+      <section className="sr-only" aria-label="About Lazybee detailed summary">
+        <h2>About Lazybee Co-living Singapore</h2>
+        <p>Lazybee is operated by Makery Pte. Ltd. and is Singapore&apos;s fastest-growing co-living brand. Founded with the mission to make quality urban living accessible, Lazybee manages 19 rooms across 3 properties in Singapore. The brand is known for its all-inclusive pricing model (from S$950/month), zero agent fees, and 3-month minimum lease. Lazybee properties are strategically located near MRT stations in Thomson, Hougang, and Bukit Batok, making them ideal for professionals working anywhere in Singapore. Lazybee is expanding to Johor Bahru, Malaysia in 2026 with The Pureloft brand.</p>
       </section>
     </div>
   );

@@ -39,7 +39,7 @@ export default function InvoiceDocument({ invoice }) {
       {/* Header */}
       <div className="flex justify-between items-start mb-8">
         <div>
-          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#006b5f]">HYVE</h1>
+          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#006b5f]">LAZYBEE</h1>
           <p className="font-['Manrope'] text-sm text-[#6c7a77] mt-1">Co-living Singapore</p>
         </div>
         <div className="text-right">

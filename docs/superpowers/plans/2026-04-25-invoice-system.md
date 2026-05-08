@@ -135,7 +135,7 @@ CREATE POLICY "Admin full access line items" ON invoice_line_items FOR ALL
 
 Run:
 ```bash
-cd /Users/mark/Desktop/hyve-website
+cd /Users/mark/Desktop/lazybee-website
 npx supabase db push
 ```
 
@@ -460,7 +460,7 @@ export default function InvoiceDocument({ invoice }) {
       {/* Header */}
       <div className="flex justify-between items-start mb-8">
         <div>
-          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#006b5f]">HYVE</h1>
+          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#006b5f]">LAZYBEE</h1>
           <p className="font-['Manrope'] text-sm text-[#6c7a77] mt-1">Co-living Singapore</p>
         </div>
         <div className="text-right">
@@ -756,8 +756,8 @@ export default async function handler(req, res) {
       invoice_code: invoice.invoice_code,
       type: "invoice",
     },
-    success_url: `https://hyve.sg/portal/billing/${invoice.id}?paid=true`,
-    cancel_url: `https://hyve.sg/portal/billing/${invoice.id}`,
+    success_url: `https://lazybee.sg/portal/billing/${invoice.id}?paid=true`,
+    cancel_url: `https://lazybee.sg/portal/billing/${invoice.id}`,
   };
 
   // Attach Stripe customer if exists
@@ -1665,11 +1665,11 @@ In the `notify-tenant` edge function, add these event type mappings to the exist
 // Add to the event type handling section:
 
 case "INVOICE_ISSUED":
-  subject = `Your Hyve invoice ${details.invoice_code} for $${details.amount} is ready`;
+  subject = `Your Lazybee invoice ${details.invoice_code} for $${details.amount} is ready`;
   html = `<p>Hi ${tenantName},</p>
     <p>Your invoice <strong>${details.invoice_code}</strong> for <strong>$${details.amount}</strong> is ready.</p>
     <p>Due date: ${details.due_date}</p>
-    <p><a href="https://hyve.sg/portal/billing/${details.invoice_id}">View and pay in the portal</a></p>`;
+    <p><a href="https://lazybee.sg/portal/billing/${details.invoice_id}">View and pay in the portal</a></p>`;
   break;
 
 case "INVOICE_UPDATED":
@@ -1677,7 +1677,7 @@ case "INVOICE_UPDATED":
   html = `<p>Hi ${tenantName},</p>
     <p>Your invoice <strong>${details.invoice_code}</strong> has been updated with usage charges.</p>
     <p>New total: <strong>$${details.amount}</strong></p>
-    <p><a href="https://hyve.sg/portal/billing/${details.invoice_id}">View details in the portal</a></p>`;
+    <p><a href="https://lazybee.sg/portal/billing/${details.invoice_id}">View details in the portal</a></p>`;
   break;
 
 case "INVOICE_PAID":
@@ -1693,7 +1693,7 @@ case "INVOICE_OVERDUE":
     <p>Your invoice <strong>${details.invoice_code}</strong> is <strong>${details.days_overdue} days overdue</strong>.</p>
     <p>A late fee of <strong>$${details.late_fee}</strong> has been applied.</p>
     <p>Please settle the outstanding amount as soon as possible.</p>
-    <p><a href="https://hyve.sg/portal/billing/${details.invoice_id}">Pay now in the portal</a></p>`;
+    <p><a href="https://lazybee.sg/portal/billing/${details.invoice_id}">Pay now in the portal</a></p>`;
   break;
 ```
 

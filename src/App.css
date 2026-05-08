@@ -7,8 +7,8 @@
   max-height: none !important;
 }
 
-/* Hyve teal tint on map tiles */
-.hyve-map-tiles {
+/* Lazybee teal tint on map tiles */
+.lazybee-map-tiles {
   filter: hue-rotate(140deg) saturate(0.6) brightness(1.05);
 }
 

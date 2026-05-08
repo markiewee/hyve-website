@@ -151,7 +151,7 @@ Deno.serve(async (_req) => {
           customer: profile.stripe_customer_id,
           collection_method: "send_invoice",
           days_until_due: 14,
-          description: `Hyve AC overage — ${monthLabel}`,
+          description: `Lazybee AC overage — ${monthLabel}`,
           metadata: {
             room_id: room.id,
             month: monthLabel,

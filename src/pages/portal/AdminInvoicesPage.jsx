@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { useAdminInvoices } from "../../hooks/useAdminInvoices";
+import { confirm } from "../../lib/confirm";
 
 function formatSGD(amount) {
   if (amount == null) return "$0.00";
@@ -62,7 +63,7 @@ export default function AdminInvoicesPage() {
   }
 
   async function handleVoid(inv) {
-    if (!window.confirm(`Void invoice ${inv.invoice_code}?`)) return;
+    if (!await confirm({ title: `Void invoice ${inv.invoice_code}?` })) return;
     await voidInvoice(inv.id);
   }
 
