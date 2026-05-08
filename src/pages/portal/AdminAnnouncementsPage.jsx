@@ -48,6 +48,14 @@ export default function AdminAnnouncementsPage() {
 
   useEffect(() => {
     async function fetchData() {
+      // Auto-deactivate any active announcements past their expiry. Cheap one-shot
+      // sweep — runs whenever an admin opens this page, no cron needed.
+      await supabase
+        .from("announcements")
+        .update({ is_active: false })
+        .eq("is_active", true)
+        .lt("expires_at", new Date().toISOString());
+
       const [announcementsRes, propertiesRes] = await Promise.all([
         supabase
           .from("announcements")
