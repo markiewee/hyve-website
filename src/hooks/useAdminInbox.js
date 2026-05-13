@@ -167,23 +167,23 @@ export function useAdminInbox() {
       const { data: expiringLeases } = await supabase
         .from("tenant_profiles")
         .select(
-          "id, lease_end_date, username, tenant_details(full_name), rooms(unit_code)"
+          "id, lease_end, username, tenant_details(full_name), rooms(unit_code)"
         )
-        .lt("lease_end_date", in60d)
-        .gt("lease_end_date", nowIso)
-        .eq("active", true);
+        .lt("lease_end", in60d)
+        .gt("lease_end", nowIso)
+        .eq("is_active", true);
       (expiringLeases ?? []).forEach((tp) => {
         out.push({
           key: `lease-${tp.id}`,
           severity: "amber",
           icon: "event_busy",
           label: `Lease expiring — ${tenantLabel(tp)}`,
-          meta: new Date(tp.lease_end_date).toLocaleDateString("en-SG", {
+          meta: new Date(tp.lease_end).toLocaleDateString("en-SG", {
             day: "numeric",
             month: "short",
           }),
           to: `/portal/admin/members`,
-          time: tp.lease_end_date,
+          time: tp.lease_end,
         });
       });
 
@@ -191,15 +191,15 @@ export function useAdminInbox() {
       const dayAgo = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
       const { data: offlineDevices } = await supabase
         .from("device_status")
-        .select("device_id, last_heartbeat, properties(code), rooms(unit_code)")
+        .select("room_id, last_heartbeat, rooms(unit_code, properties(code))")
         .lt("last_heartbeat", dayAgo);
       (offlineDevices ?? []).forEach((d) => {
         out.push({
-          key: `device-${d.device_id}`,
+          key: `device-${d.room_id}`,
           severity: "info",
           icon: "wifi_off",
-          label: `Device offline — ${d.device_id}`,
-          meta: d.rooms?.unit_code || d.properties?.code,
+          label: `Device offline — ${d.rooms?.unit_code || d.room_id}`,
+          meta: d.rooms?.properties?.code,
           to: "/portal/admin/devices",
           time: d.last_heartbeat,
         });

@@ -95,12 +95,23 @@ export default function AdminDashboardPage() {
           .in("status", OPEN_STATUSES),
         supabase
           .from("device_status")
-          .select("id", { count: "exact", head: true })
+          .select("room_id", { count: "exact", head: true })
           .gte("last_heartbeat", onlineThreshold),
         supabase
           .from("device_status")
-          .select("id", { count: "exact", head: true }),
+          .select("room_id", { count: "exact", head: true }),
       ]);
+
+      const errors = [
+        ["rooms", rooms.error],
+        ["tenants", tenants.error],
+        ["tickets", tickets.error],
+        ["devices_online", devices.error],
+        ["devices_total", allDevices.error],
+      ].filter(([, e]) => e);
+      if (errors.length) {
+        console.error("[AdminDashboard] count query errors:", errors);
+      }
 
       setCounts({
         totalRooms: rooms.count ?? 0,
