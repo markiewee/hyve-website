@@ -39,18 +39,25 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      const sessionUser = session?.user ?? null;
-      setUser(sessionUser);
-      if (sessionUser) {
-        fetchProfile(sessionUser.id)
-          .then((p) => setProfile(p))
-          .catch((e) => console.error("fetchProfile failed", e))
-          .finally(() => setLoading(false));
-      } else {
+    // Watchdog: if anything below stalls (e.g., supabase refresh-token hang),
+    // release the AuthGuard splash after 8s so the user reaches /portal/login.
+    const watchdog = setTimeout(() => setLoading(false), 8000);
+
+    supabase.auth.getSession()
+      .then(({ data: { session } }) => {
+        const sessionUser = session?.user ?? null;
+        setUser(sessionUser);
+        if (sessionUser) {
+          return fetchProfile(sessionUser.id)
+            .then((p) => setProfile(p))
+            .catch((e) => console.error("fetchProfile failed", e));
+        }
+      })
+      .catch((e) => console.error("getSession failed", e))
+      .finally(() => {
+        clearTimeout(watchdog);
         setLoading(false);
-      }
-    });
+      });
 
     const {
       data: { subscription },
