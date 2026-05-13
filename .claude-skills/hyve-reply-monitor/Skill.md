@@ -89,11 +89,19 @@ Viewing intent: {yes/no} → delegate to hyve-viewing-coordinator? (y/n)
 ### Step 8 — On approve
 
 1. `mcp__beeper__send_message(chatID=..., text=approved_draft)`
-2. UPSERT into `leads` via `lib/upsert-lead.js`
-3. If `viewing_intent=true` AND Mark confirmed delegation:
+2. If matched_room_codes has rooms with photos, send them:
+   - `import { resolveRoomPhotos } from "./lib/room-photos.js"`
+   - `import { sendRoomPhotos } from "./lib/send-photos.js"`
+   - `const photos = resolveRoomPhotos(matched_room_codes)` (drops missing)
+   - `await sendRoomPhotos(chatID, photos, { caption: "here's a peek at the room(s):" })`
+   - Photos go as separate image messages via Beeper Desktop Local API
+     (`POST /v1/assets/upload` → `POST /v1/chats/{chatID}/messages` with `attachment.uploadID`).
+   - Requires `BEEPER_API_TOKEN` env var (see Setup section below).
+3. UPSERT into `leads` via `lib/upsert-lead.js`
+4. If `viewing_intent=true` AND Mark confirmed delegation:
    - Invoke `hyve-viewing-coordinator` skill with `{name, phone, chat_id, property_code, matched_room}`
    - On its successful return → set `leads.status = 'viewing_booked'`
-4. Otherwise → set `leads.status = approved_next_status`
+5. Otherwise → set `leads.status = approved_next_status`
 
 ### Step 9 — Stale sweep
 
@@ -138,8 +146,28 @@ Same flow, but:
 
 ## Dependencies
 
-- `mcp__beeper__*` (sweep + send)
+- `mcp__beeper__*` (sweep + send text)
+- Beeper Desktop Local API (image attachments — see Setup below)
 - `humanise-responses` skill (style polish on drafts)
 - `hyve-viewing-coordinator` skill (viewing handoff)
 - Supabase project `diiilqpfmlxjwiaeophb` (PAT at `/Users/mark/Desktop/claudine/.secrets/supabase-pat.txt`)
 - Mark's writing style guide: `~/.claude/projects/-Users-mark-Desktop-claudine/memory/feedback_mark_writing_style.md`
+- Room photos at `~/Desktop/claudine/hyve-photos/{thomson-grove,ivory-heights,chiltern-park}/{STD1,PR2,MBR,...}.jpg`
+
+## Setup — Beeper Desktop Local API
+
+The standard `mcp__beeper__send_message` tool is text-only. To send photos we
+call the Beeper Desktop Local API directly (port 23373):
+
+1. Open Beeper Desktop → Settings → Developers → toggle Local API ON
+2. Copy the generated API token
+3. Export it in your shell (or in the cron env):
+
+   ```
+   export BEEPER_API_TOKEN=<token>
+   ```
+
+4. Verify: `curl -s -o /dev/null -w "%{http_code}\n" -H "Authorization: Bearer $BEEPER_API_TOKEN" http://localhost:23373/v1/chats` → should return 200.
+
+If the token is missing the skill still runs but skips photo sending and
+notes it in the Telegram summary as `photos skipped: BEEPER_API_TOKEN unset`.
