@@ -1,11 +1,17 @@
 // lib/query-rooms.js
 import { createClient } from "@supabase/supabase-js";
+import { buildPricingBlock } from "./lease-pricing.js";
 
-export function matchRooms(rooms, intent) {
-  return rooms.filter((room) => {
+/**
+ * matchRooms filters the rich room rows against the prospect's intent.
+ * Each returned row is decorated with `.pricing` (tier breakdown + early bird).
+ */
+export function matchRooms(rooms, intent, { now = new Date() } = {}) {
+  const filtered = rooms.filter((room) => {
     if (intent.room_type && room.room_type !== intent.room_type) return false;
-    if (intent.budget_max != null && room.monthly_rent > intent.budget_max) return false;
-    if (intent.budget_min != null && room.monthly_rent < intent.budget_min) return false;
+    if (intent.budget_max != null && Number(room.monthly_rent) > intent.budget_max) return false;
+    if (intent.budget_min != null && Number(room.monthly_rent) < intent.budget_min) return false;
+    if (intent.pax != null && room.max_occupancy != null && room.max_occupancy < intent.pax) return false;
     if (
       intent.move_in_date &&
       room.available_from &&
@@ -14,14 +20,18 @@ export function matchRooms(rooms, intent) {
       return false;
     }
     return true;
-  }).slice(0, 3);
+  });
+  return filtered.slice(0, 3).map((room) => ({
+    ...room,
+    pricing: buildPricingBlock(room, now),
+  }));
 }
 
-export async function fetchAndMatch(intent, { supabaseUrl, supabaseKey }) {
+export async function fetchAndMatch(intent, { supabaseUrl, supabaseKey, now } = {}) {
   const sb = createClient(supabaseUrl, supabaseKey);
   const { data: rooms, error } = await sb.rpc("rooms_with_availability");
   if (error) throw error;
-  return matchRooms(rooms || [], intent);
+  return matchRooms(rooms || [], intent, { now });
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
