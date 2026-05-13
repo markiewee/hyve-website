@@ -71,6 +71,7 @@ import InvoiceDetailPage from "./pages/portal/InvoiceDetailPage";
 import AdminInvoicesPage from "./pages/portal/AdminInvoicesPage";
 import AdminMembersPage from './pages/portal/AdminMembersPage';
 import AdminInboxPage from './pages/portal/AdminInboxPage';
+import AdminLeadsPage from './pages/portal/AdminLeadsPage';
 import AdminBillingPage from './pages/portal/AdminBillingPage';
 import { ConfirmHost } from './lib/confirm';
 
@@ -397,6 +398,14 @@ function AppContent() {
             element={
               <AuthGuard requiredRole="ADMIN">
                 <AdminInboxPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/leads"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminLeadsPage />
               </AuthGuard>
             }
           />
