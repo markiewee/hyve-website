@@ -72,6 +72,48 @@ function Detail({ label, value }) {
   );
 }
 
+function computeRoomAvailability(room, tenants, today) {
+  const real = tenants.filter(t => t.is_active && Number(t.monthly_rent) > 0);
+  const current = real.filter(t =>
+    new Date(t.moved_in_at) <= today &&
+    (!t.lease_end || new Date(t.lease_end) >= today)
+  );
+  const future = real
+    .filter(t => new Date(t.moved_in_at) > today)
+    .sort((a, b) => new Date(a.moved_in_at) - new Date(b.moved_in_at));
+
+  const maxOccupancy = room.max_occupancy || 1;
+  let next_available = null;
+  let available_until = null;
+
+  if (current.length >= maxOccupancy) {
+    const earliestEnd = current
+      .map(t => t.lease_end)
+      .filter(Boolean)
+      .sort()[0];
+    if (earliestEnd) {
+      const d = new Date(earliestEnd);
+      d.setDate(d.getDate() + 1);
+      next_available = d.toISOString().slice(0, 10);
+    }
+  } else if (future.length > 0) {
+    const d = new Date(future[0].moved_in_at);
+    d.setDate(d.getDate() - 1);
+    available_until = d.toISOString().slice(0, 10);
+  }
+
+  const upcoming_bookings = future.map(t => ({
+    checkin: t.moved_in_at,
+    checkout: t.lease_end,
+    channel: 'Direct',
+    overlap: maxOccupancy === 1 && current.some(c =>
+      c.lease_end && new Date(t.moved_in_at) < new Date(c.lease_end)
+    ),
+  }));
+
+  return { next_available, available_until, upcoming_bookings };
+}
+
 function getPricingTiers(basePrice) {
   if (!basePrice) return null;
   const base = Number(basePrice);
@@ -275,6 +317,9 @@ function RoomCard({ room }) {
 
 function PropertySection({ property }) {
   const p = property;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const isCurrent = t => t.is_active && Number(t.monthly_rent) > 0 && new Date(t.moved_in_at) <= today;
   return (
     <div className="space-y-8">
       <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
@@ -285,7 +330,7 @@ function PropertySection({ property }) {
           {p.num_bathrooms && <span className="text-[#3c4947]"><span className="font-semibold text-[#121c2a]">{p.num_bathrooms}</span> bathroom{p.num_bathrooms > 1 ? 's' : ''}</span>}
           <span className="text-[#3c4947]">
             <span className="font-semibold text-[#121c2a]">
-              {p.rooms?.reduce((count, r) => count + (r.tenant_profiles?.filter(t => t.is_active && t.monthly_rent > 0).length || 0), 0)}
+              {p.rooms?.reduce((count, r) => count + (r.tenant_profiles?.filter(isCurrent).length || 0), 0)}
             </span> tenants
           </span>
         </div>
@@ -294,7 +339,7 @@ function PropertySection({ property }) {
         {/* Tenant Composition */}
         {(() => {
           const allTenants = p.rooms?.flatMap(r =>
-            (r.tenant_profiles || []).filter(t => t.is_active && t.monthly_rent > 0).map(t => ({
+            (r.tenant_profiles || []).filter(isCurrent).map(t => ({
               ...t,
               nationality: t.tenant_details?.[0]?.nationality,
               name: t.tenant_details?.[0]?.full_name || t.username,
@@ -551,24 +596,31 @@ export default function StaffResourcePage() {
       const [propRes, tenantRes] = await Promise.all([
         supabase.from('properties').select('*, rooms(*)').order('name'),
         supabase.from('tenant_profiles')
-          .select('room_id, username, gender, is_active, monthly_rent, lease_end, tenant_details(full_name, nationality)')
+          .select('room_id, username, gender, is_active, monthly_rent, moved_in_at, lease_end, tenant_details(full_name, nationality)')
           .eq('is_active', true),
       ]);
       if (propRes.error) {
         setError(propRes.error.message);
       } else {
-        // Build tenant lookup by room_id
         const tenantsByRoom = {};
         (tenantRes.data || []).forEach(t => {
           if (!tenantsByRoom[t.room_id]) tenantsByRoom[t.room_id] = [];
           tenantsByRoom[t.room_id].push(t);
         });
-        // Merge tenants into rooms
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
         const sorted = PROPERTY_ORDER.map(code => propRes.data.find(p => p.code === code)).filter(Boolean);
         sorted.forEach(p => {
           if (p.rooms) {
             p.rooms.sort((a, b) => a.unit_code.localeCompare(b.unit_code));
-            p.rooms.forEach(r => { r.tenant_profiles = tenantsByRoom[r.id] || []; });
+            p.rooms.forEach(r => {
+              const roomTenants = tenantsByRoom[r.id] || [];
+              r.tenant_profiles = roomTenants;
+              const avail = computeRoomAvailability(r, roomTenants, today);
+              r.next_available = avail.next_available;
+              r.available_until = avail.available_until;
+              r.upcoming_bookings = avail.upcoming_bookings;
+            });
           }
         });
         setProperties(sorted);
