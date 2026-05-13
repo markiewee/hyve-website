@@ -94,6 +94,33 @@ Status mapping:
 - Intent has budget + move_in + room_type → `qualified`
 - Keywords "view", "viewing", "see the room", "book a slot" in last message → `viewing_intent=true`
 
+#### Viewing logistics (hard rules — NEVER violate)
+
+A viewing **cannot** be confirmed to the prospect until a door-opener has explicitly
+acknowledged the date/time on WhatsApp. Logic:
+
+1. **Mark never shows units.** Don't propose him as door-opener. Don't fall back to
+   "video call with Mark" — those are deprecated.
+2. **Determine the door-opener** in this priority order:
+   - **Room is occupied** (active tenant_profile for that room) → ask the current
+     resident to open. Their schedule comes first.
+   - **Room is empty but property has a house captain** → ask the captain.
+   - **No captain available** → ask another active resident in the same unit who's
+     willing to open.
+3. **Propose 2–3 candidate slots to the door-opener first** via WhatsApp (Beeper).
+   Wait for explicit "yes I can do X" acknowledgement. No assumption. No silence = yes.
+4. **Only after the door-opener acknowledges** do we offer the slot to the prospect.
+5. **Both parties recorded on the viewing** — `property_viewings.captain_id` OR a new
+   `resident_opener_id` field. The viewing reminder thread (T-24h, T-2h) goes to
+   BOTH the prospect AND the door-opener.
+6. **If no door-opener can be confirmed within 24h** of the prospect's request →
+   surface to Mark via Telegram with a one-line ask: "[name] wants to view [room],
+   no one available — your call". Don't auto-promise Mark will show it.
+
+Delegate the door-opener acknowledgement + scheduling to `hyve-viewing-coordinator`
+in Step 8, passing the matched room + property + prospect details. That skill
+owns the captain/resident WhatsApp flow.
+
 ### Step 7 — Present one-by-one
 
 ```
@@ -125,8 +152,16 @@ Viewing intent: {yes/no} → delegate to hyve-viewing-coordinator? (y/n)
    - Requires `BEEPER_API_TOKEN` env var (see Setup section below).
 3. UPSERT into `leads` via `lib/upsert-lead.js`
 4. If `viewing_intent=true` AND Mark confirmed delegation:
-   - Invoke `hyve-viewing-coordinator` skill with `{name, phone, chat_id, property_code, matched_room}`
-   - On its successful return → set `leads.status = 'viewing_booked'`
+   - Invoke `hyve-viewing-coordinator` skill with `{name, phone, chat_id, property_code, matched_room}`.
+   - The coordinator MUST get explicit door-opener acknowledgement (resident or
+     captain — never Mark) before confirming the slot to the prospect. See
+     "Viewing logistics" rules in Step 6.
+   - On its successful return → set `leads.status = 'viewing_booked'` and append
+     `{ type: 'viewing_booked', actor: 'system', when: <slot>, opener: <name> }`
+     to `leads.activity_log`.
+   - If the coordinator returns `door_opener_pending` (no one acknowledged yet) →
+     leave status as `qualified` and append the pending entry; the bump engine
+     will chase the resident/captain.
 5. Otherwise → set `leads.status = approved_next_status`
 
 ### Step 9 — Stale sweep
