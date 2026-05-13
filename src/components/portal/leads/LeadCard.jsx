@@ -1,4 +1,5 @@
 import { useDraggable } from "@dnd-kit/core";
+import { evaluateReadiness } from "@/lib/viewingReadiness";
 
 const SOURCE_BADGES = {
   airbnb: "bg-rose-100 text-rose-700",
@@ -38,6 +39,7 @@ function timeAgo(iso) {
 export function LeadCard({ lead, onClick }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id: lead.id });
   const stale = isStale(lead);
+  const readiness = evaluateReadiness(lead);
 
   const style = transform
     ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`, opacity: isDragging ? 0.5 : 1 }
@@ -64,6 +66,21 @@ export function LeadCard({ lead, onClick }) {
         <span className={`text-[10px] px-1.5 py-0.5 rounded ${badgeClass} whitespace-nowrap`}>
           {lead.source}
         </span>
+      </div>
+
+      <div
+        className={`inline-flex items-center gap-1 mb-1 px-1.5 py-0.5 rounded text-[10px] font-medium ${
+          readiness.ready
+            ? "bg-emerald-100 text-emerald-700"
+            : "bg-amber-50 text-amber-700 border border-amber-200"
+        }`}
+        title={
+          readiness.ready
+            ? "All viewing prerequisites met"
+            : `Missing: ${readiness.missing.join(", ")}`
+        }
+      >
+        {readiness.ready ? "✓ viewing-ready" : `${readiness.met}/${readiness.total} ready`}
       </div>
       {lead.prospect_summary ? (
         <div className="text-xs text-slate-700 line-clamp-3 mb-2 italic">
