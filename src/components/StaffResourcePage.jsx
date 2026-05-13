@@ -83,16 +83,17 @@ function computeRoomAvailability(room, tenants, today) {
     .sort((a, b) => new Date(a.moved_in_at) - new Date(b.moved_in_at));
 
   const maxOccupancy = room.max_occupancy || 1;
+  const latestCurrentEnd = current
+    .map(t => t.lease_end)
+    .filter(Boolean)
+    .sort()
+    .pop();
   let next_available = null;
   let available_until = null;
 
-  if (current.length >= maxOccupancy) {
-    const earliestEnd = current
-      .map(t => t.lease_end)
-      .filter(Boolean)
-      .sort()[0];
-    if (earliestEnd) {
-      const d = new Date(earliestEnd);
+  if (current.length > 0) {
+    if (latestCurrentEnd) {
+      const d = new Date(latestCurrentEnd);
       d.setDate(d.getDate() + 1);
       next_available = d.toISOString().slice(0, 10);
     }
@@ -106,9 +107,8 @@ function computeRoomAvailability(room, tenants, today) {
     checkin: t.moved_in_at,
     checkout: t.lease_end,
     channel: 'Direct',
-    overlap: maxOccupancy === 1 && current.some(c =>
-      c.lease_end && new Date(t.moved_in_at) < new Date(c.lease_end)
-    ),
+    overlap: current.length >= maxOccupancy && !!latestCurrentEnd &&
+      new Date(t.moved_in_at) < new Date(latestCurrentEnd),
   }));
 
   return { next_available, available_until, upcoming_bookings };
