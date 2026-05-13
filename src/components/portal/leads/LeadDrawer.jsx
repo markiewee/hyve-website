@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { evaluateReadiness, REQUIREMENTS } from "@/lib/viewingReadiness";
 
 const STATUSES = [
   "new",
@@ -113,6 +114,8 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
         </SheetHeader>
 
         <div className="space-y-4 mt-4 px-4 pb-6">
+          <ViewingReadinessPanel lead={draft} />
+
           <div>
             <label className="text-xs text-slate-500 block mb-1">Status</label>
             <select
@@ -298,5 +301,53 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
         </div>
       </SheetContent>
     </Sheet>
+  );
+}
+
+function ViewingReadinessPanel({ lead }) {
+  const r = evaluateReadiness(lead);
+  return (
+    <div
+      className={`rounded-md border p-3 ${
+        r.ready ? "bg-emerald-50 border-emerald-200" : "bg-amber-50 border-amber-200"
+      }`}
+    >
+      <div className="flex items-center justify-between mb-2">
+        <div className="text-sm font-semibold">
+          {r.ready ? "Viewing-ready" : "Viewing not yet ready"}
+        </div>
+        <div className="text-xs text-slate-600">
+          {r.met}/{r.total}
+        </div>
+      </div>
+      <ul className="space-y-1">
+        {REQUIREMENTS.map((req) => {
+          const done = r.checks[req.key];
+          return (
+            <li key={req.key} className="flex items-center gap-2 text-xs">
+              <span
+                className={`inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold ${
+                  done
+                    ? "bg-emerald-500 text-white"
+                    : "bg-slate-200 text-slate-500"
+                }`}
+              >
+                {done ? "✓" : ""}
+              </span>
+              <span className={done ? "text-slate-700" : "text-slate-500"}>
+                {req.label}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+      {!r.ready && (
+        <div className="text-[11px] text-amber-700 mt-2">
+          Viewing cannot proceed until all 5 are checked. Mark never opens
+          units — door-opener must be the current resident or a house captain
+          who has acknowledged the slot.
+        </div>
+      )}
+    </div>
   );
 }
