@@ -34,4 +34,24 @@ describe("matchRooms", () => {
     }));
     expect(matchRooms(many, { budget_max: 2000 })).toHaveLength(3);
   });
+
+  it("excludes rooms when pax exceeds max_occupancy", () => {
+    const rs = [
+      { room_code: "TG-STD1", monthly_rent: 800, room_type: "standard", max_occupancy: 1, available_from: "2026-05-01" },
+      { room_code: "CP-MR",   monthly_rent: 2200, room_type: "master",   max_occupancy: 2, available_from: "2026-05-01" },
+    ];
+    const r = matchRooms(rs, { pax: 2, budget_max: 2500 });
+    expect(r.map((x) => x.room_code)).toEqual(["CP-MR"]);
+  });
+
+  it("decorates each result with .pricing tiers + early-bird", () => {
+    const r = matchRooms(
+      [{ room_code: "CP-PR1", monthly_rent: 1500, available_from: "2026-08-12", room_type: "premium" }],
+      { budget_max: 1600 },
+      { now: new Date("2026-05-13T00:00:00Z") }
+    );
+    expect(r[0].pricing.tiers).toHaveLength(4);
+    expect(r[0].pricing.tiers[0]).toEqual({ months: 3, monthly_rent: 1600 });
+    expect(r[0].pricing.early_bird.total_savings).toBe(100);
+  });
 });
