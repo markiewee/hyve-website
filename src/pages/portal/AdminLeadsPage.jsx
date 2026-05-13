@@ -1,6 +1,6 @@
 // src/pages/portal/AdminLeadsPage.jsx
 import { useState } from "react";
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { useLeads } from "@/hooks/useLeads";
 import { LeadColumn } from "@/components/portal/leads/LeadColumn";
 import { LeadDrawer } from "@/components/portal/leads/LeadDrawer";
@@ -24,6 +24,9 @@ export default function AdminLeadsPage() {
   });
   const [selected, setSelected] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Require 8px movement before drag starts — otherwise a click never reaches the card.
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
 
   const columns = showArchived ? [...ACTIVE_STATUSES, ...ARCHIVED_STATUSES] : ACTIVE_STATUSES;
 
@@ -70,7 +73,7 @@ export default function AdminLeadsPage() {
         </div>
       )}
 
-      <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <div className="flex gap-3 overflow-x-auto pb-4">
           {columns.map((status) => (
             <LeadColumn
