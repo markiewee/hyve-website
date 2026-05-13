@@ -96,30 +96,44 @@ Status mapping:
 
 #### Viewing logistics (hard rules — NEVER violate)
 
-A viewing **cannot** be confirmed to the prospect until a door-opener has explicitly
-acknowledged the date/time on WhatsApp. Logic:
+A viewing **cannot** be confirmed to the prospect until both required viewing
+roles have been acknowledged. Two roles per viewing:
 
-1. **Mark never shows units.** Don't propose him as door-opener. Don't fall back to
-   "video call with Mark" — those are deprecated.
-2. **Determine the door-opener** in this priority order:
-   - **Room is occupied** (active tenant_profile for that room) → ask the current
-     resident to open. Their schedule comes first.
-   - **Room is empty but property has a house captain** → ask the captain.
-   - **No captain available** → ask another active resident in the same unit who's
-     willing to open.
-3. **Propose 2–3 candidate slots to the door-opener first** via WhatsApp (Beeper).
-   Wait for explicit "yes I can do X" acknowledgement. No assumption. No silence = yes.
-4. **Only after the door-opener acknowledges** do we offer the slot to the prospect.
-5. **Both parties recorded on the viewing** — `property_viewings.captain_id` OR a new
-   `resident_opener_id` field. The viewing reminder thread (T-24h, T-2h) goes to
-   BOTH the prospect AND the door-opener.
-6. **If no door-opener can be confirmed within 24h** of the prospect's request →
-   surface to Mark via Telegram with a one-line ask: "[name] wants to view [room],
-   no one available — your call". Don't auto-promise Mark will show it.
+- **Door-opener** — physically lets the prospect in (door code or door open).
+- **Shower** — gives the prospect the tour of the room and common areas.
 
-Delegate the door-opener acknowledgement + scheduling to `hyve-viewing-coordinator`
-in Step 8, passing the matched room + property + prospect details. That skill
-owns the captain/resident WhatsApp flow.
+The **same person can fill both roles** — that's the preferred path.
+
+**Priority order for filling these roles:**
+
+1. **In-person (preferred)** — try in this order:
+   - Room occupied → ask the current resident to fill both roles (or split them
+     with a flatmate). They're closest to the room and know it best.
+   - Room empty, property has a house captain → ask the captain to fill both.
+   - No captain → ask another active resident in the same unit.
+   - If two people are needed (e.g. resident opens but can't stay → captain
+     finishes the tour) that's fine, log both `door_opener_ack` and `shower_ack`
+     activity entries.
+2. **Virtual viewing (last resort only)** — if no resident/captain can be
+   secured within 24h, fall back to:
+   - Mark shares the door code remotely (so the prospect lets themselves in).
+   - Mark conducts the tour over WhatsApp video call.
+   - Log one activity entry of type `virtual_viewing_arranged`.
+   - Confirm with Mark via Telegram BEFORE promising this to the prospect.
+   - Frame it to the prospect honestly: "We can do a video walk-through if an
+     in-person slot doesn't line up — let me know what works."
+
+**Acknowledgement rules:**
+
+- Propose 2–3 candidate slots to the host(s) FIRST via Beeper WhatsApp.
+- Wait for explicit "yes I can do X" acknowledgement. No silence = yes.
+- Only after both roles are covered (or virtual is confirmed) do we offer the
+  slot to the prospect.
+- Both hosts AND prospect get the T-24h and T-2h reminder thread.
+
+Delegate to `hyve-viewing-coordinator` in Step 8 passing matched room + property
++ prospect details. That skill owns the resident/captain WhatsApp flow + Mark's
+virtual-fallback confirmation.
 
 ### Step 7 — Present one-by-one
 
@@ -153,15 +167,18 @@ Viewing intent: {yes/no} → delegate to hyve-viewing-coordinator? (y/n)
 3. UPSERT into `leads` via `lib/upsert-lead.js`
 4. If `viewing_intent=true` AND Mark confirmed delegation:
    - Invoke `hyve-viewing-coordinator` skill with `{name, phone, chat_id, property_code, matched_room}`.
-   - The coordinator MUST get explicit door-opener acknowledgement (resident or
-     captain — never Mark) before confirming the slot to the prospect. See
-     "Viewing logistics" rules in Step 6.
-   - On its successful return → set `leads.status = 'viewing_booked'` and append
-     `{ type: 'viewing_booked', actor: 'system', when: <slot>, opener: <name> }`
-     to `leads.activity_log`.
-   - If the coordinator returns `door_opener_pending` (no one acknowledged yet) →
-     leave status as `qualified` and append the pending entry; the bump engine
-     will chase the resident/captain.
+   - The coordinator MUST cover BOTH viewing roles (door-opener + shower) before
+     confirming the slot to the prospect. Priority: in-person resident/captain
+     (preferred) → virtual viewing with Mark (last resort, requires Mark's
+     Telegram confirmation first). See "Viewing logistics" rules in Step 6.
+   - On its successful in-person return → set `leads.status = 'viewing_booked'`
+     and append activity entries `{type:'door_opener_ack', ...}` and
+     `{type:'shower_ack', ...}` (one each, or one row if same person fills both).
+   - On its successful virtual return → set `leads.status = 'viewing_booked'`
+     and append `{type:'virtual_viewing_arranged', actor:'mark', when:<slot>}`.
+   - If neither path resolves within 24h → leave status as `qualified`, append
+     `{type:'viewing_host_pending', missing:['door_opener'|'shower'|'both']}`,
+     surface to Mark via Telegram.
 5. Otherwise → set `leads.status = approved_next_status`
 
 ### Step 9 — Stale sweep

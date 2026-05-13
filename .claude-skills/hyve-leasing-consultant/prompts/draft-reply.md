@@ -53,9 +53,12 @@ commute for you" rather than guessing.
 - Push toward viewing — offer to schedule via the consultant or `lazybee.sg/book`.
 - If photos haven't been sent for the matched room, mention pictures will follow.
 - **Never promise a specific viewing time in the first reply.** Say "I'll come
-  back with 2–3 slots once I've checked with the resident/house captain at
-  [property]" — because we need door-opener acknowledgement before confirming
-  (Mark does not show units).
+  back with 2–3 slots once I've checked with the resident or house captain at
+  [property]" — because we need a viewing host secured before confirming.
+  In-person is the preferred path. If scheduling is tight, the consultant can
+  mention a video walk-through is possible as a backup ("we can also do a
+  short video tour if it's easier") — but never promise specifics until Mark
+  has confirmed the virtual fallback.
 
 ## Use the full room data (don't just quote price)
 

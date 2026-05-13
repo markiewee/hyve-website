@@ -314,7 +314,9 @@ function ViewingReadinessPanel({ lead }) {
     >
       <div className="flex items-center justify-between mb-2">
         <div className="text-sm font-semibold">
-          {r.ready ? "Viewing-ready" : "Viewing not yet ready"}
+          {r.ready
+            ? `Viewing-ready${r.viewingMode === "virtual" ? " (virtual)" : ""}`
+            : "Viewing not yet ready"}
         </div>
         <div className="text-xs text-slate-600">
           {r.met}/{r.total}
@@ -342,10 +344,13 @@ function ViewingReadinessPanel({ lead }) {
         })}
       </ul>
       {!r.ready && (
-        <div className="text-[11px] text-amber-700 mt-2">
-          Viewing cannot proceed until all 5 are checked. Mark never opens
-          units — door-opener must be the current resident or a house captain
-          who has acknowledged the slot.
+        <div className="text-[11px] text-amber-700 mt-2 leading-snug">
+          Viewing cannot proceed until all 5 are checked. Two roles need to be
+          covered: <strong>door-opener</strong> (lets the prospect in) and
+          <strong> shower</strong> (gives the tour) — the same resident or
+          captain can do both. If neither is available, last resort is a
+          <strong> virtual viewing</strong>: Mark shares the door code remotely
+          and conducts the tour over video.
         </div>
       )}
     </div>
