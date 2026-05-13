@@ -227,7 +227,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
       {/* Nav links */}
       <nav className="flex-1 space-y-1 overflow-y-auto scrollbar-hide pr-0">
         {navLinks.map((link) => {
-          if (link.children) {
+          if (link.children || link.groups) {
             return (
               <AdminDropdown
                 key={link.label}
