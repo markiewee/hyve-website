@@ -4,11 +4,14 @@
 --
 -- Common types:
 --   booking_link_sent          — lazybee.sg/book CTA delivered
+--   booking_form_submitted     — prospect filled booking form, slot proposed
 --   reply_sent                 — text reply delivered via Beeper
 --   photos_sent                — room photos delivered via Beeper /v1/assets
 --   bump_sent                  — follow-up nudge fired by bump engine
 --   door_opener_ack            — resident/captain acked door-opener role
 --   shower_ack                 — resident/captain acked shower role
+--   reschedule_proposed        — host can't do prospect's slot, alternates offered
+--   slot_rescheduled           — prospect agreed to a new slot
 --   virtual_viewing_arranged   — last-resort fallback, Mark + code + video
 --   viewing_host_pending       — neither role secured yet, chasing
 --   viewing_booked             — slot confirmed to prospect

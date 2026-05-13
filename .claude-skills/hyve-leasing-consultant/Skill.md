@@ -102,44 +102,51 @@ by phone or chat_id).
 
 #### Viewing logistics (hard rules — NEVER violate)
 
-A viewing **cannot** be confirmed to the prospect until both required viewing
-roles have been acknowledged. Two roles per viewing:
+**Sequence: prospect's preferred slot first → host validates → reschedule only if needed.**
 
-- **Door-opener** — physically lets the prospect in (door code or door open).
-- **Shower** — gives the prospect the tour of the room and common areas.
+The prospect picks their slot via the `lazybee.sg/book` form. That slot is
+the working hypothesis. The skill then chases hosts to validate it.
 
-The **same person can fill both roles** — that's the preferred path.
+Two roles per viewing — **same person can fill both** (preferred):
 
-**Priority order for filling these roles:**
+- **Door-opener** — physically lets the prospect in.
+- **Shower** — gives the room + common-area tour.
 
-1. **In-person (preferred)** — try in this order:
-   - Room occupied → ask the current resident to fill both roles (or split them
-     with a flatmate). They're closest to the room and know it best.
-   - Room empty, property has a house captain → ask the captain to fill both.
-   - No captain → ask another active resident in the same unit.
-   - If two people are needed (e.g. resident opens but can't stay → captain
-     finishes the tour) that's fine, log both `door_opener_ack` and `shower_ack`
-     activity entries.
-2. **Virtual viewing (last resort only)** — if no resident/captain can be
-   secured within 24h, fall back to:
-   - Mark shares the door code remotely (so the prospect lets themselves in).
-   - Mark conducts the tour over WhatsApp video call.
-   - Log one activity entry of type `virtual_viewing_arranged`.
-   - Confirm with Mark via Telegram BEFORE promising this to the prospect.
-   - Frame it to the prospect honestly: "We can do a video walk-through if an
-     in-person slot doesn't line up — let me know what works."
+**Flow (in order):**
 
-**Acknowledgement rules:**
+1. **Prospect submits booking form** → `property_viewings` row created with
+   `slot_start`, `slot_end`. Skill picks it up (Realtime or scheduled poll)
+   and appends `{type:'booking_form_submitted', slot:<ts>}` to `leads.activity_log`.
 
-- Propose 2–3 candidate slots to the host(s) FIRST via Beeper WhatsApp.
-- Wait for explicit "yes I can do X" acknowledgement. No silence = yes.
-- Only after both roles are covered (or virtual is confirmed) do we offer the
-  slot to the prospect.
-- Both hosts AND prospect get the T-24h and T-2h reminder thread.
+2. **Validate the prospect's slot against host availability** — in this order:
+   - Room occupied → message the current resident: "Prospect [name] booked
+     [slot] to view your room. Can you cover door + tour?"
+   - Room empty, captain exists → message captain.
+   - No captain → message another active resident in the same unit.
+   - Get explicit acknowledgement per role. Log `door_opener_ack` and/or
+     `shower_ack`. No silence = yes.
 
-Delegate to `hyve-viewing-coordinator` in Step 8 passing matched room + property
-+ prospect details. That skill owns the resident/captain WhatsApp flow + Mark's
-virtual-fallback confirmation.
+3. **If the proposed slot is confirmed** → reply to prospect with confirmation:
+   address, access detail, host name. Log `viewing_booked`. Status →
+   `viewing_booked`. Done.
+
+4. **If the proposed slot is rejected** → propose 1–2 alternates the host CAN
+   do, message the prospect: "the resident is free [alt 1] or [alt 2] instead
+   — does either work?". Log `reschedule_proposed`. Status stays `qualified`.
+   When prospect picks an alternate → update `property_viewings.slot_start` /
+   `slot_end`, log `slot_rescheduled`, go back to step 3.
+
+5. **Virtual viewing (last resort only)** — only triggered if 24h passes with
+   no host candidate available AND the prospect's slot is firm:
+   - Confirm with Mark via Telegram FIRST. Don't auto-arrange.
+   - On Mark's ack: log `virtual_viewing_arranged`, share door code remotely,
+     Mark conducts the tour over WhatsApp video at the prospect's slot.
+
+**Reminders go to ALL parties** (prospect + door-opener + shower) at T-24h and T-2h.
+
+Delegate to `hyve-viewing-coordinator` in Step 8. That skill owns the
+resident/captain WhatsApp flow + Mark's virtual-fallback confirmation +
+the reschedule loop.
 
 ### Step 7 — Present one-by-one
 
