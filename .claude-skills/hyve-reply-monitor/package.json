@@ -1,0 +1,15 @@
+{
+  "name": "hyve-reply-monitor",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.99.3"
+  },
+  "devDependencies": {
+    "vitest": "^2.0.0"
+  }
+}
