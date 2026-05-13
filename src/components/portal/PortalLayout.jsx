@@ -40,6 +40,7 @@ function useNavLinks(role) {
         {
           label: "Today",
           children: [
+            { label: "Leads", to: "/portal/admin/leads", icon: "track_changes" },
             { label: "Inbox", to: "/portal/admin/inbox", icon: "inbox" },
             { label: t("nav.tasks"), to: "/portal/admin/tasks", icon: "checklist" },
             { label: t("nav.announcements"), to: "/portal/admin/announcements", icon: "campaign" },
