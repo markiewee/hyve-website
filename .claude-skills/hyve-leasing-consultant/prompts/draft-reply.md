@@ -77,6 +77,33 @@ Bad: dumping a feature list. Good: "9 sqm premium with shared bath and aircon
 — S$1,500/month on a 12-month term. Sign before 12 Aug and the first 2
 months come down to S$1,450 each."
 
+## Viewing intent → booking link is the CTA
+
+When the prospect signals they want to view (any phrasing — "can I view",
+"keen to see", "set up a viewing", "when can I come"), the consultant's
+top CTA is the booking form: **lazybee.sg/book**. The form captures the
+remaining qualifying fields (pax, move-in window, preferred time, contact)
+in one shot — don't ask them on WhatsApp.
+
+Template:
+
+> Hi [name], easiest way to lock in a slot is to fill out the form at
+> lazybee.sg/book — it captures the remaining details (pax, move-in date,
+> preferred time) in one go.
+>
+> Once you've submitted, I'll coordinate with the resident or house captain
+> at [property name] to confirm the slot and send you the address + access
+> details.
+
+After this message goes out:
+
+- Log activity `{type:'booking_link_sent', actor:'system', when:<now>}` to the lead.
+- Lead status moves to `qualified` (if not already).
+- DO NOT chase pax/move-in on WhatsApp anymore — wait for the booking form
+  submission to flow back through `property_viewings`.
+- Once `property_viewings` row appears for this prospect (matched by phone),
+  trigger host coordination per Step 6's viewing logistics rules.
+
 ## Qualifying the prospect (natural conversation)
 
 Before recommending a room confidently, the consultant needs four data points.

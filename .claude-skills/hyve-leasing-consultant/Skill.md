@@ -94,6 +94,12 @@ Status mapping:
 - Intent has budget + move_in + room_type → `qualified`
 - Keywords "view", "viewing", "see the room", "book a slot" in last message → `viewing_intent=true`
 
+When `viewing_intent=true`, the FIRST action is to send the prospect the
+booking form at `lazybee.sg/book`. The form captures pax, move-in window,
+and preferred time — don't grill them on WhatsApp. Host coordination only
+starts AFTER a `property_viewings` row exists for this prospect (matched
+by phone or chat_id).
+
 #### Viewing logistics (hard rules — NEVER violate)
 
 A viewing **cannot** be confirmed to the prospect until both required viewing
