@@ -23,38 +23,77 @@ const STATUSES = [
   "cold",
 ];
 
+const PROPERTY_OPTIONS = ["CP", "IH", "TG"];
+const ROOM_TYPE_OPTIONS = [
+  { value: "master", label: "Master" },
+  { value: "premium", label: "Premium" },
+  { value: "standard", label: "Standard" },
+];
+const TENANT_TYPE_OPTIONS = [
+  { value: "", label: "—" },
+  { value: "single", label: "Single" },
+  { value: "couple", label: "Couple" },
+  { value: "group", label: "Group" },
+];
+const LEASE_OPTIONS = [
+  { value: "", label: "—" },
+  { value: 3, label: "3 months" },
+  { value: 6, label: "6 months" },
+  { value: 9, label: "9 months" },
+  { value: 12, label: "12+ months" },
+];
+
+function ChipGroup({ options, selected, onToggle }) {
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {options.map((opt) => {
+        const value = typeof opt === "string" ? opt : opt.value;
+        const label = typeof opt === "string" ? opt : opt.label;
+        const active = selected.includes(value);
+        return (
+          <button
+            key={value}
+            type="button"
+            onClick={() => onToggle(value)}
+            className={`px-2.5 py-1 text-xs rounded-full border transition-colors ${
+              active
+                ? "bg-emerald-100 border-emerald-400 text-emerald-800"
+                : "bg-white border-slate-300 text-slate-600 hover:bg-slate-50"
+            }`}
+          >
+            {label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
   const [draft, setDraft] = useState(lead || {});
-  const [intentText, setIntentText] = useState("{}");
-  const [intentError, setIntentError] = useState(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    if (lead) {
-      setDraft(lead);
-      setIntentText(JSON.stringify(lead.intent || {}, null, 2));
-      setIntentError(null);
-    }
+    if (lead) setDraft(lead);
   }, [lead]);
 
   if (!lead) return null;
 
   const beeperLink = `/open/${encodeURIComponent(lead.chat_id || "")}`;
+  const intent = draft.intent || {};
 
-  function handleIntentChange(e) {
-    const value = e.target.value;
-    setIntentText(value);
-    try {
-      const parsed = JSON.parse(value);
-      setDraft((d) => ({ ...d, intent: parsed }));
-      setIntentError(null);
-    } catch (err) {
-      setIntentError(err.message);
-    }
+  function patchIntent(patch) {
+    setDraft((d) => ({ ...d, intent: { ...(d.intent || {}), ...patch } }));
+  }
+  function toggleArray(key, value) {
+    const current = intent[key] || [];
+    const next = current.includes(value)
+      ? current.filter((v) => v !== value)
+      : [...current, value];
+    patchIntent({ [key]: next });
   }
 
   async function handleSave() {
-    if (intentError) return;
     setSaving(true);
     try {
       await onSave(draft);
@@ -91,6 +130,18 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
 
           <div>
             <label className="text-xs text-slate-500 block mb-1">
+              Prospect summary <span className="text-slate-400">(AI-gleaned, editable)</span>
+            </label>
+            <Textarea
+              rows={3}
+              value={draft.prospect_summary || ""}
+              onChange={(e) => setDraft({ ...draft, prospect_summary: e.target.value })}
+              placeholder="Couple, ~1500 budget, eyeing CP master, July move-in, cat owner."
+            />
+          </div>
+
+          <div>
+            <label className="text-xs text-slate-500 block mb-1">
               Matched rooms (comma-separated)
             </label>
             <input
@@ -109,17 +160,104 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
             />
           </div>
 
-          <div>
-            <label className="text-xs text-slate-500 block mb-1">Intent (JSON)</label>
-            <Textarea
-              rows={8}
-              className="font-mono text-xs"
-              value={intentText}
-              onChange={handleIntentChange}
-            />
-            {intentError && (
-              <div className="text-xs text-red-600 mt-1">Invalid JSON: {intentError}</div>
-            )}
+          <div className="space-y-3 border-t border-slate-200 pt-3">
+            <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Intent
+            </div>
+
+            <div>
+              <label className="text-xs text-slate-500 block mb-1">Property</label>
+              <ChipGroup
+                options={PROPERTY_OPTIONS}
+                selected={intent.properties || []}
+                onToggle={(v) => toggleArray("properties", v)}
+              />
+            </div>
+
+            <div>
+              <label className="text-xs text-slate-500 block mb-1">Room type</label>
+              <ChipGroup
+                options={ROOM_TYPE_OPTIONS}
+                selected={intent.room_types || []}
+                onToggle={(v) => toggleArray("room_types", v)}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs text-slate-500 block mb-1">
+                  Budget max (SGD/mo)
+                </label>
+                <input
+                  type="number"
+                  inputMode="numeric"
+                  className="w-full border rounded px-2 py-1.5 text-sm"
+                  value={intent.budget_max ?? ""}
+                  onChange={(e) =>
+                    patchIntent({
+                      budget_max: e.target.value === "" ? null : Number(e.target.value),
+                    })
+                  }
+                  placeholder="1500"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-slate-500 block mb-1">Move-in date</label>
+                <input
+                  type="date"
+                  className="w-full border rounded px-2 py-1.5 text-sm"
+                  value={intent.move_in || ""}
+                  onChange={(e) => patchIntent({ move_in: e.target.value || null })}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs text-slate-500 block mb-1">Tenant type</label>
+                <select
+                  className="w-full border rounded px-2 py-1.5 text-sm"
+                  value={intent.tenant_type || ""}
+                  onChange={(e) =>
+                    patchIntent({ tenant_type: e.target.value || null })
+                  }
+                >
+                  {TENANT_TYPE_OPTIONS.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="text-xs text-slate-500 block mb-1">Lease length</label>
+                <select
+                  className="w-full border rounded px-2 py-1.5 text-sm"
+                  value={intent.lease_months ?? ""}
+                  onChange={(e) =>
+                    patchIntent({
+                      lease_months:
+                        e.target.value === "" ? null : Number(e.target.value),
+                    })
+                  }
+                >
+                  {LEASE_OPTIONS.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <label className="flex items-center gap-2 text-sm text-slate-700">
+              <input
+                type="checkbox"
+                checked={!!intent.pets_cat}
+                onChange={(e) => patchIntent({ pets_cat: e.target.checked })}
+              />
+              Has a cat
+            </label>
           </div>
 
           <div>
@@ -143,7 +281,7 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
           </div>
 
           <div className="flex gap-2 pt-2">
-            <Button onClick={handleSave} disabled={!!intentError || saving}>
+            <Button onClick={handleSave} disabled={saving}>
               {saving ? "Saving…" : "Save"}
             </Button>
             {lead.chat_id && (
