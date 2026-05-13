@@ -43,10 +43,10 @@ export function AuthProvider({ children }) {
       const sessionUser = session?.user ?? null;
       setUser(sessionUser);
       if (sessionUser) {
-        fetchProfile(sessionUser.id).then((p) => {
-          setProfile(p);
-          setLoading(false);
-        });
+        fetchProfile(sessionUser.id)
+          .then((p) => setProfile(p))
+          .catch((e) => console.error("fetchProfile failed", e))
+          .finally(() => setLoading(false));
       } else {
         setLoading(false);
       }
@@ -58,7 +58,9 @@ export function AuthProvider({ children }) {
       const sessionUser = session?.user ?? null;
       setUser(sessionUser);
       if (sessionUser) {
-        fetchProfile(sessionUser.id).then(setProfile);
+        fetchProfile(sessionUser.id)
+          .then(setProfile)
+          .catch((e) => console.error("fetchProfile (onAuthStateChange) failed", e));
       } else {
         setProfile(null);
       }
