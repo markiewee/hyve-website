@@ -65,11 +65,15 @@ export function LeadCard({ lead, onClick }) {
           {lead.source}
         </span>
       </div>
-      {lead.last_message_excerpt && (
+      {lead.prospect_summary ? (
+        <div className="text-xs text-slate-700 line-clamp-3 mb-2 italic">
+          {lead.prospect_summary}
+        </div>
+      ) : lead.last_message_excerpt ? (
         <div className="text-xs text-slate-600 line-clamp-2 mb-2">
           {lead.last_message_excerpt}
         </div>
-      )}
+      ) : null}
       {lead.matched_room_codes?.length > 0 && (
         <div className="text-[11px] text-slate-500 mb-1">
           {lead.matched_room_codes.join(", ")}

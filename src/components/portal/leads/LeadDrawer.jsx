@@ -130,6 +130,18 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
 
           <div>
             <label className="text-xs text-slate-500 block mb-1">
+              Prospect summary <span className="text-slate-400">(AI-gleaned, editable)</span>
+            </label>
+            <Textarea
+              rows={3}
+              value={draft.prospect_summary || ""}
+              onChange={(e) => setDraft({ ...draft, prospect_summary: e.target.value })}
+              placeholder="Couple, ~1500 budget, eyeing CP master, July move-in, cat owner."
+            />
+          </div>
+
+          <div>
+            <label className="text-xs text-slate-500 block mb-1">
               Matched rooms (comma-separated)
             </label>
             <input

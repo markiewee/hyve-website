@@ -5,6 +5,7 @@ const FIELDS = [
   "chat_id", "name", "phone", "source", "intent",
   "matched_room_codes", "status", "last_message_at",
   "last_reply_at", "last_message_excerpt", "notes",
+  "prospect_summary",
 ];
 
 export function buildUpsertPayload(input) {

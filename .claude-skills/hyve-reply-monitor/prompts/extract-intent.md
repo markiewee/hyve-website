@@ -15,6 +15,7 @@ Given the last 10 messages of a Hyve prospect chat, extract structured intent.
   "pets": null | boolean,
   "cooking": null | boolean,
   "profile_notes": "free text — nationality, profession, household composition",
+  "prospect_summary": "1-2 sentence brief in admin's voice, surfaced on the Kanban card",
   "extracted_at": "<ISO>",
   "extraction_confidence": "high" | "medium" | "low"
 }
@@ -29,6 +30,7 @@ Given the last 10 messages of a Hyve prospect chat, extract structured intent.
 - `lease_months`: "1 year" → 12, "6 months" → 6, "as long as possible" → null.
 - `location_prefs`: lowercase free-form ("lorong chuan", "near MRT").
 - `pets`: true if cat/dog/pet mentioned; false if explicitly no pets; null otherwise.
+- `prospect_summary`: 1-2 short sentences gleaned FROM what the prospect said. Admin's voice (third-person, factual, no greetings). Example: "Couple from PH, ~1500 budget, eyeing CP master, July 1 move-in, cat owner." If nothing useful was said, use empty string "".
 - `extraction_confidence`:
   - high: budget + move_in + room_type all present + unambiguous
   - medium: 1-2 fields
