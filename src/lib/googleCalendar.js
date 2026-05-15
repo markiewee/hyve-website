@@ -49,7 +49,13 @@ function getCalendarClient() {
 }
 
 function getCalendarId() {
-  return env("LAZYBEE_VIEWINGS_CAL_ID");
+  // Support both env names during the Hyve→Lazybee rename. Drop HYVE_ once
+  // master has the LAZYBEE_ alias deployed everywhere.
+  return (
+    process.env.LAZYBEE_VIEWINGS_CAL_ID ||
+    process.env.HYVE_VIEWINGS_CAL_ID ||
+    env("LAZYBEE_VIEWINGS_CAL_ID")
+  );
 }
 
 // ── Free/busy lookup ──────────────────────────────────────────────────
@@ -301,3 +307,45 @@ export const _internal = {
   bandKeyForDate,
   sgtIsoFromParts,
 };
+
+// ── V3 booking-window control plane (clustering) ──────────────────────
+// Mark drops a single GCal event titled `booking window` (or
+// `booking window — TG only`, etc.) at the start time of one of the 3
+// weekly windows to open it. We list those events on every form load.
+
+const BOOKING_WINDOW_RE = /^booking window( — (CP|IH|TG) only)?$/i;
+
+/**
+ * List GCal events tagged as "booking window" within the given range,
+ * parsing optional property-anchor suffixes.
+ *
+ * @param {string} startIso ISO 8601 with timezone
+ * @param {string} endIso   ISO 8601 with timezone
+ * @returns {Promise<Array<{start:string, end:string, summary:string, anchorProperty:string|null}>>}
+ */
+export async function listBookingWindowEvents(startIso, endIso) {
+  const cal = getCalendarClient();
+  const calendarId = getCalendarId();
+  const r = await cal.events.list({
+    calendarId,
+    timeMin: startIso,
+    timeMax: endIso,
+    singleEvents: true,
+    orderBy: "startTime",
+    timeZone: TZ,
+    q: "booking window",
+    maxResults: 50,
+  });
+  const items = r.data.items || [];
+  return items
+    .filter((ev) => BOOKING_WINDOW_RE.test(String(ev.summary || "").trim()))
+    .map((ev) => {
+      const m = String(ev.summary || "").match(/—\s*(CP|IH|TG)\s*only/i);
+      return {
+        start: ev.start?.dateTime || ev.start?.date,
+        end:   ev.end?.dateTime   || ev.end?.date,
+        summary: ev.summary,
+        anchorProperty: m ? m[1].toUpperCase() : null,
+      };
+    });
+}

@@ -30,6 +30,11 @@ const ADMIN_EMAIL = Deno.env.get("LAZYBEE_ADMIN_EMAIL") || "admin@lazybee.sg";
 const ADMIN_CC = Deno.env.get("LAZYBEE_ADMIN_CC") || "mark@meetmillia.com";
 const PUBLIC_SITE_URL = Deno.env.get("PUBLIC_SITE_URL") || "https://lazybee.sg";
 
+// Beeper Local API for WhatsApp on off-horizon reminders.
+// Spec: docs/specs/2026-05-15-viewing-clustering.md §4.3
+const BEEPER_API_URL = Deno.env.get("BEEPER_API_URL") || "http://127.0.0.1:23373";
+const BEEPER_API_TOKEN = Deno.env.get("BEEPER_API_TOKEN") || "";
+
 // ── Resend helper ─────────────────────────────────────────────────────
 async function sendEmail(opts: {
   to: string | string[];
@@ -198,6 +203,38 @@ async function loadViewing(viewing_id: string) {
     .single();
   if (error || !data) throw new Error("Viewing not found");
   return data;
+}
+
+async function loadLead(lead_id: string) {
+  const { data, error } = await supabase
+    .from("leads")
+    .select("id, name, email, phone, chat_id, intent, property_interest")
+    .eq("id", lead_id)
+    .single();
+  if (error || !data) throw new Error("Lead not found");
+  return data;
+}
+
+async function sendWhatsApp(chatId: string | null, text: string) {
+  if (!chatId) return { skipped: "no chat_id" };
+  if (!BEEPER_API_TOKEN) return { skipped: "no BEEPER_API_TOKEN" };
+  try {
+    const r = await fetch(`${BEEPER_API_URL}/v1/send-message`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${BEEPER_API_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ chatID: chatId, text }),
+    });
+    if (!r.ok) {
+      const body = await r.text().catch(() => "");
+      return { ok: false, status: r.status, body: body.slice(0, 300) };
+    }
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: (err as Error).message };
+  }
 }
 
 async function loadCaptain(captain_id: string | null): Promise<{ email: string | null; name: string; phone: string | null }> {
@@ -465,6 +502,36 @@ function tplCancelled(args: { viewing: any; recipientType: "prospect" | "captain
   };
 }
 
+// ── V3 off-horizon reminder template ─────────────────────────────────
+function tplOffHorizonReminder(lead: any) {
+  const property = (lead.property_interest && lead.property_interest[0]) || "Lazybee";
+  const targetDate = lead.intent?.target_move_in_date || "your move-in window";
+  const html = shell({
+    title: "Slots are open — ready to view?",
+    bodyHtml: `
+      <p style="font-size:16px;color:#121c2a;">Hi ${escapeHtml(lead.name || "there")},</p>
+      <p style="font-size:15px;color:#3c4947;">You mentioned a move-in around <strong>${escapeHtml(targetDate)}</strong>. We've got viewing slots open at <strong>${escapeHtml(property)}</strong> over the next two weekends.</p>
+      <p style="font-size:15px;color:#3c4947;">Want to lock one in?</p>
+      <p style="font-size:14px;color:#3c4947;margin-top:24px;">Please let me know if you have any questions.</p>
+      <p style="font-size:15px;margin-top:8px;"><a href="${PUBLIC_SITE_URL}/book" style="color:#006b5f;font-weight:bold;">${PUBLIC_SITE_URL}/book</a></p>
+    `,
+  });
+  return { subject: `Slots open at ${property} — ready to view?`, html };
+}
+
+function whatsAppOffHorizonText(lead: any) {
+  const property = (lead.property_interest && lead.property_interest[0]) || "Lazybee";
+  const targetDate = lead.intent?.target_move_in_date || "your target date";
+  return [
+    `Hi ${lead.name || "there"}, you mentioned a move-in around ${targetDate}.`,
+    `We have viewing slots open at ${property} over the next two weekends. Want to lock one in?`,
+    ``,
+    `Please let me know if you have any questions.`,
+    ``,
+    `https://lazybee.sg/book`,
+  ].join("\n");
+}
+
 // ── Legacy fallback (V1 captain notify) ───────────────────────────────
 async function legacyCaptainNotify(viewing: any) {
   const captain = await loadCaptain(viewing.captain_id);
@@ -493,8 +560,27 @@ async function legacyCaptainNotify(viewing: any) {
 }
 
 // ── Dispatcher ────────────────────────────────────────────────────────
-async function dispatch(event: string, viewing_id: string) {
-  const viewing = await loadViewing(viewing_id);
+async function dispatch(event: string, ids: { viewing_id?: string; lead_id?: string }) {
+  // Lead-targeted events branch first
+  if (event === "lead-off-horizon-reminder") {
+    if (!ids.lead_id) throw new Error("lead_id required");
+    const lead = await loadLead(ids.lead_id);
+    const out: Record<string, unknown> = {};
+    if (lead.email) {
+      const t = tplOffHorizonReminder(lead);
+      await sendEmail({ to: lead.email, subject: t.subject, html: t.html });
+      out.email = lead.email;
+    }
+    if (lead.chat_id) {
+      const wa = await sendWhatsApp(lead.chat_id, whatsAppOffHorizonText(lead));
+      out.whatsapp = wa;
+    }
+    return { sent: true, ...out };
+  }
+
+  // Viewing-targeted events from here
+  if (!ids.viewing_id) throw new Error("viewing_id required");
+  const viewing = await loadViewing(ids.viewing_id);
   const captain = await loadCaptain(viewing.captain_id);
   const cancelUrl = viewing.cancel_token
     ? `${PUBLIC_SITE_URL}/book/cancel?token=${encodeURIComponent(viewing.cancel_token)}`
@@ -567,12 +653,20 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const event = body?.event as string | undefined;
     const viewing_id = body?.viewing_id as string | undefined;
-    if (!viewing_id) {
-      return new Response(JSON.stringify({ error: "viewing_id required" }), { status: 400 });
+    const lead_id = body?.lead_id as string | undefined;
+
+    if (!viewing_id && !lead_id) {
+      return new Response(
+        JSON.stringify({ error: "viewing_id or lead_id required" }),
+        { status: 400 }
+      );
     }
 
     if (!event) {
-      // Legacy V1 fallback
+      // Legacy V1 fallback (viewing-targeted only)
+      if (!viewing_id) {
+        return new Response(JSON.stringify({ error: "viewing_id required" }), { status: 400 });
+      }
       const viewing = await loadViewing(viewing_id);
       const result = await legacyCaptainNotify(viewing);
       return new Response(JSON.stringify(result), {
@@ -581,7 +675,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const result = await dispatch(event, viewing_id);
+    const result = await dispatch(event, { viewing_id, lead_id });
     return new Response(JSON.stringify(result), {
       status: 200,
       headers: { "Content-Type": "application/json" },
