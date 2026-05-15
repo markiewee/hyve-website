@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/((?!api/).*)",
+      "source": "/((?!api/|pitchv1).*)",
       "destination": "/index.html"
     }
   ],
