@@ -32,6 +32,20 @@ export function fetchSlots({ property, date, room, signal } = {}) {
   return jsonFetch(`/api/booking/slots?${qs.toString()}`, { signal });
 }
 
+// V3 — clustering windows endpoint
+export function fetchWindows({ property, signal } = {}) {
+  const qs = new URLSearchParams({ property });
+  return jsonFetch(`/api/booking/windows?${qs.toString()}`, { signal });
+}
+
+// V3 — off-horizon lead capture
+export function submitOffHorizonLead(payload) {
+  return jsonFetch(`/api/booking/leads/off-horizon`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
 export function createBooking(payload) {
   return jsonFetch(`/api/booking/create`, {
     method: "POST",
