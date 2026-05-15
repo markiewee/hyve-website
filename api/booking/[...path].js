@@ -31,7 +31,13 @@ import {
   isSlotStillFree,
   createEvent,
   cancelEvent,
+  listBookingWindowEvents,
 } from "../../src/lib/googleCalendar.js";
+import {
+  buildWindowsResponse,
+  listUpcomingWindows,
+  validateBookingAttempt,
+} from "../../src/lib/viewingClustering.js";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -138,6 +144,266 @@ async function handleSlots(req, res) {
   return res.status(200).json({ slots });
 }
 
+// ── V3 windows endpoint ──────────────────────────────────────────────
+// Returns the next 7 days of weekly viewing windows + slot states.
+// Spec: docs/specs/2026-05-15-viewing-clustering.md §5.1
+async function handleWindows(req, res) {
+  if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
+  const property = normalizePropertyCode(req.query?.property);
+  if (!property) return res.status(400).json({ error: "property required" });
+  if (!["CP", "IH", "TG"].includes(property)) {
+    return res.status(400).json({ error: `unknown property '${property}'` });
+  }
+
+  const horizonDays = 7;
+  const now = new Date();
+  const horizonEnd = new Date(now.getTime() + horizonDays * 24 * 60 * 60 * 1000);
+
+  let gcalEvents = [];
+  try {
+    gcalEvents = await listBookingWindowEvents(now.toISOString(), horizonEnd.toISOString());
+  } catch (err) {
+    console.error("[booking/windows] gcal failed:", err);
+    return res.status(503).json({ error: "calendar service unavailable" });
+  }
+
+  const { data: bookings, error: bookErr } = await supabase
+    .from("property_viewings")
+    .select("slot_start, slot_end, status, properties(code)")
+    .in("status", ["pending", "confirmed"])
+    .gte("slot_start", now.toISOString())
+    .lte("slot_start", horizonEnd.toISOString());
+  if (bookErr) {
+    console.error("[booking/windows] bookings fetch failed:", bookErr);
+    return res.status(500).json({ error: "bookings lookup failed" });
+  }
+
+  const bookingsForResolver = (bookings || [])
+    .filter((b) => b.properties?.code)
+    .map((b) => ({
+      slot_start: b.slot_start,
+      slot_end: b.slot_end,
+      property_code: b.properties.code,
+      status: b.status,
+    }));
+
+  const windows = buildWindowsResponse({
+    propertyOfInterest: property,
+    now,
+    gcalEvents,
+    allBookings: bookingsForResolver,
+    horizonDays,
+  });
+
+  res.setHeader("Cache-Control", "no-store");
+  return res.status(200).json({
+    windows,
+    horizon_days: horizonDays,
+    rules_version: "v1",
+    computed_at: new Date().toISOString(),
+  });
+}
+
+// ── V3 off-horizon lead capture ──────────────────────────────────────
+// Spec: docs/specs/2026-05-15-viewing-clustering.md §5.4
+async function handleOffHorizonLead(req, res) {
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+  const body = req.body || {};
+  const name = String(body.name || "").trim();
+  const email = String(body.email || "").trim().toLowerCase() || null;
+  const phone = normalizePhone(body.phone);
+  const propertyCode = normalizePropertyCode(body.property);
+  const roomCode = body.room_code ? String(body.room_code).trim() : null;
+  const targetMoveInDate = body.target_move_in_date;
+  const source = normalizeSource(body.source);
+
+  if (!name || name.length < 2) return res.status(400).json({ error: "name required" });
+  if (!email && !phone) return res.status(400).json({ error: "email or phone required" });
+  if (!propertyCode || !["CP", "IH", "TG"].includes(propertyCode)) {
+    return res.status(400).json({ error: "valid property required" });
+  }
+  if (!targetMoveInDate || !/^\d{4}-\d{2}-\d{2}$/.test(targetMoveInDate)) {
+    return res.status(400).json({ error: "target_move_in_date required (YYYY-MM-DD)" });
+  }
+
+  const moveInMs = Date.parse(`${targetMoveInDate}T00:00:00+08:00`);
+  if (Number.isNaN(moveInMs)) {
+    return res.status(400).json({ error: "invalid target_move_in_date" });
+  }
+  const sevenDaysFromNow = Date.now() + 7 * 24 * 60 * 60 * 1000;
+  if (moveInMs < sevenDaysFromNow) {
+    return res.status(400).json({
+      error:
+        "target_move_in_date must be more than 7 days from now — use the main booking flow",
+    });
+  }
+
+  const reminderDueAt = new Date(moveInMs - 10 * 24 * 60 * 60 * 1000).toISOString();
+
+  const newIntent = {
+    off_horizon: true,
+    target_move_in_date: targetMoveInDate,
+    reminder_due_at: reminderDueAt,
+    reminder_channel: ["whatsapp", "email"],
+    reminder_sent_count: 0,
+    reminder_last_sent_at: null,
+    preferred_property: propertyCode,
+    preferred_room_code: roomCode,
+  };
+
+  const activityEntry = {
+    type: "off_horizon_captured",
+    actor: "system",
+    when: new Date().toISOString(),
+    payload: { target_move_in_date: targetMoveInDate, property: propertyCode },
+  };
+
+  // Dedup by email/phone like handleCreate does
+  let existingLead = null;
+  if (email) {
+    const { data } = await supabase
+      .from("leads")
+      .select("id, intent, activity_log, property_interest, status")
+      .eq("email", email)
+      .maybeSingle();
+    existingLead = data;
+  }
+  if (!existingLead && phone) {
+    const { data } = await supabase
+      .from("leads")
+      .select("id, intent, activity_log, property_interest, status")
+      .eq("phone", phone)
+      .maybeSingle();
+    existingLead = data;
+  }
+
+  let leadId;
+  if (existingLead) {
+    const mergedInterest = Array.from(
+      new Set([...(existingLead.property_interest || []), propertyCode])
+    );
+    const mergedIntent = { ...(existingLead.intent || {}), ...newIntent };
+    const mergedLog = [...(existingLead.activity_log || []), activityEntry];
+    const newStatus =
+      existingLead.status === "cold" ? "new" : existingLead.status || "new";
+    const { error } = await supabase
+      .from("leads")
+      .update({
+        name,
+        email: email || null,
+        phone: phone || null,
+        property_interest: mergedInterest,
+        intent: mergedIntent,
+        activity_log: mergedLog,
+        source,
+        status: newStatus,
+      })
+      .eq("id", existingLead.id);
+    if (error) {
+      console.error("[booking/leads/off-horizon] update error:", error);
+      return res.status(500).json({ error: "Failed to save lead" });
+    }
+    leadId = existingLead.id;
+  } else {
+    const { data, error } = await supabase
+      .from("leads")
+      .insert({
+        name,
+        email,
+        phone,
+        property_interest: [propertyCode],
+        source,
+        status: "new",
+        intent: newIntent,
+        activity_log: [activityEntry],
+      })
+      .select("id")
+      .single();
+    if (error || !data) {
+      console.error("[booking/leads/off-horizon] insert error:", error);
+      return res.status(500).json({ error: "Failed to save lead" });
+    }
+    leadId = data.id;
+  }
+
+  return res.status(200).json({ success: true, lead_id: leadId });
+}
+
+// Helper used by /api/booking/admin/leads/:id/reminder — fires viewing-notify
+// for a lead-targeted event (vs the existing fireNotify which is viewing-id).
+async function fireNotifyLead(event, leadId) {
+  try {
+    const r = await fetch(
+      `${process.env.VITE_IOT_SUPABASE_URL}/functions/v1/viewing-notify`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.IOT_SUPABASE_SERVICE_ROLE_KEY}`,
+        },
+        body: JSON.stringify({ event, lead_id: leadId }),
+      }
+    );
+    if (!r.ok) {
+      const text = await r.text().catch(() => "");
+      console.error(`[viewing-notify ${event}] ${r.status}: ${text.slice(0, 300)}`);
+    }
+  } catch (err) {
+    console.error(`[viewing-notify ${event}] failed:`, err.message);
+  }
+}
+
+// ── Admin: leads reminder snooze/bump/cancel ─────────────────────────
+// Spec §5.5
+async function handleAdminLeadReminder(req, res, segments) {
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+  if (!(await isAdmin(req))) return res.status(403).json({ error: "Admin only" });
+  // segments: ['admin', 'leads', '<id>', 'reminder']
+  const leadId = segments[2];
+  const action = req.body?.action;
+  if (!leadId) return res.status(400).json({ error: "lead id required" });
+  if (!["snooze", "bump", "cancel"].includes(action)) {
+    return res.status(400).json({ error: "action must be snooze | bump | cancel" });
+  }
+
+  const { data: lead, error: ferr } = await supabase
+    .from("leads")
+    .select("id, intent, activity_log, status")
+    .eq("id", leadId)
+    .single();
+  if (ferr || !lead) return res.status(404).json({ error: "Lead not found" });
+
+  const intent = { ...(lead.intent || {}) };
+  const log = [...(lead.activity_log || [])];
+  const nowIso = new Date().toISOString();
+
+  if (action === "snooze") {
+    intent.reminder_due_at = new Date(
+      Date.now() + 7 * 24 * 60 * 60 * 1000
+    ).toISOString();
+    log.push({ type: "reminder_snoozed", actor: "admin", when: nowIso });
+  } else if (action === "bump") {
+    await fireNotifyLead("lead-off-horizon-reminder", leadId);
+    intent.reminder_sent_count = (intent.reminder_sent_count || 0) + 1;
+    intent.reminder_last_sent_at = nowIso;
+    log.push({ type: "reminder_bumped", actor: "admin", when: nowIso });
+  } else if (action === "cancel") {
+    intent.off_horizon = false;
+    intent.reminder_due_at = null;
+    log.push({ type: "off_horizon_cancelled", actor: "admin", when: nowIso });
+  }
+
+  const { error: upErr } = await supabase
+    .from("leads")
+    .update({ intent, activity_log: log })
+    .eq("id", leadId);
+  if (upErr) {
+    console.error("[admin-lead-reminder] update error:", upErr);
+    return res.status(500).json({ error: "update failed" });
+  }
+  return res.status(200).json({ success: true });
+}
+
 async function handleCreate(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   const body = req.body || {};
@@ -207,7 +473,9 @@ async function handleCreate(req, res) {
     return res.status(409).json({ error: "Slot just got booked, please pick another." });
   }
 
-  // Race-guard: Google freebusy
+  // Race-guard: Google freebusy (kept from V2 for legacy paths). When the
+  // request comes through the V3 form, the cluster validator below is the
+  // primary gate.
   let stillFree = true;
   try {
     stillFree = await isSlotStillFree(slotStart, slotEnd);
@@ -219,6 +487,78 @@ async function handleCreate(req, res) {
   }
   if (!stillFree) {
     return res.status(409).json({ error: "Slot just got booked, please pick another." });
+  }
+
+  // ── V3 cluster validation ─────────────────────────────────────────
+  // Only enforced when the prospect submits via the V3 form (rules_version='v1').
+  // V0 = grandfathered legacy bookings created via /api/booking/slots.
+  // 'admin' = admin UI direct-create, bypasses validation entirely.
+  const rulesVersion = body.rules_version === "admin"
+    ? "admin"
+    : body.rules_version === "v0"
+      ? "v0"
+      : "v1";
+
+  if (rulesVersion === "v1") {
+    const slotStartMs = new Date(slotStart).getTime();
+    const upcomingWindows = listUpcomingWindows(new Date(), 7);
+    const window = upcomingWindows.find(
+      (w) => slotStartMs >= w.startMs && slotStartMs < w.endMs
+    );
+    if (!window) {
+      return res.status(409).json({ error: "slot is not in any V3 viewing window" });
+    }
+
+    // Fetch GCal event for this window (if any)
+    let gcalEvent = null;
+    try {
+      const events = await listBookingWindowEvents(
+        new Date(window.startMs - 60_000).toISOString(),
+        new Date(window.endMs + 60_000).toISOString()
+      );
+      gcalEvent =
+        events.find(
+          (e) => Math.abs(new Date(e.start).getTime() - window.startMs) <= 5 * 60_000
+        ) || null;
+    } catch (err) {
+      console.error("[booking/create] gcal lookup failed:", err);
+      return res.status(503).json({ error: "calendar service unavailable" });
+    }
+
+    // Fetch all bookings in this window (excluding cancelled)
+    const { data: windowBookings, error: wbErr } = await supabase
+      .from("property_viewings")
+      .select("slot_start, slot_end, status, properties(code)")
+      .in("status", ["pending", "confirmed"])
+      .gte("slot_start", new Date(window.startMs).toISOString())
+      .lt("slot_start", new Date(window.endMs).toISOString());
+    if (wbErr) {
+      console.error("[booking/create] window bookings fetch failed:", wbErr);
+      return res.status(500).json({ error: "window bookings lookup failed" });
+    }
+
+    const bookingsForValidator = (windowBookings || [])
+      .filter((b) => b.properties?.code)
+      .map((b) => ({
+        slot_start: b.slot_start,
+        slot_end: b.slot_end,
+        property_code: b.properties.code,
+        status: b.status,
+      }));
+
+    const validation = validateBookingAttempt({
+      propertyOfInterest: propertyCode,
+      slotStartIso: slotStart,
+      window,
+      gcalEvent,
+      bookings: bookingsForValidator,
+    });
+    if (validation) {
+      return res.status(409).json({
+        error: validation.code,
+        ...validation.payload,
+      });
+    }
   }
 
   const cancelToken = generateCancelToken();
@@ -242,6 +582,7 @@ async function handleCreate(req, res) {
       token: cancelToken,
       cancel_token: cancelToken,
       special_notes: notes,
+      viewing_rules_version: rulesVersion,
     })
     .select("id")
     .single();
@@ -483,8 +824,68 @@ async function handleAuthCallback(req, res) {
 async function handleCron(req, res) {
   if (!authorizedCron(req)) return res.status(403).json({ error: "Forbidden" });
 
-  // Daily cron — broadened window 12-36h to catch all next-day viewings
   const now = Date.now();
+  const nowIso = new Date(now).toISOString();
+
+  // ── (NEW) off-horizon lead reminder sweep ───────────────────────
+  // Daily — fires viewing-notify lead-off-horizon-reminder for off-horizon
+  // leads whose intent.reminder_due_at <= now, capped at 1/7d and 2 lifetime.
+  const offHorizonSweep = { count: 0, results: [] };
+  try {
+    const { data: dueLeads, error: dueErr } = await supabase
+      .from("leads")
+      .select("id, name, email, phone, intent, activity_log, status")
+      .in("status", ["new", "qualified"])
+      .filter("intent->>off_horizon", "eq", "true")
+      .filter("intent->>reminder_due_at", "lte", nowIso);
+
+    if (dueErr) {
+      console.error("[booking/cron] off-horizon sweep query error:", dueErr);
+    } else {
+      for (const lead of dueLeads || []) {
+        const intent = lead.intent || {};
+        const sentCount = parseInt(intent.reminder_sent_count || 0, 10);
+        const lastSent = intent.reminder_last_sent_at;
+        if (sentCount >= 2) continue;
+        if (lastSent && new Date(lastSent).getTime() > now - 7 * 24 * 60 * 60 * 1000) {
+          continue;
+        }
+
+        await fireNotifyLead("lead-off-horizon-reminder", lead.id);
+
+        const newSentCount = sentCount + 1;
+        const newIntent = {
+          ...intent,
+          reminder_sent_count: newSentCount,
+          reminder_last_sent_at: nowIso,
+        };
+        const newLog = [
+          ...(lead.activity_log || []),
+          {
+            type: "reminder_fired",
+            actor: "cron",
+            when: nowIso,
+            payload: { channel: "whatsapp+email", count: newSentCount },
+          },
+        ];
+        const newStatus = newSentCount >= 2 ? "cold" : lead.status;
+        if (newSentCount >= 2) {
+          newLog.push({ type: "auto_marked_cold", actor: "cron", when: nowIso });
+        }
+        await supabase
+          .from("leads")
+          .update({ intent: newIntent, activity_log: newLog, status: newStatus })
+          .eq("id", lead.id);
+
+        offHorizonSweep.count += 1;
+        offHorizonSweep.results.push({ id: lead.id, sent_count: newSentCount });
+      }
+    }
+  } catch (err) {
+    console.error("[booking/cron] off-horizon sweep fatal:", err);
+  }
+
+  // Daily cron — broadened window 12-36h to catch all next-day viewings
   const lo24 = new Date(now + 12 * 60 * 60 * 1000).toISOString();
   const hi24 = new Date(now + 36 * 60 * 60 * 1000).toISOString();
 
@@ -525,7 +926,13 @@ async function handleCron(req, res) {
     }
   }
 
-  return res.status(200).json({ ok: true, ts: new Date().toISOString(), reminder_24h: r24, reminder_2h: r2 });
+  return res.status(200).json({
+    ok: true,
+    ts: new Date().toISOString(),
+    off_horizon: offHorizonSweep,
+    reminder_24h: r24,
+    reminder_2h: r2,
+  });
 }
 
 // ── dispatcher ────────────────────────────────────────────────────────
@@ -550,13 +957,26 @@ export default async function handler(req, res) {
   const route = segments.join("/");
 
   try {
+    // Admin lead reminder: /api/booking/admin/leads/<id>/reminder
+    if (
+      segments[0] === "admin" &&
+      segments[1] === "leads" &&
+      segments[3] === "reminder"
+    ) {
+      return await handleAdminLeadReminder(req, res, segments);
+    }
+
     switch (route) {
       case "slots":
         return await handleSlots(req, res);
+      case "windows":
+        return await handleWindows(req, res);
       case "create":
         return await handleCreate(req, res);
       case "cancel":
         return await handleCancel(req, res);
+      case "leads/off-horizon":
+        return await handleOffHorizonLead(req, res);
       case "auth-login":
       case "auth/login":
         return await handleAuthLogin(req, res);
