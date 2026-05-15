@@ -263,6 +263,10 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
             </label>
           </div>
 
+          {intent.off_horizon && (
+            <OffHorizonPanel lead={lead} />
+          )}
+
           <div>
             <label className="text-xs text-slate-500 block mb-1">Notes</label>
             <Textarea
@@ -301,6 +305,81 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
         </div>
       </SheetContent>
     </Sheet>
+  );
+}
+
+function OffHorizonPanel({ lead }) {
+  const [busy, setBusy] = useState(null);
+  const [msg, setMsg] = useState(null);
+  const intent = lead.intent || {};
+  const sentCount = intent.reminder_sent_count || 0;
+  const lastSent = intent.reminder_last_sent_at;
+  const dueAt = intent.reminder_due_at;
+
+  async function fire(action) {
+    setBusy(action);
+    setMsg(null);
+    try {
+      const session = await import("@/lib/supabase").then((m) => m.supabase.auth.getSession());
+      const token = session?.data?.session?.access_token || "";
+      const r = await fetch(`/api/booking/admin/leads/${lead.id}/reminder`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ action }),
+      });
+      if (!r.ok) {
+        const body = await r.json().catch(() => ({}));
+        throw new Error(body.error || `failed (${r.status})`);
+      }
+      setMsg(`${action === "snooze" ? "Snoozed 7d" : action === "bump" ? "Bumped" : "Cancelled"} ✓`);
+    } catch (err) {
+      setMsg(`Error: ${err.message}`);
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  return (
+    <div className="rounded-md border border-amber-200 bg-amber-50 p-3 space-y-2">
+      <div className="text-xs font-semibold uppercase tracking-wider text-amber-800">
+        Off-horizon — target {intent.target_move_in_date || "?"}
+      </div>
+      <div className="text-xs text-amber-700">
+        Sent {sentCount} reminder{sentCount === 1 ? "" : "s"}.
+        {lastSent && ` Last: ${new Date(lastSent).toLocaleDateString()}.`}
+        {dueAt && ` Next due: ${new Date(dueAt).toLocaleDateString()}.`}
+      </div>
+      <div className="flex gap-2">
+        <Button
+          size="sm"
+          variant="outline"
+          disabled={!!busy}
+          onClick={() => fire("snooze")}
+        >
+          {busy === "snooze" ? "…" : "Snooze 7d"}
+        </Button>
+        <Button
+          size="sm"
+          variant="default"
+          disabled={!!busy}
+          onClick={() => fire("bump")}
+        >
+          {busy === "bump" ? "…" : "Bump now"}
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          disabled={!!busy}
+          onClick={() => fire("cancel")}
+        >
+          {busy === "cancel" ? "…" : "Cancel reminders"}
+        </Button>
+      </div>
+      {msg && <div className="text-xs text-amber-800">{msg}</div>}
+    </div>
   );
 }
 
