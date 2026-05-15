@@ -635,7 +635,7 @@ export default function AdminInvestorsPage() {
                       >
                         <div className="flex items-center justify-between gap-4">
                           <div className="flex items-center gap-3 min-w-0">
-                            <div className="w-10 h-10 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#A87813] font-bold text-xs shrink-0">
+                            <div className="w-10 h-10 rounded-full bg-[#FAF0CC] flex items-center justify-center text-[#A87813] font-bold text-xs shrink-0">
                               {initials}
                             </div>
                             <div className="min-w-0">
@@ -947,7 +947,7 @@ export default function AdminInvestorsPage() {
       {!distLoading && distributions.length === 0 && (
         <div className="flex flex-col items-center justify-center gap-3 py-16 bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm">
           <span className="material-symbols-outlined text-5xl text-[#E8E0CE]">payments</span>
-          <p className="font-['Plus_Jakarta_Sans'] text-base font-semibold text-[#1a2e2b]">
+          <p className="font-['Plus_Jakarta_Sans'] text-base font-semibold text-[#A87813]">
             No distributions for this month
           </p>
           <p className="font-['Manrope'] text-sm text-[#6B7280]">
@@ -1092,7 +1092,7 @@ export default function AdminInvestorsPage() {
                 <button
                   type="submit"
                   disabled={reportSaving || !reportPropertyId}
-                  className="w-full py-3 rounded-xl font-['Manrope'] font-bold text-white bg-[#A87813] hover:bg-[#005a50] disabled:opacity-50 transition-colors"
+                  className="w-full py-3 rounded-xl font-['Manrope'] font-bold text-white bg-[#A87813] hover:bg-[#A87813] disabled:opacity-50 transition-colors"
                 >
                   {reportSaving ? "Saving..." : "Save Report"}
                 </button>
@@ -1140,7 +1140,7 @@ export default function AdminInvestorsPage() {
                             href={r.file_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#A87813] hover:text-[#005a50]"
+                            className="text-[#A87813] hover:text-[#A87813]"
                           >
                             <span className="material-symbols-outlined text-[18px]">download</span>
                           </a>

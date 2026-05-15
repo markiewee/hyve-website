@@ -310,7 +310,7 @@ export default function AdminDashboardPage() {
                 type="button"
                 onClick={handleSaveSignature}
                 disabled={sigSaving}
-                className="px-4 py-2 text-sm font-semibold rounded-lg bg-[#A87813] text-white hover:bg-[#005a50] transition-colors disabled:opacity-50"
+                className="px-4 py-2 text-sm font-semibold rounded-lg bg-[#A87813] text-white hover:bg-[#A87813] transition-colors disabled:opacity-50"
               >
                 {sigSaving ? "Saving…" : "Save Signature"}
               </button>

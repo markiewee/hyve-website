@@ -84,7 +84,7 @@ export default function MoveInInstructions({ advanceStep }) {
             <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#A87813] mb-2">
               Arrival Instruction
             </p>
-            <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#00423b]">
+            <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#A87813]">
               Check-in from 10:00 AM
             </h2>
             <p className="text-sm text-[#1F2937] mt-1">

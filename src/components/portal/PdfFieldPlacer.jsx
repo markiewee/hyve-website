@@ -10,8 +10,8 @@ const RENDER_WIDTH = 612;
 const FIELD_TYPES = [
   { key: "TENANT_NAME", label: "Member Name", color: "#3b82f6" },
   { key: "ID_NUMBER", label: "ID Number", color: "#8b5cf6" },
-  { key: "PHONE", label: "Phone", color: "#06b6d4" },
-  { key: "ROOM_CODE", label: "Room", color: "#10b981" },
+  { key: "PHONE", label: "Phone", color: "#D9A441" },
+  { key: "ROOM_CODE", label: "Room", color: "#D9A441" },
   { key: "PROPERTY_NAME", label: "Property", color: "#f59e0b" },
   { key: "PROPERTY_ADDRESS", label: "Address", color: "#ef4444" },
   { key: "MONTHLY_RENT", label: "Rent", color: "#ec4899" },

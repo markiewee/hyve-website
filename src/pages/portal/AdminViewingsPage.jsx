@@ -825,7 +825,7 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
                   href={`https://wa.me/${lead.phone.replace(/[^\d]/g, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs px-3 py-1.5 bg-[#25D366]/15 text-[#0c6c40] rounded-lg font-bold hover:bg-[#25D366]/25 transition-colors"
+                  className="inline-flex items-center gap-1 text-xs px-3 py-1.5 bg-[#25D366]/15 text-[#A87813] rounded-lg font-bold hover:bg-[#25D366]/25 transition-colors"
                 >
                   <span className="material-symbols-outlined text-sm">chat</span> WA
                 </a>

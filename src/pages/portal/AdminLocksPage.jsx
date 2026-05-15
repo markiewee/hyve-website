@@ -270,7 +270,7 @@ function LockCard({
             <button
               onClick={onSave}
               disabled={saving}
-              className="flex-1 px-3 py-2 bg-[#A87813] text-white rounded-lg font-['Manrope'] font-bold text-xs hover:bg-[#005047] disabled:opacity-50"
+              className="flex-1 px-3 py-2 bg-[#A87813] text-white rounded-lg font-['Manrope'] font-bold text-xs hover:bg-[#A87813] disabled:opacity-50"
             >
               {saving ? "Saving..." : "Save"}
             </button>

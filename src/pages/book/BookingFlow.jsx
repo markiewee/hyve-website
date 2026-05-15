@@ -373,7 +373,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-5">
                 <div>
-                  <span className="inline-block px-3 py-1 mb-2 bg-[#D9A441] text-[#00423b] text-[10px] font-bold uppercase tracking-wider rounded-full">
+                  <span className="inline-block px-3 py-1 mb-2 bg-[#D9A441] text-[#A87813] text-[10px] font-bold uppercase tracking-wider rounded-full">
                     Lazybee · {property.code}
                   </span>
                   <h1 className="text-white font-['Plus_Jakarta_Sans'] text-2xl font-extrabold tracking-tight">
@@ -516,7 +516,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                                   })}
                                 </div>
                                 {w.anchor_property === property.code && (
-                                  <p className="text-[10px] text-[#00423b] mt-3">
+                                  <p className="text-[10px] text-[#A87813] mt-3">
                                     {property.code} is anchored for this window — back-to-back slots welcome.
                                   </p>
                                 )}
@@ -673,7 +673,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
 
               {ohConfirmed ? (
                 <div className="p-4 bg-[#D9A441]/10 rounded-lg">
-                  <p className="text-sm text-[#00423b] font-medium">
+                  <p className="text-sm text-[#A87813] font-medium">
                     Got it. We&apos;ll reach out 7-10 days before {ohMoveInDate} with open slots.
                   </p>
                   <p className="text-xs text-[#1F2937] mt-2">

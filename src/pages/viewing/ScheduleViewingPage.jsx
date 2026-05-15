@@ -451,7 +451,7 @@ export default function ScheduleViewingPage() {
             <img alt={`${propertyName} interior`} className="w-full h-full object-cover" src={property?.image_url || HERO_IMAGE} />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
               <div>
-                <span className="inline-block px-3 py-1 mb-2 bg-[#D9A441] text-[#00423b] text-[10px] font-bold uppercase tracking-wider rounded-full">
+                <span className="inline-block px-3 py-1 mb-2 bg-[#D9A441] text-[#A87813] text-[10px] font-bold uppercase tracking-wider rounded-full">
                   Viewings on Saturdays
                 </span>
                 <h1 className="text-white font-['Plus_Jakarta_Sans'] text-2xl font-extrabold tracking-tight">{propertyName}</h1>
@@ -580,7 +580,7 @@ export default function ScheduleViewingPage() {
                                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                                     isSelected
                                       ? "bg-[#A87813] text-white shadow-md scale-105"
-                                      : "bg-[#e6e8ea] text-[#1F2937] hover:bg-[#D9A441]/20 hover:text-[#00423b]"
+                                      : "bg-[#e6e8ea] text-[#1F2937] hover:bg-[#D9A441]/20 hover:text-[#A87813]"
                                   }`}
                                 >
                                   {formatTime(time)}

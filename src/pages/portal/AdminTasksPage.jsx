@@ -187,7 +187,7 @@ function NewTaskModal({ onClose, onSave }) {
               Cancel
             </button>
             <button type="submit" disabled={saving}
-              className="px-6 py-2.5 bg-[#A87813] text-white rounded-lg text-sm font-['Manrope'] font-bold hover:bg-[#005a50] transition-colors disabled:opacity-50">
+              className="px-6 py-2.5 bg-[#A87813] text-white rounded-lg text-sm font-['Manrope'] font-bold hover:bg-[#A87813] transition-colors disabled:opacity-50">
               {saving ? "Creating..." : "Create Task"}
             </button>
           </div>
@@ -250,7 +250,7 @@ export default function AdminTasksPage() {
           </div>
           <button
             onClick={() => setShowNew(true)}
-            className="flex items-center gap-2 px-4 py-2.5 bg-[#A87813] text-white rounded-xl text-sm font-['Manrope'] font-bold hover:bg-[#005a50] transition-colors shadow-sm"
+            className="flex items-center gap-2 px-4 py-2.5 bg-[#A87813] text-white rounded-xl text-sm font-['Manrope'] font-bold hover:bg-[#A87813] transition-colors shadow-sm"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
             New Task

@@ -76,7 +76,7 @@ function formatTime(timeStr) {
 function InitialsAvatar({ name, size = "w-14 h-14 text-lg" }) {
   return (
     <div
-      className={`${size} rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#A87813] font-bold shrink-0`}
+      className={`${size} rounded-full bg-[#FAF0CC] flex items-center justify-center text-[#A87813] font-bold shrink-0`}
     >
       {getInitials(name)}
     </div>

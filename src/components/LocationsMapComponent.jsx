@@ -297,7 +297,7 @@ const LocationsMapComponent = ({
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full border-2" style={{ background: '#A87813', borderColor: '#005049' }}></div>
+                <div className="w-4 h-4 rounded-full border-2" style={{ background: '#A87813', borderColor: '#A87813' }}></div>
                 <span>Showing neighborhoods - Zoom in for properties</span>
               </div>
             )}

@@ -113,7 +113,7 @@ export default function WelcomeSplash({ onContinue }) {
       <div className="text-center pt-4">
         <Button
           onClick={onContinue}
-          className="bg-[#A87813] hover:bg-[#005a50] text-white font-['Manrope'] font-bold px-8 py-3 rounded-xl text-sm"
+          className="bg-[#A87813] hover:bg-[#A87813] text-white font-['Manrope'] font-bold px-8 py-3 rounded-xl text-sm"
         >
           <span className="material-symbols-outlined text-[18px] mr-2">arrow_forward</span>
           Let's Get Started

@@ -357,7 +357,7 @@ export default function AdminOnboardingPage() {
         </div>
         <button
           onClick={() => { setShowInvite(true); setInviteResult(null); setInviteUsername(""); setWizardStep(1); setWizardErrors({}); }}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] transition-colors shrink-0"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#A87813] transition-colors shrink-0"
         >
           <span className="material-symbols-outlined text-[18px]">person_add</span>
           New Member
@@ -445,7 +445,7 @@ export default function AdminOnboardingPage() {
                       setWizardErrors({});
                       setWizardStep(2);
                     }}
-                    className="w-full py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] flex items-center justify-center gap-2"
+                    className="w-full py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#A87813] flex items-center justify-center gap-2"
                   >
                     Next: Tenancy Details
                     <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -597,7 +597,7 @@ export default function AdminOnboardingPage() {
                         generateTaPreview();
                         setWizardStep(3);
                       }}
-                      className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] flex items-center justify-center gap-2"
+                      className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#A87813] flex items-center justify-center gap-2"
                     >
                       Next: Review Agreement
                       <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -659,7 +659,7 @@ export default function AdminOnboardingPage() {
                     <button
                       onClick={handleInvite}
                       disabled={inviting || !taPreviewHtml}
-                      className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2"
+                      className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#A87813] disabled:opacity-40 flex items-center justify-center gap-2"
                     >
                       {inviting ? (
                         <>
@@ -735,7 +735,7 @@ export default function AdminOnboardingPage() {
                           if (row) navigate(`/portal/admin/onboarding/${row.id}`);
                         }
                       }}
-                      className="flex-1 py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] flex items-center justify-center gap-2"
+                      className="flex-1 py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#A87813] flex items-center justify-center gap-2"
                     >
                       <span className="material-symbols-outlined text-[18px]">open_in_new</span>
                       View Member Profile
@@ -857,7 +857,7 @@ export default function AdminOnboardingPage() {
                   >
                     <td className="px-8 py-5">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#A87813] font-bold text-xs shrink-0">
+                        <div className="w-10 h-10 rounded-full bg-[#FAF0CC] flex items-center justify-center text-[#A87813] font-bold text-xs shrink-0">
                           {initials}
                         </div>
                         <div>

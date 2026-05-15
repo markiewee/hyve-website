@@ -211,7 +211,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
           <Wordmark size="md" />
         </div>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#A87813] font-bold text-sm shrink-0">
+          <div className="w-10 h-10 rounded-full bg-[#FAF0CC] flex items-center justify-center text-[#A87813] font-bold text-sm shrink-0">
             {firstName.slice(0, 2).toUpperCase()}
           </div>
           <div className="min-w-0">

@@ -152,7 +152,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                 </p>
               </div>
             </div>
-            <div className="absolute -top-12 -right-12 w-64 h-64 bg-[#89f5e7]/30 rounded-full blur-3xl -z-10"></div>
+            <div className="absolute -top-12 -right-12 w-64 h-64 bg-[#D9A441]/30 rounded-full blur-3xl -z-10"></div>
           </div>
         </div>
       </section>
@@ -193,14 +193,14 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                 icon: 'fluid',
                 title: t('public.hero.sereneDesign'),
                 description: t('public.hero.sereneDesignDesc'),
-                bgColor: 'bg-[#89f5e7]',
-                textColor: 'text-[#005049]'
+                bgColor: 'bg-[#D9A441]',
+                textColor: 'text-[#A87813]'
               },
               {
                 icon: 'bolt',
                 title: t('public.hero.allInclusive'),
                 description: t('public.hero.allInclusiveDesc'),
-                bgColor: 'bg-[#d9e3f6]',
+                bgColor: 'bg-[#FAF0CC]',
                 textColor: 'text-[#3d4756]'
               }
             ].map((feature, index) => (

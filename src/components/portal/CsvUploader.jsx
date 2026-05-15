@@ -91,7 +91,7 @@ export default function CsvUploader({ onFileSelected, importing, progress }) {
           <div className="text-center">
             <p
               style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-              className="text-sm font-semibold text-[#1a2e2b]"
+              className="text-sm font-semibold text-[#A87813]"
             >
               Drop Aspire CSV here
             </p>

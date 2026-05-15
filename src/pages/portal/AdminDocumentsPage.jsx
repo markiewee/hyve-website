@@ -331,7 +331,7 @@ export default function AdminDocumentsPage() {
           <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">Upload PDF templates, place signature boxes, and send to members.</p>
         </div>
         <div className="flex gap-2 flex-wrap">
-          <button onClick={() => setShowGenerate(true)} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61]">
+          <button onClick={() => setShowGenerate(true)} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#A87813]">
             <span className="material-symbols-outlined text-[18px]">description</span>
             Generate Agreement
           </button>
@@ -408,7 +408,7 @@ export default function AdminDocumentsPage() {
                   Cancel
                 </button>
                 <button onClick={handleGenerate} disabled={!genTenantId}
-                  className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2">
+                  className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#A87813] disabled:opacity-40 flex items-center justify-center gap-2">
                   <span className="material-symbols-outlined text-[18px]">open_in_new</span>
                   Generate & Preview
                 </button>
@@ -474,7 +474,7 @@ export default function AdminDocumentsPage() {
               <div className="flex gap-3 pt-4 border-t border-[#E8E0CE]/15">
                 <button onClick={() => setShowEditor(false)} className="flex-1 py-3 bg-[#F2D88A] text-[#6B7280] rounded-xl font-['Manrope'] font-bold text-sm">Cancel</button>
                 <button onClick={handleSaveTemplate} disabled={saving}
-                  className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40">
+                  className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#A87813] disabled:opacity-40">
                   {saving ? "Saving..." : "Save Template"}
                 </button>
               </div>
@@ -549,7 +549,7 @@ export default function AdminDocumentsPage() {
               <div className="flex gap-3 pt-4 border-t border-[#E8E0CE]/15">
                 <button onClick={() => setShowSend(false)} className="flex-1 py-3 bg-[#F2D88A] text-[#6B7280] rounded-xl font-['Manrope'] font-bold text-sm">Cancel</button>
                 <button onClick={handleSendToMember} disabled={sending || !sendTenantId || (!sendPdfUrl)}
-                  className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2">
+                  className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#A87813] disabled:opacity-40 flex items-center justify-center gap-2">
                   <span className="material-symbols-outlined text-[18px]">{sending ? "progress_activity" : "send"}</span>
                   {sending ? "Sending..." : "Send to Member"}
                 </button>

@@ -33,7 +33,7 @@ export default function InvestorSignupPage() {
           </p>
           <a
             href="/portal/login"
-            className="inline-flex items-center gap-2 bg-[#A87813] text-white rounded-xl px-6 py-3 font-['Manrope'] font-bold text-sm hover:bg-[#006a61] transition-colors"
+            className="inline-flex items-center gap-2 bg-[#A87813] text-white rounded-xl px-6 py-3 font-['Manrope'] font-bold text-sm hover:bg-[#A87813] transition-colors"
           >
             Back to Login
           </a>
@@ -63,7 +63,7 @@ export default function InvestorSignupPage() {
       {/* Left editorial panel */}
       <section className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#A87813] flex-col">
         <div className="absolute inset-0 opacity-30 mix-blend-overlay">
-          <div className="w-full h-full bg-gradient-to-br from-[#004d44] to-[#A87813]" />
+          <div className="w-full h-full bg-gradient-to-br from-[#A87813] to-[#A87813]" />
         </div>
         <div className="absolute inset-0 bg-gradient-to-tr from-[#A87813] via-[#A87813]/80 to-transparent" />
         <div className="relative z-10 flex flex-col justify-between p-16 w-full h-full">
@@ -230,7 +230,7 @@ export default function InvestorSignupPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-5 bg-[#A87813] text-white rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#006a61] transition-all duration-300 shadow-lg shadow-[#A87813]/20 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-5 bg-[#A87813] text-white rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#A87813] transition-all duration-300 shadow-lg shadow-[#A87813]/20 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {submitting ? (
                 <>

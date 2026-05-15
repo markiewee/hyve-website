@@ -39,7 +39,7 @@ function WiFiCard({ guide }) {
               <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Password</span>
               <div className="flex items-center gap-2">
                 <p className="font-['Manrope'] text-sm font-semibold text-[#1F2937] font-mono">{password}</p>
-                <button onClick={copyPassword} className="text-[#A87813] hover:text-[#005a50]">
+                <button onClick={copyPassword} className="text-[#A87813] hover:text-[#A87813]">
                   <span className="material-symbols-outlined text-[16px]">{copied ? "check" : "content_copy"}</span>
                 </button>
               </div>
@@ -277,7 +277,7 @@ export default function PropertyGuidePage() {
                 <div>
                   <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#1F2937] mb-1">Submit an Issue</h3>
                   <p className="font-['Manrope'] text-sm text-[#6B7280] mb-3">Maintenance, repairs, or complaints — we'll assign it to a vendor.</p>
-                  <Link to="/portal/issues/new" className="inline-flex items-center gap-2 bg-[#A87813] text-white rounded-xl px-5 py-2.5 font-['Manrope'] font-bold text-sm hover:bg-[#005a50] transition-colors">
+                  <Link to="/portal/issues/new" className="inline-flex items-center gap-2 bg-[#A87813] text-white rounded-xl px-5 py-2.5 font-['Manrope'] font-bold text-sm hover:bg-[#A87813] transition-colors">
                     <span className="material-symbols-outlined text-[16px]">add</span>
                     New Issue
                   </Link>

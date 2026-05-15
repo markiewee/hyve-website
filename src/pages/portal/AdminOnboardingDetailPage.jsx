@@ -926,7 +926,7 @@ export default function AdminOnboardingDetailPage() {
                 <Button
                   onClick={handleCounterSign}
                   disabled={counterSigning || actionLoading}
-                  className="w-full sm:w-auto bg-[#A87813] hover:bg-[#005a50] text-white"
+                  className="w-full sm:w-auto bg-[#A87813] hover:bg-[#A87813] text-white"
                 >
                   {counterSigning ? "Executing…" : "Counter-Sign & Execute"}
                 </Button>

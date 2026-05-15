@@ -201,7 +201,7 @@ const AboutPage = () => {
       <section className="py-24 lg:py-32 px-6 md:px-8 max-w-5xl mx-auto text-center">
         <div className="bg-[#A87813] p-12 lg:p-20 rounded-[3rem] shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#D9A441]/20 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#006a61]/20 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#A87813]/20 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2"></div>
           <h2 className="font-['Plus_Jakarta_Sans'] text-3xl lg:text-5xl font-extrabold text-white mb-8 relative z-10">
             Ready to find your sanctuary?
           </h2>

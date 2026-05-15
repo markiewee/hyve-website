@@ -12,7 +12,7 @@ const DEFAULT_SCHEDULE = [
     descriptionZh: "所有空调机组的专业清洗和加气",
     frequency: "Every 3 months",
     frequencyZh: "每3个月",
-    color: "#0ea5e9",
+    color: "#FAF0CC",
     months: [1, 4, 7, 10], // Jan, Apr, Jul, Oct
   },
   {
@@ -36,7 +36,7 @@ const DEFAULT_SCHEDULE = [
     descriptionZh: "所有公共区域、厨房和浴室的专业深度清洁",
     frequency: "Monthly",
     frequencyZh: "每月",
-    color: "#10b981",
+    color: "#D9A441",
     months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
   },
   {

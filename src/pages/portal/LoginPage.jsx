@@ -212,7 +212,7 @@ export default function LoginPage() {
             </div>
 
             <button
-              className="w-full py-5 bg-[#A87813] text-white rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#006a61] transition-all duration-300 shadow-lg shadow-[#A87813]/20 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-5 bg-[#A87813] text-white rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#A87813] transition-all duration-300 shadow-lg shadow-[#A87813]/20 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
               type="submit"
               disabled={submitting}
             >

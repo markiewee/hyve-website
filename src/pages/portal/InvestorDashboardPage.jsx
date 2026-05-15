@@ -89,7 +89,7 @@ export default function InvestorDashboardPage() {
               Total Return Rate
             </span>
             {dashLoading ? (
-              <div className="h-16 w-32 bg-[#d9e3f6] animate-pulse rounded mt-2" />
+              <div className="h-16 w-32 bg-[#FAF0CC] animate-pulse rounded mt-2" />
             ) : (
               <>
                 <h3 className="font-['Plus_Jakarta_Sans'] text-6xl font-black text-[#1F2937] mb-2">
@@ -119,9 +119,9 @@ export default function InvestorDashboardPage() {
         <div className="md:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-[#E8E0CE]/10">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-[#006a61]/10 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center">
                 <span
-                  className="material-symbols-outlined text-[#006a61]"
+                  className="material-symbols-outlined text-[#A87813]"
                   style={{ fontVariationSettings: "'FILL' 1" }}
                 >
                   account_balance

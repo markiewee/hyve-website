@@ -336,7 +336,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
                 href={r.file_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-semibold text-sm hover:bg-[#005a50] transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-semibold text-sm hover:bg-[#A87813] transition-colors"
               >
                 <span className="material-symbols-outlined text-[18px]">
                   download

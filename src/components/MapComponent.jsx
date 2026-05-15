@@ -76,7 +76,7 @@ const MapComponent = ({
         icon: {
           url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="20" cy="20" r="18" fill="#0d9488" stroke="white" stroke-width="4"/>
+              <circle cx="20" cy="20" r="18" fill="#A87813" stroke="white" stroke-width="4"/>
               <circle cx="20" cy="20" r="8" fill="white"/>
             </svg>
           `),
@@ -89,9 +89,9 @@ const MapComponent = ({
       const infoWindow = new window.google.maps.InfoWindow({
         content: `
           <div style="padding: 10px; max-width: 250px;">
-            <h3 style="margin: 0 0 8px 0; color: #0d9488; font-size: 16px;">${property.name}</h3>
+            <h3 style="margin: 0 0 8px 0; color: #A87813; font-size: 16px;">${property.name}</h3>
             <p style="margin: 0 0 8px 0; color: #666; font-size: 14px;">${property.address}</p>
-            <p style="margin: 0; color: #0d9488; font-weight: bold;">From $${property.startingPrice}/month</p>
+            <p style="margin: 0; color: #A87813; font-weight: bold;">From $${property.startingPrice}/month</p>
           </div>
         `
       });
@@ -181,7 +181,7 @@ const MapComponent = ({
         type: 'pharmacy',
         radius: 1500,
         limit: 3,
-        color: '#06b6d4',
+        color: '#D9A441',
         icon: 'M12 2v8m-4-4h8',
         category: 'Pharmacy'
       }

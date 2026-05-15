@@ -654,7 +654,7 @@ export default function AdminFinancialsPage() {
               <span className="material-symbols-outlined text-5xl text-[#E8E0CE]">
                 analytics
               </span>
-              <p className="font-['Plus_Jakarta_Sans'] text-base font-semibold text-[#1a2e2b]">
+              <p className="font-['Plus_Jakarta_Sans'] text-base font-semibold text-[#A87813]">
                 No confirmed transactions for {formatMonthLabel(selectedMonth)}
               </p>
               <p className="font-['Manrope'] text-sm text-[#6B7280]">

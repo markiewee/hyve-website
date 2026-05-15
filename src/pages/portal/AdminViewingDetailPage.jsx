@@ -495,7 +495,7 @@ export default function AdminViewingDetailPage() {
 
               {/* Avatar + Name */}
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-16 h-16 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#A87813] font-bold text-xl shrink-0 border-2 border-[#D9A441]/20">
+                <div className="w-16 h-16 rounded-full bg-[#FAF0CC] flex items-center justify-center text-[#A87813] font-bold text-xl shrink-0 border-2 border-[#D9A441]/20">
                   {initials(viewing.prospect_name)}
                 </div>
                 <div>

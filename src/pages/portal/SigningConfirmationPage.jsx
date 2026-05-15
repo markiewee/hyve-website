@@ -186,7 +186,7 @@ export default function SigningConfirmationPage() {
 
           <Button
             onClick={() => navigate("/portal/onboarding")}
-            className="w-full sm:w-auto font-['Manrope'] bg-[#A87813] hover:bg-[#005a50] gap-2"
+            className="w-full sm:w-auto font-['Manrope'] bg-[#A87813] hover:bg-[#A87813] gap-2"
           >
             Continue to Onboarding
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

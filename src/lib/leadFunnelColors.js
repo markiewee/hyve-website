@@ -33,11 +33,11 @@ export const SOURCE_TEXT = {
   other: "#334155",
 };
 
-export const POOL_FILL = "#0f172a"; // slate-900
+export const POOL_FILL = "#1F2937"; // slate-900
 export const POOL_TEXT = "#ffffff";
 
 export const OUTCOME_FILL = {
-  active: "#10b981", // emerald-500
+  active: "#D9A441", // emerald-500
   won: "#16a34a", // green-600
   lost: "#e11d48", // rose-600
   cold: "#64748b", // slate-500

@@ -93,7 +93,7 @@ const BlogPage = () => {
             <div className="w-32 h-32 rounded-full bg-[#D9A441]/40 -mt-20 ml-24"></div>
             <div className="w-24 h-24 rounded-2xl border-[3px] border-[#D9A441] rotate-12 -mt-10 ml-4"></div>
           </div>
-          <div className="absolute -right-8 -bottom-8 w-64 h-64 bg-[#89f5e7]/20 rounded-full blur-3xl z-0"></div>
+          <div className="absolute -right-8 -bottom-8 w-64 h-64 bg-[#D9A441]/20 rounded-full blur-3xl z-0"></div>
           <div className="relative z-10 max-w-3xl px-8 md:px-20">
             <span className="inline-block py-1 px-4 rounded-full bg-[#D9A441] text-[#1F2937] font-['Inter'] font-semibold text-xs tracking-wider mb-6">
               JOURNAL
@@ -119,7 +119,7 @@ const BlogPage = () => {
                 className={`px-6 py-2 rounded-xl font-['Inter'] text-sm font-semibold transition-all ${
                   selectedCategory === category
                     ? 'bg-[#A87813] text-white'
-                    : 'bg-[#d9e3f6] text-[#6B7280] hover:bg-[#FAF0CC]'
+                    : 'bg-[#FAF0CC] text-[#6B7280] hover:bg-[#FAF0CC]'
                 }`}
               >
                 {category === 'all' ? 'All Stories' : category}
