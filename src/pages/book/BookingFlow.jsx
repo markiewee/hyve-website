@@ -327,9 +327,6 @@ export default function BookingFlow({ propertyCode, roomCode }) {
     ? `Book a viewing for ${room.name || room.unit_code}`
     : "Book a viewing";
 
-  const selectedWindow = windows.find((w) => w.key === selectedWindowKey + "-" + selectedSlot?.start) || null; // unused
-  const _ = selectedWindow;
-
   return (
     <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e]">
       {/* Sticky header */}
