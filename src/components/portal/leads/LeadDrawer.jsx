@@ -322,14 +322,17 @@ function OffHorizonPanel({ lead }) {
     try {
       const session = await import("@/lib/supabase").then((m) => m.supabase.auth.getSession());
       const token = session?.data?.session?.access_token || "";
-      const r = await fetch(`/api/booking/admin/leads/${lead.id}/reminder`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ action }),
-      });
+      const r = await fetch(
+        `/api/booking/admin-lead-reminder?id=${encodeURIComponent(lead.id)}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ action }),
+        }
+      );
       if (!r.ok) {
         const body = await r.json().catch(() => ({}));
         throw new Error(body.error || `failed (${r.status})`);

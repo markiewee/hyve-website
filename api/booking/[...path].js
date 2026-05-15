@@ -354,12 +354,13 @@ async function fireNotifyLead(event, leadId) {
 }
 
 // ── Admin: leads reminder snooze/bump/cancel ─────────────────────────
-// Spec §5.5
-async function handleAdminLeadReminder(req, res, segments) {
+// Spec §5.5  — accessed as POST /api/booking/admin-lead-reminder?id=<lead-id>
+// (Vercel's [...path].js routing matches single-segment paths only — nested
+// paths like /admin/leads/<id>/reminder hit a 404 at the platform layer.)
+async function handleAdminLeadReminder(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   if (!(await isAdmin(req))) return res.status(403).json({ error: "Admin only" });
-  // segments: ['admin', 'leads', '<id>', 'reminder']
-  const leadId = segments[2];
+  const leadId = req.query?.id || req.body?.lead_id;
   const action = req.body?.action;
   if (!leadId) return res.status(400).json({ error: "lead id required" });
   if (!["snooze", "bump", "cancel"].includes(action)) {
@@ -957,15 +958,6 @@ export default async function handler(req, res) {
   const route = segments.join("/");
 
   try {
-    // Admin lead reminder: /api/booking/admin/leads/<id>/reminder
-    if (
-      segments[0] === "admin" &&
-      segments[1] === "leads" &&
-      segments[3] === "reminder"
-    ) {
-      return await handleAdminLeadReminder(req, res, segments);
-    }
-
     switch (route) {
       case "slots":
         return await handleSlots(req, res);
@@ -975,8 +967,10 @@ export default async function handler(req, res) {
         return await handleCreate(req, res);
       case "cancel":
         return await handleCancel(req, res);
-      case "leads/off-horizon":
+      case "leads-off-horizon":
         return await handleOffHorizonLead(req, res);
+      case "admin-lead-reminder":
+        return await handleAdminLeadReminder(req, res);
       case "auth-login":
       case "auth/login":
         return await handleAuthLogin(req, res);

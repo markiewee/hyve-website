@@ -389,7 +389,10 @@ New error codes:
 - 409 `travel-buffer` (with body `{earliest_allowed: '2026-05-16T20:30:00+08:00'}`) — cross-property buffer.
 - 409 `would-block-existing` — same-property extension would invalidate a booked cross-property slot.
 
-### 5.4 `POST /api/booking/leads/off-horizon`
+### 5.4 `POST /api/booking/leads-off-horizon`
+> Note: route uses `-` separator (not `/`) because the Vercel `[...path].js`
+> catch-all only matches single-segment paths reliably.
+
 **New endpoint.** Captures off-horizon leads (§4.2).
 
 Request:
@@ -415,7 +418,7 @@ Response (200):
 { "success": true, "lead_id": "uuid" }
 ```
 
-### 5.5 `POST /api/booking/admin/leads/:id/reminder` — admin-only
+### 5.5 `POST /api/booking/admin-lead-reminder?id=<lead-id>` — admin-only
 For Kanban manual snooze/bump. Service-role gated like other admin endpoints.
 
 Body:

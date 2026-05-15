@@ -40,7 +40,7 @@ export function fetchWindows({ property, signal } = {}) {
 
 // V3 — off-horizon lead capture
 export function submitOffHorizonLead(payload) {
-  return jsonFetch(`/api/booking/leads/off-horizon`, {
+  return jsonFetch(`/api/booking/leads-off-horizon`, {
     method: "POST",
     body: JSON.stringify(payload),
   });

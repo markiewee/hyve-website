@@ -6,11 +6,35 @@ const SOURCE_BADGES = {
   propertyguru: "bg-orange-100 text-orange-700",
   carousell: "bg-red-100 text-red-700",
   roomies: "bg-blue-100 text-blue-700",
+  facebook: "bg-blue-100 text-blue-800",
+  telegram: "bg-sky-100 text-sky-700",
   whatsapp_direct: "bg-green-100 text-green-700",
   agent_referral: "bg-purple-100 text-purple-700",
+  referral: "bg-purple-100 text-purple-700",
   organic: "bg-emerald-100 text-emerald-700",
   other: "bg-slate-100 text-slate-700",
 };
+
+// Build a sub-source line from intent metadata so Mark can see which
+// FB group / Carousell listing / Telegram channel each lead came from.
+function buildSubSource(intent) {
+  if (!intent || typeof intent !== "object") return null;
+  const ch = intent.outreach_channel;
+  const handle = intent.outreach_handle;
+  const group = intent.fb_group;
+  const post = intent.found_via_post || intent.outreach_post_url;
+  const listing = intent.carousell_listing_id || intent.propertyguru_listing_id;
+  const referrer = intent.referrer_name;
+
+  const parts = [];
+  if (ch) parts.push(ch);
+  if (group) parts.push(group);
+  else if (listing) parts.push(`#${listing}`);
+  else if (referrer) parts.push(`ref: ${referrer}`);
+  else if (post) parts.push(typeof post === "string" && post.length > 24 ? "post" : `post ${post}`);
+  if (handle && !parts.some((p) => String(p).includes(handle))) parts.push(handle);
+  return parts.length ? parts.join(" · ") : null;
+}
 
 // Days since last message above which a card is "stale" for its column.
 const STALE_WINDOWS = {
@@ -67,6 +91,14 @@ export function LeadCard({ lead, onClick }) {
           {lead.source}
         </span>
       </div>
+      {(() => {
+        const sub = buildSubSource(lead.intent);
+        return sub ? (
+          <div className="text-[10px] text-slate-500 mb-1 truncate" title={sub}>
+            via {sub}
+          </div>
+        ) : null;
+      })()}
 
       <div
         className={`inline-flex items-center gap-1 mb-1 px-1.5 py-0.5 rounded text-[10px] font-medium ${
