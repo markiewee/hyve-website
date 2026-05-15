@@ -51,18 +51,18 @@ export default function DocumentsList({ documents }) {
   if (!documents || documents.length === 0) {
     return (
       <div>
-        <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-4 flex items-center gap-2 text-[#121c2a]">
+        <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-4 flex items-center gap-2 text-[#1F2937]">
           <span className="material-symbols-outlined text-[#A87813] text-[22px]">folder_open</span>
           Documents
         </h3>
-        <p className="text-sm font-['Manrope'] text-[#555f6f]">No documents yet.</p>
+        <p className="text-sm font-['Manrope'] text-[#6B7280]">No documents yet.</p>
       </div>
     );
   }
 
   return (
     <div>
-      <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-4 flex items-center gap-2 text-[#121c2a]">
+      <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-4 flex items-center gap-2 text-[#1F2937]">
         <span className="material-symbols-outlined text-[#A87813] text-[22px]">folder_open</span>
         Documents
       </h3>
@@ -72,15 +72,15 @@ export default function DocumentsList({ documents }) {
           return (
             <div
               key={doc.id}
-              className="py-3 px-3 rounded-lg border border-[#bbcac6]/15 hover:bg-[#f8faf9] transition-colors space-y-2"
+              className="py-3 px-3 rounded-lg border border-[#E8E0CE]/15 hover:bg-[#f8faf9] transition-colors space-y-2"
             >
               <div className="flex items-start gap-2">
                 <span className="material-symbols-outlined text-[#A87813] text-[16px] mt-0.5 shrink-0">{icon}</span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-['Manrope'] font-bold text-[#121c2a] leading-tight">
+                  <p className="text-sm font-['Manrope'] font-bold text-[#1F2937] leading-tight">
                     {doc.title || DOC_TYPE_LABELS[doc.doc_type] || doc.doc_type}
                   </p>
-                  <p className="text-[10px] font-['Inter'] text-[#6c7a77] mt-0.5">
+                  <p className="text-[10px] font-['Inter'] text-[#6B7280] mt-0.5">
                     {DOC_TYPE_LABELS[doc.doc_type] || doc.doc_type}
                     {doc.created_at && ` · ${new Date(doc.created_at).toLocaleDateString("en-SG", { day: "numeric", month: "short" })}`}
                   </p>

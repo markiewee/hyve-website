@@ -321,8 +321,8 @@ export default function IdScanForm({ onboarding, advanceStep }) {
         <div className="rounded-lg border border-[#A87813]/20 bg-[#A87813]/5 p-3 flex items-center gap-3">
           <span className="material-symbols-outlined text-[#A87813] text-[20px]">{isForeigner ? "flight" : "home"}</span>
           <div>
-            <p className="text-sm font-semibold text-[#121c2a]">{nationality}</p>
-            <p className="text-xs text-[#6c7a77]">
+            <p className="text-sm font-semibold text-[#1F2937]">{nationality}</p>
+            <p className="text-xs text-[#6B7280]">
               {isForeigner ? "Passport + work pass required" : "NRIC required"}
             </p>
           </div>

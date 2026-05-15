@@ -316,7 +316,7 @@ ${requestFormData.message || 'No additional message provided'}
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] pt-20">
+      <div className="min-h-screen bg-[#FAF6EC] pt-20">
         <div className="animate-pulse">
           <div className="h-[500px] bg-slate-200"></div>
           <div className="max-w-7xl mx-auto px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-16">
@@ -336,10 +336,10 @@ ${requestFormData.message || 'No additional message provided'}
 
   if (!property) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] pt-24 flex flex-col items-center justify-center px-8">
+      <div className="min-h-screen bg-[#FAF6EC] pt-24 flex flex-col items-center justify-center px-8">
         <span className="material-symbols-outlined text-6xl text-slate-300 mb-4">home_work</span>
-        <h1 className="text-4xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-4">Property Not Found</h1>
-        <p className="text-lg text-[#3c4947] mb-8">Sorry, we couldn&apos;t find the property you&apos;re looking for.</p>
+        <h1 className="text-4xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] mb-4">Property Not Found</h1>
+        <p className="text-lg text-[#1F2937] mb-8">Sorry, we couldn&apos;t find the property you&apos;re looking for.</p>
         <Link
           to="/properties"
           className="bg-[#A87813] text-white px-8 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold hover:opacity-90 transition-all"
@@ -426,7 +426,7 @@ ${requestFormData.message || 'No additional message provided'}
         } : undefined}
       />
 
-      <div className="min-h-screen bg-[#f8f9ff] pt-20">
+      <div className="min-h-screen bg-[#FAF6EC] pt-20">
         {/* ==================== HERO GALLERY ==================== */}
         <section className="relative">
           {/* Desktop Gallery Grid */}
@@ -590,17 +590,17 @@ ${requestFormData.message || 'No additional message provided'}
           <div className="lg:col-span-2 space-y-12 md:space-y-16">
             {/* Description */}
             <div>
-              <h2 className="text-3xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-6">
+              <h2 className="text-3xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] mb-6">
                 About This Property
               </h2>
-              <div className="space-y-4 text-[#3c4947] leading-relaxed font-['Manrope']">
+              <div className="space-y-4 text-[#1F2937] leading-relaxed font-['Manrope']">
                 <p>{property.description || `Experience modern coliving at ${property.name}. Located in the heart of ${neighborhoodName}, this property offers everything you need for comfortable urban living.`}</p>
               </div>
             </div>
 
             {/* ==================== WHAT'S INCLUDED ==================== */}
             <div>
-              <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-6">
+              <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] mb-6">
                 What&apos;s Included
               </h3>
 
@@ -609,7 +609,7 @@ ${requestFormData.message || 'No additional message provided'}
                 {[...UNIVERSAL_ICONS, ...facilityIcons, ...LIFESTYLE_ICONS].map((item) => (
                   <div key={item.icon} className="flex items-center gap-3">
                     <span className="material-symbols-outlined text-[22px] text-[#A87813] flex-shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
-                    <span className="text-sm font-['Manrope'] text-[#3c4947] font-medium">{item.label}</span>
+                    <span className="text-sm font-['Manrope'] text-[#1F2937] font-medium">{item.label}</span>
                   </div>
                 ))}
               </div>
@@ -632,7 +632,7 @@ ${requestFormData.message || 'No additional message provided'}
 
                 {/* Move-in date search */}
                 <div className="bg-white p-4 rounded-xl border border-[rgba(187,202,198,0.15)] mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                  <div className="flex items-center gap-2 text-[#3c4947]">
+                  <div className="flex items-center gap-2 text-[#1F2937]">
                     <span className="material-symbols-outlined text-[#A87813]">search</span>
                     <label htmlFor="moveInDate" className="text-sm font-['Inter'] font-medium whitespace-nowrap">
                       I want to move in by
@@ -644,7 +644,7 @@ ${requestFormData.message || 'No additional message provided'}
                     min={todayStr}
                     value={moveInDate}
                     onChange={(e) => setMoveInDate(e.target.value)}
-                    className="bg-[#eff4ff] border-transparent rounded-lg px-4 py-2 text-sm font-['Inter'] focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none flex-1 min-w-0 w-full sm:w-auto"
+                    className="bg-[#F2D88A] border-transparent rounded-lg px-4 py-2 text-sm font-['Inter'] focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none flex-1 min-w-0 w-full sm:w-auto"
                   />
                   {moveInDate && (
                     <button
@@ -661,7 +661,7 @@ ${requestFormData.message || 'No additional message provided'}
                   {moveInDate && filteredRooms.length === 0 && (
                     <div className="text-center py-8">
                       <span className="material-symbols-outlined text-4xl text-slate-300 mb-2 block">event_busy</span>
-                      <p className="text-[#3c4947] font-['Manrope']">No rooms available by {formatAvailableDate(moveInDate)}</p>
+                      <p className="text-[#1F2937] font-['Manrope']">No rooms available by {formatAvailableDate(moveInDate)}</p>
                       <button
                         onClick={() => setMoveInDate('')}
                         className="text-[#A87813] font-['Inter'] font-bold text-sm mt-2 hover:underline"
@@ -695,24 +695,24 @@ ${requestFormData.message || 'No additional message provided'}
                               Available Now
                             </span>
                           </div>
-                          <p className="text-[#3c4947] text-sm flex items-center gap-1">
+                          <p className="text-[#1F2937] text-sm flex items-center gap-1">
                             <span className="material-symbols-outlined text-xs">square_foot</span>
                             {formatRoomType(room.roomType)}
                           </p>
                           <div className="mt-3 md:hidden">
                             <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
-                              ${room.priceMonthly}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
+                              ${room.priceMonthly}<span className="text-sm font-normal text-[#1F2937]">/mo</span>
                             </p>
-                            <p className="text-[10px] text-[#6c7a77] font-['Inter']">per month, all-inclusive</p>
+                            <p className="text-[10px] text-[#6B7280] font-['Inter']">per month, all-inclusive</p>
                           </div>
                         </div>
                       </div>
                       <div className="text-left md:text-right flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-2 w-full md:w-auto justify-between">
                         <div className="hidden md:block">
                           <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
-                            ${room.priceMonthly}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
+                            ${room.priceMonthly}<span className="text-sm font-normal text-[#1F2937]">/mo</span>
                           </p>
-                          <p className="text-[10px] text-[#6c7a77] font-['Inter']">per month, all-inclusive</p>
+                          <p className="text-[10px] text-[#6B7280] font-['Inter']">per month, all-inclusive</p>
                         </div>
                         <button
                           onClick={() => handleRoomRequest(room)}
@@ -728,7 +728,7 @@ ${requestFormData.message || 'No additional message provided'}
                   {unavailableRooms.length > 0 && (
                     <>
                       <div className="pt-4">
-                        <p className="text-sm text-[#555f6f] font-['Inter'] uppercase tracking-widest font-bold mb-4">
+                        <p className="text-sm text-[#6B7280] font-['Inter'] uppercase tracking-widest font-bold mb-4">
                           Coming Soon ({unavailableRooms.filter(r => r.availableFrom).length})
                         </p>
                       </div>
@@ -782,21 +782,21 @@ ${requestFormData.message || 'No additional message provided'}
                                   </span>
                                 )}
                               </div>
-                              <p className="text-[#3c4947] text-sm">{formatRoomType(room.roomType)}</p>
+                              <p className="text-[#1F2937] text-sm">{formatRoomType(room.roomType)}</p>
                               <div className="mt-3 md:hidden">
                                 <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
-                                  ${room.priceMonthly}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
+                                  ${room.priceMonthly}<span className="text-sm font-normal text-[#1F2937]">/mo</span>
                                 </p>
-                                <p className="text-[10px] text-[#6c7a77] font-['Inter']">per month, all-inclusive</p>
+                                <p className="text-[10px] text-[#6B7280] font-['Inter']">per month, all-inclusive</p>
                               </div>
                             </div>
                           </div>
                           <div className="text-left md:text-right flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-2 w-full md:w-auto justify-between">
                             <div className="hidden md:block">
                               <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
-                                ${room.priceMonthly}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
+                                ${room.priceMonthly}<span className="text-sm font-normal text-[#1F2937]">/mo</span>
                               </p>
-                              <p className="text-[10px] text-[#6c7a77] font-['Inter']">per month, all-inclusive</p>
+                              <p className="text-[10px] text-[#6B7280] font-['Inter']">per month, all-inclusive</p>
                             </div>
                             <button
                               onClick={() => handleRoomRequest(room)}
@@ -816,7 +816,7 @@ ${requestFormData.message || 'No additional message provided'}
             {/* ==================== LOCATION MINI-MAP ==================== */}
             {hasLocation && (
               <div>
-                <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-6">
+                <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] mb-6">
                   Location &amp; Transport
                 </h3>
                 <div className="rounded-2xl overflow-hidden border border-[rgba(187,202,198,0.15)]" style={{ height: '300px' }}>
@@ -846,11 +846,11 @@ ${requestFormData.message || 'No additional message provided'}
                     {property.nearbyMRT.map((mrt, index) => (
                       <div key={index} className="flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl border border-[rgba(187,202,198,0.15)]">
                         <span className="material-symbols-outlined text-[#A87813] text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>train</span>
-                        <span className="font-['Inter'] text-sm font-medium text-[#121c2a]">
+                        <span className="font-['Inter'] text-sm font-medium text-[#1F2937]">
                           {mrt.station || mrt}
                         </span>
                         {mrt.walkingMinutes && (
-                          <span className="text-[#6c7a77] text-xs font-['Inter']">
+                          <span className="text-[#6B7280] text-xs font-['Inter']">
                             {mrt.walkingMinutes} min walk
                           </span>
                         )}
@@ -862,14 +862,14 @@ ${requestFormData.message || 'No additional message provided'}
                 {/* Nearby places grid */}
                 {NEARBY_PLACES[id] && (
                   <div className="mt-6">
-                    <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">What's Nearby</p>
+                    <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">What's Nearby</p>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                       {NEARBY_PLACES[id].map((place, index) => (
                         <div key={index} className="flex items-center gap-2.5 bg-white px-3 py-2.5 rounded-xl border border-[rgba(187,202,198,0.15)]">
                           <span className="material-symbols-outlined text-[#A87813] text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>{place.icon}</span>
                           <div className="min-w-0">
-                            <p className="font-['Manrope'] text-xs font-medium text-[#121c2a] truncate">{place.name}</p>
-                            <p className="font-['Inter'] text-[10px] text-[#6c7a77]">{place.time}</p>
+                            <p className="font-['Manrope'] text-xs font-medium text-[#1F2937] truncate">{place.name}</p>
+                            <p className="font-['Inter'] text-[10px] text-[#6B7280]">{place.time}</p>
                           </div>
                         </div>
                       ))}
@@ -885,9 +885,9 @@ ${requestFormData.message || 'No additional message provided'}
                 <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold mb-6">Nearby MRT</h3>
                 <div className="flex flex-wrap gap-3">
                   {property.nearbyMRT.map((mrt, index) => (
-                    <div key={index} className="flex items-center gap-2 bg-[#dee9fc] px-4 py-2 rounded-xl">
+                    <div key={index} className="flex items-center gap-2 bg-[#FAF0CC] px-4 py-2 rounded-xl">
                       <span className="material-symbols-outlined text-[#A87813] text-sm">train</span>
-                      <span className="font-['Inter'] text-sm font-medium text-[#121c2a]">
+                      <span className="font-['Inter'] text-sm font-medium text-[#1F2937]">
                         {mrt.station || mrt} {mrt.walkingMinutes ? `(${mrt.walkingMinutes} min walk)` : ''}
                       </span>
                     </div>
@@ -902,31 +902,31 @@ ${requestFormData.message || 'No additional message provided'}
                 <p className="text-[10px] font-['Inter'] font-bold uppercase tracking-[0.2em] text-[#A87813] mb-2">
                   Social Proof
                 </p>
-                <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
+                <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937]">
                   Trusted by 50+ residents across Singapore
                 </h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-[#f8f9ff] rounded-xl p-6">
+                <div className="bg-[#FAF6EC] rounded-xl p-6">
                   <div className="flex items-center gap-1 mb-3">
                     {[1, 2, 3, 4, 5].map(i => (
                       <span key={i} className="material-symbols-outlined text-amber-400 text-lg">star</span>
                     ))}
                   </div>
-                  <p className="text-[#3c4947] font-['Manrope'] text-sm leading-relaxed mb-4">
+                  <p className="text-[#1F2937] font-['Manrope'] text-sm leading-relaxed mb-4">
                     &ldquo;Moving to Singapore was daunting, but Lazybee made it so easy. Everything is included in the rent, the housemates are great, and the location is perfect for getting around.&rdquo;
                   </p>
                   <p className="font-['Inter'] text-xs font-bold text-[#A87813]">
                     Priya, 26 &mdash; Thomson Grove
                   </p>
                 </div>
-                <div className="bg-[#f8f9ff] rounded-xl p-6">
+                <div className="bg-[#FAF6EC] rounded-xl p-6">
                   <div className="flex items-center gap-1 mb-3">
                     {[1, 2, 3, 4, 5].map(i => (
                       <span key={i} className="material-symbols-outlined text-amber-400 text-lg">star</span>
                     ))}
                   </div>
-                  <p className="text-[#3c4947] font-['Manrope'] text-sm leading-relaxed mb-4">
+                  <p className="text-[#1F2937] font-['Manrope'] text-sm leading-relaxed mb-4">
                     &ldquo;Best value co-living in Singapore. The weekly cleaning, fast WiFi, and fully furnished rooms meant I could just move in and start living. No hidden costs either.&rdquo;
                   </p>
                   <p className="font-['Inter'] text-xs font-bold text-[#A87813]">
@@ -943,19 +943,19 @@ ${requestFormData.message || 'No additional message provided'}
               <div className="bg-white p-8 rounded-2xl shadow-sm border border-[rgba(187,202,198,0.15)]">
                 {/* Price */}
                 <div className="mb-6">
-                  <p className="text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6c7a77] mb-1">
+                  <p className="text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6B7280] mb-1">
                     Starting from
                   </p>
                   <p className="text-3xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
-                    ${displayStartingPrice}<span className="text-lg font-normal text-[#3c4947]">/mo</span>
+                    ${displayStartingPrice}<span className="text-lg font-normal text-[#1F2937]">/mo</span>
                   </p>
-                  <p className="text-xs text-[#6c7a77] font-['Inter'] mt-1">All-inclusive, no hidden fees</p>
+                  <p className="text-xs text-[#6B7280] font-['Inter'] mt-1">All-inclusive, no hidden fees</p>
                 </div>
 
-                <h4 className="text-xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#121c2a] mb-2">
+                <h4 className="text-xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#1F2937] mb-2">
                   Book a Viewing
                 </h4>
-                <p className="text-[#3c4947] text-sm mb-6 font-['Manrope']">
+                <p className="text-[#1F2937] text-sm mb-6 font-['Manrope']">
                   Tour the space and meet your potential housemates.
                 </p>
                 <div className="space-y-3">
@@ -970,7 +970,7 @@ ${requestFormData.message || 'No additional message provided'}
                     href={`https://wa.me/6580885410?text=${encodeURIComponent(`Hi! I'm interested in viewing ${property.name}.`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full border border-[rgba(187,202,198,0.3)] text-[#121c2a] py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
+                    className="w-full border border-[rgba(187,202,198,0.3)] text-[#1F2937] py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
                   >
                     <span className="material-symbols-outlined">chat</span>
                     WhatsApp Us
@@ -978,7 +978,7 @@ ${requestFormData.message || 'No additional message provided'}
                 </div>
 
                 <div className="mt-6 pt-6 border-t border-[rgba(187,202,198,0.15)] flex items-center justify-between">
-                  <p className="text-[10px] font-['Inter'] text-[#3c4947] font-bold uppercase tracking-widest">
+                  <p className="text-[10px] font-['Inter'] text-[#1F2937] font-bold uppercase tracking-widest">
                     {propertyRooms.length} TOTAL ROOMS
                   </p>
                   <p className="text-[10px] font-['Inter'] text-[#A87813] font-bold uppercase tracking-widest">
@@ -1000,11 +1000,11 @@ ${requestFormData.message || 'No additional message provided'}
         </section>
 
         {/* ==================== MOBILE STICKY BOTTOM BAR ==================== */}
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#bbcac6] px-4 py-3 z-40 flex items-center justify-between gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#E8E0CE] px-4 py-3 z-40 flex items-center justify-between gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
           <div>
-            <p className="text-xs text-[#6c7a77] font-['Inter']">From</p>
+            <p className="text-xs text-[#6B7280] font-['Inter']">From</p>
             <p className="text-xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
-              ${displayStartingPrice}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
+              ${displayStartingPrice}<span className="text-sm font-normal text-[#1F2937]">/mo</span>
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -1012,7 +1012,7 @@ ${requestFormData.message || 'No additional message provided'}
               href={`https://wa.me/6580885410?text=${encodeURIComponent(`Hi! I'm interested in ${property.name}.`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center rounded-full border border-[#bbcac6] text-[#A87813]"
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-[#E8E0CE] text-[#A87813]"
               aria-label="WhatsApp"
             >
               <span className="material-symbols-outlined text-lg">chat</span>
@@ -1076,19 +1076,19 @@ ${requestFormData.message || 'No additional message provided'}
               <div className="text-center py-8">
                 <span className="material-symbols-outlined text-6xl text-[#D9A441] mb-4 block">check_circle</span>
                 <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold mb-2">Request Sent!</h3>
-                <p className="text-[#3c4947]">We&apos;ll be in touch shortly.</p>
+                <p className="text-[#1F2937]">We&apos;ll be in touch shortly.</p>
               </div>
             ) : (
               <>
                 <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold mb-2">
                   {selectedRoom?.isAvailable ? 'Request Room' : 'Enquire'}
                 </h3>
-                <p className="text-sm text-[#3c4947] mb-6">
+                <p className="text-sm text-[#1F2937] mb-6">
                   {selectedRoom?.roomNumber} &bull; ${selectedRoom?.priceMonthly}/mo
                 </p>
                 <form onSubmit={handleRequestSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#3c4947] mb-2">
+                    <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#1F2937] mb-2">
                       Full Name
                     </label>
                     <input
@@ -1096,13 +1096,13 @@ ${requestFormData.message || 'No additional message provided'}
                       type="text"
                       value={requestFormData.name}
                       onChange={(e) => setRequestFormData(prev => ({ ...prev, name: e.target.value }))}
-                      className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none"
+                      className="w-full bg-[#F2D88A] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none"
                       placeholder="John Doe"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#3c4947] mb-2">
+                      <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#1F2937] mb-2">
                         Email
                       </label>
                       <input
@@ -1110,31 +1110,31 @@ ${requestFormData.message || 'No additional message provided'}
                         type="email"
                         value={requestFormData.email}
                         onChange={(e) => setRequestFormData(prev => ({ ...prev, email: e.target.value }))}
-                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none"
+                        className="w-full bg-[#F2D88A] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none"
                         placeholder="admin@lazybee.sg"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#3c4947] mb-2">
+                      <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#1F2937] mb-2">
                         Phone
                       </label>
                       <input
                         type="tel"
                         value={requestFormData.phone}
                         onChange={(e) => setRequestFormData(prev => ({ ...prev, phone: e.target.value }))}
-                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none"
+                        className="w-full bg-[#F2D88A] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none"
                         placeholder="+65 8088 5410"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#3c4947] mb-2">
+                    <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#1F2937] mb-2">
                       Message (optional)
                     </label>
                     <textarea
                       value={requestFormData.message}
                       onChange={(e) => setRequestFormData(prev => ({ ...prev, message: e.target.value }))}
-                      className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none h-24 resize-none"
+                      className="w-full bg-[#F2D88A] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none h-24 resize-none"
                       placeholder="Tell us about yourself..."
                     />
                   </div>

@@ -3,28 +3,28 @@ import { ArrowLeft } from 'lucide-react';
 
 const PrivacyPolicy = () => {
   return (
-    <div className="min-h-screen bg-[#f8f9ff] pt-28 pb-20">
+    <div className="min-h-screen bg-[#FAF6EC] pt-28 pb-20">
       <div className="max-w-4xl mx-auto px-6 md:px-8">
         {/* Header */}
         <div className="mb-10">
           <Link
             to="/"
-            className="inline-flex items-center text-[#A87813] hover:text-[#005048] mb-6 font-['Plus_Jakarta_Sans'] font-bold text-sm gap-2 hover:-translate-x-1 transition-all"
+            className="inline-flex items-center text-[#A87813] hover:text-[#5C420B] mb-6 font-['Plus_Jakarta_Sans'] font-bold text-sm gap-2 hover:-translate-x-1 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Home
           </Link>
 
-          <h1 className="text-4xl md:text-5xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#121c2a] tracking-tight mb-4">
+          <h1 className="text-4xl md:text-5xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#1F2937] tracking-tight mb-4">
             Privacy Policy
           </h1>
-          <p className="text-base text-[#555f6f] font-['Manrope']">
+          <p className="text-base text-[#6B7280] font-['Manrope']">
             Last updated: {new Date().toLocaleDateString()}
           </p>
         </div>
 
         {/* Content */}
-        <div className="bg-white rounded-2xl shadow-sm border border-[rgba(187,202,198,0.15)] p-8 md:p-12 prose prose-lg max-w-none prose-headings:font-['Plus_Jakarta_Sans'] prose-headings:text-[#121c2a] prose-headings:tracking-tight prose-p:font-['Manrope'] prose-p:text-[#3c4947] prose-li:font-['Manrope'] prose-li:text-[#3c4947] prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-lg prose-h3:font-bold prose-h3:mt-6 prose-h3:mb-3 prose-ul:my-4 prose-li:my-1 prose-strong:text-[#121c2a]">
+        <div className="bg-white rounded-2xl shadow-sm border border-[rgba(187,202,198,0.15)] p-8 md:p-12 prose prose-lg max-w-none prose-headings:font-['Plus_Jakarta_Sans'] prose-headings:text-[#1F2937] prose-headings:tracking-tight prose-p:font-['Manrope'] prose-p:text-[#1F2937] prose-li:font-['Manrope'] prose-li:text-[#1F2937] prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-lg prose-h3:font-bold prose-h3:mt-6 prose-h3:mb-3 prose-ul:my-4 prose-li:my-1 prose-strong:text-[#1F2937]">
           <h2>1. Information We Collect</h2>
           <p>
             We collect information you provide directly to us, such as when you create an account, 

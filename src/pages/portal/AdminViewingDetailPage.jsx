@@ -374,8 +374,8 @@ export default function AdminViewingDetailPage() {
     return (
       <PortalLayout>
         <div className="text-center py-20">
-          <span className="material-symbols-outlined text-5xl text-[#bbcac6] mb-4">search_off</span>
-          <p className="text-[#6c7a77] font-['Manrope'] font-medium">Viewing not found.</p>
+          <span className="material-symbols-outlined text-5xl text-[#E8E0CE] mb-4">search_off</span>
+          <p className="text-[#6B7280] font-['Manrope'] font-medium">Viewing not found.</p>
           <Link to="/portal/admin/viewings" className="text-[#A87813] font-['Manrope'] font-bold text-sm mt-4 inline-block hover:underline">
             Back to Viewings
           </Link>
@@ -400,12 +400,12 @@ export default function AdminViewingDetailPage() {
           <div className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div className="p-8">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#121c2a]">Force Book Viewing</h3>
+                <h3 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#1F2937]">Force Book Viewing</h3>
                 <button onClick={() => { setShowForceBook(false); setForceSlots([]); }} className="p-2 rounded-lg hover:bg-[#e0e3e5] transition-colors">
-                  <span className="material-symbols-outlined text-[#6c7a77]">close</span>
+                  <span className="material-symbols-outlined text-[#6B7280]">close</span>
                 </button>
               </div>
-              <p className="text-sm text-[#6c7a77] font-['Manrope'] mb-6">
+              <p className="text-sm text-[#6B7280] font-['Manrope'] mb-6">
                 Select a time slot to confirm this viewing. This overrides the polling process.
               </p>
               <AvailabilityGrid
@@ -415,7 +415,7 @@ export default function AdminViewingDetailPage() {
                 onSlotsChange={(slots) => setForceSlots(slots.slice(-1))}
               />
               <div className="flex justify-end gap-3 mt-6">
-                <button onClick={() => { setShowForceBook(false); setForceSlots([]); }} className="px-5 py-2.5 rounded-xl font-['Manrope'] font-semibold text-sm text-[#121c2a] bg-[#e0e3e5] hover:bg-[#d8dadc] transition-colors">
+                <button onClick={() => { setShowForceBook(false); setForceSlots([]); }} className="px-5 py-2.5 rounded-xl font-['Manrope'] font-semibold text-sm text-[#1F2937] bg-[#e0e3e5] hover:bg-[#d8dadc] transition-colors">
                   Cancel
                 </button>
                 <button onClick={handleForceBook} disabled={forceSlots.length === 0}
@@ -438,7 +438,7 @@ export default function AdminViewingDetailPage() {
               </span>
               <h2 className="text-2xl font-bold font-['Plus_Jakarta_Sans'] tracking-tight text-[#191c1e]">Viewing Detail</h2>
             </div>
-            <p className="text-[#3c4947] text-sm font-['Manrope']">
+            <p className="text-[#1F2937] text-sm font-['Manrope']">
               Requested on {fmtDate(viewing.created_at)}
               {poll?.expires_at && viewing.status === "POLLING" && (
                 <> &middot; {Math.max(0, Math.ceil((new Date(poll.expires_at) - Date.now()) / 86400000))} day{Math.ceil((new Date(poll.expires_at) - Date.now()) / 86400000) !== 1 ? "s" : ""} remaining to confirm</>
@@ -476,7 +476,7 @@ export default function AdminViewingDetailPage() {
                 if (viewing.rooms?.id) params.set("room_id", viewing.rooms.id);
                 window.location.href = `/portal/admin/onboarding?${params.toString()}`;
               }}
-              className="bg-[#FFD24A] text-[#121c2a] font-bold px-6 py-2.5 rounded-lg text-sm font-['Manrope'] shadow-md hover:opacity-90 active:scale-95 transition-all flex items-center gap-2"
+              className="bg-[#FFD24A] text-[#1F2937] font-bold px-6 py-2.5 rounded-lg text-sm font-['Manrope'] shadow-md hover:opacity-90 active:scale-95 transition-all flex items-center gap-2"
               title="Open onboarding invite wizard pre-filled with this prospect"
             >
               <span className="material-symbols-outlined text-lg">person_add</span>
@@ -500,14 +500,14 @@ export default function AdminViewingDetailPage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold font-['Plus_Jakarta_Sans'] text-[#191c1e]">{viewing.prospect_name}</h3>
-                  <p className="text-[#3c4947] font-medium text-sm font-['Manrope']">Prospect</p>
+                  <p className="text-[#1F2937] font-medium text-sm font-['Manrope']">Prospect</p>
                 </div>
               </div>
 
               <div className="space-y-6">
                 {/* Contact Details */}
                 <div>
-                  <span className="block text-[10px] font-bold text-[#6c7a77] uppercase tracking-widest mb-1">Contact Details</span>
+                  <span className="block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1">Contact Details</span>
                   <div className="flex flex-col gap-2">
                     {viewing.prospect_email && (
                       <a className="flex items-center gap-3 text-[#191c1e] hover:text-[#A87813] transition-colors" href={`mailto:${viewing.prospect_email}`}>
@@ -530,13 +530,13 @@ export default function AdminViewingDetailPage() {
                 <div className="grid grid-cols-2 gap-4">
                   {viewing.move_in_date && (
                     <div>
-                      <span className="block text-[10px] font-bold text-[#6c7a77] uppercase tracking-widest mb-1">Move-in Date</span>
+                      <span className="block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1">Move-in Date</span>
                       <p className="font-semibold text-[#191c1e] font-['Manrope']">{fmtDate(viewing.move_in_date)}</p>
                     </div>
                   )}
                   {viewing.source && (
                     <div>
-                      <span className="block text-[10px] font-bold text-[#6c7a77] uppercase tracking-widest mb-1">Source</span>
+                      <span className="block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1">Source</span>
                       <p className="font-semibold text-[#191c1e] font-['Manrope']">{viewing.source}</p>
                     </div>
                   )}
@@ -544,7 +544,7 @@ export default function AdminViewingDetailPage() {
 
                 {/* Notes */}
                 <div>
-                  <span className="block text-[10px] font-bold text-[#6c7a77] uppercase tracking-widest mb-1">Private Notes</span>
+                  <span className="block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1">Private Notes</span>
                   <div className="bg-[#f2f4f6] rounded-lg mt-2">
                     <textarea
                       ref={notesRef}
@@ -553,7 +553,7 @@ export default function AdminViewingDetailPage() {
                       onBlur={handleSaveNotes}
                       rows={3}
                       placeholder="Add private notes about this prospect..."
-                      className="w-full bg-transparent p-4 text-sm text-[#3c4947] font-['Manrope'] leading-relaxed italic resize-none outline-none focus:ring-2 focus:ring-[#D9A441] rounded-lg"
+                      className="w-full bg-transparent p-4 text-sm text-[#1F2937] font-['Manrope'] leading-relaxed italic resize-none outline-none focus:ring-2 focus:ring-[#D9A441] rounded-lg"
                     />
                   </div>
                 </div>
@@ -611,8 +611,8 @@ export default function AdminViewingDetailPage() {
                       circleClass += "bg-white border-2 border-[#D9A441] text-[#D9A441]";
                       labelClass += "text-[#A87813]";
                     } else {
-                      circleClass += "bg-white border border-[#e0e3e5] text-[#bbcac6]";
-                      labelClass += "text-[#bbcac6]";
+                      circleClass += "bg-white border border-[#e0e3e5] text-[#E8E0CE]";
+                      labelClass += "text-[#E8E0CE]";
                     }
 
                     return (
@@ -639,7 +639,7 @@ export default function AdminViewingDetailPage() {
                   <span className="material-symbols-outlined text-[#A87813]" style={{ fontVariationSettings: "'FILL' 1" }}>verified_user</span>
                 </div>
                 <h4 className="font-bold text-[#191c1e] font-['Manrope']">{captainName}</h4>
-                <p className="text-xs text-[#3c4947] font-['Manrope'] mb-4">House Captain</p>
+                <p className="text-xs text-[#1F2937] font-['Manrope'] mb-4">House Captain</p>
                 {captainResponded ? (
                   <div className="flex items-center gap-2 text-green-600 bg-green-50 w-fit px-3 py-1 rounded-full">
                     <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
@@ -660,7 +660,7 @@ export default function AdminViewingDetailPage() {
                   <span className="material-symbols-outlined text-[#D9A441]">person</span>
                 </div>
                 <h4 className="font-bold text-[#191c1e] font-['Manrope']">{prospectName}</h4>
-                <p className="text-xs text-[#3c4947] font-['Manrope'] mb-4">Prospect</p>
+                <p className="text-xs text-[#1F2937] font-['Manrope'] mb-4">Prospect</p>
                 {prospectResponded ? (
                   <div className="flex items-center gap-2 text-green-600 bg-green-50 w-fit px-3 py-1 rounded-full">
                     <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
@@ -675,13 +675,13 @@ export default function AdminViewingDetailPage() {
               </div>
 
               {/* Resident */}
-              <div className="bg-white p-6 rounded-xl border-l-4 border-[#bbcac6] shadow-sm">
+              <div className="bg-white p-6 rounded-xl border-l-4 border-[#E8E0CE] shadow-sm">
                 <div className="flex justify-between items-start mb-4">
-                  <span className="text-[10px] font-bold text-[#bbcac6] uppercase tracking-widest">Resident</span>
-                  <span className="material-symbols-outlined text-[#bbcac6]">home</span>
+                  <span className="text-[10px] font-bold text-[#E8E0CE] uppercase tracking-widest">Resident</span>
+                  <span className="material-symbols-outlined text-[#E8E0CE]">home</span>
                 </div>
                 <h4 className="font-bold text-[#191c1e] font-['Manrope']">{residentName}</h4>
-                <p className="text-xs text-[#3c4947] font-['Manrope'] mb-4">Current Tenant</p>
+                <p className="text-xs text-[#1F2937] font-['Manrope'] mb-4">Current Tenant</p>
                 {residentResponded ? (
                   <div className="flex items-center gap-2 text-green-600 bg-green-50 w-fit px-3 py-1 rounded-full">
                     <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
@@ -690,7 +690,7 @@ export default function AdminViewingDetailPage() {
                 ) : (
                   <div className="flex items-center gap-2 text-[#9b4426] bg-[#9b4426]/10 w-fit px-3 py-1 rounded-full">
                     <span className="material-symbols-outlined text-xs">pending</span>
-                    <span className="text-[10px] font-bold">Waiting... <span className="text-[#6c7a77]">(courtesy)</span></span>
+                    <span className="text-[10px] font-bold">Waiting... <span className="text-[#6B7280]">(courtesy)</span></span>
                   </div>
                 )}
               </div>
@@ -700,7 +700,7 @@ export default function AdminViewingDetailPage() {
             <section className="bg-white rounded-xl p-8 shadow-sm">
               <h3 className="text-sm font-bold font-['Plus_Jakarta_Sans'] text-[#191c1e] mb-8 uppercase tracking-tighter">Activity Timeline</h3>
               {timeline.length === 0 ? (
-                <p className="text-sm text-[#6c7a77] font-['Manrope']">No activity yet.</p>
+                <p className="text-sm text-[#6B7280] font-['Manrope']">No activity yet.</p>
               ) : (
                 <div className="space-y-8 relative">
                   <div className="absolute top-0 left-3 w-[2px] h-full bg-[#f2f4f6]" />
@@ -728,8 +728,8 @@ export default function AdminViewingDetailPage() {
                         <div className={dotClass}>{dotInner}</div>
                         <div>
                           <p className="text-sm font-bold text-[#191c1e] font-['Manrope']">{entry.title}</p>
-                          <p className="text-xs text-[#3c4947] font-['Manrope'] mb-2">{entry.description}</p>
-                          <span className="text-[10px] text-[#6c7a77] font-medium font-['Manrope']">{fmtDateTime(entry.time)}</span>
+                          <p className="text-xs text-[#1F2937] font-['Manrope'] mb-2">{entry.description}</p>
+                          <span className="text-[10px] text-[#6B7280] font-medium font-['Manrope']">{fmtDateTime(entry.time)}</span>
                         </div>
                       </div>
                     );

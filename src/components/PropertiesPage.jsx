@@ -154,22 +154,22 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
       <div className="space-y-3 px-2">
         <div className="flex justify-between items-start">
           <div>
-            <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">{property.name}</h3>
-            <p className="text-sm text-[#555f6f] flex items-center gap-1">
+            <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937]">{property.name}</h3>
+            <p className="text-sm text-[#6B7280] flex items-center gap-1">
               <span className="material-symbols-outlined text-xs">location_on</span>
               {property.neighborhood?.name || property.neighborhood || 'Singapore'}
             </p>
           </div>
           <div className="text-right">
             <p className="text-lg font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
-              ${property.startingPrice}<span className="text-xs font-normal text-[#555f6f]">{t('public.properties.perMonth')}</span>
+              ${property.startingPrice}<span className="text-xs font-normal text-[#6B7280]">{t('public.properties.perMonth')}</span>
             </p>
           </div>
         </div>
         <div className="flex gap-3 pt-2 flex-wrap">
           {(property.amenities || []).slice(0, 3).map((amenity, index) => (
-            <div key={index} className="flex items-center gap-1.5 bg-[#dee9fc]/50 px-3 py-1.5 rounded-lg">
-              <span className="text-xs font-['Inter'] font-semibold text-[#3c4947]">{amenity}</span>
+            <div key={index} className="flex items-center gap-1.5 bg-[#FAF0CC]/50 px-3 py-1.5 rounded-lg">
+              <span className="text-xs font-['Inter'] font-semibold text-[#1F2937]">{amenity}</span>
             </div>
           ))}
         </div>
@@ -179,7 +179,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] pt-24">
+      <div className="min-h-screen bg-[#FAF6EC] pt-24">
         <div className="max-w-screen-2xl mx-auto px-6 md:px-8">
           <div className="animate-pulse space-y-8">
             <div className="h-10 bg-slate-200 rounded-xl w-1/2"></div>
@@ -200,7 +200,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f9ff] pt-24">
+    <div className="min-h-screen bg-[#FAF6EC] pt-24">
       <SEO
         title="Browse Co-living Properties"
         description="Explore Lazybee's co-living properties across Singapore. Fully furnished rooms from S$950/month with all bills included."
@@ -220,17 +220,17 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
       <header className="px-6 md:px-8 pb-8 max-w-screen-2xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end gap-6">
           <div className="space-y-2">
-            <h1 className="text-3xl md:text-4xl font-['Plus_Jakarta_Sans'] font-extrabold tracking-tight text-[#121c2a]">
+            <h1 className="text-3xl md:text-4xl font-['Plus_Jakarta_Sans'] font-extrabold tracking-tight text-[#1F2937]">
               {t('public.properties.title')}
             </h1>
-            <p className="text-[#555f6f] font-['Manrope'] max-w-md">
+            <p className="text-[#6B7280] font-['Manrope'] max-w-md">
               {t('public.properties.subtitle')}
             </p>
           </div>
           {/* Filter Bar */}
           <div className="w-full md:w-auto flex flex-wrap gap-3">
             <div className="bg-white rounded-xl p-2 flex items-center outline-1 outline-[rgba(187,202,198,0.15)] focus-within:outline-[#A87813] px-4 py-3 min-w-[240px]">
-              <span className="material-symbols-outlined text-[#6c7a77] mr-2">search</span>
+              <span className="material-symbols-outlined text-[#6B7280] mr-2">search</span>
               <input
                 className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm font-['Manrope'] w-full"
                 placeholder="Location, neighborhood..."
@@ -255,7 +255,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
 
       {/* Results count */}
       <div className="px-6 md:px-8 max-w-screen-2xl mx-auto mb-4">
-        <p className="text-sm text-[#555f6f] font-['Inter']">
+        <p className="text-sm text-[#6B7280] font-['Inter']">
           {filteredProperties.length} {filteredProperties.length !== 1 ? t('public.properties.propertiesFound') : t('public.properties.propertyFound')}
         </p>
       </div>
@@ -271,7 +271,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
         ) : (
           <div className="text-center py-20">
             <span className="material-symbols-outlined text-6xl text-slate-300 mb-4 block">search_off</span>
-            <p className="text-lg text-[#555f6f] mb-4">{t('public.properties.noProperties')}</p>
+            <p className="text-lg text-[#6B7280] mb-4">{t('public.properties.noProperties')}</p>
             <button
               onClick={() => {
                 setLocalFilters({});

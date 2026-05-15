@@ -87,8 +87,8 @@ const CATEGORY_LABELS = {
 function SummaryCard({ label, value, color, bgClass }) {
   const displayValue = value != null && !isNaN(value) ? value : 0;
   return (
-    <div className={`rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm ${bgClass ?? "bg-white"}`}>
-      <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">
+    <div className={`rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm ${bgClass ?? "bg-white"}`}>
+      <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">
         {label}
       </p>
       <p className={`font-['Plus_Jakarta_Sans'] text-3xl font-extrabold ${color}`}>
@@ -101,8 +101,8 @@ function SummaryCard({ label, value, color, bgClass }) {
 function CategoryRow({ category, amount }) {
   const isIncome = INCOME_CATEGORIES.includes(category);
   return (
-    <div className="flex items-center justify-between py-2 px-4 hover:bg-[#f8f9ff] transition-colors rounded-lg">
-      <span className="font-['Manrope'] text-sm text-[#121c2a]">
+    <div className="flex items-center justify-between py-2 px-4 hover:bg-[#FAF6EC] transition-colors rounded-lg">
+      <span className="font-['Manrope'] text-sm text-[#1F2937]">
         {CATEGORY_LABELS[category] ?? category}
       </span>
       <span
@@ -123,15 +123,15 @@ function PropertyPnL({ property, data }) {
   const hasExpenses = Object.keys(expenseByCategory).length > 0;
 
   return (
-    <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
+    <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden">
       {/* Header */}
-      <div className="px-8 py-6 border-b border-[#bbcac6]/15 flex items-center justify-between">
+      <div className="px-8 py-6 border-b border-[#E8E0CE]/15 flex items-center justify-between">
         <div>
-          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-lg">
+          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-lg">
             {property?.name ?? "Operations (No Property)"}
           </h2>
           {property?.code && (
-            <p className="font-['Manrope'] text-[#6c7a77] text-sm">{property.code}</p>
+            <p className="font-['Manrope'] text-[#6B7280] text-sm">{property.code}</p>
           )}
         </div>
         <span
@@ -149,7 +149,7 @@ function PropertyPnL({ property, data }) {
         {/* Summary row */}
         <div className="grid grid-cols-3 gap-4 mb-8">
           <div className="bg-[#f0fdf4] rounded-xl p-5 text-center">
-            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-2">
               Income
             </p>
             <p className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#16a34a] tabular-nums">
@@ -157,7 +157,7 @@ function PropertyPnL({ property, data }) {
             </p>
           </div>
           <div className="bg-[#fef2f2] rounded-xl p-5 text-center">
-            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-2">
               Expenses
             </p>
             <p className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#ba1a1a] tabular-nums">
@@ -171,7 +171,7 @@ function PropertyPnL({ property, data }) {
           >
             <p
               className={`font-['Inter'] text-[10px] uppercase tracking-widest font-bold mb-2 ${
-                netProfit >= 0 ? "text-[#71f8e4]/80" : "text-[#ba1a1a]"
+                netProfit >= 0 ? "text-[#D9A441]/80" : "text-[#ba1a1a]"
               }`}
             >
               Net Profit
@@ -193,13 +193,13 @@ function PropertyPnL({ property, data }) {
               <span className="material-symbols-outlined text-[16px]">trending_up</span>
               Income Breakdown
             </h3>
-            <div className="rounded-xl border border-[#bbcac6]/15 divide-y divide-[#bbcac6]/10 overflow-hidden">
+            <div className="rounded-xl border border-[#E8E0CE]/15 divide-y divide-[#E8E0CE]/10 overflow-hidden">
               {hasIncome ? (
                 INCOME_CATEGORIES.filter((c) => incomeByCategory[c]).map((cat) => (
                   <CategoryRow key={cat} category={cat} amount={incomeByCategory[cat]} />
                 ))
               ) : (
-                <p className="text-sm text-[#6c7a77] font-['Manrope'] p-4">No income this month</p>
+                <p className="text-sm text-[#6B7280] font-['Manrope'] p-4">No income this month</p>
               )}
             </div>
           </div>
@@ -210,13 +210,13 @@ function PropertyPnL({ property, data }) {
               <span className="material-symbols-outlined text-[16px]">trending_down</span>
               Expense Breakdown
             </h3>
-            <div className="rounded-xl border border-[#bbcac6]/15 divide-y divide-[#bbcac6]/10 overflow-hidden">
+            <div className="rounded-xl border border-[#E8E0CE]/15 divide-y divide-[#E8E0CE]/10 overflow-hidden">
               {hasExpenses ? (
                 EXPENSE_CATEGORIES.filter((c) => expenseByCategory[c]).map((cat) => (
                   <CategoryRow key={cat} category={cat} amount={expenseByCategory[cat]} />
                 ))
               ) : (
-                <p className="text-sm text-[#6c7a77] font-['Manrope'] p-4">No expenses this month</p>
+                <p className="text-sm text-[#6B7280] font-['Manrope'] p-4">No expenses this month</p>
               )}
             </div>
           </div>
@@ -415,13 +415,13 @@ export default function AdminFinancialsPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
           P&L Report
         </h1>
-        <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
+        <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">
           Monthly income vs expenses by property, from confirmed bank transactions.
         </p>
-        <p className="text-[#6c7a77]/70 font-['Manrope'] text-xs mt-1">
+        <p className="text-[#6B7280]/70 font-['Manrope'] text-xs mt-1">
           Based on categorized bank transactions
         </p>
       </div>
@@ -430,16 +430,16 @@ export default function AdminFinancialsPage() {
       <div className="flex flex-wrap items-center gap-4 mb-8">
         <button
           onClick={() => setSelectedMonth((m) => addMonths(m, -1))}
-          className="w-10 h-10 bg-white rounded-xl border border-[#bbcac6]/15 shadow-sm flex items-center justify-center text-[#555f6f] hover:bg-[#eff4ff] transition-all"
+          className="w-10 h-10 bg-white rounded-xl border border-[#E8E0CE]/15 shadow-sm flex items-center justify-center text-[#6B7280] hover:bg-[#F2D88A] transition-all"
         >
           <span className="material-symbols-outlined text-[20px]">chevron_left</span>
         </button>
-        <span className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a] min-w-[180px] text-center">
+        <span className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937] min-w-[180px] text-center">
           {formatMonthLabel(selectedMonth)}
         </span>
         <button
           onClick={() => setSelectedMonth((m) => addMonths(m, 1))}
-          className="w-10 h-10 bg-white rounded-xl border border-[#bbcac6]/15 shadow-sm flex items-center justify-center text-[#555f6f] hover:bg-[#eff4ff] transition-all"
+          className="w-10 h-10 bg-white rounded-xl border border-[#E8E0CE]/15 shadow-sm flex items-center justify-center text-[#6B7280] hover:bg-[#F2D88A] transition-all"
         >
           <span className="material-symbols-outlined text-[20px]">chevron_right</span>
         </button>
@@ -448,7 +448,7 @@ export default function AdminFinancialsPage() {
           <select
             value={selectedPropertyId}
             onChange={(e) => setSelectedPropertyId(e.target.value)}
-            className="h-10 px-4 rounded-xl border border-[#bbcac6]/30 bg-white font-['Manrope'] text-sm text-[#121c2a] focus:outline-none focus:ring-2 focus:ring-[#A87813]/30"
+            className="h-10 px-4 rounded-xl border border-[#E8E0CE]/30 bg-white font-['Manrope'] text-sm text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#A87813]/30"
           >
             <option value="ALL">All Properties</option>
             <option value="OPS">Ops (No Property)</option>
@@ -485,15 +485,15 @@ export default function AdminFinancialsPage() {
 
       {/* Finalize Month controls */}
       {!loading && Object.keys(pnlByProperty).length > 0 && (
-        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm mb-8">
+        <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm mb-8">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <span className="material-symbols-outlined text-[#A87813] text-[24px]">lock</span>
               <div>
-                <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
+                <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937]">
                   Finalize Month
                 </h3>
-                <p className="font-['Manrope'] text-sm text-[#6c7a77]">
+                <p className="font-['Manrope'] text-sm text-[#6B7280]">
                   Lock {formatMonthLabel(selectedMonth)} P&L into monthly_financials records.
                 </p>
               </div>
@@ -507,7 +507,7 @@ export default function AdminFinancialsPage() {
                 </span>
               )}
               {!currentMonthStatus && (
-                <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ml-2 bg-[#e6eeff] text-[#555f6f]">
+                <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ml-2 bg-[#FAF0CC] text-[#6B7280]">
                   NOT YET FINALIZED
                 </span>
               )}
@@ -539,35 +539,35 @@ export default function AdminFinancialsPage() {
 
       {/* Monthly Financials Status Overview */}
       {monthlyFinancials.length > 0 && (
-        <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden mb-8">
-          <div className="px-6 py-5 border-b border-[#bbcac6]/15">
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] flex items-center gap-2">
+        <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden mb-8">
+          <div className="px-6 py-5 border-b border-[#E8E0CE]/15">
+            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] flex items-center gap-2">
               <span className="material-symbols-outlined text-[#A87813] text-[20px]">calendar_month</span>
               Finalization Status
             </h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-[#eff4ff]">
+              <thead className="bg-[#F2D88A]">
                 <tr>
-                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Month</th>
-                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Property</th>
-                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Revenue</th>
-                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Expenses</th>
-                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Net Profit</th>
-                  <th className="text-center px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Status</th>
+                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Month</th>
+                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Property</th>
+                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Revenue</th>
+                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Expenses</th>
+                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Net Profit</th>
+                  <th className="text-center px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#bbcac6]/10">
+              <tbody className="divide-y divide-[#E8E0CE]/10">
                 {monthlyFinancials.slice(0, 20).map((mf) => (
-                  <tr key={mf.id} className="hover:bg-[#f8f9ff] transition-colors">
-                    <td className="px-4 py-3 font-['Manrope'] text-sm text-[#121c2a]">
+                  <tr key={mf.id} className="hover:bg-[#FAF6EC] transition-colors">
+                    <td className="px-4 py-3 font-['Manrope'] text-sm text-[#1F2937]">
                       {mf.month ? formatMonthLabel(mf.month.slice(0, 7)) : "—"}
                     </td>
-                    <td className="px-4 py-3 font-['Manrope'] text-sm text-[#6c7a77]">
+                    <td className="px-4 py-3 font-['Manrope'] text-sm text-[#6B7280]">
                       {mf.properties?.name ?? "—"}
                       {mf.properties?.code && (
-                        <span className="ml-1.5 font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#A87813] px-1.5 py-0.5 rounded">
+                        <span className="ml-1.5 font-['Inter'] text-xs font-bold bg-[#F2D88A] text-[#A87813] px-1.5 py-0.5 rounded">
                           {mf.properties.code}
                         </span>
                       )}
@@ -604,7 +604,7 @@ export default function AdminFinancialsPage() {
       {loading ? (
         <div className="space-y-6">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-64 bg-[#eff4ff] animate-pulse rounded-2xl" />
+            <div key={i} className="h-64 bg-[#F2D88A] animate-pulse rounded-2xl" />
           ))}
         </div>
       ) : (
@@ -650,14 +650,14 @@ export default function AdminFinancialsPage() {
 
           {/* Empty state */}
           {Object.keys(pnlByProperty).length === 0 && (
-            <div className="flex flex-col items-center justify-center gap-3 py-20 bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm">
-              <span className="material-symbols-outlined text-5xl text-[#bbcac6]">
+            <div className="flex flex-col items-center justify-center gap-3 py-20 bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm">
+              <span className="material-symbols-outlined text-5xl text-[#E8E0CE]">
                 analytics
               </span>
               <p className="font-['Plus_Jakarta_Sans'] text-base font-semibold text-[#1a2e2b]">
                 No confirmed transactions for {formatMonthLabel(selectedMonth)}
               </p>
-              <p className="font-['Manrope'] text-sm text-[#6c7a77]">
+              <p className="font-['Manrope'] text-sm text-[#6B7280]">
                 Import and confirm transactions in the Import page to see P&L data here.
               </p>
             </div>

@@ -26,7 +26,7 @@ const AboutPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#f8f9ff] pt-24">
+    <div className="min-h-screen bg-[#FAF6EC] pt-24">
       <SEO
         title="About Lazybee"
         description="Lazybee is Singapore's premium co-living brand. Learn about our mission to create urban sanctuaries for modern professionals."
@@ -48,18 +48,18 @@ const AboutPage = () => {
       {/* Hero Section */}
       <section className="relative px-6 md:px-8 py-20 lg:py-32 max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
         <div className="z-10">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-[#71f8e4] text-[#00201c] font-['Inter'] text-xs font-bold uppercase tracking-widest mb-6">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-[#D9A441] text-[#1F2937] font-['Inter'] text-xs font-bold uppercase tracking-widest mb-6">
             {t('public.about.badge')}
           </span>
-          <h1 className="font-['Plus_Jakarta_Sans'] text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tighter text-[#121c2a] leading-[1.1] mb-8">
+          <h1 className="font-['Plus_Jakarta_Sans'] text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tighter text-[#1F2937] leading-[1.1] mb-8">
             Architecting the <span className="text-[#A87813] italic">future</span> of urban sanctuary.
           </h1>
-          <p className="text-[#3c4947] text-lg lg:text-xl leading-relaxed max-w-xl font-['Manrope']">
+          <p className="text-[#1F2937] text-lg lg:text-xl leading-relaxed max-w-xl font-['Manrope']">
             We believe living spaces should be more than a residence. Lazybee is a movement toward intentional, community-driven living that honors design and connection.
           </p>
         </div>
         <div className="relative">
-          <div className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl bg-[#dee9fc]">
+          <div className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl bg-[#FAF0CC]">
             <img
               className="w-full h-full object-cover"
               src="/hero_coliving_interior.jpg"
@@ -79,16 +79,16 @@ const AboutPage = () => {
       </section>
 
       {/* Company Story */}
-      <section className="bg-[#eff4ff] py-24 lg:py-32">
+      <section className="bg-[#F2D88A] py-24 lg:py-32">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid lg:grid-cols-12 gap-12">
             <div className="lg:col-span-5">
-              <h2 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold tracking-tight text-[#121c2a] mb-6">
+              <h2 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold tracking-tight text-[#1F2937] mb-6">
                 The Lazybee Story
               </h2>
               <div className="w-20 h-1.5 bg-[#A87813] rounded-full mb-8"></div>
             </div>
-            <div className="lg:col-span-7 space-y-6 text-[#3c4947] text-lg font-['Manrope'] leading-loose">
+            <div className="lg:col-span-7 space-y-6 text-[#1F2937] text-lg font-['Manrope'] leading-loose">
               <p>
                 Founded in 2023, Lazybee was born from a simple observation: young professionals and students in Singapore were seeking connection, not just square footage.
               </p>
@@ -107,7 +107,7 @@ const AboutPage = () => {
       <section className="py-24 lg:py-32 px-6 md:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-20">
           <h2 className="font-['Plus_Jakarta_Sans'] text-4xl font-extrabold tracking-tight mb-4">Core Pillars</h2>
-          <p className="font-['Manrope'] text-[#3c4947]">The foundation of every Lazybee residence.</p>
+          <p className="font-['Manrope'] text-[#1F2937]">The foundation of every Lazybee residence.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
@@ -135,18 +135,18 @@ const AboutPage = () => {
                 <span className="material-symbols-outlined text-3xl">{value.icon}</span>
               </div>
               <h3 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold">{value.title}</h3>
-              <p className="text-[#3c4947] leading-relaxed font-['Manrope']">{value.description}</p>
+              <p className="text-[#1F2937] leading-relaxed font-['Manrope']">{value.description}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Leadership */}
-      <section className="bg-[#e6eeff] py-24 lg:py-32 px-6 md:px-8">
+      <section className="bg-[#FAF0CC] py-24 lg:py-32 px-6 md:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16">
             <h2 className="font-['Plus_Jakarta_Sans'] text-4xl font-extrabold tracking-tight mb-4">The Team</h2>
-            <p className="font-['Manrope'] text-[#3c4947]">Led by visionaries in property and community.</p>
+            <p className="font-['Manrope'] text-[#1F2937]">Led by visionaries in property and community.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
             {team.map((member, index) => (
@@ -172,7 +172,7 @@ const AboutPage = () => {
                   {member.role}
                 </span>
                 <h3 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold mb-4">{member.name}</h3>
-                <p className="text-[#3c4947] leading-relaxed font-['Manrope'] max-w-xs">
+                <p className="text-[#1F2937] leading-relaxed font-['Manrope'] max-w-xs">
                   {member.bio}
                 </p>
               </div>
@@ -182,7 +182,7 @@ const AboutPage = () => {
       </section>
 
       {/* Stats */}
-      <section className="py-20 px-6 md:px-8 bg-[#f8f9ff]">
+      <section className="py-20 px-6 md:px-8 bg-[#FAF6EC]">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-8 text-center">
           {[
             { number: '16', label: 'Residents and growing' },
@@ -191,7 +191,7 @@ const AboutPage = () => {
           ].map((stat, index) => (
             <div key={index}>
               <div className="text-4xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813] mb-2">{stat.number}</div>
-              <div className="text-[#3c4947] font-['Manrope']">{stat.label}</div>
+              <div className="text-[#1F2937] font-['Manrope']">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -216,7 +216,7 @@ const AboutPage = () => {
               href="https://wa.me/6580885410?text=Hi!%20I'm%20interested%20in%20a%20room%20at%20Lazybee."
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#D9A441]/20 text-white border border-[#71f8e4]/30 backdrop-blur-md px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-extrabold hover:bg-[#D9A441]/30 transition-colors inline-block"
+              className="bg-[#D9A441]/20 text-white border border-[#D9A441]/30 backdrop-blur-md px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-extrabold hover:bg-[#D9A441]/30 transition-colors inline-block"
             >
               {t('public.about.contactUs')}
             </a>

@@ -327,19 +327,19 @@ export default function AdminDocumentsPage() {
     <PortalLayout>
       <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">Documents</h1>
-          <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">Upload PDF templates, place signature boxes, and send to members.</p>
+          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">Documents</h1>
+          <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">Upload PDF templates, place signature boxes, and send to members.</p>
         </div>
         <div className="flex gap-2 flex-wrap">
           <button onClick={() => setShowGenerate(true)} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61]">
             <span className="material-symbols-outlined text-[18px]">description</span>
             Generate Agreement
           </button>
-          <button onClick={openSendDoc} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#eff4ff] text-[#A87813] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff]">
+          <button onClick={openSendDoc} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#F2D88A] text-[#A87813] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#FAF0CC]">
             <span className="material-symbols-outlined text-[18px]">send</span>
             Send PDF to Member
           </button>
-          <button onClick={openCreateEditor} className="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-[#6c7a77] border border-[#bbcac6]/30 rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#f8f9ff]">
+          <button onClick={openCreateEditor} className="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-[#6B7280] border border-[#E8E0CE]/30 rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#FAF6EC]">
             <span className="material-symbols-outlined text-[18px]">add</span>
             New Template
           </button>
@@ -356,20 +356,20 @@ export default function AdminDocumentsPage() {
       {showGenerate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setShowGenerate(false)}>
           <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl" onClick={e => e.stopPropagation()}>
-            <div className="px-8 pt-6 pb-4 border-b border-[#bbcac6]/15 flex items-center justify-between">
+            <div className="px-8 pt-6 pb-4 border-b border-[#E8E0CE]/15 flex items-center justify-between">
               <h2 className="font-['Plus_Jakarta_Sans'] text-xl font-bold">Generate Licence Agreement</h2>
-              <button onClick={() => setShowGenerate(false)} className="text-[#6c7a77] hover:text-[#121c2a]">
+              <button onClick={() => setShowGenerate(false)} className="text-[#6B7280] hover:text-[#1F2937]">
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
             <div className="p-8 space-y-5">
-              <p className="text-sm text-[#555f6f] font-['Manrope']">
+              <p className="text-sm text-[#6B7280] font-['Manrope']">
                 Select a member — the agreement will be auto-filled with their details and opened in a new tab for you to review and save as PDF.
               </p>
               <div className="space-y-1.5">
-                <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Member *</label>
+                <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold block">Member *</label>
                 <select value={genTenantId} onChange={e => setGenTenantId(e.target.value)}
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none">
+                  className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none">
                   <option value="">Select member</option>
                   {tenants.map(t => (
                     <option key={t.id} value={t.id}>
@@ -383,28 +383,28 @@ export default function AdminDocumentsPage() {
                 const t = tenants.find(x => x.id === genTenantId);
                 const ob = t?.onboarding_progress;
                 return (
-                  <div className="bg-[#f8f9ff] rounded-xl p-4 text-xs font-['Manrope'] space-y-1">
-                    <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-2">Will auto-fill</p>
-                    <p><span className="text-[#6c7a77]">Name:</span> <strong>{t?.tenant_details?.full_name || "—"}</strong></p>
-                    <p><span className="text-[#6c7a77]">Room:</span> <strong>{t?.rooms?.unit_code} — {t?.rooms?.name}</strong></p>
-                    <p><span className="text-[#6c7a77]">Rent:</span> <strong>SGD {t?.monthly_rent || "—"}</strong> · <span className="text-[#6c7a77]">Deposit:</span> <strong>SGD {ob?.deposit_amount || "—"}</strong></p>
-                    <p><span className="text-[#6c7a77]">Period:</span> <strong>{ob?.licence_period || "—"}</strong></p>
-                    <p><span className="text-[#6c7a77]">Ref:</span> <strong>{ob?.ref_number || "—"}</strong></p>
+                  <div className="bg-[#FAF6EC] rounded-xl p-4 text-xs font-['Manrope'] space-y-1">
+                    <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-2">Will auto-fill</p>
+                    <p><span className="text-[#6B7280]">Name:</span> <strong>{t?.tenant_details?.full_name || "—"}</strong></p>
+                    <p><span className="text-[#6B7280]">Room:</span> <strong>{t?.rooms?.unit_code} — {t?.rooms?.name}</strong></p>
+                    <p><span className="text-[#6B7280]">Rent:</span> <strong>SGD {t?.monthly_rent || "—"}</strong> · <span className="text-[#6B7280]">Deposit:</span> <strong>SGD {ob?.deposit_amount || "—"}</strong></p>
+                    <p><span className="text-[#6B7280]">Period:</span> <strong>{ob?.licence_period || "—"}</strong></p>
+                    <p><span className="text-[#6B7280]">Ref:</span> <strong>{ob?.ref_number || "—"}</strong></p>
                   </div>
                 );
               })()}
 
               <div className="space-y-1.5">
-                <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Extra Terms (optional)</label>
+                <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold block">Extra Terms (optional)</label>
                 <textarea value={genExtraTerms} onChange={e => setGenExtraTerms(e.target.value)}
                   placeholder="Any additional terms specific to this tenant..."
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none resize-y min-h-[60px]"
+                  className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none resize-y min-h-[60px]"
                   rows={2} />
               </div>
 
               <div className="flex gap-3">
                 <button onClick={() => setShowGenerate(false)}
-                  className="flex-1 py-3 bg-[#eff4ff] text-[#555f6f] rounded-xl font-['Manrope'] font-bold text-sm">
+                  className="flex-1 py-3 bg-[#F2D88A] text-[#6B7280] rounded-xl font-['Manrope'] font-bold text-sm">
                   Cancel
                 </button>
                 <button onClick={handleGenerate} disabled={!genTenantId}
@@ -414,7 +414,7 @@ export default function AdminDocumentsPage() {
                 </button>
               </div>
 
-              <p className="text-[10px] text-[#bbcac6] text-center">
+              <p className="text-[10px] text-[#E8E0CE] text-center">
                 Opens in new tab → review → Cmd+P → Save as PDF → upload via "Send PDF to Member"
               </p>
             </div>
@@ -426,23 +426,23 @@ export default function AdminDocumentsPage() {
       {showEditor && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setShowEditor(false)}>
           <div className="bg-white rounded-2xl w-full max-w-3xl shadow-2xl max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-            <div className="px-8 pt-6 pb-4 border-b border-[#bbcac6]/15 flex items-center justify-between">
+            <div className="px-8 pt-6 pb-4 border-b border-[#E8E0CE]/15 flex items-center justify-between">
               <h2 className="font-['Plus_Jakarta_Sans'] text-xl font-bold">{editingTemplate ? `Edit: ${editingTemplate.name}` : "New Template"}</h2>
-              <button onClick={() => setShowEditor(false)} className="text-[#6c7a77] hover:text-[#121c2a]">
+              <button onClick={() => setShowEditor(false)} className="text-[#6B7280] hover:text-[#1F2937]">
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
             <div className="p-8 space-y-5">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Template Name *</label>
+                  <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold block">Template Name *</label>
                   <input type="text" value={editorName} onChange={e => setEditorName(e.target.value)}
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none" />
+                    className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none" />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Document Type</label>
+                  <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold block">Document Type</label>
                   <select value={editorDocType} onChange={e => setEditorDocType(e.target.value)}
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none">
+                    className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none">
                     {DOC_TYPES.map(t => <option key={t} value={t}>{DOC_TYPE_LABELS[t] || t}</option>)}
                   </select>
                 </div>
@@ -450,14 +450,14 @@ export default function AdminDocumentsPage() {
 
               {/* PDF Upload */}
               <div className="space-y-1.5">
-                <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">
+                <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold block">
                   Upload PDF Template
                 </label>
-                <p className="text-xs text-[#6c7a77] font-['Manrope']">
+                <p className="text-xs text-[#6B7280] font-['Manrope']">
                   Create your document in Word or Pages, export as PDF, then upload here.
                 </p>
                 <input type="file" accept="application/pdf" onChange={handleEditorPdfSelect}
-                  className="w-full text-sm text-[#555f6f] file:mr-3 file:px-4 file:py-2 file:rounded-xl file:border-0 file:bg-[#A87813] file:text-white file:text-xs file:font-bold file:cursor-pointer" />
+                  className="w-full text-sm text-[#6B7280] file:mr-3 file:px-4 file:py-2 file:rounded-xl file:border-0 file:bg-[#A87813] file:text-white file:text-xs file:font-bold file:cursor-pointer" />
               </div>
 
               {/* Place text fields + signatures on PDF */}
@@ -471,8 +471,8 @@ export default function AdminDocumentsPage() {
                 />
               )}
 
-              <div className="flex gap-3 pt-4 border-t border-[#bbcac6]/15">
-                <button onClick={() => setShowEditor(false)} className="flex-1 py-3 bg-[#eff4ff] text-[#555f6f] rounded-xl font-['Manrope'] font-bold text-sm">Cancel</button>
+              <div className="flex gap-3 pt-4 border-t border-[#E8E0CE]/15">
+                <button onClick={() => setShowEditor(false)} className="flex-1 py-3 bg-[#F2D88A] text-[#6B7280] rounded-xl font-['Manrope'] font-bold text-sm">Cancel</button>
                 <button onClick={handleSaveTemplate} disabled={saving}
                   className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40">
                   {saving ? "Saving..." : "Save Template"}
@@ -487,18 +487,18 @@ export default function AdminDocumentsPage() {
       {showSend && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setShowSend(false)}>
           <div className="bg-white rounded-2xl w-full max-w-3xl shadow-2xl max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-            <div className="px-8 pt-6 pb-4 border-b border-[#bbcac6]/15 flex items-center justify-between">
+            <div className="px-8 pt-6 pb-4 border-b border-[#E8E0CE]/15 flex items-center justify-between">
               <h2 className="font-['Plus_Jakarta_Sans'] text-xl font-bold">Send Document to Member</h2>
-              <button onClick={() => setShowSend(false)} className="text-[#6c7a77] hover:text-[#121c2a]">
+              <button onClick={() => setShowSend(false)} className="text-[#6B7280] hover:text-[#1F2937]">
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
             <div className="p-8 space-y-5">
               {/* Select member */}
               <div className="space-y-1.5">
-                <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Member *</label>
+                <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold block">Member *</label>
                 <select value={sendTenantId} onChange={e => setSendTenantId(e.target.value)}
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none">
+                  className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none">
                   <option value="">Select member</option>
                   {tenants.map(t => (
                     <option key={t.id} value={t.id}>
@@ -510,12 +510,12 @@ export default function AdminDocumentsPage() {
 
               {/* Choose: template or upload */}
               <div className="space-y-1.5">
-                <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Document Source</label>
+                <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold block">Document Source</label>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <p className="text-xs font-bold text-[#121c2a]">From Template</p>
+                    <p className="text-xs font-bold text-[#1F2937]">From Template</p>
                     <select value={sendTemplateId} onChange={e => handleSendTemplateChange(e.target.value)}
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none">
+                      className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none">
                       <option value="">Select template</option>
                       {templates.filter(t => t.is_active && t.pdf_url).map(t => (
                         <option key={t.id} value={t.id}>{t.name}</option>
@@ -523,9 +523,9 @@ export default function AdminDocumentsPage() {
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <p className="text-xs font-bold text-[#121c2a]">Or Upload PDF</p>
+                    <p className="text-xs font-bold text-[#1F2937]">Or Upload PDF</p>
                     <input type="file" accept="application/pdf" onChange={handleSendPdfUpload}
-                      className="w-full text-sm text-[#555f6f] file:mr-3 file:px-3 file:py-2 file:rounded-xl file:border-0 file:bg-[#eff4ff] file:text-[#A87813] file:text-xs file:font-bold" />
+                      className="w-full text-sm text-[#6B7280] file:mr-3 file:px-3 file:py-2 file:rounded-xl file:border-0 file:bg-[#F2D88A] file:text-[#A87813] file:text-xs file:font-bold" />
                   </div>
                 </div>
               </div>
@@ -546,8 +546,8 @@ export default function AdminDocumentsPage() {
                 </div>
               )}
 
-              <div className="flex gap-3 pt-4 border-t border-[#bbcac6]/15">
-                <button onClick={() => setShowSend(false)} className="flex-1 py-3 bg-[#eff4ff] text-[#555f6f] rounded-xl font-['Manrope'] font-bold text-sm">Cancel</button>
+              <div className="flex gap-3 pt-4 border-t border-[#E8E0CE]/15">
+                <button onClick={() => setShowSend(false)} className="flex-1 py-3 bg-[#F2D88A] text-[#6B7280] rounded-xl font-['Manrope'] font-bold text-sm">Cancel</button>
                 <button onClick={handleSendToMember} disabled={sending || !sendTenantId || (!sendPdfUrl)}
                   className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2">
                   <span className="material-symbols-outlined text-[18px]">{sending ? "progress_activity" : "send"}</span>
@@ -560,39 +560,39 @@ export default function AdminDocumentsPage() {
       )}
 
       {/* ── Templates List ── */}
-      <section className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm">
-        <div className="px-8 py-6 border-b border-[#bbcac6]/15 flex items-center justify-between">
-          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a] flex items-center gap-2">
+      <section className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm">
+        <div className="px-8 py-6 border-b border-[#E8E0CE]/15 flex items-center justify-between">
+          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937] flex items-center gap-2">
             <span className="material-symbols-outlined text-[#A87813] text-[20px]">description</span>
             Templates
           </h2>
-          <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
+          <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">
             {templates.length} template{templates.length !== 1 ? "s" : ""}
           </span>
         </div>
 
         {loading ? (
           <div className="p-8 space-y-3">
-            {[1, 2, 3].map(i => <div key={i} className="h-14 bg-[#eff4ff] animate-pulse rounded-xl" />)}
+            {[1, 2, 3].map(i => <div key={i} className="h-14 bg-[#F2D88A] animate-pulse rounded-xl" />)}
           </div>
         ) : templates.length === 0 ? (
           <div className="p-12 text-center">
-            <span className="material-symbols-outlined text-4xl text-[#bbcac6] mb-3 block">description</span>
-            <p className="text-sm text-[#6c7a77]">No templates yet. Upload a PDF to create your first template.</p>
+            <span className="material-symbols-outlined text-4xl text-[#E8E0CE] mb-3 block">description</span>
+            <p className="text-sm text-[#6B7280]">No templates yet. Upload a PDF to create your first template.</p>
           </div>
         ) : (
-          <div className="divide-y divide-[#bbcac6]/10">
+          <div className="divide-y divide-[#E8E0CE]/10">
             {templates.map(tpl => (
-              <div key={tpl.id} className="px-8 py-5 flex items-center justify-between hover:bg-[#f8f9ff] transition-colors">
+              <div key={tpl.id} className="px-8 py-5 flex items-center justify-between hover:bg-[#FAF6EC] transition-colors">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-[#eff4ff] flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-[#F2D88A] flex items-center justify-center">
                     <span className="material-symbols-outlined text-[#A87813] text-[20px]">
                       {tpl.pdf_url ? "picture_as_pdf" : "code"}
                     </span>
                   </div>
                   <div>
-                    <p className="font-['Manrope'] font-bold text-sm text-[#121c2a]">{tpl.name}</p>
-                    <p className="font-['Inter'] text-xs text-[#6c7a77]">
+                    <p className="font-['Manrope'] font-bold text-sm text-[#1F2937]">{tpl.name}</p>
+                    <p className="font-['Inter'] text-xs text-[#6B7280]">
                       {DOC_TYPE_LABELS[tpl.doc_type] || tpl.doc_type}
                       {tpl.pdf_url ? " — PDF" : " — HTML (legacy)"}
                       {!tpl.is_active && " — Inactive"}
@@ -601,13 +601,13 @@ export default function AdminDocumentsPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <button onClick={() => openEditTemplate(tpl)}
-                    className="p-2 rounded-lg hover:bg-[#eff4ff] text-[#6c7a77] hover:text-[#A87813] transition-colors">
+                    className="p-2 rounded-lg hover:bg-[#F2D88A] text-[#6B7280] hover:text-[#A87813] transition-colors">
                     <span className="material-symbols-outlined text-[18px]">edit</span>
                   </button>
                   <button onClick={async () => {
                     await supabase.from("document_templates").update({ is_active: !tpl.is_active }).eq("id", tpl.id);
                     fetchData();
-                  }} className={`p-2 rounded-lg transition-colors ${tpl.is_active ? "hover:bg-red-50 text-[#6c7a77] hover:text-red-600" : "hover:bg-green-50 text-[#6c7a77] hover:text-green-600"}`}>
+                  }} className={`p-2 rounded-lg transition-colors ${tpl.is_active ? "hover:bg-red-50 text-[#6B7280] hover:text-red-600" : "hover:bg-green-50 text-[#6B7280] hover:text-green-600"}`}>
                     <span className="material-symbols-outlined text-[18px]">{tpl.is_active ? "visibility_off" : "visibility"}</span>
                   </button>
                 </div>

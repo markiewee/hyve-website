@@ -152,7 +152,7 @@ export default function ViewingPage() {
         <div className="text-center">
           <div className="mb-6 flex justify-center"><Wordmark size="md" /></div>
           <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#191c1e] mb-2">{t.notFound}</h1>
-          <p className="text-[#3c4947] font-['Inter']">{t.notFoundDesc}</p>
+          <p className="text-[#1F2937] font-['Inter']">{t.notFoundDesc}</p>
           <a href="https://wa.me/6580885410" className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-lg font-['Inter'] font-semibold text-sm">
             {t.contactUs}
           </a>
@@ -183,7 +183,7 @@ export default function ViewingPage() {
       {/* Language Toggle - floating */}
       <button
         onClick={toggleLang}
-        className="fixed top-4 right-4 z-50 bg-white/90 backdrop-blur-md border border-[#bbcac6]/20 px-3 py-1.5 rounded-full shadow-md text-xs font-bold text-[#A87813] hover:bg-white transition-colors"
+        className="fixed top-4 right-4 z-50 bg-white/90 backdrop-blur-md border border-[#E8E0CE]/20 px-3 py-1.5 rounded-full shadow-md text-xs font-bold text-[#A87813] hover:bg-white transition-colors"
       >
         {lang === "en" ? "中文" : "EN"}
       </button>
@@ -201,7 +201,7 @@ export default function ViewingPage() {
         <div className="relative z-10 p-8 md:p-12 w-full max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-4">
             <div className="h-[1px] w-12 bg-[#D9A441]" />
-            <span className="font-['Inter'] text-xs uppercase tracking-[0.2em] text-[#71f8e4] font-semibold">
+            <span className="font-['Inter'] text-xs uppercase tracking-[0.2em] text-[#D9A441] font-semibold">
               {isPast ? t.pastViewing : t.confirmed}
             </span>
           </div>
@@ -236,7 +236,7 @@ export default function ViewingPage() {
                     </>
                   )}
                   {isPast && (
-                    <span className="bg-[#e0e3e5] text-[#3c4947] px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase">{t.past}</span>
+                    <span className="bg-[#e0e3e5] text-[#1F2937] px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase">{t.past}</span>
                   )}
                 </div>
               </div>
@@ -278,9 +278,9 @@ export default function ViewingPage() {
               <div className="bg-[#191c1e] p-8 md:p-10 rounded-xl text-white">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-6">
                   <div>
-                    <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#71f8e4] mb-3 block font-semibold">{t.remoteViewing}</span>
+                    <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#D9A441] mb-3 block font-semibold">{t.remoteViewing}</span>
                     <h3 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold mb-2">{t.joinVideoTour}</h3>
-                    <p className="text-[#bbcac6] max-w-xs text-sm">
+                    <p className="text-[#E8E0CE] max-w-xs text-sm">
                       {isPast ? t.viewingEnded : t.cantMakeIt}
                     </p>
                   </div>
@@ -289,7 +289,7 @@ export default function ViewingPage() {
                       href={viewing.meet_link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full md:w-auto text-center bg-[#D9A441] text-[#00201c] px-10 py-4 rounded-lg font-bold hover:bg-[#71f8e4] transition-colors"
+                      className="w-full md:w-auto text-center bg-[#D9A441] text-[#1F2937] px-10 py-4 rounded-lg font-bold hover:bg-[#D9A441] transition-colors"
                     >
                       {t.joinMeeting}
                     </a>
@@ -324,7 +324,7 @@ export default function ViewingPage() {
                 {securityText && (
                   <div className="relative pl-8">
                     <div className="absolute left-0 top-1 w-4 h-4 rounded-full border-2 border-[#A87813] bg-white" />
-                    {viewing.access_code && <div className="absolute left-1.5 top-5 w-[1px] h-10 bg-[#bbcac6]" />}
+                    {viewing.access_code && <div className="absolute left-1.5 top-5 w-[1px] h-10 bg-[#E8E0CE]" />}
                     <p className="font-medium text-[#191c1e]">{t.securityGate}</p>
                     <p className="text-sm text-[#565e74] mt-1 italic leading-relaxed">"{securityText}"</p>
                   </div>
@@ -335,7 +335,7 @@ export default function ViewingPage() {
                     <p className="font-medium text-[#191c1e]">{t.additionalInfo}</p>
                     <div className="mt-3 flex items-start gap-3 bg-[#9b4426]/5 p-4 rounded-lg">
                       <span className="material-symbols-outlined text-[#9b4426] text-[18px] shrink-0 mt-0.5">info</span>
-                      <p className="text-sm text-[#3c4947] font-medium">{viewing.special_notes}</p>
+                      <p className="text-sm text-[#1F2937] font-medium">{viewing.special_notes}</p>
                     </div>
                   </div>
                 )}
@@ -347,7 +347,7 @@ export default function ViewingPage() {
               href="https://wa.me/6580885410"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between p-6 bg-[#f2f4f6] rounded-xl border border-[#bbcac6]/15 hover:bg-[#e6e8ea] transition-colors group"
+              className="flex items-center justify-between p-6 bg-[#f2f4f6] rounded-xl border border-[#E8E0CE]/15 hover:bg-[#e6e8ea] transition-colors group"
             >
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-[#25D366]/10 flex items-center justify-center">
@@ -358,14 +358,14 @@ export default function ViewingPage() {
                   <p className="text-lg font-['Plus_Jakarta_Sans'] font-bold text-[#191c1e]">+65 8088 5410</p>
                 </div>
               </div>
-              <span className="material-symbols-outlined text-[#6c7a77] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              <span className="material-symbols-outlined text-[#6B7280] group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </a>
           </div>
         </div>
       </main>
 
       {/* Minimal footer */}
-      <div className="text-center py-8 text-[#bbcac6] text-xs font-['Inter']">
+      <div className="text-center py-8 text-[#E8E0CE] text-xs font-['Inter']">
         © {new Date().getFullYear()} Lazybee Living · Makery Pte. Ltd.
       </div>
     </div>

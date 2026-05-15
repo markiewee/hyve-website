@@ -10,7 +10,7 @@ export default function BookLandingPage() {
   const srcQuery = src ? `?src=${encodeURIComponent(src)}` : "";
 
   return (
-    <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e]">
+    <div className="min-h-screen bg-[#FAF6EC] font-['Inter'] text-[#191c1e]">
       {/* Sticky brand bar — matches existing /view/* pages */}
       <header className="bg-white shadow-sm flex justify-between items-center px-6 py-3 w-full border-b border-slate-100 sticky top-0 z-50">
         <Link to="/" className="text-xl font-bold tracking-tighter text-honey-800 font-['Plus_Jakarta_Sans']">
@@ -34,7 +34,7 @@ export default function BookLandingPage() {
           <h1 className="font-['Plus_Jakarta_Sans'] text-3xl sm:text-5xl font-extrabold tracking-tight text-[#191c1e] mb-4 text-balance">
             Book a viewing in 30 seconds
           </h1>
-          <p className="text-[#3c4947] text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+          <p className="text-[#1F2937] text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
             Pick the place you want to see. We&apos;ll show you free slots in
             real time — no back-and-forth.
           </p>
@@ -67,10 +67,10 @@ export default function BookLandingPage() {
                 <h2 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#191c1e] mb-1 tracking-tight">
                   {prop.name}
                 </h2>
-                <p className="text-[#3c4947] text-sm leading-snug mb-4 flex-1">
+                <p className="text-[#1F2937] text-sm leading-snug mb-4 flex-1">
                   {prop.blurb}
                 </p>
-                <div className="flex items-center justify-between text-xs text-[#6c7a77] font-medium mb-4">
+                <div className="flex items-center justify-between text-xs text-[#6B7280] font-medium mb-4">
                   <span className="inline-flex items-center gap-1">
                     <span className="material-symbols-outlined text-[14px]">bed</span>
                     {prop.rooms} rooms
@@ -103,7 +103,7 @@ export default function BookLandingPage() {
               <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#191c1e] mb-1 tracking-tight">
                 {step.title}
               </h3>
-              <p className="text-[#3c4947] text-sm leading-relaxed">{step.body}</p>
+              <p className="text-[#1F2937] text-sm leading-relaxed">{step.body}</p>
             </div>
           ))}
         </section>

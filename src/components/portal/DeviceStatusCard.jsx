@@ -47,18 +47,18 @@ export default function DeviceStatusCard({ device, energyReading }) {
   const hasEnergy = current != null;
 
   return (
-    <div className="bg-white rounded-2xl p-5 border border-[#bbcac6]/15 shadow-sm space-y-3">
+    <div className="bg-white rounded-2xl p-5 border border-[#E8E0CE]/15 shadow-sm space-y-3">
       {/* Header row */}
       <div className="flex items-start justify-between gap-2">
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#A87813] px-2 py-0.5 rounded">
+            <span className="font-['Inter'] text-xs font-bold bg-[#F2D88A] text-[#A87813] px-2 py-0.5 rounded">
               {unitCode}
             </span>
-            <span className="text-sm font-['Manrope'] font-bold text-[#121c2a]">{roomName}</span>
+            <span className="text-sm font-['Manrope'] font-bold text-[#1F2937]">{roomName}</span>
           </div>
           {propertyName && (
-            <p className="text-xs text-[#6c7a77] font-['Manrope'] mt-0.5">{propertyName}</p>
+            <p className="text-xs text-[#6B7280] font-['Manrope'] mt-0.5">{propertyName}</p>
           )}
         </div>
 
@@ -81,22 +81,22 @@ export default function DeviceStatusCard({ device, energyReading }) {
 
       {/* Energy readings — show if available */}
       {hasEnergy && (
-        <div className="grid grid-cols-4 gap-2 bg-[#f8f9ff] rounded-xl p-3">
+        <div className="grid grid-cols-4 gap-2 bg-[#FAF6EC] rounded-xl p-3">
           <div className="text-center">
-            <p className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#121c2a]">{Number(current).toFixed(1)}</p>
-            <p className="text-[10px] text-[#6c7a77] font-['Inter'] uppercase tracking-wider">Amps</p>
+            <p className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#1F2937]">{Number(current).toFixed(1)}</p>
+            <p className="text-[10px] text-[#6B7280] font-['Inter'] uppercase tracking-wider">Amps</p>
           </div>
           <div className="text-center">
-            <p className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#121c2a]">{Math.round(Number(power || 0))}</p>
-            <p className="text-[10px] text-[#6c7a77] font-['Inter'] uppercase tracking-wider">Watts</p>
+            <p className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#1F2937]">{Math.round(Number(power || 0))}</p>
+            <p className="text-[10px] text-[#6B7280] font-['Inter'] uppercase tracking-wider">Watts</p>
           </div>
           <div className="text-center">
-            <p className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#121c2a]">{Math.round(Number(voltage || 0))}</p>
-            <p className="text-[10px] text-[#6c7a77] font-['Inter'] uppercase tracking-wider">Volts</p>
+            <p className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#1F2937]">{Math.round(Number(voltage || 0))}</p>
+            <p className="text-[10px] text-[#6B7280] font-['Inter'] uppercase tracking-wider">Volts</p>
           </div>
           <div className="text-center">
             <p className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#A87813]">{Number(energy || 0).toFixed(1)}</p>
-            <p className="text-[10px] text-[#6c7a77] font-['Inter'] uppercase tracking-wider">kWh</p>
+            <p className="text-[10px] text-[#6B7280] font-['Inter'] uppercase tracking-wider">kWh</p>
           </div>
         </div>
       )}
@@ -108,7 +108,7 @@ export default function DeviceStatusCard({ device, energyReading }) {
           className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold ${
             ac_state === "ON"
               ? "bg-green-50 text-green-700"
-              : "bg-[#eff4ff] text-[#6c7a77]"
+              : "bg-[#F2D88A] text-[#6B7280]"
           }`}
         >
           <span className="material-symbols-outlined text-[14px]">ac_unit</span>
@@ -123,7 +123,7 @@ export default function DeviceStatusCard({ device, energyReading }) {
         )}
 
         {/* Last seen */}
-        <span className="text-[#6c7a77] font-['Inter'] ml-auto">
+        <span className="text-[#6B7280] font-['Inter'] ml-auto">
           {formatLastSeen(last_heartbeat)}
         </span>
       </div>

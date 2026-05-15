@@ -66,8 +66,8 @@ function Detail({ label, value }) {
   if (!value) return null;
   return (
     <div className="flex justify-between">
-      <span className="text-[#3c4947]">{label}</span>
-      <span className="text-[#121c2a] font-medium capitalize">{value}</span>
+      <span className="text-[#1F2937]">{label}</span>
+      <span className="text-[#1F2937] font-medium capitalize">{value}</span>
     </div>
   );
 }
@@ -141,8 +141,8 @@ function RoomCard({ room }) {
       <div className="p-4">
         <div className="flex items-start justify-between mb-2">
           <div>
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-base">{room.unit_code}</h3>
-            <p className="text-sm text-[#3c4947]">{room.name}</p>
+            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-base">{room.unit_code}</h3>
+            <p className="text-sm text-[#1F2937]">{room.name}</p>
           </div>
           <ChevronDown
             className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
@@ -150,12 +150,12 @@ function RoomCard({ room }) {
         </div>
         <div className="flex items-center gap-3 text-sm mb-2 flex-wrap">
           {room.price_monthly && (
-            <span className="font-semibold text-[#121c2a]">${room.price_monthly.toLocaleString()}/mo</span>
+            <span className="font-semibold text-[#1F2937]">${room.price_monthly.toLocaleString()}/mo</span>
           )}
           {room.size_sqm && (
-            <span className="text-[#3c4947]">{room.size_sqm} sqm</span>
+            <span className="text-[#1F2937]">{room.size_sqm} sqm</span>
           )}
-          <span className="text-[#3c4947]">{roomTypeLabel}</span>
+          <span className="text-[#1F2937]">{roomTypeLabel}</span>
           {room.bed_size && (
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-800 capitalize">
               <span className="material-symbols-outlined text-[14px]">bed</span>
@@ -219,7 +219,7 @@ function RoomCard({ room }) {
                         className={`rounded-lg p-2 text-center ${
                           tier.highlight
                             ? 'bg-[#A87813] text-white'
-                            : 'bg-gray-50 text-[#121c2a]'
+                            : 'bg-gray-50 text-[#1F2937]'
                         }`}
                       >
                         <p className="text-[10px] font-bold uppercase tracking-wider opacity-80">{tier.label}</p>
@@ -256,7 +256,7 @@ function RoomCard({ room }) {
                   <p className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-1">Amenities</p>
                   <div className="flex flex-wrap gap-1.5">
                     {room.amenities.map((a, i) => (
-                      <span key={i} className="px-2 py-0.5 bg-[#eff4ff] text-[#121c2a] text-xs rounded-full">{a}</span>
+                      <span key={i} className="px-2 py-0.5 bg-[#F2D88A] text-[#1F2937] text-xs rounded-full">{a}</span>
                     ))}
                   </div>
                 </div>
@@ -274,7 +274,7 @@ function RoomCard({ room }) {
               )}
 
               {room.description && (
-                <p className="text-sm text-[#3c4947] italic">{room.description}</p>
+                <p className="text-sm text-[#1F2937] italic">{room.description}</p>
               )}
 
               {/* Upcoming bookings from Millia */}
@@ -291,7 +291,7 @@ function RoomCard({ room }) {
                             : 'bg-gray-50 border border-gray-200'
                         }`}
                       >
-                        <span className={`font-medium ${b.overlap ? 'text-red-800' : 'text-[#121c2a]'}`}>
+                        <span className={`font-medium ${b.overlap ? 'text-red-800' : 'text-[#1F2937]'}`}>
                           {formatDate(b.checkin)} → {formatDate(b.checkout)}
                         </span>
                         <div className="flex items-center gap-2">
@@ -300,7 +300,7 @@ function RoomCard({ room }) {
                               Overlap
                             </span>
                           )}
-                          <span className="text-[#3c4947] capitalize">{b.channel}</span>
+                          <span className="text-[#1F2937] capitalize">{b.channel}</span>
                         </div>
                       </div>
                     ))}
@@ -323,18 +323,18 @@ function PropertySection({ property }) {
   return (
     <div className="space-y-8">
       <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#121c2a] mb-1">{p.name}</h2>
-        <p className="text-[#3c4947] text-sm mb-2">{p.address}</p>
+        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#1F2937] mb-1">{p.name}</h2>
+        <p className="text-[#1F2937] text-sm mb-2">{p.address}</p>
         <div className="flex gap-4 mb-4 text-sm">
-          <span className="text-[#3c4947]"><span className="font-semibold text-[#121c2a]">{p.rooms?.length || 0}</span> rooms</span>
-          {p.num_bathrooms && <span className="text-[#3c4947]"><span className="font-semibold text-[#121c2a]">{p.num_bathrooms}</span> bathroom{p.num_bathrooms > 1 ? 's' : ''}</span>}
-          <span className="text-[#3c4947]">
-            <span className="font-semibold text-[#121c2a]">
+          <span className="text-[#1F2937]"><span className="font-semibold text-[#1F2937]">{p.rooms?.length || 0}</span> rooms</span>
+          {p.num_bathrooms && <span className="text-[#1F2937]"><span className="font-semibold text-[#1F2937]">{p.num_bathrooms}</span> bathroom{p.num_bathrooms > 1 ? 's' : ''}</span>}
+          <span className="text-[#1F2937]">
+            <span className="font-semibold text-[#1F2937]">
               {p.rooms?.reduce((count, r) => count + (r.tenant_profiles?.filter(isCurrent).length || 0), 0)}
             </span> tenants
           </span>
         </div>
-        {p.description && <p className="text-[#3c4947] mb-6 font-['Manrope']">{p.description}</p>}
+        {p.description && <p className="text-[#1F2937] mb-6 font-['Manrope']">{p.description}</p>}
 
         {/* Tenant Composition */}
         {(() => {
@@ -347,7 +347,7 @@ function PropertySection({ property }) {
           ) || [];
           if (allTenants.length === 0) return null;
           return (
-            <div className="mb-6 bg-[#f8f9ff] rounded-xl p-4">
+            <div className="mb-6 bg-[#FAF6EC] rounded-xl p-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-3">Housemates</h3>
               <div className="space-y-1.5">
                 {allTenants.map((t, i) => (
@@ -356,7 +356,7 @@ function PropertySection({ property }) {
                       {t.gender || '?'}
                     </span>
                     <span className="text-base">{getFlag(t.nationality)}</span>
-                    <span className="text-[#121c2a]">{t.name}</span>
+                    <span className="text-[#1F2937]">{t.name}</span>
                   </div>
                 ))}
               </div>
@@ -370,7 +370,7 @@ function PropertySection({ property }) {
               <h3 className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-2">Facilities</h3>
               <div className="flex flex-wrap gap-1.5">
                 {p.facilities.map((f, i) => (
-                  <span key={i} className="inline-block px-2.5 py-1 bg-[#eff4ff] text-[#121c2a] text-xs rounded-full">{f}</span>
+                  <span key={i} className="inline-block px-2.5 py-1 bg-[#F2D88A] text-[#1F2937] text-xs rounded-full">{f}</span>
                 ))}
               </div>
             </div>
@@ -381,7 +381,7 @@ function PropertySection({ property }) {
               <h3 className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-2">Nearest MRT</h3>
               <ul className="space-y-1">
                 {p.nearby_mrt.map((m, i) => (
-                  <li key={i} className="text-sm text-[#3c4947]">
+                  <li key={i} className="text-sm text-[#1F2937]">
                     <span className="font-medium">{m.station}</span> ({m.line}) — {m.walking_minutes} min walk
                   </li>
                 ))}
@@ -394,7 +394,7 @@ function PropertySection({ property }) {
               <h3 className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-2">Nearby</h3>
               <ul className="space-y-1">
                 {p.nearby_amenities.map((a, i) => (
-                  <li key={i} className="text-sm text-[#3c4947]">
+                  <li key={i} className="text-sm text-[#1F2937]">
                     <span className="font-medium">{a.name}</span> — {a.walking_minutes} min walk
                   </li>
                 ))}
@@ -408,7 +408,7 @@ function PropertySection({ property }) {
             <h3 className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-2">House Rules</h3>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1">
               {p.house_rules.map((rule, i) => (
-                <li key={i} className="text-sm text-[#3c4947] flex items-start gap-2">
+                <li key={i} className="text-sm text-[#1F2937] flex items-start gap-2">
                   <span className="text-[#A87813] mt-0.5">•</span> {rule}
                 </li>
               ))}
@@ -464,7 +464,7 @@ function PropertySection({ property }) {
       </div>
 
       <div>
-        <h2 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#121c2a] mb-4">
+        <h2 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#1F2937] mb-4">
           Rooms ({p.rooms?.length || 0})
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -479,10 +479,10 @@ function PropertySection({ property }) {
 
 function TermCard({ title, value, subtitle }) {
   return (
-    <div className="bg-[#f8f9ff] rounded-xl p-5 text-center">
+    <div className="bg-[#FAF6EC] rounded-xl p-5 text-center">
       <p className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-1">{title}</p>
-      <p className="text-xl font-bold text-[#121c2a] font-['Plus_Jakarta_Sans']">{value}</p>
-      {subtitle && <p className="text-xs text-[#3c4947] mt-1">{subtitle}</p>}
+      <p className="text-xl font-bold text-[#1F2937] font-['Plus_Jakarta_Sans']">{value}</p>
+      {subtitle && <p className="text-xs text-[#1F2937] mt-1">{subtitle}</p>}
     </div>
   );
 }
@@ -491,7 +491,7 @@ function LeaseTermsSection() {
   return (
     <section className="bg-white py-16">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#121c2a] mb-6">Lease Terms</h2>
+        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#1F2937] mb-6">Lease Terms</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <TermCard title="Minimum Stay" value="3 months" />
           <TermCard title="Deposit" value="1 month rent" subtitle="Fully refundable" />
@@ -501,7 +501,7 @@ function LeaseTermsSection() {
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <h3 className="text-sm font-bold uppercase tracking-wider text-[#A87813] mb-2">Rent Includes</h3>
-            <ul className="space-y-1.5 text-sm text-[#3c4947]">
+            <ul className="space-y-1.5 text-sm text-[#1F2937]">
               <li className="flex items-start gap-2"><span className="text-emerald-500 mt-0.5">✓</span> High-speed WiFi</li>
               <li className="flex items-start gap-2"><span className="text-emerald-500 mt-0.5">✓</span> Utilities (water, electricity with AC allowance)</li>
               <li className="flex items-start gap-2"><span className="text-emerald-500 mt-0.5">✓</span> Weekly common area cleaning</li>
@@ -512,7 +512,7 @@ function LeaseTermsSection() {
           </div>
           <div>
             <h3 className="text-sm font-bold uppercase tracking-wider text-red-600 mb-2">Not Included</h3>
-            <ul className="space-y-1.5 text-sm text-[#3c4947]">
+            <ul className="space-y-1.5 text-sm text-[#1F2937]">
               <li className="flex items-start gap-2"><span className="text-red-400 mt-0.5">✗</span> Personal AC usage over monthly allowance</li>
               <li className="flex items-start gap-2"><span className="text-red-400 mt-0.5">✗</span> Personal toiletries &amp; bedroom cleaning</li>
             </ul>
@@ -533,17 +533,17 @@ function MoveInProcessSection() {
   ];
 
   return (
-    <section className="py-16 bg-[#f8f9ff]">
+    <section className="py-16 bg-[#FAF6EC]">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#121c2a] mb-8">Move-in Process</h2>
+        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#1F2937] mb-8">Move-in Process</h2>
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
           {steps.map(step => (
             <div key={step.num} className="bg-white rounded-xl p-5 text-center shadow-sm border border-gray-100">
               <div className="w-8 h-8 rounded-full bg-[#A87813] text-white font-bold text-sm flex items-center justify-center mx-auto mb-3">
                 {step.num}
               </div>
-              <p className="font-semibold text-[#121c2a] text-sm mb-1">{step.title}</p>
-              <p className="text-xs text-[#3c4947]">{step.desc}</p>
+              <p className="font-semibold text-[#1F2937] text-sm mb-1">{step.title}</p>
+              <p className="text-xs text-[#1F2937]">{step.desc}</p>
             </div>
           ))}
         </div>
@@ -568,14 +568,14 @@ function FAQSection() {
   return (
     <section className="py-16 bg-white">
       <div className="max-w-3xl mx-auto px-6 md:px-8">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#121c2a] mb-6">Frequently Asked Questions</h2>
+        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#1F2937] mb-6">Frequently Asked Questions</h2>
         <Accordion type="single" collapsible>
           {faqs.map((faq, i) => (
             <AccordionItem key={i} value={`faq-${i}`}>
-              <AccordionTrigger className="text-left text-[#121c2a] font-medium">
+              <AccordionTrigger className="text-left text-[#1F2937] font-medium">
                 {faq.q}
               </AccordionTrigger>
-              <AccordionContent className="text-[#3c4947]">
+              <AccordionContent className="text-[#1F2937]">
                 {faq.a}
               </AccordionContent>
             </AccordionItem>
@@ -632,7 +632,7 @@ export default function StaffResourcePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] pt-24 flex items-center justify-center">
+      <div className="min-h-screen bg-[#FAF6EC] pt-24 flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#A87813]" />
       </div>
     );
@@ -640,7 +640,7 @@ export default function StaffResourcePage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] pt-24 px-6">
+      <div className="min-h-screen bg-[#FAF6EC] pt-24 px-6">
         <div className="max-w-7xl mx-auto text-center py-20">
           <p className="text-red-600">Failed to load data: {error}</p>
         </div>
@@ -649,7 +649,7 @@ export default function StaffResourcePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f9ff] pt-24">
+    <div className="min-h-screen bg-[#FAF6EC] pt-24">
       <SEO
         title="Staff Resource Guide"
         description="Internal reference for Lazybee sales and operations staff."
@@ -657,10 +657,10 @@ export default function StaffResourcePage() {
       />
 
       <section className="px-6 md:px-8 py-12 max-w-7xl mx-auto">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl sm:text-4xl font-extrabold tracking-tight text-[#121c2a] mb-2">
+        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1F2937] mb-2">
           Staff Resource Guide
         </h1>
-        <p className="text-[#3c4947] text-lg font-['Manrope']">
+        <p className="text-[#1F2937] text-lg font-['Manrope']">
           Quick reference for sales &amp; ops — room details, availability, and policies.
         </p>
       </section>

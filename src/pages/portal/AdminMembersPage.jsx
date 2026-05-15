@@ -51,7 +51,7 @@ export default function AdminMembersPage() {
           }
         />
 
-        <div className="flex gap-2 border-b border-[#bbcac6]/30">
+        <div className="flex gap-2 border-b border-[#E8E0CE]/30">
           {MODES.map((m) => {
             const dot = m.key === "CLAIMS" && pendingClaimCount > 0;
             return (
@@ -62,7 +62,7 @@ export default function AdminMembersPage() {
                 className={`relative px-4 py-2 text-sm font-medium ${
                   mode === m.key
                     ? "border-b-2 border-[#A87813] text-[#A87813]"
-                    : "text-[#6c7a77] hover:text-[#121c2a]"
+                    : "text-[#6B7280] hover:text-[#1F2937]"
                 }`}
               >
                 {m.label}

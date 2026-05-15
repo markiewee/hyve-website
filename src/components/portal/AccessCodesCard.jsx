@@ -39,8 +39,8 @@ export default function AccessCodesCard({ profile }) {
   }
 
   return (
-    <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#bbcac6]/15 shadow-sm">
-      <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-6 flex items-center gap-2 text-[#121c2a]">
+    <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#E8E0CE]/15 shadow-sm">
+      <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-6 flex items-center gap-2 text-[#1F2937]">
         <span className="material-symbols-outlined text-[#A87813] text-[22px]">lock</span>
         Unit Access Codes
       </h3>

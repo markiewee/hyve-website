@@ -157,8 +157,8 @@ export default function PdfFieldPlacer({ pdfUrl, fields = [], signatures = {}, o
     <div className="space-y-3">
       {/* Toolbar: add fields */}
       <div className="space-y-2">
-        <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
-          Add Data Fields <span className="normal-case tracking-normal text-[#bbcac6]">— click to place on page {viewPage}</span>
+        <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">
+          Add Data Fields <span className="normal-case tracking-normal text-[#E8E0CE]">— click to place on page {viewPage}</span>
         </p>
         <div className="flex flex-wrap gap-1.5">
           {availableFields.map(f => (
@@ -168,7 +168,7 @@ export default function PdfFieldPlacer({ pdfUrl, fields = [], signatures = {}, o
               + {f.label}
             </button>
           ))}
-          {availableFields.length === 0 && <span className="text-[10px] text-[#bbcac6]">All fields placed</span>}
+          {availableFields.length === 0 && <span className="text-[10px] text-[#E8E0CE]">All fields placed</span>}
         </div>
       </div>
 

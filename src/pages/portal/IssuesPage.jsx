@@ -15,10 +15,10 @@ export default function IssuesPage() {
       {/* Page header */}
       <div className="flex items-center justify-between mb-10">
         <div>
-          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
             My Issues
           </h1>
-          <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
+          <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">
             Track and manage your reported maintenance requests.
           </p>
         </div>
@@ -36,26 +36,26 @@ export default function IssuesPage() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm space-y-3"
+              className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm space-y-3"
             >
               <div className="flex gap-3">
-                <div className="h-5 w-20 bg-[#eff4ff] animate-pulse rounded-full" />
-                <div className="h-5 w-16 bg-[#eff4ff] animate-pulse rounded-full" />
+                <div className="h-5 w-20 bg-[#F2D88A] animate-pulse rounded-full" />
+                <div className="h-5 w-16 bg-[#F2D88A] animate-pulse rounded-full" />
               </div>
-              <div className="h-4 w-3/4 bg-[#eff4ff] animate-pulse rounded" />
-              <div className="h-4 w-1/2 bg-[#eff4ff] animate-pulse rounded" />
+              <div className="h-4 w-3/4 bg-[#F2D88A] animate-pulse rounded" />
+              <div className="h-4 w-1/2 bg-[#F2D88A] animate-pulse rounded" />
             </div>
           ))}
         </div>
       ) : tickets.length === 0 ? (
-        <div className="bg-white rounded-2xl p-12 border border-[#bbcac6]/15 shadow-sm flex flex-col items-center text-center">
-          <div className="w-16 h-16 bg-[#eff4ff] rounded-2xl flex items-center justify-center mb-4">
+        <div className="bg-white rounded-2xl p-12 border border-[#E8E0CE]/15 shadow-sm flex flex-col items-center text-center">
+          <div className="w-16 h-16 bg-[#F2D88A] rounded-2xl flex items-center justify-center mb-4">
             <span className="material-symbols-outlined text-[#A87813] text-[32px]">build_circle</span>
           </div>
-          <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-lg mb-2">
+          <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-lg mb-2">
             No issues reported
           </h3>
-          <p className="text-[#6c7a77] font-['Manrope'] text-sm mb-6">
+          <p className="text-[#6B7280] font-['Manrope'] text-sm mb-6">
             Everything looking good? If something needs attention, let us know.
           </p>
           <Link

@@ -17,17 +17,17 @@ export default function InvestorSignupPage() {
 
   if (!token) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f8f9ff] px-4">
-        <div className="bg-white rounded-2xl p-12 shadow-sm border border-[#bbcac6]/15 w-full max-w-md text-center">
+      <div className="min-h-screen flex items-center justify-center bg-[#FAF6EC] px-4">
+        <div className="bg-white rounded-2xl p-12 shadow-sm border border-[#E8E0CE]/15 w-full max-w-md text-center">
           <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-[#ffdad6]/40 flex items-center justify-center">
             <span className="material-symbols-outlined text-[#ba1a1a] text-[32px]">
               key_off
             </span>
           </div>
-          <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#121c2a] mb-3">
+          <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#1F2937] mb-3">
             Invalid Invite
           </h2>
-          <p className="font-['Manrope'] text-[#555f6f] text-sm leading-relaxed mb-8">
+          <p className="font-['Manrope'] text-[#6B7280] text-sm leading-relaxed mb-8">
             This investor invitation link is missing or invalid. Please contact
             Lazybee for a valid invite link.
           </p>
@@ -68,7 +68,7 @@ export default function InvestorSignupPage() {
         <div className="absolute inset-0 bg-gradient-to-tr from-[#A87813] via-[#A87813]/80 to-transparent" />
         <div className="relative z-10 flex flex-col justify-between p-16 w-full h-full">
           <div>
-            <span className="font-['Plus_Jakarta_Sans'] text-[#71f8e4] font-extrabold tracking-tighter text-3xl">
+            <span className="font-['Plus_Jakarta_Sans'] text-[#D9A441] font-extrabold tracking-tighter text-3xl">
               Lazybee Living
             </span>
           </div>
@@ -76,14 +76,14 @@ export default function InvestorSignupPage() {
             <h1 className="font-['Plus_Jakarta_Sans'] text-5xl font-bold text-white leading-tight tracking-tight mb-8">
               The Sanctuary of Growth
             </h1>
-            <p className="text-[#71f8e4]/90 text-lg font-['Manrope'] font-medium leading-relaxed mb-12">
+            <p className="text-[#D9A441]/90 text-lg font-['Manrope'] font-medium leading-relaxed mb-12">
               Join an exclusive collective of visionaries shaping the future of
               premium living through institutional-grade architectural assets.
             </p>
             <div className="grid grid-cols-2 gap-6">
               <div className="p-6 rounded-xl bg-white/5 border border-white/10">
                 <span
-                  className="material-symbols-outlined text-[#71f8e4] text-[30px] mb-4 block"
+                  className="material-symbols-outlined text-[#D9A441] text-[30px] mb-4 block"
                   style={{ fontVariationSettings: "'FILL' 1" }}
                 >
                   account_balance
@@ -97,7 +97,7 @@ export default function InvestorSignupPage() {
               </div>
               <div className="p-6 rounded-xl bg-white/5 border border-white/10">
                 <span
-                  className="material-symbols-outlined text-[#71f8e4] text-[30px] mb-4 block"
+                  className="material-symbols-outlined text-[#D9A441] text-[30px] mb-4 block"
                   style={{ fontVariationSettings: "'FILL' 1" }}
                 >
                   insights
@@ -130,7 +130,7 @@ export default function InvestorSignupPage() {
       </section>
 
       {/* Right form panel */}
-      <section className="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 md:p-16 bg-[#f8f9ff]">
+      <section className="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 md:p-16 bg-[#FAF6EC]">
         <div className="w-full max-w-md">
           <div className="mb-12">
             <div className="lg:hidden mb-8">
@@ -138,10 +138,10 @@ export default function InvestorSignupPage() {
                 Lazybee Living
               </span>
             </div>
-            <h2 className="font-['Plus_Jakarta_Sans'] text-3xl font-bold text-[#121c2a] mb-3 tracking-tight">
+            <h2 className="font-['Plus_Jakarta_Sans'] text-3xl font-bold text-[#1F2937] mb-3 tracking-tight">
               Investor Registration
             </h2>
-            <p className="text-[#555f6f] font-['Manrope'] font-medium">
+            <p className="text-[#6B7280] font-['Manrope'] font-medium">
               Please enter your invitation token to begin your journey.
             </p>
           </div>
@@ -155,21 +155,21 @@ export default function InvestorSignupPage() {
 
             {/* Access Token (pre-filled, read-only display) */}
             <div>
-              <label className="block text-xs font-['Inter'] font-semibold text-[#6c7a77] uppercase tracking-widest mb-2 ml-1">
+              <label className="block text-xs font-['Inter'] font-semibold text-[#6B7280] uppercase tracking-widest mb-2 ml-1">
                 Access Token
               </label>
               <div className="relative group">
-                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#6c7a77]">
+                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#6B7280]">
                   key
                 </span>
                 <input
                   type="text"
                   value={token}
                   readOnly
-                  className="w-full pl-12 pr-4 py-4 bg-white border border-[#bbcac6]/20 rounded-xl font-['Inter'] text-[#121c2a] outline-none text-sm opacity-60"
+                  className="w-full pl-12 pr-4 py-4 bg-white border border-[#E8E0CE]/20 rounded-xl font-['Inter'] text-[#1F2937] outline-none text-sm opacity-60"
                 />
               </div>
-              <p className="mt-2 text-[11px] text-[#555f6f]/70 italic px-1">
+              <p className="mt-2 text-[11px] text-[#6B7280]/70 italic px-1">
                 Tokens are issued via direct invitation only.
               </p>
             </div>
@@ -178,7 +178,7 @@ export default function InvestorSignupPage() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-xs font-['Inter'] font-semibold text-[#6c7a77] uppercase tracking-widest mb-2 ml-1"
+                className="block text-xs font-['Inter'] font-semibold text-[#6B7280] uppercase tracking-widest mb-2 ml-1"
               >
                 Professional Email
               </label>
@@ -190,7 +190,7 @@ export default function InvestorSignupPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@firm.com"
-                className="w-full px-4 py-4 bg-white border border-[#bbcac6]/20 rounded-xl font-['Inter'] text-[#121c2a] focus:border-[#D9A441] outline-none transition-all text-sm"
+                className="w-full px-4 py-4 bg-white border border-[#E8E0CE]/20 rounded-xl font-['Inter'] text-[#1F2937] focus:border-[#D9A441] outline-none transition-all text-sm"
               />
             </div>
 
@@ -198,7 +198,7 @@ export default function InvestorSignupPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-xs font-['Inter'] font-semibold text-[#6c7a77] uppercase tracking-widest mb-2 ml-1"
+                className="block text-xs font-['Inter'] font-semibold text-[#6B7280] uppercase tracking-widest mb-2 ml-1"
               >
                 Vault Password
               </label>
@@ -212,12 +212,12 @@ export default function InvestorSignupPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-4 py-4 bg-white border border-[#bbcac6]/20 rounded-xl font-['Inter'] text-[#121c2a] focus:border-[#D9A441] outline-none transition-all text-sm pr-12"
+                  className="w-full px-4 py-4 bg-white border border-[#E8E0CE]/20 rounded-xl font-['Inter'] text-[#1F2937] focus:border-[#D9A441] outline-none transition-all text-sm pr-12"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((p) => !p)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6c7a77] hover:text-[#A87813] transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B7280] hover:text-[#A87813] transition-colors"
                 >
                   <span className="material-symbols-outlined text-[20px]">
                     {showPassword ? "visibility_off" : "visibility"}
@@ -250,8 +250,8 @@ export default function InvestorSignupPage() {
             </button>
           </form>
 
-          <div className="mt-12 pt-8 border-t border-[#bbcac6]/15 text-center">
-            <p className="text-[#555f6f] font-['Manrope'] font-medium text-sm">
+          <div className="mt-12 pt-8 border-t border-[#E8E0CE]/15 text-center">
+            <p className="text-[#6B7280] font-['Manrope'] font-medium text-sm">
               Already a member?{" "}
               <a
                 href="/portal/login"

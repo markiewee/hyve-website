@@ -480,26 +480,26 @@ export default function AdminInvestorsPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
           Investor Management
         </h1>
-        <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
+        <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">
           Manage investor profiles, track capital, and send invitations.
         </p>
       </div>
 
       {/* Summary stats */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
-        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Total Investors</p>
-          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">{investors.length}</p>
+        <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">Total Investors</p>
+          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937]">{investors.length}</p>
         </div>
-        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Active</p>
+        <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">Active</p>
           <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#A87813]">{activeCount}</p>
         </div>
         <div className="bg-[#A87813] rounded-2xl p-6">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#71f8e4]/80 font-bold mb-3">Total Capital</p>
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#D9A441]/80 font-bold mb-3">Total Capital</p>
           <p className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-white">
             {formatSGD(totalCapitalAll)}
           </p>
@@ -509,14 +509,14 @@ export default function AdminInvestorsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left: invite form */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-            <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-5 flex items-center gap-2">
+          <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
+            <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] mb-5 flex items-center gap-2">
               <span className="material-symbols-outlined text-[#A87813] text-[20px]">person_add</span>
               Invite Investor
             </h2>
             <form onSubmit={handleInvite} className="space-y-4">
               <div>
-                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
                   Full Name
                 </label>
                 <input
@@ -525,11 +525,11 @@ export default function AdminInvestorsPage() {
                   onChange={(e) => setInviteName(e.target.value)}
                   placeholder="Jane Tan"
                   required
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                  className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none"
                 />
               </div>
               <div>
-                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
                   Email Address
                 </label>
                 <input
@@ -538,7 +538,7 @@ export default function AdminInvestorsPage() {
                   onChange={(e) => setInviteEmail(e.target.value)}
                   placeholder="jane@example.com"
                   required
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                  className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none"
                 />
               </div>
 
@@ -579,37 +579,37 @@ export default function AdminInvestorsPage() {
 
         {/* Right: investor directory table */}
         <div className="lg:col-span-8">
-          <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
-            <div className="px-6 py-5 border-b border-[#bbcac6]/15 flex items-center justify-between">
-              <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
+          <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden">
+            <div className="px-6 py-5 border-b border-[#E8E0CE]/15 flex items-center justify-between">
+              <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937]">
                 Investor Directory
               </h2>
-              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
+              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">
                 {investors.length} total
               </span>
             </div>
 
             {loading ? (
-              <div className="divide-y divide-[#bbcac6]/10">
+              <div className="divide-y divide-[#E8E0CE]/10">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="px-6 py-5 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-[#eff4ff] animate-pulse rounded-full" />
+                      <div className="w-10 h-10 bg-[#F2D88A] animate-pulse rounded-full" />
                       <div className="space-y-2">
-                        <div className="h-4 w-28 bg-[#eff4ff] animate-pulse rounded" />
-                        <div className="h-3 w-36 bg-[#eff4ff] animate-pulse rounded" />
+                        <div className="h-4 w-28 bg-[#F2D88A] animate-pulse rounded" />
+                        <div className="h-3 w-36 bg-[#F2D88A] animate-pulse rounded" />
                       </div>
                     </div>
-                    <div className="h-4 w-20 bg-[#eff4ff] animate-pulse rounded" />
+                    <div className="h-4 w-20 bg-[#F2D88A] animate-pulse rounded" />
                   </div>
                 ))}
               </div>
             ) : investors.length === 0 ? (
               <div className="p-8 text-center">
-                <p className="text-[#6c7a77] font-['Manrope'] text-sm">No investors yet.</p>
+                <p className="text-[#6B7280] font-['Manrope'] text-sm">No investors yet.</p>
               </div>
             ) : (
-              <div className="divide-y divide-[#bbcac6]/10">
+              <div className="divide-y divide-[#E8E0CE]/10">
                 {investors.map((inv) => {
                   const totalCapital = (inv.investments ?? []).reduce(
                     (sum, i) => sum + Number(i.capital_contributed ?? 0),
@@ -631,7 +631,7 @@ export default function AdminInvestorsPage() {
                     <div key={inv.id}>
                       <button
                         onClick={() => handleToggleExpand(inv.id)}
-                        className="w-full text-left px-6 py-5 hover:bg-[#f8f9ff] transition-colors"
+                        className="w-full text-left px-6 py-5 hover:bg-[#FAF6EC] transition-colors"
                       >
                         <div className="flex items-center justify-between gap-4">
                           <div className="flex items-center gap-3 min-w-0">
@@ -639,10 +639,10 @@ export default function AdminInvestorsPage() {
                               {initials}
                             </div>
                             <div className="min-w-0">
-                              <p className="font-['Manrope'] font-bold text-[#121c2a] text-sm truncate">
+                              <p className="font-['Manrope'] font-bold text-[#1F2937] text-sm truncate">
                                 {inv.full_name ?? "—"}
                               </p>
-                              <p className="font-['Manrope'] text-[#6c7a77] text-xs truncate">{inv.email}</p>
+                              <p className="font-['Manrope'] text-[#6B7280] text-xs truncate">{inv.email}</p>
                             </div>
                           </div>
 
@@ -650,20 +650,20 @@ export default function AdminInvestorsPage() {
                             {propCodes.map((code) => (
                               <span
                                 key={code}
-                                className="font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#A87813] px-2 py-1 rounded"
+                                className="font-['Inter'] text-xs font-bold bg-[#F2D88A] text-[#A87813] px-2 py-1 rounded"
                               >
                                 {code}
                               </span>
                             ))}
-                            <span className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a] tabular-nums">
+                            <span className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#1F2937] tabular-nums">
                               {formatSGD(totalCapital)}
                             </span>
                             <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${
-                              inv.is_active ? "bg-[#d1fae5] text-[#065f46]" : "bg-[#e6eeff] text-[#555f6f]"
+                              inv.is_active ? "bg-[#d1fae5] text-[#065f46]" : "bg-[#FAF0CC] text-[#6B7280]"
                             }`}>
                               {inv.is_active ? "Active" : "Pending"}
                             </span>
-                            <span className={`material-symbols-outlined text-[16px] text-[#6c7a77] transition-transform ${isExpanded ? "rotate-180" : ""}`}>
+                            <span className={`material-symbols-outlined text-[16px] text-[#6B7280] transition-transform ${isExpanded ? "rotate-180" : ""}`}>
                               expand_more
                             </span>
                           </div>
@@ -671,31 +671,31 @@ export default function AdminInvestorsPage() {
                       </button>
 
                       {isExpanded && (
-                        <div className="bg-[#f8f9ff] border-t border-[#bbcac6]/10 px-6 py-6">
+                        <div className="bg-[#FAF6EC] border-t border-[#E8E0CE]/10 px-6 py-6">
                           {/* Investments table */}
-                          <h4 className="font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-3">
+                          <h4 className="font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-3">
                             Investments
                           </h4>
 
                           {(inv.investments ?? []).length === 0 ? (
-                            <p className="font-['Manrope'] text-sm text-[#6c7a77] mb-4">No investments yet.</p>
+                            <p className="font-['Manrope'] text-sm text-[#6B7280] mb-4">No investments yet.</p>
                           ) : (
-                            <div className="rounded-xl overflow-hidden border border-[#bbcac6]/15 mb-5">
+                            <div className="rounded-xl overflow-hidden border border-[#E8E0CE]/15 mb-5">
                               <table className="w-full">
-                                <thead className="bg-[#eff4ff]">
+                                <thead className="bg-[#F2D88A]">
                                   <tr>
-                                    <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Property</th>
-                                    <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Capital</th>
-                                    <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Share</th>
-                                    <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold hidden sm:table-cell">Equity</th>
+                                    <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Property</th>
+                                    <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Capital</th>
+                                    <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Share</th>
+                                    <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold hidden sm:table-cell">Equity</th>
                                   </tr>
                                 </thead>
-                                <tbody className="divide-y divide-[#bbcac6]/10 bg-white">
+                                <tbody className="divide-y divide-[#E8E0CE]/10 bg-white">
                                   {(inv.investments ?? []).map((i) => {
                                     const sharePercent = Number(i.share_percentage ?? 0);
                                     return (
                                       <tr key={i.id}>
-                                        <td className="px-4 py-3 font-['Manrope'] text-sm font-medium text-[#121c2a]">
+                                        <td className="px-4 py-3 font-['Manrope'] text-sm font-medium text-[#1F2937]">
                                           {i.properties?.name ?? "—"}
                                         </td>
                                         <td className="px-4 py-3 text-right font-['Manrope'] text-sm tabular-nums font-medium">
@@ -706,7 +706,7 @@ export default function AdminInvestorsPage() {
                                         </td>
                                         <td className="px-4 py-3 hidden sm:table-cell">
                                           <div className="flex items-center gap-2">
-                                            <div className="flex-1 h-1.5 bg-[#eff4ff] rounded-full overflow-hidden max-w-[80px]">
+                                            <div className="flex-1 h-1.5 bg-[#F2D88A] rounded-full overflow-hidden max-w-[80px]">
                                               <div
                                                 className="h-full bg-[#A87813] rounded-full"
                                                 style={{ width: `${Math.min(sharePercent, 100)}%` }}
@@ -723,12 +723,12 @@ export default function AdminInvestorsPage() {
                           )}
 
                           {/* Add Investment form */}
-                          <h4 className="font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-3">
+                          <h4 className="font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-3">
                             Add Investment
                           </h4>
                           <div className="flex flex-col sm:flex-row gap-3">
                             <select
-                              className="flex-1 bg-white border border-[#bbcac6]/30 rounded-xl px-4 py-3 font-['Manrope'] text-sm text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                              className="flex-1 bg-white border border-[#E8E0CE]/30 rounded-xl px-4 py-3 font-['Manrope'] text-sm text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none"
                               value={form.propertyId ?? ""}
                               onChange={(e) =>
                                 setAddInvForm((prev) => ({
@@ -756,7 +756,7 @@ export default function AdminInvestorsPage() {
                                   [inv.id]: { ...form, capital: e.target.value },
                                 }))
                               }
-                              className="flex-1 bg-white border border-[#bbcac6]/30 rounded-xl px-4 py-3 font-['Manrope'] text-sm text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                              className="flex-1 bg-white border border-[#E8E0CE]/30 rounded-xl px-4 py-3 font-['Manrope'] text-sm text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none"
                             />
                             <button
                               onClick={() => handleAddInvestment(inv.id)}
@@ -779,30 +779,30 @@ export default function AdminInvestorsPage() {
 
       {/* ─── Monthly Distributions Section ─────────────────────────────────────── */}
       <div className="mt-12 mb-10">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#121c2a] tracking-tight mb-1">
+        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#1F2937] tracking-tight mb-1">
           Monthly Distributions
         </h2>
-        <p className="text-[#6c7a77] font-['Manrope'] font-medium">
+        <p className="text-[#6B7280] font-['Manrope'] font-medium">
           Calculate and approve investor distributions from confirmed P&L data.
         </p>
       </div>
 
       {/* Calculation controls */}
-      <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm mb-8">
-        <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-5 flex items-center gap-2">
+      <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm mb-8">
+        <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] mb-5 flex items-center gap-2">
           <span className="material-symbols-outlined text-[#A87813] text-[20px]">calculate</span>
           Calculate Distributions
         </h3>
         <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4">
           <div>
-            <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+            <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
               Month
             </label>
             <input
               type="month"
               value={distMonth}
               onChange={(e) => setDistMonth(e.target.value)}
-              className="bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
+              className="bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none"
             />
           </div>
           <button
@@ -825,11 +825,11 @@ export default function AdminInvestorsPage() {
 
       {/* Pending Distributions */}
       {distLoading ? (
-        <div className="h-32 bg-[#eff4ff] animate-pulse rounded-2xl mb-8" />
+        <div className="h-32 bg-[#F2D88A] animate-pulse rounded-2xl mb-8" />
       ) : pendingDistributions.length > 0 && (
-        <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden mb-8">
-          <div className="px-6 py-5 border-b border-[#bbcac6]/15 flex items-center justify-between">
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] flex items-center gap-2">
+        <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden mb-8">
+          <div className="px-6 py-5 border-b border-[#E8E0CE]/15 flex items-center justify-between">
+            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] flex items-center gap-2">
               <span className="material-symbols-outlined text-[#e6a817] text-[20px]">pending</span>
               Pending Distributions
             </h3>
@@ -845,26 +845,26 @@ export default function AdminInvestorsPage() {
 
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-[#eff4ff]">
+              <thead className="bg-[#F2D88A]">
                 <tr>
-                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Investor</th>
-                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Property</th>
-                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Gross Profit</th>
-                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Share %</th>
-                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Distribution</th>
-                  <th className="text-center px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Action</th>
+                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Investor</th>
+                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Property</th>
+                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Gross Profit</th>
+                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Share %</th>
+                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Distribution</th>
+                  <th className="text-center px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#bbcac6]/10">
+              <tbody className="divide-y divide-[#E8E0CE]/10">
                 {pendingDistributions.map((dist) => (
-                  <tr key={dist.id} className="hover:bg-[#f8f9ff] transition-colors">
-                    <td className="px-4 py-3 font-['Manrope'] text-sm font-medium text-[#121c2a]">
+                  <tr key={dist.id} className="hover:bg-[#FAF6EC] transition-colors">
+                    <td className="px-4 py-3 font-['Manrope'] text-sm font-medium text-[#1F2937]">
                       {dist.investors?.name ?? dist.investors?.email ?? "—"}
                     </td>
-                    <td className="px-4 py-3 font-['Manrope'] text-sm text-[#6c7a77]">
+                    <td className="px-4 py-3 font-['Manrope'] text-sm text-[#6B7280]">
                       {dist.properties?.name ?? "—"}
                       {dist.properties?.code && (
-                        <span className="ml-1.5 font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#A87813] px-1.5 py-0.5 rounded">
+                        <span className="ml-1.5 font-['Inter'] text-xs font-bold bg-[#F2D88A] text-[#A87813] px-1.5 py-0.5 rounded">
                           {dist.properties.code}
                         </span>
                       )}
@@ -875,7 +875,7 @@ export default function AdminInvestorsPage() {
                     <td className="px-4 py-3 text-right font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#A87813]">
                       {Number(dist.share_percentage ?? 0).toFixed(1)}%
                     </td>
-                    <td className="px-4 py-3 text-right font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a] tabular-nums">
+                    <td className="px-4 py-3 text-right font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#1F2937] tabular-nums">
                       {formatSGD(dist.amount)}
                     </td>
                     <td className="px-4 py-3 text-center">
@@ -897,12 +897,12 @@ export default function AdminInvestorsPage() {
 
       {/* Paid Distributions */}
       {!distLoading && paidDistributions.length > 0 && (
-        <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden mb-8">
-          <div className="px-6 py-5 border-b border-[#bbcac6]/15">
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] flex items-center gap-2">
+        <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden mb-8">
+          <div className="px-6 py-5 border-b border-[#E8E0CE]/15">
+            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] flex items-center gap-2">
               <span className="material-symbols-outlined text-[#16a34a] text-[20px]">check_circle</span>
               Paid Distributions
-              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold ml-2">
+              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold ml-2">
                 {paidDistributions.length} paid
               </span>
             </h3>
@@ -912,25 +912,25 @@ export default function AdminInvestorsPage() {
             <table className="w-full">
               <thead className="bg-[#f0fdf4]">
                 <tr>
-                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Investor</th>
-                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Property</th>
-                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Amount</th>
-                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Paid At</th>
+                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Investor</th>
+                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Property</th>
+                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Amount</th>
+                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Paid At</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#bbcac6]/10">
+              <tbody className="divide-y divide-[#E8E0CE]/10">
                 {paidDistributions.map((dist) => (
-                  <tr key={dist.id} className="hover:bg-[#f8f9ff] transition-colors">
-                    <td className="px-4 py-3 font-['Manrope'] text-sm font-medium text-[#121c2a]">
+                  <tr key={dist.id} className="hover:bg-[#FAF6EC] transition-colors">
+                    <td className="px-4 py-3 font-['Manrope'] text-sm font-medium text-[#1F2937]">
                       {dist.investors?.name ?? "—"}
                     </td>
-                    <td className="px-4 py-3 font-['Manrope'] text-sm text-[#6c7a77]">
+                    <td className="px-4 py-3 font-['Manrope'] text-sm text-[#6B7280]">
                       {dist.properties?.name ?? "—"}
                     </td>
                     <td className="px-4 py-3 text-right font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#16a34a] tabular-nums">
                       {formatSGD(dist.amount)}
                     </td>
-                    <td className="px-4 py-3 text-right font-['Manrope'] text-xs text-[#6c7a77]">
+                    <td className="px-4 py-3 text-right font-['Manrope'] text-xs text-[#6B7280]">
                       {dist.paid_at ? new Date(dist.paid_at).toLocaleDateString("en-SG", {
                         day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit",
                       }) : "—"}
@@ -945,20 +945,20 @@ export default function AdminInvestorsPage() {
 
       {/* Empty state for distributions */}
       {!distLoading && distributions.length === 0 && (
-        <div className="flex flex-col items-center justify-center gap-3 py-16 bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm">
-          <span className="material-symbols-outlined text-5xl text-[#bbcac6]">payments</span>
+        <div className="flex flex-col items-center justify-center gap-3 py-16 bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm">
+          <span className="material-symbols-outlined text-5xl text-[#E8E0CE]">payments</span>
           <p className="font-['Plus_Jakarta_Sans'] text-base font-semibold text-[#1a2e2b]">
             No distributions for this month
           </p>
-          <p className="font-['Manrope'] text-sm text-[#6c7a77]">
+          <p className="font-['Manrope'] text-sm text-[#6B7280]">
             Select a month and calculate distributions from confirmed bank transactions.
           </p>
         </div>
       )}
 
       {/* ─── Reports Section ───────────────────────────────────────────── */}
-      <div className="mt-12 pt-8 border-t-2 border-[#bbcac6]/15">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#121c2a] mb-6 flex items-center gap-2">
+      <div className="mt-12 pt-8 border-t-2 border-[#E8E0CE]/15">
+        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#1F2937] mb-6 flex items-center gap-2">
           <span className="material-symbols-outlined text-[#A87813]">description</span>
           Investor Reports
         </h2>
@@ -966,14 +966,14 @@ export default function AdminInvestorsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Upload form */}
           <div className="lg:col-span-5">
-            <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-              <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-5">
+            <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
+              <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] mb-5">
                 Add / Update Report
               </h3>
               <form onSubmit={handleSaveReport} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
                       Month
                     </label>
                     <input
@@ -981,18 +981,18 @@ export default function AdminInvestorsPage() {
                       value={reportMonth}
                       onChange={(e) => setReportMonth(e.target.value)}
                       required
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                      className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
                       Property
                     </label>
                     <select
                       value={reportPropertyId}
                       onChange={(e) => setReportPropertyId(e.target.value)}
                       required
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                      className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none"
                     >
                       <option value="">Select...</option>
                       {properties.map((p) => (
@@ -1003,7 +1003,7 @@ export default function AdminInvestorsPage() {
                 </div>
 
                 <div>
-                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
                     Title
                   </label>
                   <input
@@ -1011,13 +1011,13 @@ export default function AdminInvestorsPage() {
                     value={reportTitle}
                     onChange={(e) => setReportTitle(e.target.value)}
                     placeholder={`${reportMonth} Monthly Report`}
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                    className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none"
                   />
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
                   <div>
-                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
                       Revenue
                     </label>
                     <input
@@ -1026,11 +1026,11 @@ export default function AdminInvestorsPage() {
                       value={reportRevenue}
                       onChange={(e) => setReportRevenue(e.target.value)}
                       placeholder="0.00"
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none tabular-nums"
+                      className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none tabular-nums"
                     />
                   </div>
                   <div>
-                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
                       Expenses
                     </label>
                     <input
@@ -1039,11 +1039,11 @@ export default function AdminInvestorsPage() {
                       value={reportExpenses}
                       onChange={(e) => setReportExpenses(e.target.value)}
                       placeholder="0.00"
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none tabular-nums"
+                      className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none tabular-nums"
                     />
                   </div>
                   <div>
-                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
                       Distributed
                     </label>
                     <input
@@ -1052,13 +1052,13 @@ export default function AdminInvestorsPage() {
                       value={reportDistribution}
                       onChange={(e) => setReportDistribution(e.target.value)}
                       placeholder="0.00"
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] outline-none tabular-nums"
+                      className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] outline-none tabular-nums"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
                     Notes (optional)
                   </label>
                   <textarea
@@ -1066,19 +1066,19 @@ export default function AdminInvestorsPage() {
                     onChange={(e) => setReportNotes(e.target.value)}
                     rows={2}
                     placeholder="Any commentary for investors..."
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none resize-none"
+                    className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none resize-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
                     PDF Report (optional)
                   </label>
                   <input
                     type="file"
                     accept=".pdf"
                     onChange={(e) => setReportFile(e.target.files?.[0] ?? null)}
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-[#A87813] file:text-white file:font-semibold file:text-xs"
+                    className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-[#A87813] file:text-white file:font-semibold file:text-xs"
                   />
                 </div>
 
@@ -1102,31 +1102,31 @@ export default function AdminInvestorsPage() {
 
           {/* Existing reports list */}
           <div className="lg:col-span-7">
-            <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
-              <div className="px-6 py-4 border-b border-[#bbcac6]/10">
-                <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
+            <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden">
+              <div className="px-6 py-4 border-b border-[#E8E0CE]/10">
+                <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937]">
                   Recent Reports
                 </h3>
               </div>
               {reportsLoading ? (
                 <div className="p-6 space-y-3">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="h-10 bg-[#eff4ff] animate-pulse rounded-xl" />
+                    <div key={i} className="h-10 bg-[#F2D88A] animate-pulse rounded-xl" />
                   ))}
                 </div>
               ) : existingReports.length === 0 ? (
-                <div className="p-6 text-center text-[#6c7a77] font-['Manrope']">
+                <div className="p-6 text-center text-[#6B7280] font-['Manrope']">
                   No reports yet.
                 </div>
               ) : (
-                <div className="divide-y divide-[#bbcac6]/10">
+                <div className="divide-y divide-[#E8E0CE]/10">
                   {existingReports.map((r) => (
                     <div key={r.id} className="px-6 py-4 flex items-center justify-between">
                       <div className="min-w-0">
-                        <p className="font-['Manrope'] font-semibold text-[#121c2a] text-sm truncate">
+                        <p className="font-['Manrope'] font-semibold text-[#1F2937] text-sm truncate">
                           {r.title}
                         </p>
-                        <p className="font-['Inter'] text-xs text-[#6c7a77]">
+                        <p className="font-['Inter'] text-xs text-[#6B7280]">
                           {r.properties?.name ?? "\u2014"} &middot;{" "}
                           {new Date(r.month).toLocaleDateString("en-SG", { month: "short", year: "numeric" })}
                         </p>
@@ -1147,7 +1147,7 @@ export default function AdminInvestorsPage() {
                         )}
                         <button
                           onClick={() => handleDeleteReport(r.id)}
-                          className="text-[#6c7a77] hover:text-[#ba1a1a] transition-colors"
+                          className="text-[#6B7280] hover:text-[#ba1a1a] transition-colors"
                         >
                           <span className="material-symbols-outlined text-[18px]">delete</span>
                         </button>

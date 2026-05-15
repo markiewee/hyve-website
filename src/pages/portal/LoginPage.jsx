@@ -48,7 +48,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row bg-[#f8f9ff]">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-[#FAF6EC]">
       {/* Left editorial panel */}
       <section className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#A87813]">
         <div className="absolute inset-0 opacity-40 mix-blend-overlay">
@@ -67,25 +67,25 @@ export default function LoginPage() {
             <h1 className="font-['Plus_Jakarta_Sans'] text-5xl font-bold text-white leading-tight tracking-tight mb-8">
               {t("login.heroTitle")}
             </h1>
-            <p className="text-[#71f8e4] text-lg font-medium leading-relaxed mb-12 opacity-90">
+            <p className="text-[#D9A441] text-lg font-medium leading-relaxed mb-12 opacity-90">
               {t("login.heroSubtitle")}
             </p>
             <div className="grid grid-cols-2 gap-6">
               <div className="p-6 rounded-xl bg-white/5 backdrop-blur-md border border-white/10">
-                <span className="material-symbols-outlined text-[#71f8e4] text-3xl mb-4 block">payments</span>
+                <span className="material-symbols-outlined text-[#D9A441] text-3xl mb-4 block">payments</span>
                 <h3 className="text-white font-['Plus_Jakarta_Sans'] font-bold text-sm mb-1">{t("login.easyBilling")}</h3>
                 <p className="text-white/60 text-xs">{t("login.easyBillingDesc")}</p>
               </div>
               <div className="p-6 rounded-xl bg-white/5 backdrop-blur-md border border-white/10">
-                <span className="material-symbols-outlined text-[#71f8e4] text-3xl mb-4 block">support_agent</span>
+                <span className="material-symbols-outlined text-[#D9A441] text-3xl mb-4 block">support_agent</span>
                 <h3 className="text-white font-['Plus_Jakarta_Sans'] font-bold text-sm mb-1">{t("login.support247")}</h3>
                 <p className="text-white/60 text-xs">{t("login.support247Desc")}</p>
               </div>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#71f8e4]/20 flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#71f8e4] text-[16px]">verified</span>
+            <div className="w-8 h-8 rounded-full bg-[#D9A441]/20 flex items-center justify-center">
+              <span className="material-symbols-outlined text-[#D9A441] text-[16px]">verified</span>
             </div>
             <span className="text-white text-sm font-['Manrope'] font-medium">{t("login.trustedAcross")}</span>
           </div>
@@ -100,7 +100,7 @@ export default function LoginPage() {
               <Wordmark size="md" />
             </div>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-['Plus_Jakarta_Sans'] text-3xl font-bold text-[#121c2a] tracking-tight">
+              <h2 className="font-['Plus_Jakarta_Sans'] text-3xl font-bold text-[#1F2937] tracking-tight">
                 {t("login.title")}
               </h2>
               <div className="flex items-center gap-1">
@@ -109,25 +109,25 @@ export default function LoginPage() {
                   className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
                     lang === "en"
                       ? "bg-[#A87813] text-white"
-                      : "text-[#6c7a77] hover:text-[#A87813]"
+                      : "text-[#6B7280] hover:text-[#A87813]"
                   }`}
                 >
                   EN
                 </button>
-                <span className="text-[#bbcac6]">|</span>
+                <span className="text-[#E8E0CE]">|</span>
                 <button
                   onClick={() => setLanguage("zh")}
                   className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
                     lang === "zh"
                       ? "bg-[#A87813] text-white"
-                      : "text-[#6c7a77] hover:text-[#A87813]"
+                      : "text-[#6B7280] hover:text-[#A87813]"
                   }`}
                 >
                   中文
                 </button>
               </div>
             </div>
-            <p className="text-[#555f6f] font-['Manrope'] font-medium">
+            <p className="text-[#6B7280] font-['Manrope'] font-medium">
               {t("login.subtitle")}
             </p>
           </div>
@@ -142,17 +142,17 @@ export default function LoginPage() {
 
             <div>
               <label
-                className="block text-xs font-['Inter'] font-semibold text-[#6c7a77] uppercase tracking-widest mb-2 ml-1"
+                className="block text-xs font-['Inter'] font-semibold text-[#6B7280] uppercase tracking-widest mb-2 ml-1"
                 htmlFor="identifier"
               >
                 {t("login.username")}
               </label>
               <div className="relative group">
-                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#6c7a77] group-focus-within:text-[#A87813] transition-colors">
+                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#6B7280] group-focus-within:text-[#A87813] transition-colors">
                   person
                 </span>
                 <input
-                  className="w-full pl-12 pr-4 py-4 bg-[#eff4ff] border-0 rounded-xl font-['Inter'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none transition-all placeholder:text-[#6c7a77]/50"
+                  className="w-full pl-12 pr-4 py-4 bg-[#F2D88A] border-0 rounded-xl font-['Inter'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none transition-all placeholder:text-[#6B7280]/50"
                   id="identifier"
                   type="text"
                   autoComplete="username"
@@ -166,14 +166,14 @@ export default function LoginPage() {
 
             <div>
               <label
-                className="block text-xs font-['Inter'] font-semibold text-[#6c7a77] uppercase tracking-widest mb-2 ml-1"
+                className="block text-xs font-['Inter'] font-semibold text-[#6B7280] uppercase tracking-widest mb-2 ml-1"
                 htmlFor="password"
               >
                 {t("login.password")}
               </label>
               <div className="relative group">
                 <input
-                  className="w-full px-4 py-4 bg-[#eff4ff] border-0 rounded-xl font-['Inter'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none transition-all"
+                  className="w-full px-4 py-4 bg-[#F2D88A] border-0 rounded-xl font-['Inter'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none transition-all"
                   id="password"
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
@@ -185,7 +185,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-[#6c7a77] cursor-pointer hover:text-[#A87813] transition-colors"
+                  className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-[#6B7280] cursor-pointer hover:text-[#A87813] transition-colors"
                 >
                   {showPassword ? "visibility_off" : "visibility"}
                 </button>
@@ -225,7 +225,7 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-12 pt-8 border-t border-[#bbcac6]/20 flex justify-center gap-8">
+          <div className="mt-12 pt-8 border-t border-[#E8E0CE]/20 flex justify-center gap-8">
             <div className="flex items-center gap-2 opacity-40">
               <span className="material-symbols-outlined text-sm">verified_user</span>
               <span className="text-[10px] font-['Inter'] font-bold uppercase tracking-widest">{t("login.sslEncrypted")}</span>

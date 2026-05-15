@@ -151,13 +151,13 @@ export default function AvailabilityGrid({
 
   return (
     <div
-      className="rounded-2xl bg-white border border-[#bbcac6]/15 shadow-sm p-4 sm:p-6"
+      className="rounded-2xl bg-white border border-[#E8E0CE]/15 shadow-sm p-4 sm:p-6"
       onPointerUp={handlePointerUp}
       onPointerLeave={handlePointerUp}
     >
       {/* Heading */}
       <h3
-        className="text-sm font-semibold text-[#121c2a] mb-4"
+        className="text-sm font-semibold text-[#1F2937] mb-4"
         style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
       >
         Select your availability
@@ -184,16 +184,16 @@ export default function AvailabilityGrid({
               key={ci}
               className="flex flex-col items-center py-2 select-none"
             >
-              <span className="text-xs font-medium text-[#6c7a77]">
+              <span className="text-xs font-medium text-[#6B7280]">
                 {col.dayLabel}
               </span>
               <span
-                className="text-base font-bold text-[#121c2a] leading-tight"
+                className="text-base font-bold text-[#1F2937] leading-tight"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
                 {col.dateNum}
               </span>
-              <span className="text-[10px] text-[#6c7a77] uppercase tracking-wide">
+              <span className="text-[10px] text-[#6B7280] uppercase tracking-wide">
                 {col.month}
               </span>
             </div>
@@ -206,7 +206,7 @@ export default function AvailabilityGrid({
               <div
                 className="sticky left-0 z-10 bg-white flex items-center justify-end pr-2"
               >
-                <span className="text-[10px] text-[#6c7a77] whitespace-nowrap tabular-nums">
+                <span className="text-[10px] text-[#6B7280] whitespace-nowrap tabular-nums">
                   {label}
                 </span>
               </div>
@@ -278,7 +278,7 @@ export default function AvailabilityGrid({
       </div>
 
       {/* Legend */}
-      <div className="flex items-center gap-4 mt-4 text-[10px] text-[#6c7a77]">
+      <div className="flex items-center gap-4 mt-4 text-[10px] text-[#6B7280]">
         <span className="flex items-center gap-1.5">
           <span className="inline-block w-3 h-3 rounded bg-[#f1f3f5]" />
           Available

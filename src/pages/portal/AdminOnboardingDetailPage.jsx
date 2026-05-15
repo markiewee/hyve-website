@@ -887,7 +887,7 @@ export default function AdminOnboardingDetailPage() {
                         className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors ${
                           sigMode === "saved"
                             ? "bg-[#A87813] text-white border-[#A87813]"
-                            : "bg-white border-[#bbcac6]/40 text-[#6c7a77] hover:border-[#A87813]/40"
+                            : "bg-white border-[#E8E0CE]/40 text-[#6B7280] hover:border-[#A87813]/40"
                         }`}
                       >
                         Use Saved Signature
@@ -898,7 +898,7 @@ export default function AdminOnboardingDetailPage() {
                         className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors ${
                           sigMode === "draw"
                             ? "bg-[#A87813] text-white border-[#A87813]"
-                            : "bg-white border-[#bbcac6]/40 text-[#6c7a77] hover:border-[#A87813]/40"
+                            : "bg-white border-[#E8E0CE]/40 text-[#6B7280] hover:border-[#A87813]/40"
                         }`}
                       >
                         Draw New Signature
@@ -908,7 +908,7 @@ export default function AdminOnboardingDetailPage() {
 
                   {/* Saved signature preview */}
                   {sigMode === "saved" && profile?.saved_signature && (
-                    <div className="rounded-xl border border-[#bbcac6]/30 bg-[#f8faf9] p-3 inline-block">
+                    <div className="rounded-xl border border-[#E8E0CE]/30 bg-[#f8faf9] p-3 inline-block">
                       <img
                         src={profile.saved_signature}
                         alt="Saved signature"
@@ -1359,7 +1359,7 @@ export default function AdminOnboardingDetailPage() {
                 </div>
 
                 {/* Deposit refund calculation */}
-                <div className="bg-[#f8f9ff] rounded-lg p-4 space-y-2">
+                <div className="bg-[#FAF6EC] rounded-lg p-4 space-y-2">
                   <p className="text-xs font-medium text-muted-foreground">Deposit Settlement</p>
                   <div className="grid grid-cols-3 gap-2 text-sm">
                     <div>
@@ -1500,7 +1500,7 @@ export default function AdminOnboardingDetailPage() {
                     <div>
                       <p className="text-sm font-medium text-foreground flex items-center gap-2">
                         {c.description}
-                        <span className="inline-flex px-1.5 py-0.5 rounded text-[10px] font-bold uppercase bg-[#eff4ff] text-[#6c7a77]">
+                        <span className="inline-flex px-1.5 py-0.5 rounded text-[10px] font-bold uppercase bg-[#F2D88A] text-[#6B7280]">
                           {c.category?.replace(/_/g, " ")}
                         </span>
                         <span className={`inline-flex px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${c.status === "PAID" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"}`}>
@@ -1531,7 +1531,7 @@ export default function AdminOnboardingDetailPage() {
             <div className="space-y-4">
               {/* Offboard — for active or onboarding members */}
               {onboarding.status !== "END_OF_TENANCY" && onboarding.status !== "ARCHIVED" && (
-                <div className="flex items-center justify-between p-3 rounded-lg border border-[#bbcac6]/15">
+                <div className="flex items-center justify-between p-3 rounded-lg border border-[#E8E0CE]/15">
                   <div>
                     <p className="text-sm font-medium text-foreground">Start Offboarding</p>
                     <p className="text-xs text-muted-foreground">Mark as end of tenancy when moving out.</p>
@@ -1667,13 +1667,13 @@ export default function AdminOnboardingDetailPage() {
                         ? "bg-[#A87813] text-white font-bold"
                         : isCompleted
                         ? "bg-[#d1fae5] text-[#065f46] hover:bg-[#bbf7d0]"
-                        : "bg-[#f8f9ff] text-[#6c7a77] hover:bg-[#eff4ff]"
+                        : "bg-[#FAF6EC] text-[#6B7280] hover:bg-[#F2D88A]"
                     }`}
                   >
                     <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
                       isCurrent ? "bg-white text-[#A87813]"
                       : isCompleted ? "bg-[#065f46] text-white"
-                      : "bg-[#bbcac6]/20 text-[#6c7a77]"
+                      : "bg-[#E8E0CE]/20 text-[#6B7280]"
                     }`}>
                       {isCompleted ? (
                         <span className="material-symbols-outlined text-[14px]">check</span>

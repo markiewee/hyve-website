@@ -140,10 +140,10 @@ export default function NewIssuePage() {
   return (
     <PortalLayout>
       <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
           {phase === "report" ? "Report an Issue" : "Need Help?"}
         </h1>
-        <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
+        <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">
           {phase === "select" && "Let's try to fix it first. Select what's wrong."}
           {phase === "diagnose" && "Try these steps before submitting a ticket."}
           {phase === "report" && "The self-help steps didn't resolve it — let us know the details."}
@@ -158,12 +158,12 @@ export default function NewIssuePage() {
               <button
                 key={key}
                 onClick={() => handleSelectCategory(key)}
-                className="bg-white rounded-xl p-5 border border-[#bbcac6]/15 shadow-sm hover:border-[#A87813]/40 hover:shadow-md transition-all text-center group"
+                className="bg-white rounded-xl p-5 border border-[#E8E0CE]/15 shadow-sm hover:border-[#A87813]/40 hover:shadow-md transition-all text-center group"
               >
                 <span className="material-symbols-outlined text-[28px] text-[#A87813] mb-2 block group-hover:scale-110 transition-transform">
                   {diag.icon}
                 </span>
-                <p className="font-['Manrope'] font-bold text-xs text-[#121c2a]">{diag.title}</p>
+                <p className="font-['Manrope'] font-bold text-xs text-[#1F2937]">{diag.title}</p>
               </button>
             ))}
           </div>
@@ -171,14 +171,14 @@ export default function NewIssuePage() {
 
         {/* Phase 2: Diagnostic Steps */}
         {phase === "diagnose" && diagnostic && (
-          <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
+          <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden">
             {/* Header */}
-            <div className="bg-[#A87813]/5 px-6 py-4 border-b border-[#bbcac6]/15 flex items-center justify-between">
+            <div className="bg-[#A87813]/5 px-6 py-4 border-b border-[#E8E0CE]/15 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <span className="material-symbols-outlined text-[#A87813] text-[24px]">{diagnostic.icon}</span>
-                <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">{diagnostic.title}</h2>
+                <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937]">{diagnostic.title}</h2>
               </div>
-              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
+              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">
                 Step {currentStep + 1} of {diagnostic.steps.length}
               </span>
             </div>
@@ -190,15 +190,15 @@ export default function NewIssuePage() {
                   <div
                     key={i}
                     className={`h-1.5 flex-1 rounded-full transition-colors ${
-                      i <= currentStep ? "bg-[#A87813]" : "bg-[#eff4ff]"
+                      i <= currentStep ? "bg-[#A87813]" : "bg-[#F2D88A]"
                     }`}
                   />
                 ))}
               </div>
 
               {/* Current step */}
-              <div className="bg-[#f8f9ff] rounded-xl p-5">
-                <p className="font-['Manrope'] text-sm text-[#121c2a] font-semibold mb-2">
+              <div className="bg-[#FAF6EC] rounded-xl p-5">
+                <p className="font-['Manrope'] text-sm text-[#1F2937] font-semibold mb-2">
                   {diagnostic.steps[currentStep].text}
                 </p>
                 <div className="flex items-start gap-2 mt-3 bg-[#A87813]/5 rounded-lg p-3">
@@ -232,7 +232,7 @@ export default function NewIssuePage() {
                   </button>
                   <button
                     onClick={handleNextStep}
-                    className="flex-1 py-3 bg-[#eff4ff] text-[#555f6f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff] transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 py-3 bg-[#F2D88A] text-[#6B7280] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#FAF0CC] transition-colors flex items-center justify-center gap-2"
                   >
                     {currentStep < diagnostic.steps.length - 1 ? (
                       <>
@@ -253,7 +253,7 @@ export default function NewIssuePage() {
               {!resolved && (
                 <button
                   onClick={() => setPhase("report")}
-                  className="w-full text-center text-xs font-['Manrope'] text-[#6c7a77] hover:text-[#A87813] hover:underline"
+                  className="w-full text-center text-xs font-['Manrope'] text-[#6B7280] hover:text-[#A87813] hover:underline"
                 >
                   Skip self-help — I need to report this now
                 </button>
@@ -272,7 +272,7 @@ export default function NewIssuePage() {
               <span className="material-symbols-outlined text-[16px]">arrow_back</span>
               Back to self-help
             </button>
-            <div className="bg-white rounded-2xl p-8 border border-[#bbcac6]/15 shadow-sm">
+            <div className="bg-white rounded-2xl p-8 border border-[#E8E0CE]/15 shadow-sm">
               <TicketForm preselectedCategory={selectedCategory} />
             </div>
           </div>

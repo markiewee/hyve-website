@@ -43,7 +43,7 @@ function daysBetween(dateA, dateB) {
 }
 
 const STATUS_BADGE = {
-  PENDING: "bg-[#e6eeff] text-[#555f6f]",
+  PENDING: "bg-[#FAF0CC] text-[#6B7280]",
   PAID: "bg-[#d1fae5] text-[#065f46]",
   OVERDUE: "bg-[#ffdad6] text-[#ba1a1a]",
   PARTIAL: "bg-amber-100 text-amber-700",
@@ -545,44 +545,44 @@ export default function AdminRentPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
           Rent Management
         </h1>
-        <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
+        <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">
           Generate monthly rent records and track payment status.
         </p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Pending</p>
+        <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">Pending</p>
           {loading ? (
-            <div className="h-8 w-8 bg-[#eff4ff] animate-pulse rounded" />
+            <div className="h-8 w-8 bg-[#F2D88A] animate-pulse rounded" />
           ) : (
-            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">{pendingCount}</p>
+            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937]">{pendingCount}</p>
           )}
         </div>
-        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Overdue</p>
+        <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">Overdue</p>
           {loading ? (
-            <div className="h-8 w-8 bg-[#eff4ff] animate-pulse rounded" />
+            <div className="h-8 w-8 bg-[#F2D88A] animate-pulse rounded" />
           ) : (
-            <p className={`font-['Plus_Jakarta_Sans'] text-3xl font-extrabold ${overdueCount > 0 ? "text-[#ba1a1a]" : "text-[#121c2a]"}`}>
+            <p className={`font-['Plus_Jakarta_Sans'] text-3xl font-extrabold ${overdueCount > 0 ? "text-[#ba1a1a]" : "text-[#1F2937]"}`}>
               {overdueCount}
             </p>
           )}
         </div>
-        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Paid</p>
+        <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">Paid</p>
           {loading ? (
-            <div className="h-8 w-8 bg-[#eff4ff] animate-pulse rounded" />
+            <div className="h-8 w-8 bg-[#F2D88A] animate-pulse rounded" />
           ) : (
             <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#A87813]">{paidCount}</p>
           )}
         </div>
         <div className="bg-[#A87813] rounded-2xl p-6">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#71f8e4]/80 font-bold mb-3">Collected</p>
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#D9A441]/80 font-bold mb-3">Collected</p>
           {loading ? (
             <div className="h-8 w-20 bg-white/10 animate-pulse rounded" />
           ) : (
@@ -594,10 +594,10 @@ export default function AdminRentPage() {
       </div>
 
       {/* Generate button */}
-      <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm mb-8 flex flex-col sm:flex-row sm:items-center gap-4">
+      <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm mb-8 flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="flex-1">
-          <p className="font-['Manrope'] font-bold text-[#121c2a] text-sm">Generate Monthly Rent</p>
-          <p className="font-['Manrope'] text-[#6c7a77] text-xs mt-0.5">
+          <p className="font-['Manrope'] font-bold text-[#1F2937] text-sm">Generate Monthly Rent</p>
+          <p className="font-['Manrope'] text-[#6B7280] text-xs mt-0.5">
             Create rent records for all active tenants for the current month.
           </p>
         </div>
@@ -619,46 +619,46 @@ export default function AdminRentPage() {
       </div>
 
       {/* Rent Payment Table */}
-      <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden relative">
+      <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden relative">
         <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10 sm:hidden rounded-r-2xl"></div>
-        <div className="px-8 py-6 border-b border-[#bbcac6]/15">
-          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a]">
+        <div className="px-8 py-6 border-b border-[#E8E0CE]/15">
+          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937]">
             All Rent Payments
           </h2>
         </div>
 
         {loading ? (
-          <div className="divide-y divide-[#bbcac6]/10">
+          <div className="divide-y divide-[#E8E0CE]/10">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="px-8 py-5 flex items-center gap-4">
-                <div className="h-4 w-16 bg-[#eff4ff] animate-pulse rounded" />
-                <div className="h-4 w-24 bg-[#eff4ff] animate-pulse rounded" />
-                <div className="h-4 w-20 bg-[#eff4ff] animate-pulse rounded ml-auto" />
-                <div className="h-5 w-16 bg-[#eff4ff] animate-pulse rounded-full" />
+                <div className="h-4 w-16 bg-[#F2D88A] animate-pulse rounded" />
+                <div className="h-4 w-24 bg-[#F2D88A] animate-pulse rounded" />
+                <div className="h-4 w-20 bg-[#F2D88A] animate-pulse rounded ml-auto" />
+                <div className="h-5 w-16 bg-[#F2D88A] animate-pulse rounded-full" />
               </div>
             ))}
           </div>
         ) : rentPayments.length === 0 ? (
           <div className="px-8 py-12 text-center">
-            <p className="text-[#6c7a77] font-['Manrope'] text-sm">No rent payment records yet.</p>
+            <p className="text-[#6B7280] font-['Manrope'] text-sm">No rent payment records yet.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[700px]">
-              <thead className="bg-[#eff4ff]">
+              <thead className="bg-[#F2D88A]">
                 <tr>
-                  <th className="text-left px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Room</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Tenant</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Month</th>
-                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Rent</th>
-                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Late Fee</th>
-                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Total</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Status</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap hidden md:table-cell">Paid Date</th>
+                  <th className="text-left px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Room</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Tenant</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Month</th>
+                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Rent</th>
+                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Late Fee</th>
+                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Total</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Status</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap hidden md:table-cell">Paid Date</th>
                   <th className="px-4 py-4" />
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#bbcac6]/10">
+              <tbody className="divide-y divide-[#E8E0CE]/10">
                 {rentPayments.map((p) => {
                   const tp = p.tenant_profiles;
                   const unitCode = tp?.rooms?.unit_code ?? "—";
@@ -680,18 +680,18 @@ export default function AdminRentPage() {
                       className={`transition-colors ${
                         p.status === "OVERDUE"
                           ? "bg-[#ffdad6]/20 hover:bg-[#ffdad6]/30"
-                          : "hover:bg-[#f8f9ff]"
+                          : "hover:bg-[#FAF6EC]"
                       }`}
                     >
                       <td className="px-8 py-4">
-                        <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#eff4ff] px-2 py-1 rounded">
+                        <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#F2D88A] px-2 py-1 rounded">
                           {unitCode}
                         </span>
                       </td>
-                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#121c2a] whitespace-nowrap truncate max-w-[120px]" title={tenantName}>
+                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#1F2937] whitespace-nowrap truncate max-w-[120px]" title={tenantName}>
                         {tenantName}
                       </td>
-                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#121c2a] whitespace-nowrap">
+                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#1F2937] whitespace-nowrap">
                         {formatMonth(p.month)}
                       </td>
                       <td className="px-4 py-4 text-right font-['Manrope'] font-medium text-sm whitespace-nowrap tabular-nums">
@@ -701,7 +701,7 @@ export default function AdminRentPage() {
                         {lateFee > 0 ? (
                           <span className="font-['Manrope'] text-sm font-medium text-[#ba1a1a]">{formatSGD(lateFee)}</span>
                         ) : (
-                          <span className="text-[#bbcac6]">—</span>
+                          <span className="text-[#E8E0CE]">—</span>
                         )}
                       </td>
                       <td className="px-4 py-4 text-right whitespace-nowrap font-['Plus_Jakarta_Sans'] font-bold text-sm tabular-nums">
@@ -712,7 +712,7 @@ export default function AdminRentPage() {
                           {p.status}
                         </span>
                       </td>
-                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#6c7a77] whitespace-nowrap hidden md:table-cell">
+                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#6B7280] whitespace-nowrap hidden md:table-cell">
                         {formatDate(p.paid_at)}
                       </td>
                       <td className="px-4 py-4 text-right">
@@ -743,30 +743,30 @@ export default function AdminRentPage() {
                         <td colSpan={9} className="px-8 py-4">
                           <div className="flex flex-wrap items-end gap-4">
                             <div>
-                              <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6c7a77] mb-1">Amount Received</label>
+                              <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6B7280] mb-1">Amount Received</label>
                               <input
                                 type="number"
                                 step="0.01"
                                 value={paymentForm.paid_amount}
                                 onChange={(e) => setPaymentForm(f => ({ ...f, paid_amount: e.target.value }))}
-                                className="w-32 px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] font-semibold"
+                                className="w-32 px-3 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope'] font-semibold"
                               />
                             </div>
                             <div>
-                              <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6c7a77] mb-1">Date Received</label>
+                              <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6B7280] mb-1">Date Received</label>
                               <input
                                 type="date"
                                 value={paymentForm.paid_at}
                                 onChange={(e) => setPaymentForm(f => ({ ...f, paid_at: e.target.value }))}
-                                className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope']"
+                                className="px-3 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope']"
                               />
                             </div>
                             <div>
-                              <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6c7a77] mb-1">Method</label>
+                              <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6B7280] mb-1">Method</label>
                               <select
                                 value={paymentForm.payment_method}
                                 onChange={(e) => setPaymentForm(f => ({ ...f, payment_method: e.target.value }))}
-                                className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope']"
+                                className="px-3 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope']"
                               >
                                 <option value="PAYNOW">PayNow</option>
                                 <option value="BANK_TRANSFER">Bank Transfer</option>
@@ -783,7 +783,7 @@ export default function AdminRentPage() {
                             </button>
                             <button
                               onClick={() => setPaymentForm(null)}
-                              className="px-4 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] font-semibold text-[#6c7a77] hover:bg-white"
+                              className="px-4 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope'] font-semibold text-[#6B7280] hover:bg-white"
                             >
                               Cancel
                             </button>
@@ -800,19 +800,19 @@ export default function AdminRentPage() {
         )}
       </div>
       {/* ── Reconciliation Panel ── */}
-      <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden mt-8">
-        <div className="px-8 py-6 border-b border-[#bbcac6]/15 flex flex-col sm:flex-row sm:items-center gap-4">
+      <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden mt-8">
+        <div className="px-8 py-6 border-b border-[#E8E0CE]/15 flex flex-col sm:flex-row sm:items-center gap-4">
           <div className="flex-1">
-            <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a]">Reconcile with Aspire</h2>
-            <p className="font-['Manrope'] text-[#6c7a77] text-xs mt-0.5">Match incoming bank transfers to tenant rent records.</p>
+            <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937]">Reconcile with Aspire</h2>
+            <p className="font-['Manrope'] text-[#6B7280] text-xs mt-0.5">Match incoming bank transfers to tenant rent records.</p>
           </div>
           <div className="flex items-center gap-3 flex-wrap">
             <input type="month" value={reconcileMonth} onChange={(e) => setReconcileMonth(e.target.value)}
-              className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]" />
+              className="px-3 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]" />
             {aspireAccounts.length > 0 ? (
               <>
                 <select value={aspireAccountId} onChange={(e) => setAspireAccountId(e.target.value)}
-                  className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white max-w-[200px]">
+                  className="px-3 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white max-w-[200px]">
                   <option value="">Select account…</option>
                   {aspireAccounts.map(acc => {
                     const id = acc.id ?? acc.account_id ?? acc.accountId;
@@ -842,7 +842,7 @@ export default function AdminRentPage() {
                         });
                       }
                     }}
-                    className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-[#6c7a77] hover:bg-[#f8f9ff] transition-colors"
+                    className="px-3 py-2 rounded-lg border border-[#E8E0CE]/30 text-[#6B7280] hover:bg-[#FAF6EC] transition-colors"
                     title="Edit nickname"
                   >
                     <span className="material-symbols-outlined text-[18px]">edit</span>
@@ -851,7 +851,7 @@ export default function AdminRentPage() {
               </>
             ) : (
               <button onClick={handleLoadAspireAccounts}
-                className="px-4 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] font-semibold text-[#6c7a77] hover:bg-[#f8f9ff]">
+                className="px-4 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope'] font-semibold text-[#6B7280] hover:bg-[#FAF6EC]">
                 Load Accounts
               </button>
             )}
@@ -875,10 +875,10 @@ export default function AdminRentPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-[#bbcac6]/15">
+        <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-[#E8E0CE]/15">
           {/* LEFT: Unpaid Rent */}
           <div className="p-6">
-            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-4">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-4">
               Unpaid Rent ({rentPayments.filter(p => p.status === "PENDING" || p.status === "OVERDUE").length})
             </p>
             <div className="space-y-2 max-h-[400px] overflow-y-auto">
@@ -891,11 +891,11 @@ export default function AdminRentPage() {
                   return (
                     <button key={p.id} onClick={() => selectedTxn ? handleMatch(p) : null} disabled={!selectedTxn}
                       className={`w-full text-left p-4 rounded-xl border transition-all flex items-center gap-3 ${
-                        selectedTxn ? "border-[#D9A441] hover:bg-[#A87813]/5 cursor-pointer" : "border-[#bbcac6]/15 opacity-60 cursor-default"
+                        selectedTxn ? "border-[#D9A441] hover:bg-[#A87813]/5 cursor-pointer" : "border-[#E8E0CE]/15 opacity-60 cursor-default"
                       }`}>
-                      <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#eff4ff] px-2 py-1 rounded shrink-0">{unitCode}</span>
+                      <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#F2D88A] px-2 py-1 rounded shrink-0">{unitCode}</span>
                       <div className="flex-1 min-w-0">
-                        <p className="font-['Manrope'] text-sm font-semibold text-[#121c2a] truncate">{name}</p>
+                        <p className="font-['Manrope'] text-sm font-semibold text-[#1F2937] truncate">{name}</p>
                       </div>
                       <div className="text-right shrink-0">
                         <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm tabular-nums">{formatSGD(p.rent_amount)}</p>
@@ -905,14 +905,14 @@ export default function AdminRentPage() {
                   );
                 })}
               {rentPayments.filter(p => p.status === "PENDING" || p.status === "OVERDUE").length === 0 && (
-                <p className="text-center text-[#6c7a77] font-['Manrope'] text-sm py-8">All rent paid!</p>
+                <p className="text-center text-[#6B7280] font-['Manrope'] text-sm py-8">All rent paid!</p>
               )}
             </div>
           </div>
 
           {/* RIGHT: Aspire Transactions */}
           <div className="p-6">
-            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-4">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-4">
               Aspire Incoming ({aspireTransactions.length})
             </p>
             <div className="space-y-2 max-h-[400px] overflow-y-auto">
@@ -921,18 +921,18 @@ export default function AdminRentPage() {
                 return (
                   <button key={txn.reference || idx} onClick={() => setSelectedTxn(isSelected ? null : txn)}
                     className={`w-full text-left p-4 rounded-xl border transition-all flex items-center gap-3 ${
-                      isSelected ? "border-[#D9A441] ring-2 ring-[#D9A441] bg-[#A87813]/5" : "border-[#bbcac6]/15 hover:border-[#D9A441] hover:bg-[#f8f9ff]"
+                      isSelected ? "border-[#D9A441] ring-2 ring-[#D9A441] bg-[#A87813]/5" : "border-[#E8E0CE]/15 hover:border-[#D9A441] hover:bg-[#FAF6EC]"
                     }`}>
                     <div className="flex-1 min-w-0">
-                      <p className="font-['Manrope'] text-sm font-semibold text-[#121c2a] truncate">{txn.description || "Unknown"}</p>
-                      <p className="font-['Manrope'] text-xs text-[#6c7a77]">{txn.transaction_date}</p>
+                      <p className="font-['Manrope'] text-sm font-semibold text-[#1F2937] truncate">{txn.description || "Unknown"}</p>
+                      <p className="font-['Manrope'] text-xs text-[#6B7280]">{txn.transaction_date}</p>
                     </div>
                     <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm tabular-nums text-[#A87813] shrink-0">{formatSGD(txn.amount)}</p>
                   </button>
                 );
               })}
               {aspireTransactions.length === 0 && !aspireLoading && (
-                <p className="text-center text-[#6c7a77] font-['Manrope'] text-sm py-8">
+                <p className="text-center text-[#6B7280] font-['Manrope'] text-sm py-8">
                   {aspireError ? "Failed to load" : "Click \"Fetch Aspire\" to load transactions"}
                 </p>
               )}
@@ -946,17 +946,17 @@ export default function AdminRentPage() {
         </div>
 
         {matchedPairs.length > 0 && (
-          <div className="border-t border-[#bbcac6]/15 p-6">
-            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-4">
+          <div className="border-t border-[#E8E0CE]/15 p-6">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-4">
               Matched This Session ({matchedPairs.length})
             </p>
             <div className="space-y-2">
               {matchedPairs.map(pair => (
                 <div key={pair.rentPaymentId} className="flex items-center gap-3 p-3 rounded-xl bg-[#d1fae5]/30 border border-[#d1fae5]">
-                  <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#eff4ff] px-2 py-1 rounded">{pair.unitCode}</span>
-                  <p className="font-['Manrope'] text-sm text-[#121c2a] flex-1">{pair.tenantName} — {formatSGD(pair.rentAmount)}</p>
-                  <span className="text-[#6c7a77] font-['Manrope'] text-xs">←</span>
-                  <p className="font-['Manrope'] text-sm text-[#121c2a]">{pair.txnDescription} — {formatSGD(pair.txnAmount)}</p>
+                  <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#F2D88A] px-2 py-1 rounded">{pair.unitCode}</span>
+                  <p className="font-['Manrope'] text-sm text-[#1F2937] flex-1">{pair.tenantName} — {formatSGD(pair.rentAmount)}</p>
+                  <span className="text-[#6B7280] font-['Manrope'] text-xs">←</span>
+                  <p className="font-['Manrope'] text-sm text-[#1F2937]">{pair.txnDescription} — {formatSGD(pair.txnAmount)}</p>
                   {Number(pair.txnAmount) !== Number(pair.rentAmount) && (
                     <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-amber-100 text-amber-700">Mismatch</span>
                   )}
@@ -972,7 +972,7 @@ export default function AdminRentPage() {
                     </>
                   )}
                   <button onClick={() => handleUnmatch(pair)}
-                    className="text-xs px-3 py-1.5 rounded-lg border border-[#bbcac6]/30 text-[#6c7a77] hover:bg-white font-['Manrope'] font-bold shrink-0">
+                    className="text-xs px-3 py-1.5 rounded-lg border border-[#E8E0CE]/30 text-[#6B7280] hover:bg-white font-['Manrope'] font-bold shrink-0">
                     Unmatch
                   </button>
                 </div>
@@ -983,23 +983,23 @@ export default function AdminRentPage() {
       </div>
 
       {/* Add Charge Section */}
-      <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden mt-8">
-        <div className="px-8 py-6 border-b border-[#bbcac6]/15">
-          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a]">
+      <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden mt-8">
+        <div className="px-8 py-6 border-b border-[#E8E0CE]/15">
+          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937]">
             Add One-Off Charge
           </h2>
-          <p className="font-['Manrope'] text-[#6c7a77] text-xs mt-0.5">
+          <p className="font-['Manrope'] text-[#6B7280] text-xs mt-0.5">
             Charge a member for stamping fees, key replacement, damage, etc.
           </p>
         </div>
         <div className="px-8 py-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
             <div>
-              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Member *</label>
+              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-1">Member *</label>
               <select
                 value={chargeForm.tenant_profile_id}
                 onChange={(e) => setChargeForm(f => ({ ...f, tenant_profile_id: e.target.value }))}
-                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
+                className="w-full border border-[#E8E0CE]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
               >
                 <option value="">Select member...</option>
                 {members.map(m => (
@@ -1010,17 +1010,17 @@ export default function AdminRentPage() {
               </select>
             </div>
             <div>
-              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Description *</label>
+              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-1">Description *</label>
               <input
                 type="text"
                 value={chargeForm.description}
                 onChange={(e) => setChargeForm(f => ({ ...f, description: e.target.value }))}
                 placeholder="e.g. Stamping fee"
-                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]"
+                className="w-full border border-[#E8E0CE]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]"
               />
             </div>
             <div>
-              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Amount SGD *</label>
+              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-1">Amount SGD *</label>
               <input
                 type="number"
                 min="0"
@@ -1028,15 +1028,15 @@ export default function AdminRentPage() {
                 value={chargeForm.amount}
                 onChange={(e) => setChargeForm(f => ({ ...f, amount: e.target.value }))}
                 placeholder="0.00"
-                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]"
+                className="w-full border border-[#E8E0CE]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]"
               />
             </div>
             <div>
-              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Category</label>
+              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-1">Category</label>
               <select
                 value={chargeForm.category}
                 onChange={(e) => setChargeForm(f => ({ ...f, category: e.target.value }))}
-                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
+                className="w-full border border-[#E8E0CE]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
               >
                 {CHARGE_CATEGORIES.map(cat => (
                   <option key={cat} value={cat}>{cat.replace(/_/g, " ")}</option>
@@ -1044,12 +1044,12 @@ export default function AdminRentPage() {
               </select>
             </div>
             <div>
-              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Due Date</label>
+              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-1">Due Date</label>
               <input
                 type="date"
                 value={chargeForm.due_date}
                 onChange={(e) => setChargeForm(f => ({ ...f, due_date: e.target.value }))}
-                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]"
+                className="w-full border border-[#E8E0CE]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]"
               />
             </div>
             <div className="flex items-end">
@@ -1067,68 +1067,68 @@ export default function AdminRentPage() {
       </div>
 
       {/* All Charges Table */}
-      <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden mt-8">
-        <div className="px-8 py-6 border-b border-[#bbcac6]/15">
-          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a]">
+      <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden mt-8">
+        <div className="px-8 py-6 border-b border-[#E8E0CE]/15">
+          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937]">
             All Ad-hoc Charges
           </h2>
         </div>
 
         {chargesLoading ? (
-          <div className="divide-y divide-[#bbcac6]/10">
+          <div className="divide-y divide-[#E8E0CE]/10">
             {[1, 2, 3].map((i) => (
               <div key={i} className="px-8 py-5 flex items-center gap-4">
-                <div className="h-4 w-16 bg-[#eff4ff] animate-pulse rounded" />
-                <div className="h-4 w-24 bg-[#eff4ff] animate-pulse rounded" />
-                <div className="h-4 w-20 bg-[#eff4ff] animate-pulse rounded ml-auto" />
+                <div className="h-4 w-16 bg-[#F2D88A] animate-pulse rounded" />
+                <div className="h-4 w-24 bg-[#F2D88A] animate-pulse rounded" />
+                <div className="h-4 w-20 bg-[#F2D88A] animate-pulse rounded ml-auto" />
               </div>
             ))}
           </div>
         ) : charges.length === 0 ? (
           <div className="px-8 py-12 text-center">
-            <p className="text-[#6c7a77] font-['Manrope'] text-sm">No ad-hoc charges yet.</p>
+            <p className="text-[#6B7280] font-['Manrope'] text-sm">No ad-hoc charges yet.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[600px]">
-              <thead className="bg-[#eff4ff]">
+              <thead className="bg-[#F2D88A]">
                 <tr>
-                  <th className="text-left px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Room</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Description</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Category</th>
-                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Amount</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Due Date</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap">Status</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold whitespace-nowrap hidden md:table-cell">Created</th>
+                  <th className="text-left px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Room</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Description</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Category</th>
+                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Amount</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Due Date</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Status</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap hidden md:table-cell">Created</th>
                   <th className="px-4 py-4" />
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#bbcac6]/10">
+              <tbody className="divide-y divide-[#E8E0CE]/10">
                 {charges.map((c) => {
                   const unitCode = c.tenant_profiles?.rooms?.unit_code ?? "—";
                   const badgeClass = CHARGE_STATUS_BADGE[c.status] ?? CHARGE_STATUS_BADGE.PENDING;
                   const isLoading = chargeActionLoading === c.id;
                   return (
-                    <tr key={c.id} className="hover:bg-[#f8f9ff] transition-colors">
+                    <tr key={c.id} className="hover:bg-[#FAF6EC] transition-colors">
                       <td className="px-8 py-4">
-                        <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#eff4ff] px-2 py-1 rounded">
+                        <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#F2D88A] px-2 py-1 rounded">
                           {unitCode}
                         </span>
                       </td>
-                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#121c2a]">{c.description}</td>
+                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#1F2937]">{c.description}</td>
                       <td className="px-4 py-4">
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-[#eff4ff] text-[#555f6f]">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-[#F2D88A] text-[#6B7280]">
                           {c.category?.replace(/_/g, " ")}
                         </span>
                       </td>
                       <td className="px-4 py-4 text-right font-['Plus_Jakarta_Sans'] font-bold text-sm tabular-nums">{formatSGD(c.amount)}</td>
-                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#121c2a] whitespace-nowrap">{formatDate(c.due_date)}</td>
+                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#1F2937] whitespace-nowrap">{formatDate(c.due_date)}</td>
                       <td className="px-4 py-4">
                         <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${badgeClass}`}>
                           {c.status}
                         </span>
                       </td>
-                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#6c7a77] whitespace-nowrap hidden md:table-cell">
+                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#6B7280] whitespace-nowrap hidden md:table-cell">
                         {formatDate(c.created_at)}
                       </td>
                       <td className="px-4 py-4 text-right">

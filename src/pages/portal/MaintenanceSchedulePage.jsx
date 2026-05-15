@@ -133,16 +133,16 @@ export default function MaintenanceSchedulePage() {
       return { text: isZh ? "本月" : "This month", class: "bg-[#A87813] text-white" };
     if (daysUntil <= 30)
       return { text: isZh ? "即将到来" : "Coming soon", class: "bg-amber-100 text-amber-700" };
-    return { text: isZh ? "已安排" : "Scheduled", class: "bg-[#eff4ff] text-[#555f6f]" };
+    return { text: isZh ? "已安排" : "Scheduled", class: "bg-[#F2D88A] text-[#6B7280]" };
   };
 
   return (
     <PortalLayout>
       <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
           {isZh ? "维护计划" : "Maintenance Schedule"}
         </h1>
-        <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
+        <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">
           {isZh
             ? "我们定期进行预防性维护，确保您的居住体验舒适安全。"
             : "We perform regular preventive maintenance to keep your home comfortable and safe."}
@@ -151,7 +151,7 @@ export default function MaintenanceSchedulePage() {
 
       {/* Upcoming maintenance */}
       <div className="mb-8">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#121c2a] mb-4 flex items-center gap-2">
+        <h2 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#1F2937] mb-4 flex items-center gap-2">
           <span className="material-symbols-outlined text-[20px] text-[#A87813]">upcoming</span>
           {isZh ? "即将到来的维护" : "Upcoming Maintenance"}
         </h2>
@@ -161,7 +161,7 @@ export default function MaintenanceSchedulePage() {
             return (
               <div
                 key={item.id}
-                className="bg-white rounded-xl border border-[#bbcac6]/15 shadow-sm p-5 hover:shadow-md transition-shadow"
+                className="bg-white rounded-xl border border-[#E8E0CE]/15 shadow-sm p-5 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start justify-between mb-3">
                   <div
@@ -176,17 +176,17 @@ export default function MaintenanceSchedulePage() {
                     {badge.text}
                   </span>
                 </div>
-                <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a] mb-1">
+                <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#1F2937] mb-1">
                   {isZh ? item.titleZh : item.title}
                 </h3>
-                <p className="font-['Manrope'] text-xs text-[#6c7a77] mb-3">
+                <p className="font-['Manrope'] text-xs text-[#6B7280] mb-3">
                   {isZh ? item.descriptionZh : item.description}
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className="font-['Inter'] text-xs font-semibold text-[#3c4947]">
+                  <span className="font-['Inter'] text-xs font-semibold text-[#1F2937]">
                     {isZh ? MONTH_NAMES_ZH[item.next.month - 1] : MONTH_NAMES[item.next.month - 1]} {item.next.year}
                   </span>
-                  <span className="font-['Inter'] text-[10px] text-[#6c7a77]">
+                  <span className="font-['Inter'] text-[10px] text-[#6B7280]">
                     {isZh ? item.frequencyZh : item.frequency}
                   </span>
                 </div>
@@ -198,14 +198,14 @@ export default function MaintenanceSchedulePage() {
 
       {/* Annual calendar view */}
       <div className="mb-8">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#121c2a] mb-4 flex items-center gap-2">
+        <h2 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#1F2937] mb-4 flex items-center gap-2">
           <span className="material-symbols-outlined text-[20px] text-[#A87813]">calendar_month</span>
           {isZh ? `${currentYear}年维护日历` : `${currentYear} Maintenance Calendar`}
         </h2>
-        <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden">
           {/* Header */}
-          <div className="grid text-center border-b border-[#bbcac6]/15" style={{ gridTemplateColumns: "minmax(120px, 1.5fr) repeat(12, 1fr)" }}>
-            <div className="py-3 px-2 font-['Inter'] text-[10px] font-bold uppercase tracking-widest text-[#6c7a77] border-r border-[#bbcac6]/10">
+          <div className="grid text-center border-b border-[#E8E0CE]/15" style={{ gridTemplateColumns: "minmax(120px, 1.5fr) repeat(12, 1fr)" }}>
+            <div className="py-3 px-2 font-['Inter'] text-[10px] font-bold uppercase tracking-widest text-[#6B7280] border-r border-[#E8E0CE]/10">
               {isZh ? "项目" : "Item"}
             </div>
             {(isZh ? MONTH_NAMES_ZH : MONTH_NAMES).map((m, i) => (
@@ -214,7 +214,7 @@ export default function MaintenanceSchedulePage() {
                 className={`py-3 px-1 font-['Inter'] text-[10px] font-bold uppercase tracking-wider ${
                   i + 1 === currentMonth
                     ? "bg-[#A87813] text-white"
-                    : "text-[#6c7a77]"
+                    : "text-[#6B7280]"
                 }`}
               >
                 {m}
@@ -223,12 +223,12 @@ export default function MaintenanceSchedulePage() {
           </div>
           {/* Rows */}
           {DEFAULT_SCHEDULE.map((item) => (
-            <div key={item.id} className="grid border-b border-[#bbcac6]/10 last:border-b-0" style={{ gridTemplateColumns: "minmax(120px, 1.5fr) repeat(12, 1fr)" }}>
-              <div className="py-3 px-3 border-r border-[#bbcac6]/10 flex items-center gap-2">
+            <div key={item.id} className="grid border-b border-[#E8E0CE]/10 last:border-b-0" style={{ gridTemplateColumns: "minmax(120px, 1.5fr) repeat(12, 1fr)" }}>
+              <div className="py-3 px-3 border-r border-[#E8E0CE]/10 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[16px]" style={{ color: item.color }}>
                   {item.icon}
                 </span>
-                <span className="font-['Manrope'] text-xs font-semibold text-[#121c2a] truncate">
+                <span className="font-['Manrope'] text-xs font-semibold text-[#1F2937] truncate">
                   {isZh ? item.titleZh : item.title}
                 </span>
               </div>
@@ -268,7 +268,7 @@ export default function MaintenanceSchedulePage() {
         {DEFAULT_SCHEDULE.map((item) => (
           <div key={item.id} className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
-            <span className="font-['Manrope'] text-xs text-[#3c4947]">
+            <span className="font-['Manrope'] text-xs text-[#1F2937]">
               {isZh ? item.titleZh : item.title}
             </span>
           </div>
@@ -276,10 +276,10 @@ export default function MaintenanceSchedulePage() {
       </div>
 
       {/* Info note */}
-      <div className="bg-[#eff4ff] rounded-xl p-5 flex items-start gap-3">
+      <div className="bg-[#F2D88A] rounded-xl p-5 flex items-start gap-3">
         <span className="material-symbols-outlined text-[#A87813] text-[20px] shrink-0 mt-0.5">info</span>
         <div>
-          <p className="font-['Manrope'] text-sm text-[#3c4947]">
+          <p className="font-['Manrope'] text-sm text-[#1F2937]">
             {isZh
               ? "维护通常在工作日上午10点至下午5点之间进行。我们会提前通过门户公告通知您具体日期。如果您需要安排特定时间的维护，请联系管理处。"
               : "Maintenance is typically carried out on weekdays between 10 AM – 5 PM. We'll notify you of exact dates via portal announcements. If you need to schedule maintenance around a specific time, contact management."}

@@ -41,7 +41,7 @@ export default function InvoiceDetailPage() {
   if (!invoice) {
     return (
       <PortalLayout>
-        <p className="text-center py-20 text-[#6c7a77] font-['Manrope']">Invoice not found.</p>
+        <p className="text-center py-20 text-[#6B7280] font-['Manrope']">Invoice not found.</p>
       </PortalLayout>
     );
   }
@@ -64,7 +64,7 @@ export default function InvoiceDetailPage() {
           <div className="flex gap-3">
             <button
               onClick={() => window.print()}
-              className="px-4 py-2 border border-[#bbcac6]/30 rounded-xl font-['Manrope'] text-sm text-[#121c2a] hover:bg-[#f8f9ff] transition-all flex items-center gap-2"
+              className="px-4 py-2 border border-[#E8E0CE]/30 rounded-xl font-['Manrope'] text-sm text-[#1F2937] hover:bg-[#FAF6EC] transition-all flex items-center gap-2"
             >
               <span className="material-symbols-outlined text-[18px]">print</span>
               Print
@@ -89,17 +89,17 @@ export default function InvoiceDetailPage() {
         )}
 
         {/* Invoice Document */}
-        <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm p-6">
+        <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm p-6">
           <InvoiceDocument invoice={invoice} />
         </div>
 
         {/* Cardless deposit instructions */}
         {canPay && (
-          <details className="mt-6 bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm p-6 print:hidden">
-            <summary className="font-['Manrope'] font-bold text-sm text-[#121c2a] cursor-pointer">
+          <details className="mt-6 bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm p-6 print:hidden">
+            <summary className="font-['Manrope'] font-bold text-sm text-[#1F2937] cursor-pointer">
               Don't have an ATM card? Deposit at any DBS/POSB ATM
             </summary>
-            <ol className="mt-3 space-y-1 font-['Manrope'] text-sm text-[#6c7a77] list-decimal list-inside">
+            <ol className="mt-3 space-y-1 font-['Manrope'] text-sm text-[#6B7280] list-decimal list-inside">
               <li>Touch the screen and select <strong>Cash Deposit</strong></li>
               <li>Select the <strong>Account Type</strong></li>
               <li>Enter Account Number <strong>885-215114-103</strong> and select Confirm</li>

@@ -322,7 +322,7 @@ export default function ScheduleViewingPage() {
   // --- Loading ---
   if (pageLoading) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FAF6EC] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-2 border-[#A87813] border-t-transparent rounded-full animate-spin" />
           <span className="text-[#A87813] font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide">
@@ -336,11 +336,11 @@ export default function ScheduleViewingPage() {
   // --- Error ---
   if (pageError) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e] flex items-center justify-center p-6">
+      <div className="min-h-screen bg-[#FAF6EC] font-['Inter'] text-[#191c1e] flex items-center justify-center p-6">
         <div className="w-full max-w-lg bg-white rounded-2xl editorial-shadow p-8 text-center">
           <span className="material-symbols-outlined text-5xl text-[#ba1a1a] mb-4 block">error_outline</span>
           <h1 className="font-['Plus_Jakarta_Sans'] text-xl font-bold mb-2">{pageError}</h1>
-          <p className="text-[#3c4947] text-sm">Check the URL and try again, or contact us on WhatsApp.</p>
+          <p className="text-[#1F2937] text-sm">Check the URL and try again, or contact us on WhatsApp.</p>
           <a href="https://wa.me/6580885410" className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm">
             <span className="material-symbols-outlined text-sm">chat</span>
             Contact Us
@@ -361,7 +361,7 @@ export default function ScheduleViewingPage() {
     });
 
     return (
-      <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e] flex flex-col items-center justify-center p-6 md:p-12">
+      <div className="min-h-screen bg-[#FAF6EC] font-['Inter'] text-[#191c1e] flex flex-col items-center justify-center p-6 md:p-12">
         <div className="w-full max-w-lg bg-white rounded-2xl editorial-shadow overflow-hidden">
           <div className="bg-[#A87813] p-8 text-center">
             <div className="w-16 h-16 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center">
@@ -380,7 +380,7 @@ export default function ScheduleViewingPage() {
               <span className="material-symbols-outlined text-[#A87813] mt-0.5">calendar_month</span>
               <div>
                 <p className="font-bold text-[#191c1e]">{dateDisplay}</p>
-                <p className="text-[#3c4947] text-sm">{formatTime(confirmedViewing.viewing_time)}</p>
+                <p className="text-[#1F2937] text-sm">{formatTime(confirmedViewing.viewing_time)}</p>
               </div>
             </div>
 
@@ -388,7 +388,7 @@ export default function ScheduleViewingPage() {
               <span className="material-symbols-outlined text-[#A87813] mt-0.5">location_on</span>
               <div>
                 <p className="font-bold text-[#191c1e]">{confirmedViewing.properties?.name}</p>
-                <p className="text-[#3c4947] text-sm">{confirmedViewing.properties?.address}</p>
+                <p className="text-[#1F2937] text-sm">{confirmedViewing.properties?.address}</p>
               </div>
             </div>
 
@@ -401,7 +401,7 @@ export default function ScheduleViewingPage() {
               </div>
             )}
 
-            <div className="bg-[#f2f4f6] rounded-xl p-4 text-sm text-[#3c4947]">
+            <div className="bg-[#f2f4f6] rounded-xl p-4 text-sm text-[#1F2937]">
               <p className="font-bold text-[#191c1e] mb-1">What's next?</p>
               <p>Send us a WhatsApp message to confirm your viewing. We'll create a group chat with you and your host to coordinate everything — door codes, directions, and any questions.</p>
             </div>
@@ -436,7 +436,7 @@ export default function ScheduleViewingPage() {
   const propertyName = property?.name || "Property";
 
   return (
-    <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e]">
+    <div className="min-h-screen bg-[#FAF6EC] font-['Inter'] text-[#191c1e]">
       <header className="bg-white shadow-sm flex justify-between items-center px-6 py-3 w-full border-b border-slate-100 sticky top-0 z-50">
         <span className="text-xl font-bold tracking-tighter text-honey-800 font-['Plus_Jakarta_Sans']">Lazybee</span>
         <a href="https://wa.me/6580885410" className="material-symbols-outlined text-slate-500 cursor-pointer hover:bg-slate-50 p-2 rounded-full transition-colors">
@@ -472,7 +472,7 @@ export default function ScheduleViewingPage() {
               <h2 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#191c1e] mb-2 tracking-tight">
                 Book a Viewing
               </h2>
-              <p className="text-[#3c4947] text-sm leading-relaxed">
+              <p className="text-[#1F2937] text-sm leading-relaxed">
                 Pick a Saturday evening slot and we'll confirm it instantly.
               </p>
             </div>
@@ -481,19 +481,19 @@ export default function ScheduleViewingPage() {
               {/* Name / Email / Phone */}
               <div className="space-y-4">
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-1.5 ml-1">Full Name</label>
-                  <input className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#bbcac6]" placeholder="Sarah Tan" type="text" required value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                  <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-1.5 ml-1">Full Name</label>
+                  <input className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#E8E0CE]" placeholder="Sarah Tan" type="text" required value={fullName} onChange={(e) => setFullName(e.target.value)} />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-1.5 ml-1">Email</label>
-                    <input className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#bbcac6]" placeholder="sarah@example.com" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-1.5 ml-1">Email</label>
+                    <input className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#E8E0CE]" placeholder="sarah@example.com" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-1.5 ml-1">WhatsApp</label>
+                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-1.5 ml-1">WhatsApp</label>
                     <div className="flex gap-2">
-                      <span className="flex items-center justify-center px-3 bg-[#eceef0] rounded-lg text-sm text-[#3c4947] font-medium">+65</span>
-                      <input className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#bbcac6]" placeholder="8123 4567" type="tel" required value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
+                      <span className="flex items-center justify-center px-3 bg-[#eceef0] rounded-lg text-sm text-[#1F2937] font-medium">+65</span>
+                      <input className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#E8E0CE]" placeholder="8123 4567" type="tel" required value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
                     </div>
                   </div>
                 </div>
@@ -502,8 +502,8 @@ export default function ScheduleViewingPage() {
               {/* Room Selector */}
               {allRooms.length > 0 && (
                 <div className="pt-4 border-t border-[#e6e8ea]">
-                  <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-1.5 ml-1">Room</label>
-                  <select className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm text-[#3c4947]" value={selectedRoomId} onChange={(e) => setSelectedRoomId(e.target.value)}>
+                  <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-1.5 ml-1">Room</label>
+                  <select className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm text-[#1F2937]" value={selectedRoomId} onChange={(e) => setSelectedRoomId(e.target.value)}>
                     <option value="">Any room — show me what's available</option>
                     {allRooms.map((r) => (
                       <option key={r.id} value={r.id}>{r.name || r.unit_code}</option>
@@ -514,7 +514,7 @@ export default function ScheduleViewingPage() {
 
               {/* Viewing Type */}
               <div className="pt-4 border-t border-[#e6e8ea]">
-                <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-2 ml-1">Viewing Type</label>
+                <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-2 ml-1">Viewing Type</label>
                 <div className="flex gap-3">
                   <button
                     type="button"
@@ -522,7 +522,7 @@ export default function ScheduleViewingPage() {
                     className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
                       viewingType === "in_person"
                         ? "bg-[#A87813] text-white shadow-md"
-                        : "bg-[#e6e8ea] text-[#3c4947] hover:bg-[#D9A441]/20"
+                        : "bg-[#e6e8ea] text-[#1F2937] hover:bg-[#D9A441]/20"
                     }`}
                   >
                     <span className="material-symbols-outlined text-sm">person</span>
@@ -534,7 +534,7 @@ export default function ScheduleViewingPage() {
                     className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
                       viewingType === "virtual"
                         ? "bg-[#A87813] text-white shadow-md"
-                        : "bg-[#e6e8ea] text-[#3c4947] hover:bg-[#D9A441]/20"
+                        : "bg-[#e6e8ea] text-[#1F2937] hover:bg-[#D9A441]/20"
                     }`}
                   >
                     <span className="material-symbols-outlined text-sm">videocam</span>
@@ -545,10 +545,10 @@ export default function ScheduleViewingPage() {
 
               {/* Saturday Time Slots */}
               <div className="pt-4 border-t border-[#e6e8ea]">
-                <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-1 ml-1">
+                <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-1 ml-1">
                   Pick a Saturday evening
                 </label>
-                <p className="text-[10px] text-[#bbcac6] mb-3 ml-1">
+                <p className="text-[10px] text-[#E8E0CE] mb-3 ml-1">
                   All times shown in Singapore time (SGT, UTC+8)
                 </p>
                 <div className="space-y-4">
@@ -567,7 +567,7 @@ export default function ScheduleViewingPage() {
                       <div key={dateStr}>
                         <p className="text-sm font-bold text-[#191c1e] mb-2">{formatDateShort(sat)}</p>
                         {visibleSlots.length === 0 ? (
-                          <p className="text-xs text-[#bbcac6] italic">Fully booked</p>
+                          <p className="text-xs text-[#E8E0CE] italic">Fully booked</p>
                         ) : (
                           <div className="flex flex-wrap gap-2">
                             {visibleSlots.map((time) => {
@@ -580,7 +580,7 @@ export default function ScheduleViewingPage() {
                                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                                     isSelected
                                       ? "bg-[#A87813] text-white shadow-md scale-105"
-                                      : "bg-[#e6e8ea] text-[#3c4947] hover:bg-[#D9A441]/20 hover:text-[#00423b]"
+                                      : "bg-[#e6e8ea] text-[#1F2937] hover:bg-[#D9A441]/20 hover:text-[#00423b]"
                                   }`}
                                 >
                                   {formatTime(time)}
@@ -599,12 +599,12 @@ export default function ScheduleViewingPage() {
               <div className="pt-4 border-t border-[#e6e8ea]">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-1.5 ml-1">Preferred Move-in</label>
-                    <input className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm text-[#3c4947]" type="date" value={moveInDate} onChange={(e) => setMoveInDate(e.target.value)} />
+                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-1.5 ml-1">Preferred Move-in</label>
+                    <input className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm text-[#1F2937]" type="date" value={moveInDate} onChange={(e) => setMoveInDate(e.target.value)} />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-1.5 ml-1">How did you find us?</label>
-                    <select className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm text-[#3c4947]" value={source} onChange={(e) => setSource(e.target.value)}>
+                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-1.5 ml-1">How did you find us?</label>
+                    <select className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm text-[#1F2937]" value={source} onChange={(e) => setSource(e.target.value)}>
                       {SOURCE_OPTIONS.map((opt) => (
                         <option key={opt} value={opt}>{opt}</option>
                       ))}
@@ -612,8 +612,8 @@ export default function ScheduleViewingPage() {
                   </div>
                 </div>
                 <div className="mt-4">
-                  <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-1.5 ml-1">Anything else? (optional)</label>
-                  <textarea className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#bbcac6] resize-none" placeholder="e.g. I have a pet, I need parking..." rows={2} value={specialNotes} onChange={(e) => setSpecialNotes(e.target.value)} />
+                  <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-1.5 ml-1">Anything else? (optional)</label>
+                  <textarea className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#E8E0CE] resize-none" placeholder="e.g. I have a pet, I need parking..." rows={2} value={specialNotes} onChange={(e) => setSpecialNotes(e.target.value)} />
                 </div>
               </div>
 
@@ -654,7 +654,7 @@ export default function ScheduleViewingPage() {
                 )}
               </button>
 
-              <p className="text-[10px] text-center text-[#6c7a77] text-balance">
+              <p className="text-[10px] text-center text-[#6B7280] text-balance">
                 By booking, you agree to our{" "}
                 <a className="underline hover:text-[#A87813]" href="/terms-of-service">Terms of Service</a>{" "}and{" "}
                 <a className="underline hover:text-[#A87813]" href="/privacy-policy">Privacy Policy</a>.

@@ -70,7 +70,7 @@ export default function RentPaymentCard({ payment, lateFeePerDay = 5 }) {
     <div className="flex items-center gap-4 px-6 py-5">
       {/* Icon */}
       <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-        status === "PAID" ? "bg-green-50" : status === "OVERDUE" ? "bg-red-50" : "bg-[#eff4ff]"
+        status === "PAID" ? "bg-green-50" : status === "OVERDUE" ? "bg-red-50" : "bg-[#F2D88A]"
       }`}>
         <span className={`material-symbols-outlined text-[20px] ${iconColor}`} style={{ fontVariationSettings: "'FILL' 1" }}>
           {statusIcon}
@@ -79,8 +79,8 @@ export default function RentPaymentCard({ payment, lateFeePerDay = 5 }) {
 
       {/* Details */}
       <div className="min-w-0 flex-1">
-        <p className="font-['Manrope'] font-bold text-sm text-[#121c2a]">{formatMonth(month)}</p>
-        <p className="font-['Inter'] text-xs text-[#6c7a77] mt-0.5">
+        <p className="font-['Manrope'] font-bold text-sm text-[#1F2937]">{formatMonth(month)}</p>
+        <p className="font-['Inter'] text-xs text-[#6B7280] mt-0.5">
           {status === "PAID" && (
             <>
               Paid {formatDate(paid_at)}
@@ -104,7 +104,7 @@ export default function RentPaymentCard({ payment, lateFeePerDay = 5 }) {
 
       {/* Amount */}
       <div className="text-right shrink-0">
-        <p className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">{formatSGD(rent_amount)}</p>
+        <p className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937]">{formatSGD(rent_amount)}</p>
         {(late_fee > 0 || calculatedLateFee > 0) && (
           <p className="font-['Inter'] text-[10px] text-red-500">+{formatSGD(calculatedLateFee || late_fee)} late fee</p>
         )}

@@ -105,7 +105,7 @@ export default function PortalTour({ onComplete }) {
       {/* Highlight cutout */}
       {highlightRect && (
         <div
-          className="absolute border-2 border-[#71f8e4] rounded-lg z-[101] pointer-events-none transition-all duration-300"
+          className="absolute border-2 border-[#D9A441] rounded-lg z-[101] pointer-events-none transition-all duration-300"
           style={{
             top: highlightRect.top,
             left: highlightRect.left,
@@ -139,7 +139,7 @@ export default function PortalTour({ onComplete }) {
               <div
                 key={i}
                 className={`h-1 flex-1 rounded-full transition-colors ${
-                  i <= step ? "bg-[#A87813]" : "bg-[#eff4ff]"
+                  i <= step ? "bg-[#A87813]" : "bg-[#F2D88A]"
                 }`}
               />
             ))}
@@ -153,10 +153,10 @@ export default function PortalTour({ onComplete }) {
               </span>
             </div>
             <div>
-              <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-base">
+              <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-base">
                 {currentStep.title}
               </h3>
-              <p className="font-['Manrope'] text-sm text-[#555f6f] mt-1 leading-relaxed">
+              <p className="font-['Manrope'] text-sm text-[#6B7280] mt-1 leading-relaxed">
                 {currentStep.text}
               </p>
             </div>
@@ -166,7 +166,7 @@ export default function PortalTour({ onComplete }) {
           <div className="flex items-center justify-between">
             <button
               onClick={handleSkip}
-              className="text-xs font-['Manrope'] text-[#6c7a77] hover:text-[#121c2a] transition-colors"
+              className="text-xs font-['Manrope'] text-[#6B7280] hover:text-[#1F2937] transition-colors"
             >
               Skip tour
             </button>

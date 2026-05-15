@@ -244,7 +244,7 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
           </div>
 
           {/* Photos for this area */}
-          <div className="px-4 py-3 bg-[#f8f9ff] border-t border-border">
+          <div className="px-4 py-3 bg-[#FAF6EC] border-t border-border">
             <label className="block text-xs text-muted-foreground mb-1.5">
               Photos of {area.name.toLowerCase()}{" "}
               <span className="text-muted-foreground/60">(optional — recommended for any damage)</span>

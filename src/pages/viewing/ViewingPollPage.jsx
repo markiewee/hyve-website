@@ -55,7 +55,7 @@ function buildCalendarLink(date, propertyName, address, viewingType) {
 
 function LoadingSkeleton() {
   return (
-    <div className="min-h-screen bg-[#f8f9ff] antialiased">
+    <div className="min-h-screen bg-[#FAF6EC] antialiased">
       {/* Header skeleton */}
       <header className="bg-white shadow-sm flex justify-between items-center px-6 py-3 w-full border-b border-slate-100 sticky top-0 z-50">
         <div className="w-12 h-5 bg-slate-200 rounded animate-pulse" />
@@ -93,7 +93,7 @@ function LoadingSkeleton() {
 
 function InvalidState() {
   return (
-    <div className="min-h-screen bg-[#f8f9ff] flex items-center justify-center p-6 antialiased">
+    <div className="min-h-screen bg-[#FAF6EC] flex items-center justify-center p-6 antialiased">
       <div className="text-center max-w-md">
         <span className="text-5xl mb-6 block">🔗</span>
         <h1
@@ -103,7 +103,7 @@ function InvalidState() {
           This viewing link is invalid
         </h1>
         <p
-          className="text-[#3c4947] text-sm mb-8"
+          className="text-[#1F2937] text-sm mb-8"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           The link you followed doesn't match any active viewing. It may have
@@ -144,7 +144,7 @@ function InvalidState() {
 
 function ExpiredState() {
   return (
-    <div className="min-h-screen bg-[#f8f9ff] flex items-center justify-center p-6 antialiased">
+    <div className="min-h-screen bg-[#FAF6EC] flex items-center justify-center p-6 antialiased">
       <div className="text-center max-w-md">
         <span className="text-5xl mb-6 block">⏰</span>
         <h1
@@ -154,7 +154,7 @@ function ExpiredState() {
           This viewing link has expired
         </h1>
         <p
-          className="text-[#3c4947] text-sm mb-8"
+          className="text-[#1F2937] text-sm mb-8"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           The scheduling window for this viewing has closed. Contact us to
@@ -195,7 +195,7 @@ function ExpiredState() {
 
 function WaitingState() {
   return (
-    <div className="min-h-screen bg-[#f8f9ff] flex items-center justify-center p-6 antialiased">
+    <div className="min-h-screen bg-[#FAF6EC] flex items-center justify-center p-6 antialiased">
       <div className="text-center max-w-lg">
         <div className="w-16 h-16 rounded-full bg-[#A87813]/10 flex items-center justify-center mx-auto mb-6">
           <span
@@ -212,7 +212,7 @@ function WaitingState() {
           Thanks! We're on it.
         </h1>
         <p
-          className="text-[#3c4947] text-sm leading-relaxed max-w-sm mx-auto"
+          className="text-[#1F2937] text-sm leading-relaxed max-w-sm mx-auto"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           We're matching your schedule with the host. You'll get a confirmation
@@ -249,7 +249,7 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
   );
 
   return (
-    <div className="min-h-screen bg-[#f8f9ff] antialiased">
+    <div className="min-h-screen bg-[#FAF6EC] antialiased">
       {/* Header */}
       <header className="bg-white shadow-sm flex justify-between items-center px-6 py-3 w-full border-b border-slate-100 sticky top-0 z-50">
         <div className="flex items-center gap-2">
@@ -279,7 +279,7 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
           >
             Viewing Confirmed
           </h1>
-          <p className="text-[#3c4947] text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <p className="text-[#1F2937] text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>
             You're all set! Here are your viewing details.
           </p>
         </div>
@@ -290,7 +290,7 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
           <div className="bg-[#A87813] p-6 text-white">
             <div className="flex items-center gap-3 mb-4">
               <span
-                className="material-symbols-outlined text-[#71f8e4] text-lg"
+                className="material-symbols-outlined text-[#D9A441] text-lg"
                 data-icon="location_on"
               >
                 location_on
@@ -329,7 +329,7 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
                 </span>
               </div>
               <div>
-                <p className="text-xs font-bold text-[#6c7a77] uppercase tracking-widest mb-1">
+                <p className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-1">
                   Date & Time
                 </p>
                 <p
@@ -354,7 +354,7 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
                   </span>
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-[#6c7a77] uppercase tracking-widest mb-1">
+                  <p className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-1">
                     Door Code
                   </p>
                   <p
@@ -471,7 +471,7 @@ export default function ViewingPollPage() {
 
   // ------ Active poll interface ------
   return (
-    <div className="min-h-screen bg-[#f8f9ff] text-[#191c1e] antialiased">
+    <div className="min-h-screen bg-[#FAF6EC] text-[#191c1e] antialiased">
       {/* Top Nav Bar */}
       <header className="bg-white shadow-sm flex justify-between items-center px-6 py-3 w-full border-b border-slate-100 sticky top-0 z-50">
         <div className="flex items-center gap-2">
@@ -516,7 +516,7 @@ export default function ViewingPollPage() {
                 >
                   Pick times you're free for a viewing
                 </h1>
-                <div className="flex items-center gap-2 text-[#3c4947]">
+                <div className="flex items-center gap-2 text-[#1F2937]">
                   <span
                     className="material-symbols-outlined text-sm"
                     data-icon="location_on"
@@ -547,7 +547,7 @@ export default function ViewingPollPage() {
                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${
                   viewingType === "in_person"
                     ? "bg-white shadow-sm text-[#A87813]"
-                    : "text-[#3c4947] hover:text-[#191c1e]"
+                    : "text-[#1F2937] hover:text-[#191c1e]"
                 }`}
               >
                 <span
@@ -563,7 +563,7 @@ export default function ViewingPollPage() {
                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${
                   viewingType === "virtual"
                     ? "bg-white shadow-sm text-[#A87813]"
-                    : "text-[#3c4947] hover:text-[#191c1e]"
+                    : "text-[#1F2937] hover:text-[#191c1e]"
                 }`}
               >
                 <span
@@ -588,7 +588,7 @@ export default function ViewingPollPage() {
                 Availability Grid
               </h2>
               <p
-                className="text-sm text-[#3c4947] mt-1"
+                className="text-sm text-[#1F2937] mt-1"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 Select all slots that work for your schedule.
@@ -623,7 +623,7 @@ export default function ViewingPollPage() {
                   Scheduling Note
                 </h4>
                 <p
-                  className="text-sm text-[#3c4947] mt-1 leading-relaxed"
+                  className="text-sm text-[#1F2937] mt-1 leading-relaxed"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   Once you submit, we'll match your availability with our house
@@ -652,7 +652,7 @@ export default function ViewingPollPage() {
                 selected
               </p>
               <p
-                className="text-[10px] uppercase tracking-wider font-bold text-[#bbcac6]"
+                className="text-[10px] uppercase tracking-wider font-bold text-[#E8E0CE]"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 Minimum 3 recommended

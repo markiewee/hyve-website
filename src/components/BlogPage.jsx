@@ -52,7 +52,7 @@ const BlogPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] pt-24 pb-32">
+      <div className="min-h-screen bg-[#FAF6EC] pt-24 pb-32">
         <div className="max-w-screen-2xl mx-auto px-6 md:px-8">
           <div className="animate-pulse">
             <div className="h-[400px] bg-slate-200 rounded-[2.5rem] mb-20"></div>
@@ -75,7 +75,7 @@ const BlogPage = () => {
   const remainingPosts = filteredPosts.slice(2);
 
   return (
-    <div className="min-h-screen bg-[#f8f9ff] pt-24 pb-32">
+    <div className="min-h-screen bg-[#FAF6EC] pt-24 pb-32">
       <SEO
         title="Blog — Co-living Stories & Tips"
         description="Read about co-living in Singapore: tips, stories, neighborhood guides, and lifestyle content from the Lazybee community."
@@ -83,25 +83,25 @@ const BlogPage = () => {
       />
       {/* Hero */}
       <header className="max-w-screen-2xl mx-auto px-6 md:px-8 mb-20">
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-[#eff4ff] min-h-[400px] md:min-h-[500px] flex items-center">
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-[#F2D88A] min-h-[400px] md:min-h-[500px] flex items-center">
           <div className="absolute inset-0 z-0">
-            <div className="w-full h-full bg-gradient-to-r from-[#f8f9ff] via-[#f8f9ff]/80 to-transparent"></div>
+            <div className="w-full h-full bg-gradient-to-r from-[#FAF6EC] via-[#FAF6EC]/80 to-transparent"></div>
           </div>
           {/* Decorative elements */}
           <div className="absolute right-12 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-6 z-0 opacity-20">
             <div className="w-48 h-48 rounded-full border-[3px] border-[#A87813]"></div>
-            <div className="w-32 h-32 rounded-full bg-[#71f8e4]/40 -mt-20 ml-24"></div>
+            <div className="w-32 h-32 rounded-full bg-[#D9A441]/40 -mt-20 ml-24"></div>
             <div className="w-24 h-24 rounded-2xl border-[3px] border-[#D9A441] rotate-12 -mt-10 ml-4"></div>
           </div>
           <div className="absolute -right-8 -bottom-8 w-64 h-64 bg-[#89f5e7]/20 rounded-full blur-3xl z-0"></div>
           <div className="relative z-10 max-w-3xl px-8 md:px-20">
-            <span className="inline-block py-1 px-4 rounded-full bg-[#71f8e4] text-[#00201c] font-['Inter'] font-semibold text-xs tracking-wider mb-6">
+            <span className="inline-block py-1 px-4 rounded-full bg-[#D9A441] text-[#1F2937] font-['Inter'] font-semibold text-xs tracking-wider mb-6">
               JOURNAL
             </span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-['Plus_Jakarta_Sans'] font-extrabold tracking-tighter text-[#121c2a] leading-[0.9] mb-8">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-['Plus_Jakarta_Sans'] font-extrabold tracking-tighter text-[#1F2937] leading-[0.9] mb-8">
               Stories from the <span className="text-[#A87813] italic">Sanctuary</span>
             </h1>
-            <p className="text-xl text-[#3c4947] font-['Manrope'] max-w-xl leading-relaxed">
+            <p className="text-xl text-[#1F2937] font-['Manrope'] max-w-xl leading-relaxed">
               Insights into coliving, community building, and the vibrant events shaping our global network.
             </p>
           </div>
@@ -119,7 +119,7 @@ const BlogPage = () => {
                 className={`px-6 py-2 rounded-xl font-['Inter'] text-sm font-semibold transition-all ${
                   selectedCategory === category
                     ? 'bg-[#A87813] text-white'
-                    : 'bg-[#d9e3f6] text-[#555f6f] hover:bg-[#dee9fc]'
+                    : 'bg-[#d9e3f6] text-[#6B7280] hover:bg-[#FAF0CC]'
                 }`}
               >
                 {category === 'all' ? 'All Stories' : category}
@@ -127,7 +127,7 @@ const BlogPage = () => {
             ))}
           </div>
           <div className="flex items-center bg-white rounded-xl px-4 py-2 border border-[rgba(187,202,198,0.15)] w-full md:w-80">
-            <span className="material-symbols-outlined text-[#6c7a77] mr-2">search</span>
+            <span className="material-symbols-outlined text-[#6B7280] mr-2">search</span>
             <input
               className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm font-['Manrope'] w-full"
               placeholder="Search articles..."
@@ -144,10 +144,10 @@ const BlogPage = () => {
         {filteredPosts.length === 0 ? (
           <div className="text-center py-20">
             <span className="material-symbols-outlined text-6xl text-slate-300 mb-4 block">article</span>
-            <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-2">
+            <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] mb-2">
               No articles found
             </h3>
-            <p className="text-[#3c4947] mb-4">Try adjusting your search or filters.</p>
+            <p className="text-[#1F2937] mb-4">Try adjusting your search or filters.</p>
             <button
               onClick={() => { setSearchTerm(''); setSelectedCategory('all'); }}
               className="bg-[#A87813] text-white px-6 py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold hover:opacity-90 transition-all"
@@ -175,15 +175,15 @@ const BlogPage = () => {
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 mb-4 text-[#6c7a77] text-xs font-['Inter'] font-semibold uppercase tracking-widest">
+                  <div className="flex items-center gap-4 mb-4 text-[#6B7280] text-xs font-['Inter'] font-semibold uppercase tracking-widest">
                     <span>{formatDate(featuredPost.publishedAt)}</span>
-                    <span className="w-1 h-1 rounded-full bg-[#bbcac6]"></span>
+                    <span className="w-1 h-1 rounded-full bg-[#E8E0CE]"></span>
                     <span>{featuredPost.readTime} MIN READ</span>
                   </div>
-                  <h2 className="text-3xl md:text-4xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] group-hover:text-[#A87813] transition-colors leading-tight mb-4">
+                  <h2 className="text-3xl md:text-4xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] group-hover:text-[#A87813] transition-colors leading-tight mb-4">
                     {featuredPost.title}
                   </h2>
-                  <p className="text-lg text-[#3c4947] font-['Manrope'] leading-relaxed max-w-2xl">
+                  <p className="text-lg text-[#1F2937] font-['Manrope'] leading-relaxed max-w-2xl">
                     {featuredPost.excerpt}
                   </p>
                 </Link>
@@ -208,12 +208,12 @@ const BlogPage = () => {
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 mb-3 text-[#6c7a77] text-[10px] font-['Inter'] font-semibold uppercase tracking-widest">
+                  <div className="flex items-center gap-3 mb-3 text-[#6B7280] text-[10px] font-['Inter'] font-semibold uppercase tracking-widest">
                     <span>{formatDate(sidebarPost.publishedAt)}</span>
-                    <span className="w-1 h-1 rounded-full bg-[#bbcac6]"></span>
+                    <span className="w-1 h-1 rounded-full bg-[#E8E0CE]"></span>
                     <span>{sidebarPost.readTime} MIN READ</span>
                   </div>
-                  <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] group-hover:text-[#A87813] transition-colors leading-snug">
+                  <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] group-hover:text-[#A87813] transition-colors leading-snug">
                     {sidebarPost.title}
                   </h3>
                 </Link>
@@ -238,12 +238,12 @@ const BlogPage = () => {
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 mb-3 text-[#6c7a77] text-[10px] font-['Inter'] font-semibold uppercase tracking-widest">
+                  <div className="flex items-center gap-3 mb-3 text-[#6B7280] text-[10px] font-['Inter'] font-semibold uppercase tracking-widest">
                     <span>{formatDate(post.publishedAt)}</span>
-                    <span className="w-1 h-1 rounded-full bg-[#bbcac6]"></span>
+                    <span className="w-1 h-1 rounded-full bg-[#E8E0CE]"></span>
                     <span>{post.readTime} MIN READ</span>
                   </div>
-                  <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] group-hover:text-[#A87813] transition-colors leading-snug">
+                  <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] group-hover:text-[#A87813] transition-colors leading-snug">
                     {post.title}
                   </h3>
                 </Link>
@@ -252,7 +252,7 @@ const BlogPage = () => {
 
             {/* Newsletter CTA */}
             <aside className="md:col-span-4 flex flex-col justify-center bg-[#A87813] text-white rounded-[2.5rem] p-10 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#71f8e4]/20 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#D9A441]/20 rounded-full -mr-16 -mt-16 blur-3xl"></div>
               <span
                 className="material-symbols-outlined text-4xl mb-6"
                 style={{ fontVariationSettings: "'FILL' 1" }}

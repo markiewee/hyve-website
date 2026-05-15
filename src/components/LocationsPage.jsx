@@ -57,9 +57,9 @@ const LocationsPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] pt-20">
+      <div className="min-h-screen bg-[#FAF6EC] pt-20">
         <div className="flex h-[calc(100vh-80px)]">
-          <div className="w-full md:w-[420px] bg-[#eff4ff] p-8 animate-pulse space-y-6">
+          <div className="w-full md:w-[420px] bg-[#F2D88A] p-8 animate-pulse space-y-6">
             <div className="h-8 bg-slate-200 rounded w-2/3"></div>
             <div className="h-4 bg-slate-200 rounded w-full"></div>
             {Array.from({ length: 3 }).map((_, i) => (
@@ -77,7 +77,7 @@ const LocationsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f9ff] pt-20">
+    <div className="min-h-screen bg-[#FAF6EC] pt-20">
       <SEO
         title="Co-living Locations in Singapore"
         description="Discover Lazybee co-living locations across Singapore. Find rooms near MRT stations in Thomson, Hougang, Bukit Batok and more."
@@ -93,16 +93,16 @@ const LocationsPage = () => {
       />
       <div className="flex flex-col md:flex-row h-auto md:h-[calc(100vh-80px)]">
         {/* Side Panel: Area Guides */}
-        <aside className="w-full md:w-[420px] bg-[#eff4ff] md:h-full flex flex-col z-10 shadow-2xl overflow-y-auto scrollbar-hide">
+        <aside className="w-full md:w-[420px] bg-[#F2D88A] md:h-full flex flex-col z-10 shadow-2xl overflow-y-auto scrollbar-hide">
           <div className="p-6 md:p-8">
             <header className="mb-8">
               <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#A87813] font-bold mb-2 block">
                 {t('public.locations.badge')}
               </span>
-              <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold tracking-tight text-[#121c2a] leading-tight">
+              <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold tracking-tight text-[#1F2937] leading-tight">
                 {t('public.locations.title')}
               </h1>
-              <p className="text-[#3c4947] mt-3 leading-relaxed font-['Manrope']">
+              <p className="text-[#1F2937] mt-3 leading-relaxed font-['Manrope']">
                 {t('public.locations.subtitle')}
               </p>
             </header>
@@ -118,10 +118,10 @@ const LocationsPage = () => {
                   >
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <h3 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#121c2a]">
+                        <h3 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#1F2937]">
                           {neighborhood.name}
                         </h3>
-                        <p className="font-['Inter'] text-sm text-[#555f6f]">
+                        <p className="font-['Inter'] text-sm text-[#6B7280]">
                           {neighborhoodProperties.length} propert{neighborhoodProperties.length !== 1 ? 'ies' : 'y'}
                         </p>
                       </div>
@@ -140,14 +140,14 @@ const LocationsPage = () => {
                     {neighborhood.highlights && neighborhood.highlights.length > 0 && (
                       <div className="flex gap-2 mb-4 overflow-x-auto scrollbar-hide">
                         {neighborhood.highlights.slice(0, 3).map((highlight, idx) => (
-                          <div key={idx} className="flex items-center gap-1 bg-[#dee9fc] px-3 py-1 rounded-full whitespace-nowrap">
+                          <div key={idx} className="flex items-center gap-1 bg-[#FAF0CC] px-3 py-1 rounded-full whitespace-nowrap">
                             <span className="text-xs font-['Inter']">{highlight}</span>
                           </div>
                         ))}
                       </div>
                     )}
 
-                    <p className="text-sm text-[#3c4947] leading-relaxed">
+                    <p className="text-sm text-[#1F2937] leading-relaxed">
                       {neighborhood.description
                         ? neighborhood.description.substring(0, 120) + '...'
                         : `Discover ${neighborhood.name}, one of Singapore's most vibrant neighborhoods.`}
@@ -177,7 +177,7 @@ const LocationsPage = () => {
         </aside>
 
         {/* Map Area */}
-        <section className="flex-1 relative bg-[#e6eeff]">
+        <section className="flex-1 relative bg-[#FAF0CC]">
           <LocationsMapComponent
             properties={properties}
             neighborhoods={neighborhoods}
@@ -215,7 +215,7 @@ const LocationsPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                   <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold mb-4">{t('public.locations.aboutArea')}</h3>
-                  <p className="text-[#3c4947] mb-6 font-['Manrope'] leading-relaxed">
+                  <p className="text-[#1F2937] mb-6 font-['Manrope'] leading-relaxed">
                     {selectedNeighborhood.description}
                   </p>
 
@@ -224,7 +224,7 @@ const LocationsPage = () => {
                       <h4 className="font-['Plus_Jakarta_Sans'] font-bold mb-2">Highlights</h4>
                       <div className="flex flex-wrap gap-2">
                         {selectedNeighborhood.highlights.map((highlight, index) => (
-                          <span key={index} className="bg-[#eff4ff] text-[#121c2a] px-3 py-1 rounded-full text-sm font-['Inter']">
+                          <span key={index} className="bg-[#F2D88A] text-[#1F2937] px-3 py-1 rounded-full text-sm font-['Inter']">
                             {highlight}
                           </span>
                         ))}
@@ -241,7 +241,7 @@ const LocationsPage = () => {
                         {t('public.locations.transportation')}
                       </h4>
                       {selectedNeighborhood.transport.map((transport, index) => (
-                        <p key={index} className="text-sm text-[#3c4947] mb-1 font-['Manrope']">
+                        <p key={index} className="text-sm text-[#1F2937] mb-1 font-['Manrope']">
                           <strong>{transport.type}:</strong> {transport.description}
                         </p>
                       ))}
@@ -273,7 +273,7 @@ const LocationsPage = () => {
                     <Link
                       key={property.id || property._id}
                       to={`/property/${property.id || property.slug?.current || property._id}`}
-                      className="group bg-[#eff4ff] rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
+                      className="group bg-[#F2D88A] rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
                     >
                       <div className="relative aspect-[3/2]">
                         <img
@@ -292,7 +292,7 @@ const LocationsPage = () => {
                       </div>
                       <div className="p-4">
                         <h5 className="font-['Plus_Jakarta_Sans'] font-bold mb-1">{property.name}</h5>
-                        <p className="text-sm text-[#555f6f] font-['Manrope']">
+                        <p className="text-sm text-[#6B7280] font-['Manrope']">
                           {property.availableRooms} rooms available
                         </p>
                       </div>

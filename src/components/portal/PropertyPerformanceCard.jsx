@@ -44,7 +44,7 @@ export default function PropertyPerformanceCard({ property, investment, financia
       <CardContent>
         <div className="flex items-center justify-between py-3 px-4 bg-muted/40 rounded-md">
           <p className="text-sm text-muted-foreground">Capital Contributed</p>
-          <p className="text-lg font-bold tabular-nums text-[#121c2a]">
+          <p className="text-lg font-bold tabular-nums text-[#1F2937]">
             SGD {formatSGD(investment?.capital_contributed)}
           </p>
         </div>

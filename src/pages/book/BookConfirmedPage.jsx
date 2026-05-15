@@ -93,7 +93,7 @@ export default function BookConfirmedPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FAF6EC] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-2 border-[#A87813] border-t-transparent rounded-full animate-spin" />
           <span className="text-[#A87813] font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide">
@@ -106,7 +106,7 @@ export default function BookConfirmedPage() {
 
   if (error || !viewing) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e] flex items-center justify-center p-6">
+      <div className="min-h-screen bg-[#FAF6EC] font-['Inter'] text-[#191c1e] flex items-center justify-center p-6">
         <div className="w-full max-w-lg bg-white rounded-2xl editorial-shadow p-8 text-center">
           <span className="material-symbols-outlined text-5xl text-[#ba1a1a] mb-4 block">
             error_outline
@@ -172,7 +172,7 @@ export default function BookConfirmedPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e] flex flex-col items-center p-5 sm:p-10">
+    <div className="min-h-screen bg-[#FAF6EC] font-['Inter'] text-[#191c1e] flex flex-col items-center p-5 sm:p-10">
       <div className="w-full max-w-lg bg-white rounded-2xl editorial-shadow overflow-hidden">
         {/* Hero confirmation */}
         <div className="bg-[#A87813] p-8 text-center">
@@ -198,7 +198,7 @@ export default function BookConfirmedPage() {
             <span className="material-symbols-outlined text-[#A87813] mt-0.5">calendar_month</span>
             <div>
               <p className="font-bold text-[#191c1e]">{fmtDate(startISO)}</p>
-              <p className="text-[#3c4947] text-sm">{fmtTime(startISO)} (SGT)</p>
+              <p className="text-[#1F2937] text-sm">{fmtTime(startISO)} (SGT)</p>
             </div>
           </div>
 
@@ -206,7 +206,7 @@ export default function BookConfirmedPage() {
             <span className="material-symbols-outlined text-[#A87813] mt-0.5">location_on</span>
             <div>
               <p className="font-bold text-[#191c1e]">{propertyName}</p>
-              <p className="text-[#3c4947] text-sm">{address}</p>
+              <p className="text-[#1F2937] text-sm">{address}</p>
             </div>
           </div>
 
@@ -222,7 +222,7 @@ export default function BookConfirmedPage() {
           )}
 
           {/* Meeting point */}
-          <div className="bg-[#f2f4f6] rounded-xl p-4 text-sm text-[#3c4947]">
+          <div className="bg-[#f2f4f6] rounded-xl p-4 text-sm text-[#1F2937]">
             <p className="font-bold text-[#191c1e] mb-1">Meeting point</p>
             <p>{meetingPoint}</p>
           </div>
@@ -256,7 +256,7 @@ export default function BookConfirmedPage() {
               href={cancelUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="block text-center text-xs text-[#6c7a77] hover:text-[#A87813] underline"
+              className="block text-center text-xs text-[#6B7280] hover:text-[#A87813] underline"
             >
               Need to cancel?
             </a>
@@ -265,7 +265,7 @@ export default function BookConfirmedPage() {
           {/* What to expect */}
           <div className="border-t border-[#e6e8ea] pt-5 space-y-3">
             <p className="font-bold text-[#191c1e] text-sm">What to expect</p>
-            <ul className="space-y-2 text-sm text-[#3c4947]">
+            <ul className="space-y-2 text-sm text-[#1F2937]">
               <li className="flex gap-2">
                 <span className="material-symbols-outlined text-[#D9A441] text-base mt-0.5">check</span>
                 <span>30-min walkthrough — room, common spaces, ask anything.</span>

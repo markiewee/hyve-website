@@ -7,14 +7,14 @@ function SimpleMarkdown({ text }) {
   return (
     <div className="space-y-1.5">
       {lines.map((line, i) => {
-        if (line.startsWith("## ")) return <h4 key={i} className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-sm mt-2 mb-1">{line.slice(3)}</h4>;
+        if (line.startsWith("## ")) return <h4 key={i} className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-sm mt-2 mb-1">{line.slice(3)}</h4>;
         if (line.trim() === "") return <div key={i} className="h-1" />;
         const parts = line.split(/(\*\*[^*]+\*\*)/g);
         return (
-          <p key={i} className="font-['Manrope'] text-sm text-[#555f6f] leading-relaxed">
+          <p key={i} className="font-['Manrope'] text-sm text-[#6B7280] leading-relaxed">
             {parts.map((part, j) =>
               part.startsWith("**") && part.endsWith("**")
-                ? <strong key={j} className="font-semibold text-[#121c2a]">{part.slice(2, -2)}</strong>
+                ? <strong key={j} className="font-semibold text-[#1F2937]">{part.slice(2, -2)}</strong>
                 : part
             )}
           </p>
@@ -26,7 +26,7 @@ function SimpleMarkdown({ text }) {
 
 function GuideCard({ icon, title, content }) {
   return (
-    <div className="bg-white border border-[#bbcac6]/15 rounded-2xl p-6 shadow-sm">
+    <div className="bg-white border border-[#E8E0CE]/15 rounded-2xl p-6 shadow-sm">
       <div className="flex items-start gap-4">
         <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
           <span
@@ -37,7 +37,7 @@ function GuideCard({ icon, title, content }) {
           </span>
         </div>
         <div className="min-w-0">
-          <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#121c2a] mb-2">
+          <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#1F2937] mb-2">
             {title}
           </h3>
           <SimpleMarkdown text={content} />
@@ -77,10 +77,10 @@ export default function WelcomeSplash({ onContinue }) {
             celebration
           </span>
         </div>
-        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#121c2a] mb-2">
+        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#1F2937] mb-2">
           Welcome to {propertyName}!
         </h2>
-        <p className="font-['Manrope'] text-sm text-[#555f6f] max-w-md mx-auto leading-relaxed">
+        <p className="font-['Manrope'] text-sm text-[#6B7280] max-w-md mx-auto leading-relaxed">
           Here's everything you need to know before moving in. Take a moment to review, then we'll get you set up.
         </p>
       </div>

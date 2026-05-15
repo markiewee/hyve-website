@@ -135,7 +135,7 @@ export default function ViewingConfirmPage() {
             <span className="font-['Plus_Jakarta_Sans'] font-bold text-2xl tracking-tighter text-[#A87813]">Lazybee</span>
           </div>
           <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#191c1e] mb-2">Viewing Not Found</h1>
-          <p className="text-[#3c4947] font-['Inter'] mb-6">
+          <p className="text-[#1F2937] font-['Inter'] mb-6">
             {error || "This viewing link is invalid or has expired."}
           </p>
           <a
@@ -194,14 +194,14 @@ export default function ViewingConfirmPage() {
                   {/* Badge */}
                   <div className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 bg-[#e6e8ea] rounded-full">
                     <span className="material-symbols-outlined text-[#A87813] text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>event_available</span>
-                    <span className="text-[#3c4947] font-['Inter'] text-xs font-semibold tracking-wide">CONFIRMATION REQUIRED</span>
+                    <span className="text-[#1F2937] font-['Inter'] text-xs font-semibold tracking-wide">CONFIRMATION REQUIRED</span>
                   </div>
 
                   <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#191c1e] tracking-tight mb-4">
                     Are you still joining us?
                   </h1>
 
-                  <p className="text-[#3c4947] text-md mb-10 max-w-sm mx-auto leading-relaxed">
+                  <p className="text-[#1F2937] text-md mb-10 max-w-sm mx-auto leading-relaxed">
                     Please confirm your attendance for the viewing at{" "}
                     <span className="font-semibold text-[#191c1e]">{address}</span>.
                   </p>
@@ -212,7 +212,7 @@ export default function ViewingConfirmPage() {
                       <span className="material-symbols-outlined text-3xl">calendar_today</span>
                       <span className="font-['Plus_Jakarta_Sans'] text-2xl font-bold tracking-tight">{dateDisplay}</span>
                     </div>
-                    <div className="h-px w-12 bg-[#bbcac6]/30" />
+                    <div className="h-px w-12 bg-[#E8E0CE]/30" />
                     <div className="flex items-center gap-3 text-[#191c1e]">
                       <span className="material-symbols-outlined text-3xl">schedule</span>
                       <span className="font-['Plus_Jakarta_Sans'] text-2xl font-bold tracking-tight">{timeDisplay}</span>
@@ -237,7 +237,7 @@ export default function ViewingConfirmPage() {
                     </button>
                     <button
                       onClick={() => setState("reschedule")}
-                      className="bg-white border-2 border-[#e0e3e5] text-[#3c4947] font-['Plus_Jakarta_Sans'] font-bold py-4 px-8 rounded-lg hover:bg-[#f2f4f6] active:scale-[0.98] transition-all min-w-[200px]"
+                      className="bg-white border-2 border-[#e0e3e5] text-[#1F2937] font-['Plus_Jakarta_Sans'] font-bold py-4 px-8 rounded-lg hover:bg-[#f2f4f6] active:scale-[0.98] transition-all min-w-[200px]"
                     >
                       I need to reschedule
                     </button>
@@ -254,13 +254,13 @@ export default function ViewingConfirmPage() {
                   <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#191c1e] tracking-tight mb-3">
                     See you there!
                   </h1>
-                  <p className="text-[#3c4947] text-md max-w-sm mx-auto leading-relaxed mb-8">
+                  <p className="text-[#1F2937] text-md max-w-sm mx-auto leading-relaxed mb-8">
                     Your attendance is confirmed. We look forward to showing you{" "}
                     <span className="font-semibold text-[#191c1e]">{shortName}</span>.
                   </p>
                   <div className="bg-[#f2f4f6] rounded-lg p-6 inline-flex flex-col items-center gap-2">
                     <span className="text-[#A87813] font-['Plus_Jakarta_Sans'] font-bold text-lg">{dateDisplay}</span>
-                    <span className="text-[#3c4947] font-['Inter'] text-sm">{timeDisplay}</span>
+                    <span className="text-[#1F2937] font-['Inter'] text-sm">{timeDisplay}</span>
                   </div>
                 </div>
               )}
@@ -269,12 +269,12 @@ export default function ViewingConfirmPage() {
               {state === "reschedule" && (
                 <div className="py-6">
                   <div className="w-16 h-16 bg-[#f2f4f6] rounded-full flex items-center justify-center mx-auto mb-6">
-                    <span className="material-symbols-outlined text-[#3c4947] text-4xl">calendar_month</span>
+                    <span className="material-symbols-outlined text-[#1F2937] text-4xl">calendar_month</span>
                   </div>
                   <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#191c1e] tracking-tight mb-3">
                     No worries!
                   </h1>
-                  <p className="text-[#3c4947] text-md max-w-sm mx-auto leading-relaxed mb-8">
+                  <p className="text-[#1F2937] text-md max-w-sm mx-auto leading-relaxed mb-8">
                     Reach out to us and we'll find a time that works for you.
                   </p>
                   <div className="bg-[#f2f4f6] rounded-lg p-6 max-w-sm mx-auto space-y-3">
@@ -304,13 +304,13 @@ export default function ViewingConfirmPage() {
             </div>
 
             {/* WhatsApp contact bar */}
-            <div className="bg-[#f2f4f6]/50 px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[#bbcac6]/10">
+            <div className="bg-[#f2f4f6]/50 px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[#E8E0CE]/10">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-full bg-[#25D366] flex items-center justify-center text-white">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>chat</span>
                 </div>
                 <div className="text-left">
-                  <p className="text-xs font-['Inter'] text-[#3c4947] font-medium">Need help?</p>
+                  <p className="text-xs font-['Inter'] text-[#1F2937] font-medium">Need help?</p>
                   <p className="text-sm font-['Plus_Jakarta_Sans'] font-bold text-[#191c1e]">WhatsApp us at +65 8088 5410</p>
                 </div>
               </div>
@@ -329,15 +329,15 @@ export default function ViewingConfirmPage() {
           {/* Footer links */}
           <div className="mt-12 flex flex-col items-center gap-4">
             <div className="flex gap-6 mt-4">
-              <a className="text-[#3c4947]/60 text-xs hover:text-[#A87813] transition-colors uppercase tracking-widest font-bold" href="/privacy-policy">Privacy Policy</a>
-              <a className="text-[#3c4947]/60 text-xs hover:text-[#A87813] transition-colors uppercase tracking-widest font-bold" href="https://wa.me/6580885410">Support</a>
+              <a className="text-[#1F2937]/60 text-xs hover:text-[#A87813] transition-colors uppercase tracking-widest font-bold" href="/privacy-policy">Privacy Policy</a>
+              <a className="text-[#1F2937]/60 text-xs hover:text-[#A87813] transition-colors uppercase tracking-widest font-bold" href="https://wa.me/6580885410">Support</a>
             </div>
           </div>
         </div>
       </main>
 
       <footer className="p-8 text-center">
-        <p className="text-[#3c4947]/40 text-xs font-['Inter']">
+        <p className="text-[#1F2937]/40 text-xs font-['Inter']">
           &copy; {new Date().getFullYear()} Lazybee. All rights reserved.
         </p>
       </footer>

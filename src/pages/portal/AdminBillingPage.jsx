@@ -39,7 +39,7 @@ export default function AdminBillingPage() {
           <Link
             key={t.key}
             to={t.to}
-            className="bg-white rounded-2xl border border-[#bbcac6]/15 p-6 hover:border-[#A87813]/30 hover:shadow-md transition-all flex items-start gap-4"
+            className="bg-white rounded-2xl border border-[#E8E0CE]/15 p-6 hover:border-[#A87813]/30 hover:shadow-md transition-all flex items-start gap-4"
           >
             <span className="material-symbols-outlined text-[#A87813] text-[28px] shrink-0">
               {t.key === "rent" ? "receipt_long"
@@ -48,10 +48,10 @@ export default function AdminBillingPage() {
                 : "bar_chart"}
             </span>
             <div className="min-w-0">
-              <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-1">
+              <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] mb-1">
                 {t.label}
               </h3>
-              <p className="text-sm text-[#6c7a77]">{t.desc}</p>
+              <p className="text-sm text-[#6B7280]">{t.desc}</p>
             </div>
             <span className="material-symbols-outlined text-[#9999A1] ml-auto shrink-0">
               chevron_right

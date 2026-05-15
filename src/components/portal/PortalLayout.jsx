@@ -106,7 +106,7 @@ function NavLink({ link, location, onClick }) {
       className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 ${
         isActive
           ? "bg-white text-[#A87813] font-bold rounded-l-full shadow-sm translate-x-0"
-          : "text-[#6c7a77] hover:bg-[#eff4ff] hover:translate-x-1"
+          : "text-[#6B7280] hover:bg-[#F2D88A] hover:translate-x-1"
       }`}
     >
       <span
@@ -135,7 +135,7 @@ function AdminDropdown({ link, location, onLinkClick }) {
         className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 ${
           isChildActive
             ? "text-[#A87813] font-bold"
-            : "text-[#6c7a77] hover:bg-[#eff4ff] hover:translate-x-1"
+            : "text-[#6B7280] hover:bg-[#F2D88A] hover:translate-x-1"
         }`}
       >
         <span className="material-symbols-outlined text-[20px] shrink-0">{link.icon}</span>
@@ -145,11 +145,11 @@ function AdminDropdown({ link, location, onLinkClick }) {
         </span>
       </button>
       {open && (
-        <div className="ml-4 space-y-0.5 border-l border-[#bbcac6]/30 pl-4 mb-1">
+        <div className="ml-4 space-y-0.5 border-l border-[#E8E0CE]/30 pl-4 mb-1">
           {link.groups
             ? link.groups.map((g) => (
                 <div key={g.label} className="mb-2 last:mb-0">
-                  <div className="px-4 pt-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-[#6c7a77]/70 font-['Manrope']">
+                  <div className="px-4 pt-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-[#6B7280]/70 font-['Manrope']">
                     {g.label}
                   </div>
                   {g.children.map((child) => (
@@ -175,18 +175,18 @@ function LanguageToggle() {
         className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
           lang === "en"
             ? "bg-[#A87813] text-white"
-            : "text-[#6c7a77] hover:text-[#A87813]"
+            : "text-[#6B7280] hover:text-[#A87813]"
         }`}
       >
         EN
       </button>
-      <span className="text-[#bbcac6]">|</span>
+      <span className="text-[#E8E0CE]">|</span>
       <button
         onClick={() => setLanguage("zh")}
         className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
           lang === "zh"
             ? "bg-[#A87813] text-white"
-            : "text-[#6c7a77] hover:text-[#A87813]"
+            : "text-[#6B7280] hover:text-[#A87813]"
         }`}
       >
         中文
@@ -204,7 +204,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
   const firstName = displayName.split(" ")[0];
 
   return (
-    <aside className="h-screen w-64 fixed left-0 top-0 bg-slate-50 flex flex-col py-8 pl-4 z-40 border-r border-[#bbcac6]/20">
+    <aside className="h-screen w-64 fixed left-0 top-0 bg-slate-50 flex flex-col py-8 pl-4 z-40 border-r border-[#E8E0CE]/20">
       {/* Logo + user profile */}
       <div className="mb-10 px-4">
         <div className="mb-8">
@@ -215,10 +215,10 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
             {firstName.slice(0, 2).toUpperCase()}
           </div>
           <div className="min-w-0">
-            <p className="font-['Manrope'] font-bold text-[#121c2a] text-sm truncate">
+            <p className="font-['Manrope'] font-bold text-[#1F2937] text-sm truncate">
               {t("nav.welcome", { name: firstName })}
             </p>
-            <p className="font-['Manrope'] text-[#6c7a77] text-xs truncate">
+            <p className="font-['Manrope'] text-[#6B7280] text-xs truncate">
               {unitCode ? `${unitCode} · ` : ""}{propertyName}
             </p>
           </div>
@@ -305,14 +305,14 @@ function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
   const isDropdownChildActive = dropdownChildren.some((c) => location.pathname === c.to);
 
   return (
-    <div className="md:hidden fixed bottom-0 w-full bg-white border-t border-[#bbcac6]/20 px-6 py-3 flex justify-between items-center z-50">
+    <div className="md:hidden fixed bottom-0 w-full bg-white border-t border-[#E8E0CE]/20 px-6 py-3 flex justify-between items-center z-50">
       {visibleLinks.map((link) => {
         const isActive = location.pathname === link.to;
         return (
           <Link
             key={link.to}
             to={link.to}
-            className={`flex flex-col items-center gap-1 ${isActive ? "text-[#A87813]" : "text-[#6c7a77]"}`}
+            className={`flex flex-col items-center gap-1 ${isActive ? "text-[#A87813]" : "text-[#6B7280]"}`}
           >
             <span
               className="material-symbols-outlined text-[22px]"
@@ -327,7 +327,7 @@ function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
       {dropdownLink && (
         <button
           onClick={onOpenSidebar}
-          className={`flex flex-col items-center gap-1 ${isDropdownChildActive ? "text-[#A87813]" : "text-[#6c7a77]"}`}
+          className={`flex flex-col items-center gap-1 ${isDropdownChildActive ? "text-[#A87813]" : "text-[#6B7280]"}`}
         >
           <span
             className="material-symbols-outlined text-[22px]"
@@ -359,7 +359,7 @@ export default function PortalLayout({ children }) {
   }, [profile]);
 
   return (
-    <div className="min-h-screen bg-[#f8f9ff]">
+    <div className="min-h-screen bg-[#FAF6EC]">
       {showTour && <PortalTour onComplete={() => setShowTour(false)} />}
       {/* Desktop Sidebar */}
       <div className="hidden md:block">
@@ -375,7 +375,7 @@ export default function PortalLayout({ children }) {
 
       {/* Mobile: hamburger button */}
       <button
-        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-white rounded-xl shadow-sm border border-[#bbcac6]/20 flex items-center justify-center text-[#A87813]"
+        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-white rounded-xl shadow-sm border border-[#E8E0CE]/20 flex items-center justify-center text-[#A87813]"
         onClick={() => setSidebarOpen(true)}
         aria-label="Open menu"
       >

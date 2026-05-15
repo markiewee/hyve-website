@@ -81,7 +81,7 @@ export default function BookCancelPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FAF6EC] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-2 border-[#A87813] border-t-transparent rounded-full animate-spin" />
           <span className="text-[#A87813] font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide">
@@ -94,7 +94,7 @@ export default function BookCancelPage() {
 
   if (loadError || !viewing) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e] flex items-center justify-center p-6">
+      <div className="min-h-screen bg-[#FAF6EC] font-['Inter'] text-[#191c1e] flex items-center justify-center p-6">
         <div className="w-full max-w-lg bg-white rounded-2xl editorial-shadow p-8 text-center">
           <span className="material-symbols-outlined text-5xl text-[#ba1a1a] mb-4 block">
             error_outline
@@ -102,7 +102,7 @@ export default function BookCancelPage() {
           <h1 className="font-['Plus_Jakarta_Sans'] text-xl font-bold mb-2">
             {loadError || "Booking not found"}
           </h1>
-          <p className="text-[#3c4947] text-sm mb-6">
+          <p className="text-[#1F2937] text-sm mb-6">
             If you booked recently, the link may not have synced yet.
           </p>
           <a
@@ -119,7 +119,7 @@ export default function BookCancelPage() {
 
   if (done) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e] flex items-center justify-center p-6">
+      <div className="min-h-screen bg-[#FAF6EC] font-['Inter'] text-[#191c1e] flex items-center justify-center p-6">
         <div className="w-full max-w-lg bg-white rounded-2xl editorial-shadow p-8 text-center">
           <div className="w-16 h-16 mx-auto mb-4 bg-[#D9A441]/15 rounded-full flex items-center justify-center">
             <span
@@ -132,7 +132,7 @@ export default function BookCancelPage() {
           <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold mb-2 tracking-tight">
             Viewing cancelled
           </h1>
-          <p className="text-[#3c4947] text-sm mb-6">
+          <p className="text-[#1F2937] text-sm mb-6">
             All sorted. We&apos;ve let the captain know. You can book another any time.
           </p>
           <Link
@@ -151,7 +151,7 @@ export default function BookCancelPage() {
   const propertyName = viewing.property_name || viewing.property || "Lazybee";
 
   return (
-    <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e] flex items-center justify-center p-6">
+    <div className="min-h-screen bg-[#FAF6EC] font-['Inter'] text-[#191c1e] flex items-center justify-center p-6">
       <div className="w-full max-w-lg bg-white rounded-2xl editorial-shadow p-8">
         <div className="text-center mb-6">
           <span className="material-symbols-outlined text-5xl text-[#A87813] mb-3 block">
@@ -160,7 +160,7 @@ export default function BookCancelPage() {
           <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold tracking-tight mb-2">
             Cancel this viewing?
           </h1>
-          <p className="text-[#3c4947] text-sm">
+          <p className="text-[#1F2937] text-sm">
             Hi {viewing.prospect_name || "there"} — sorry to see you go.
           </p>
         </div>
@@ -172,7 +172,7 @@ export default function BookCancelPage() {
             </span>
             <div className="text-sm">
               <p className="font-bold">{fmtDate(startISO)}</p>
-              <p className="text-[#3c4947]">{fmtTime(startISO)} (SGT)</p>
+              <p className="text-[#1F2937]">{fmtTime(startISO)} (SGT)</p>
             </div>
           </div>
           <div className="flex items-start gap-3">

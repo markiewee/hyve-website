@@ -134,8 +134,8 @@ export default function AdminDashboardPage() {
       to: "/portal/property",
       accent: "text-[#A87813]",
       bg: "bg-white hover:bg-[#A87813] group",
-      valueCls: "text-[#121c2a] group-hover:text-white",
-      labelCls: "text-[#6c7a77] group-hover:text-white/80",
+      valueCls: "text-[#1F2937] group-hover:text-white",
+      labelCls: "text-[#6B7280] group-hover:text-white/80",
       iconCls: "text-[#A87813] group-hover:text-white",
     },
     {
@@ -143,11 +143,11 @@ export default function AdminDashboardPage() {
       value: counts.activeTenants,
       icon: "group",
       to: "/portal/admin/onboarding",
-      accent: "text-[#555f6f]",
-      bg: "bg-white hover:bg-[#555f6f] group",
-      valueCls: "text-[#121c2a] group-hover:text-white",
-      labelCls: "text-[#6c7a77] group-hover:text-white/80",
-      iconCls: "text-[#555f6f] group-hover:text-white",
+      accent: "text-[#6B7280]",
+      bg: "bg-white hover:bg-[#6B7280] group",
+      valueCls: "text-[#1F2937] group-hover:text-white",
+      labelCls: "text-[#6B7280] group-hover:text-white/80",
+      iconCls: "text-[#6B7280] group-hover:text-white",
     },
     {
       label: "Open Tickets",
@@ -156,8 +156,8 @@ export default function AdminDashboardPage() {
       to: "/portal/admin/tickets",
       accent: "text-[#ba1a1a]",
       bg: "bg-white hover:bg-[#ba1a1a] group",
-      valueCls: "text-[#121c2a] group-hover:text-white",
-      labelCls: "text-[#6c7a77] group-hover:text-white/80",
+      valueCls: "text-[#1F2937] group-hover:text-white",
+      labelCls: "text-[#6B7280] group-hover:text-white/80",
       iconCls: "text-[#ba1a1a] group-hover:text-white",
     },
     {
@@ -168,8 +168,8 @@ export default function AdminDashboardPage() {
       to: "/portal/admin/devices",
       accent: "text-[#A87813]",
       bg: "bg-white hover:bg-[#A87813] group",
-      valueCls: "text-[#121c2a] group-hover:text-white",
-      labelCls: "text-[#6c7a77] group-hover:text-white/80",
+      valueCls: "text-[#1F2937] group-hover:text-white",
+      labelCls: "text-[#6B7280] group-hover:text-white/80",
       iconCls: "text-[#A87813] group-hover:text-white",
     },
   ];
@@ -187,10 +187,10 @@ export default function AdminDashboardPage() {
           <Link
             key={stat.label}
             to={stat.to}
-            className={`${stat.bg} rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm transition-all duration-300 cursor-pointer flex flex-col justify-between h-40`}
+            className={`${stat.bg} rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm transition-all duration-300 cursor-pointer flex flex-col justify-between h-40`}
           >
             <div className="flex items-start justify-between">
-              <div className={`w-10 h-10 rounded-xl bg-[#eff4ff] group-hover:bg-white/20 flex items-center justify-center transition-colors`}>
+              <div className={`w-10 h-10 rounded-xl bg-[#F2D88A] group-hover:bg-white/20 flex items-center justify-center transition-colors`}>
                 <span className={`material-symbols-outlined text-[20px] ${stat.iconCls} transition-colors`}>
                   {stat.icon}
                 </span>
@@ -204,7 +204,7 @@ export default function AdminDashboardPage() {
                 {stat.label}
               </p>
               {loading ? (
-                <div className="h-8 w-16 bg-[#eff4ff] animate-pulse rounded" />
+                <div className="h-8 w-16 bg-[#F2D88A] animate-pulse rounded" />
               ) : (
                 <>
                   <p className={`font-['Plus_Jakarta_Sans'] text-3xl font-extrabold ${stat.valueCls} transition-colors`}>
@@ -240,16 +240,16 @@ export default function AdminDashboardPage() {
           <Link
             key={item.to}
             to={item.to}
-            className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm hover:border-[#A87813]/30 hover:shadow-md transition-all flex items-start gap-4 group"
+            className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm hover:border-[#A87813]/30 hover:shadow-md transition-all flex items-start gap-4 group"
           >
-            <div className="w-10 h-10 rounded-xl bg-[#eff4ff] flex items-center justify-center shrink-0 group-hover:bg-[#A87813] transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-[#F2D88A] flex items-center justify-center shrink-0 group-hover:bg-[#A87813] transition-colors">
               <span className="material-symbols-outlined text-[#A87813] group-hover:text-white text-[20px] transition-colors">
                 {item.icon}
               </span>
             </div>
             <div>
-              <p className="font-['Manrope'] font-bold text-[#121c2a] text-sm">{item.label}</p>
-              <p className="font-['Manrope'] text-[#6c7a77] text-xs mt-0.5">{item.desc}</p>
+              <p className="font-['Manrope'] font-bold text-[#1F2937] text-sm">{item.label}</p>
+              <p className="font-['Manrope'] text-[#6B7280] text-xs mt-0.5">{item.desc}</p>
             </div>
           </Link>
         ))}
@@ -257,15 +257,15 @@ export default function AdminDashboardPage() {
 
       {/* My Signature */}
       {profile && (
-        <div className="mt-8 bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm p-6 space-y-4">
+        <div className="mt-8 bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm p-6 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#eff4ff] flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-[#F2D88A] flex items-center justify-center shrink-0">
                 <span className="material-symbols-outlined text-[#A87813] text-[20px]">draw</span>
               </div>
               <div>
-                <p className="font-['Manrope'] font-bold text-[#121c2a] text-sm">My Signature</p>
-                <p className="font-['Manrope'] text-[#6c7a77] text-xs mt-0.5">
+                <p className="font-['Manrope'] font-bold text-[#1F2937] text-sm">My Signature</p>
+                <p className="font-['Manrope'] text-[#6B7280] text-xs mt-0.5">
                   This signature will be used when counter-signing member agreements.
                 </p>
               </div>
@@ -284,7 +284,7 @@ export default function AdminDashboardPage() {
               <button
                 type="button"
                 onClick={() => { setShowSigEditor((v) => !v); setSigMessage(null); }}
-                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#eff4ff] text-[#A87813] hover:bg-[#A87813] hover:text-white transition-colors"
+                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#F2D88A] text-[#A87813] hover:bg-[#A87813] hover:text-white transition-colors"
               >
                 {showSigEditor ? "Cancel" : profile.saved_signature ? "Update Signature" : "Add Signature"}
               </button>
@@ -293,7 +293,7 @@ export default function AdminDashboardPage() {
 
           {/* Saved signature preview */}
           {profile.saved_signature && !showSigEditor && (
-            <div className="rounded-xl border border-[#bbcac6]/30 bg-[#f8faf9] p-3 inline-block">
+            <div className="rounded-xl border border-[#E8E0CE]/30 bg-[#f8faf9] p-3 inline-block">
               <img
                 src={profile.saved_signature}
                 alt="Saved signature"

@@ -282,7 +282,7 @@ function AvailabilitySection({ viewing, onConfirmed }) {
         onSlotsChange={setSelectedSlots}
       />
       <div className="flex items-center justify-between">
-        <p className="text-xs text-[#6c7a77] font-['Manrope']">
+        <p className="text-xs text-[#6B7280] font-['Manrope']">
           {selectedSlots.length} slot{selectedSlots.length !== 1 ? "s" : ""}{" "}
           selected
         </p>
@@ -321,17 +321,17 @@ function IncomingCard({ viewing, onConfirmed }) {
   const poll = viewing.viewing_polls?.[0];
 
   return (
-    <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm hover:shadow-md transition-shadow">
+    <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm hover:shadow-md transition-shadow">
       <div className="p-6 flex flex-col md:flex-row gap-5 items-start md:items-center">
         <InitialsAvatar name={viewing.prospect_name} />
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center gap-3 mb-1">
-            <h3 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#121c2a]">
+            <h3 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#1F2937]">
               {viewing.prospect_name}
             </h3>
             <StatusPill status={viewing.status} />
           </div>
-          <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[#6c7a77]">
+          <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[#6B7280]">
             <span className="flex items-center gap-1.5">
               <span className="material-symbols-outlined text-sm">bed</span>
               {viewing.rooms?.unit_code ?? viewing.rooms?.name ?? "Room"}
@@ -370,10 +370,10 @@ function UpcomingCard({ viewing }) {
   const poll = viewing.viewing_polls?.[0];
 
   return (
-    <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm p-6 flex flex-col md:flex-row gap-5 items-start md:items-center">
+    <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm p-6 flex flex-col md:flex-row gap-5 items-start md:items-center">
       <div
         className={`w-14 h-14 rounded-xl flex flex-col items-center justify-center shrink-0 ${
-          isToday ? "bg-[#A87813] text-white" : "bg-[#eff4ff] text-[#121c2a]"
+          isToday ? "bg-[#A87813] text-white" : "bg-[#F2D88A] text-[#1F2937]"
         }`}
       >
         <span
@@ -394,20 +394,20 @@ function UpcomingCard({ viewing }) {
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex flex-wrap items-center gap-3 mb-1">
-          <h3 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#121c2a]">
+          <h3 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#1F2937]">
             {viewing.prospect_name}
           </h3>
           <span
             className={`px-2.5 py-0.5 rounded-full text-xs font-bold tracking-tight ${
               isToday
                 ? "bg-[#A87813]/10 text-[#A87813]"
-                : "bg-[#eff4ff] text-[#6c7a77]"
+                : "bg-[#F2D88A] text-[#6B7280]"
             }`}
           >
             {dayLabel}
           </span>
         </div>
-        <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[#6c7a77]">
+        <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[#6B7280]">
           <span className="flex items-center gap-1.5">
             <span className="material-symbols-outlined text-sm">bed</span>
             {viewing.rooms?.unit_code ?? viewing.rooms?.name ?? "Room"}
@@ -424,11 +424,11 @@ function UpcomingCard({ viewing }) {
         </div>
       </div>
       <div className="text-right hidden md:block">
-        <p className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#121c2a]">
+        <p className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#1F2937]">
           {viewing.viewing_date ? formatDate(viewing.viewing_date) : ""}
         </p>
         {viewing.viewing_time && (
-          <p className="font-['Manrope'] text-sm text-[#6c7a77]">
+          <p className="font-['Manrope'] text-sm text-[#6B7280]">
             {formatTime(viewing.viewing_time)}
           </p>
         )}
@@ -441,16 +441,16 @@ function PastCard({ viewing }) {
   const poll = viewing.viewing_polls?.[0];
 
   return (
-    <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm p-6 flex flex-col md:flex-row gap-5 items-start md:items-center opacity-70">
+    <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm p-6 flex flex-col md:flex-row gap-5 items-start md:items-center opacity-70">
       <InitialsAvatar name={viewing.prospect_name} size="w-12 h-12 text-base" />
       <div className="flex-1 min-w-0">
         <div className="flex flex-wrap items-center gap-3 mb-1">
-          <h3 className="font-['Plus_Jakarta_Sans'] text-base font-bold text-[#121c2a]">
+          <h3 className="font-['Plus_Jakarta_Sans'] text-base font-bold text-[#1F2937]">
             {viewing.prospect_name}
           </h3>
           <StatusPill status={viewing.status === "CONFIRMED" ? "COMPLETED" : viewing.status} />
         </div>
-        <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[#6c7a77]">
+        <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[#6B7280]">
           <span className="flex items-center gap-1.5">
             <span className="material-symbols-outlined text-sm">bed</span>
             {viewing.rooms?.unit_code ?? viewing.rooms?.name ?? "Room"}
@@ -472,16 +472,16 @@ function PastCard({ viewing }) {
 
 function EmptyState({ icon, title, description }) {
   return (
-    <div className="bg-white rounded-2xl p-12 border border-[#bbcac6]/15 shadow-sm flex flex-col items-center text-center">
-      <div className="w-16 h-16 bg-[#eff4ff] rounded-2xl flex items-center justify-center mb-4">
+    <div className="bg-white rounded-2xl p-12 border border-[#E8E0CE]/15 shadow-sm flex flex-col items-center text-center">
+      <div className="w-16 h-16 bg-[#F2D88A] rounded-2xl flex items-center justify-center mb-4">
         <span className="material-symbols-outlined text-[#A87813] text-[32px]">
           {icon}
         </span>
       </div>
-      <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-lg mb-2">
+      <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-lg mb-2">
         {title}
       </h3>
-      <p className="text-[#6c7a77] font-['Manrope'] text-sm max-w-sm">
+      <p className="text-[#6B7280] font-['Manrope'] text-sm max-w-sm">
         {description}
       </p>
     </div>
@@ -494,16 +494,16 @@ function LoadingSkeleton() {
       {[1, 2, 3].map((i) => (
         <div
           key={i}
-          className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm"
+          className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm"
         >
           <div className="flex gap-5 items-center">
-            <div className="w-14 h-14 rounded-full bg-[#eff4ff] animate-pulse" />
+            <div className="w-14 h-14 rounded-full bg-[#F2D88A] animate-pulse" />
             <div className="flex-1 space-y-3">
               <div className="flex gap-3">
-                <div className="h-5 w-32 bg-[#eff4ff] animate-pulse rounded-full" />
-                <div className="h-5 w-24 bg-[#eff4ff] animate-pulse rounded-full" />
+                <div className="h-5 w-32 bg-[#F2D88A] animate-pulse rounded-full" />
+                <div className="h-5 w-24 bg-[#F2D88A] animate-pulse rounded-full" />
               </div>
-              <div className="h-4 w-2/3 bg-[#eff4ff] animate-pulse rounded" />
+              <div className="h-4 w-2/3 bg-[#F2D88A] animate-pulse rounded" />
             </div>
           </div>
         </div>
@@ -590,17 +590,17 @@ export default function CaptainViewingsPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
           Viewings
         </h1>
-        <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
+        <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">
           Manage viewing requests for{" "}
-          <span className="font-semibold text-[#121c2a]">{propertyName}</span>.
+          <span className="font-semibold text-[#1F2937]">{propertyName}</span>.
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-8 border-b border-[#bbcac6]/20 mb-8">
+      <div className="flex items-center gap-8 border-b border-[#E8E0CE]/20 mb-8">
         {TABS.map((tab) => {
           const isActive = activeTab === tab.key;
           const count = tabData[tab.key]?.length ?? 0;
@@ -611,7 +611,7 @@ export default function CaptainViewingsPage() {
               className={`pb-3 text-sm font-['Manrope'] font-medium transition-all flex items-center gap-2 ${
                 isActive
                   ? "text-[#A87813] font-bold border-b-2 border-[#A87813]"
-                  : "text-[#6c7a77] hover:text-[#121c2a]"
+                  : "text-[#6B7280] hover:text-[#1F2937]"
               }`}
             >
               {tab.label}
@@ -620,7 +620,7 @@ export default function CaptainViewingsPage() {
                   className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
                     isActive
                       ? "bg-[#A87813]/10 text-[#A87813]"
-                      : "bg-[#eff4ff] text-[#6c7a77]"
+                      : "bg-[#F2D88A] text-[#6B7280]"
                   }`}
                 >
                   {count}

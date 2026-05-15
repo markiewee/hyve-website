@@ -24,11 +24,11 @@ const CATEGORY_BADGE = {
   INSURANCE: "bg-purple-100 text-purple-700",
   MANAGEMENT_FEE: "bg-indigo-100 text-indigo-700",
   MARKETING: "bg-pink-100 text-pink-700",
-  SUPPLIES: "bg-[#e6eeff] text-[#555f6f]",
+  SUPPLIES: "bg-[#FAF0CC] text-[#6B7280]",
   STAFF: "bg-violet-100 text-violet-700",
   PLATFORM_FEES: "bg-cyan-100 text-cyan-700",
   GOODS_TRANSPORT: "bg-honey-100 text-honey-800",
-  OTHER: "bg-[#eff4ff] text-[#6c7a77]",
+  OTHER: "bg-[#F2D88A] text-[#6B7280]",
 };
 
 function formatSGD(amount) {
@@ -183,34 +183,34 @@ export default function AdminExpensesPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
           Expense Tracking
         </h1>
-        <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">
+        <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">
           Log and review property expenses by month.
         </p>
-        <p className="text-[#6c7a77]/70 font-['Manrope'] text-xs mt-1">
+        <p className="text-[#6B7280]/70 font-['Manrope'] text-xs mt-1">
           Manually logged expenses
         </p>
       </div>
 
       {/* Metric cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
-        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Total Expenses</p>
-          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">
+        <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">Total Expenses</p>
+          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937]">
             {formatSGD(total)}
           </p>
         </div>
-        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Recurring</p>
+        <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">Recurring</p>
           <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#A87813]">
             {formatSGD(recurringTotal)}
           </p>
         </div>
-        <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Line Items</p>
-          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">
+        <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">Line Items</p>
+          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937]">
             {expenses.length}
           </p>
         </div>
@@ -220,13 +220,13 @@ export default function AdminExpensesPage() {
         {/* Left: expense form + selectors */}
         <div className="lg:col-span-5 space-y-6">
           {/* Selectors */}
-          <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm space-y-4">
+          <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm space-y-4">
             <div>
-              <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+              <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
                 Property
               </label>
               <select
-                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none"
                 value={selectedProperty}
                 onChange={(e) => setSelectedProperty(e.target.value)}
               >
@@ -238,20 +238,20 @@ export default function AdminExpensesPage() {
               </select>
             </div>
             <div>
-              <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+              <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
                 Month
               </label>
               <input
                 type="month"
                 value={selectedMonth}
                 onChange={(e) => setSelectedMonth(e.target.value)}
-                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none"
               />
             </div>
             <button
               onClick={handleCopyLastMonth}
               disabled={copying || !selectedProperty}
-              className="w-full py-3 border border-[#bbcac6]/30 rounded-xl font-['Manrope'] font-bold text-sm text-[#555f6f] hover:bg-[#eff4ff] disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+              className="w-full py-3 border border-[#E8E0CE]/30 rounded-xl font-['Manrope'] font-bold text-sm text-[#6B7280] hover:bg-[#F2D88A] disabled:opacity-50 transition-all flex items-center justify-center gap-2"
             >
               <span className="material-symbols-outlined text-[18px]">content_copy</span>
               {copying ? "Copying…" : "Copy Last Month's Recurring"}
@@ -259,18 +259,18 @@ export default function AdminExpensesPage() {
           </div>
 
           {/* Add expense form */}
-          <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-            <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-5 flex items-center gap-2">
+          <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
+            <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] mb-5 flex items-center gap-2">
               <span className="material-symbols-outlined text-[#A87813] text-[20px]">add_circle</span>
               Log Expense
             </h2>
             <form onSubmit={handleAdd} className="space-y-4">
               <div>
-                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
                   Category
                 </label>
                 <select
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                  className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none"
                   value={form.category}
                   onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
                 >
@@ -280,7 +280,7 @@ export default function AdminExpensesPage() {
                 </select>
               </div>
               <div>
-                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
                   Amount (SGD)
                 </label>
                 <input
@@ -291,11 +291,11 @@ export default function AdminExpensesPage() {
                   value={form.amount}
                   onChange={(e) => setForm((f) => ({ ...f, amount: e.target.value }))}
                   required
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                  className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none"
                 />
               </div>
               <div>
-                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-2">
+                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-2">
                   Description
                 </label>
                 <input
@@ -303,7 +303,7 @@ export default function AdminExpensesPage() {
                   placeholder="e.g. Monthly master lease payment"
                   value={form.description}
                   onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                  className="w-full bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none"
                 />
               </div>
               <div className="flex items-center gap-3 py-1">
@@ -312,9 +312,9 @@ export default function AdminExpensesPage() {
                   type="checkbox"
                   checked={form.is_recurring}
                   onChange={(e) => setForm((f) => ({ ...f, is_recurring: e.target.checked }))}
-                  className="rounded border-[#bbcac6] text-[#A87813] focus:ring-[#D9A441] w-4 h-4"
+                  className="rounded border-[#E8E0CE] text-[#A87813] focus:ring-[#D9A441] w-4 h-4"
                 />
-                <label htmlFor="is-recurring" className="font-['Manrope'] text-sm text-[#555f6f] cursor-pointer font-medium">
+                <label htmlFor="is-recurring" className="font-['Manrope'] text-sm text-[#6B7280] cursor-pointer font-medium">
                   Recurring expense (copy to next month)
                 </label>
               </div>
@@ -332,46 +332,46 @@ export default function AdminExpensesPage() {
 
         {/* Right: expenses table */}
         <div className="lg:col-span-7">
-          <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
-            <div className="px-6 py-5 border-b border-[#bbcac6]/15 flex items-center justify-between">
-              <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
+          <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden">
+            <div className="px-6 py-5 border-b border-[#E8E0CE]/15 flex items-center justify-between">
+              <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937]">
                 Expenses for Month
               </h2>
-              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
+              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">
                 {expenses.length} items
               </span>
             </div>
 
             {loadingExpenses ? (
-              <div className="divide-y divide-[#bbcac6]/10">
+              <div className="divide-y divide-[#E8E0CE]/10">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="px-6 py-4 flex items-center justify-between">
                     <div className="space-y-2">
-                      <div className="h-4 w-20 bg-[#eff4ff] animate-pulse rounded" />
-                      <div className="h-3 w-32 bg-[#eff4ff] animate-pulse rounded" />
+                      <div className="h-4 w-20 bg-[#F2D88A] animate-pulse rounded" />
+                      <div className="h-3 w-32 bg-[#F2D88A] animate-pulse rounded" />
                     </div>
-                    <div className="h-4 w-16 bg-[#eff4ff] animate-pulse rounded" />
+                    <div className="h-4 w-16 bg-[#F2D88A] animate-pulse rounded" />
                   </div>
                 ))}
               </div>
             ) : expenses.length === 0 ? (
               <div className="p-8 text-center">
-                <p className="text-[#6c7a77] font-['Manrope'] text-sm">
+                <p className="text-[#6B7280] font-['Manrope'] text-sm">
                   No expenses recorded for this property/month.
                 </p>
               </div>
             ) : (
               <>
-                <div className="divide-y divide-[#bbcac6]/10">
+                <div className="divide-y divide-[#E8E0CE]/10">
                   {expenses.map((e) => {
                     const badge = CATEGORY_BADGE[e.category] ?? CATEGORY_BADGE.OTHER;
                     return (
-                      <div key={e.id} className="px-6 py-4 flex items-center justify-between hover:bg-[#f8f9ff] transition-colors">
+                      <div key={e.id} className="px-6 py-4 flex items-center justify-between hover:bg-[#FAF6EC] transition-colors">
                         <div className="flex items-center gap-3 min-w-0">
                           <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest shrink-0 ${badge}`}>
                             {e.category}
                           </span>
-                          <span className="font-['Manrope'] text-sm text-[#6c7a77] truncate">
+                          <span className="font-['Manrope'] text-sm text-[#6B7280] truncate">
                             {e.description || "—"}
                           </span>
                           {e.is_recurring && (
@@ -381,12 +381,12 @@ export default function AdminExpensesPage() {
                           )}
                         </div>
                         <div className="flex items-center gap-3 shrink-0 ml-4">
-                          <span className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a] tabular-nums">
+                          <span className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#1F2937] tabular-nums">
                             {formatSGD(e.amount)}
                           </span>
                           <button
                             onClick={() => handleDelete(e.id)}
-                            className="material-symbols-outlined text-[18px] text-[#bbcac6] hover:text-[#ba1a1a] transition-colors"
+                            className="material-symbols-outlined text-[18px] text-[#E8E0CE] hover:text-[#ba1a1a] transition-colors"
                           >
                             delete
                           </button>
@@ -397,9 +397,9 @@ export default function AdminExpensesPage() {
                 </div>
 
                 {/* Total footer */}
-                <div className="px-6 py-4 bg-[#eff4ff] flex items-center justify-between border-t border-[#bbcac6]/15">
-                  <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold">Total</span>
-                  <span className="font-['Plus_Jakarta_Sans'] font-extrabold text-[#121c2a]">
+                <div className="px-6 py-4 bg-[#F2D88A] flex items-center justify-between border-t border-[#E8E0CE]/15">
+                  <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold">Total</span>
+                  <span className="font-['Plus_Jakarta_Sans'] font-extrabold text-[#1F2937]">
                     {formatSGD(total)}
                   </span>
                 </div>
@@ -408,7 +408,7 @@ export default function AdminExpensesPage() {
                 {expenses.filter((e) => e.is_recurring).length > 0 && (
                   <div className="bg-[#A87813] px-6 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-[#71f8e4] text-[20px]">autorenew</span>
+                      <span className="material-symbols-outlined text-[#D9A441] text-[20px]">autorenew</span>
                       <span className="font-['Manrope'] text-white text-sm font-medium">
                         {expenses.filter((e) => e.is_recurring).length} recurring expense{expenses.filter((e) => e.is_recurring).length !== 1 ? "s" : ""} — {formatSGD(recurringTotal)}/month
                       </span>

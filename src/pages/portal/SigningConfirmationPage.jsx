@@ -136,17 +136,17 @@ export default function SigningConfirmationPage() {
         <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#A87813] mb-2">
           Agreement Signed Successfully
         </h1>
-        <p className="font-['Manrope'] text-sm text-[#6c7a77] mb-6">
+        <p className="font-['Manrope'] text-sm text-[#6B7280] mb-6">
           Your Tenancy Agreement has been submitted. Thank you for signing!
         </p>
 
         {/* Signing timestamp */}
         {signedAt && (
-          <div className="inline-flex items-center gap-2 bg-white border border-[#bbcac6]/30 rounded-lg px-4 py-2.5 mb-6">
-            <svg className="w-4 h-4 text-[#6c7a77]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="inline-flex items-center gap-2 bg-white border border-[#E8E0CE]/30 rounded-lg px-4 py-2.5 mb-6">
+            <svg className="w-4 h-4 text-[#6B7280]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span className="font-['Manrope'] text-sm text-[#121c2a]">
+            <span className="font-['Manrope'] text-sm text-[#1F2937]">
               Signed on {formatDateTime(signedAt)}
             </span>
           </div>

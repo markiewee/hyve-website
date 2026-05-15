@@ -78,7 +78,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9ff]">
+    <div className="min-h-screen bg-[#FAF6EC]">
       <SEO
         title="Co-living Rooms in Singapore"
         description="Premium co-living rooms in Singapore from S$950/month. Fully furnished, all bills included. 3 properties across Thomson, Hougang, Bukit Batok."
@@ -99,14 +99,14 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
       <section className="relative px-6 md:px-8 py-20 lg:py-32 pt-28 lg:pt-40 overflow-hidden">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6 z-10">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-[#71f8e4] text-[#005048] font-['Inter'] text-xs uppercase tracking-widest font-bold mb-6">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#D9A441] text-[#5C420B] font-['Inter'] text-xs uppercase tracking-widest font-bold mb-6">
               {t('public.hero.badge')}
             </span>
-            <h1 className="font-['Plus_Jakarta_Sans'] text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tighter text-[#121c2a] leading-[1.1] mb-8">
+            <h1 className="font-['Plus_Jakarta_Sans'] text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tighter text-[#1F2937] leading-[1.1] mb-8">
               The Sanctuary of <br />
               <span className="text-[#D9A441]">Shared Living.</span>
             </h1>
-            <p className="text-lg text-[#3c4947] font-['Manrope'] leading-relaxed mb-10 max-w-lg">
+            <p className="text-lg text-[#1F2937] font-['Manrope'] leading-relaxed mb-10 max-w-lg">
               {heroContent.subtitle}
             </p>
             <div className="flex flex-wrap gap-4">
@@ -170,13 +170,13 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
       </div>
 
       {/* Why Lazybee */}
-      <section className="bg-[#eff4ff] py-24 px-6 md:px-8">
+      <section className="bg-[#F2D88A] py-24 px-6 md:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 text-center max-w-2xl mx-auto">
-            <h2 className="font-['Plus_Jakarta_Sans'] text-4xl font-extrabold tracking-tight text-[#121c2a] mb-4">
+            <h2 className="font-['Plus_Jakarta_Sans'] text-4xl font-extrabold tracking-tight text-[#1F2937] mb-4">
               {t('public.hero.whyLazybee')}
             </h2>
-            <p className="text-[#3c4947] text-lg">
+            <p className="text-[#1F2937] text-lg">
               {t('public.hero.whyLazybeeSubtitle')}
             </p>
           </div>
@@ -186,8 +186,8 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                 icon: 'diversity_3',
                 title: t('public.hero.communityFirst'),
                 description: t('public.hero.communityFirstDesc'),
-                bgColor: 'bg-[#71f8e4]',
-                textColor: 'text-[#005048]'
+                bgColor: 'bg-[#D9A441]',
+                textColor: 'text-[#5C420B]'
               },
               {
                 icon: 'fluid',
@@ -213,10 +213,10 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                     {feature.icon}
                   </span>
                 </div>
-                <h3 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#121c2a] mb-4">
+                <h3 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#1F2937] mb-4">
                   {feature.title}
                 </h3>
-                <p className="text-[#3c4947] leading-relaxed">
+                <p className="text-[#1F2937] leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -226,14 +226,14 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
       </section>
 
       {/* Featured Properties */}
-      <section className="py-24 px-6 md:px-8 bg-[#f8f9ff]">
+      <section className="py-24 px-6 md:px-8 bg-[#FAF6EC]">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div>
-              <h2 className="font-['Plus_Jakarta_Sans'] text-4xl font-extrabold tracking-tight text-[#121c2a] mb-4">
+              <h2 className="font-['Plus_Jakarta_Sans'] text-4xl font-extrabold tracking-tight text-[#1F2937] mb-4">
                 {t('public.hero.featuredProperties')}
               </h2>
-              <p className="text-[#3c4947] text-lg">{t('public.hero.featuredSubtitle')}</p>
+              <p className="text-[#1F2937] text-lg">{t('public.hero.featuredSubtitle')}</p>
             </div>
             <Link
               to="/locations"
@@ -264,7 +264,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                   alt={featuredProperties[0].name}
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#121c2a]/80 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1F2937]/80 to-transparent"></div>
                 <div className="absolute bottom-10 left-10 text-white">
                   <div className="flex gap-2 mb-4">
                     <span className="px-3 py-1 bg-[#D9A441] text-[10px] font-['Inter'] font-black uppercase tracking-widest rounded-full">
@@ -297,7 +297,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                       alt={property.name}
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-[#121c2a]/30 group-hover:bg-[#121c2a]/10 transition-colors"></div>
+                    <div className="absolute inset-0 bg-[#1F2937]/30 group-hover:bg-[#1F2937]/10 transition-colors"></div>
                     <div className="absolute bottom-6 left-6 text-white">
                       <p className="font-['Plus_Jakarta_Sans'] font-bold text-xl">{property.name}</p>
                       <p className="font-['Inter'] text-xs uppercase tracking-widest opacity-80">
@@ -317,7 +317,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
       </section>
 
       {/* Testimonial */}
-      <section className="py-24 px-6 md:px-8 bg-[#dee9fc] relative overflow-hidden">
+      <section className="py-24 px-6 md:px-8 bg-[#FAF0CC] relative overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col items-center">
           <span
             className="material-symbols-outlined text-[#A87813] text-6xl mb-8"
@@ -326,15 +326,15 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
             format_quote
           </span>
           <div className="relative w-full max-w-4xl text-center">
-            <h2 className="font-['Plus_Jakarta_Sans'] text-2xl sm:text-3xl lg:text-4xl font-bold text-[#121c2a] italic leading-snug mb-12">
+            <h2 className="font-['Plus_Jakarta_Sans'] text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1F2937] italic leading-snug mb-12">
               &ldquo;I moved to Singapore for work and found a community. The balance of private space with incredible social events at Lazybee made my transition seamless.&rdquo;
             </h2>
             <div className="flex flex-col items-center">
               <div className="w-20 h-20 rounded-full border-4 border-white shadow-[0_20px_40px_rgba(18,28,42,0.06)] overflow-hidden mb-4 bg-honey-100 flex items-center justify-center">
                 <span className="material-symbols-outlined text-honey-700 text-3xl">person</span>
               </div>
-              <p className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-lg">Rebekah F.</p>
-              <p className="font-['Inter'] text-xs text-[#3c4947] uppercase tracking-widest">
+              <p className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-lg">Rebekah F.</p>
+              <p className="font-['Inter'] text-xs text-[#1F2937] uppercase tracking-widest">
                 Resident since 2026 &bull; Thomson Grove
               </p>
             </div>

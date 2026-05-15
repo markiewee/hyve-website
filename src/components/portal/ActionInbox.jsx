@@ -35,15 +35,15 @@ export default function ActionInbox({ limit, showHeader = true, compact = false 
   ].filter((g) => g.items.length > 0);
 
   return (
-    <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
+    <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden">
       {showHeader && (
-        <div className="px-6 py-4 border-b border-[#bbcac6]/15 flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-[#E8E0CE]/15 flex items-center justify-between">
           <div>
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
+            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937]">
               Needs your attention
             </h3>
             {!loading && (
-              <p className="text-xs text-[#6c7a77] mt-0.5">
+              <p className="text-xs text-[#6B7280] mt-0.5">
                 {counts.total} item{counts.total === 1 ? "" : "s"}
                 {counts.red > 0 && (
                   <>
@@ -76,7 +76,7 @@ export default function ActionInbox({ limit, showHeader = true, compact = false 
           <span className="material-symbols-outlined text-3xl text-[#5CD68A] mb-2 block">
             check_circle
           </span>
-          <p className="text-sm text-[#6c7a77] font-medium">All clear. Nothing needs attention.</p>
+          <p className="text-sm text-[#6B7280] font-medium">All clear. Nothing needs attention.</p>
         </div>
       ) : (
         <div>
@@ -84,31 +84,31 @@ export default function ActionInbox({ limit, showHeader = true, compact = false 
             const style = SEVERITY_STYLES[g.severity];
             return (
               <div key={g.severity}>
-                <div className="px-6 py-2 bg-[#f9faf7] border-b border-[#bbcac6]/15">
+                <div className="px-6 py-2 bg-[#f9faf7] border-b border-[#E8E0CE]/15">
                   <span
                     className={`text-[10px] font-bold uppercase tracking-widest ${style.text}`}
                   >
                     {style.label} · {g.items.length}
                   </span>
                 </div>
-                <ul className="divide-y divide-[#bbcac6]/15">
+                <ul className="divide-y divide-[#E8E0CE]/15">
                   {g.items.map((it) => (
                     <li key={it.key}>
                       <Link
                         to={it.to}
-                        className="flex items-center gap-3 px-6 py-3 hover:bg-[#eff4ff] transition-colors"
+                        className="flex items-center gap-3 px-6 py-3 hover:bg-[#F2D88A] transition-colors"
                       >
                         <span
                           className={`w-2 h-2 rounded-full shrink-0 ${style.dot}`}
                         />
-                        <span className="material-symbols-outlined text-[20px] text-[#6c7a77] shrink-0">
+                        <span className="material-symbols-outlined text-[20px] text-[#6B7280] shrink-0">
                           {it.icon}
                         </span>
-                        <span className="flex-1 text-sm font-medium text-[#121c2a] truncate">
+                        <span className="flex-1 text-sm font-medium text-[#1F2937] truncate">
                           {it.label}
                         </span>
                         {it.meta && (
-                          <span className="text-xs text-[#6c7a77] font-medium shrink-0">
+                          <span className="text-xs text-[#6B7280] font-medium shrink-0">
                             {it.meta}
                           </span>
                         )}
@@ -128,7 +128,7 @@ export default function ActionInbox({ limit, showHeader = true, compact = false 
           {overflow > 0 && (
             <Link
               to="/portal/admin/inbox"
-              className="block text-center px-6 py-3 text-xs font-bold text-[#A87813] hover:bg-[#eff4ff] transition-colors border-t border-[#bbcac6]/15"
+              className="block text-center px-6 py-3 text-xs font-bold text-[#A87813] hover:bg-[#F2D88A] transition-colors border-t border-[#E8E0CE]/15"
             >
               + {overflow} more →
             </Link>

@@ -23,22 +23,22 @@ function WiFiCard({ guide }) {
   }
 
   return (
-    <div className="bg-white border border-[#bbcac6]/15 rounded-2xl p-6 shadow-sm">
+    <div className="bg-white border border-[#E8E0CE]/15 rounded-2xl p-6 shadow-sm">
       <div className="flex items-start gap-4">
         <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
           <span className="material-symbols-outlined text-[#A87813] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>wifi</span>
         </div>
         <div>
-          <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#121c2a] mb-3">WiFi</h3>
+          <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#1F2937] mb-3">WiFi</h3>
           <div className="space-y-2">
             <div>
-              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Network</span>
-              <p className="font-['Manrope'] text-sm font-semibold text-[#121c2a]">{network}</p>
+              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Network</span>
+              <p className="font-['Manrope'] text-sm font-semibold text-[#1F2937]">{network}</p>
             </div>
             <div>
-              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">Password</span>
+              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">Password</span>
               <div className="flex items-center gap-2">
-                <p className="font-['Manrope'] text-sm font-semibold text-[#121c2a] font-mono">{password}</p>
+                <p className="font-['Manrope'] text-sm font-semibold text-[#1F2937] font-mono">{password}</p>
                 <button onClick={copyPassword} className="text-[#A87813] hover:text-[#005a50]">
                   <span className="material-symbols-outlined text-[16px]">{copied ? "check" : "content_copy"}</span>
                 </button>
@@ -57,25 +57,25 @@ function FAQCard({ guide }) {
   try { faqs = JSON.parse(guide.content); } catch { return null; }
 
   return (
-    <div className="bg-white border border-[#bbcac6]/15 rounded-2xl p-6 shadow-sm">
+    <div className="bg-white border border-[#E8E0CE]/15 rounded-2xl p-6 shadow-sm">
       <div className="flex items-start gap-4 mb-4">
         <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
           <span className="material-symbols-outlined text-[#A87813] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>help</span>
         </div>
-        <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#121c2a] pt-2">FAQ</h3>
+        <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#1F2937] pt-2">FAQ</h3>
       </div>
       <div className="space-y-1 ml-14">
         {faqs.map((faq, idx) => (
-          <div key={idx} className="border-b border-[#bbcac6]/10 last:border-0">
+          <div key={idx} className="border-b border-[#E8E0CE]/10 last:border-0">
             <button
               onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
               className="w-full flex items-center justify-between py-3 text-left"
             >
-              <span className="font-['Manrope'] text-sm font-semibold text-[#121c2a]">{faq.question}</span>
-              <span className="material-symbols-outlined text-[16px] text-[#6c7a77] transition-transform shrink-0 ml-2" style={{ transform: openIndex === idx ? "rotate(180deg)" : "rotate(0)" }}>expand_more</span>
+              <span className="font-['Manrope'] text-sm font-semibold text-[#1F2937]">{faq.question}</span>
+              <span className="material-symbols-outlined text-[16px] text-[#6B7280] transition-transform shrink-0 ml-2" style={{ transform: openIndex === idx ? "rotate(180deg)" : "rotate(0)" }}>expand_more</span>
             </button>
             {openIndex === idx && (
-              <p className="font-['Manrope'] text-sm text-[#555f6f] pb-3 leading-relaxed">{faq.answer}</p>
+              <p className="font-['Manrope'] text-sm text-[#6B7280] pb-3 leading-relaxed">{faq.answer}</p>
             )}
           </div>
         ))}
@@ -90,19 +90,19 @@ function SimpleMarkdown({ text }) {
     <div className="space-y-1.5">
       {lines.map((line, i) => {
         if (line.startsWith("## ")) {
-          return <h4 key={i} className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-sm mt-2 mb-1">{line.slice(3)}</h4>;
+          return <h4 key={i} className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-sm mt-2 mb-1">{line.slice(3)}</h4>;
         }
         if (line.startsWith("# ")) {
-          return <h3 key={i} className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-base mt-2 mb-1">{line.slice(2)}</h3>;
+          return <h3 key={i} className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-base mt-2 mb-1">{line.slice(2)}</h3>;
         }
         if (line.trim() === "") return <div key={i} className="h-1" />;
         // Bold: **text**
         const parts = line.split(/(\*\*[^*]+\*\*)/g);
         return (
-          <p key={i} className="font-['Manrope'] text-sm text-[#555f6f] leading-relaxed">
+          <p key={i} className="font-['Manrope'] text-sm text-[#6B7280] leading-relaxed">
             {parts.map((part, j) =>
               part.startsWith("**") && part.endsWith("**")
-                ? <strong key={j} className="font-semibold text-[#121c2a]">{part.slice(2, -2)}</strong>
+                ? <strong key={j} className="font-semibold text-[#1F2937]">{part.slice(2, -2)}</strong>
                 : part
             )}
           </p>
@@ -114,13 +114,13 @@ function SimpleMarkdown({ text }) {
 
 function GuideCard({ guide }) {
   return (
-    <div className="bg-white border border-[#bbcac6]/15 rounded-2xl p-6 shadow-sm">
+    <div className="bg-white border border-[#E8E0CE]/15 rounded-2xl p-6 shadow-sm">
       <div className="flex items-start gap-4">
         <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
           <span className="material-symbols-outlined text-[#A87813] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>{guide.icon}</span>
         </div>
         <div className="min-w-0">
-          <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#121c2a] mb-2">{guide.title}</h3>
+          <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#1F2937] mb-2">{guide.title}</h3>
           <SimpleMarkdown text={guide.content} />
         </div>
       </div>
@@ -151,18 +151,18 @@ function HouseCaptainCard({ propertyId }) {
   const phone = captain.tenant_details?.[0]?.phone ?? captain.tenant_details?.phone ?? "";
 
   return (
-    <div className="bg-white border border-[#bbcac6]/15 rounded-2xl p-6 shadow-sm">
+    <div className="bg-white border border-[#E8E0CE]/15 rounded-2xl p-6 shadow-sm">
       <div className="flex items-start gap-4">
         <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
           <span className="material-symbols-outlined text-[#A87813] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>person</span>
         </div>
         <div>
-          <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#121c2a] mb-1">House Captain</h3>
-          <p className="font-['Manrope'] text-sm font-semibold text-[#121c2a]">{name}</p>
+          <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#1F2937] mb-1">House Captain</h3>
+          <p className="font-['Manrope'] text-sm font-semibold text-[#1F2937]">{name}</p>
           {phone && (
             <a href={`https://wa.me/${phone.replace(/[^0-9]/g, "")}`} className="font-['Manrope'] text-sm text-[#A87813] hover:underline">{phone}</a>
           )}
-          <p className="font-['Manrope'] text-xs text-[#6c7a77] mt-1">Your first point of contact for day-to-day questions at the apartment.</p>
+          <p className="font-['Manrope'] text-xs text-[#6B7280] mt-1">Your first point of contact for day-to-day questions at the apartment.</p>
         </div>
       </div>
     </div>
@@ -204,22 +204,22 @@ function HouseRulesCard({ propertyId }) {
   if (!rules) return null;
 
   return (
-    <div className="bg-white border border-[#bbcac6]/15 rounded-2xl p-6 shadow-sm">
+    <div className="bg-white border border-[#E8E0CE]/15 rounded-2xl p-6 shadow-sm">
       <div className="flex items-start gap-4">
         <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
           <span className="material-symbols-outlined text-[#A87813] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>gavel</span>
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#121c2a]">House Rules</h3>
+            <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#1F2937]">House Rules</h3>
             <button onClick={() => setExpanded(!expanded)} className="text-[#A87813] font-['Manrope'] text-xs font-semibold hover:underline">
               {expanded ? "Collapse" : "View All"}
             </button>
           </div>
           {expanded ? (
-            <div className="font-['Manrope'] text-sm text-[#555f6f] whitespace-pre-wrap leading-relaxed max-h-[400px] overflow-y-auto">{rules.content}</div>
+            <div className="font-['Manrope'] text-sm text-[#6B7280] whitespace-pre-wrap leading-relaxed max-h-[400px] overflow-y-auto">{rules.content}</div>
           ) : (
-            <p className="font-['Manrope'] text-sm text-[#555f6f]">
+            <p className="font-['Manrope'] text-sm text-[#6B7280]">
               {rules.title ?? "Community guidelines for shared living"}
             </p>
           )}
@@ -245,10 +245,10 @@ export default function PropertyGuidePage() {
     <PortalLayout>
       <div className="max-w-4xl">
         <div className="mb-8">
-          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
             My Property
           </h1>
-          <p className="font-['Manrope'] text-[#6c7a77] font-medium mt-1">
+          <p className="font-['Manrope'] text-[#6B7280] font-medium mt-1">
             Everything you need to know about living at {propertyName}
           </p>
         </div>
@@ -269,14 +269,14 @@ export default function PropertyGuidePage() {
             <HouseRulesCard propertyId={propertyId} />
             {faq && <FAQCard guide={faq} />}
 
-            <div className="bg-white border border-[#bbcac6]/15 rounded-2xl p-6 shadow-sm">
+            <div className="bg-white border border-[#E8E0CE]/15 rounded-2xl p-6 shadow-sm">
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
                   <span className="material-symbols-outlined text-[#A87813] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>build</span>
                 </div>
                 <div>
-                  <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#121c2a] mb-1">Submit an Issue</h3>
-                  <p className="font-['Manrope'] text-sm text-[#555f6f] mb-3">Maintenance, repairs, or complaints — we'll assign it to a vendor.</p>
+                  <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#1F2937] mb-1">Submit an Issue</h3>
+                  <p className="font-['Manrope'] text-sm text-[#6B7280] mb-3">Maintenance, repairs, or complaints — we'll assign it to a vendor.</p>
                   <Link to="/portal/issues/new" className="inline-flex items-center gap-2 bg-[#A87813] text-white rounded-xl px-5 py-2.5 font-['Manrope'] font-bold text-sm hover:bg-[#005a50] transition-colors">
                     <span className="material-symbols-outlined text-[16px]">add</span>
                     New Issue
@@ -285,14 +285,14 @@ export default function PropertyGuidePage() {
               </div>
             </div>
 
-            <div className="bg-[#eff4ff] border border-[#bbcac6]/10 rounded-2xl p-6">
+            <div className="bg-[#F2D88A] border border-[#E8E0CE]/10 rounded-2xl p-6">
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0">
                   <span className="material-symbols-outlined text-[#A87813] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>support</span>
                 </div>
                 <div>
-                  <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#121c2a] mb-1">Contact Lazybee</h3>
-                  <p className="font-['Manrope'] text-xs text-[#6c7a77] mb-2">Checked the FAQ and submitted a ticket first?</p>
+                  <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#1F2937] mb-1">Contact Lazybee</h3>
+                  <p className="font-['Manrope'] text-xs text-[#6B7280] mb-2">Checked the FAQ and submitted a ticket first?</p>
                   <a
                     href="https://wa.me/6580885410"
                     target="_blank"

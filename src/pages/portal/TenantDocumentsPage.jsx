@@ -127,17 +127,17 @@ export default function TenantDocumentsPage() {
   return (
     <PortalLayout>
       <header className="mb-8">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
           My Documents
         </h1>
-        <p className="text-[#555f6f] font-['Manrope'] mt-1">
+        <p className="text-[#6B7280] font-['Manrope'] mt-1">
           View your agreements and documents.
         </p>
       </header>
 
       {/* Documents List */}
-      <section className="bg-white rounded-xl p-6 border border-[#bbcac6]/15 shadow-sm">
-        <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg mb-4 flex items-center gap-2 text-[#121c2a]">
+      <section className="bg-white rounded-xl p-6 border border-[#E8E0CE]/15 shadow-sm">
+        <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg mb-4 flex items-center gap-2 text-[#1F2937]">
           <span className="material-symbols-outlined text-[#A87813] text-[20px]">folder_open</span>
           All Documents
         </h2>
@@ -145,20 +145,20 @@ export default function TenantDocumentsPage() {
         {loading ? (
           <div className="space-y-3">
             {[1, 2, 3].map(i => (
-              <div key={i} className="h-14 bg-[#eff4ff] animate-pulse rounded-xl" />
+              <div key={i} className="h-14 bg-[#F2D88A] animate-pulse rounded-xl" />
             ))}
           </div>
         ) : documents.length === 0 ? (
           <div className="text-center py-12">
-            <span className="material-symbols-outlined text-4xl text-[#bbcac6] mb-3 block">description</span>
-            <p className="text-sm text-[#555f6f] font-['Manrope']">No documents yet.</p>
+            <span className="material-symbols-outlined text-4xl text-[#E8E0CE] mb-3 block">description</span>
+            <p className="text-sm text-[#6B7280] font-['Manrope']">No documents yet.</p>
           </div>
         ) : (
-          <div className="divide-y divide-[#bbcac6]/10">
+          <div className="divide-y divide-[#E8E0CE]/10">
             {documents.map((doc) => (
               <div key={doc.id} className="flex items-center justify-between py-4">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-10 h-10 rounded-xl bg-[#eff4ff] flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-[#F2D88A] flex items-center justify-center shrink-0">
                     <span className="material-symbols-outlined text-[#A87813] text-[20px]">
                       {doc.doc_type === "LICENCE_AGREEMENT" ? "gavel"
                         : doc.doc_type === "STAMPING" ? "verified"
@@ -168,10 +168,10 @@ export default function TenantDocumentsPage() {
                     </span>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-['Manrope'] font-semibold text-[#121c2a] truncate">
+                    <p className="text-sm font-['Manrope'] font-semibold text-[#1F2937] truncate">
                       {doc.title || DOC_TYPE_LABELS[doc.doc_type] || doc.doc_type}
                     </p>
-                    <p className="text-xs text-[#6c7a77] font-['Inter']">
+                    <p className="text-xs text-[#6B7280] font-['Inter']">
                       {DOC_TYPE_LABELS[doc.doc_type] || doc.doc_type}
                       {doc.created_at && ` — ${new Date(doc.created_at).toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" })}`}
                     </p>

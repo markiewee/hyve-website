@@ -290,7 +290,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
 
   if (pageLoading) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FAF6EC] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-2 border-[#A87813] border-t-transparent rounded-full animate-spin" />
           <span className="text-[#A87813] font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide">
@@ -303,7 +303,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
 
   if (pageError || !property) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e] flex items-center justify-center p-6">
+      <div className="min-h-screen bg-[#FAF6EC] font-['Inter'] text-[#191c1e] flex items-center justify-center p-6">
         <div className="w-full max-w-lg bg-white rounded-2xl editorial-shadow p-8 text-center">
           <span className="material-symbols-outlined text-5xl text-[#ba1a1a] mb-4 block">
             error_outline
@@ -328,7 +328,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
     : "Book a viewing";
 
   return (
-    <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e]">
+    <div className="min-h-screen bg-[#FAF6EC] font-['Inter'] text-[#191c1e]">
       {/* Sticky header */}
       <header className="bg-white shadow-sm flex justify-between items-center px-5 py-3 w-full border-b border-slate-100 sticky top-0 z-50">
         <div className="flex items-center gap-3">
@@ -393,7 +393,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                 <h2 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#191c1e] mb-1 tracking-tight">
                   {headerCopy}
                 </h2>
-                <p className="text-[#3c4947] text-sm leading-relaxed">
+                <p className="text-[#1F2937] text-sm leading-relaxed">
                   Mark hosts every viewing in person, so we cluster bookings into <strong>3 weekly windows</strong> — Friday evening, Saturday morning, Sunday afternoon. Pick a window with open slots.
                 </p>
               </div>
@@ -402,7 +402,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                 {/* Optional room selector */}
                 {!room && allRooms.length > 0 && (
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-2 ml-1">
+                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-2 ml-1">
                       Which room?
                     </label>
                     <div className="flex flex-wrap gap-2">
@@ -412,7 +412,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                         className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
                           !selectedRoomCode
                             ? "bg-[#A87813] text-white shadow-md"
-                            : "bg-[#e6e8ea] text-[#3c4947] hover:bg-[#D9A441]/20"
+                            : "bg-[#e6e8ea] text-[#1F2937] hover:bg-[#D9A441]/20"
                         }`}
                       >
                         I&apos;m flexible
@@ -425,7 +425,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                           className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
                             selectedRoomCode === r.unit_code
                               ? "bg-[#A87813] text-white shadow-md"
-                              : "bg-[#e6e8ea] text-[#3c4947] hover:bg-[#D9A441]/20"
+                              : "bg-[#e6e8ea] text-[#1F2937] hover:bg-[#D9A441]/20"
                           }`}
                         >
                           {r.unit_code}
@@ -438,11 +438,11 @@ export default function BookingFlow({ propertyCode, roomCode }) {
 
                 {/* Windows list */}
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-2 ml-1">
+                  <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-2 ml-1">
                     Pick a window
                   </label>
                   {windowsLoading ? (
-                    <div className="flex items-center gap-2 text-[#6c7a77] text-sm py-3">
+                    <div className="flex items-center gap-2 text-[#6B7280] text-sm py-3">
                       <div className="w-4 h-4 border-2 border-[#A87813] border-t-transparent rounded-full animate-spin" />
                       Loading windows…
                     </div>
@@ -452,7 +452,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                       <p className="text-sm text-[#93000a] font-medium">{windowsError}</p>
                     </div>
                   ) : windows.length === 0 ? (
-                    <div className="text-sm text-[#6c7a77] italic py-3">
+                    <div className="text-sm text-[#6B7280] italic py-3">
                       No windows in the next 7 days. Use the form below to flag a future move-in date.
                     </div>
                   ) : (
@@ -483,11 +483,11 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                                 <div className="font-['Plus_Jakarta_Sans'] font-bold text-[#191c1e] text-sm">
                                   {WINDOW_LABELS[w.key]} · {fmtWindowDate(w.date)}
                                 </div>
-                                <div className="text-xs text-[#6c7a77]">
+                                <div className="text-xs text-[#6B7280]">
                                   {WINDOW_TIMES[w.key]} · {desc.label}
                                 </div>
                               </div>
-                              <span className="material-symbols-outlined text-[#3c4947] text-xl">
+                              <span className="material-symbols-outlined text-[#1F2937] text-xl">
                                 {desc.clickable
                                   ? isOpen
                                     ? "expand_less"
@@ -527,7 +527,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                       })}
                     </div>
                   )}
-                  <p className="text-[10px] text-[#6c7a77] mt-2 ml-1">
+                  <p className="text-[10px] text-[#6B7280] mt-2 ml-1">
                     Mark hosts every viewing — windows cluster by property to avoid 30-min cross-island runs.
                   </p>
                 </div>
@@ -541,7 +541,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                 {/* Contact form */}
                 <div className="pt-4 border-t border-[#e6e8ea] space-y-4">
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-1.5 ml-1">
+                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-1.5 ml-1">
                       Full name
                     </label>
                     <input
@@ -550,11 +550,11 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Sarah Tan"
-                      className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#bbcac6]"
+                      className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#E8E0CE]"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-1.5 ml-1">
+                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-1.5 ml-1">
                       Email
                     </label>
                     <input
@@ -563,18 +563,18 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="sarah@example.com"
-                      className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#bbcac6]"
+                      className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#E8E0CE]"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-1.5 ml-1">
+                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-1.5 ml-1">
                       Phone (WhatsApp)
                     </label>
                     <div className="flex gap-2">
                       <select
                         value={phoneCountry}
                         onChange={(e) => setPhoneCountry(e.target.value)}
-                        className="px-3 bg-[#eceef0] rounded-lg text-sm text-[#3c4947] font-medium border-none focus:ring-2 focus:ring-[#D9A441]"
+                        className="px-3 bg-[#eceef0] rounded-lg text-sm text-[#1F2937] font-medium border-none focus:ring-2 focus:ring-[#D9A441]"
                       >
                         <option value="+65">+65 SG</option>
                         <option value="+60">+60 MY</option>
@@ -585,12 +585,12 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                         value={phoneLocal}
                         onChange={(e) => setPhoneLocal(e.target.value)}
                         placeholder={phoneCountry === "+65" ? "8123 4567" : "12 345 6789"}
-                        className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#bbcac6]"
+                        className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#E8E0CE]"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#3c4947] mb-1.5 ml-1">
+                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-1.5 ml-1">
                       Anything else? (optional)
                     </label>
                     <textarea
@@ -598,7 +598,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       placeholder="e.g. move-in date, parking, pets…"
-                      className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#bbcac6] resize-none"
+                      className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#E8E0CE] resize-none"
                     />
                   </div>
                 </div>
@@ -645,7 +645,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                   )}
                 </button>
 
-                <p className="text-[10px] text-center text-[#6c7a77] text-balance">
+                <p className="text-[10px] text-center text-[#6B7280] text-balance">
                   By booking, you agree to our{" "}
                   <Link className="underline hover:text-[#A87813]" to="/terms-of-service">
                     Terms of Service
@@ -667,7 +667,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
               <h3 className="font-['Plus_Jakarta_Sans'] text-lg font-bold mb-1 tracking-tight">
                 Need a date further out?
               </h3>
-              <p className="text-[#3c4947] text-sm leading-relaxed mb-4">
+              <p className="text-[#1F2937] text-sm leading-relaxed mb-4">
                 Tell us your move-in date and we&apos;ll ping you 7-10 days before with open slots.
               </p>
 
@@ -676,7 +676,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                   <p className="text-sm text-[#00423b] font-medium">
                     Got it. We&apos;ll reach out 7-10 days before {ohMoveInDate} with open slots.
                   </p>
-                  <p className="text-xs text-[#3c4947] mt-2">
+                  <p className="text-xs text-[#1F2937] mt-2">
                     Please let me know if you have any questions.
                   </p>
                   <p className="text-xs mt-2">
@@ -730,7 +730,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[#3c4947] mb-1 ml-1">
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[#1F2937] mb-1 ml-1">
                       Target move-in
                     </label>
                     <input
@@ -756,7 +756,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                   <button
                     type="button"
                     onClick={() => setOhOpen(false)}
-                    className="w-full text-xs text-[#6c7a77] hover:text-[#3c4947]"
+                    className="w-full text-xs text-[#6B7280] hover:text-[#1F2937]"
                   >
                     Cancel
                   </button>

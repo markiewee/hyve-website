@@ -59,7 +59,7 @@ ${formData.message}`;
   ];
 
   return (
-    <div className="min-h-screen bg-[#f8f9ff] pt-24">
+    <div className="min-h-screen bg-[#FAF6EC] pt-24">
       <SEO
         title="Contact Lazybee"
         description="Get in touch with Lazybee co-living. WhatsApp us at +65 8088 5410, email admin@lazybee.sg, or schedule a property viewing today."
@@ -78,13 +78,13 @@ ${formData.message}`;
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-[#71f8e4] text-[#00201c] font-['Inter'] text-xs font-bold uppercase tracking-widest mb-6">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-[#D9A441] text-[#1F2937] font-['Inter'] text-xs font-bold uppercase tracking-widest mb-6">
             {t('public.contact.badge')}
           </span>
-          <h1 className="font-['Plus_Jakarta_Sans'] text-4xl md:text-5xl font-extrabold tracking-tight text-[#121c2a] mb-4">
+          <h1 className="font-['Plus_Jakarta_Sans'] text-4xl md:text-5xl font-extrabold tracking-tight text-[#1F2937] mb-4">
             {t('public.contact.title')}
           </h1>
-          <p className="text-xl text-[#3c4947] max-w-2xl mx-auto font-['Manrope']">
+          <p className="text-xl text-[#1F2937] max-w-2xl mx-auto font-['Manrope']">
             {t('public.contact.subtitle')}
           </p>
         </div>
@@ -93,24 +93,24 @@ ${formData.message}`;
           {/* Contact Form */}
           <div className="lg:col-span-2">
             <div className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-[rgba(187,202,198,0.15)]">
-              <h2 className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#121c2a] mb-2">
+              <h2 className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#1F2937] mb-2">
                 {t('public.contact.sendMessage')}
               </h2>
-              <p className="text-[#3c4947] text-sm mb-8 font-['Manrope']">
+              <p className="text-[#1F2937] text-sm mb-8 font-['Manrope']">
                 Fill out the form below and we&apos;ll get back to you within a few hours
               </p>
 
               {isSubmitted ? (
                 <div className="text-center py-12">
                   <span className="material-symbols-outlined text-6xl text-[#D9A441] mb-4 block">check_circle</span>
-                  <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-2">Message Sent!</h3>
-                  <p className="text-[#3c4947]">Thank you for reaching out. We&apos;ll be in touch soon.</p>
+                  <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] mb-2">Message Sent!</h3>
+                  <p className="text-[#1F2937]">Thank you for reaching out. We&apos;ll be in touch soon.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#3c4947] mb-2">
+                      <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#1F2937] mb-2">
                         {t('public.contact.fullName')} *
                       </label>
                       <input
@@ -118,12 +118,12 @@ ${formData.message}`;
                         type="text"
                         value={formData.name}
                         onChange={(e) => handleInputChange('name', e.target.value)}
-                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none font-['Manrope']"
+                        className="w-full bg-[#F2D88A] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none font-['Manrope']"
                         placeholder="Your full name"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#3c4947] mb-2">
+                      <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#1F2937] mb-2">
                         {t('public.contact.email')} *
                       </label>
                       <input
@@ -131,7 +131,7 @@ ${formData.message}`;
                         type="email"
                         value={formData.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
-                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none font-['Manrope']"
+                        className="w-full bg-[#F2D88A] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none font-['Manrope']"
                         placeholder="hello@example.com"
                       />
                     </div>
@@ -139,25 +139,25 @@ ${formData.message}`;
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#3c4947] mb-2">
+                      <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#1F2937] mb-2">
                         {t('public.contact.phone')}
                       </label>
                       <input
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => handleInputChange('phone', e.target.value)}
-                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none font-['Manrope']"
+                        className="w-full bg-[#F2D88A] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none font-['Manrope']"
                         placeholder="+65 1234 5678"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#3c4947] mb-2">
+                      <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#1F2937] mb-2">
                         {t('public.contact.subject')}
                       </label>
                       <select
                         value={formData.subject}
                         onChange={(e) => handleInputChange('subject', e.target.value)}
-                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none appearance-none font-['Manrope']"
+                        className="w-full bg-[#F2D88A] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none appearance-none font-['Manrope']"
                       >
                         <option value="">Select a subject</option>
                         <option value="viewing">Schedule a Viewing</option>
@@ -171,7 +171,7 @@ ${formData.message}`;
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#3c4947] mb-2">
+                    <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#1F2937] mb-2">
                       {t('public.contact.message')} *
                     </label>
                     <textarea
@@ -179,7 +179,7 @@ ${formData.message}`;
                       rows={5}
                       value={formData.message}
                       onChange={(e) => handleInputChange('message', e.target.value)}
-                      className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none resize-none font-['Manrope']"
+                      className="w-full bg-[#F2D88A] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none resize-none font-['Manrope']"
                       placeholder="Tell us about your requirements, preferred location, budget, move-in date..."
                     />
                   </div>
@@ -206,27 +206,27 @@ ${formData.message}`;
                   href="https://wa.me/6580885410"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start gap-4 p-3 rounded-xl hover:bg-[#eff4ff] transition-colors"
+                  className="flex items-start gap-4 p-3 rounded-xl hover:bg-[#F2D88A] transition-colors"
                 >
                   <div className="w-10 h-10 bg-[#D9A441]/20 rounded-xl flex items-center justify-center flex-shrink-0">
                     <span className="material-symbols-outlined text-[#A87813]">chat</span>
                   </div>
                   <div>
-                    <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">{t('public.contact.whatsapp')}</h4>
-                    <p className="text-sm text-[#3c4947]">+65 8088 5410</p>
+                    <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937]">{t('public.contact.whatsapp')}</h4>
+                    <p className="text-sm text-[#1F2937]">+65 8088 5410</p>
                     <p className="text-xs text-[#A87813] font-['Inter'] font-semibold mt-1">Message us now</p>
                   </div>
                 </a>
                 <a
                   href="mailto:admin@lazybee.sg"
-                  className="flex items-start gap-4 p-3 rounded-xl hover:bg-[#eff4ff] transition-colors"
+                  className="flex items-start gap-4 p-3 rounded-xl hover:bg-[#F2D88A] transition-colors"
                 >
                   <div className="w-10 h-10 bg-[#D9A441]/20 rounded-xl flex items-center justify-center flex-shrink-0">
                     <span className="material-symbols-outlined text-[#A87813]">mail</span>
                   </div>
                   <div>
-                    <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">{t('public.contact.email')}</h4>
-                    <p className="text-sm text-[#3c4947]">admin@lazybee.sg</p>
+                    <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937]">{t('public.contact.email')}</h4>
+                    <p className="text-sm text-[#1F2937]">admin@lazybee.sg</p>
                   </div>
                 </a>
               </div>
@@ -240,16 +240,16 @@ ${formData.message}`;
               </h3>
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between items-center">
-                  <span className="text-[#3c4947]">{t('public.contact.whatsapp')}</span>
-                  <span className="font-['Inter'] font-semibold text-[#121c2a]">Within a few hours</span>
+                  <span className="text-[#1F2937]">{t('public.contact.whatsapp')}</span>
+                  <span className="font-['Inter'] font-semibold text-[#1F2937]">Within a few hours</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[#3c4947]">{t('public.contact.email')}</span>
-                  <span className="font-['Inter'] font-semibold text-[#121c2a]">Same day</span>
+                  <span className="text-[#1F2937]">{t('public.contact.email')}</span>
+                  <span className="font-['Inter'] font-semibold text-[#1F2937]">Same day</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[#3c4947]">Viewings</span>
-                  <span className="font-['Inter'] font-semibold text-[#121c2a]">Same day / next day</span>
+                  <span className="text-[#1F2937]">Viewings</span>
+                  <span className="font-['Inter'] font-semibold text-[#1F2937]">Same day / next day</span>
                 </div>
               </div>
               <div className="mt-4 p-3 bg-[#D9A441]/10 rounded-xl">
@@ -274,10 +274,10 @@ ${formData.message}`;
         {/* FAQ Section */}
         <div className="mt-20">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#121c2a] mb-4">
+            <h2 className="text-3xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#1F2937] mb-4">
               {t('public.faq.title')}
             </h2>
-            <p className="text-[#3c4947] font-['Manrope']">Quick answers to common questions</p>
+            <p className="text-[#1F2937] font-['Manrope']">Quick answers to common questions</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -286,8 +286,8 @@ ${formData.message}`;
                 key={index}
                 className="bg-white p-8 rounded-2xl border border-[rgba(187,202,198,0.15)] hover:shadow-sm transition-shadow"
               >
-                <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-3">{faq.question}</h4>
-                <p className="text-[#3c4947] text-sm font-['Manrope'] leading-relaxed">{faq.answer}</p>
+                <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] mb-3">{faq.question}</h4>
+                <p className="text-[#1F2937] text-sm font-['Manrope'] leading-relaxed">{faq.answer}</p>
               </div>
             ))}
           </div>

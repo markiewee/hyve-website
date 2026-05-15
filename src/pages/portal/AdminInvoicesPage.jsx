@@ -70,23 +70,23 @@ export default function AdminInvoicesPage() {
   return (
     <PortalLayout>
       <div className="mb-6">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#121c2a] tracking-tight mb-1">
+        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#1F2937] tracking-tight mb-1">
           Invoice Management
         </h2>
-        <p className="text-[#6c7a77] font-['Manrope'] font-medium">
+        <p className="text-[#6B7280] font-['Manrope'] font-medium">
           View, manage, and reconcile tenant invoices.
         </p>
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm mb-6">
+      <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm mb-6">
         <div className="flex flex-wrap gap-4">
           <div>
-            <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Property</label>
+            <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-1">Property</label>
             <select
               value={filterProperty}
               onChange={(e) => setFilterProperty(e.target.value)}
-              className="bg-[#eff4ff] border-0 rounded-xl px-3 py-2 font-['Manrope'] text-sm text-[#121c2a]"
+              className="bg-[#F2D88A] border-0 rounded-xl px-3 py-2 font-['Manrope'] text-sm text-[#1F2937]"
             >
               <option value="">All</option>
               {properties.map((p) => (
@@ -95,20 +95,20 @@ export default function AdminInvoicesPage() {
             </select>
           </div>
           <div>
-            <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Month</label>
+            <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-1">Month</label>
             <input
               type="month"
               value={filterMonth}
               onChange={(e) => setFilterMonth(e.target.value)}
-              className="bg-[#eff4ff] border-0 rounded-xl px-3 py-2 font-['Manrope'] text-sm text-[#121c2a]"
+              className="bg-[#F2D88A] border-0 rounded-xl px-3 py-2 font-['Manrope'] text-sm text-[#1F2937]"
             />
           </div>
           <div>
-            <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Status</label>
+            <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-1">Status</label>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="bg-[#eff4ff] border-0 rounded-xl px-3 py-2 font-['Manrope'] text-sm text-[#121c2a]"
+              className="bg-[#F2D88A] border-0 rounded-xl px-3 py-2 font-['Manrope'] text-sm text-[#1F2937]"
             >
               <option value="">All</option>
               <option value="ISSUED">Issued</option>
@@ -118,46 +118,46 @@ export default function AdminInvoicesPage() {
             </select>
           </div>
           <div>
-            <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Search Code</label>
+            <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-1">Search Code</label>
             <input
               type="text"
               value={searchCode}
               onChange={(e) => setSearchCode(e.target.value)}
               placeholder="HV-TG-..."
-              className="bg-[#eff4ff] border-0 rounded-xl px-3 py-2 font-['Manrope'] text-sm text-[#121c2a]"
+              className="bg-[#F2D88A] border-0 rounded-xl px-3 py-2 font-['Manrope'] text-sm text-[#1F2937]"
             />
           </div>
         </div>
       </div>
 
       {/* Invoice Table */}
-      <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden">
         {loading ? (
           <div className="flex justify-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#A87813]" />
           </div>
         ) : filtered.length === 0 ? (
-          <p className="text-center py-12 text-[#6c7a77] font-['Manrope']">No invoices found.</p>
+          <p className="text-center py-12 text-[#6B7280] font-['Manrope']">No invoices found.</p>
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-[#bbcac6]/20 bg-[#f8f9ff]">
-                <th className="text-left px-4 py-3 font-['Manrope'] text-xs text-[#6c7a77] font-semibold">Code</th>
-                <th className="text-left px-4 py-3 font-['Manrope'] text-xs text-[#6c7a77] font-semibold">Tenant</th>
-                <th className="text-left px-4 py-3 font-['Manrope'] text-xs text-[#6c7a77] font-semibold">Room</th>
-                <th className="text-right px-4 py-3 font-['Manrope'] text-xs text-[#6c7a77] font-semibold">Due</th>
-                <th className="text-right px-4 py-3 font-['Manrope'] text-xs text-[#6c7a77] font-semibold">Paid</th>
-                <th className="text-center px-4 py-3 font-['Manrope'] text-xs text-[#6c7a77] font-semibold">Status</th>
-                <th className="text-center px-4 py-3 font-['Manrope'] text-xs text-[#6c7a77] font-semibold">Actions</th>
+              <tr className="border-b border-[#E8E0CE]/20 bg-[#FAF6EC]">
+                <th className="text-left px-4 py-3 font-['Manrope'] text-xs text-[#6B7280] font-semibold">Code</th>
+                <th className="text-left px-4 py-3 font-['Manrope'] text-xs text-[#6B7280] font-semibold">Tenant</th>
+                <th className="text-left px-4 py-3 font-['Manrope'] text-xs text-[#6B7280] font-semibold">Room</th>
+                <th className="text-right px-4 py-3 font-['Manrope'] text-xs text-[#6B7280] font-semibold">Due</th>
+                <th className="text-right px-4 py-3 font-['Manrope'] text-xs text-[#6B7280] font-semibold">Paid</th>
+                <th className="text-center px-4 py-3 font-['Manrope'] text-xs text-[#6B7280] font-semibold">Status</th>
+                <th className="text-center px-4 py-3 font-['Manrope'] text-xs text-[#6B7280] font-semibold">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#bbcac6]/10">
+            <tbody className="divide-y divide-[#E8E0CE]/10">
               {filtered.map((inv) => (
-                <tr key={inv.id} className="hover:bg-[#f8f9ff] transition-colors">
-                  <td className="px-4 py-3 font-['Manrope'] text-sm font-bold text-[#121c2a]">{inv.invoice_code}</td>
-                  <td className="px-4 py-3 font-['Manrope'] text-sm text-[#6c7a77]">{inv.tenant_profiles?.username ?? "—"}</td>
-                  <td className="px-4 py-3 font-['Manrope'] text-sm text-[#6c7a77]">{inv.tenant_profiles?.rooms?.unit_code ?? "—"}</td>
-                  <td className="px-4 py-3 font-['Manrope'] text-sm text-[#121c2a] text-right">{formatSGD(inv.total_due)}</td>
+                <tr key={inv.id} className="hover:bg-[#FAF6EC] transition-colors">
+                  <td className="px-4 py-3 font-['Manrope'] text-sm font-bold text-[#1F2937]">{inv.invoice_code}</td>
+                  <td className="px-4 py-3 font-['Manrope'] text-sm text-[#6B7280]">{inv.tenant_profiles?.username ?? "—"}</td>
+                  <td className="px-4 py-3 font-['Manrope'] text-sm text-[#6B7280]">{inv.tenant_profiles?.rooms?.unit_code ?? "—"}</td>
+                  <td className="px-4 py-3 font-['Manrope'] text-sm text-[#1F2937] text-right">{formatSGD(inv.total_due)}</td>
                   <td className="px-4 py-3 font-['Manrope'] text-sm text-green-700 text-right">{formatSGD(inv.total_paid)}</td>
                   <td className="px-4 py-3 text-center">
                     <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${STATUS_STYLES[inv.status]}`}>
@@ -198,35 +198,35 @@ export default function AdminInvoicesPage() {
       {payModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl">
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a] mb-4">
+            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937] mb-4">
               Mark as Paid — {payModal.invoice_code}
             </h3>
             <div className="space-y-3">
               <div>
-                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Amount</label>
+                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-1">Amount</label>
                 <input
                   type="number"
                   step="0.01"
                   value={payAmount}
                   onChange={(e) => setPayAmount(e.target.value)}
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-3 py-2 font-['Manrope'] text-sm"
+                  className="w-full bg-[#F2D88A] border-0 rounded-xl px-3 py-2 font-['Manrope'] text-sm"
                 />
               </div>
               <div>
-                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6c7a77] font-bold mb-1">Bank Reference</label>
+                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-1">Bank Reference</label>
                 <input
                   type="text"
                   value={payRef}
                   onChange={(e) => setPayRef(e.target.value)}
                   placeholder="Transfer reference..."
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-3 py-2 font-['Manrope'] text-sm"
+                  className="w-full bg-[#F2D88A] border-0 rounded-xl px-3 py-2 font-['Manrope'] text-sm"
                 />
               </div>
             </div>
             <div className="flex justify-end gap-3 mt-6">
               <button
                 onClick={() => setPayModal(null)}
-                className="px-4 py-2 font-['Manrope'] text-sm text-[#6c7a77] hover:text-[#121c2a]"
+                className="px-4 py-2 font-['Manrope'] text-sm text-[#6B7280] hover:text-[#1F2937]"
               >
                 Cancel
               </button>

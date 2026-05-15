@@ -91,27 +91,27 @@ export default function PropertyOverviewPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] tracking-tight">
+        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
           Property Overview
         </h1>
         {propertyName && (
-          <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">{propertyName}</p>
+          <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">{propertyName}</p>
         )}
       </div>
 
       {/* Stat cards */}
       {!loading && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10">
-          <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Total Rooms</p>
-            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">{rooms.length}</p>
+          <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">Total Rooms</p>
+            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937]">{rooms.length}</p>
           </div>
-          <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
-            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">AC Running</p>
+          <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">AC Running</p>
             <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-blue-600">{acOnCount}</p>
           </div>
           <div className="bg-[#A87813] rounded-2xl p-6">
-            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#71f8e4]/80 font-bold mb-3">Total AC Hours</p>
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#D9A441]/80 font-bold mb-3">Total AC Hours</p>
             <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-white">
               {totalHoursAll.toFixed(0)}
               <span className="text-base font-['Manrope'] font-normal text-white/70 ml-1">h</span>
@@ -119,7 +119,7 @@ export default function PropertyOverviewPage() {
           </div>
           <div className="bg-[#ffdad6]/30 rounded-2xl p-6 border border-[#ba1a1a]/10">
             <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#ba1a1a] font-bold mb-3">Alerts</p>
-            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a]">0</p>
+            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937]">0</p>
           </div>
         </div>
       )}
@@ -128,21 +128,21 @@ export default function PropertyOverviewPage() {
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="bg-white rounded-2xl p-5 border border-[#bbcac6]/15 shadow-sm space-y-4">
+            <div key={i} className="bg-white rounded-2xl p-5 border border-[#E8E0CE]/15 shadow-sm space-y-4">
               <div className="flex justify-between items-start">
                 <div className="space-y-2">
-                  <div className="h-5 w-32 bg-[#eff4ff] animate-pulse rounded" />
-                  <div className="h-3 w-20 bg-[#eff4ff] animate-pulse rounded" />
+                  <div className="h-5 w-32 bg-[#F2D88A] animate-pulse rounded" />
+                  <div className="h-3 w-20 bg-[#F2D88A] animate-pulse rounded" />
                 </div>
-                <div className="h-6 w-12 bg-[#eff4ff] animate-pulse rounded" />
+                <div className="h-6 w-12 bg-[#F2D88A] animate-pulse rounded" />
               </div>
-              <div className="h-1.5 w-full bg-[#eff4ff] animate-pulse rounded-full" />
+              <div className="h-1.5 w-full bg-[#F2D88A] animate-pulse rounded-full" />
             </div>
           ))}
         </div>
       ) : rooms.length === 0 ? (
-        <div className="bg-white rounded-2xl p-12 border border-[#bbcac6]/15 shadow-sm text-center">
-          <p className="text-[#6c7a77] font-['Manrope'] text-sm">No rooms found for this property.</p>
+        <div className="bg-white rounded-2xl p-12 border border-[#E8E0CE]/15 shadow-sm text-center">
+          <p className="text-[#6B7280] font-['Manrope'] text-sm">No rooms found for this property.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -151,22 +151,22 @@ export default function PropertyOverviewPage() {
             return (
               <div
                 key={room.id}
-                className="bg-white rounded-2xl p-5 border border-[#bbcac6]/10 hover:border-[#A87813]/30 transition-all group shadow-sm"
+                className="bg-white rounded-2xl p-5 border border-[#E8E0CE]/10 hover:border-[#A87813]/30 transition-all group shadow-sm"
               >
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a] group-hover:text-[#A87813] transition-colors">
+                    <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937] group-hover:text-[#A87813] transition-colors">
                       {room.name}
                     </h4>
-                    <span className="font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#A87813] px-2 py-0.5 rounded">
+                    <span className="font-['Inter'] text-xs font-bold bg-[#F2D88A] text-[#A87813] px-2 py-0.5 rounded">
                       {room.unit_code}
                     </span>
                   </div>
                   <div className="text-right">
-                    <span className={`material-symbols-outlined text-[22px] ${acOn ? "text-blue-500" : "text-[#bbcac6]"}`}>
+                    <span className={`material-symbols-outlined text-[22px] ${acOn ? "text-blue-500" : "text-[#E8E0CE]"}`}>
                       ac_unit
                     </span>
-                    <p className={`text-[10px] font-bold ${acOn ? "text-blue-500" : "text-[#bbcac6]"}`}>
+                    <p className={`text-[10px] font-bold ${acOn ? "text-blue-500" : "text-[#E8E0CE]"}`}>
                       {acOn ? "ON" : "OFF"}
                     </p>
                   </div>
@@ -176,8 +176,8 @@ export default function PropertyOverviewPage() {
                   <AcStatusIndicator status={room.acState} />
                   <UsageProgressBar totalHours={room.totalHours} />
                   <div className="flex justify-between text-xs font-['Inter']">
-                    <span className="text-[#6c7a77]">Monthly Usage</span>
-                    <span className="font-bold text-[#121c2a]">{room.totalHours.toFixed(1)}h</span>
+                    <span className="text-[#6B7280]">Monthly Usage</span>
+                    <span className="font-bold text-[#1F2937]">{room.totalHours.toFixed(1)}h</span>
                   </div>
                 </div>
               </div>

@@ -68,7 +68,7 @@ export default function OnboardingTimeline({ currentStep, onboarding, onStepClic
           return (
             <li
               key={step}
-              className={`flex items-start gap-3 pb-6 last:pb-0 ${canClick ? "cursor-pointer hover:bg-[#eff4ff] rounded-lg -mx-2 px-2 py-1 transition-colors" : ""}`}
+              className={`flex items-start gap-3 pb-6 last:pb-0 ${canClick ? "cursor-pointer hover:bg-[#F2D88A] rounded-lg -mx-2 px-2 py-1 transition-colors" : ""}`}
               onClick={canClick ? () => onStepClick(step) : undefined}
             >
               <div className={dotClass}>

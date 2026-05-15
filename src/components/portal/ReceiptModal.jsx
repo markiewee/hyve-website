@@ -152,40 +152,40 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
               {/* Tenant & payment info */}
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p className="text-[#6c7a77] text-[10px] uppercase tracking-widest font-bold font-['Inter'] mb-1">
+                  <p className="text-[#6B7280] text-[10px] uppercase tracking-widest font-bold font-['Inter'] mb-1">
                     Billed To
                   </p>
-                  <p className="font-semibold text-[#121c2a] font-['Plus_Jakarta_Sans']">
+                  <p className="font-semibold text-[#1F2937] font-['Plus_Jakarta_Sans']">
                     {tenantInfo?.name ?? "—"}
                   </p>
                   {tenantInfo?.email && (
-                    <p className="text-[#6c7a77] text-xs mt-0.5">{tenantInfo.email}</p>
+                    <p className="text-[#6B7280] text-xs mt-0.5">{tenantInfo.email}</p>
                   )}
                 </div>
                 <div>
-                  <p className="text-[#6c7a77] text-[10px] uppercase tracking-widest font-bold font-['Inter'] mb-1">
+                  <p className="text-[#6B7280] text-[10px] uppercase tracking-widest font-bold font-['Inter'] mb-1">
                     Property
                   </p>
-                  <p className="font-semibold text-[#121c2a] font-['Plus_Jakarta_Sans']">
+                  <p className="font-semibold text-[#1F2937] font-['Plus_Jakarta_Sans']">
                     {tenantInfo?.room ?? "—"}
                   </p>
                   {tenantInfo?.property && (
-                    <p className="text-[#6c7a77] text-xs mt-0.5">{tenantInfo.property}</p>
+                    <p className="text-[#6B7280] text-xs mt-0.5">{tenantInfo.property}</p>
                   )}
                 </div>
                 <div>
-                  <p className="text-[#6c7a77] text-[10px] uppercase tracking-widest font-bold font-['Inter'] mb-1">
+                  <p className="text-[#6B7280] text-[10px] uppercase tracking-widest font-bold font-['Inter'] mb-1">
                     Payment Date
                   </p>
-                  <p className="font-medium text-[#121c2a] font-['Manrope']">
+                  <p className="font-medium text-[#1F2937] font-['Manrope']">
                     {formatDate(paymentDate)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-[#6c7a77] text-[10px] uppercase tracking-widest font-bold font-['Inter'] mb-1">
+                  <p className="text-[#6B7280] text-[10px] uppercase tracking-widest font-bold font-['Inter'] mb-1">
                     Payment Method
                   </p>
-                  <p className="font-medium text-[#121c2a] font-['Manrope']">
+                  <p className="font-medium text-[#1F2937] font-['Manrope']">
                     {payment.payment_method ?? "Online Transfer"}
                   </p>
                 </div>
@@ -196,8 +196,8 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
                 <div className="border-t border-dashed border-gray-200 pt-4">
                   {lineItems.map((item, i) => (
                     <div key={i} className="flex justify-between text-sm py-1.5">
-                      <span className="text-[#6c7a77] font-['Manrope']">{item.description}</span>
-                      <span className="font-semibold text-[#121c2a] font-['Manrope']">
+                      <span className="text-[#6B7280] font-['Manrope']">{item.description}</span>
+                      <span className="font-semibold text-[#1F2937] font-['Manrope']">
                         {formatSGD(item.amount)}
                       </span>
                     </div>
@@ -205,7 +205,7 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
                 </div>
                 {/* Total */}
                 <div className="border-t-2 border-[#A87813]/20 mt-2 pt-3 flex justify-between">
-                  <span className="text-sm font-bold text-[#121c2a] font-['Plus_Jakarta_Sans']">{isInvoice ? "Total Due" : "Total Paid"}</span>
+                  <span className="text-sm font-bold text-[#1F2937] font-['Plus_Jakarta_Sans']">{isInvoice ? "Total Due" : "Total Paid"}</span>
                   <span className="text-base font-extrabold text-[#A87813] font-['Plus_Jakarta_Sans']">
                     {formatSGD(total)}
                   </span>
@@ -213,7 +213,7 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
               </div>
 
               {/* Footer */}
-              <p className="text-[10px] text-[#6c7a77] text-center font-['Manrope'] pt-2 border-t border-gray-100">
+              <p className="text-[10px] text-[#6B7280] text-center font-['Manrope'] pt-2 border-t border-gray-100">
                 This is a computer-generated receipt. No signature required.
               </p>
             </div>

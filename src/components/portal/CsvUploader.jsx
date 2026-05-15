@@ -51,7 +51,7 @@ export default function CsvUploader({ onFileSelected, importing, progress }) {
           : "cursor-pointer hover:border-[#D9A441] hover:bg-[#D9A441]/5",
         dragOver
           ? "border-[#D9A441] bg-[#D9A441]/5"
-          : "border-[#bbcac6]/30 bg-white",
+          : "border-[#E8E0CE]/30 bg-white",
       ].join(" ")}
     >
       <input
@@ -76,7 +76,7 @@ export default function CsvUploader({ onFileSelected, importing, progress }) {
               ? `${progress.inserted} / ${progress.total} rows`
               : ""}
           </p>
-          <div className="w-full max-w-xs overflow-hidden rounded-full bg-[#bbcac6]/30 h-2">
+          <div className="w-full max-w-xs overflow-hidden rounded-full bg-[#E8E0CE]/30 h-2">
             <div
               className="h-full rounded-full bg-[#A87813] transition-all duration-300"
               style={{ width: `${progressPercent}%` }}
@@ -85,7 +85,7 @@ export default function CsvUploader({ onFileSelected, importing, progress }) {
         </>
       ) : (
         <>
-          <span className="material-symbols-outlined text-4xl text-[#6c7a77]">
+          <span className="material-symbols-outlined text-4xl text-[#6B7280]">
             upload_file
           </span>
           <div className="text-center">
@@ -97,7 +97,7 @@ export default function CsvUploader({ onFileSelected, importing, progress }) {
             </p>
             <p
               style={{ fontFamily: "'Manrope', sans-serif" }}
-              className="text-xs text-[#6c7a77] mt-0.5"
+              className="text-xs text-[#6B7280] mt-0.5"
             >
               or click to browse
             </p>
