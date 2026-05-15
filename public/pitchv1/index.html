@@ -401,10 +401,55 @@
   /* === PORTAL SHOWCASE === */
   .portal {
     display: grid;
-    grid-template-columns: 1.05fr 1fr;
+    grid-template-columns: 1.15fr 1fr;
     gap: 36px;
     margin-top: 8px;
     flex-grow: 1;
+    min-height: 0;
+  }
+  .portal-hero {
+    background: white;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 14px 36px rgba(168, 120, 19, 0.15);
+    display: flex;
+    flex-direction: column;
+  }
+  .portal-hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .portal-thumbs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .portal-thumb {
+    background: white;
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+  }
+  .portal-thumb img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+  .portal-thumb .lab {
+    font-size: 11px;
+    color: var(--honey-deep);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 10px;
+    background: var(--bg);
+    border-top: 1px solid var(--hairline);
   }
   .portal-mock {
     background: linear-gradient(180deg, #FFFFFF 0%, #FAF6EC 100%);
@@ -1183,74 +1228,51 @@
     <div class="page-num">07 / 13</div>
   </section>
 
-  <!-- SLIDE 8 — PORTAL SHOWCASE (NEW) -->
+  <!-- SLIDE 8 — PORTAL SHOWCASE (real screenshots) -->
   <section class="slide">
     <div class="wordmark slide-wordmark">lazybee<span class="dot">.</span></div>
-    <div class="label">The tech</div>
+    <div class="label">The tech · real product</div>
     <h2>Your students do everything before they fly.</h2>
     <div class="portal">
-      <div class="portal-mock">
-        <div class="portal-bar">
-          <div class="dotx"></div><div class="dotx"></div><div class="dotx"></div>
-          <div class="url">lazybee.sg/portal/dashboard</div>
+      <div>
+        <div class="portal-hero">
+          <img src="assets/portal-dashboard.png" alt="Lazybee tenant portal — dashboard view" />
         </div>
-        <div class="portal-row">
-          <div class="portal-tile green">
-            <div class="lab">Onboarding</div>
-            <div class="val">5 of 6 complete</div>
-            <div class="sub">Pending: deposit payment</div>
+        <div class="portal-thumbs">
+          <div class="portal-thumb">
+            <img src="assets/portal-guide.png" alt="Property guide" />
+            <div class="lab">Property guide</div>
           </div>
-          <div class="portal-tile">
-            <div class="lab">Move-in date</div>
-            <div class="val">12 Aug 2026</div>
-            <div class="sub">Ivory Heights · Room 03-B</div>
+          <div class="portal-thumb">
+            <img src="assets/portal-issues.png" alt="One-tap issue filing" />
+            <div class="lab">Issue filing</div>
           </div>
-        </div>
-        <div class="portal-row">
-          <div class="portal-tile">
-            <div class="lab">Next invoice</div>
-            <div class="val">SGD 1,250</div>
-            <div class="sub">Due 1 Sep · PayNow ready</div>
+          <div class="portal-thumb">
+            <img src="assets/portal-billing.png" alt="Self-service billing" />
+            <div class="lab">Billing &amp; pay</div>
           </div>
-          <div class="portal-tile">
-            <div class="lab">AC usage</div>
-            <div class="val">42 hrs</div>
-            <div class="sub">This month · within fair use</div>
-          </div>
-        </div>
-        <div class="portal-list-item">
-          <span class="left">Aircon not cooling — Room 03-B</span>
-          <span class="portal-pill">FIXING</span>
-        </div>
-        <div class="portal-list-item">
-          <span class="left">Common-area cleaning</span>
-          <span class="right">Every Tue · 9am</span>
-        </div>
-        <div class="portal-list-item">
-          <span class="left">Move-in checklist</span>
-          <span class="right">3 of 5 items</span>
         </div>
       </div>
       <div class="portal-features">
         <div class="portal-feature">
           <h4>Online onboarding</h4>
-          <p>ID scan with auto-fill (OCR), e-signature on the lease, deposit paid by card. Zero paper. Zero couriered documents from overseas.</p>
+          <p>ID scan with OCR, e-sign the lease, deposit paid by card. Zero paper from overseas.</p>
         </div>
         <div class="portal-feature">
           <h4>One-tap ticket filing</h4>
-          <p>Anything broken? Snap a photo, file a ticket. Captain notified instantly. Same-day fix for most issues. Track status live.</p>
+          <p>Snap a photo, file a ticket. Captain notified instantly. Same-day fix on most issues.</p>
         </div>
         <div class="portal-feature">
           <h4>Round-the-clock cleaning &amp; maintenance</h4>
-          <p>Weekly scheduled common-area cleaning. Urgent fixes dispatched 24/7. Your students never live in a broken room.</p>
+          <p>Weekly common-area cleaning. Urgent fixes dispatched 24/7.</p>
         </div>
         <div class="portal-feature">
-          <h4>Self-service billing &amp; property guide</h4>
-          <p>Pay rent in one tap — PayNow, Stripe, overseas parent-pays. Wi-Fi codes, house rules, smart-lock pin — all in the app.</p>
+          <h4>Self-service billing</h4>
+          <p>Pay rent in one tap — PayNow, Stripe, overseas parent-pays. Receipts instant.</p>
         </div>
         <div class="portal-feature">
-          <h4>Optional admin view for you</h4>
-          <p>Co-branded oversight dashboard: who onboarded, who paid, who logged a ticket. Real-time visibility into your students.</p>
+          <h4>Bilingual + admin view</h4>
+          <p>EN / 中文 toggle for parents. Optional co-branded admin view for your team.</p>
         </div>
       </div>
     </div>
