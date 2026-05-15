@@ -7,9 +7,9 @@
   max-height: none !important;
 }
 
-/* Lazybee teal tint on map tiles */
+/* Lazybee honey tint on map tiles */
 .lazybee-map-tiles {
-  filter: hue-rotate(140deg) saturate(0.6) brightness(1.05);
+  filter: hue-rotate(15deg) saturate(0.7) brightness(1.05) sepia(0.15);
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -50,42 +50,64 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-honey-50: var(--honey-50);
+  --color-honey-100: var(--honey-100);
+  --color-honey-200: var(--honey-200);
+  --color-honey-300: var(--honey-300);
+  --color-honey-400: var(--honey-400);
+  --color-honey-500: var(--honey-500);
+  --color-honey-600: var(--honey-600);
+  --color-honey-700: var(--honey-700);
+  --color-honey-800: var(--honey-800);
+  --color-honey-900: var(--honey-900);
 }
 
 :root {
   --radius: 0.5rem;
-  /* Stitch Design System — "The Digital Sanctuary" */
-  --background: #f8f9ff;
-  --foreground: #121c2a;
+  /* Lazybee Honey Palette — institutional brand */
+  --background: #FAF6EC;
+  --foreground: #1F2937;
   --card: #ffffff;
-  --card-foreground: #121c2a;
+  --card-foreground: #1F2937;
   --popover: #ffffff;
-  --popover-foreground: #121c2a;
-  --primary: #006b5f;
+  --popover-foreground: #1F2937;
+  --primary: #A87813;
   --primary-foreground: #ffffff;
-  --secondary: #eff4ff;
-  --secondary-foreground: #555f6f;
-  --muted: #eff4ff;
-  --muted-foreground: #6c7a77;
-  --accent: #e6eeff;
-  --accent-foreground: #121c2a;
+  --secondary: #F2D88A;
+  --secondary-foreground: #1F2937;
+  --muted: #F2D88A;
+  --muted-foreground: #6B7280;
+  --accent: #F2D88A;
+  --accent-foreground: #1F2937;
   --destructive: #ba1a1a;
-  --border: #bbcac6;
-  --input: #bbcac6;
-  --ring: #14b8a6;
-  --chart-1: #14b8a6;
-  --chart-2: #006a61;
-  --chart-3: #555f6f;
-  --chart-4: #71f8e4;
-  --chart-5: #4fdbc8;
-  --sidebar: #eff4ff;
-  --sidebar-foreground: #121c2a;
-  --sidebar-primary: #006b5f;
+  --border: #E8E0CE;
+  --input: #E8E0CE;
+  --ring: #D9A441;
+  --chart-1: #D9A441;
+  --chart-2: #A87813;
+  --chart-3: #C7651E;
+  --chart-4: #F2D88A;
+  --chart-5: #6B7280;
+  --sidebar: #FAF6EC;
+  --sidebar-foreground: #1F2937;
+  --sidebar-primary: #A87813;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #e6eeff;
-  --sidebar-accent-foreground: #121c2a;
-  --sidebar-border: #bbcac6;
-  --sidebar-ring: #14b8a6;
+  --sidebar-accent: #F2D88A;
+  --sidebar-accent-foreground: #1F2937;
+  --sidebar-border: #E8E0CE;
+  --sidebar-ring: #D9A441;
+  /* Honey color scale */
+  --honey-50: #FDF8E8;
+  --honey-100: #FAF0CC;
+  --honey-200: #F2D88A;
+  --honey-300: #E8C25D;
+  --honey-400: #DDB04A;
+  --honey-500: #D9A441;
+  --honey-600: #C19036;
+  --honey-700: #A87813;
+  --honey-800: #876010;
+  --honey-900: #5C420B;
+  --honey-tint: rgba(217, 164, 65, 0.12);
 }
 
 .dark {
@@ -159,7 +181,7 @@
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 .glass-card {
-  background: rgba(20, 184, 166, 0.05);
+  background: rgba(217, 164, 65, 0.06);
   backdrop-filter: blur(12px);
 }
 .editorial-shadow {

@@ -173,7 +173,7 @@ const MapComponent = ({
         type: 'supermarket',
         radius: 1000,
         limit: 5,
-        color: '#10b981',
+        color: '#D9A441',
         icon: 'M3 3h2l.4 2M7 13h10l4-8H5.4m1.6 8L6 5H4m3 8v6a1 1 0 001 1h1a1 1 0 001-1v-6m-6 0h8',
         category: 'Grocery'
       },
@@ -299,7 +299,7 @@ const MapComponent = ({
         {!isLoaded && (
           <div className="absolute inset-0 bg-gray-100 rounded-lg flex items-center justify-center">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600 mx-auto mb-4"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-honey-700 mx-auto mb-4"></div>
               <p className="text-gray-600">Loading map...</p>
             </div>
           </div>
@@ -345,7 +345,7 @@ const MapComponent = ({
             <h4 className="font-semibold text-sm mb-2">Legend</h4>
             <div className="grid grid-cols-2 gap-1 text-xs">
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded-full bg-teal-600"></div>
+                <div className="w-3 h-3 rounded-full bg-honey-700"></div>
                 <span>Property</span>
               </div>
               <div className="flex items-center gap-1">
@@ -384,7 +384,7 @@ const MapComponent = ({
         <div className="absolute bottom-4 right-4 bg-white/90 rounded-lg p-3 shadow-md max-w-xs">
           <h4 className="font-semibold text-sm mb-1">{property.name}</h4>
           <p className="text-xs text-gray-600 mb-1">{property.neighborhood}</p>
-          <p className="text-xs text-teal-600 font-semibold">
+          <p className="text-xs text-honey-700 font-semibold">
             {property.availableRooms} rooms available from ${property.startingPrice}/mo
           </p>
         </div>

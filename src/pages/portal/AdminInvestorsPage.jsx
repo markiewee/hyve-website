@@ -496,9 +496,9 @@ export default function AdminInvestorsPage() {
         </div>
         <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
           <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Active</p>
-          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#006b5f]">{activeCount}</p>
+          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#A87813]">{activeCount}</p>
         </div>
-        <div className="bg-[#006b5f] rounded-2xl p-6">
+        <div className="bg-[#A87813] rounded-2xl p-6">
           <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#71f8e4]/80 font-bold mb-3">Total Capital</p>
           <p className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-white">
             {formatSGD(totalCapitalAll)}
@@ -511,7 +511,7 @@ export default function AdminInvestorsPage() {
         <div className="lg:col-span-4 space-y-6">
           <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
             <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-5 flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#006b5f] text-[20px]">person_add</span>
+              <span className="material-symbols-outlined text-[#A87813] text-[20px]">person_add</span>
               Invite Investor
             </h2>
             <form onSubmit={handleInvite} className="space-y-4">
@@ -525,7 +525,7 @@ export default function AdminInvestorsPage() {
                   onChange={(e) => setInviteName(e.target.value)}
                   placeholder="Jane Tan"
                   required
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                 />
               </div>
               <div>
@@ -538,7 +538,7 @@ export default function AdminInvestorsPage() {
                   onChange={(e) => setInviteEmail(e.target.value)}
                   placeholder="jane@example.com"
                   required
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                 />
               </div>
 
@@ -552,7 +552,7 @@ export default function AdminInvestorsPage() {
               <button
                 type="submit"
                 disabled={inviting}
-                className="w-full py-4 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+                className="w-full py-4 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">send</span>
                 {inviting ? "Sending..." : "Send Invite"}
@@ -635,7 +635,7 @@ export default function AdminInvestorsPage() {
                       >
                         <div className="flex items-center justify-between gap-4">
                           <div className="flex items-center gap-3 min-w-0">
-                            <div className="w-10 h-10 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#006b5f] font-bold text-xs shrink-0">
+                            <div className="w-10 h-10 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#A87813] font-bold text-xs shrink-0">
                               {initials}
                             </div>
                             <div className="min-w-0">
@@ -650,7 +650,7 @@ export default function AdminInvestorsPage() {
                             {propCodes.map((code) => (
                               <span
                                 key={code}
-                                className="font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#006b5f] px-2 py-1 rounded"
+                                className="font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#A87813] px-2 py-1 rounded"
                               >
                                 {code}
                               </span>
@@ -701,14 +701,14 @@ export default function AdminInvestorsPage() {
                                         <td className="px-4 py-3 text-right font-['Manrope'] text-sm tabular-nums font-medium">
                                           {formatSGD(i.capital_contributed)}
                                         </td>
-                                        <td className="px-4 py-3 text-right font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#006b5f]">
+                                        <td className="px-4 py-3 text-right font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#A87813]">
                                           {sharePercent.toFixed(1)}%
                                         </td>
                                         <td className="px-4 py-3 hidden sm:table-cell">
                                           <div className="flex items-center gap-2">
                                             <div className="flex-1 h-1.5 bg-[#eff4ff] rounded-full overflow-hidden max-w-[80px]">
                                               <div
-                                                className="h-full bg-[#006b5f] rounded-full"
+                                                className="h-full bg-[#A87813] rounded-full"
                                                 style={{ width: `${Math.min(sharePercent, 100)}%` }}
                                               />
                                             </div>
@@ -728,7 +728,7 @@ export default function AdminInvestorsPage() {
                           </h4>
                           <div className="flex flex-col sm:flex-row gap-3">
                             <select
-                              className="flex-1 bg-white border border-[#bbcac6]/30 rounded-xl px-4 py-3 font-['Manrope'] text-sm text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                              className="flex-1 bg-white border border-[#bbcac6]/30 rounded-xl px-4 py-3 font-['Manrope'] text-sm text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                               value={form.propertyId ?? ""}
                               onChange={(e) =>
                                 setAddInvForm((prev) => ({
@@ -756,12 +756,12 @@ export default function AdminInvestorsPage() {
                                   [inv.id]: { ...form, capital: e.target.value },
                                 }))
                               }
-                              className="flex-1 bg-white border border-[#bbcac6]/30 rounded-xl px-4 py-3 font-['Manrope'] text-sm text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                              className="flex-1 bg-white border border-[#bbcac6]/30 rounded-xl px-4 py-3 font-['Manrope'] text-sm text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                             />
                             <button
                               onClick={() => handleAddInvestment(inv.id)}
                               disabled={!form.propertyId || !form.capital}
-                              className="px-5 py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all shrink-0"
+                              className="px-5 py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all shrink-0"
                             >
                               Add
                             </button>
@@ -790,7 +790,7 @@ export default function AdminInvestorsPage() {
       {/* Calculation controls */}
       <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm mb-8">
         <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-5 flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#006b5f] text-[20px]">calculate</span>
+          <span className="material-symbols-outlined text-[#A87813] text-[20px]">calculate</span>
           Calculate Distributions
         </h3>
         <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4">
@@ -802,13 +802,13 @@ export default function AdminInvestorsPage() {
               type="month"
               value={distMonth}
               onChange={(e) => setDistMonth(e.target.value)}
-              className="bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+              className="bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
             />
           </div>
           <button
             onClick={handleCalculateDistributions}
             disabled={calculating}
-            className="px-6 py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+            className="px-6 py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
           >
             <span className="material-symbols-outlined text-[18px]">sync</span>
             {calculating ? "Calculating..." : "Calculate Distributions"}
@@ -836,7 +836,7 @@ export default function AdminInvestorsPage() {
             <button
               onClick={handleApproveAll}
               disabled={approvingAll}
-              className="px-4 py-2 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-xs hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-1.5"
+              className="px-4 py-2 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-xs hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-1.5"
             >
               <span className="material-symbols-outlined text-[16px]">done_all</span>
               {approvingAll ? "Approving..." : "Approve All"}
@@ -864,7 +864,7 @@ export default function AdminInvestorsPage() {
                     <td className="px-4 py-3 font-['Manrope'] text-sm text-[#6c7a77]">
                       {dist.properties?.name ?? "—"}
                       {dist.properties?.code && (
-                        <span className="ml-1.5 font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#006b5f] px-1.5 py-0.5 rounded">
+                        <span className="ml-1.5 font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#A87813] px-1.5 py-0.5 rounded">
                           {dist.properties.code}
                         </span>
                       )}
@@ -872,7 +872,7 @@ export default function AdminInvestorsPage() {
                     <td className="px-4 py-3 text-right font-['Manrope'] text-sm tabular-nums">
                       {formatSGD(dist.gross_profit)}
                     </td>
-                    <td className="px-4 py-3 text-right font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#006b5f]">
+                    <td className="px-4 py-3 text-right font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#A87813]">
                       {Number(dist.share_percentage ?? 0).toFixed(1)}%
                     </td>
                     <td className="px-4 py-3 text-right font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a] tabular-nums">
@@ -959,7 +959,7 @@ export default function AdminInvestorsPage() {
       {/* ─── Reports Section ───────────────────────────────────────────── */}
       <div className="mt-12 pt-8 border-t-2 border-[#bbcac6]/15">
         <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#121c2a] mb-6 flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#006b5f]">description</span>
+          <span className="material-symbols-outlined text-[#A87813]">description</span>
           Investor Reports
         </h2>
 
@@ -981,7 +981,7 @@ export default function AdminInvestorsPage() {
                       value={reportMonth}
                       onChange={(e) => setReportMonth(e.target.value)}
                       required
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                     />
                   </div>
                   <div>
@@ -992,7 +992,7 @@ export default function AdminInvestorsPage() {
                       value={reportPropertyId}
                       onChange={(e) => setReportPropertyId(e.target.value)}
                       required
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                     >
                       <option value="">Select...</option>
                       {properties.map((p) => (
@@ -1011,7 +1011,7 @@ export default function AdminInvestorsPage() {
                     value={reportTitle}
                     onChange={(e) => setReportTitle(e.target.value)}
                     placeholder={`${reportMonth} Monthly Report`}
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                   />
                 </div>
 
@@ -1026,7 +1026,7 @@ export default function AdminInvestorsPage() {
                       value={reportRevenue}
                       onChange={(e) => setReportRevenue(e.target.value)}
                       placeholder="0.00"
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none tabular-nums"
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none tabular-nums"
                     />
                   </div>
                   <div>
@@ -1039,7 +1039,7 @@ export default function AdminInvestorsPage() {
                       value={reportExpenses}
                       onChange={(e) => setReportExpenses(e.target.value)}
                       placeholder="0.00"
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none tabular-nums"
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none tabular-nums"
                     />
                   </div>
                   <div>
@@ -1066,7 +1066,7 @@ export default function AdminInvestorsPage() {
                     onChange={(e) => setReportNotes(e.target.value)}
                     rows={2}
                     placeholder="Any commentary for investors..."
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none resize-none"
+                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none resize-none"
                   />
                 </div>
 
@@ -1078,7 +1078,7 @@ export default function AdminInvestorsPage() {
                     type="file"
                     accept=".pdf"
                     onChange={(e) => setReportFile(e.target.files?.[0] ?? null)}
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-[#006b5f] file:text-white file:font-semibold file:text-xs"
+                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-[#A87813] file:text-white file:font-semibold file:text-xs"
                   />
                 </div>
 
@@ -1092,7 +1092,7 @@ export default function AdminInvestorsPage() {
                 <button
                   type="submit"
                   disabled={reportSaving || !reportPropertyId}
-                  className="w-full py-3 rounded-xl font-['Manrope'] font-bold text-white bg-[#006b5f] hover:bg-[#005a50] disabled:opacity-50 transition-colors"
+                  className="w-full py-3 rounded-xl font-['Manrope'] font-bold text-white bg-[#A87813] hover:bg-[#005a50] disabled:opacity-50 transition-colors"
                 >
                   {reportSaving ? "Saving..." : "Save Report"}
                 </button>
@@ -1132,7 +1132,7 @@ export default function AdminInvestorsPage() {
                         </p>
                       </div>
                       <div className="flex items-center gap-3 flex-shrink-0">
-                        <span className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#006b5f] tabular-nums">
+                        <span className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#A87813] tabular-nums">
                           {formatSGD(r.net_income)}
                         </span>
                         {r.file_url && (
@@ -1140,7 +1140,7 @@ export default function AdminInvestorsPage() {
                             href={r.file_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#006b5f] hover:text-[#005a50]"
+                            className="text-[#A87813] hover:text-[#005a50]"
                           >
                             <span className="material-symbols-outlined text-[18px]">download</span>
                           </a>

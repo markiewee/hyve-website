@@ -364,7 +364,7 @@ export default function AdminViewingDetailPage() {
     return (
       <PortalLayout>
         <div className="flex items-center justify-center h-64">
-          <span className="material-symbols-outlined animate-spin text-[#006b5f] text-3xl">progress_activity</span>
+          <span className="material-symbols-outlined animate-spin text-[#A87813] text-3xl">progress_activity</span>
         </div>
       </PortalLayout>
     );
@@ -376,7 +376,7 @@ export default function AdminViewingDetailPage() {
         <div className="text-center py-20">
           <span className="material-symbols-outlined text-5xl text-[#bbcac6] mb-4">search_off</span>
           <p className="text-[#6c7a77] font-['Manrope'] font-medium">Viewing not found.</p>
-          <Link to="/portal/admin/viewings" className="text-[#006b5f] font-['Manrope'] font-bold text-sm mt-4 inline-block hover:underline">
+          <Link to="/portal/admin/viewings" className="text-[#A87813] font-['Manrope'] font-bold text-sm mt-4 inline-block hover:underline">
             Back to Viewings
           </Link>
         </div>
@@ -419,7 +419,7 @@ export default function AdminViewingDetailPage() {
                   Cancel
                 </button>
                 <button onClick={handleForceBook} disabled={forceSlots.length === 0}
-                  className="px-6 py-2.5 rounded-xl font-['Manrope'] font-bold text-sm text-white bg-[#006b5f] hover:opacity-90 active:scale-95 transition-all disabled:opacity-40 shadow-md shadow-[#006b5f]/20">
+                  className="px-6 py-2.5 rounded-xl font-['Manrope'] font-bold text-sm text-white bg-[#A87813] hover:opacity-90 active:scale-95 transition-all disabled:opacity-40 shadow-md shadow-[#A87813]/20">
                   Confirm Slot
                 </button>
               </div>
@@ -462,7 +462,7 @@ export default function AdminViewingDetailPage() {
               Cancel
             </button>
             <button onClick={() => setShowForceBook(true)}
-              className="bg-[#006b5f] text-white font-bold px-6 py-2.5 rounded-lg text-sm font-['Manrope'] shadow-md shadow-[#006b5f]/20 hover:opacity-90 active:scale-95 transition-all flex items-center gap-2">
+              className="bg-[#A87813] text-white font-bold px-6 py-2.5 rounded-lg text-sm font-['Manrope'] shadow-md shadow-[#A87813]/20 hover:opacity-90 active:scale-95 transition-all flex items-center gap-2">
               <span className="material-symbols-outlined text-lg">verified</span>
               Force Book
             </button>
@@ -491,11 +491,11 @@ export default function AdminViewingDetailPage() {
           {/* ─── Left Column: Prospect Info ─── */}
           <div className="lg:col-span-4 space-y-8">
             <section className="bg-white rounded-xl p-8 shadow-sm relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-1 h-full bg-[#14b8a6]" />
+              <div className="absolute top-0 left-0 w-1 h-full bg-[#D9A441]" />
 
               {/* Avatar + Name */}
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-16 h-16 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#006b5f] font-bold text-xl shrink-0 border-2 border-[#14b8a6]/20">
+                <div className="w-16 h-16 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#A87813] font-bold text-xl shrink-0 border-2 border-[#D9A441]/20">
                   {initials(viewing.prospect_name)}
                 </div>
                 <div>
@@ -510,15 +510,15 @@ export default function AdminViewingDetailPage() {
                   <span className="block text-[10px] font-bold text-[#6c7a77] uppercase tracking-widest mb-1">Contact Details</span>
                   <div className="flex flex-col gap-2">
                     {viewing.prospect_email && (
-                      <a className="flex items-center gap-3 text-[#191c1e] hover:text-[#006b5f] transition-colors" href={`mailto:${viewing.prospect_email}`}>
-                        <span className="material-symbols-outlined text-[#14b8a6]">mail</span>
+                      <a className="flex items-center gap-3 text-[#191c1e] hover:text-[#A87813] transition-colors" href={`mailto:${viewing.prospect_email}`}>
+                        <span className="material-symbols-outlined text-[#D9A441]">mail</span>
                         <span className="text-sm font-medium font-['Manrope']">{viewing.prospect_email}</span>
                       </a>
                     )}
                     {viewing.prospect_phone && (
-                      <a className="flex items-center gap-3 text-[#191c1e] hover:text-[#006b5f] transition-colors"
+                      <a className="flex items-center gap-3 text-[#191c1e] hover:text-[#A87813] transition-colors"
                         href={`https://wa.me/${viewing.prospect_phone.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer">
-                        <span className="material-symbols-outlined text-[#14b8a6]">chat_bubble</span>
+                        <span className="material-symbols-outlined text-[#D9A441]">chat_bubble</span>
                         <span className="text-sm font-medium font-['Manrope']">{viewing.prospect_phone}</span>
                         <span className="bg-green-100 text-green-700 text-[10px] px-1.5 py-0.5 rounded font-bold">WhatsApp</span>
                       </a>
@@ -553,7 +553,7 @@ export default function AdminViewingDetailPage() {
                       onBlur={handleSaveNotes}
                       rows={3}
                       placeholder="Add private notes about this prospect..."
-                      className="w-full bg-transparent p-4 text-sm text-[#3c4947] font-['Manrope'] leading-relaxed italic resize-none outline-none focus:ring-2 focus:ring-[#14b8a6] rounded-lg"
+                      className="w-full bg-transparent p-4 text-sm text-[#3c4947] font-['Manrope'] leading-relaxed italic resize-none outline-none focus:ring-2 focus:ring-[#D9A441] rounded-lg"
                     />
                   </div>
                 </div>
@@ -562,7 +562,7 @@ export default function AdminViewingDetailPage() {
 
             {/* Matched Slot Card */}
             {poll?.matched_slot && (
-              <section className="bg-[#006b5f] p-8 rounded-xl text-white shadow-xl shadow-[#006b5f]/20 relative overflow-hidden">
+              <section className="bg-[#A87813] p-8 rounded-xl text-white shadow-xl shadow-[#A87813]/20 relative overflow-hidden">
                 <div className="absolute -right-4 -bottom-4 opacity-10">
                   <span className="material-symbols-outlined text-[120px]">event_available</span>
                 </div>
@@ -590,7 +590,7 @@ export default function AdminViewingDetailPage() {
                 <div className="absolute top-1/2 left-0 w-full h-[2px] bg-[#e0e3e5] -translate-y-1/2" />
                 {/* Progress line active */}
                 <div
-                  className="absolute top-1/2 left-0 h-[2px] bg-[#14b8a6] -translate-y-1/2 transition-all"
+                  className="absolute top-1/2 left-0 h-[2px] bg-[#D9A441] -translate-y-1/2 transition-all"
                   style={{ width: `${Math.max(0, (currentStep / (LIFECYCLE_STEPS.length - 1)) * 100)}%` }}
                 />
                 <div className="relative flex justify-between">
@@ -604,12 +604,12 @@ export default function AdminViewingDetailPage() {
                     let iconStyle = {};
 
                     if (isPast) {
-                      circleClass += "bg-[#006b5f] text-white";
+                      circleClass += "bg-[#A87813] text-white";
                       labelClass += "text-[#191c1e]";
                       iconStyle = { fontVariationSettings: "'FILL' 1" };
                     } else if (isCurrent) {
-                      circleClass += "bg-white border-2 border-[#14b8a6] text-[#14b8a6]";
-                      labelClass += "text-[#006b5f]";
+                      circleClass += "bg-white border-2 border-[#D9A441] text-[#D9A441]";
+                      labelClass += "text-[#A87813]";
                     } else {
                       circleClass += "bg-white border border-[#e0e3e5] text-[#bbcac6]";
                       labelClass += "text-[#bbcac6]";
@@ -633,10 +633,10 @@ export default function AdminViewingDetailPage() {
             {/* Respondent Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Captain */}
-              <div className="bg-white p-6 rounded-xl border-l-4 border-[#006b5f] shadow-sm">
+              <div className="bg-white p-6 rounded-xl border-l-4 border-[#A87813] shadow-sm">
                 <div className="flex justify-between items-start mb-4">
-                  <span className="text-[10px] font-bold text-[#006b5f] uppercase tracking-widest">Captain</span>
-                  <span className="material-symbols-outlined text-[#006b5f]" style={{ fontVariationSettings: "'FILL' 1" }}>verified_user</span>
+                  <span className="text-[10px] font-bold text-[#A87813] uppercase tracking-widest">Captain</span>
+                  <span className="material-symbols-outlined text-[#A87813]" style={{ fontVariationSettings: "'FILL' 1" }}>verified_user</span>
                 </div>
                 <h4 className="font-bold text-[#191c1e] font-['Manrope']">{captainName}</h4>
                 <p className="text-xs text-[#3c4947] font-['Manrope'] mb-4">House Captain</p>
@@ -654,10 +654,10 @@ export default function AdminViewingDetailPage() {
               </div>
 
               {/* Prospect */}
-              <div className="bg-white p-6 rounded-xl border-l-4 border-[#14b8a6] shadow-sm">
+              <div className="bg-white p-6 rounded-xl border-l-4 border-[#D9A441] shadow-sm">
                 <div className="flex justify-between items-start mb-4">
-                  <span className="text-[10px] font-bold text-[#006b5f] uppercase tracking-widest">Prospect</span>
-                  <span className="material-symbols-outlined text-[#14b8a6]">person</span>
+                  <span className="text-[10px] font-bold text-[#A87813] uppercase tracking-widest">Prospect</span>
+                  <span className="material-symbols-outlined text-[#D9A441]">person</span>
                 </div>
                 <h4 className="font-bold text-[#191c1e] font-['Manrope']">{prospectName}</h4>
                 <p className="text-xs text-[#3c4947] font-['Manrope'] mb-4">Prospect</p>
@@ -709,7 +709,7 @@ export default function AdminViewingDetailPage() {
                     let dotInner = null;
 
                     if (entry.type === "responded" || entry.type === "confirmed") {
-                      dotClass += "bg-[#006b5f]";
+                      dotClass += "bg-[#A87813]";
                       dotInner = (
                         <span className="material-symbols-outlined text-white text-[10px]" style={{ fontVariationSettings: "'FILL' 1" }}>check</span>
                       );
@@ -719,8 +719,8 @@ export default function AdminViewingDetailPage() {
                         <span className="material-symbols-outlined text-white text-[10px]" style={{ fontVariationSettings: "'FILL' 1" }}>close</span>
                       );
                     } else {
-                      dotClass += "bg-[#14b8a6]/20";
-                      dotInner = <div className="w-2 h-2 rounded-full bg-[#14b8a6]" />;
+                      dotClass += "bg-[#D9A441]/20";
+                      dotInner = <div className="w-2 h-2 rounded-full bg-[#D9A441]" />;
                     }
 
                     return (

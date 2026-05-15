@@ -223,7 +223,7 @@ export default function AvailabilityGrid({
                 if (highlighted) {
                   cellClass += " bg-green-500";
                 } else if (selected) {
-                  cellClass += " bg-[#006b5f]";
+                  cellClass += " bg-[#A87813]";
                 } else {
                   cellClass += " bg-[#f1f3f5]";
                 }
@@ -284,7 +284,7 @@ export default function AvailabilityGrid({
           Available
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="inline-block w-3 h-3 rounded bg-[#006b5f]" />
+          <span className="inline-block w-3 h-3 rounded bg-[#A87813]" />
           Selected
         </span>
         {highlightSlot && (

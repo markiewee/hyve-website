@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { supabase } from "../../lib/supabase";
 import { useLanguage } from "../../i18n/LanguageContext";
+import Wordmark from "../../components/Wordmark";
 
 export default function LoginPage() {
   const { signIn } = useAuth();
@@ -49,7 +50,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-[#f8f9ff]">
       {/* Left editorial panel */}
-      <section className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#006b5f]">
+      <section className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#A87813]">
         <div className="absolute inset-0 opacity-40 mix-blend-overlay">
           <img
             className="w-full h-full object-cover"
@@ -57,10 +58,10 @@ export default function LoginPage() {
             alt="Modern architecture"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#006b5f] via-[#006b5f]/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#A87813] via-[#A87813]/80 to-transparent" />
         <div className="relative z-10 flex flex-col justify-between p-16 w-full">
           <div>
-            <img src="/lazybee-logo.png" alt="Lazybee" className="h-10 brightness-0 invert" />
+            <Wordmark size="lg" className="!text-white [&>span]:!text-white" />
           </div>
           <div className="max-w-md">
             <h1 className="font-['Plus_Jakarta_Sans'] text-5xl font-bold text-white leading-tight tracking-tight mb-8">
@@ -96,7 +97,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           <div className="mb-12">
             <div className="lg:hidden mb-8">
-              <img src="/lazybee-logo.png" alt="Lazybee" className="h-8" />
+              <Wordmark size="md" />
             </div>
             <div className="flex items-center justify-between mb-3">
               <h2 className="font-['Plus_Jakarta_Sans'] text-3xl font-bold text-[#121c2a] tracking-tight">
@@ -107,8 +108,8 @@ export default function LoginPage() {
                   onClick={() => setLanguage("en")}
                   className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
                     lang === "en"
-                      ? "bg-[#006b5f] text-white"
-                      : "text-[#6c7a77] hover:text-[#006b5f]"
+                      ? "bg-[#A87813] text-white"
+                      : "text-[#6c7a77] hover:text-[#A87813]"
                   }`}
                 >
                   EN
@@ -118,8 +119,8 @@ export default function LoginPage() {
                   onClick={() => setLanguage("zh")}
                   className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
                     lang === "zh"
-                      ? "bg-[#006b5f] text-white"
-                      : "text-[#6c7a77] hover:text-[#006b5f]"
+                      ? "bg-[#A87813] text-white"
+                      : "text-[#6c7a77] hover:text-[#A87813]"
                   }`}
                 >
                   中文
@@ -147,11 +148,11 @@ export default function LoginPage() {
                 {t("login.username")}
               </label>
               <div className="relative group">
-                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#6c7a77] group-focus-within:text-[#006b5f] transition-colors">
+                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#6c7a77] group-focus-within:text-[#A87813] transition-colors">
                   person
                 </span>
                 <input
-                  className="w-full pl-12 pr-4 py-4 bg-[#eff4ff] border-0 rounded-xl font-['Inter'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none transition-all placeholder:text-[#6c7a77]/50"
+                  className="w-full pl-12 pr-4 py-4 bg-[#eff4ff] border-0 rounded-xl font-['Inter'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none transition-all placeholder:text-[#6c7a77]/50"
                   id="identifier"
                   type="text"
                   autoComplete="username"
@@ -172,7 +173,7 @@ export default function LoginPage() {
               </label>
               <div className="relative group">
                 <input
-                  className="w-full px-4 py-4 bg-[#eff4ff] border-0 rounded-xl font-['Inter'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none transition-all"
+                  className="w-full px-4 py-4 bg-[#eff4ff] border-0 rounded-xl font-['Inter'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none transition-all"
                   id="password"
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
@@ -184,7 +185,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-[#6c7a77] cursor-pointer hover:text-[#006b5f] transition-colors"
+                  className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-[#6c7a77] cursor-pointer hover:text-[#A87813] transition-colors"
                 >
                   {showPassword ? "visibility_off" : "visibility"}
                 </button>
@@ -193,13 +194,13 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={handleForgotPassword}
-                  className="text-xs font-['Manrope'] font-medium text-[#006b5f] hover:underline transition-colors"
+                  className="text-xs font-['Manrope'] font-medium text-[#A87813] hover:underline transition-colors"
                 >
                   {t("login.forgotPassword")}
                 </button>
               </div>
               {resetSent && (
-                <p className="text-xs font-['Manrope'] text-[#006b5f] mt-1">
+                <p className="text-xs font-['Manrope'] text-[#A87813] mt-1">
                   {t("login.resetSent")}
                 </p>
               )}
@@ -211,7 +212,7 @@ export default function LoginPage() {
             </div>
 
             <button
-              className="w-full py-5 bg-[#006b5f] text-white rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#006a61] transition-all duration-300 shadow-lg shadow-[#006b5f]/20 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-5 bg-[#A87813] text-white rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#006a61] transition-all duration-300 shadow-lg shadow-[#A87813]/20 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
               type="submit"
               disabled={submitting}
             >

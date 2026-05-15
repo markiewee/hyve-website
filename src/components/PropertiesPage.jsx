@@ -132,22 +132,22 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
         />
         <div className="absolute top-6 left-6 flex gap-2">
           {property.availableRooms > 0 && (
-            <span className="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#006b5f]">
+            <span className="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#A87813]">
               {property.availableRooms} Available
             </span>
           )}
           {property.featured && (
-            <span className="bg-[#006b5f] px-4 py-1.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-white">
+            <span className="bg-[#A87813] px-4 py-1.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-white">
               Featured
             </span>
           )}
         </div>
         <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/70 backdrop-blur-xl rounded-2xl transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
           <div className="flex justify-between items-center">
-            <span className="font-['Plus_Jakarta_Sans'] font-bold text-teal-900">
+            <span className="font-['Plus_Jakarta_Sans'] font-bold text-honey-900">
               {property.availableRooms > 0 ? t('public.hero.roomsAvailable') : t('public.properties.viewDetails')}
             </span>
-            <span className="material-symbols-outlined text-teal-600">arrow_forward</span>
+            <span className="material-symbols-outlined text-honey-700">arrow_forward</span>
           </div>
         </div>
       </div>
@@ -161,7 +161,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
             </p>
           </div>
           <div className="text-right">
-            <p className="text-lg font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
+            <p className="text-lg font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
               ${property.startingPrice}<span className="text-xs font-normal text-[#555f6f]">{t('public.properties.perMonth')}</span>
             </p>
           </div>
@@ -229,7 +229,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
           </div>
           {/* Filter Bar */}
           <div className="w-full md:w-auto flex flex-wrap gap-3">
-            <div className="bg-white rounded-xl p-2 flex items-center outline-1 outline-[rgba(187,202,198,0.15)] focus-within:outline-[#006b5f] px-4 py-3 min-w-[240px]">
+            <div className="bg-white rounded-xl p-2 flex items-center outline-1 outline-[rgba(187,202,198,0.15)] focus-within:outline-[#A87813] px-4 py-3 min-w-[240px]">
               <span className="material-symbols-outlined text-[#6c7a77] mr-2">search</span>
               <input
                 className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm font-['Manrope'] w-full"
@@ -244,7 +244,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
                 setLocalFilters({});
                 if (setSearchFilters) setSearchFilters({});
               }}
-              className="flex items-center gap-2 bg-[#14b8a6]/20 text-[#006b5f] px-5 py-3 rounded-xl font-['Inter'] text-sm font-semibold hover:bg-[#14b8a6]/30 transition-colors"
+              className="flex items-center gap-2 bg-[#D9A441]/20 text-[#A87813] px-5 py-3 rounded-xl font-['Inter'] text-sm font-semibold hover:bg-[#D9A441]/30 transition-colors"
             >
               <span className="material-symbols-outlined text-sm">filter_list</span>
               {t('public.properties.clearFilters')}
@@ -277,7 +277,7 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
                 setLocalFilters({});
                 if (setSearchFilters) setSearchFilters({});
               }}
-              className="bg-[#006b5f] text-white px-6 py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold hover:opacity-90 transition-all"
+              className="bg-[#A87813] text-white px-6 py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold hover:opacity-90 transition-all"
             >
               {t('public.properties.clearFilters')}
             </button>

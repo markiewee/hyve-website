@@ -104,7 +104,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
             </span>
             <h1 className="font-['Plus_Jakarta_Sans'] text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tighter text-[#121c2a] leading-[1.1] mb-8">
               The Sanctuary of <br />
-              <span className="text-[#14b8a6]">Shared Living.</span>
+              <span className="text-[#D9A441]">Shared Living.</span>
             </h1>
             <p className="text-lg text-[#3c4947] font-['Manrope'] leading-relaxed mb-10 max-w-lg">
               {heroContent.subtitle}
@@ -112,13 +112,13 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
             <div className="flex flex-wrap gap-4">
               <Link
                 to="/locations"
-                className="bg-[#006b5f] text-white px-8 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:shadow-lg transition-all inline-block"
+                className="bg-[#A87813] text-white px-8 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:shadow-lg transition-all inline-block"
               >
                 {t('public.hero.exploreLocations')}
               </Link>
               <Link
                 to="/about"
-                className="bg-[#14b8a6]/20 text-[#006b5f] px-8 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#14b8a6]/30 transition-all inline-block"
+                className="bg-[#D9A441]/20 text-[#A87813] px-8 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#D9A441]/30 transition-all inline-block"
               >
                 {t('public.hero.ourStory')}
               </Link>
@@ -237,7 +237,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
             </div>
             <Link
               to="/locations"
-              className="font-['Plus_Jakarta_Sans'] font-bold text-[#006b5f] flex items-center gap-2 hover:translate-x-1 transition-all"
+              className="font-['Plus_Jakarta_Sans'] font-bold text-[#A87813] flex items-center gap-2 hover:translate-x-1 transition-all"
             >
               {t('public.hero.viewAllLocations')} <span className="material-symbols-outlined">arrow_forward</span>
             </Link>
@@ -267,7 +267,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#121c2a]/80 to-transparent"></div>
                 <div className="absolute bottom-10 left-10 text-white">
                   <div className="flex gap-2 mb-4">
-                    <span className="px-3 py-1 bg-[#14b8a6] text-[10px] font-['Inter'] font-black uppercase tracking-widest rounded-full">
+                    <span className="px-3 py-1 bg-[#D9A441] text-[10px] font-['Inter'] font-black uppercase tracking-widest rounded-full">
                       {featuredProperties[0].neighborhood?.name || 'Singapore'}
                     </span>
                     {featuredProperties[0].availableRooms > 0 && (
@@ -320,7 +320,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
       <section className="py-24 px-6 md:px-8 bg-[#dee9fc] relative overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col items-center">
           <span
-            className="material-symbols-outlined text-[#006b5f] text-6xl mb-8"
+            className="material-symbols-outlined text-[#A87813] text-6xl mb-8"
             style={{ fontVariationSettings: "'FILL' 1" }}
           >
             format_quote
@@ -330,8 +330,8 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
               &ldquo;I moved to Singapore for work and found a community. The balance of private space with incredible social events at Lazybee made my transition seamless.&rdquo;
             </h2>
             <div className="flex flex-col items-center">
-              <div className="w-20 h-20 rounded-full border-4 border-white shadow-[0_20px_40px_rgba(18,28,42,0.06)] overflow-hidden mb-4 bg-teal-100 flex items-center justify-center">
-                <span className="material-symbols-outlined text-teal-600 text-3xl">person</span>
+              <div className="w-20 h-20 rounded-full border-4 border-white shadow-[0_20px_40px_rgba(18,28,42,0.06)] overflow-hidden mb-4 bg-honey-100 flex items-center justify-center">
+                <span className="material-symbols-outlined text-honey-700 text-3xl">person</span>
               </div>
               <p className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-lg">Rebekah F.</p>
               <p className="font-['Inter'] text-xs text-[#3c4947] uppercase tracking-widest">
@@ -340,12 +340,12 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
             </div>
           </div>
         </div>
-        <div className="absolute -bottom-48 -left-48 w-96 h-96 bg-[#006b5f]/5 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-48 -left-48 w-96 h-96 bg-[#A87813]/5 rounded-full blur-3xl"></div>
       </section>
 
       {/* CTA Section */}
       <section className="py-24 px-6 md:px-8">
-        <div className="max-w-5xl mx-auto bg-[#006b5f] rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-[0_20px_40px_rgba(18,28,42,0.06)]">
+        <div className="max-w-5xl mx-auto bg-[#A87813] rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-[0_20px_40px_rgba(18,28,42,0.06)]">
           <div className="relative z-10">
             <h2 className="font-['Plus_Jakarta_Sans'] text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-6">
               {t('public.hero.ctaTitle')}
@@ -356,7 +356,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
             <div className="flex flex-wrap justify-center gap-4">
               <Link
                 to="/properties"
-                className="bg-white text-[#006b5f] px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-slate-50 transition-all inline-block"
+                className="bg-white text-[#A87813] px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-slate-50 transition-all inline-block"
               >
                 {t('public.hero.findHome')}
               </Link>
@@ -373,7 +373,7 @@ const HomePage = ({ searchFilters, setSearchFilters }) => {
           {/* Abstract visual noise */}
           <div className="absolute inset-0 opacity-20 pointer-events-none">
             <div className="absolute top-0 right-0 w-96 h-96 bg-white blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2"></div>
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#14b8a6] blur-[120px] rounded-full -translate-x-1/2 translate-y-1/2"></div>
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#D9A441] blur-[120px] rounded-full -translate-x-1/2 translate-y-1/2"></div>
           </div>
         </div>
       </section>

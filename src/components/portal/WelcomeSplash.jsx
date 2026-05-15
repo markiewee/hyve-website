@@ -28,9 +28,9 @@ function GuideCard({ icon, title, content }) {
   return (
     <div className="bg-white border border-[#bbcac6]/15 rounded-2xl p-6 shadow-sm">
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-xl bg-[#006b5f]/10 flex items-center justify-center shrink-0">
+        <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
           <span
-            className="material-symbols-outlined text-[#006b5f] text-[20px]"
+            className="material-symbols-outlined text-[#A87813] text-[20px]"
             style={{ fontVariationSettings: "'FILL' 1" }}
           >
             {icon}
@@ -69,9 +69,9 @@ export default function WelcomeSplash({ onContinue }) {
   return (
     <div className="space-y-6">
       <div className="text-center py-4">
-        <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#006b5f]/10 flex items-center justify-center">
+        <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#A87813]/10 flex items-center justify-center">
           <span
-            className="material-symbols-outlined text-[#006b5f] text-[36px]"
+            className="material-symbols-outlined text-[#A87813] text-[36px]"
             style={{ fontVariationSettings: "'FILL' 1" }}
           >
             celebration
@@ -113,7 +113,7 @@ export default function WelcomeSplash({ onContinue }) {
       <div className="text-center pt-4">
         <Button
           onClick={onContinue}
-          className="bg-[#006b5f] hover:bg-[#005a50] text-white font-['Manrope'] font-bold px-8 py-3 rounded-xl text-sm"
+          className="bg-[#A87813] hover:bg-[#005a50] text-white font-['Manrope'] font-bold px-8 py-3 rounded-xl text-sm"
         >
           <span className="material-symbols-outlined text-[18px] mr-2">arrow_forward</span>
           Let's Get Started

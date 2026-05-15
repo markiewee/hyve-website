@@ -273,21 +273,21 @@ function FullyExecutedView({ onboarding }) {
   return (
     <div className="space-y-6">
       {/* Fully executed banner */}
-      <div className="rounded-lg border border-[#006b5f]/30 bg-[#006b5f]/5 p-5">
+      <div className="rounded-lg border border-[#A87813]/30 bg-[#A87813]/5 p-5">
         <div className="flex items-start gap-3">
-          <div className="mt-0.5 flex-shrink-0 w-8 h-8 rounded-full bg-[#006b5f]/10 flex items-center justify-center">
-            <svg className="w-4 h-4 text-[#006b5f]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="mt-0.5 flex-shrink-0 w-8 h-8 rounded-full bg-[#A87813]/10 flex items-center justify-center">
+            <svg className="w-4 h-4 text-[#A87813]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <p className="text-sm font-semibold text-[#006b5f]">Agreement fully executed</p>
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#006b5f] text-white uppercase tracking-wide">
+              <p className="text-sm font-semibold text-[#A87813]">Agreement fully executed</p>
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#A87813] text-white uppercase tracking-wide">
                 Completed
               </span>
             </div>
-            <p className="text-xs text-[#006b5f]/80 mt-0.5">
+            <p className="text-xs text-[#A87813]/80 mt-0.5">
               Both parties have signed. Your tenancy agreement is legally binding.
             </p>
           </div>

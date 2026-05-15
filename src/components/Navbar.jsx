@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '../i18n/LanguageContext';
+import Wordmark from './Wordmark';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,8 +24,8 @@ const Navbar = () => {
       <div className="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
         {/* Left: Logo + Links */}
         <div className="flex items-center gap-12">
-          <Link to="/">
-            <img src="/lazybee-logo.png" alt="Lazybee" className="h-8" />
+          <Link to="/" aria-label="Lazybee home">
+            <Wordmark size="md" />
           </Link>
           <div className="hidden md:flex items-center gap-8">
             {navigation.map((item) => (
@@ -33,8 +34,8 @@ const Navbar = () => {
                 to={item.href}
                 className={`font-['Plus_Jakarta_Sans'] font-bold tracking-tight transition-colors duration-300 ${
                   isActive(item.href)
-                    ? 'text-teal-700 border-b-2 border-teal-600 pb-1'
-                    : 'text-slate-600 hover:text-teal-500'
+                    ? 'text-honey-800 border-b-2 border-honey-700 pb-1'
+                    : 'text-slate-600 hover:text-honey-500'
                 }`}
               >
                 {item.name}
@@ -47,13 +48,13 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-4">
           <Link
             to="/portal/login"
-            className="font-['Plus_Jakarta_Sans'] font-bold tracking-tight text-slate-600 hover:text-teal-600 px-4 py-2 transition-all text-sm"
+            className="font-['Plus_Jakarta_Sans'] font-bold tracking-tight text-slate-600 hover:text-honey-700 px-4 py-2 transition-all text-sm"
           >
             {t('public.nav.login')}
           </Link>
           <Link
             to="/contact"
-            className="bg-[#006b5f] text-white font-['Plus_Jakarta_Sans'] font-bold tracking-tight px-6 py-2.5 rounded-xl hover:opacity-90 active:scale-95 transition-all shadow-sm text-sm"
+            className="bg-[#A87813] text-white font-['Plus_Jakarta_Sans'] font-bold tracking-tight px-6 py-2.5 rounded-xl hover:opacity-90 active:scale-95 transition-all shadow-sm text-sm"
           >
             {t('public.nav.getInTouch')}
           </Link>
@@ -81,8 +82,8 @@ const Navbar = () => {
                 onClick={() => setIsOpen(false)}
                 className={`block px-4 py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold tracking-tight transition-colors ${
                   isActive(item.href)
-                    ? 'text-teal-700 bg-teal-50'
-                    : 'text-slate-600 hover:text-teal-500 hover:bg-slate-50'
+                    ? 'text-honey-800 bg-honey-50'
+                    : 'text-slate-600 hover:text-honey-500 hover:bg-slate-50'
                 }`}
               >
                 {item.name}
@@ -99,7 +100,7 @@ const Navbar = () => {
               <Link
                 to="/contact"
                 onClick={() => setIsOpen(false)}
-                className="block text-center bg-[#006b5f] text-white font-['Plus_Jakarta_Sans'] font-bold px-6 py-3 rounded-xl"
+                className="block text-center bg-[#A87813] text-white font-['Plus_Jakarta_Sans'] font-bold px-6 py-3 rounded-xl"
               >
                 {t('public.nav.getInTouch')}
               </Link>

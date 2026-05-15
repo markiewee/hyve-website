@@ -140,8 +140,8 @@ function StepContent({ currentStep, onboarding, advanceStep, updateOnboarding, r
           <ActiveStepNotifier onboarding={onboarding} profile={profile} />
           {/* Welcome banner */}
           <div className="text-center mb-10">
-            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-[#006b5f]/10 flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#006b5f] text-[40px]" style={{ fontVariationSettings: "'FILL' 1" }}>celebration</span>
+            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-[#A87813]/10 flex items-center justify-center">
+              <span className="material-symbols-outlined text-[#A87813] text-[40px]" style={{ fontVariationSettings: "'FILL' 1" }}>celebration</span>
             </div>
             <h3 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#121c2a] mb-3">
               Welcome to the Lazybee Community!
@@ -154,27 +154,27 @@ function StepContent({ currentStep, onboarding, advanceStep, updateOnboarding, r
           {/* Quick Start Guide */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10 max-w-2xl mx-auto">
             <div className="bg-white border border-[#bbcac6]/15 rounded-xl p-5 space-y-2">
-              <span className="material-symbols-outlined text-[#006b5f] text-[24px]">dashboard</span>
+              <span className="material-symbols-outlined text-[#A87813] text-[24px]">dashboard</span>
               <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a]">Your Dashboard</h4>
               <p className="text-xs text-[#555f6f] font-['Manrope'] leading-relaxed">Track your AC usage, rent status, and manage everything from one place.</p>
             </div>
             <div className="bg-white border border-[#bbcac6]/15 rounded-xl p-5 space-y-2">
-              <span className="material-symbols-outlined text-[#006b5f] text-[24px]">payments</span>
+              <span className="material-symbols-outlined text-[#A87813] text-[24px]">payments</span>
               <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a]">Pay Rent</h4>
               <p className="text-xs text-[#555f6f] font-['Manrope'] leading-relaxed">Rent is due on the 1st of each month. Pay via bank transfer or card in the Billing section.</p>
             </div>
             <div className="bg-white border border-[#bbcac6]/15 rounded-xl p-5 space-y-2">
-              <span className="material-symbols-outlined text-[#006b5f] text-[24px]">build</span>
+              <span className="material-symbols-outlined text-[#A87813] text-[24px]">build</span>
               <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a]">Report Issues</h4>
               <p className="text-xs text-[#555f6f] font-['Manrope'] leading-relaxed">AC not working? Leaky tap? Report maintenance issues and we'll handle it ASAP.</p>
             </div>
             <div className="bg-white border border-[#bbcac6]/15 rounded-xl p-5 space-y-2">
-              <span className="material-symbols-outlined text-[#006b5f] text-[24px]">folder_open</span>
+              <span className="material-symbols-outlined text-[#A87813] text-[24px]">folder_open</span>
               <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a]">Your Documents</h4>
               <p className="text-xs text-[#555f6f] font-['Manrope'] leading-relaxed">View your tenancy agreement and upload documents like stamping certificates.</p>
             </div>
             <div className="bg-white border border-[#bbcac6]/15 rounded-xl p-5 space-y-2 sm:col-span-2">
-              <span className="material-symbols-outlined text-[#006b5f] text-[24px]">support_agent</span>
+              <span className="material-symbols-outlined text-[#A87813] text-[24px]">support_agent</span>
               <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a]">Need Help?</h4>
               <p className="text-xs text-[#555f6f] font-['Manrope'] leading-relaxed">WhatsApp us anytime at <strong>+65 8088 5410</strong> or email <strong>admin@lazybee.sg</strong>. We typically respond within an hour.</p>
             </div>
@@ -183,7 +183,7 @@ function StepContent({ currentStep, onboarding, advanceStep, updateOnboarding, r
           <div className="text-center">
             <Link
               to="/portal/dashboard"
-              className="inline-flex items-center gap-2 bg-[#006b5f] text-white rounded-xl px-8 py-4 font-['Manrope'] font-bold text-base hover:bg-[#006a61] transition-colors shadow-lg shadow-[#006b5f]/20"
+              className="inline-flex items-center gap-2 bg-[#A87813] text-white rounded-xl px-8 py-4 font-['Manrope'] font-bold text-base hover:bg-[#006a61] transition-colors shadow-lg shadow-[#A87813]/20"
             >
               <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
               Go to My Dashboard
@@ -217,7 +217,7 @@ function OnboardingContent() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f8f9ff]">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 rounded-full border-2 border-[#006b5f]/30 border-t-[#006b5f] animate-spin" />
+          <div className="w-10 h-10 rounded-full border-2 border-[#A87813]/30 border-t-[#A87813] animate-spin" />
           <p className="font-['Manrope'] text-[#555f6f] text-sm">
             Loading your onboarding…
           </p>
@@ -244,7 +244,7 @@ function OnboardingContent() {
           </p>
           <Link
             to="/portal/dashboard"
-            className="inline-flex items-center gap-2 bg-[#eff4ff] text-[#006b5f] rounded-xl px-5 py-2.5 font-['Manrope'] font-semibold text-sm hover:bg-[#e6eeff] transition-colors"
+            className="inline-flex items-center gap-2 bg-[#eff4ff] text-[#A87813] rounded-xl px-5 py-2.5 font-['Manrope'] font-semibold text-sm hover:bg-[#e6eeff] transition-colors"
           >
             Back to Dashboard
           </Link>
@@ -272,7 +272,7 @@ function OnboardingContent() {
             to="/portal/dashboard"
             className="flex items-center gap-2 group"
           >
-            <div className="w-7 h-7 rounded-lg bg-[#006b5f] flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-[#A87813] flex items-center justify-center">
               <span
                 className="material-symbols-outlined text-white text-[14px]"
                 style={{ fontVariationSettings: "'FILL' 1" }}
@@ -280,13 +280,13 @@ function OnboardingContent() {
                 home
               </span>
             </div>
-            <span className="font-['Plus_Jakarta_Sans'] font-extrabold text-[#121c2a] text-sm group-hover:text-[#006b5f] transition-colors">
+            <span className="font-['Plus_Jakarta_Sans'] font-extrabold text-[#121c2a] text-sm group-hover:text-[#A87813] transition-colors">
               Lazybee Portal
             </span>
           </Link>
           <div className="flex items-center gap-3">
             {unitCode && (
-              <span className="font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#006b5f] px-2.5 py-1 rounded-lg">
+              <span className="font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#A87813] px-2.5 py-1 rounded-lg">
                 {unitCode}
               </span>
             )}
@@ -299,7 +299,7 @@ function OnboardingContent() {
         {currentStep !== "ACTIVE" && (
           <div className="h-0.5 bg-[#eff4ff]">
             <div
-              className="h-full bg-[#006b5f] transition-all duration-500"
+              className="h-full bg-[#A87813] transition-all duration-500"
               style={{ width: `${progressPct}%` }}
             />
           </div>
@@ -311,7 +311,7 @@ function OnboardingContent() {
           {/* Page heading */}
           <div className="mb-10">
             {profile?.full_name && (
-              <p className="font-['Manrope'] text-[#006b5f] font-semibold text-sm mb-1">
+              <p className="font-['Manrope'] text-[#A87813] font-semibold text-sm mb-1">
                 Welcome, {profile.full_name.split(" ")[0]}
               </p>
             )}
@@ -349,9 +349,9 @@ function OnboardingContent() {
                           <div
                             className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
                               isCompleted
-                                ? "bg-[#006b5f]"
+                                ? "bg-[#A87813]"
                                 : isCurrent
-                                ? "bg-[#006b5f]/10 border-2 border-[#006b5f]"
+                                ? "bg-[#A87813]/10 border-2 border-[#A87813]"
                                 : "bg-[#eff4ff] border border-[#bbcac6]/30"
                             }`}
                           >
@@ -365,7 +365,7 @@ function OnboardingContent() {
                             ) : (
                               <span
                                 className={`material-symbols-outlined text-[14px] ${
-                                  isCurrent ? "text-[#006b5f]" : "text-[#bbcac6]"
+                                  isCurrent ? "text-[#A87813]" : "text-[#bbcac6]"
                                 }`}
                                 style={
                                   isCurrent
@@ -380,7 +380,7 @@ function OnboardingContent() {
                           {idx < REGISTRATION_STEPS.length - 1 && (
                             <div
                               className={`w-0.5 h-4 mt-1 ${
-                                isCompleted ? "bg-[#006b5f]" : "bg-[#eff4ff]"
+                                isCompleted ? "bg-[#A87813]" : "bg-[#eff4ff]"
                               }`}
                             />
                           )}
@@ -391,14 +391,14 @@ function OnboardingContent() {
                               isCurrent
                                 ? "text-[#121c2a]"
                                 : isCompleted
-                                ? "text-[#006b5f]"
+                                ? "text-[#A87813]"
                                 : "text-[#bbcac6]"
                             }`}
                           >
                             {STEP_LABELS[step] ?? step}
                           </p>
                           {isCurrent && (
-                            <span className="font-['Inter'] text-[10px] font-bold uppercase tracking-widest text-[#006b5f]">
+                            <span className="font-['Inter'] text-[10px] font-bold uppercase tracking-widest text-[#A87813]">
                               Current
                             </span>
                           )}
@@ -444,9 +444,9 @@ function OnboardingContent() {
                                 <div
                                   className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
                                     isCompleted
-                                      ? "bg-[#006b5f]"
+                                      ? "bg-[#A87813]"
                                       : isCurrent
-                                      ? "bg-[#006b5f]/10 border-2 border-[#006b5f]"
+                                      ? "bg-[#A87813]/10 border-2 border-[#A87813]"
                                       : "bg-[#eff4ff] border border-[#bbcac6]/30"
                                   }`}
                                 >
@@ -460,7 +460,7 @@ function OnboardingContent() {
                                   ) : (
                                     <span
                                       className={`material-symbols-outlined text-[14px] ${
-                                        isCurrent ? "text-[#006b5f]" : "text-[#bbcac6]"
+                                        isCurrent ? "text-[#A87813]" : "text-[#bbcac6]"
                                       }`}
                                       style={
                                         isCurrent
@@ -475,7 +475,7 @@ function OnboardingContent() {
                                 {idx < ONBOARDING_STEPS.length - 1 && (
                                   <div
                                     className={`w-0.5 h-4 mt-1 ${
-                                      isCompleted ? "bg-[#006b5f]" : "bg-[#eff4ff]"
+                                      isCompleted ? "bg-[#A87813]" : "bg-[#eff4ff]"
                                     }`}
                                   />
                                 )}
@@ -486,14 +486,14 @@ function OnboardingContent() {
                                     isCurrent
                                       ? "text-[#121c2a]"
                                       : isCompleted
-                                      ? "text-[#006b5f]"
+                                      ? "text-[#A87813]"
                                       : "text-[#bbcac6]"
                                   }`}
                                 >
                                   {STEP_LABELS[step] ?? step}
                                 </p>
                                 {isCurrent && (
-                                  <span className="font-['Inter'] text-[10px] font-bold uppercase tracking-widest text-[#006b5f]">
+                                  <span className="font-['Inter'] text-[10px] font-bold uppercase tracking-widest text-[#A87813]">
                                     Current
                                   </span>
                                 )}
@@ -513,13 +513,13 @@ function OnboardingContent() {
                       <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
                         Overall
                       </span>
-                      <span className="font-['Inter'] text-[10px] font-bold text-[#006b5f]">
+                      <span className="font-['Inter'] text-[10px] font-bold text-[#A87813]">
                         {progressPct}%
                       </span>
                     </div>
                     <div className="h-1 bg-[#eff4ff] rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-[#006b5f] rounded-full transition-all duration-500"
+                        className="h-full bg-[#A87813] rounded-full transition-all duration-500"
                         style={{ width: `${progressPct}%` }}
                       />
                     </div>
@@ -534,9 +534,9 @@ function OnboardingContent() {
                 {currentStep !== "ACTIVE" && (
                   <div className="mb-8 pb-8 border-b border-[#bbcac6]/10">
                     <div className="flex items-center gap-3 mb-2">
-                      <div className="w-10 h-10 rounded-xl bg-[#006b5f]/10 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center">
                         <span
-                          className="material-symbols-outlined text-[#006b5f] text-[20px]"
+                          className="material-symbols-outlined text-[#A87813] text-[20px]"
                           style={{ fontVariationSettings: "'FILL' 1" }}
                         >
                           {STEP_ICONS[currentStep] || "circle"}

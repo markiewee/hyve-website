@@ -96,7 +96,7 @@ const DEFAULT_SCHEDULE = [
     descriptionZh: "更换所有单元的空调滤网以保证最佳空气质量",
     frequency: "Every 6 months",
     frequencyZh: "每6个月",
-    color: "#14b8a6",
+    color: "#D9A441",
     months: [1, 7],
   },
 ];
@@ -130,7 +130,7 @@ export default function MaintenanceSchedulePage() {
 
   const getStatusBadge = (daysUntil) => {
     if (daysUntil <= 0)
-      return { text: isZh ? "本月" : "This month", class: "bg-[#006b5f] text-white" };
+      return { text: isZh ? "本月" : "This month", class: "bg-[#A87813] text-white" };
     if (daysUntil <= 30)
       return { text: isZh ? "即将到来" : "Coming soon", class: "bg-amber-100 text-amber-700" };
     return { text: isZh ? "已安排" : "Scheduled", class: "bg-[#eff4ff] text-[#555f6f]" };
@@ -152,7 +152,7 @@ export default function MaintenanceSchedulePage() {
       {/* Upcoming maintenance */}
       <div className="mb-8">
         <h2 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#121c2a] mb-4 flex items-center gap-2">
-          <span className="material-symbols-outlined text-[20px] text-[#006b5f]">upcoming</span>
+          <span className="material-symbols-outlined text-[20px] text-[#A87813]">upcoming</span>
           {isZh ? "即将到来的维护" : "Upcoming Maintenance"}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -199,7 +199,7 @@ export default function MaintenanceSchedulePage() {
       {/* Annual calendar view */}
       <div className="mb-8">
         <h2 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#121c2a] mb-4 flex items-center gap-2">
-          <span className="material-symbols-outlined text-[20px] text-[#006b5f]">calendar_month</span>
+          <span className="material-symbols-outlined text-[20px] text-[#A87813]">calendar_month</span>
           {isZh ? `${currentYear}年维护日历` : `${currentYear} Maintenance Calendar`}
         </h2>
         <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
@@ -213,7 +213,7 @@ export default function MaintenanceSchedulePage() {
                 key={i}
                 className={`py-3 px-1 font-['Inter'] text-[10px] font-bold uppercase tracking-wider ${
                   i + 1 === currentMonth
-                    ? "bg-[#006b5f] text-white"
+                    ? "bg-[#A87813] text-white"
                     : "text-[#6c7a77]"
                 }`}
               >
@@ -239,7 +239,7 @@ export default function MaintenanceSchedulePage() {
                   <div
                     key={month}
                     className={`py-3 flex items-center justify-center ${
-                      isCurrent ? "bg-[#006b5f]/5" : ""
+                      isCurrent ? "bg-[#A87813]/5" : ""
                     }`}
                   >
                     {isScheduled && (
@@ -277,7 +277,7 @@ export default function MaintenanceSchedulePage() {
 
       {/* Info note */}
       <div className="bg-[#eff4ff] rounded-xl p-5 flex items-start gap-3">
-        <span className="material-symbols-outlined text-[#006b5f] text-[20px] shrink-0 mt-0.5">info</span>
+        <span className="material-symbols-outlined text-[#A87813] text-[20px] shrink-0 mt-0.5">info</span>
         <div>
           <p className="font-['Manrope'] text-sm text-[#3c4947]">
             {isZh

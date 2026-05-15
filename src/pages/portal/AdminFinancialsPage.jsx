@@ -166,7 +166,7 @@ function PropertyPnL({ property, data }) {
           </div>
           <div
             className={`rounded-xl p-5 text-center ${
-              netProfit >= 0 ? "bg-[#006b5f]" : "bg-[#ffdad6]"
+              netProfit >= 0 ? "bg-[#A87813]" : "bg-[#ffdad6]"
             }`}
           >
             <p
@@ -448,7 +448,7 @@ export default function AdminFinancialsPage() {
           <select
             value={selectedPropertyId}
             onChange={(e) => setSelectedPropertyId(e.target.value)}
-            className="h-10 px-4 rounded-xl border border-[#bbcac6]/30 bg-white font-['Manrope'] text-sm text-[#121c2a] focus:outline-none focus:ring-2 focus:ring-[#006b5f]/30"
+            className="h-10 px-4 rounded-xl border border-[#bbcac6]/30 bg-white font-['Manrope'] text-sm text-[#121c2a] focus:outline-none focus:ring-2 focus:ring-[#A87813]/30"
           >
             <option value="ALL">All Properties</option>
             <option value="OPS">Ops (No Property)</option>
@@ -478,7 +478,7 @@ export default function AdminFinancialsPage() {
             label="Net Profit"
             value={totals.netProfit}
             color={totals.netProfit >= 0 ? "text-white" : "text-[#ffdad6]"}
-            bgClass={totals.netProfit >= 0 ? "bg-[#006b5f]" : "bg-[#ffdad6]"}
+            bgClass={totals.netProfit >= 0 ? "bg-[#A87813]" : "bg-[#ffdad6]"}
           />
         </div>
       )}
@@ -488,7 +488,7 @@ export default function AdminFinancialsPage() {
         <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm mb-8">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-[#006b5f] text-[24px]">lock</span>
+              <span className="material-symbols-outlined text-[#A87813] text-[24px]">lock</span>
               <div>
                 <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
                   Finalize Month
@@ -515,7 +515,7 @@ export default function AdminFinancialsPage() {
             <button
               onClick={handleFinalizeMonth}
               disabled={finalizing}
-              className="px-6 py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+              className="px-6 py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
             >
               <span className="material-symbols-outlined text-[18px]">check_circle</span>
               {finalizing ? "Finalizing..." : currentMonthStatus === "FINALIZED" ? "Re-finalize" : "Finalize Month"}
@@ -542,7 +542,7 @@ export default function AdminFinancialsPage() {
         <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden mb-8">
           <div className="px-6 py-5 border-b border-[#bbcac6]/15">
             <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#006b5f] text-[20px]">calendar_month</span>
+              <span className="material-symbols-outlined text-[#A87813] text-[20px]">calendar_month</span>
               Finalization Status
             </h3>
           </div>
@@ -567,7 +567,7 @@ export default function AdminFinancialsPage() {
                     <td className="px-4 py-3 font-['Manrope'] text-sm text-[#6c7a77]">
                       {mf.properties?.name ?? "—"}
                       {mf.properties?.code && (
-                        <span className="ml-1.5 font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#006b5f] px-1.5 py-0.5 rounded">
+                        <span className="ml-1.5 font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#A87813] px-1.5 py-0.5 rounded">
                           {mf.properties.code}
                         </span>
                       )}

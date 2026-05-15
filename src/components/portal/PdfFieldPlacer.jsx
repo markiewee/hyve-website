@@ -16,7 +16,7 @@ const FIELD_TYPES = [
   { key: "PROPERTY_ADDRESS", label: "Address", color: "#ef4444" },
   { key: "MONTHLY_RENT", label: "Rent", color: "#ec4899" },
   { key: "DEPOSIT_AMOUNT", label: "Deposit", color: "#f97316" },
-  { key: "LICENCE_PERIOD", label: "Licence Period", color: "#14b8a6" },
+  { key: "LICENCE_PERIOD", label: "Licence Period", color: "#D9A441" },
   { key: "START_DATE", label: "Start Date", color: "#6366f1" },
   { key: "END_DATE", label: "End Date", color: "#a855f7" },
   { key: "REF_NUMBER", label: "Ref Number", color: "#78716c" },
@@ -25,7 +25,7 @@ const FIELD_TYPES = [
 
 const SIG_TYPES = [
   { key: "tenant", label: "Member Signature", color: "#3b82f6" },
-  { key: "admin", label: "Licensor Signature", color: "#006b5f" },
+  { key: "admin", label: "Licensor Signature", color: "#A87813" },
 ];
 
 function clamp(val, min, max) { return Math.max(min, Math.min(max, val)); }

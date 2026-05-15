@@ -139,7 +139,7 @@ export default function PortalTour({ onComplete }) {
               <div
                 key={i}
                 className={`h-1 flex-1 rounded-full transition-colors ${
-                  i <= step ? "bg-[#006b5f]" : "bg-[#eff4ff]"
+                  i <= step ? "bg-[#A87813]" : "bg-[#eff4ff]"
                 }`}
               />
             ))}
@@ -147,8 +147,8 @@ export default function PortalTour({ onComplete }) {
 
           {/* Icon + Content */}
           <div className="flex items-start gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-[#006b5f]/10 flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-[#006b5f] text-[22px]">
+            <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-[#A87813] text-[22px]">
                 {currentStep.icon}
               </span>
             </div>
@@ -172,7 +172,7 @@ export default function PortalTour({ onComplete }) {
             </button>
             <button
               onClick={handleNext}
-              className="px-5 py-2 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] transition-colors flex items-center gap-1.5"
+              className="px-5 py-2 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] transition-colors flex items-center gap-1.5"
             >
               {step < TOUR_STEPS.length - 1 ? (
                 <>

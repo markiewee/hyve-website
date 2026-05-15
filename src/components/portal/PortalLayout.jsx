@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useLanguage } from "../../i18n/LanguageContext";
 import PortalTour from "./PortalTour";
+import Wordmark from "../Wordmark";
 
 function useNavLinks(role) {
   const { t } = useLanguage();
@@ -104,7 +105,7 @@ function NavLink({ link, location, onClick }) {
       onClick={onClick}
       className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 ${
         isActive
-          ? "bg-white text-[#006b5f] font-bold rounded-l-full shadow-sm translate-x-0"
+          ? "bg-white text-[#A87813] font-bold rounded-l-full shadow-sm translate-x-0"
           : "text-[#6c7a77] hover:bg-[#eff4ff] hover:translate-x-1"
       }`}
     >
@@ -133,7 +134,7 @@ function AdminDropdown({ link, location, onLinkClick }) {
         onClick={() => setOpen((v) => !v)}
         className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 ${
           isChildActive
-            ? "text-[#006b5f] font-bold"
+            ? "text-[#A87813] font-bold"
             : "text-[#6c7a77] hover:bg-[#eff4ff] hover:translate-x-1"
         }`}
       >
@@ -173,8 +174,8 @@ function LanguageToggle() {
         onClick={() => setLanguage("en")}
         className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
           lang === "en"
-            ? "bg-[#006b5f] text-white"
-            : "text-[#6c7a77] hover:text-[#006b5f]"
+            ? "bg-[#A87813] text-white"
+            : "text-[#6c7a77] hover:text-[#A87813]"
         }`}
       >
         EN
@@ -184,8 +185,8 @@ function LanguageToggle() {
         onClick={() => setLanguage("zh")}
         className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
           lang === "zh"
-            ? "bg-[#006b5f] text-white"
-            : "text-[#6c7a77] hover:text-[#006b5f]"
+            ? "bg-[#A87813] text-white"
+            : "text-[#6c7a77] hover:text-[#A87813]"
         }`}
       >
         中文
@@ -207,10 +208,10 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
       {/* Logo + user profile */}
       <div className="mb-10 px-4">
         <div className="mb-8">
-          <img src="/lazybee-logo.png" alt="Lazybee" className="h-8" />
+          <Wordmark size="md" />
         </div>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#006b5f] font-bold text-sm shrink-0">
+          <div className="w-10 h-10 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#A87813] font-bold text-sm shrink-0">
             {firstName.slice(0, 2).toUpperCase()}
           </div>
           <div className="min-w-0">
@@ -248,7 +249,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
         <Link
           to="/portal/issues/new"
           onClick={onLinkClick}
-          className="w-full py-3 px-4 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+          className="w-full py-3 px-4 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
         >
           <span className="material-symbols-outlined text-[18px]">support_agent</span>
           {t("nav.quickSupport")}
@@ -258,7 +259,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
           {onStartTour && (
             <button
               onClick={() => { localStorage.removeItem("lazybee_tour_done"); onStartTour(); }}
-              className="w-full flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#006b5f] text-sm transition-colors"
+              className="w-full flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#A87813] text-sm transition-colors"
             >
               <span className="material-symbols-outlined text-[18px]">tour</span>
               <span className="font-['Manrope']">{t("nav.takeTour")}</span>
@@ -267,7 +268,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
           <Link
             to="/portal/help"
             onClick={onLinkClick}
-            className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#006b5f] text-sm transition-colors"
+            className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#A87813] text-sm transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">help</span>
             <span className="font-['Manrope']">{t("nav.help")}</span>
@@ -311,7 +312,7 @@ function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
           <Link
             key={link.to}
             to={link.to}
-            className={`flex flex-col items-center gap-1 ${isActive ? "text-[#006b5f]" : "text-[#6c7a77]"}`}
+            className={`flex flex-col items-center gap-1 ${isActive ? "text-[#A87813]" : "text-[#6c7a77]"}`}
           >
             <span
               className="material-symbols-outlined text-[22px]"
@@ -326,7 +327,7 @@ function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
       {dropdownLink && (
         <button
           onClick={onOpenSidebar}
-          className={`flex flex-col items-center gap-1 ${isDropdownChildActive ? "text-[#006b5f]" : "text-[#6c7a77]"}`}
+          className={`flex flex-col items-center gap-1 ${isDropdownChildActive ? "text-[#A87813]" : "text-[#6c7a77]"}`}
         >
           <span
             className="material-symbols-outlined text-[22px]"
@@ -374,7 +375,7 @@ export default function PortalLayout({ children }) {
 
       {/* Mobile: hamburger button */}
       <button
-        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-white rounded-xl shadow-sm border border-[#bbcac6]/20 flex items-center justify-center text-[#006b5f]"
+        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-white rounded-xl shadow-sm border border-[#bbcac6]/20 flex items-center justify-center text-[#A87813]"
         onClick={() => setSidebarOpen(true)}
         aria-label="Open menu"
       >

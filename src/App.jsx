@@ -450,7 +450,7 @@ function AppContent() {
             <div className="min-h-screen flex flex-col items-center justify-center py-20">
               <h1 className="text-4xl font-bold text-gray-900 mb-4">Page not found</h1>
               <p className="text-lg text-gray-600 mb-8">Sorry, the page you're looking for doesn't exist.</p>
-              <a href="/" className="text-teal-600 hover:text-teal-700 font-medium">Go back home</a>
+              <a href="/" className="text-honey-700 hover:text-honey-800 font-medium">Go back home</a>
             </div>
           } />
         </Routes>

@@ -886,8 +886,8 @@ export default function AdminOnboardingDetailPage() {
                         onClick={() => setSigMode("saved")}
                         className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors ${
                           sigMode === "saved"
-                            ? "bg-[#006b5f] text-white border-[#006b5f]"
-                            : "bg-white border-[#bbcac6]/40 text-[#6c7a77] hover:border-[#006b5f]/40"
+                            ? "bg-[#A87813] text-white border-[#A87813]"
+                            : "bg-white border-[#bbcac6]/40 text-[#6c7a77] hover:border-[#A87813]/40"
                         }`}
                       >
                         Use Saved Signature
@@ -897,8 +897,8 @@ export default function AdminOnboardingDetailPage() {
                         onClick={() => setSigMode("draw")}
                         className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors ${
                           sigMode === "draw"
-                            ? "bg-[#006b5f] text-white border-[#006b5f]"
-                            : "bg-white border-[#bbcac6]/40 text-[#6c7a77] hover:border-[#006b5f]/40"
+                            ? "bg-[#A87813] text-white border-[#A87813]"
+                            : "bg-white border-[#bbcac6]/40 text-[#6c7a77] hover:border-[#A87813]/40"
                         }`}
                       >
                         Draw New Signature
@@ -926,7 +926,7 @@ export default function AdminOnboardingDetailPage() {
                 <Button
                   onClick={handleCounterSign}
                   disabled={counterSigning || actionLoading}
-                  className="w-full sm:w-auto bg-[#006b5f] hover:bg-[#005a50] text-white"
+                  className="w-full sm:w-auto bg-[#A87813] hover:bg-[#005a50] text-white"
                 >
                   {counterSigning ? "Executing…" : "Counter-Sign & Execute"}
                 </Button>
@@ -1137,7 +1137,7 @@ export default function AdminOnboardingDetailPage() {
             <SectionCard title="Login Credentials">
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-[#006b5f]/10 flex items-center justify-center text-[#006b5f] font-bold text-lg shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-[#A87813]/10 flex items-center justify-center text-[#A87813] font-bold text-lg shrink-0">
                     {(tenantDetails?.full_name || onboarding.tenant_profiles.username || "?").charAt(0).toUpperCase()}
                   </div>
                   <div>
@@ -1198,7 +1198,7 @@ export default function AdminOnboardingDetailPage() {
                     <Button
                       size="sm"
                       variant="outline"
-                      className="h-7 text-xs bg-[#006b5f]/5 border-[#006b5f]/20 text-[#006b5f] hover:bg-[#006b5f]/10"
+                      className="h-7 text-xs bg-[#A87813]/5 border-[#A87813]/20 text-[#A87813] hover:bg-[#A87813]/10"
                       onClick={async () => {
                         setActionLoading(true);
                         const chars = "abcdefghijkmnpqrstuvwxyz23456789";
@@ -1372,7 +1372,7 @@ export default function AdminOnboardingDetailPage() {
                     </div>
                     <div>
                       <span className="text-xs text-muted-foreground block">Refund Due</span>
-                      <strong className="text-[#006b5f]">SGD {Math.max(0, (Number(onboarding.deposit_amount || 0) - totalDeductions)).toLocaleString("en-SG", { minimumFractionDigits: 2 })}</strong>
+                      <strong className="text-[#A87813]">SGD {Math.max(0, (Number(onboarding.deposit_amount || 0) - totalDeductions)).toLocaleString("en-SG", { minimumFractionDigits: 2 })}</strong>
                     </div>
                   </div>
                 </div>
@@ -1664,14 +1664,14 @@ export default function AdminOnboardingDetailPage() {
                     disabled={actionLoading}
                     className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-left text-sm transition-all ${
                       isCurrent
-                        ? "bg-[#006b5f] text-white font-bold"
+                        ? "bg-[#A87813] text-white font-bold"
                         : isCompleted
                         ? "bg-[#d1fae5] text-[#065f46] hover:bg-[#bbf7d0]"
                         : "bg-[#f8f9ff] text-[#6c7a77] hover:bg-[#eff4ff]"
                     }`}
                   >
                     <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
-                      isCurrent ? "bg-white text-[#006b5f]"
+                      isCurrent ? "bg-white text-[#A87813]"
                       : isCompleted ? "bg-[#065f46] text-white"
                       : "bg-[#bbcac6]/20 text-[#6c7a77]"
                     }`}>

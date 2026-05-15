@@ -14,7 +14,7 @@ const CAT_COLORS = {
   MAINTENANCE: { bg: "bg-yellow-50", text: "text-yellow-700", border: "border-yellow-200" },
   DOCUMENT: { bg: "bg-blue-50", text: "text-blue-700", border: "border-blue-200" },
   BILLING: { bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200" },
-  ONBOARDING: { bg: "bg-teal-50", text: "text-teal-700", border: "border-teal-200" },
+  ONBOARDING: { bg: "bg-honey-50", text: "text-honey-800", border: "border-honey-200" },
   OTHER: { bg: "bg-gray-50", text: "text-gray-700", border: "border-gray-200" },
 };
 
@@ -58,7 +58,7 @@ function TaskCard({ task, onUpdate, onDelete }) {
               if (!await confirm({ title: `Change status to ${next.replace("_", " ")}?` })) return;
               onUpdate(task.id, { status: next, completed_at: next === "COMPLETED" ? new Date().toISOString() : null });
             }}
-            className="text-xs bg-transparent border border-[#bbcac6]/30 rounded-lg px-2 py-1 font-['Inter'] text-[#6c7a77] focus:ring-1 focus:ring-[#006b5f] outline-none whitespace-nowrap"
+            className="text-xs bg-transparent border border-[#bbcac6]/30 rounded-lg px-2 py-1 font-['Inter'] text-[#6c7a77] focus:ring-1 focus:ring-[#A87813] outline-none whitespace-nowrap"
           >
             {STATUSES.map((s) => (
               <option key={s} value={s}>{s.replace("_", " ")}</option>
@@ -133,7 +133,7 @@ function NewTaskModal({ onClose, onSave }) {
               required
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
-              className="w-full px-3 py-2.5 bg-[#f8f9ff] border-0 rounded-lg text-sm font-['Inter'] text-[#121c2a] focus:ring-2 focus:ring-[#006b5f] outline-none"
+              className="w-full px-3 py-2.5 bg-[#f8f9ff] border-0 rounded-lg text-sm font-['Inter'] text-[#121c2a] focus:ring-2 focus:ring-[#A87813] outline-none"
               placeholder="e.g. Bryan move-out paperwork"
             />
           </div>
@@ -141,14 +141,14 @@ function NewTaskModal({ onClose, onSave }) {
             <div>
               <label className="block text-xs font-['Inter'] font-semibold text-[#6c7a77] uppercase tracking-wider mb-1">Category</label>
               <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}
-                className="w-full px-3 py-2.5 bg-[#f8f9ff] border-0 rounded-lg text-sm font-['Inter'] focus:ring-2 focus:ring-[#006b5f] outline-none">
+                className="w-full px-3 py-2.5 bg-[#f8f9ff] border-0 rounded-lg text-sm font-['Inter'] focus:ring-2 focus:ring-[#A87813] outline-none">
                 {CATEGORIES.map((c) => <option key={c} value={c}>{c.replace("_", " ")}</option>)}
               </select>
             </div>
             <div>
               <label className="block text-xs font-['Inter'] font-semibold text-[#6c7a77] uppercase tracking-wider mb-1">Priority</label>
               <select value={form.priority} onChange={(e) => setForm({ ...form, priority: e.target.value })}
-                className="w-full px-3 py-2.5 bg-[#f8f9ff] border-0 rounded-lg text-sm font-['Inter'] focus:ring-2 focus:ring-[#006b5f] outline-none">
+                className="w-full px-3 py-2.5 bg-[#f8f9ff] border-0 rounded-lg text-sm font-['Inter'] focus:ring-2 focus:ring-[#A87813] outline-none">
                 {PRIORITIES.map((p) => <option key={p} value={p}>{p}</option>)}
               </select>
             </div>
@@ -159,7 +159,7 @@ function NewTaskModal({ onClose, onSave }) {
               value={form.description}
               onChange={(e) => setForm({ ...form, description: e.target.value })}
               rows={2}
-              className="w-full px-3 py-2.5 bg-[#f8f9ff] border-0 rounded-lg text-sm font-['Inter'] text-[#121c2a] focus:ring-2 focus:ring-[#006b5f] outline-none resize-none"
+              className="w-full px-3 py-2.5 bg-[#f8f9ff] border-0 rounded-lg text-sm font-['Inter'] text-[#121c2a] focus:ring-2 focus:ring-[#A87813] outline-none resize-none"
               placeholder="Details, context, steps..."
             />
           </div>
@@ -167,19 +167,19 @@ function NewTaskModal({ onClose, onSave }) {
             <div>
               <label className="block text-xs font-['Inter'] font-semibold text-[#6c7a77] uppercase tracking-wider mb-1">Assigned To</label>
               <input value={form.assigned_to} onChange={(e) => setForm({ ...form, assigned_to: e.target.value })}
-                className="w-full px-3 py-2.5 bg-[#f8f9ff] border-0 rounded-lg text-sm font-['Inter'] focus:ring-2 focus:ring-[#006b5f] outline-none"
+                className="w-full px-3 py-2.5 bg-[#f8f9ff] border-0 rounded-lg text-sm font-['Inter'] focus:ring-2 focus:ring-[#A87813] outline-none"
                 placeholder="Momo, Mark..." />
             </div>
             <div>
               <label className="block text-xs font-['Inter'] font-semibold text-[#6c7a77] uppercase tracking-wider mb-1">Tenant</label>
               <input value={form.tenant_name} onChange={(e) => setForm({ ...form, tenant_name: e.target.value })}
-                className="w-full px-3 py-2.5 bg-[#f8f9ff] border-0 rounded-lg text-sm font-['Inter'] focus:ring-2 focus:ring-[#006b5f] outline-none"
+                className="w-full px-3 py-2.5 bg-[#f8f9ff] border-0 rounded-lg text-sm font-['Inter'] focus:ring-2 focus:ring-[#A87813] outline-none"
                 placeholder="Bryan..." />
             </div>
             <div>
               <label className="block text-xs font-['Inter'] font-semibold text-[#6c7a77] uppercase tracking-wider mb-1">Due Date</label>
               <input type="date" value={form.due_date} onChange={(e) => setForm({ ...form, due_date: e.target.value })}
-                className="w-full px-3 py-2.5 bg-[#f8f9ff] border-0 rounded-lg text-sm font-['Inter'] focus:ring-2 focus:ring-[#006b5f] outline-none" />
+                className="w-full px-3 py-2.5 bg-[#f8f9ff] border-0 rounded-lg text-sm font-['Inter'] focus:ring-2 focus:ring-[#A87813] outline-none" />
             </div>
           </div>
           <div className="flex justify-end gap-3 pt-2">
@@ -187,7 +187,7 @@ function NewTaskModal({ onClose, onSave }) {
               Cancel
             </button>
             <button type="submit" disabled={saving}
-              className="px-6 py-2.5 bg-[#006b5f] text-white rounded-lg text-sm font-['Manrope'] font-bold hover:bg-[#005a50] transition-colors disabled:opacity-50">
+              className="px-6 py-2.5 bg-[#A87813] text-white rounded-lg text-sm font-['Manrope'] font-bold hover:bg-[#005a50] transition-colors disabled:opacity-50">
               {saving ? "Creating..." : "Create Task"}
             </button>
           </div>
@@ -250,7 +250,7 @@ export default function AdminTasksPage() {
           </div>
           <button
             onClick={() => setShowNew(true)}
-            className="flex items-center gap-2 px-4 py-2.5 bg-[#006b5f] text-white rounded-xl text-sm font-['Manrope'] font-bold hover:bg-[#005a50] transition-colors shadow-sm"
+            className="flex items-center gap-2 px-4 py-2.5 bg-[#A87813] text-white rounded-xl text-sm font-['Manrope'] font-bold hover:bg-[#005a50] transition-colors shadow-sm"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
             New Task
@@ -260,7 +260,7 @@ export default function AdminTasksPage() {
         {/* Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {[
-            { label: "Active", value: counts.active, icon: "pending_actions", color: "text-[#006b5f]" },
+            { label: "Active", value: counts.active, icon: "pending_actions", color: "text-[#A87813]" },
             { label: "Overdue", value: counts.overdue, icon: "warning", color: "text-red-500" },
             { label: "Completed", value: counts.completed, icon: "task_alt", color: "text-green-600" },
             { label: "Total", value: counts.total, icon: "list", color: "text-[#6c7a77]" },
@@ -285,7 +285,7 @@ export default function AdminTasksPage() {
                 key={s}
                 onClick={() => setFilterStatus(s)}
                 className={`px-4 py-2 text-xs font-['Manrope'] font-semibold transition-colors ${
-                  filterStatus === s ? "bg-[#006b5f] text-white" : "text-[#6c7a77] hover:bg-[#f8f9ff]"
+                  filterStatus === s ? "bg-[#A87813] text-white" : "text-[#6c7a77] hover:bg-[#f8f9ff]"
                 }`}
               >
                 {s === "ACTIVE" ? "Active" : s === "COMPLETED" ? "Done" : "All"}
@@ -295,7 +295,7 @@ export default function AdminTasksPage() {
           <select
             value={filterCategory}
             onChange={(e) => setFilterCategory(e.target.value)}
-            className="px-3 py-2 bg-white border border-[#bbcac6]/20 rounded-lg text-xs font-['Inter'] text-[#6c7a77] focus:ring-1 focus:ring-[#006b5f] outline-none"
+            className="px-3 py-2 bg-white border border-[#bbcac6]/20 rounded-lg text-xs font-['Inter'] text-[#6c7a77] focus:ring-1 focus:ring-[#A87813] outline-none"
           >
             <option value="ALL">All Categories</option>
             {CATEGORIES.map((c) => <option key={c} value={c}>{c.replace("_", " ")}</option>)}

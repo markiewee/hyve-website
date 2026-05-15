@@ -578,10 +578,10 @@ export default function AdminRentPage() {
           {loading ? (
             <div className="h-8 w-8 bg-[#eff4ff] animate-pulse rounded" />
           ) : (
-            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#006b5f]">{paidCount}</p>
+            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#A87813]">{paidCount}</p>
           )}
         </div>
-        <div className="bg-[#006b5f] rounded-2xl p-6">
+        <div className="bg-[#A87813] rounded-2xl p-6">
           <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#71f8e4]/80 font-bold mb-3">Collected</p>
           {loading ? (
             <div className="h-8 w-20 bg-white/10 animate-pulse rounded" />
@@ -603,14 +603,14 @@ export default function AdminRentPage() {
         </div>
         <div className="flex items-center gap-4">
           {generateResult && (
-            <p className={`font-['Manrope'] text-sm ${generateResult.error ? "text-[#ba1a1a]" : "text-[#006b5f]"}`}>
+            <p className={`font-['Manrope'] text-sm ${generateResult.error ? "text-[#ba1a1a]" : "text-[#A87813]"}`}>
               {generateResult.error ?? generateResult.message}
             </p>
           )}
           <button
             onClick={handleGenerateThisMonth}
             disabled={generating}
-            className="px-6 py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+            className="px-6 py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
           >
             <span className="material-symbols-outlined text-[18px]">receipt_long</span>
             {generating ? "Generating…" : "Generate This Month"}
@@ -684,7 +684,7 @@ export default function AdminRentPage() {
                       }`}
                     >
                       <td className="px-8 py-4">
-                        <span className="font-['Inter'] text-xs font-bold text-[#006b5f] bg-[#eff4ff] px-2 py-1 rounded">
+                        <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#eff4ff] px-2 py-1 rounded">
                           {unitCode}
                         </span>
                       </td>
@@ -721,7 +721,7 @@ export default function AdminRentPage() {
                             <button
                               onClick={() => openPaymentForm(p)}
                               disabled={isActionLoading}
-                              className="text-xs px-3 py-1.5 rounded-lg bg-[#006b5f] text-white hover:opacity-90 disabled:opacity-50 transition-all font-['Manrope'] font-bold whitespace-nowrap"
+                              className="text-xs px-3 py-1.5 rounded-lg bg-[#A87813] text-white hover:opacity-90 disabled:opacity-50 transition-all font-['Manrope'] font-bold whitespace-nowrap"
                             >
                               {isActionLoading ? "…" : "Mark Paid"}
                             </button>
@@ -777,7 +777,7 @@ export default function AdminRentPage() {
                             <button
                               onClick={() => handleConfirmPayment(p)}
                               disabled={isActionLoading}
-                              className="px-4 py-2 rounded-lg bg-[#006b5f] text-white text-sm font-['Manrope'] font-bold hover:opacity-90 disabled:opacity-50"
+                              className="px-4 py-2 rounded-lg bg-[#A87813] text-white text-sm font-['Manrope'] font-bold hover:opacity-90 disabled:opacity-50"
                             >
                               {isActionLoading ? "Saving…" : "Confirm Payment"}
                             </button>
@@ -808,11 +808,11 @@ export default function AdminRentPage() {
           </div>
           <div className="flex items-center gap-3 flex-wrap">
             <input type="month" value={reconcileMonth} onChange={(e) => setReconcileMonth(e.target.value)}
-              className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f]" />
+              className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]" />
             {aspireAccounts.length > 0 ? (
               <>
                 <select value={aspireAccountId} onChange={(e) => setAspireAccountId(e.target.value)}
-                  className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white max-w-[200px]">
+                  className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white max-w-[200px]">
                   <option value="">Select account…</option>
                   {aspireAccounts.map(acc => {
                     const id = acc.id ?? acc.account_id ?? acc.accountId;
@@ -856,7 +856,7 @@ export default function AdminRentPage() {
               </button>
             )}
             <button onClick={handleFetchAspire} disabled={aspireLoading || !aspireAccountId}
-              className="px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0">
+              className="px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0">
               <span className="material-symbols-outlined text-[18px]">account_balance</span>
               {aspireLoading ? "Fetching…" : "Fetch Aspire"}
             </button>
@@ -891,9 +891,9 @@ export default function AdminRentPage() {
                   return (
                     <button key={p.id} onClick={() => selectedTxn ? handleMatch(p) : null} disabled={!selectedTxn}
                       className={`w-full text-left p-4 rounded-xl border transition-all flex items-center gap-3 ${
-                        selectedTxn ? "border-[#14b8a6] hover:bg-[#006b5f]/5 cursor-pointer" : "border-[#bbcac6]/15 opacity-60 cursor-default"
+                        selectedTxn ? "border-[#D9A441] hover:bg-[#A87813]/5 cursor-pointer" : "border-[#bbcac6]/15 opacity-60 cursor-default"
                       }`}>
-                      <span className="font-['Inter'] text-xs font-bold text-[#006b5f] bg-[#eff4ff] px-2 py-1 rounded shrink-0">{unitCode}</span>
+                      <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#eff4ff] px-2 py-1 rounded shrink-0">{unitCode}</span>
                       <div className="flex-1 min-w-0">
                         <p className="font-['Manrope'] text-sm font-semibold text-[#121c2a] truncate">{name}</p>
                       </div>
@@ -921,13 +921,13 @@ export default function AdminRentPage() {
                 return (
                   <button key={txn.reference || idx} onClick={() => setSelectedTxn(isSelected ? null : txn)}
                     className={`w-full text-left p-4 rounded-xl border transition-all flex items-center gap-3 ${
-                      isSelected ? "border-[#14b8a6] ring-2 ring-[#14b8a6] bg-[#006b5f]/5" : "border-[#bbcac6]/15 hover:border-[#14b8a6] hover:bg-[#f8f9ff]"
+                      isSelected ? "border-[#D9A441] ring-2 ring-[#D9A441] bg-[#A87813]/5" : "border-[#bbcac6]/15 hover:border-[#D9A441] hover:bg-[#f8f9ff]"
                     }`}>
                     <div className="flex-1 min-w-0">
                       <p className="font-['Manrope'] text-sm font-semibold text-[#121c2a] truncate">{txn.description || "Unknown"}</p>
                       <p className="font-['Manrope'] text-xs text-[#6c7a77]">{txn.transaction_date}</p>
                     </div>
-                    <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm tabular-nums text-[#006b5f] shrink-0">{formatSGD(txn.amount)}</p>
+                    <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm tabular-nums text-[#A87813] shrink-0">{formatSGD(txn.amount)}</p>
                   </button>
                 );
               })}
@@ -938,7 +938,7 @@ export default function AdminRentPage() {
               )}
               {aspireLoading && (
                 <div className="py-8 text-center">
-                  <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-[#006b5f] border-r-transparent" />
+                  <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-[#A87813] border-r-transparent" />
                 </div>
               )}
             </div>
@@ -953,7 +953,7 @@ export default function AdminRentPage() {
             <div className="space-y-2">
               {matchedPairs.map(pair => (
                 <div key={pair.rentPaymentId} className="flex items-center gap-3 p-3 rounded-xl bg-[#d1fae5]/30 border border-[#d1fae5]">
-                  <span className="font-['Inter'] text-xs font-bold text-[#006b5f] bg-[#eff4ff] px-2 py-1 rounded">{pair.unitCode}</span>
+                  <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#eff4ff] px-2 py-1 rounded">{pair.unitCode}</span>
                   <p className="font-['Manrope'] text-sm text-[#121c2a] flex-1">{pair.tenantName} — {formatSGD(pair.rentAmount)}</p>
                   <span className="text-[#6c7a77] font-['Manrope'] text-xs">←</span>
                   <p className="font-['Manrope'] text-sm text-[#121c2a]">{pair.txnDescription} — {formatSGD(pair.txnAmount)}</p>
@@ -999,7 +999,7 @@ export default function AdminRentPage() {
               <select
                 value={chargeForm.tenant_profile_id}
                 onChange={(e) => setChargeForm(f => ({ ...f, tenant_profile_id: e.target.value }))}
-                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white"
+                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
               >
                 <option value="">Select member...</option>
                 {members.map(m => (
@@ -1016,7 +1016,7 @@ export default function AdminRentPage() {
                 value={chargeForm.description}
                 onChange={(e) => setChargeForm(f => ({ ...f, description: e.target.value }))}
                 placeholder="e.g. Stamping fee"
-                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f]"
+                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]"
               />
             </div>
             <div>
@@ -1028,7 +1028,7 @@ export default function AdminRentPage() {
                 value={chargeForm.amount}
                 onChange={(e) => setChargeForm(f => ({ ...f, amount: e.target.value }))}
                 placeholder="0.00"
-                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f]"
+                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]"
               />
             </div>
             <div>
@@ -1036,7 +1036,7 @@ export default function AdminRentPage() {
               <select
                 value={chargeForm.category}
                 onChange={(e) => setChargeForm(f => ({ ...f, category: e.target.value }))}
-                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white"
+                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
               >
                 {CHARGE_CATEGORIES.map(cat => (
                   <option key={cat} value={cat}>{cat.replace(/_/g, " ")}</option>
@@ -1049,14 +1049,14 @@ export default function AdminRentPage() {
                 type="date"
                 value={chargeForm.due_date}
                 onChange={(e) => setChargeForm(f => ({ ...f, due_date: e.target.value }))}
-                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f]"
+                className="w-full border border-[#bbcac6]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]"
               />
             </div>
             <div className="flex items-end">
               <button
                 onClick={handleCreateCharge}
                 disabled={chargeSaving}
-                className="px-6 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+                className="px-6 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">add_circle</span>
                 {chargeSaving ? "Creating..." : "Create Charge"}
@@ -1111,7 +1111,7 @@ export default function AdminRentPage() {
                   return (
                     <tr key={c.id} className="hover:bg-[#f8f9ff] transition-colors">
                       <td className="px-8 py-4">
-                        <span className="font-['Inter'] text-xs font-bold text-[#006b5f] bg-[#eff4ff] px-2 py-1 rounded">
+                        <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#eff4ff] px-2 py-1 rounded">
                           {unitCode}
                         </span>
                       </td>
@@ -1136,7 +1136,7 @@ export default function AdminRentPage() {
                           <button
                             onClick={() => handleMarkChargePaid(c.id)}
                             disabled={isLoading}
-                            className="text-xs px-3 py-1.5 rounded-lg bg-[#006b5f] text-white hover:opacity-90 disabled:opacity-50 transition-all font-['Manrope'] font-bold whitespace-nowrap"
+                            className="text-xs px-3 py-1.5 rounded-lg bg-[#A87813] text-white hover:opacity-90 disabled:opacity-50 transition-all font-['Manrope'] font-bold whitespace-nowrap"
                           >
                             {isLoading ? "..." : "Mark Paid"}
                           </button>

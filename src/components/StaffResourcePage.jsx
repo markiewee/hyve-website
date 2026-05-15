@@ -163,7 +163,7 @@ function RoomCard({ room }) {
             </span>
           )}
           {room.has_private_bathroom && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-teal-50 text-teal-700">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-honey-50 text-honey-800">
               <span className="material-symbols-outlined text-[14px]">bathtub</span>
               Ensuite
             </span>
@@ -211,14 +211,14 @@ function RoomCard({ room }) {
               {/* Pricing tiers */}
               {room.price_monthly && (
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-2">Pricing by Lease Length</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-2">Pricing by Lease Length</p>
                   <div className="grid grid-cols-4 gap-2">
                     {getPricingTiers(room.price_monthly).map((tier) => (
                       <div
                         key={tier.label}
                         className={`rounded-lg p-2 text-center ${
                           tier.highlight
-                            ? 'bg-[#006b5f] text-white'
+                            ? 'bg-[#A87813] text-white'
                             : 'bg-gray-50 text-[#121c2a]'
                         }`}
                       >
@@ -253,7 +253,7 @@ function RoomCard({ room }) {
 
               {room.amenities?.length > 0 && (
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-1">Amenities</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-1">Amenities</p>
                   <div className="flex flex-wrap gap-1.5">
                     {room.amenities.map((a, i) => (
                       <span key={i} className="px-2 py-0.5 bg-[#eff4ff] text-[#121c2a] text-xs rounded-full">{a}</span>
@@ -264,7 +264,7 @@ function RoomCard({ room }) {
 
               {room.facilities?.length > 0 && (
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-1">Facilities</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-1">Facilities</p>
                   <div className="flex flex-wrap gap-1.5">
                     {room.facilities.map((f, i) => (
                       <span key={i} className="px-2 py-0.5 bg-emerald-50 text-emerald-800 text-xs rounded-full">{f}</span>
@@ -280,7 +280,7 @@ function RoomCard({ room }) {
               {/* Upcoming bookings from Millia */}
               {room.upcoming_bookings?.length > 0 && (
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-1.5">Upcoming Bookings</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-1.5">Upcoming Bookings</p>
                   <div className="space-y-1.5">
                     {room.upcoming_bookings.map((b, i) => (
                       <div
@@ -348,7 +348,7 @@ function PropertySection({ property }) {
           if (allTenants.length === 0) return null;
           return (
             <div className="mb-6 bg-[#f8f9ff] rounded-xl p-4">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-3">Housemates</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-3">Housemates</h3>
               <div className="space-y-1.5">
                 {allTenants.map((t, i) => (
                   <div key={i} className="flex items-center gap-2 text-sm">
@@ -367,7 +367,7 @@ function PropertySection({ property }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {p.facilities?.length > 0 && (
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-2">Facilities</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-2">Facilities</h3>
               <div className="flex flex-wrap gap-1.5">
                 {p.facilities.map((f, i) => (
                   <span key={i} className="inline-block px-2.5 py-1 bg-[#eff4ff] text-[#121c2a] text-xs rounded-full">{f}</span>
@@ -378,7 +378,7 @@ function PropertySection({ property }) {
 
           {p.nearby_mrt?.length > 0 && (
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-2">Nearest MRT</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-2">Nearest MRT</h3>
               <ul className="space-y-1">
                 {p.nearby_mrt.map((m, i) => (
                   <li key={i} className="text-sm text-[#3c4947]">
@@ -391,7 +391,7 @@ function PropertySection({ property }) {
 
           {p.nearby_amenities?.length > 0 && (
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-2">Nearby</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-2">Nearby</h3>
               <ul className="space-y-1">
                 {p.nearby_amenities.map((a, i) => (
                   <li key={i} className="text-sm text-[#3c4947]">
@@ -405,11 +405,11 @@ function PropertySection({ property }) {
 
         {p.house_rules?.length > 0 && (
           <div className="mt-6 pt-6 border-t border-gray-100">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-2">House Rules</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-2">House Rules</h3>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1">
               {p.house_rules.map((rule, i) => (
                 <li key={i} className="text-sm text-[#3c4947] flex items-start gap-2">
-                  <span className="text-[#006b5f] mt-0.5">•</span> {rule}
+                  <span className="text-[#A87813] mt-0.5">•</span> {rule}
                 </li>
               ))}
             </ul>
@@ -420,7 +420,7 @@ function PropertySection({ property }) {
         <div className="mt-6 pt-6 border-t border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-6">
           {p.latitude && p.longitude && (
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-2">Location</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-2">Location</h3>
               <div className="rounded-xl overflow-hidden h-48 border border-gray-200 relative z-0">
                 <MapContainer
                   center={[parseFloat(p.latitude), parseFloat(p.longitude)]}
@@ -437,7 +437,7 @@ function PropertySection({ property }) {
 
           {p.images?.length > 0 && (
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-2">Common Areas</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-2">Common Areas</h3>
               <div className="flex gap-2 overflow-x-auto pb-2">
                 {p.images.map((url, i) => (
                   <a
@@ -480,7 +480,7 @@ function PropertySection({ property }) {
 function TermCard({ title, value, subtitle }) {
   return (
     <div className="bg-[#f8f9ff] rounded-xl p-5 text-center">
-      <p className="text-xs font-bold uppercase tracking-wider text-[#006b5f] mb-1">{title}</p>
+      <p className="text-xs font-bold uppercase tracking-wider text-[#A87813] mb-1">{title}</p>
       <p className="text-xl font-bold text-[#121c2a] font-['Plus_Jakarta_Sans']">{value}</p>
       {subtitle && <p className="text-xs text-[#3c4947] mt-1">{subtitle}</p>}
     </div>
@@ -500,7 +500,7 @@ function LeaseTermsSection() {
         </div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#006b5f] mb-2">Rent Includes</h3>
+            <h3 className="text-sm font-bold uppercase tracking-wider text-[#A87813] mb-2">Rent Includes</h3>
             <ul className="space-y-1.5 text-sm text-[#3c4947]">
               <li className="flex items-start gap-2"><span className="text-emerald-500 mt-0.5">✓</span> High-speed WiFi</li>
               <li className="flex items-start gap-2"><span className="text-emerald-500 mt-0.5">✓</span> Utilities (water, electricity with AC allowance)</li>
@@ -539,7 +539,7 @@ function MoveInProcessSection() {
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
           {steps.map(step => (
             <div key={step.num} className="bg-white rounded-xl p-5 text-center shadow-sm border border-gray-100">
-              <div className="w-8 h-8 rounded-full bg-[#006b5f] text-white font-bold text-sm flex items-center justify-center mx-auto mb-3">
+              <div className="w-8 h-8 rounded-full bg-[#A87813] text-white font-bold text-sm flex items-center justify-center mx-auto mb-3">
                 {step.num}
               </div>
               <p className="font-semibold text-[#121c2a] text-sm mb-1">{step.title}</p>
@@ -633,7 +633,7 @@ export default function StaffResourcePage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#f8f9ff] pt-24 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#006b5f]" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#A87813]" />
       </div>
     );
   }

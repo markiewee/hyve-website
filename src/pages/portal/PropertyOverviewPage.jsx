@@ -110,7 +110,7 @@ export default function PropertyOverviewPage() {
             <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">AC Running</p>
             <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-blue-600">{acOnCount}</p>
           </div>
-          <div className="bg-[#006b5f] rounded-2xl p-6">
+          <div className="bg-[#A87813] rounded-2xl p-6">
             <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#71f8e4]/80 font-bold mb-3">Total AC Hours</p>
             <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-white">
               {totalHoursAll.toFixed(0)}
@@ -151,14 +151,14 @@ export default function PropertyOverviewPage() {
             return (
               <div
                 key={room.id}
-                className="bg-white rounded-2xl p-5 border border-[#bbcac6]/10 hover:border-[#006b5f]/30 transition-all group shadow-sm"
+                className="bg-white rounded-2xl p-5 border border-[#bbcac6]/10 hover:border-[#A87813]/30 transition-all group shadow-sm"
               >
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a] group-hover:text-[#006b5f] transition-colors">
+                    <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a] group-hover:text-[#A87813] transition-colors">
                       {room.name}
                     </h4>
-                    <span className="font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#006b5f] px-2 py-0.5 rounded">
+                    <span className="font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#A87813] px-2 py-0.5 rounded">
                       {room.unit_code}
                     </span>
                   </div>

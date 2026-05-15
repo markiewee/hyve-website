@@ -13,7 +13,7 @@ export default function BookLandingPage() {
     <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e]">
       {/* Sticky brand bar — matches existing /view/* pages */}
       <header className="bg-white shadow-sm flex justify-between items-center px-6 py-3 w-full border-b border-slate-100 sticky top-0 z-50">
-        <Link to="/" className="text-xl font-bold tracking-tighter text-teal-700 font-['Plus_Jakarta_Sans']">
+        <Link to="/" className="text-xl font-bold tracking-tighter text-honey-800 font-['Plus_Jakarta_Sans']">
           Lazybee
         </Link>
         <a
@@ -28,7 +28,7 @@ export default function BookLandingPage() {
       <main className="max-w-5xl mx-auto px-5 sm:px-8 py-10 sm:py-16">
         {/* Hero */}
         <section className="text-center mb-10 sm:mb-14">
-          <span className="inline-block px-3 py-1 mb-4 bg-[#14b8a6]/15 text-[#006b5f] text-[10px] font-bold uppercase tracking-wider rounded-full">
+          <span className="inline-block px-3 py-1 mb-4 bg-[#D9A441]/15 text-[#A87813] text-[10px] font-bold uppercase tracking-wider rounded-full">
             Lazybee Viewings
           </span>
           <h1 className="font-['Plus_Jakarta_Sans'] text-3xl sm:text-5xl font-extrabold tracking-tight text-[#191c1e] mb-4 text-balance">
@@ -46,7 +46,7 @@ export default function BookLandingPage() {
             <Link
               key={prop.code}
               to={`/book/${prop.code}${srcQuery}`}
-              className="group bg-white rounded-2xl overflow-hidden editorial-shadow border border-slate-100 hover:border-teal-300 hover:-translate-y-0.5 transition-all flex flex-col"
+              className="group bg-white rounded-2xl overflow-hidden editorial-shadow border border-slate-100 hover:border-honey-300 hover:-translate-y-0.5 transition-all flex flex-col"
             >
               <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
                 <img
@@ -80,7 +80,7 @@ export default function BookLandingPage() {
                     S${prop.priceFrom}–{prop.priceTo}/mo
                   </span>
                 </div>
-                <span className="w-full py-3 bg-[#006b5f] text-white font-['Plus_Jakarta_Sans'] font-bold text-sm rounded-lg group-hover:bg-[#006b5f]/90 transition-all flex items-center justify-center gap-2">
+                <span className="w-full py-3 bg-[#A87813] text-white font-['Plus_Jakarta_Sans'] font-bold text-sm rounded-lg group-hover:bg-[#A87813]/90 transition-all flex items-center justify-center gap-2">
                   Book a viewing
                   <span className="material-symbols-outlined text-base">arrow_forward</span>
                 </span>
@@ -97,8 +97,8 @@ export default function BookLandingPage() {
             { icon: "key", title: "We meet you there", body: "Door code + captain WhatsApp 2h before." },
           ].map((step) => (
             <div key={step.title} className="px-2">
-              <div className="w-12 h-12 mx-auto rounded-full bg-[#14b8a6]/15 flex items-center justify-center mb-3">
-                <span className="material-symbols-outlined text-[#006b5f]">{step.icon}</span>
+              <div className="w-12 h-12 mx-auto rounded-full bg-[#D9A441]/15 flex items-center justify-center mb-3">
+                <span className="material-symbols-outlined text-[#A87813]">{step.icon}</span>
               </div>
               <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#191c1e] mb-1 tracking-tight">
                 {step.title}
@@ -109,7 +109,7 @@ export default function BookLandingPage() {
         </section>
 
         <footer className="mt-16 opacity-50 hover:opacity-100 transition-opacity flex flex-col items-center gap-2">
-          <span className="text-teal-700 font-['Plus_Jakarta_Sans'] font-black text-lg">Lazybee</span>
+          <span className="text-honey-800 font-['Plus_Jakarta_Sans'] font-black text-lg">Lazybee</span>
           <div className="flex gap-4 text-xs font-medium text-slate-500">
             <Link to="/">About</Link>
             <Link to="/properties">Properties</Link>

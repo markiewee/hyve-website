@@ -54,9 +54,9 @@ export function isSlotClickable(slot, propertyOfInterest, anchorProperty) {
  * Copy for slot pill state.
  */
 export function slotStateClass(slot, isSelected) {
-  if (isSelected) return "bg-[#006b5f] text-white shadow-md scale-105";
+  if (isSelected) return "bg-[#A87813] text-white shadow-md scale-105";
   if (slot.state === "BOOKED") return "bg-slate-100 text-slate-300 cursor-not-allowed line-through";
   if (slot.state === "BLOCKED-BUFFER") return "bg-amber-50 text-amber-300 cursor-not-allowed";
-  if (slot.state === "PROP-RESERVED") return "bg-[#14b8a6]/10 text-[#00423b] hover:bg-[#14b8a6]/25";
-  return "bg-[#e6e8ea] text-[#3c4947] hover:bg-[#14b8a6]/20 hover:text-[#00423b]";
+  if (slot.state === "PROP-RESERVED") return "bg-[#D9A441]/10 text-[#00423b] hover:bg-[#D9A441]/25";
+  return "bg-[#e6e8ea] text-[#3c4947] hover:bg-[#D9A441]/20 hover:text-[#00423b]";
 }

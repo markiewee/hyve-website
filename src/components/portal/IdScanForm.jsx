@@ -318,8 +318,8 @@ export default function IdScanForm({ onboarding, advanceStep }) {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Residency — auto-detected from nationality, or ask if not set */}
       {nationality ? (
-        <div className="rounded-lg border border-[#006b5f]/20 bg-[#006b5f]/5 p-3 flex items-center gap-3">
-          <span className="material-symbols-outlined text-[#006b5f] text-[20px]">{isForeigner ? "flight" : "home"}</span>
+        <div className="rounded-lg border border-[#A87813]/20 bg-[#A87813]/5 p-3 flex items-center gap-3">
+          <span className="material-symbols-outlined text-[#A87813] text-[20px]">{isForeigner ? "flight" : "home"}</span>
           <div>
             <p className="text-sm font-semibold text-[#121c2a]">{nationality}</p>
             <p className="text-xs text-[#6c7a77]">
@@ -342,8 +342,8 @@ export default function IdScanForm({ onboarding, advanceStep }) {
                 }}
                 className={`py-3 px-4 rounded-xl text-sm font-semibold border-2 transition-all ${
                   residency === value
-                    ? "bg-[#006b5f] text-white border-[#006b5f]"
-                    : "bg-background text-foreground border-border hover:border-[#006b5f]/40"
+                    ? "bg-[#A87813] text-white border-[#A87813]"
+                    : "bg-background text-foreground border-border hover:border-[#A87813]/40"
                 }`}
               >
                 {label}

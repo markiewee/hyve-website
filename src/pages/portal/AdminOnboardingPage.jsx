@@ -357,7 +357,7 @@ export default function AdminOnboardingPage() {
         </div>
         <button
           onClick={() => { setShowInvite(true); setInviteResult(null); setInviteUsername(""); setWizardStep(1); setWizardErrors({}); }}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] transition-colors shrink-0"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] transition-colors shrink-0"
         >
           <span className="material-symbols-outlined text-[18px]">person_add</span>
           New Member
@@ -381,12 +381,12 @@ export default function AdminOnboardingPage() {
                 {["Account", "Tenancy", "Review TA", "Done"].map((label, i) => (
                   <div key={label} className="flex items-center gap-1.5 flex-1">
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
-                      wizardStep > i + 1 ? "bg-[#006b5f] text-white" : wizardStep === i + 1 ? "bg-[#006b5f] text-white" : "bg-[#eff4ff] text-[#6c7a77]"
+                      wizardStep > i + 1 ? "bg-[#A87813] text-white" : wizardStep === i + 1 ? "bg-[#A87813] text-white" : "bg-[#eff4ff] text-[#6c7a77]"
                     }`}>
                       {wizardStep > i + 1 ? <span className="material-symbols-outlined text-[14px]">check</span> : i + 1}
                     </div>
                     <span className={`font-['Inter'] text-[9px] uppercase tracking-widest font-bold hidden sm:inline ${wizardStep >= i + 1 ? "text-[#121c2a]" : "text-[#bbcac6]"}`}>{label}</span>
-                    {i < 3 && <div className={`flex-1 h-0.5 rounded ${wizardStep > i + 1 ? "bg-[#006b5f]" : "bg-[#eff4ff]"}`} />}
+                    {i < 3 && <div className={`flex-1 h-0.5 rounded ${wizardStep > i + 1 ? "bg-[#A87813]" : "bg-[#eff4ff]"}`} />}
                   </div>
                 ))}
               </div>
@@ -403,7 +403,7 @@ export default function AdminOnboardingPage() {
                       value={inviteUsername}
                       onChange={(e) => setInviteUsername(e.target.value)}
                       placeholder="e.g. john-doe"
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                     />
                     <p className="text-[10px] text-[#6c7a77]">Letters, numbers, hyphens, underscores. Min 3 chars. Password will be auto-generated.</p>
                   </div>
@@ -412,7 +412,7 @@ export default function AdminOnboardingPage() {
                     <select
                       value={inviteRoomId}
                       onChange={(e) => setInviteRoomId(e.target.value)}
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                     >
                       <option value="">Select room</option>
                       {[...rooms].sort((a, b) => {
@@ -445,7 +445,7 @@ export default function AdminOnboardingPage() {
                       setWizardErrors({});
                       setWizardStep(2);
                     }}
-                    className="w-full py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] flex items-center justify-center gap-2"
+                    className="w-full py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] flex items-center justify-center gap-2"
                   >
                     Next: Tenancy Details
                     <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -464,7 +464,7 @@ export default function AdminOnboardingPage() {
                         value={inviteRent}
                         onChange={(e) => setInviteRent(e.target.value)}
                         placeholder="1200"
-                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -474,7 +474,7 @@ export default function AdminOnboardingPage() {
                         value={inviteDeposit}
                         onChange={(e) => setInviteDeposit(e.target.value)}
                         placeholder="2400"
-                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                       />
                     </div>
                   </div>
@@ -485,7 +485,7 @@ export default function AdminOnboardingPage() {
                       type="date"
                       value={inviteStartDate}
                       onChange={(e) => setInviteStartDate(e.target.value)}
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                     />
                   </div>
 
@@ -497,7 +497,7 @@ export default function AdminOnboardingPage() {
                         type="button"
                         onClick={() => setInviteEndMode("months")}
                         className={`flex-1 py-2 rounded-lg text-xs font-['Manrope'] font-bold border-2 transition-all ${
-                          inviteEndMode === "months" ? "bg-[#006b5f] text-white border-[#006b5f]" : "bg-white text-[#6c7a77] border-[#bbcac6]/30"
+                          inviteEndMode === "months" ? "bg-[#A87813] text-white border-[#A87813]" : "bg-white text-[#6c7a77] border-[#bbcac6]/30"
                         }`}
                       >
                         By number of months
@@ -506,7 +506,7 @@ export default function AdminOnboardingPage() {
                         type="button"
                         onClick={() => setInviteEndMode("date")}
                         className={`flex-1 py-2 rounded-lg text-xs font-['Manrope'] font-bold border-2 transition-all ${
-                          inviteEndMode === "date" ? "bg-[#006b5f] text-white border-[#006b5f]" : "bg-white text-[#6c7a77] border-[#bbcac6]/30"
+                          inviteEndMode === "date" ? "bg-[#A87813] text-white border-[#A87813]" : "bg-white text-[#6c7a77] border-[#bbcac6]/30"
                         }`}
                       >
                         By specific date
@@ -517,7 +517,7 @@ export default function AdminOnboardingPage() {
                       <select
                         value={inviteLicencePeriod}
                         onChange={(e) => setInviteLicencePeriod(e.target.value)}
-                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                       >
                         {Array.from({ length: 36 }, (_, i) => i + 1).map(m => (
                           <option key={m} value={m}>{m} month{m > 1 ? "s" : ""}</option>
@@ -529,14 +529,14 @@ export default function AdminOnboardingPage() {
                         value={inviteEndDateManual}
                         onChange={(e) => setInviteEndDateManual(e.target.value)}
                         min={inviteStartDate || undefined}
-                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                        className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                       />
                     )}
                   </div>
 
                   {/* Computed end date / period display */}
                   {inviteEndDate && inviteStartDate && (
-                    <div className="bg-[#006b5f]/5 rounded-lg px-3 py-2 text-xs font-['Manrope'] text-[#006b5f] flex items-center gap-2">
+                    <div className="bg-[#A87813]/5 rounded-lg px-3 py-2 text-xs font-['Manrope'] text-[#A87813] flex items-center gap-2">
                       <span className="material-symbols-outlined text-[16px]">event</span>
                       <span>
                         {new Date(inviteStartDate + "T00:00:00").toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" })}
@@ -556,7 +556,7 @@ export default function AdminOnboardingPage() {
                       type="text"
                       value={inviteRefNumber}
                       onChange={(e) => setInviteRefNumber(e.target.value)}
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                     />
                   </div>
 
@@ -597,7 +597,7 @@ export default function AdminOnboardingPage() {
                         generateTaPreview();
                         setWizardStep(3);
                       }}
-                      className="flex-[2] py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] flex items-center justify-center gap-2"
+                      className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] flex items-center justify-center gap-2"
                     >
                       Next: Review Agreement
                       <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -625,7 +625,7 @@ export default function AdminOnboardingPage() {
                           w.document.write(taPreviewHtml);
                           w.document.close();
                         }}
-                        className="w-full py-3 bg-white border-2 border-[#006b5f]/20 text-[#006b5f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006b5f]/5 flex items-center justify-center gap-2"
+                        className="w-full py-3 bg-white border-2 border-[#A87813]/20 text-[#A87813] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#A87813]/5 flex items-center justify-center gap-2"
                       >
                         <span className="material-symbols-outlined text-[18px]">open_in_new</span>
                         Preview Full Agreement in New Tab
@@ -659,7 +659,7 @@ export default function AdminOnboardingPage() {
                     <button
                       onClick={handleInvite}
                       disabled={inviting || !taPreviewHtml}
-                      className="flex-[2] py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2"
+                      className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2"
                     >
                       {inviting ? (
                         <>
@@ -698,14 +698,14 @@ export default function AdminOnboardingPage() {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-[#6c7a77]">Login URL</span>
-                      <code className="text-xs text-[#006b5f] bg-white px-2 py-0.5 rounded">lazybee.sg/portal/login</code>
+                      <code className="text-xs text-[#A87813] bg-white px-2 py-0.5 rounded">lazybee.sg/portal/login</code>
                     </div>
                   </div>
                   <button
                     onClick={() => {
                       navigator.clipboard.writeText(`Username: ${inviteResult.username}\nPassword: ${inviteResult.default_password}\nLogin: lazybee.sg/portal/login`);
                     }}
-                    className="w-full py-2.5 bg-[#eff4ff] text-[#006b5f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff] flex items-center justify-center gap-2"
+                    className="w-full py-2.5 bg-[#eff4ff] text-[#A87813] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff] flex items-center justify-center gap-2"
                   >
                     <span className="material-symbols-outlined text-[16px]">content_copy</span>
                     Copy Credentials
@@ -735,7 +735,7 @@ export default function AdminOnboardingPage() {
                           if (row) navigate(`/portal/admin/onboarding/${row.id}`);
                         }
                       }}
-                      className="flex-1 py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] flex items-center justify-center gap-2"
+                      className="flex-1 py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] flex items-center justify-center gap-2"
                     >
                       <span className="material-symbols-outlined text-[18px]">open_in_new</span>
                       View Member Profile
@@ -760,14 +760,14 @@ export default function AdminOnboardingPage() {
           { label: "Total", count: rows.length, filter: "ALL", color: "text-[#121c2a]", bg: "bg-white" },
           { label: "Registration", count: registrationCount, filter: "REGISTRATION", color: "text-purple-600", bg: "bg-white" },
           { label: "Onboarding", count: onboardingCount, filter: "ONBOARDING", color: "text-blue-600", bg: "bg-white" },
-          { label: "Active", count: activeCount, filter: "ACTIVE", color: "text-[#006b5f]", bg: "bg-white" },
+          { label: "Active", count: activeCount, filter: "ACTIVE", color: "text-[#A87813]", bg: "bg-white" },
           { label: "Archived", count: archivedCount, filter: "ARCHIVED", color: "text-gray-500", bg: "bg-white" },
         ].map(({ label, count, filter, color, bg }) => (
           <button
             key={filter}
             onClick={() => setLifecycleFilter(filter)}
             className={`${bg} rounded-2xl p-6 border-2 shadow-sm text-left transition-all ${
-              lifecycleFilter === filter ? "border-[#006b5f] ring-1 ring-[#006b5f]/20" : "border-[#bbcac6]/15 hover:border-[#006b5f]/30"
+              lifecycleFilter === filter ? "border-[#A87813] ring-1 ring-[#A87813]/20" : "border-[#bbcac6]/15 hover:border-[#A87813]/30"
             }`}
           >
             <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">{label}</p>
@@ -786,7 +786,7 @@ export default function AdminOnboardingPage() {
           <span className="font-['Inter'] text-xs text-[#6c7a77]">
             Showing: <strong className="text-[#121c2a]">{lifecycleFilter.replace(/_/g, " ")}</strong>
           </span>
-          <button onClick={() => setLifecycleFilter("ALL")} className="text-xs text-[#006b5f] font-bold hover:underline">
+          <button onClick={() => setLifecycleFilter("ALL")} className="text-xs text-[#A87813] font-bold hover:underline">
             Clear filter
           </button>
         </div>
@@ -857,7 +857,7 @@ export default function AdminOnboardingPage() {
                   >
                     <td className="px-8 py-5">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#006b5f] font-bold text-xs shrink-0">
+                        <div className="w-10 h-10 rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#A87813] font-bold text-xs shrink-0">
                           {initials}
                         </div>
                         <div>
@@ -905,7 +905,7 @@ export default function AdminOnboardingPage() {
                               navigator.clipboard.writeText(`Username: ${row.tenant_profiles.username}\nLogin: lazybee.sg/portal/login`);
                               alert(`Username copied to clipboard.\n\nLogin: lazybee.sg/portal/login`);
                             }}
-                            className="p-1.5 rounded-lg hover:bg-[#eff4ff] text-[#6c7a77] hover:text-[#006b5f] transition-colors"
+                            className="p-1.5 rounded-lg hover:bg-[#eff4ff] text-[#6c7a77] hover:text-[#A87813] transition-colors"
                           >
                             <span className="material-symbols-outlined text-[18px]">key</span>
                           </button>
@@ -941,7 +941,7 @@ export default function AdminOnboardingPage() {
                         )}
                         <button
                           onClick={() => navigate(`/portal/admin/onboarding/${row.id}`)}
-                          className="p-1.5 rounded-lg hover:bg-[#eff4ff] text-[#006b5f] transition-colors"
+                          className="p-1.5 rounded-lg hover:bg-[#eff4ff] text-[#A87813] transition-colors"
                           title="View details"
                         >
                           <span className="material-symbols-outlined text-[18px]">open_in_new</span>

@@ -95,8 +95,8 @@ export default function BookConfirmedPage() {
     return (
       <div className="min-h-screen bg-[#f8f9ff] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-2 border-[#006b5f] border-t-transparent rounded-full animate-spin" />
-          <span className="text-[#006b5f] font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide">
+          <div className="w-8 h-8 border-2 border-[#A87813] border-t-transparent rounded-full animate-spin" />
+          <span className="text-[#A87813] font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide">
             Loading…
           </span>
         </div>
@@ -116,7 +116,7 @@ export default function BookConfirmedPage() {
           </h1>
           <a
             href="https://wa.me/6580885410"
-            className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm"
+            className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm"
           >
             <span className="material-symbols-outlined text-sm">chat</span>
             WhatsApp Lazybee
@@ -175,7 +175,7 @@ export default function BookConfirmedPage() {
     <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e] flex flex-col items-center p-5 sm:p-10">
       <div className="w-full max-w-lg bg-white rounded-2xl editorial-shadow overflow-hidden">
         {/* Hero confirmation */}
-        <div className="bg-[#006b5f] p-8 text-center">
+        <div className="bg-[#A87813] p-8 text-center">
           <div className="w-16 h-16 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center">
             <span
               className="material-symbols-outlined text-white text-3xl"
@@ -195,7 +195,7 @@ export default function BookConfirmedPage() {
         <div className="p-6 sm:p-8 space-y-5">
           {/* Details list */}
           <div className="flex items-start gap-4">
-            <span className="material-symbols-outlined text-[#006b5f] mt-0.5">calendar_month</span>
+            <span className="material-symbols-outlined text-[#A87813] mt-0.5">calendar_month</span>
             <div>
               <p className="font-bold text-[#191c1e]">{fmtDate(startISO)}</p>
               <p className="text-[#3c4947] text-sm">{fmtTime(startISO)} (SGT)</p>
@@ -203,7 +203,7 @@ export default function BookConfirmedPage() {
           </div>
 
           <div className="flex items-start gap-4">
-            <span className="material-symbols-outlined text-[#006b5f] mt-0.5">location_on</span>
+            <span className="material-symbols-outlined text-[#A87813] mt-0.5">location_on</span>
             <div>
               <p className="font-bold text-[#191c1e]">{propertyName}</p>
               <p className="text-[#3c4947] text-sm">{address}</p>
@@ -212,7 +212,7 @@ export default function BookConfirmedPage() {
 
           {viewing.rooms && (
             <div className="flex items-start gap-4">
-              <span className="material-symbols-outlined text-[#006b5f] mt-0.5">bed</span>
+              <span className="material-symbols-outlined text-[#A87813] mt-0.5">bed</span>
               <div>
                 <p className="font-bold text-[#191c1e]">
                   {viewing.rooms.name || viewing.rooms.unit_code}
@@ -230,7 +230,7 @@ export default function BookConfirmedPage() {
           {/* Add to calendar */}
           <button
             onClick={downloadIcs}
-            className="w-full py-3 bg-[#14b8a6]/15 text-[#006b5f] font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide rounded-lg hover:bg-[#14b8a6]/25 transition-all flex items-center justify-center gap-2"
+            className="w-full py-3 bg-[#D9A441]/15 text-[#A87813] font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide rounded-lg hover:bg-[#D9A441]/25 transition-all flex items-center justify-center gap-2"
           >
             <span className="material-symbols-outlined text-base">event</span>
             Add to calendar
@@ -256,7 +256,7 @@ export default function BookConfirmedPage() {
               href={cancelUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="block text-center text-xs text-[#6c7a77] hover:text-[#006b5f] underline"
+              className="block text-center text-xs text-[#6c7a77] hover:text-[#A87813] underline"
             >
               Need to cancel?
             </a>
@@ -267,15 +267,15 @@ export default function BookConfirmedPage() {
             <p className="font-bold text-[#191c1e] text-sm">What to expect</p>
             <ul className="space-y-2 text-sm text-[#3c4947]">
               <li className="flex gap-2">
-                <span className="material-symbols-outlined text-[#14b8a6] text-base mt-0.5">check</span>
+                <span className="material-symbols-outlined text-[#D9A441] text-base mt-0.5">check</span>
                 <span>30-min walkthrough — room, common spaces, ask anything.</span>
               </li>
               <li className="flex gap-2">
-                <span className="material-symbols-outlined text-[#14b8a6] text-base mt-0.5">check</span>
+                <span className="material-symbols-outlined text-[#D9A441] text-base mt-0.5">check</span>
                 <span>You&apos;ll get a 2h-before reminder with door code + parking info.</span>
               </li>
               <li className="flex gap-2">
-                <span className="material-symbols-outlined text-[#14b8a6] text-base mt-0.5">check</span>
+                <span className="material-symbols-outlined text-[#D9A441] text-base mt-0.5">check</span>
                 <span>If you love it, sign-up takes ~10 mins — no agent fees.</span>
               </li>
             </ul>
@@ -284,7 +284,7 @@ export default function BookConfirmedPage() {
       </div>
 
       <footer className="mt-10 opacity-50 hover:opacity-100 transition-opacity flex flex-col items-center gap-2">
-        <span className="text-teal-700 font-['Plus_Jakarta_Sans'] font-black text-lg">Lazybee</span>
+        <span className="text-honey-800 font-['Plus_Jakarta_Sans'] font-black text-lg">Lazybee</span>
         <div className="flex gap-4 text-xs font-medium text-slate-500">
           <Link to="/">About</Link>
           <Link to="/properties">Properties</Link>

@@ -19,7 +19,7 @@ const STATUS_STYLE = {
   PENDING: "bg-amber-100 text-amber-700",
   SENT: "bg-blue-100 text-blue-700",
   SIGNED: "bg-green-100 text-green-700",
-  UPLOADED: "bg-teal-100 text-teal-700",
+  UPLOADED: "bg-honey-100 text-honey-800",
   EXPIRED: "bg-red-100 text-red-600",
 };
 
@@ -138,7 +138,7 @@ export default function TenantDocumentsPage() {
       {/* Documents List */}
       <section className="bg-white rounded-xl p-6 border border-[#bbcac6]/15 shadow-sm">
         <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg mb-4 flex items-center gap-2 text-[#121c2a]">
-          <span className="material-symbols-outlined text-[#006b5f] text-[20px]">folder_open</span>
+          <span className="material-symbols-outlined text-[#A87813] text-[20px]">folder_open</span>
           All Documents
         </h2>
 
@@ -159,7 +159,7 @@ export default function TenantDocumentsPage() {
               <div key={doc.id} className="flex items-center justify-between py-4">
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="w-10 h-10 rounded-xl bg-[#eff4ff] flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-[#006b5f] text-[20px]">
+                    <span className="material-symbols-outlined text-[#A87813] text-[20px]">
                       {doc.doc_type === "LICENCE_AGREEMENT" ? "gavel"
                         : doc.doc_type === "STAMPING" ? "verified"
                         : doc.doc_type === "RECEIPT" ? "receipt"
@@ -184,7 +184,7 @@ export default function TenantDocumentsPage() {
                   {doc.file_url && (
                     <button
                       onClick={() => handleViewDocument(doc)}
-                      className="inline-flex items-center gap-1 text-xs font-['Manrope'] font-bold text-[#006b5f] hover:underline"
+                      className="inline-flex items-center gap-1 text-xs font-['Manrope'] font-bold text-[#A87813] hover:underline"
                     >
                       <span className="material-symbols-outlined text-[16px]">open_in_new</span>
                       View

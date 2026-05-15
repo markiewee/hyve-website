@@ -120,7 +120,7 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
           {/* Receipt card */}
           <div className="receipt-card bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
             {/* Header */}
-            <div className="bg-[#006b5f] px-8 py-6 relative overflow-hidden">
+            <div className="bg-[#A87813] px-8 py-6 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 pointer-events-none" />
               <div className="relative">
                 <p className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-white tracking-tight">
@@ -204,9 +204,9 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
                   ))}
                 </div>
                 {/* Total */}
-                <div className="border-t-2 border-[#006b5f]/20 mt-2 pt-3 flex justify-between">
+                <div className="border-t-2 border-[#A87813]/20 mt-2 pt-3 flex justify-between">
                   <span className="text-sm font-bold text-[#121c2a] font-['Plus_Jakarta_Sans']">{isInvoice ? "Total Due" : "Total Paid"}</span>
-                  <span className="text-base font-extrabold text-[#006b5f] font-['Plus_Jakarta_Sans']">
+                  <span className="text-base font-extrabold text-[#A87813] font-['Plus_Jakarta_Sans']">
                     {formatSGD(total)}
                   </span>
                 </div>
@@ -223,7 +223,7 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
           <div className="no-print mt-4 flex justify-center">
             <button
               onClick={() => window.print()}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#006b5f] text-white text-sm font-semibold rounded-lg hover:bg-[#005a50] transition-colors font-['Inter']"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#A87813] text-white text-sm font-semibold rounded-lg hover:bg-[#005a50] transition-colors font-['Inter']"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />

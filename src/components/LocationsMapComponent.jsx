@@ -22,7 +22,7 @@ const neighborhoodIcon = new L.DivIcon({
   className: 'custom-neighborhood-icon',
   html: `<div style="
     width: 36px; height: 36px;
-    background: #006b5f;
+    background: #A87813;
     border: 3px solid #fff;
     border-radius: 50%;
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
@@ -178,13 +178,13 @@ const LocationsMapComponent = ({
                 <Marker key={`n-${idx}`} position={[lat, lng]} icon={neighborhoodIcon}>
                   <Popup>
                     <div style={{ maxWidth: 260 }}>
-                      <h4 style={{ margin: '0 0 6px', color: '#006b5f', fontSize: 15, fontWeight: 700 }}>
+                      <h4 style={{ margin: '0 0 6px', color: '#A87813', fontSize: 15, fontWeight: 700 }}>
                         {neighborhood.name}
                       </h4>
                       <p style={{ margin: '0 0 6px', color: '#666', fontSize: 13 }}>
                         {neighborhood.description || 'Popular neighborhood'}
                       </p>
-                      <p style={{ margin: '0 0 6px', color: '#006b5f', fontWeight: 600, fontSize: 13 }}>
+                      <p style={{ margin: '0 0 6px', color: '#A87813', fontWeight: 600, fontSize: 13 }}>
                         {propertiesInNeighborhood} {propertiesInNeighborhood === 1 ? 'property' : 'properties'} available
                       </p>
                       {neighborhood.highlights && (
@@ -214,7 +214,7 @@ const LocationsMapComponent = ({
                               style={{
                                 display: 'block',
                                 padding: '6px 10px',
-                                background: '#006b5f',
+                                background: '#A87813',
                                 color: '#fff',
                                 borderRadius: 6,
                                 fontSize: 12,
@@ -260,7 +260,7 @@ const LocationsMapComponent = ({
                         {property.neighborhood?.name || property.neighborhood || ''}
                       </p>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ color: '#006b5f', fontWeight: 700, fontSize: 14 }}>
+                        <span style={{ color: '#A87813', fontWeight: 700, fontSize: 14 }}>
                           From ${property.startingPrice || property.priceMonthly || 'N/A'}/month
                         </span>
                         <span style={{ color: '#666', fontSize: 12 }}>
@@ -297,7 +297,7 @@ const LocationsMapComponent = ({
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full border-2" style={{ background: '#006b5f', borderColor: '#005049' }}></div>
+                <div className="w-4 h-4 rounded-full border-2" style={{ background: '#A87813', borderColor: '#005049' }}></div>
                 <span>Showing neighborhoods - Zoom in for properties</span>
               </div>
             )}
@@ -311,7 +311,7 @@ const LocationsMapComponent = ({
             <p className="text-xs text-gray-600 mb-1">
               {selectedProperty.neighborhood?.name || selectedProperty.neighborhood}
             </p>
-            <p className="text-xs font-semibold" style={{ color: '#006b5f' }}>
+            <p className="text-xs font-semibold" style={{ color: '#A87813' }}>
               From ${selectedProperty.startingPrice}/mo - {selectedProperty.availableRooms} available
             </p>
           </div>

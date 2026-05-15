@@ -134,7 +134,7 @@ export default function AdminInvoicesPage() {
       <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
         {loading ? (
           <div className="flex justify-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#006b5f]" />
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#A87813]" />
           </div>
         ) : filtered.length === 0 ? (
           <p className="text-center py-12 text-[#6c7a77] font-['Manrope']">No invoices found.</p>
@@ -172,7 +172,7 @@ export default function AdminInvoicesPage() {
                             setPayModal(inv);
                             setPayAmount(String(Number(inv.total_due) - Number(inv.total_paid)));
                           }}
-                          className="text-[#006b5f] hover:underline font-['Manrope'] text-xs font-bold"
+                          className="text-[#A87813] hover:underline font-['Manrope'] text-xs font-bold"
                         >
                           Mark Paid
                         </button>
@@ -233,7 +233,7 @@ export default function AdminInvoicesPage() {
               <button
                 onClick={handleMarkPaid}
                 disabled={payProcessing || !payAmount}
-                className="px-4 py-2 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50"
+                className="px-4 py-2 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50"
               >
                 {payProcessing ? "Processing..." : "Confirm Payment"}
               </button>

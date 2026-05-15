@@ -61,7 +61,7 @@ export default function AdminMembersPage() {
                 onClick={() => { setMode(m.key); setCaptainFilter(null); }}
                 className={`relative px-4 py-2 text-sm font-medium ${
                   mode === m.key
-                    ? "border-b-2 border-[#006b5f] text-[#006b5f]"
+                    ? "border-b-2 border-[#A87813] text-[#A87813]"
                     : "text-[#6c7a77] hover:text-[#121c2a]"
                 }`}
               >

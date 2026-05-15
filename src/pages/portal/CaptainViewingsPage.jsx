@@ -76,7 +76,7 @@ function formatTime(timeStr) {
 function InitialsAvatar({ name, size = "w-14 h-14 text-lg" }) {
   return (
     <div
-      className={`${size} rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#006b5f] font-bold shrink-0`}
+      className={`${size} rounded-full bg-[#d9e3f6] flex items-center justify-center text-[#A87813] font-bold shrink-0`}
     >
       {getInitials(name)}
     </div>
@@ -89,7 +89,7 @@ function ViewingTypeBadge({ type }) {
 
   if (isVirtual) {
     return (
-      <span className="inline-flex items-center gap-1 text-sm text-[#006b5f]">
+      <span className="inline-flex items-center gap-1 text-sm text-[#A87813]">
         <span className="material-symbols-outlined text-sm">video_chat</span>
         Virtual
       </span>
@@ -97,7 +97,7 @@ function ViewingTypeBadge({ type }) {
   }
 
   return (
-    <span className="inline-flex items-center gap-1 text-sm text-[#006b5f]">
+    <span className="inline-flex items-center gap-1 text-sm text-[#A87813]">
       <span className="material-symbols-outlined text-sm">person</span>
       In-Person
     </span>
@@ -289,7 +289,7 @@ function AvailabilitySection({ viewing, onConfirmed }) {
         <button
           onClick={handleSubmit}
           disabled={selectedSlots.length === 0 || submitting}
-          className="bg-[#006b5f] text-white px-5 py-2.5 rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-40 transition-all flex items-center gap-2"
+          className="bg-[#A87813] text-white px-5 py-2.5 rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-40 transition-all flex items-center gap-2"
         >
           {submitting ? (
             <>
@@ -347,7 +347,7 @@ function IncomingCard({ viewing, onConfirmed }) {
         </div>
         <button
           onClick={() => setExpanded((v) => !v)}
-          className="w-full md:w-auto px-5 py-2.5 bg-[#006b5f] text-white font-['Manrope'] font-bold text-sm rounded-xl hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2"
+          className="w-full md:w-auto px-5 py-2.5 bg-[#A87813] text-white font-['Manrope'] font-bold text-sm rounded-xl hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2"
         >
           <span className="material-symbols-outlined text-[16px]">
             {expanded ? "expand_less" : "event_available"}
@@ -373,7 +373,7 @@ function UpcomingCard({ viewing }) {
     <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm p-6 flex flex-col md:flex-row gap-5 items-start md:items-center">
       <div
         className={`w-14 h-14 rounded-xl flex flex-col items-center justify-center shrink-0 ${
-          isToday ? "bg-[#006b5f] text-white" : "bg-[#eff4ff] text-[#121c2a]"
+          isToday ? "bg-[#A87813] text-white" : "bg-[#eff4ff] text-[#121c2a]"
         }`}
       >
         <span
@@ -400,7 +400,7 @@ function UpcomingCard({ viewing }) {
           <span
             className={`px-2.5 py-0.5 rounded-full text-xs font-bold tracking-tight ${
               isToday
-                ? "bg-[#006b5f]/10 text-[#006b5f]"
+                ? "bg-[#A87813]/10 text-[#A87813]"
                 : "bg-[#eff4ff] text-[#6c7a77]"
             }`}
           >
@@ -474,7 +474,7 @@ function EmptyState({ icon, title, description }) {
   return (
     <div className="bg-white rounded-2xl p-12 border border-[#bbcac6]/15 shadow-sm flex flex-col items-center text-center">
       <div className="w-16 h-16 bg-[#eff4ff] rounded-2xl flex items-center justify-center mb-4">
-        <span className="material-symbols-outlined text-[#006b5f] text-[32px]">
+        <span className="material-symbols-outlined text-[#A87813] text-[32px]">
           {icon}
         </span>
       </div>
@@ -610,7 +610,7 @@ export default function CaptainViewingsPage() {
               onClick={() => setActiveTab(tab.key)}
               className={`pb-3 text-sm font-['Manrope'] font-medium transition-all flex items-center gap-2 ${
                 isActive
-                  ? "text-[#006b5f] font-bold border-b-2 border-[#006b5f]"
+                  ? "text-[#A87813] font-bold border-b-2 border-[#A87813]"
                   : "text-[#6c7a77] hover:text-[#121c2a]"
               }`}
             >
@@ -619,7 +619,7 @@ export default function CaptainViewingsPage() {
                 <span
                   className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
                     isActive
-                      ? "bg-[#006b5f]/10 text-[#006b5f]"
+                      ? "bg-[#A87813]/10 text-[#A87813]"
                       : "bg-[#eff4ff] text-[#6c7a77]"
                   }`}
                 >

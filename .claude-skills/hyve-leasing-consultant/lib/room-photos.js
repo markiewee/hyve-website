@@ -1,5 +1,5 @@
 // lib/room-photos.js
-// Map Hyve room codes (e.g. "TG-STD1", "CP-MR") to local photo file paths.
+// Map lazybee room codes (e.g. "TG-STD1", "CP-MR") to local photo file paths.
 //
 // Convention: ~/Desktop/claudine/hyve-photos/{property-slug}/{SUFFIX}.jpg
 // Property slugs: TG=thomson-grove, IH=ivory-heights, CP=chiltern-park

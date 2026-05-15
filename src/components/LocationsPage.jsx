@@ -96,7 +96,7 @@ const LocationsPage = () => {
         <aside className="w-full md:w-[420px] bg-[#eff4ff] md:h-full flex flex-col z-10 shadow-2xl overflow-y-auto scrollbar-hide">
           <div className="p-6 md:p-8">
             <header className="mb-8">
-              <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#006b5f] font-bold mb-2 block">
+              <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#A87813] font-bold mb-2 block">
                 {t('public.locations.badge')}
               </span>
               <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold tracking-tight text-[#121c2a] leading-tight">
@@ -155,7 +155,7 @@ const LocationsPage = () => {
 
                     {/* Price range */}
                     {neighborhood.priceRange?.rentRange && (
-                      <p className="mt-3 text-sm font-['Inter'] font-semibold text-[#006b5f]">
+                      <p className="mt-3 text-sm font-['Inter'] font-semibold text-[#A87813]">
                         {neighborhood.priceRange.rentRange.replace(/(\d[\d,]*)/g, (m, num, offset, str) => {
                           // Only prepend $ if not already preceded by $
                           if (offset > 0 && str[offset - 1] === '$') return num;
@@ -237,7 +237,7 @@ const LocationsPage = () => {
                   {selectedNeighborhood.transport && selectedNeighborhood.transport.length > 0 && (
                     <div className="mb-6">
                       <h4 className="font-['Plus_Jakarta_Sans'] font-bold mb-2 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-[#006b5f]">train</span>
+                        <span className="material-symbols-outlined text-[#A87813]">train</span>
                         {t('public.locations.transportation')}
                       </h4>
                       {selectedNeighborhood.transport.map((transport, index) => (
@@ -251,10 +251,10 @@ const LocationsPage = () => {
                   {selectedNeighborhood.priceRange?.rentRange && (
                     <div className="mb-6">
                       <h4 className="font-['Plus_Jakarta_Sans'] font-bold mb-1 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-[#006b5f]">payments</span>
+                        <span className="material-symbols-outlined text-[#A87813]">payments</span>
                         Typical Rent
                       </h4>
-                      <p className="text-lg font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
+                      <p className="text-lg font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
                         {selectedNeighborhood.priceRange.rentRange.replace(/(\d[\d,]*)/g, (m, num, offset, str) => {
                           if (offset > 0 && str[offset - 1] === '$') return num;
                           return '$' + num;
@@ -286,7 +286,7 @@ const LocationsPage = () => {
                           loading="lazy"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
-                        <span className="absolute top-3 right-3 bg-[#006b5f] text-white px-3 py-1 rounded-full text-xs font-['Inter'] font-bold">
+                        <span className="absolute top-3 right-3 bg-[#A87813] text-white px-3 py-1 rounded-full text-xs font-['Inter'] font-bold">
                           ${property.startingPrice}/mo
                         </span>
                       </div>
@@ -304,7 +304,7 @@ const LocationsPage = () => {
               <div className="mt-6 flex gap-3">
                 <Link
                   to="/properties"
-                  className="flex-1 bg-[#006b5f] text-white py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-center hover:opacity-90 transition-all"
+                  className="flex-1 bg-[#A87813] text-white py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-center hover:opacity-90 transition-all"
                 >
                   {t('public.locations.viewProperties')}
                 </Link>

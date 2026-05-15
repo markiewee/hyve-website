@@ -26,7 +26,7 @@ export const PROPERTY_META = {
     priceFrom: 800,
     priceTo: 1190,
     meetingPoint: "Tell the guard you're visiting Lazybee at Block 122.",
-    badge: { bg: "bg-teal-100", text: "text-teal-700", border: "border-teal-500" },
+    badge: { bg: "bg-honey-100", text: "text-honey-800", border: "border-honey-500" },
   },
   CP: {
     code: "CP",

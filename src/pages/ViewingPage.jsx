@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import Wordmark from "../components/Wordmark";
 
 const PROPERTY_INFO = {
   "Thomson Grove 588": {
@@ -140,7 +141,7 @@ export default function ViewingPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#f7f9fb] flex items-center justify-center">
-        <div className="animate-pulse text-[#006b5f] font-['Plus_Jakarta_Sans'] font-bold text-lg">{t.loading}</div>
+        <div className="animate-pulse text-[#A87813] font-['Plus_Jakarta_Sans'] font-bold text-lg">{t.loading}</div>
       </div>
     );
   }
@@ -149,10 +150,10 @@ export default function ViewingPage() {
     return (
       <div className="min-h-screen bg-[#f7f9fb] flex items-center justify-center p-6">
         <div className="text-center">
-          <img src="/lazybee-logo.png" alt="Lazybee" className="h-8 mx-auto mb-6" />
+          <div className="mb-6 flex justify-center"><Wordmark size="md" /></div>
           <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#191c1e] mb-2">{t.notFound}</h1>
           <p className="text-[#3c4947] font-['Inter']">{t.notFoundDesc}</p>
-          <a href="https://wa.me/6580885410" className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-lg font-['Inter'] font-semibold text-sm">
+          <a href="https://wa.me/6580885410" className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-lg font-['Inter'] font-semibold text-sm">
             {t.contactUs}
           </a>
         </div>
@@ -182,7 +183,7 @@ export default function ViewingPage() {
       {/* Language Toggle - floating */}
       <button
         onClick={toggleLang}
-        className="fixed top-4 right-4 z-50 bg-white/90 backdrop-blur-md border border-[#bbcac6]/20 px-3 py-1.5 rounded-full shadow-md text-xs font-bold text-[#006b5f] hover:bg-white transition-colors"
+        className="fixed top-4 right-4 z-50 bg-white/90 backdrop-blur-md border border-[#bbcac6]/20 px-3 py-1.5 rounded-full shadow-md text-xs font-bold text-[#A87813] hover:bg-white transition-colors"
       >
         {lang === "en" ? "中文" : "EN"}
       </button>
@@ -193,13 +194,13 @@ export default function ViewingPage() {
           {propInfo.image ? (
             <img src={propInfo.image} alt={propertyName} className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-[#006b5f] to-[#14b8a6]" />
+            <div className="w-full h-full bg-gradient-to-br from-[#A87813] to-[#D9A441]" />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-[#191c1e]/80 via-[#191c1e]/20 to-transparent" />
         </div>
         <div className="relative z-10 p-8 md:p-12 w-full max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-4">
-            <div className="h-[1px] w-12 bg-[#14b8a6]" />
+            <div className="h-[1px] w-12 bg-[#D9A441]" />
             <span className="font-['Inter'] text-xs uppercase tracking-[0.2em] text-[#71f8e4] font-semibold">
               {isPast ? t.pastViewing : t.confirmed}
             </span>
@@ -218,19 +219,19 @@ export default function ViewingPage() {
           {/* Left Column */}
           <div className="lg:col-span-7 space-y-6">
             {/* Date & Time */}
-            <div className="bg-white p-8 md:p-10 rounded-xl shadow-sm border-l-4 border-[#006b5f]">
+            <div className="bg-white p-8 md:p-10 rounded-xl shadow-sm border-l-4 border-[#A87813]">
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <span className="font-['Inter'] text-[0.65rem] uppercase tracking-widest text-[#565e74] mb-2 block font-bold">{t.scheduledTime}</span>
                   <h2 className="font-['Plus_Jakarta_Sans'] text-3xl md:text-4xl font-bold text-[#191c1e]">{fmtDate}</h2>
                   {fmtTime && (
-                    <p className="font-['Plus_Jakarta_Sans'] text-xl text-[#006b5f] font-medium mt-1">{fmtTime}</p>
+                    <p className="font-['Plus_Jakarta_Sans'] text-xl text-[#A87813] font-medium mt-1">{fmtTime}</p>
                   )}
                 </div>
                 <div className="flex flex-col items-end gap-2">
                   {!isPast && countdown && (
                     <>
-                      <span className="bg-[#14b8a6] text-white px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase">{t.scheduled}</span>
+                      <span className="bg-[#D9A441] text-white px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase">{t.scheduled}</span>
                       <span className="text-[#565e74] text-sm font-medium">{countdown}</span>
                     </>
                   )}
@@ -244,14 +245,14 @@ export default function ViewingPage() {
             {/* How to Get There */}
             <div className="bg-[#f2f4f6] p-8 md:p-10 rounded-xl">
               <div className="flex items-center gap-3 mb-6">
-                <span className="material-symbols-outlined text-[#006b5f]" style={{ fontVariationSettings: "'FILL' 1" }}>location_on</span>
+                <span className="material-symbols-outlined text-[#A87813]" style={{ fontVariationSettings: "'FILL' 1" }}>location_on</span>
                 <h3 className="font-['Plus_Jakarta_Sans'] text-lg font-bold uppercase tracking-tight">{t.howToGetThere}</h3>
               </div>
               <p className="text-base font-medium text-[#191c1e] mb-6">{address}</p>
               {propInfo.mrt && (
                 <div className="flex items-center gap-4 p-4 bg-white rounded-lg mb-6">
-                  <div className="bg-[#006b5f]/10 p-3 rounded-lg">
-                    <span className="material-symbols-outlined text-[#006b5f]">directions_subway</span>
+                  <div className="bg-[#A87813]/10 p-3 rounded-lg">
+                    <span className="material-symbols-outlined text-[#A87813]">directions_subway</span>
                   </div>
                   <div>
                     <p className="font-bold text-[#191c1e]">{propInfo.mrt}</p>
@@ -288,7 +289,7 @@ export default function ViewingPage() {
                       href={viewing.meet_link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full md:w-auto text-center bg-[#14b8a6] text-[#00201c] px-10 py-4 rounded-lg font-bold hover:bg-[#71f8e4] transition-colors"
+                      className="w-full md:w-auto text-center bg-[#D9A441] text-[#00201c] px-10 py-4 rounded-lg font-bold hover:bg-[#71f8e4] transition-colors"
                     >
                       {t.joinMeeting}
                     </a>
@@ -302,7 +303,7 @@ export default function ViewingPage() {
           <div className="lg:col-span-5 space-y-6">
             {/* Access Code */}
             {viewing.access_code && (
-              <div className="bg-[#006b5f] p-8 rounded-xl text-white relative overflow-hidden group">
+              <div className="bg-[#A87813] p-8 rounded-xl text-white relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110" />
                 <span className="font-['Inter'] text-[10px] uppercase tracking-[0.2em] opacity-80 mb-6 block font-bold">{t.accessCode}</span>
                 <div className="bg-white/10 border border-white/20 rounded-xl p-6 mb-4 flex items-center justify-between">
@@ -314,15 +315,15 @@ export default function ViewingPage() {
             )}
 
             {/* When You Arrive */}
-            <div className="bg-[#e6e8ea] p-8 rounded-xl border-l-4 border-[#14b8a6]">
+            <div className="bg-[#e6e8ea] p-8 rounded-xl border-l-4 border-[#D9A441]">
               <div className="flex items-center gap-2 mb-6">
-                <span className="material-symbols-outlined text-[#006b5f]" style={{ fontVariationSettings: "'FILL' 1" }}>security</span>
+                <span className="material-symbols-outlined text-[#A87813]" style={{ fontVariationSettings: "'FILL' 1" }}>security</span>
                 <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#191c1e]">{t.whenYouArrive}</h4>
               </div>
               <div className="space-y-6">
                 {securityText && (
                   <div className="relative pl-8">
-                    <div className="absolute left-0 top-1 w-4 h-4 rounded-full border-2 border-[#006b5f] bg-white" />
+                    <div className="absolute left-0 top-1 w-4 h-4 rounded-full border-2 border-[#A87813] bg-white" />
                     {viewing.access_code && <div className="absolute left-1.5 top-5 w-[1px] h-10 bg-[#bbcac6]" />}
                     <p className="font-medium text-[#191c1e]">{t.securityGate}</p>
                     <p className="text-sm text-[#565e74] mt-1 italic leading-relaxed">"{securityText}"</p>
@@ -330,7 +331,7 @@ export default function ViewingPage() {
                 )}
                 {viewing.special_notes && (
                   <div className="relative pl-8">
-                    <div className="absolute left-0 top-1 w-4 h-4 rounded-full border-2 border-[#006b5f] bg-white" />
+                    <div className="absolute left-0 top-1 w-4 h-4 rounded-full border-2 border-[#A87813] bg-white" />
                     <p className="font-medium text-[#191c1e]">{t.additionalInfo}</p>
                     <div className="mt-3 flex items-start gap-3 bg-[#9b4426]/5 p-4 rounded-lg">
                       <span className="material-symbols-outlined text-[#9b4426] text-[18px] shrink-0 mt-0.5">info</span>

@@ -99,7 +99,7 @@ export default function AdminDevicesPage() {
           {loading ? (
             <div className="h-8 w-12 bg-[#eff4ff] animate-pulse rounded" />
           ) : (
-            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#006b5f]">
+            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#A87813]">
               {onlineCount}
             </p>
           )}
@@ -118,7 +118,7 @@ export default function AdminDevicesPage() {
           )}
         </div>
 
-        <div className="bg-[#006b5f] rounded-2xl p-6 relative overflow-hidden">
+        <div className="bg-[#A87813] rounded-2xl p-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full -mr-10 -mt-10 pointer-events-none" />
           <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#71f8e4]/80 font-bold mb-3">
             Online Rate
@@ -136,14 +136,14 @@ export default function AdminDevicesPage() {
       {/* Assign device to room */}
       <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm mb-8">
         <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-4 flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#006b5f] text-[20px]">add_circle</span>
+          <span className="material-symbols-outlined text-[#A87813] text-[20px]">add_circle</span>
           Register Sensor to Room
         </h2>
         <div className="flex flex-col sm:flex-row gap-3">
           <select
             value={assignRoom}
             onChange={(e) => setAssignRoom(e.target.value)}
-            className="flex-1 bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-sm text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+            className="flex-1 bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-sm text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
           >
             <option value="">Select room...</option>
             {rooms
@@ -201,7 +201,7 @@ export default function AdminDevicesPage() {
               setAssigning(false);
             }}
             disabled={!assignRoom || assigning}
-            className="px-6 py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all shrink-0 flex items-center gap-2"
+            className="px-6 py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all shrink-0 flex items-center gap-2"
           >
             <span className="material-symbols-outlined text-[18px]">sensors</span>
             {assigning ? "Registering..." : "Register"}
@@ -239,7 +239,7 @@ export default function AdminDevicesPage() {
       ) : devices.length === 0 ? (
         <div className="bg-white rounded-2xl p-12 border border-[#bbcac6]/15 shadow-sm flex flex-col items-center text-center">
           <div className="w-16 h-16 bg-[#eff4ff] rounded-2xl flex items-center justify-center mb-4">
-            <span className="material-symbols-outlined text-[#006b5f] text-[32px]">router</span>
+            <span className="material-symbols-outlined text-[#A87813] text-[32px]">router</span>
           </div>
           <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-lg mb-2">
             No devices registered

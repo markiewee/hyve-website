@@ -52,7 +52,7 @@ export default function DocumentsList({ documents }) {
     return (
       <div>
         <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-4 flex items-center gap-2 text-[#121c2a]">
-          <span className="material-symbols-outlined text-[#006b5f] text-[22px]">folder_open</span>
+          <span className="material-symbols-outlined text-[#A87813] text-[22px]">folder_open</span>
           Documents
         </h3>
         <p className="text-sm font-['Manrope'] text-[#555f6f]">No documents yet.</p>
@@ -63,7 +63,7 @@ export default function DocumentsList({ documents }) {
   return (
     <div>
       <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-4 flex items-center gap-2 text-[#121c2a]">
-        <span className="material-symbols-outlined text-[#006b5f] text-[22px]">folder_open</span>
+        <span className="material-symbols-outlined text-[#A87813] text-[22px]">folder_open</span>
         Documents
       </h3>
       <div className="space-y-3">
@@ -75,7 +75,7 @@ export default function DocumentsList({ documents }) {
               className="py-3 px-3 rounded-lg border border-[#bbcac6]/15 hover:bg-[#f8faf9] transition-colors space-y-2"
             >
               <div className="flex items-start gap-2">
-                <span className="material-symbols-outlined text-[#006b5f] text-[16px] mt-0.5 shrink-0">{icon}</span>
+                <span className="material-symbols-outlined text-[#A87813] text-[16px] mt-0.5 shrink-0">{icon}</span>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-['Manrope'] font-bold text-[#121c2a] leading-tight">
                     {doc.title || DOC_TYPE_LABELS[doc.doc_type] || doc.doc_type}
@@ -93,7 +93,7 @@ export default function DocumentsList({ documents }) {
                 <button
                   onClick={async () => { setLoadingId(doc.id); await openSignedUrl(doc.file_url); setLoadingId(null); }}
                   disabled={loadingId === doc.id}
-                  className="w-full inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg bg-[#006b5f]/10 text-[#006b5f] text-xs font-['Manrope'] font-bold hover:bg-[#006b5f]/20 transition-colors disabled:opacity-50"
+                  className="w-full inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg bg-[#A87813]/10 text-[#A87813] text-xs font-['Manrope'] font-bold hover:bg-[#A87813]/20 transition-colors disabled:opacity-50"
                 >
                   <span className="material-symbols-outlined text-[14px]">open_in_new</span>
                   {loadingId === doc.id ? "Opening..." : "View Document"}

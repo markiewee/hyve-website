@@ -39,9 +39,9 @@ export default function AdminBillingPage() {
           <Link
             key={t.key}
             to={t.to}
-            className="bg-white rounded-2xl border border-[#bbcac6]/15 p-6 hover:border-[#006b5f]/30 hover:shadow-md transition-all flex items-start gap-4"
+            className="bg-white rounded-2xl border border-[#bbcac6]/15 p-6 hover:border-[#A87813]/30 hover:shadow-md transition-all flex items-start gap-4"
           >
-            <span className="material-symbols-outlined text-[#006b5f] text-[28px] shrink-0">
+            <span className="material-symbols-outlined text-[#A87813] text-[28px] shrink-0">
               {t.key === "rent" ? "receipt_long"
                 : t.key === "invoices" ? "request_quote"
                 : t.key === "expenses" ? "account_balance"

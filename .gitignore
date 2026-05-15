@@ -6,4 +6,6 @@ dist/
 
 .env.vercel
 .env.vercel.prod
+.env.vercel.prod.bak
+*.bak
 .secrets/

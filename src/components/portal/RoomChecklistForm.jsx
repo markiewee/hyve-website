@@ -194,9 +194,9 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
           key={area.name}
           className="border border-border rounded-lg overflow-hidden"
         >
-          <div className="bg-[#006b5f]/5 px-4 py-3 border-b border-border">
+          <div className="bg-[#A87813]/5 px-4 py-3 border-b border-border">
             <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#006b5f] text-[18px]">
+              <span className="material-symbols-outlined text-[#A87813] text-[18px]">
                 {area.name.includes("Bathroom") ? "bathroom" : "bed"}
               </span>
               {area.name}

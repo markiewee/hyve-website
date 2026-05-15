@@ -52,7 +52,7 @@ export default function DeviceStatusCard({ device, energyReading }) {
       <div className="flex items-start justify-between gap-2">
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#006b5f] px-2 py-0.5 rounded">
+            <span className="font-['Inter'] text-xs font-bold bg-[#eff4ff] text-[#A87813] px-2 py-0.5 rounded">
               {unitCode}
             </span>
             <span className="text-sm font-['Manrope'] font-bold text-[#121c2a]">{roomName}</span>
@@ -95,7 +95,7 @@ export default function DeviceStatusCard({ device, energyReading }) {
             <p className="text-[10px] text-[#6c7a77] font-['Inter'] uppercase tracking-wider">Volts</p>
           </div>
           <div className="text-center">
-            <p className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#006b5f]">{Number(energy || 0).toFixed(1)}</p>
+            <p className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#A87813]">{Number(energy || 0).toFixed(1)}</p>
             <p className="text-[10px] text-[#6c7a77] font-['Inter'] uppercase tracking-wider">kWh</p>
           </div>
         </div>

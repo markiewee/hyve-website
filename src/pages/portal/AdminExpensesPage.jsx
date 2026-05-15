@@ -27,7 +27,7 @@ const CATEGORY_BADGE = {
   SUPPLIES: "bg-[#e6eeff] text-[#555f6f]",
   STAFF: "bg-violet-100 text-violet-700",
   PLATFORM_FEES: "bg-cyan-100 text-cyan-700",
-  GOODS_TRANSPORT: "bg-teal-100 text-teal-700",
+  GOODS_TRANSPORT: "bg-honey-100 text-honey-800",
   OTHER: "bg-[#eff4ff] text-[#6c7a77]",
 };
 
@@ -204,7 +204,7 @@ export default function AdminExpensesPage() {
         </div>
         <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
           <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Recurring</p>
-          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#006b5f]">
+          <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#A87813]">
             {formatSGD(recurringTotal)}
           </p>
         </div>
@@ -226,7 +226,7 @@ export default function AdminExpensesPage() {
                 Property
               </label>
               <select
-                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                 value={selectedProperty}
                 onChange={(e) => setSelectedProperty(e.target.value)}
               >
@@ -245,7 +245,7 @@ export default function AdminExpensesPage() {
                 type="month"
                 value={selectedMonth}
                 onChange={(e) => setSelectedMonth(e.target.value)}
-                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
               />
             </div>
             <button
@@ -261,7 +261,7 @@ export default function AdminExpensesPage() {
           {/* Add expense form */}
           <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
             <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-5 flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#006b5f] text-[20px]">add_circle</span>
+              <span className="material-symbols-outlined text-[#A87813] text-[20px]">add_circle</span>
               Log Expense
             </h2>
             <form onSubmit={handleAdd} className="space-y-4">
@@ -270,7 +270,7 @@ export default function AdminExpensesPage() {
                   Category
                 </label>
                 <select
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                   value={form.category}
                   onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
                 >
@@ -291,7 +291,7 @@ export default function AdminExpensesPage() {
                   value={form.amount}
                   onChange={(e) => setForm((f) => ({ ...f, amount: e.target.value }))}
                   required
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                 />
               </div>
               <div>
@@ -303,7 +303,7 @@ export default function AdminExpensesPage() {
                   placeholder="e.g. Monthly master lease payment"
                   value={form.description}
                   onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                 />
               </div>
               <div className="flex items-center gap-3 py-1">
@@ -312,7 +312,7 @@ export default function AdminExpensesPage() {
                   type="checkbox"
                   checked={form.is_recurring}
                   onChange={(e) => setForm((f) => ({ ...f, is_recurring: e.target.checked }))}
-                  className="rounded border-[#bbcac6] text-[#006b5f] focus:ring-[#14b8a6] w-4 h-4"
+                  className="rounded border-[#bbcac6] text-[#A87813] focus:ring-[#D9A441] w-4 h-4"
                 />
                 <label htmlFor="is-recurring" className="font-['Manrope'] text-sm text-[#555f6f] cursor-pointer font-medium">
                   Recurring expense (copy to next month)
@@ -321,7 +321,7 @@ export default function AdminExpensesPage() {
               <button
                 type="submit"
                 disabled={adding || !selectedProperty}
-                className="w-full py-4 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+                className="w-full py-4 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">add</span>
                 {adding ? "Adding…" : "Add Expense"}
@@ -375,7 +375,7 @@ export default function AdminExpensesPage() {
                             {e.description || "—"}
                           </span>
                           {e.is_recurring && (
-                            <span className="material-symbols-outlined text-[14px] text-[#006b5f] shrink-0" title="Recurring">
+                            <span className="material-symbols-outlined text-[14px] text-[#A87813] shrink-0" title="Recurring">
                               autorenew
                             </span>
                           )}
@@ -406,7 +406,7 @@ export default function AdminExpensesPage() {
 
                 {/* Recurring audit banner */}
                 {expenses.filter((e) => e.is_recurring).length > 0 && (
-                  <div className="bg-[#006b5f] px-6 py-4 flex items-center justify-between">
+                  <div className="bg-[#A87813] px-6 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <span className="material-symbols-outlined text-[#71f8e4] text-[20px]">autorenew</span>
                       <span className="font-['Manrope'] text-white text-sm font-medium">

@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import Wordmark from "../Wordmark";
 
 const INVESTOR_NAV = [
   {
@@ -38,7 +39,7 @@ export default function InvestorLayout({ children }) {
             to="/portal/investor/dashboard"
             className="flex items-center gap-2"
           >
-            <div className="w-8 h-8 rounded-lg bg-[#006b5f] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-[#A87813] flex items-center justify-center">
               <span
                 className="material-symbols-outlined text-white text-[16px]"
                 style={{ fontVariationSettings: "'FILL' 1" }}
@@ -46,7 +47,7 @@ export default function InvestorLayout({ children }) {
                 trending_up
               </span>
             </div>
-            <img src="/lazybee-logo.png" alt="Lazybee" className="h-6" />
+            <Wordmark size="sm" />
           </Link>
         </div>
 
@@ -60,7 +61,7 @@ export default function InvestorLayout({ children }) {
                 to={item.to}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-['Manrope'] font-semibold transition-all ${
                   isActive
-                    ? "bg-[#006b5f] text-white shadow-sm shadow-[#006b5f]/20"
+                    ? "bg-[#A87813] text-white shadow-sm shadow-[#A87813]/20"
                     : "text-[#555f6f] hover:bg-[#eff4ff] hover:text-[#121c2a]"
                 }`}
               >
@@ -85,8 +86,8 @@ export default function InvestorLayout({ children }) {
         {/* User card */}
         <div className="p-4 border-t border-[#bbcac6]/10">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-9 h-9 rounded-xl bg-[#006b5f]/10 flex items-center justify-center">
-              <span className="font-['Plus_Jakarta_Sans'] font-bold text-xs text-[#006b5f]">
+            <div className="w-9 h-9 rounded-xl bg-[#A87813]/10 flex items-center justify-center">
+              <span className="font-['Plus_Jakarta_Sans'] font-bold text-xs text-[#A87813]">
                 {initials}
               </span>
             </div>
@@ -117,7 +118,7 @@ export default function InvestorLayout({ children }) {
           to="/portal/investor/dashboard"
           className="flex items-center gap-2"
         >
-          <div className="w-7 h-7 rounded-lg bg-[#006b5f] flex items-center justify-center">
+          <div className="w-7 h-7 rounded-lg bg-[#A87813] flex items-center justify-center">
             <span
               className="material-symbols-outlined text-white text-[14px]"
               style={{ fontVariationSettings: "'FILL' 1" }}
@@ -147,7 +148,7 @@ export default function InvestorLayout({ children }) {
               key={item.to}
               to={item.to}
               className={`flex-1 flex flex-col items-center py-2.5 gap-1 text-[10px] font-['Inter'] font-bold uppercase tracking-widest transition-colors ${
-                isActive ? "text-[#006b5f]" : "text-[#6c7a77]"
+                isActive ? "text-[#A87813]" : "text-[#6c7a77]"
               }`}
             >
               <span

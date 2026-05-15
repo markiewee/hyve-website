@@ -23,7 +23,7 @@ const propertyMarkerIcon = new L.DivIcon({
   className: 'custom-property-marker',
   html: `<div style="
     width: 36px; height: 36px;
-    background: #006b5f;
+    background: #A87813;
     border: 3px solid #fff;
     border-radius: 50%;
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
@@ -342,7 +342,7 @@ ${requestFormData.message || 'No additional message provided'}
         <p className="text-lg text-[#3c4947] mb-8">Sorry, we couldn&apos;t find the property you&apos;re looking for.</p>
         <Link
           to="/properties"
-          className="bg-[#006b5f] text-white px-8 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold hover:opacity-90 transition-all"
+          className="bg-[#A87813] text-white px-8 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold hover:opacity-90 transition-all"
         >
           View All Properties
         </Link>
@@ -483,7 +483,7 @@ ${requestFormData.message || 'No additional message provided'}
               {/* Rooms available badge — top-left */}
               {availableRooms.length > 0 && (
                 <div className="absolute top-4 left-4 z-10">
-                  <span className="bg-[#006b5f] text-white px-4 py-2 rounded-full text-sm font-['Inter'] font-bold shadow-lg">
+                  <span className="bg-[#A87813] text-white px-4 py-2 rounded-full text-sm font-['Inter'] font-bold shadow-lg">
                     {availableRooms.length} {availableRooms.length === 1 ? 'room' : 'rooms'} available
                   </span>
                 </div>
@@ -540,7 +540,7 @@ ${requestFormData.message || 'No additional message provided'}
               {/* Rooms badge */}
               {availableRooms.length > 0 && (
                 <div className="absolute top-4 left-4">
-                  <span className="bg-[#006b5f] text-white px-3 py-1.5 rounded-full text-xs font-['Inter'] font-bold">
+                  <span className="bg-[#A87813] text-white px-3 py-1.5 rounded-full text-xs font-['Inter'] font-bold">
                     {availableRooms.length} {availableRooms.length === 1 ? 'room' : 'rooms'} available
                   </span>
                 </div>
@@ -608,7 +608,7 @@ ${requestFormData.message || 'No additional message provided'}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-8 gap-y-4">
                 {[...UNIVERSAL_ICONS, ...facilityIcons, ...LIFESTYLE_ICONS].map((item) => (
                   <div key={item.icon} className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-[22px] text-[#006b5f] flex-shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
+                    <span className="material-symbols-outlined text-[22px] text-[#A87813] flex-shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
                     <span className="text-sm font-['Manrope'] text-[#3c4947] font-medium">{item.label}</span>
                   </div>
                 ))}
@@ -625,7 +625,7 @@ ${requestFormData.message || 'No additional message provided'}
               <div>
                 <div className="flex justify-between items-end mb-4">
                   <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold">Individual Suites</h3>
-                  <span className="text-[#006b5f] font-['Inter'] text-sm font-bold uppercase tracking-wider">
+                  <span className="text-[#A87813] font-['Inter'] text-sm font-bold uppercase tracking-wider">
                     {availableRooms.length} Available Now
                   </span>
                 </div>
@@ -633,7 +633,7 @@ ${requestFormData.message || 'No additional message provided'}
                 {/* Move-in date search */}
                 <div className="bg-white p-4 rounded-xl border border-[rgba(187,202,198,0.15)] mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-3">
                   <div className="flex items-center gap-2 text-[#3c4947]">
-                    <span className="material-symbols-outlined text-[#006b5f]">search</span>
+                    <span className="material-symbols-outlined text-[#A87813]">search</span>
                     <label htmlFor="moveInDate" className="text-sm font-['Inter'] font-medium whitespace-nowrap">
                       I want to move in by
                     </label>
@@ -644,12 +644,12 @@ ${requestFormData.message || 'No additional message provided'}
                     min={todayStr}
                     value={moveInDate}
                     onChange={(e) => setMoveInDate(e.target.value)}
-                    className="bg-[#eff4ff] border-transparent rounded-lg px-4 py-2 text-sm font-['Inter'] focus:ring-2 focus:ring-[#006b5f] focus:border-transparent outline-none flex-1 min-w-0 w-full sm:w-auto"
+                    className="bg-[#eff4ff] border-transparent rounded-lg px-4 py-2 text-sm font-['Inter'] focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none flex-1 min-w-0 w-full sm:w-auto"
                   />
                   {moveInDate && (
                     <button
                       onClick={() => setMoveInDate('')}
-                      className="text-xs text-[#006b5f] font-['Inter'] font-bold uppercase tracking-wider hover:underline"
+                      className="text-xs text-[#A87813] font-['Inter'] font-bold uppercase tracking-wider hover:underline"
                     >
                       Clear
                     </button>
@@ -664,7 +664,7 @@ ${requestFormData.message || 'No additional message provided'}
                       <p className="text-[#3c4947] font-['Manrope']">No rooms available by {formatAvailableDate(moveInDate)}</p>
                       <button
                         onClick={() => setMoveInDate('')}
-                        className="text-[#006b5f] font-['Inter'] font-bold text-sm mt-2 hover:underline"
+                        className="text-[#A87813] font-['Inter'] font-bold text-sm mt-2 hover:underline"
                       >
                         Show all rooms
                       </button>
@@ -677,7 +677,7 @@ ${requestFormData.message || 'No additional message provided'}
                     .map((room) => (
                     <div
                       key={room._id || room.id}
-                      className="bg-white p-4 md:p-6 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between border border-[rgba(187,202,198,0.15)] hover:border-[#006b5f]/30 transition-colors gap-4"
+                      className="bg-white p-4 md:p-6 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between border border-[rgba(187,202,198,0.15)] hover:border-[#A87813]/30 transition-colors gap-4"
                     >
                       <div className="flex items-center gap-4 md:gap-6 w-full md:w-auto">
                         <div className="w-28 h-28 md:w-40 md:h-32 rounded-xl overflow-hidden flex-shrink-0">
@@ -700,7 +700,7 @@ ${requestFormData.message || 'No additional message provided'}
                             {formatRoomType(room.roomType)}
                           </p>
                           <div className="mt-3 md:hidden">
-                            <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
+                            <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
                               ${room.priceMonthly}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
                             </p>
                             <p className="text-[10px] text-[#6c7a77] font-['Inter']">per month, all-inclusive</p>
@@ -709,14 +709,14 @@ ${requestFormData.message || 'No additional message provided'}
                       </div>
                       <div className="text-left md:text-right flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-2 w-full md:w-auto justify-between">
                         <div className="hidden md:block">
-                          <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
+                          <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
                             ${room.priceMonthly}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
                           </p>
                           <p className="text-[10px] text-[#6c7a77] font-['Inter']">per month, all-inclusive</p>
                         </div>
                         <button
                           onClick={() => handleRoomRequest(room)}
-                          className="bg-[#006b5f] text-white px-5 py-2.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#006b5f]/90 transition-colors"
+                          className="bg-[#A87813] text-white px-5 py-2.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#A87813]/90 transition-colors"
                         >
                           Book Viewing
                         </button>
@@ -784,7 +784,7 @@ ${requestFormData.message || 'No additional message provided'}
                               </div>
                               <p className="text-[#3c4947] text-sm">{formatRoomType(room.roomType)}</p>
                               <div className="mt-3 md:hidden">
-                                <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
+                                <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
                                   ${room.priceMonthly}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
                                 </p>
                                 <p className="text-[10px] text-[#6c7a77] font-['Inter']">per month, all-inclusive</p>
@@ -793,14 +793,14 @@ ${requestFormData.message || 'No additional message provided'}
                           </div>
                           <div className="text-left md:text-right flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-2 w-full md:w-auto justify-between">
                             <div className="hidden md:block">
-                              <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
+                              <p className="text-2xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
                                 ${room.priceMonthly}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
                               </p>
                               <p className="text-[10px] text-[#6c7a77] font-['Inter']">per month, all-inclusive</p>
                             </div>
                             <button
                               onClick={() => handleRoomRequest(room)}
-                              className="bg-[#006b5f] text-white px-5 py-2.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#006b5f]/90 transition-colors"
+                              className="bg-[#A87813] text-white px-5 py-2.5 rounded-full text-[10px] font-['Inter'] font-bold uppercase tracking-widest hover:bg-[#A87813]/90 transition-colors"
                             >
                               Enquire
                             </button>
@@ -845,7 +845,7 @@ ${requestFormData.message || 'No additional message provided'}
                   <div className="flex flex-wrap gap-3 mt-4">
                     {property.nearbyMRT.map((mrt, index) => (
                       <div key={index} className="flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl border border-[rgba(187,202,198,0.15)]">
-                        <span className="material-symbols-outlined text-[#006b5f] text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>train</span>
+                        <span className="material-symbols-outlined text-[#A87813] text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>train</span>
                         <span className="font-['Inter'] text-sm font-medium text-[#121c2a]">
                           {mrt.station || mrt}
                         </span>
@@ -866,7 +866,7 @@ ${requestFormData.message || 'No additional message provided'}
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                       {NEARBY_PLACES[id].map((place, index) => (
                         <div key={index} className="flex items-center gap-2.5 bg-white px-3 py-2.5 rounded-xl border border-[rgba(187,202,198,0.15)]">
-                          <span className="material-symbols-outlined text-[#006b5f] text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>{place.icon}</span>
+                          <span className="material-symbols-outlined text-[#A87813] text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>{place.icon}</span>
                           <div className="min-w-0">
                             <p className="font-['Manrope'] text-xs font-medium text-[#121c2a] truncate">{place.name}</p>
                             <p className="font-['Inter'] text-[10px] text-[#6c7a77]">{place.time}</p>
@@ -886,7 +886,7 @@ ${requestFormData.message || 'No additional message provided'}
                 <div className="flex flex-wrap gap-3">
                   {property.nearbyMRT.map((mrt, index) => (
                     <div key={index} className="flex items-center gap-2 bg-[#dee9fc] px-4 py-2 rounded-xl">
-                      <span className="material-symbols-outlined text-[#006b5f] text-sm">train</span>
+                      <span className="material-symbols-outlined text-[#A87813] text-sm">train</span>
                       <span className="font-['Inter'] text-sm font-medium text-[#121c2a]">
                         {mrt.station || mrt} {mrt.walkingMinutes ? `(${mrt.walkingMinutes} min walk)` : ''}
                       </span>
@@ -899,7 +899,7 @@ ${requestFormData.message || 'No additional message provided'}
             {/* ==================== SOCIAL PROOF ==================== */}
             <div className="bg-white rounded-2xl border border-[rgba(187,202,198,0.15)] p-8">
               <div className="text-center mb-8">
-                <p className="text-[10px] font-['Inter'] font-bold uppercase tracking-[0.2em] text-[#006b5f] mb-2">
+                <p className="text-[10px] font-['Inter'] font-bold uppercase tracking-[0.2em] text-[#A87813] mb-2">
                   Social Proof
                 </p>
                 <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">
@@ -916,7 +916,7 @@ ${requestFormData.message || 'No additional message provided'}
                   <p className="text-[#3c4947] font-['Manrope'] text-sm leading-relaxed mb-4">
                     &ldquo;Moving to Singapore was daunting, but Lazybee made it so easy. Everything is included in the rent, the housemates are great, and the location is perfect for getting around.&rdquo;
                   </p>
-                  <p className="font-['Inter'] text-xs font-bold text-[#006b5f]">
+                  <p className="font-['Inter'] text-xs font-bold text-[#A87813]">
                     Priya, 26 &mdash; Thomson Grove
                   </p>
                 </div>
@@ -929,7 +929,7 @@ ${requestFormData.message || 'No additional message provided'}
                   <p className="text-[#3c4947] font-['Manrope'] text-sm leading-relaxed mb-4">
                     &ldquo;Best value co-living in Singapore. The weekly cleaning, fast WiFi, and fully furnished rooms meant I could just move in and start living. No hidden costs either.&rdquo;
                   </p>
-                  <p className="font-['Inter'] text-xs font-bold text-[#006b5f]">
+                  <p className="font-['Inter'] text-xs font-bold text-[#A87813]">
                     Marcus, 28 &mdash; Ivory Heights
                   </p>
                 </div>
@@ -946,7 +946,7 @@ ${requestFormData.message || 'No additional message provided'}
                   <p className="text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6c7a77] mb-1">
                     Starting from
                   </p>
-                  <p className="text-3xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
+                  <p className="text-3xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
                     ${displayStartingPrice}<span className="text-lg font-normal text-[#3c4947]">/mo</span>
                   </p>
                   <p className="text-xs text-[#6c7a77] font-['Inter'] mt-1">All-inclusive, no hidden fees</p>
@@ -961,7 +961,7 @@ ${requestFormData.message || 'No additional message provided'}
                 <div className="space-y-3">
                   <Link
                     to={`/view/schedule/${property.slug?.current || id}`}
-                    className="w-full bg-[#006b5f] text-white py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#006b5f]/90 transition-all active:scale-95 shadow-lg shadow-[#006b5f]/20 flex items-center justify-center gap-2"
+                    className="w-full bg-[#A87813] text-white py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#A87813]/90 transition-all active:scale-95 shadow-lg shadow-[#A87813]/20 flex items-center justify-center gap-2"
                   >
                     <span className="material-symbols-outlined">calendar_month</span>
                     Schedule a Viewing
@@ -981,7 +981,7 @@ ${requestFormData.message || 'No additional message provided'}
                   <p className="text-[10px] font-['Inter'] text-[#3c4947] font-bold uppercase tracking-widest">
                     {propertyRooms.length} TOTAL ROOMS
                   </p>
-                  <p className="text-[10px] font-['Inter'] text-[#006b5f] font-bold uppercase tracking-widest">
+                  <p className="text-[10px] font-['Inter'] text-[#A87813] font-bold uppercase tracking-widest">
                     {availableRooms.length} AVAILABLE
                   </p>
                 </div>
@@ -990,7 +990,7 @@ ${requestFormData.message || 'No additional message provided'}
               {/* Back to properties */}
               <Link
                 to="/properties"
-                className="flex items-center gap-2 text-[#006b5f] font-['Plus_Jakarta_Sans'] font-bold hover:-translate-x-1 transition-all"
+                className="flex items-center gap-2 text-[#A87813] font-['Plus_Jakarta_Sans'] font-bold hover:-translate-x-1 transition-all"
               >
                 <span className="material-symbols-outlined">arrow_back</span>
                 Back to Properties
@@ -1003,7 +1003,7 @@ ${requestFormData.message || 'No additional message provided'}
         <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#bbcac6] px-4 py-3 z-40 flex items-center justify-between gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
           <div>
             <p className="text-xs text-[#6c7a77] font-['Inter']">From</p>
-            <p className="text-xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#006b5f]">
+            <p className="text-xl font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
               ${displayStartingPrice}<span className="text-sm font-normal text-[#3c4947]">/mo</span>
             </p>
           </div>
@@ -1012,14 +1012,14 @@ ${requestFormData.message || 'No additional message provided'}
               href={`https://wa.me/6580885410?text=${encodeURIComponent(`Hi! I'm interested in ${property.name}.`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center rounded-full border border-[#bbcac6] text-[#006b5f]"
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-[#bbcac6] text-[#A87813]"
               aria-label="WhatsApp"
             >
               <span className="material-symbols-outlined text-lg">chat</span>
             </a>
             <Link
               to={`/view/schedule/${property.slug?.current || id}`}
-              className="bg-[#006b5f] text-white px-5 py-3 rounded-full font-['Plus_Jakarta_Sans'] font-bold text-sm hover:bg-[#006b5f]/90 transition-all active:scale-95 shadow-lg shadow-[#006b5f]/20"
+              className="bg-[#A87813] text-white px-5 py-3 rounded-full font-['Plus_Jakarta_Sans'] font-bold text-sm hover:bg-[#A87813]/90 transition-all active:scale-95 shadow-lg shadow-[#A87813]/20"
             >
               Schedule Viewing
             </Link>
@@ -1074,7 +1074,7 @@ ${requestFormData.message || 'No additional message provided'}
 
             {requestSubmitted ? (
               <div className="text-center py-8">
-                <span className="material-symbols-outlined text-6xl text-[#14b8a6] mb-4 block">check_circle</span>
+                <span className="material-symbols-outlined text-6xl text-[#D9A441] mb-4 block">check_circle</span>
                 <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold mb-2">Request Sent!</h3>
                 <p className="text-[#3c4947]">We&apos;ll be in touch shortly.</p>
               </div>
@@ -1096,7 +1096,7 @@ ${requestFormData.message || 'No additional message provided'}
                       type="text"
                       value={requestFormData.name}
                       onChange={(e) => setRequestFormData(prev => ({ ...prev, name: e.target.value }))}
-                      className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#006b5f] focus:border-transparent outline-none"
+                      className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none"
                       placeholder="John Doe"
                     />
                   </div>
@@ -1110,7 +1110,7 @@ ${requestFormData.message || 'No additional message provided'}
                         type="email"
                         value={requestFormData.email}
                         onChange={(e) => setRequestFormData(prev => ({ ...prev, email: e.target.value }))}
-                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#006b5f] focus:border-transparent outline-none"
+                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none"
                         placeholder="admin@lazybee.sg"
                       />
                     </div>
@@ -1122,7 +1122,7 @@ ${requestFormData.message || 'No additional message provided'}
                         type="tel"
                         value={requestFormData.phone}
                         onChange={(e) => setRequestFormData(prev => ({ ...prev, phone: e.target.value }))}
-                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#006b5f] focus:border-transparent outline-none"
+                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none"
                         placeholder="+65 8088 5410"
                       />
                     </div>
@@ -1134,14 +1134,14 @@ ${requestFormData.message || 'No additional message provided'}
                     <textarea
                       value={requestFormData.message}
                       onChange={(e) => setRequestFormData(prev => ({ ...prev, message: e.target.value }))}
-                      className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#006b5f] focus:border-transparent outline-none h-24 resize-none"
+                      className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none h-24 resize-none"
                       placeholder="Tell us about yourself..."
                     />
                   </div>
                   <button
                     type="submit"
                     disabled={requestLoading}
-                    className="w-full bg-[#006b5f] text-white py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#006b5f]/90 transition-all active:scale-95 shadow-lg shadow-[#006b5f]/20 disabled:opacity-50"
+                    className="w-full bg-[#A87813] text-white py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#A87813]/90 transition-all active:scale-95 shadow-lg shadow-[#A87813]/20 disabled:opacity-50"
                   >
                     {requestLoading ? 'Sending...' : 'Request Access'}
                   </button>

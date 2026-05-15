@@ -33,7 +33,7 @@ export default function InvestorSignupPage() {
           </p>
           <a
             href="/portal/login"
-            className="inline-flex items-center gap-2 bg-[#006b5f] text-white rounded-xl px-6 py-3 font-['Manrope'] font-bold text-sm hover:bg-[#006a61] transition-colors"
+            className="inline-flex items-center gap-2 bg-[#A87813] text-white rounded-xl px-6 py-3 font-['Manrope'] font-bold text-sm hover:bg-[#006a61] transition-colors"
           >
             Back to Login
           </a>
@@ -61,11 +61,11 @@ export default function InvestorSignupPage() {
   return (
     <div className="min-h-screen flex items-stretch">
       {/* Left editorial panel */}
-      <section className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#006b5f] flex-col">
+      <section className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#A87813] flex-col">
         <div className="absolute inset-0 opacity-30 mix-blend-overlay">
-          <div className="w-full h-full bg-gradient-to-br from-[#004d44] to-[#006b5f]" />
+          <div className="w-full h-full bg-gradient-to-br from-[#004d44] to-[#A87813]" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#006b5f] via-[#006b5f]/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#A87813] via-[#A87813]/80 to-transparent" />
         <div className="relative z-10 flex flex-col justify-between p-16 w-full h-full">
           <div>
             <span className="font-['Plus_Jakarta_Sans'] text-[#71f8e4] font-extrabold tracking-tighter text-3xl">
@@ -116,7 +116,7 @@ export default function InvestorSignupPage() {
               {["A", "B", "C"].map((l) => (
                 <div
                   key={l}
-                  className="w-10 h-10 rounded-full border-2 border-[#006b5f] bg-[#14b8a6] flex items-center justify-center text-white text-xs font-bold"
+                  className="w-10 h-10 rounded-full border-2 border-[#A87813] bg-[#D9A441] flex items-center justify-center text-white text-xs font-bold"
                 >
                   {l}
                 </div>
@@ -134,7 +134,7 @@ export default function InvestorSignupPage() {
         <div className="w-full max-w-md">
           <div className="mb-12">
             <div className="lg:hidden mb-8">
-              <span className="font-['Plus_Jakarta_Sans'] text-[#006b5f] font-extrabold tracking-tighter text-2xl">
+              <span className="font-['Plus_Jakarta_Sans'] text-[#A87813] font-extrabold tracking-tighter text-2xl">
                 Lazybee Living
               </span>
             </div>
@@ -190,7 +190,7 @@ export default function InvestorSignupPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@firm.com"
-                className="w-full px-4 py-4 bg-white border border-[#bbcac6]/20 rounded-xl font-['Inter'] text-[#121c2a] focus:border-[#14b8a6] outline-none transition-all text-sm"
+                className="w-full px-4 py-4 bg-white border border-[#bbcac6]/20 rounded-xl font-['Inter'] text-[#121c2a] focus:border-[#D9A441] outline-none transition-all text-sm"
               />
             </div>
 
@@ -212,12 +212,12 @@ export default function InvestorSignupPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-4 py-4 bg-white border border-[#bbcac6]/20 rounded-xl font-['Inter'] text-[#121c2a] focus:border-[#14b8a6] outline-none transition-all text-sm pr-12"
+                  className="w-full px-4 py-4 bg-white border border-[#bbcac6]/20 rounded-xl font-['Inter'] text-[#121c2a] focus:border-[#D9A441] outline-none transition-all text-sm pr-12"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((p) => !p)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6c7a77] hover:text-[#006b5f] transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6c7a77] hover:text-[#A87813] transition-colors"
                 >
                   <span className="material-symbols-outlined text-[20px]">
                     {showPassword ? "visibility_off" : "visibility"}
@@ -230,7 +230,7 @@ export default function InvestorSignupPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-5 bg-[#006b5f] text-white rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#006a61] transition-all duration-300 shadow-lg shadow-[#006b5f]/20 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-5 bg-[#A87813] text-white rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#006a61] transition-all duration-300 shadow-lg shadow-[#A87813]/20 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {submitting ? (
                 <>
@@ -255,7 +255,7 @@ export default function InvestorSignupPage() {
               Already a member?{" "}
               <a
                 href="/portal/login"
-                className="text-[#006b5f] font-bold hover:underline"
+                className="text-[#A87813] font-bold hover:underline"
               >
                 Secure Login
               </a>

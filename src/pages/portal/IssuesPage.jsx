@@ -24,7 +24,7 @@ export default function IssuesPage() {
         </div>
         <Link
           to="/portal/issues/new"
-          className="bg-[#006b5f] text-white px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2 shadow-sm shadow-[#006b5f]/20"
+          className="bg-[#A87813] text-white px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2 shadow-sm shadow-[#A87813]/20"
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
           Report Issue
@@ -50,7 +50,7 @@ export default function IssuesPage() {
       ) : tickets.length === 0 ? (
         <div className="bg-white rounded-2xl p-12 border border-[#bbcac6]/15 shadow-sm flex flex-col items-center text-center">
           <div className="w-16 h-16 bg-[#eff4ff] rounded-2xl flex items-center justify-center mb-4">
-            <span className="material-symbols-outlined text-[#006b5f] text-[32px]">build_circle</span>
+            <span className="material-symbols-outlined text-[#A87813] text-[32px]">build_circle</span>
           </div>
           <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-lg mb-2">
             No issues reported
@@ -60,7 +60,7 @@ export default function IssuesPage() {
           </p>
           <Link
             to="/portal/issues/new"
-            className="bg-[#006b5f] text-white px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2"
+            className="bg-[#A87813] text-white px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Report your first issue

@@ -152,7 +152,7 @@ export default function PropertyTicketsPage() {
           {openTickets.length === 0 && resolvedTickets.length === 0 ? (
             <div className="bg-white rounded-2xl p-12 border border-[#bbcac6]/15 shadow-sm flex flex-col items-center text-center">
               <div className="w-16 h-16 bg-[#eff4ff] rounded-2xl flex items-center justify-center mb-4">
-                <span className="material-symbols-outlined text-[#006b5f] text-[32px]">check_circle</span>
+                <span className="material-symbols-outlined text-[#A87813] text-[32px]">check_circle</span>
               </div>
               <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] text-lg mb-2">
                 No tickets

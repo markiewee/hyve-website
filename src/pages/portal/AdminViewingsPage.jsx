@@ -10,13 +10,13 @@ import { confirm } from "../../lib/confirm";
 
 const PROPERTY_BADGE = {
   TG: { bg: "bg-blue-100", text: "text-blue-700", border: "border-blue-500", label: "TG" },
-  IH: { bg: "bg-teal-100", text: "text-teal-700", border: "border-teal-500", label: "IH" },
+  IH: { bg: "bg-honey-100", text: "text-honey-800", border: "border-honey-500", label: "IH" },
   CP: { bg: "bg-amber-100", text: "text-amber-700", border: "border-amber-500", label: "CP" },
 };
 
 const LEAD_STATUSES = [
   { key: "new", label: "New", color: "bg-slate-200 text-slate-700" },
-  { key: "viewing_booked", label: "Viewing booked", color: "bg-teal-100 text-teal-700" },
+  { key: "viewing_booked", label: "Viewing booked", color: "bg-honey-100 text-honey-800" },
   { key: "viewed", label: "Viewed", color: "bg-blue-100 text-blue-700" },
   { key: "closed_won", label: "Closed (won)", color: "bg-emerald-100 text-emerald-700" },
   { key: "closed_lost", label: "Closed (lost)", color: "bg-red-100 text-red-700" },
@@ -76,7 +76,7 @@ function TabButton({ active, onClick, children, count }) {
       onClick={onClick}
       className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm transition-all ${
         active
-          ? "bg-[#006b5f] text-white shadow-md"
+          ? "bg-[#A87813] text-white shadow-md"
           : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
       }`}
     >
@@ -145,7 +145,7 @@ function CalendarTab({ viewings, refetch }) {
           <select
             value={propertyFilter}
             onChange={(e) => setPropertyFilter(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 text-slate-900 text-sm rounded-lg px-4 py-2.5 pr-10 focus:ring-teal-500 focus:border-teal-500 font-medium"
+            className="appearance-none bg-white border border-slate-200 text-slate-900 text-sm rounded-lg px-4 py-2.5 pr-10 focus:ring-honey-500 focus:border-honey-500 font-medium"
           >
             <option value="">All properties</option>
             {PROPERTY_CODES.map((code) => (
@@ -163,7 +163,7 @@ function CalendarTab({ viewings, refetch }) {
             <span className="w-3 h-3 rounded bg-emerald-100 border border-emerald-300" /> free
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded bg-teal-500" /> booked
+            <span className="w-3 h-3 rounded bg-honey-500" /> booked
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="w-3 h-3 rounded bg-slate-300" /> blocked
@@ -184,7 +184,7 @@ function CalendarTab({ viewings, refetch }) {
                   <div
                     key={isoDate(d)}
                     className={`p-2 text-center border-r border-slate-200 last:border-r-0 ${
-                      isWeekend ? "bg-teal-50" : ""
+                      isWeekend ? "bg-honey-50" : ""
                     }`}
                   >
                     <div className="text-[9px] uppercase tracking-widest text-slate-400 font-bold">
@@ -215,7 +215,7 @@ function CalendarTab({ viewings, refetch }) {
                     <div
                       key={`${dayIso}-${hour}`}
                       className={`grid grid-rows-2 border-r border-slate-100 last:border-r-0 ${
-                        isWeekend ? "bg-teal-50/30" : ""
+                        isWeekend ? "bg-honey-50/30" : ""
                       }`}
                     >
                       {[0, 1].map((half) => {
@@ -251,7 +251,7 @@ function CalendarTab({ viewings, refetch }) {
                                 : cancelled
                                   ? "bg-red-50 hover:bg-red-100"
                                   : viewing
-                                    ? "bg-teal-500 hover:bg-teal-600"
+                                    ? "bg-honey-500 hover:bg-honey-700"
                                     : "bg-emerald-50/50 hover:bg-emerald-100"
                             }`}
                             title={
@@ -517,7 +517,7 @@ function BlockSlotModal({ slot, onClose, onBlocked }) {
             <select
               value={property}
               onChange={(e) => setProperty(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 outline-none"
+              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-honey-500 outline-none"
             >
               {PROPERTY_CODES.map((c) => (
                 <option key={c} value={c}>
@@ -534,7 +534,7 @@ function BlockSlotModal({ slot, onClose, onBlocked }) {
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               placeholder="Captain unavailable…"
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 outline-none"
+              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-honey-500 outline-none"
             />
           </div>
         </div>
@@ -639,7 +639,7 @@ function LeadsTab() {
           onClick={() => setStatusFilter("")}
           className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
             !statusFilter
-              ? "bg-[#006b5f] text-white"
+              ? "bg-[#A87813] text-white"
               : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
           }`}
         >
@@ -651,7 +651,7 @@ function LeadsTab() {
             onClick={() => setStatusFilter(s.key)}
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
               statusFilter === s.key
-                ? "bg-[#006b5f] text-white"
+                ? "bg-[#A87813] text-white"
                 : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
             }`}
           >
@@ -683,7 +683,7 @@ function LeadsTab() {
       <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <span className="material-symbols-outlined text-teal-600 text-3xl animate-spin">
+            <span className="material-symbols-outlined text-honey-700 text-3xl animate-spin">
               progress_activity
             </span>
           </div>
@@ -854,8 +854,8 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
                   disabled={saving}
                   className={`text-xs font-bold py-2 rounded-lg border transition-all ${
                     lead.status === s.key
-                      ? "border-[#006b5f] bg-[#006b5f] text-white"
-                      : "border-slate-200 bg-white text-slate-600 hover:border-[#006b5f] hover:text-[#006b5f]"
+                      ? "border-[#A87813] bg-[#A87813] text-white"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-[#A87813] hover:text-[#A87813]"
                   }`}
                 >
                   {s.label}
@@ -893,13 +893,13 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
               rows={4}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 outline-none resize-none"
+              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-honey-500 outline-none resize-none"
               placeholder="Internal notes…"
             />
             <button
               onClick={saveNotes}
               disabled={saving}
-              className="mt-2 px-4 py-2 bg-[#006b5f] text-white rounded-lg font-bold text-xs hover:bg-[#006b5f]/90 disabled:opacity-50 transition-colors"
+              className="mt-2 px-4 py-2 bg-[#A87813] text-white rounded-lg font-bold text-xs hover:bg-[#A87813]/90 disabled:opacity-50 transition-colors"
             >
               {saving ? "Saving…" : "Save notes"}
             </button>
@@ -971,7 +971,7 @@ export default function AdminViewingsPage() {
         <div className="relative">
           <button
             onClick={() => setShowCopyMenu((v) => !v)}
-            className="bg-white border border-slate-200 text-slate-700 py-2.5 px-5 rounded-lg font-bold text-sm flex items-center gap-2 shadow-sm hover:border-teal-500 hover:text-teal-700 transition-all"
+            className="bg-white border border-slate-200 text-slate-700 py-2.5 px-5 rounded-lg font-bold text-sm flex items-center gap-2 shadow-sm hover:border-honey-500 hover:text-honey-800 transition-all"
           >
             <span className="material-symbols-outlined text-[20px]">link</span>
             Copy booking link
@@ -1001,7 +1001,7 @@ export default function AdminViewingsPage() {
 
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <span className="material-symbols-outlined text-teal-600 text-3xl animate-spin">
+          <span className="material-symbols-outlined text-honey-700 text-3xl animate-spin">
             progress_activity
           </span>
         </div>

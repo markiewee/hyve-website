@@ -112,7 +112,7 @@ function InvalidState() {
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
             href="mailto:admin@lazybee.sg"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-xl text-sm font-bold hover:scale-[1.02] active:scale-95 transition-all"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-xl text-sm font-bold hover:scale-[1.02] active:scale-95 transition-all"
           >
             <span
               className="material-symbols-outlined text-sm"
@@ -163,7 +163,7 @@ function ExpiredState() {
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
             href="mailto:admin@lazybee.sg"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-xl text-sm font-bold hover:scale-[1.02] active:scale-95 transition-all"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-xl text-sm font-bold hover:scale-[1.02] active:scale-95 transition-all"
           >
             <span
               className="material-symbols-outlined text-sm"
@@ -197,9 +197,9 @@ function WaitingState() {
   return (
     <div className="min-h-screen bg-[#f8f9ff] flex items-center justify-center p-6 antialiased">
       <div className="text-center max-w-lg">
-        <div className="w-16 h-16 rounded-full bg-[#006b5f]/10 flex items-center justify-center mx-auto mb-6">
+        <div className="w-16 h-16 rounded-full bg-[#A87813]/10 flex items-center justify-center mx-auto mb-6">
           <span
-            className="material-symbols-outlined text-[#006b5f] text-3xl"
+            className="material-symbols-outlined text-[#A87813] text-3xl"
             data-icon="schedule"
           >
             schedule
@@ -254,7 +254,7 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
       <header className="bg-white shadow-sm flex justify-between items-center px-6 py-3 w-full border-b border-slate-100 sticky top-0 z-50">
         <div className="flex items-center gap-2">
           <span
-            className="text-xl font-bold tracking-tighter text-teal-700 font-headline"
+            className="text-xl font-bold tracking-tighter text-honey-800 font-headline"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
             Lazybee
@@ -264,7 +264,7 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
 
       <main className="max-w-xl mx-auto px-4 pt-12 pb-16">
         <div className="text-center mb-8">
-          <div className="w-20 h-20 rounded-full bg-[#006b5f] flex items-center justify-center mx-auto mb-6 shadow-lg shadow-[#006b5f]/20">
+          <div className="w-20 h-20 rounded-full bg-[#A87813] flex items-center justify-center mx-auto mb-6 shadow-lg shadow-[#A87813]/20">
             <span
               className="material-symbols-outlined text-white text-4xl"
               style={{ fontVariationSettings: "'FILL' 1" }}
@@ -287,7 +287,7 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
         {/* Confirmation Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
           {/* Property header */}
-          <div className="bg-[#006b5f] p-6 text-white">
+          <div className="bg-[#A87813] p-6 text-white">
             <div className="flex items-center gap-3 mb-4">
               <span
                 className="material-symbols-outlined text-[#71f8e4] text-lg"
@@ -320,9 +320,9 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
           <div className="p-6 space-y-5">
             {/* Date & Time */}
             <div className="flex items-start gap-4">
-              <div className="bg-[#006b5f]/10 p-2.5 rounded-lg">
+              <div className="bg-[#A87813]/10 p-2.5 rounded-lg">
                 <span
-                  className="material-symbols-outlined text-[#006b5f]"
+                  className="material-symbols-outlined text-[#A87813]"
                   data-icon="calendar_today"
                 >
                   calendar_today
@@ -338,16 +338,16 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
                 >
                   {fmtDate}
                 </p>
-                <p className="text-[#006b5f] font-semibold">{fmtTime}</p>
+                <p className="text-[#A87813] font-semibold">{fmtTime}</p>
               </div>
             </div>
 
             {/* Door Code */}
             {doorCode && (
               <div className="flex items-start gap-4">
-                <div className="bg-[#006b5f]/10 p-2.5 rounded-lg">
+                <div className="bg-[#A87813]/10 p-2.5 rounded-lg">
                   <span
-                    className="material-symbols-outlined text-[#006b5f]"
+                    className="material-symbols-outlined text-[#A87813]"
                     data-icon="key"
                   >
                     key
@@ -375,7 +375,7 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
               href={calendarLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#006b5f] text-white font-bold rounded-xl shadow-lg shadow-[#006b5f]/20 hover:scale-[1.02] active:scale-95 transition-all text-sm"
+              className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#A87813] text-white font-bold rounded-xl shadow-lg shadow-[#A87813]/20 hover:scale-[1.02] active:scale-95 transition-all text-sm"
             >
               <span
                 className="material-symbols-outlined text-sm"
@@ -476,7 +476,7 @@ export default function ViewingPollPage() {
       <header className="bg-white shadow-sm flex justify-between items-center px-6 py-3 w-full border-b border-slate-100 sticky top-0 z-50">
         <div className="flex items-center gap-2">
           <span
-            className="text-xl font-bold tracking-tighter text-teal-700 font-headline"
+            className="text-xl font-bold tracking-tighter text-honey-800 font-headline"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
             Lazybee
@@ -505,7 +505,7 @@ export default function ViewingPollPage() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div className="flex-1 space-y-2">
                 <span
-                  className="text-xs font-bold tracking-widest text-[#006b5f] uppercase"
+                  className="text-xs font-bold tracking-widest text-[#A87813] uppercase"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   Viewing Schedule
@@ -546,7 +546,7 @@ export default function ViewingPollPage() {
                 onClick={() => setViewingType("in_person")}
                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${
                   viewingType === "in_person"
-                    ? "bg-white shadow-sm text-[#006b5f]"
+                    ? "bg-white shadow-sm text-[#A87813]"
                     : "text-[#3c4947] hover:text-[#191c1e]"
                 }`}
               >
@@ -562,7 +562,7 @@ export default function ViewingPollPage() {
                 onClick={() => setViewingType("virtual")}
                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${
                   viewingType === "virtual"
-                    ? "bg-white shadow-sm text-[#006b5f]"
+                    ? "bg-white shadow-sm text-[#A87813]"
                     : "text-[#3c4947] hover:text-[#191c1e]"
                 }`}
               >
@@ -584,7 +584,7 @@ export default function ViewingPollPage() {
                 className="text-lg font-bold text-[#191c1e] flex items-center gap-2"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
-                <span className="w-1 h-5 bg-[#14b8a6] rounded-full" />
+                <span className="w-1 h-5 bg-[#D9A441] rounded-full" />
                 Availability Grid
               </h2>
               <p
@@ -607,7 +607,7 @@ export default function ViewingPollPage() {
           {/* Scheduling Note */}
           <div className="bg-[#f2f4f6] rounded-2xl p-6 border border-white/50">
             <div className="flex items-start gap-4">
-              <div className="bg-[#14b8a6]/20 p-2 rounded-lg text-[#006b5f]">
+              <div className="bg-[#D9A441]/20 p-2 rounded-lg text-[#A87813]">
                 <span
                   className="material-symbols-outlined"
                   data-icon="info"
@@ -640,7 +640,7 @@ export default function ViewingPollPage() {
       <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 p-4 md:p-6 shadow-[0_-8px_30px_rgb(0,0,0,0.04)] z-50">
         <div className="max-w-3xl mx-auto flex items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#006b5f]/10 flex items-center justify-center text-[#006b5f]">
+            <div className="w-10 h-10 rounded-full bg-[#A87813]/10 flex items-center justify-center text-[#A87813]">
               <span className="font-bold text-sm">{selectedSlots.length}</span>
             </div>
             <div>
@@ -662,7 +662,7 @@ export default function ViewingPollPage() {
           <button
             onClick={handleSubmit}
             disabled={selectedSlots.length === 0 || submitting}
-            className="bg-[#006b5f] text-white font-bold px-8 py-3.5 rounded-xl shadow-lg shadow-[#006b5f]/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100"
+            className="bg-[#A87813] text-white font-bold px-8 py-3.5 rounded-xl shadow-lg shadow-[#A87813]/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100"
           >
             {submitting ? (
               <>

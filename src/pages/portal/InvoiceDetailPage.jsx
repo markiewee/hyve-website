@@ -32,7 +32,7 @@ export default function InvoiceDetailPage() {
     return (
       <PortalLayout>
         <div className="flex justify-center py-20">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#006b5f]" />
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#A87813]" />
         </div>
       </PortalLayout>
     );
@@ -56,7 +56,7 @@ export default function InvoiceDetailPage() {
         <div className="flex justify-between items-center mb-6 print:hidden">
           <a
             href="/portal/billing"
-            className="font-['Manrope'] text-sm text-[#006b5f] hover:underline flex items-center gap-1"
+            className="font-['Manrope'] text-sm text-[#A87813] hover:underline flex items-center gap-1"
           >
             <span className="material-symbols-outlined text-[18px]">arrow_back</span>
             Back to Billing
@@ -73,7 +73,7 @@ export default function InvoiceDetailPage() {
               <button
                 onClick={handleStripePayment}
                 disabled={paying}
-                className="px-4 py-2 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+                className="px-4 py-2 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">credit_card</span>
                 {paying ? "Redirecting..." : `Pay with Stripe (+4%)`}

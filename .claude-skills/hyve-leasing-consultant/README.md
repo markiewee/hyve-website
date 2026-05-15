@@ -3,7 +3,7 @@
 ## First-run dry mode
 
 ```
-> hyve sweep --dry
+> lazybee sweep --dry
 ```
 
 Drafts everything, no sends, no DB writes. Eyeball matches + drafts. Iterate `prompts/*.md` until matches feel right.
@@ -11,7 +11,7 @@ Drafts everything, no sends, no DB writes. Eyeball matches + drafts. Iterate `pr
 ## Going live
 
 ```
-> hyve sweep
+> lazybee sweep
 ```
 
 Each prospect is presented one-by-one for approval.
@@ -24,6 +24,6 @@ Or local: http://localhost:5173/portal/admin/leads
 
 ## Common operations
 
-- Sweep last 24h: `hyve sweep --since=24h`
+- Sweep last 24h: `lazybee sweep --since=24h`
 - Cron: `/loop 30m /hyve-reply-monitor`
 - Force re-classify a chat: edit card in `/portal/admin/leads`

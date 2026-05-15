@@ -192,7 +192,7 @@ const BlogPostPage = () => {
           className="w-full h-full object-cover"
         />
         <div className="absolute top-2 left-2">
-          <Badge className="bg-teal-600 text-white text-xs">
+          <Badge className="bg-honey-700 text-white text-xs">
             {post.category}
           </Badge>
         </div>
@@ -202,7 +202,7 @@ const BlogPostPage = () => {
         <CardTitle className="text-lg leading-tight">
           <Link 
             to={`/blog/${post.slug}`}
-            className="hover:text-teal-600 transition-colors"
+            className="hover:text-honey-700 transition-colors"
           >
             {post.title}
           </Link>
@@ -250,7 +250,7 @@ const BlogPostPage = () => {
             The article you're looking for doesn't exist.
           </p>
           <Link to="/blog">
-            <Button className="bg-teal-600 hover:bg-teal-700">
+            <Button className="bg-honey-700 hover:bg-honey-800">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Blog
             </Button>
@@ -285,7 +285,7 @@ const BlogPostPage = () => {
         <div className="mb-8">
           <Link 
             to="/blog" 
-            className="inline-flex items-center text-teal-600 hover:text-teal-700 font-medium"
+            className="inline-flex items-center text-honey-700 hover:text-honey-800 font-medium"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blog
@@ -303,7 +303,7 @@ const BlogPostPage = () => {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             <div className="absolute bottom-6 left-6">
-              <Badge className="bg-teal-600 text-white mb-4">
+              <Badge className="bg-honey-700 text-white mb-4">
                 {post.category}
               </Badge>
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -490,7 +490,7 @@ const BlogPostPage = () => {
         )}
 
         {/* Telegram Community CTA */}
-        <Card className="mt-12 bg-teal-50 border-teal-200">
+        <Card className="mt-12 bg-honey-50 border-honey-200">
           <CardContent className="text-center py-8">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
               Enjoyed this article?
@@ -499,7 +499,7 @@ const BlogPostPage = () => {
               Join our Telegram community for more insights, updates, and discussions about coliving in Singapore.
             </p>
             <Button 
-              className="bg-teal-600 hover:bg-teal-700"
+              className="bg-honey-700 hover:bg-honey-800"
               onClick={() => window.open('https://t.me/lazybee_sg', '_blank', 'noopener,noreferrer')}
             >
               Join our Telegram Community

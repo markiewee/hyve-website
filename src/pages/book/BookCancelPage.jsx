@@ -83,8 +83,8 @@ export default function BookCancelPage() {
     return (
       <div className="min-h-screen bg-[#f8f9ff] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-2 border-[#006b5f] border-t-transparent rounded-full animate-spin" />
-          <span className="text-[#006b5f] font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide">
+          <div className="w-8 h-8 border-2 border-[#A87813] border-t-transparent rounded-full animate-spin" />
+          <span className="text-[#A87813] font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide">
             Loading…
           </span>
         </div>
@@ -107,7 +107,7 @@ export default function BookCancelPage() {
           </p>
           <a
             href="https://wa.me/6580885410"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm"
           >
             <span className="material-symbols-outlined text-sm">chat</span>
             WhatsApp Lazybee
@@ -121,9 +121,9 @@ export default function BookCancelPage() {
     return (
       <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e] flex items-center justify-center p-6">
         <div className="w-full max-w-lg bg-white rounded-2xl editorial-shadow p-8 text-center">
-          <div className="w-16 h-16 mx-auto mb-4 bg-[#14b8a6]/15 rounded-full flex items-center justify-center">
+          <div className="w-16 h-16 mx-auto mb-4 bg-[#D9A441]/15 rounded-full flex items-center justify-center">
             <span
-              className="material-symbols-outlined text-[#006b5f] text-3xl"
+              className="material-symbols-outlined text-[#A87813] text-3xl"
               style={{ fontVariationSettings: "'FILL' 1" }}
             >
               event_busy
@@ -137,7 +137,7 @@ export default function BookCancelPage() {
           </p>
           <Link
             to="/book"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm"
           >
             <span className="material-symbols-outlined text-sm">calendar_month</span>
             Book a new time
@@ -154,7 +154,7 @@ export default function BookCancelPage() {
     <div className="min-h-screen bg-[#f8f9ff] font-['Inter'] text-[#191c1e] flex items-center justify-center p-6">
       <div className="w-full max-w-lg bg-white rounded-2xl editorial-shadow p-8">
         <div className="text-center mb-6">
-          <span className="material-symbols-outlined text-5xl text-[#006b5f] mb-3 block">
+          <span className="material-symbols-outlined text-5xl text-[#A87813] mb-3 block">
             event
           </span>
           <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold tracking-tight mb-2">
@@ -167,7 +167,7 @@ export default function BookCancelPage() {
 
         <div className="bg-[#f2f4f6] rounded-xl p-5 mb-6 space-y-3">
           <div className="flex items-start gap-3">
-            <span className="material-symbols-outlined text-[#006b5f] text-base mt-0.5">
+            <span className="material-symbols-outlined text-[#A87813] text-base mt-0.5">
               calendar_month
             </span>
             <div className="text-sm">
@@ -176,7 +176,7 @@ export default function BookCancelPage() {
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <span className="material-symbols-outlined text-[#006b5f] text-base mt-0.5">
+            <span className="material-symbols-outlined text-[#A87813] text-base mt-0.5">
               location_on
             </span>
             <p className="text-sm font-bold">{propertyName}</p>

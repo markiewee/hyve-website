@@ -41,7 +41,7 @@ export default function AccessCodesCard({ profile }) {
   return (
     <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#bbcac6]/15 shadow-sm">
       <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-6 flex items-center gap-2 text-[#121c2a]">
-        <span className="material-symbols-outlined text-[#006b5f] text-[22px]">lock</span>
+        <span className="material-symbols-outlined text-[#A87813] text-[22px]">lock</span>
         Unit Access Codes
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -49,11 +49,11 @@ export default function AccessCodesCard({ profile }) {
           <button
             type="button"
             onClick={() => handleCopy(mainDoorCode, "main")}
-            className="text-left p-5 bg-slate-50 rounded-2xl border border-slate-100 hover:border-[#14B8A6]/40 transition-colors"
+            className="text-left p-5 bg-slate-50 rounded-2xl border border-slate-100 hover:border-[#D9A441]/40 transition-colors"
           >
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#14B8A6] text-[18px]">door_front</span>
+                <span className="material-symbols-outlined text-[#D9A441] text-[18px]">door_front</span>
                 <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Main Door</p>
               </div>
               <span className="material-symbols-outlined text-slate-400 text-[18px]">
@@ -62,7 +62,7 @@ export default function AccessCodesCard({ profile }) {
             </div>
             <p className="font-mono font-bold text-2xl text-[#191c1e]">{mainDoorCode}</p>
             {copied === "main" && (
-              <p className="text-[10px] text-[#006b5f] font-semibold mt-1">Copied!</p>
+              <p className="text-[10px] text-[#A87813] font-semibold mt-1">Copied!</p>
             )}
           </button>
         )}
@@ -70,11 +70,11 @@ export default function AccessCodesCard({ profile }) {
           <button
             type="button"
             onClick={() => handleCopy(roomCode, "room")}
-            className="text-left p-5 bg-slate-50 rounded-2xl border border-slate-100 hover:border-[#14B8A6]/40 transition-colors"
+            className="text-left p-5 bg-slate-50 rounded-2xl border border-slate-100 hover:border-[#D9A441]/40 transition-colors"
           >
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#14B8A6] text-[18px]">meeting_room</span>
+                <span className="material-symbols-outlined text-[#D9A441] text-[18px]">meeting_room</span>
                 <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">
                   Your Room {unitCode ? `(${unitCode})` : ""}
                 </p>
@@ -85,7 +85,7 @@ export default function AccessCodesCard({ profile }) {
             </div>
             <p className="font-mono font-bold text-2xl text-[#191c1e]">{roomCode}</p>
             {copied === "room" && (
-              <p className="text-[10px] text-[#006b5f] font-semibold mt-1">Copied!</p>
+              <p className="text-[10px] text-[#A87813] font-semibold mt-1">Copied!</p>
             )}
           </button>
         )}

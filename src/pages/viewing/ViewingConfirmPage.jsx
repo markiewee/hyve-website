@@ -114,10 +114,10 @@ export default function ViewingConfirmPage() {
     return (
       <div className="min-h-screen bg-[#f7f9fb] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-[#006b5f] to-[#14b8a6] rounded-lg flex items-center justify-center animate-pulse">
+          <div className="w-10 h-10 bg-gradient-to-br from-[#A87813] to-[#D9A441] rounded-lg flex items-center justify-center animate-pulse">
             <span className="material-symbols-outlined text-white" style={{ fontVariationSettings: "'FILL' 1" }}>apartment</span>
           </div>
-          <p className="text-[#006b5f] font-['Plus_Jakarta_Sans'] font-bold text-lg animate-pulse">Loading...</p>
+          <p className="text-[#A87813] font-['Plus_Jakarta_Sans'] font-bold text-lg animate-pulse">Loading...</p>
         </div>
       </div>
     );
@@ -129,10 +129,10 @@ export default function ViewingConfirmPage() {
       <div className="min-h-screen bg-[#f7f9fb] flex items-center justify-center p-6">
         <div className="text-center max-w-sm">
           <div className="flex items-center justify-center gap-2 mb-8">
-            <div className="w-10 h-10 bg-gradient-to-br from-[#006b5f] to-[#14b8a6] rounded-lg flex items-center justify-center text-white">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#A87813] to-[#D9A441] rounded-lg flex items-center justify-center text-white">
               <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>apartment</span>
             </div>
-            <span className="font-['Plus_Jakarta_Sans'] font-bold text-2xl tracking-tighter text-[#006b5f]">Lazybee</span>
+            <span className="font-['Plus_Jakarta_Sans'] font-bold text-2xl tracking-tighter text-[#A87813]">Lazybee</span>
           </div>
           <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#191c1e] mb-2">Viewing Not Found</h1>
           <p className="text-[#3c4947] font-['Inter'] mb-6">
@@ -140,7 +140,7 @@ export default function ViewingConfirmPage() {
           </p>
           <a
             href="https://wa.me/6580885410"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-lg font-['Inter'] font-semibold text-sm hover:opacity-90 transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-lg font-['Inter'] font-semibold text-sm hover:opacity-90 transition-all"
           >
             Contact Us
           </a>
@@ -163,10 +163,10 @@ export default function ViewingConfirmPage() {
           {/* Logo */}
           <div className="mb-12">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-[#006b5f] to-[#14b8a6] rounded-lg flex items-center justify-center text-white">
+              <div className="w-10 h-10 bg-gradient-to-br from-[#A87813] to-[#D9A441] rounded-lg flex items-center justify-center text-white">
                 <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>apartment</span>
               </div>
-              <span className="font-['Plus_Jakarta_Sans'] font-bold text-2xl tracking-tighter text-[#006b5f]">Lazybee</span>
+              <span className="font-['Plus_Jakarta_Sans'] font-bold text-2xl tracking-tighter text-[#A87813]">Lazybee</span>
             </div>
           </div>
 
@@ -177,7 +177,7 @@ export default function ViewingConfirmPage() {
               {photo ? (
                 <img className="w-full h-full object-cover" src={photo} alt={shortName} />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-[#006b5f] to-[#14b8a6]" />
+                <div className="w-full h-full bg-gradient-to-br from-[#A87813] to-[#D9A441]" />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-6 left-8">
@@ -193,7 +193,7 @@ export default function ViewingConfirmPage() {
                 <>
                   {/* Badge */}
                   <div className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 bg-[#e6e8ea] rounded-full">
-                    <span className="material-symbols-outlined text-[#006b5f] text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>event_available</span>
+                    <span className="material-symbols-outlined text-[#A87813] text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>event_available</span>
                     <span className="text-[#3c4947] font-['Inter'] text-xs font-semibold tracking-wide">CONFIRMATION REQUIRED</span>
                   </div>
 
@@ -208,7 +208,7 @@ export default function ViewingConfirmPage() {
 
                   {/* Date & time block */}
                   <div className="bg-[#f2f4f6] rounded-lg p-8 mb-10 flex flex-col items-center gap-4">
-                    <div className="flex items-center gap-3 text-[#006b5f]">
+                    <div className="flex items-center gap-3 text-[#A87813]">
                       <span className="material-symbols-outlined text-3xl">calendar_today</span>
                       <span className="font-['Plus_Jakarta_Sans'] text-2xl font-bold tracking-tight">{dateDisplay}</span>
                     </div>
@@ -224,7 +224,7 @@ export default function ViewingConfirmPage() {
                     <button
                       onClick={handleConfirm}
                       disabled={updating}
-                      className="bg-[#006b5f] text-white font-['Plus_Jakarta_Sans'] font-bold py-4 px-8 rounded-lg shadow-lg shadow-[#006b5f]/20 hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 min-w-[200px] disabled:opacity-60"
+                      className="bg-[#A87813] text-white font-['Plus_Jakarta_Sans'] font-bold py-4 px-8 rounded-lg shadow-lg shadow-[#A87813]/20 hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 min-w-[200px] disabled:opacity-60"
                     >
                       {updating ? (
                         <span className="animate-pulse">Confirming...</span>
@@ -248,8 +248,8 @@ export default function ViewingConfirmPage() {
               {/* --- Confirmed state --- */}
               {state === "confirmed" && (
                 <div className="py-6">
-                  <div className="w-16 h-16 bg-[#006b5f]/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <span className="material-symbols-outlined text-[#006b5f] text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                  <div className="w-16 h-16 bg-[#A87813]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span className="material-symbols-outlined text-[#A87813] text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                   </div>
                   <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#191c1e] tracking-tight mb-3">
                     See you there!
@@ -259,7 +259,7 @@ export default function ViewingConfirmPage() {
                     <span className="font-semibold text-[#191c1e]">{shortName}</span>.
                   </p>
                   <div className="bg-[#f2f4f6] rounded-lg p-6 inline-flex flex-col items-center gap-2">
-                    <span className="text-[#006b5f] font-['Plus_Jakarta_Sans'] font-bold text-lg">{dateDisplay}</span>
+                    <span className="text-[#A87813] font-['Plus_Jakarta_Sans'] font-bold text-lg">{dateDisplay}</span>
                     <span className="text-[#3c4947] font-['Inter'] text-sm">{timeDisplay}</span>
                   </div>
                 </div>
@@ -295,7 +295,7 @@ export default function ViewingConfirmPage() {
                   </div>
                   <button
                     onClick={() => setState("default")}
-                    className="mt-6 text-[#006b5f] font-semibold text-sm underline decoration-[#006b5f]/30 underline-offset-4 hover:decoration-[#006b5f] transition-colors"
+                    className="mt-6 text-[#A87813] font-semibold text-sm underline decoration-[#A87813]/30 underline-offset-4 hover:decoration-[#A87813] transition-colors"
                   >
                     Go back
                   </button>
@@ -329,8 +329,8 @@ export default function ViewingConfirmPage() {
           {/* Footer links */}
           <div className="mt-12 flex flex-col items-center gap-4">
             <div className="flex gap-6 mt-4">
-              <a className="text-[#3c4947]/60 text-xs hover:text-[#006b5f] transition-colors uppercase tracking-widest font-bold" href="/privacy-policy">Privacy Policy</a>
-              <a className="text-[#3c4947]/60 text-xs hover:text-[#006b5f] transition-colors uppercase tracking-widest font-bold" href="https://wa.me/6580885410">Support</a>
+              <a className="text-[#3c4947]/60 text-xs hover:text-[#A87813] transition-colors uppercase tracking-widest font-bold" href="/privacy-policy">Privacy Policy</a>
+              <a className="text-[#3c4947]/60 text-xs hover:text-[#A87813] transition-colors uppercase tracking-widest font-bold" href="https://wa.me/6580885410">Support</a>
             </div>
           </div>
         </div>

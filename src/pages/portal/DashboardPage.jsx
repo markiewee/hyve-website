@@ -86,7 +86,7 @@ export default function DashboardPage() {
       <header className="mb-10 max-w-6xl">
         <h2 className="font-['Plus_Jakarta_Sans'] text-4xl lg:text-5xl font-extrabold text-[#121c2a] tracking-tight mb-3">
           {t("dashboard.heroTitle", { property: "" })}{" "}
-          <span className="text-[#006b5f]">{propertyName}</span>
+          <span className="text-[#A87813]">{propertyName}</span>
         </h2>
         <p className="font-['Manrope'] text-[#555f6f] text-lg max-w-2xl leading-relaxed">
           {t("dashboard.greeting", { name: firstName })}{" "}
@@ -103,7 +103,7 @@ export default function DashboardPage() {
       {!invoicesLoading && invoiceList.filter(inv => inv.status !== "PAID" && inv.status !== "VOID").length > 0 && (
         <div className="mb-8 max-w-6xl">
           <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-4 flex items-center gap-2 text-[#121c2a]">
-            <span className="material-symbols-outlined text-[#006b5f] text-[22px]">receipt_long</span>
+            <span className="material-symbols-outlined text-[#A87813] text-[22px]">receipt_long</span>
             Outstanding Invoices
           </h3>
           <div className="space-y-3">
@@ -131,7 +131,7 @@ export default function DashboardPage() {
                     <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${statusColor}`}>
                       {inv.status}
                     </span>
-                    <span className="material-symbols-outlined text-[#006b5f] text-[18px]">arrow_forward</span>
+                    <span className="material-symbols-outlined text-[#A87813] text-[18px]">arrow_forward</span>
                   </div>
                 </div>
               );
@@ -150,16 +150,16 @@ export default function DashboardPage() {
 
         {/* Billing Overview — col-span-12 */}
         <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#bbcac6]/15 shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#006b5f]/5 rounded-full -mr-16 -mt-16 pointer-events-none" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#A87813]/5 rounded-full -mr-16 -mt-16 pointer-events-none" />
           <div className="relative z-10">
             <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-6 flex items-center gap-2 text-[#121c2a]">
-              <span className="material-symbols-outlined text-[#006b5f] text-[22px]">account_balance_wallet</span>
+              <span className="material-symbols-outlined text-[#A87813] text-[22px]">account_balance_wallet</span>
               {t("dashboard.billingOverview")}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
               {/* Monthly Rent */}
-              <div className="bg-[#006b5f]/5 rounded-xl p-5 border-b-2 border-[#006b5f]">
-                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#006b5f] font-bold mb-1">{t("dashboard.monthlyRent")}</p>
+              <div className="bg-[#A87813]/5 rounded-xl p-5 border-b-2 border-[#A87813]">
+                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#A87813] font-bold mb-1">{t("dashboard.monthlyRent")}</p>
                 <p className="font-['Plus_Jakarta_Sans'] text-2xl font-black text-[#121c2a]">
                   {(profile?.monthly_rent || profile?.rooms?.rent_amount)
                     ? `$${Number(profile.monthly_rent || profile.rooms?.rent_amount).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`
@@ -178,7 +178,7 @@ export default function DashboardPage() {
                 </p>
               </div>
               {/* Total Due */}
-              <div className={`rounded-xl p-5 border-b-2 ${totalCharges > 0 ? "bg-red-50 border-red-400" : "bg-[#eff4ff] border-[#006b5f]/30"}`}>
+              <div className={`rounded-xl p-5 border-b-2 ${totalCharges > 0 ? "bg-red-50 border-red-400" : "bg-[#eff4ff] border-[#A87813]/30"}`}>
                 <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-1">{t("dashboard.totalDue")}</p>
                 <p className="font-['Plus_Jakarta_Sans'] text-2xl font-black text-[#121c2a]">
                   ${((Number(profile?.monthly_rent || 0) + totalCharges)).toLocaleString("en-SG", { minimumFractionDigits: 2 })}
@@ -188,7 +188,7 @@ export default function DashboardPage() {
             </div>
             <Link
               to="/portal/billing"
-              className="bg-[#006b5f] text-white px-8 py-4 rounded-xl font-['Manrope'] font-bold text-base hover:opacity-90 transition-all inline-flex items-center gap-2"
+              className="bg-[#A87813] text-white px-8 py-4 rounded-xl font-['Manrope'] font-bold text-base hover:opacity-90 transition-all inline-flex items-center gap-2"
             >
               {t("dashboard.viewBilling")}
               <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
@@ -201,7 +201,7 @@ export default function DashboardPage() {
         {/* AC Usage chart — col-span-7 */}
         <section className="md:col-span-7 bg-white rounded-xl p-8 border border-[#bbcac6]/15 shadow-sm">
           <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-6 flex items-center gap-2 text-[#121c2a]">
-            <span className="material-symbols-outlined text-[#006b5f] text-[22px]">ac_unit</span>
+            <span className="material-symbols-outlined text-[#A87813] text-[22px]">ac_unit</span>
             {t("dashboard.acUsage")}
           </h3>
           {usageChart.loading ? (
@@ -240,7 +240,7 @@ export default function DashboardPage() {
         <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#bbcac6]/15 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl flex items-center gap-2 text-[#121c2a]">
-              <span className="material-symbols-outlined text-[#006b5f] text-[22px]">bolt</span>
+              <span className="material-symbols-outlined text-[#A87813] text-[22px]">bolt</span>
               {t("dashboard.monthlyAllowance")}
             </h3>
             <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#555f6f]">
@@ -321,7 +321,7 @@ export default function DashboardPage() {
                 </p>
                 <Link
                   to="/portal/issues"
-                  className="font-['Inter'] text-xs font-bold text-[#006b5f] uppercase tracking-widest hover:underline"
+                  className="font-['Inter'] text-xs font-bold text-[#A87813] uppercase tracking-widest hover:underline"
                 >
                   {t("common.view")}
                 </Link>

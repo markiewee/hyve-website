@@ -49,13 +49,8 @@ function getCalendarClient() {
 }
 
 function getCalendarId() {
-  // Support both env names during the Hyve→Lazybee rename. Drop HYVE_ once
-  // master has the LAZYBEE_ alias deployed everywhere.
-  return (
-    process.env.LAZYBEE_VIEWINGS_CAL_ID ||
-    process.env.HYVE_VIEWINGS_CAL_ID ||
-    env("LAZYBEE_VIEWINGS_CAL_ID")
-  );
+  // Required: LAZYBEE_VIEWINGS_CAL_ID — the Google Calendar ID for viewings.
+  return env("LAZYBEE_VIEWINGS_CAL_ID");
 }
 
 // ── Free/busy lookup ──────────────────────────────────────────────────

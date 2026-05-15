@@ -170,27 +170,27 @@ export default function HelpPage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
         <Link
           to="/portal/issues/new"
-          className="bg-white rounded-xl p-4 border border-[#bbcac6]/15 shadow-sm hover:border-[#006b5f]/40 transition-all text-center group"
+          className="bg-white rounded-xl p-4 border border-[#bbcac6]/15 shadow-sm hover:border-[#A87813]/40 transition-all text-center group"
         >
-          <span className="material-symbols-outlined text-[24px] text-[#006b5f] mb-1 block">support_agent</span>
+          <span className="material-symbols-outlined text-[24px] text-[#A87813] mb-1 block">support_agent</span>
           <p className="font-['Manrope'] font-bold text-xs text-[#121c2a]">
             {isZh ? "报告问题" : "Report Issue"}
           </p>
         </Link>
         <Link
           to="/portal/billing"
-          className="bg-white rounded-xl p-4 border border-[#bbcac6]/15 shadow-sm hover:border-[#006b5f]/40 transition-all text-center group"
+          className="bg-white rounded-xl p-4 border border-[#bbcac6]/15 shadow-sm hover:border-[#A87813]/40 transition-all text-center group"
         >
-          <span className="material-symbols-outlined text-[24px] text-[#006b5f] mb-1 block">payments</span>
+          <span className="material-symbols-outlined text-[24px] text-[#A87813] mb-1 block">payments</span>
           <p className="font-['Manrope'] font-bold text-xs text-[#121c2a]">
             {isZh ? "支付账单" : "Pay Bills"}
           </p>
         </Link>
         <Link
           to="/portal/documents"
-          className="bg-white rounded-xl p-4 border border-[#bbcac6]/15 shadow-sm hover:border-[#006b5f]/40 transition-all text-center group"
+          className="bg-white rounded-xl p-4 border border-[#bbcac6]/15 shadow-sm hover:border-[#A87813]/40 transition-all text-center group"
         >
-          <span className="material-symbols-outlined text-[24px] text-[#006b5f] mb-1 block">folder_open</span>
+          <span className="material-symbols-outlined text-[24px] text-[#A87813] mb-1 block">folder_open</span>
           <p className="font-['Manrope'] font-bold text-xs text-[#121c2a]">
             {isZh ? "我的文件" : "My Documents"}
           </p>
@@ -199,9 +199,9 @@ export default function HelpPage() {
           href="https://wa.me/6580885410"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-white rounded-xl p-4 border border-[#bbcac6]/15 shadow-sm hover:border-[#006b5f]/40 transition-all text-center group"
+          className="bg-white rounded-xl p-4 border border-[#bbcac6]/15 shadow-sm hover:border-[#A87813]/40 transition-all text-center group"
         >
-          <span className="material-symbols-outlined text-[24px] text-[#006b5f] mb-1 block">chat</span>
+          <span className="material-symbols-outlined text-[24px] text-[#A87813] mb-1 block">chat</span>
           <p className="font-['Manrope'] font-bold text-xs text-[#121c2a]">
             {isZh ? "WhatsApp 客服" : "WhatsApp Us"}
           </p>
@@ -221,8 +221,8 @@ export default function HelpPage() {
                 onClick={() => setOpenSection(isOpen ? null : section.id)}
                 className="w-full flex items-center gap-4 px-6 py-5 hover:bg-[#f8f9ff] transition-colors"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#14b8a6]/10 flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-[#006b5f] text-[20px]">{section.icon}</span>
+                <div className="w-10 h-10 rounded-xl bg-[#D9A441]/10 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[#A87813] text-[20px]">{section.icon}</span>
                 </div>
                 <span className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] flex-1 text-left">
                   {isZh ? section.titleZh : section.title}
@@ -246,7 +246,7 @@ export default function HelpPage() {
                           onClick={() => toggleItem(section.id, idx)}
                           className="w-full flex items-center gap-3 px-6 py-4 hover:bg-[#f8f9ff]/50 transition-colors text-left"
                         >
-                          <span className="material-symbols-outlined text-[16px] text-[#006b5f] shrink-0">
+                          <span className="material-symbols-outlined text-[16px] text-[#A87813] shrink-0">
                             {itemOpen ? "remove" : "add"}
                           </span>
                           <span className="font-['Manrope'] font-semibold text-sm text-[#121c2a]">
@@ -271,8 +271,8 @@ export default function HelpPage() {
       </div>
 
       {/* Contact footer */}
-      <div className="mt-10 bg-[#006b5f]/5 rounded-2xl p-8 text-center">
-        <span className="material-symbols-outlined text-[32px] text-[#006b5f] mb-3 block">contact_support</span>
+      <div className="mt-10 bg-[#A87813]/5 rounded-2xl p-8 text-center">
+        <span className="material-symbols-outlined text-[32px] text-[#A87813] mb-3 block">contact_support</span>
         <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a] mb-2">
           {isZh ? "还有问题？" : "Still need help?"}
         </h3>
@@ -286,14 +286,14 @@ export default function HelpPage() {
             href="https://wa.me/6580885410"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#006b5f] text-white px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 transition-all"
+            className="inline-flex items-center gap-2 bg-[#A87813] text-white px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 transition-all"
           >
             <span className="material-symbols-outlined text-[18px]">chat</span>
             WhatsApp +65 8088 5410
           </a>
           <a
             href="mailto:admin@lazybee.sg"
-            className="inline-flex items-center gap-2 bg-white text-[#006b5f] border border-[#006b5f]/20 px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#f8f9ff] transition-all"
+            className="inline-flex items-center gap-2 bg-white text-[#A87813] border border-[#A87813]/20 px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#f8f9ff] transition-all"
           >
             <span className="material-symbols-outlined text-[18px]">mail</span>
             admin@lazybee.sg

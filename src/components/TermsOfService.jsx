@@ -9,7 +9,7 @@ const TermsOfService = () => {
         <div className="mb-10">
           <Link
             to="/"
-            className="inline-flex items-center text-[#006b5f] hover:text-[#005048] mb-6 font-['Plus_Jakarta_Sans'] font-bold text-sm gap-2 hover:-translate-x-1 transition-all"
+            className="inline-flex items-center text-[#A87813] hover:text-[#005048] mb-6 font-['Plus_Jakarta_Sans'] font-bold text-sm gap-2 hover:-translate-x-1 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Home

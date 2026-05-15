@@ -104,7 +104,7 @@ export default function BillingPage() {
       {/* Summary stat cards */}
       <div className={`grid grid-cols-1 ${profile?.role !== "ADMIN" ? "sm:grid-cols-3" : "sm:grid-cols-1"} gap-6 mb-10`}>
         {/* Outstanding balance — red when overdue, teal when ok */}
-        <div className={`sm:col-span-2 rounded-2xl p-8 relative overflow-hidden ${hasOverdue ? "bg-[#ba1a1a]" : "bg-[#006b5f]"}`}>
+        <div className={`sm:col-span-2 rounded-2xl p-8 relative overflow-hidden ${hasOverdue ? "bg-[#ba1a1a]" : "bg-[#A87813]"}`}>
           <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -mr-20 -mt-20 pointer-events-none" />
           <p className={`font-['Inter'] text-xs uppercase tracking-widest font-bold mb-2 ${hasOverdue ? "text-[#ffdad6]/80" : "text-[#71f8e4]/80"}`}>
             {hasOverdue ? "Overdue Balance" : "Outstanding Balance"}
@@ -145,7 +145,7 @@ export default function BillingPage() {
       <section className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm mb-8">
         <div className="px-8 py-6 border-b border-[#bbcac6]/15 flex items-center justify-between">
           <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a] flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#006b5f] text-[20px]">receipt_long</span>
+            <span className="material-symbols-outlined text-[#A87813] text-[20px]">receipt_long</span>
             Rent Payments
           </h2>
         </div>
@@ -185,7 +185,7 @@ export default function BillingPage() {
                 {payment.status === "PAID" && (
                   <button
                     onClick={() => setReceiptPayment({ ...payment, _type: "rent" })}
-                    className="ml-4 shrink-0 px-3 py-1 text-xs font-medium text-[#006b5f] bg-[#006b5f]/10 rounded-lg hover:bg-[#006b5f]/20 whitespace-nowrap"
+                    className="ml-4 shrink-0 px-3 py-1 text-xs font-medium text-[#A87813] bg-[#A87813]/10 rounded-lg hover:bg-[#A87813]/20 whitespace-nowrap"
                   >
                     Receipt
                   </button>
@@ -201,7 +201,7 @@ export default function BillingPage() {
       <section className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm">
         <div className="px-8 py-6 border-b border-[#bbcac6]/15 flex items-center justify-between">
           <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a] flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#006b5f] text-[20px]">ac_unit</span>
+            <span className="material-symbols-outlined text-[#A87813] text-[20px]">ac_unit</span>
             AC Usage History
           </h2>
         </div>
@@ -231,7 +231,7 @@ export default function BillingPage() {
                   <div className="absolute right-8 top-1/2 -translate-y-1/2">
                     <button
                       onClick={() => setReceiptPayment({ ...invoice, _type: "ac" })}
-                      className="text-xs font-medium text-[#006b5f] hover:underline whitespace-nowrap"
+                      className="text-xs font-medium text-[#A87813] hover:underline whitespace-nowrap"
                     >
                       Receipt
                     </button>
@@ -246,7 +246,7 @@ export default function BillingPage() {
       <section className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm mt-8">
         <div className="px-8 py-6 border-b border-[#bbcac6]/15 flex items-center justify-between">
           <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a] flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#006b5f] text-[20px]">payments</span>
+            <span className="material-symbols-outlined text-[#A87813] text-[20px]">payments</span>
             Other Charges
           </h2>
         </div>
@@ -304,7 +304,7 @@ export default function BillingPage() {
                       <>
                         <button
                           onClick={() => setReceiptPayment({ ...charge, _type: "charge", _mode: "invoice" })}
-                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#eff4ff] text-[#006b5f] text-xs font-['Manrope'] font-bold hover:bg-[#e6eeff]"
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#eff4ff] text-[#A87813] text-xs font-['Manrope'] font-bold hover:bg-[#e6eeff]"
                         >
                           <span className="material-symbols-outlined text-[14px]">receipt</span>
                           Invoice
@@ -323,7 +323,7 @@ export default function BillingPage() {
                               else alert(body.error || "Payment failed");
                             } catch { alert("Payment failed"); }
                           }}
-                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#006b5f] text-white text-xs font-['Manrope'] font-bold hover:opacity-90"
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#A87813] text-white text-xs font-['Manrope'] font-bold hover:opacity-90"
                         >
                           <span className="material-symbols-outlined text-[14px]">credit_card</span>
                           Pay
@@ -333,7 +333,7 @@ export default function BillingPage() {
                     {isPaid && (
                       <button
                         onClick={() => setReceiptPayment({ ...charge, _type: "charge" })}
-                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#eff4ff] text-[#006b5f] text-xs font-['Manrope'] font-bold hover:bg-[#e6eeff]"
+                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#eff4ff] text-[#A87813] text-xs font-['Manrope'] font-bold hover:bg-[#e6eeff]"
                       >
                         <span className="material-symbols-outlined text-[14px]">receipt</span>
                         Receipt

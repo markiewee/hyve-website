@@ -292,8 +292,8 @@ export default function BookingFlow({ propertyCode, roomCode }) {
     return (
       <div className="min-h-screen bg-[#f8f9ff] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-2 border-[#006b5f] border-t-transparent rounded-full animate-spin" />
-          <span className="text-[#006b5f] font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide">
+          <div className="w-8 h-8 border-2 border-[#A87813] border-t-transparent rounded-full animate-spin" />
+          <span className="text-[#A87813] font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide">
             Loading…
           </span>
         </div>
@@ -313,7 +313,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
           </h1>
           <Link
             to="/book"
-            className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#006b5f] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm"
+            className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm"
           >
             <span className="material-symbols-outlined text-sm">arrow_back</span>
             Back to properties
@@ -340,7 +340,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
             arrow_back
           </Link>
           <div>
-            <span className="text-base font-bold tracking-tighter text-teal-700 font-['Plus_Jakarta_Sans']">
+            <span className="text-base font-bold tracking-tighter text-honey-800 font-['Plus_Jakarta_Sans']">
               Lazybee · {property.name}
             </span>
             {room && (
@@ -373,7 +373,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-5">
                 <div>
-                  <span className="inline-block px-3 py-1 mb-2 bg-[#14b8a6] text-[#00423b] text-[10px] font-bold uppercase tracking-wider rounded-full">
+                  <span className="inline-block px-3 py-1 mb-2 bg-[#D9A441] text-[#00423b] text-[10px] font-bold uppercase tracking-wider rounded-full">
                     Lazybee · {property.code}
                   </span>
                   <h1 className="text-white font-['Plus_Jakarta_Sans'] text-2xl font-extrabold tracking-tight">
@@ -389,7 +389,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
 
             <div className="p-6 sm:p-8">
               <div className="mb-7">
-                <div className="w-10 h-1 bg-[#14b8a6] mb-4" />
+                <div className="w-10 h-1 bg-[#D9A441] mb-4" />
                 <h2 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#191c1e] mb-1 tracking-tight">
                   {headerCopy}
                 </h2>
@@ -411,8 +411,8 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                         onClick={() => setSelectedRoomCode("")}
                         className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
                           !selectedRoomCode
-                            ? "bg-[#006b5f] text-white shadow-md"
-                            : "bg-[#e6e8ea] text-[#3c4947] hover:bg-[#14b8a6]/20"
+                            ? "bg-[#A87813] text-white shadow-md"
+                            : "bg-[#e6e8ea] text-[#3c4947] hover:bg-[#D9A441]/20"
                         }`}
                       >
                         I&apos;m flexible
@@ -424,8 +424,8 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                           onClick={() => setSelectedRoomCode(r.unit_code)}
                           className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
                             selectedRoomCode === r.unit_code
-                              ? "bg-[#006b5f] text-white shadow-md"
-                              : "bg-[#e6e8ea] text-[#3c4947] hover:bg-[#14b8a6]/20"
+                              ? "bg-[#A87813] text-white shadow-md"
+                              : "bg-[#e6e8ea] text-[#3c4947] hover:bg-[#D9A441]/20"
                           }`}
                         >
                           {r.unit_code}
@@ -443,7 +443,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                   </label>
                   {windowsLoading ? (
                     <div className="flex items-center gap-2 text-[#6c7a77] text-sm py-3">
-                      <div className="w-4 h-4 border-2 border-[#006b5f] border-t-transparent rounded-full animate-spin" />
+                      <div className="w-4 h-4 border-2 border-[#A87813] border-t-transparent rounded-full animate-spin" />
                       Loading windows…
                     </div>
                   ) : windowsError ? (
@@ -465,7 +465,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                             key={`${w.key}-${w.date}`}
                             className={`border rounded-lg transition-all ${
                               desc.clickable
-                                ? "border-[#14b8a6]/30 bg-white hover:border-[#14b8a6]/60"
+                                ? "border-[#D9A441]/30 bg-white hover:border-[#D9A441]/60"
                                 : "border-slate-200 bg-slate-50 opacity-70"
                             }`}
                           >
@@ -550,7 +550,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Sarah Tan"
-                      className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#14b8a6] transition-all text-sm placeholder:text-[#bbcac6]"
+                      className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#bbcac6]"
                     />
                   </div>
                   <div>
@@ -563,7 +563,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="sarah@example.com"
-                      className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#14b8a6] transition-all text-sm placeholder:text-[#bbcac6]"
+                      className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#bbcac6]"
                     />
                   </div>
                   <div>
@@ -574,7 +574,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                       <select
                         value={phoneCountry}
                         onChange={(e) => setPhoneCountry(e.target.value)}
-                        className="px-3 bg-[#eceef0] rounded-lg text-sm text-[#3c4947] font-medium border-none focus:ring-2 focus:ring-[#14b8a6]"
+                        className="px-3 bg-[#eceef0] rounded-lg text-sm text-[#3c4947] font-medium border-none focus:ring-2 focus:ring-[#D9A441]"
                       >
                         <option value="+65">+65 SG</option>
                         <option value="+60">+60 MY</option>
@@ -585,7 +585,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                         value={phoneLocal}
                         onChange={(e) => setPhoneLocal(e.target.value)}
                         placeholder={phoneCountry === "+65" ? "8123 4567" : "12 345 6789"}
-                        className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#14b8a6] transition-all text-sm placeholder:text-[#bbcac6]"
+                        className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#bbcac6]"
                       />
                     </div>
                   </div>
@@ -598,7 +598,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       placeholder="e.g. move-in date, parking, pets…"
-                      className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#14b8a6] transition-all text-sm placeholder:text-[#bbcac6] resize-none"
+                      className="w-full px-4 py-3 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] transition-all text-sm placeholder:text-[#bbcac6] resize-none"
                     />
                   </div>
                 </div>
@@ -625,7 +625,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                 <button
                   type="submit"
                   disabled={submitting || !selectedSlot}
-                  className="w-full py-4 bg-[#006b5f] text-white font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide rounded-lg hover:bg-[#006b5f]/90 active:scale-[0.98] transition-all editorial-shadow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-4 bg-[#A87813] text-white font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide rounded-lg hover:bg-[#A87813]/90 active:scale-[0.98] transition-all editorial-shadow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {submitting ? (
                     <>
@@ -647,11 +647,11 @@ export default function BookingFlow({ propertyCode, roomCode }) {
 
                 <p className="text-[10px] text-center text-[#6c7a77] text-balance">
                   By booking, you agree to our{" "}
-                  <Link className="underline hover:text-[#006b5f]" to="/terms-of-service">
+                  <Link className="underline hover:text-[#A87813]" to="/terms-of-service">
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link className="underline hover:text-[#006b5f]" to="/privacy-policy">
+                  <Link className="underline hover:text-[#A87813]" to="/privacy-policy">
                     Privacy Policy
                   </Link>
                   .
@@ -663,7 +663,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
           {/* RIGHT: off-horizon mini-form (side rail at xl, stacks below at <xl) */}
           <aside className="bg-white rounded-2xl editorial-shadow overflow-hidden xl:sticky xl:top-20 xl:self-start">
             <div className="p-6">
-              <div className="w-10 h-1 bg-[#14b8a6] mb-4" />
+              <div className="w-10 h-1 bg-[#D9A441] mb-4" />
               <h3 className="font-['Plus_Jakarta_Sans'] text-lg font-bold mb-1 tracking-tight">
                 Need a date further out?
               </h3>
@@ -672,7 +672,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
               </p>
 
               {ohConfirmed ? (
-                <div className="p-4 bg-[#14b8a6]/10 rounded-lg">
+                <div className="p-4 bg-[#D9A441]/10 rounded-lg">
                   <p className="text-sm text-[#00423b] font-medium">
                     Got it. We&apos;ll reach out 7-10 days before {ohMoveInDate} with open slots.
                   </p>
@@ -682,7 +682,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                   <p className="text-xs mt-2">
                     <a
                       href="https://lazybee.sg/book"
-                      className="text-[#006b5f] font-bold underline"
+                      className="text-[#A87813] font-bold underline"
                     >
                       https://lazybee.sg/book
                     </a>
@@ -692,7 +692,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                 <button
                   type="button"
                   onClick={() => setOhOpen(true)}
-                  className="w-full py-3 bg-white border border-[#006b5f] text-[#006b5f] font-['Plus_Jakarta_Sans'] font-bold text-sm rounded-lg hover:bg-[#006b5f]/5 transition-all"
+                  className="w-full py-3 bg-white border border-[#A87813] text-[#A87813] font-['Plus_Jakarta_Sans'] font-bold text-sm rounded-lg hover:bg-[#A87813]/5 transition-all"
                 >
                   Flag a future move-in date
                 </button>
@@ -703,20 +703,20 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                     placeholder="Full name"
                     value={ohName}
                     onChange={(e) => setOhName(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#14b8a6] text-sm"
+                    className="w-full px-4 py-2.5 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] text-sm"
                   />
                   <input
                     type="email"
                     placeholder="Email"
                     value={ohEmail}
                     onChange={(e) => setOhEmail(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#14b8a6] text-sm"
+                    className="w-full px-4 py-2.5 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] text-sm"
                   />
                   <div className="flex gap-2">
                     <select
                       value={ohPhoneCountry}
                       onChange={(e) => setOhPhoneCountry(e.target.value)}
-                      className="px-2 bg-[#eceef0] rounded-lg text-xs font-medium border-none focus:ring-2 focus:ring-[#14b8a6]"
+                      className="px-2 bg-[#eceef0] rounded-lg text-xs font-medium border-none focus:ring-2 focus:ring-[#D9A441]"
                     >
                       <option value="+65">+65</option>
                       <option value="+60">+60</option>
@@ -726,7 +726,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                       placeholder="Phone"
                       value={ohPhoneLocal}
                       onChange={(e) => setOhPhoneLocal(e.target.value)}
-                      className="w-full px-4 py-2.5 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#14b8a6] text-sm"
+                      className="w-full px-4 py-2.5 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] text-sm"
                     />
                   </div>
                   <div>
@@ -738,7 +738,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                       value={ohMoveInDate}
                       min={todayIso()}
                       onChange={(e) => setOhMoveInDate(e.target.value)}
-                      className="w-full px-4 py-2.5 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#14b8a6] text-sm"
+                      className="w-full px-4 py-2.5 bg-[#e6e8ea] border-none rounded-lg focus:ring-2 focus:ring-[#D9A441] text-sm"
                     />
                   </div>
                   {ohError && (
@@ -749,7 +749,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                   <button
                     type="submit"
                     disabled={ohSubmitting}
-                    className="w-full py-3 bg-[#006b5f] text-white font-['Plus_Jakarta_Sans'] font-bold text-sm rounded-lg hover:bg-[#006b5f]/90 transition-all disabled:opacity-50"
+                    className="w-full py-3 bg-[#A87813] text-white font-['Plus_Jakarta_Sans'] font-bold text-sm rounded-lg hover:bg-[#A87813]/90 transition-all disabled:opacity-50"
                   >
                     {ohSubmitting ? "Saving…" : "Notify me when slots open"}
                   </button>
@@ -767,7 +767,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
         </div>
 
         <footer className="mt-10 opacity-50 hover:opacity-100 transition-opacity flex flex-col items-center gap-2">
-          <span className="text-teal-700 font-['Plus_Jakarta_Sans'] font-black text-lg">Lazybee</span>
+          <span className="text-honey-800 font-['Plus_Jakarta_Sans'] font-black text-lg">Lazybee</span>
           <div className="flex gap-4 text-xs font-medium text-slate-500">
             <Link to="/">About</Link>
             <Link to="/properties">Properties</Link>

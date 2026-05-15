@@ -331,11 +331,11 @@ export default function AdminDocumentsPage() {
           <p className="text-[#6c7a77] font-['Manrope'] font-medium mt-1">Upload PDF templates, place signature boxes, and send to members.</p>
         </div>
         <div className="flex gap-2 flex-wrap">
-          <button onClick={() => setShowGenerate(true)} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61]">
+          <button onClick={() => setShowGenerate(true)} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61]">
             <span className="material-symbols-outlined text-[18px]">description</span>
             Generate Agreement
           </button>
-          <button onClick={openSendDoc} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#eff4ff] text-[#006b5f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff]">
+          <button onClick={openSendDoc} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#eff4ff] text-[#A87813] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#e6eeff]">
             <span className="material-symbols-outlined text-[18px]">send</span>
             Send PDF to Member
           </button>
@@ -369,7 +369,7 @@ export default function AdminDocumentsPage() {
               <div className="space-y-1.5">
                 <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Member *</label>
                 <select value={genTenantId} onChange={e => setGenTenantId(e.target.value)}
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none">
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none">
                   <option value="">Select member</option>
                   {tenants.map(t => (
                     <option key={t.id} value={t.id}>
@@ -398,7 +398,7 @@ export default function AdminDocumentsPage() {
                 <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Extra Terms (optional)</label>
                 <textarea value={genExtraTerms} onChange={e => setGenExtraTerms(e.target.value)}
                   placeholder="Any additional terms specific to this tenant..."
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none resize-y min-h-[60px]"
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none resize-y min-h-[60px]"
                   rows={2} />
               </div>
 
@@ -408,7 +408,7 @@ export default function AdminDocumentsPage() {
                   Cancel
                 </button>
                 <button onClick={handleGenerate} disabled={!genTenantId}
-                  className="flex-[2] py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2">
+                  className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2">
                   <span className="material-symbols-outlined text-[18px]">open_in_new</span>
                   Generate & Preview
                 </button>
@@ -437,12 +437,12 @@ export default function AdminDocumentsPage() {
                 <div className="space-y-1.5">
                   <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Template Name *</label>
                   <input type="text" value={editorName} onChange={e => setEditorName(e.target.value)}
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none" />
+                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none" />
                 </div>
                 <div className="space-y-1.5">
                   <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Document Type</label>
                   <select value={editorDocType} onChange={e => setEditorDocType(e.target.value)}
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none">
+                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none">
                     {DOC_TYPES.map(t => <option key={t} value={t}>{DOC_TYPE_LABELS[t] || t}</option>)}
                   </select>
                 </div>
@@ -457,7 +457,7 @@ export default function AdminDocumentsPage() {
                   Create your document in Word or Pages, export as PDF, then upload here.
                 </p>
                 <input type="file" accept="application/pdf" onChange={handleEditorPdfSelect}
-                  className="w-full text-sm text-[#555f6f] file:mr-3 file:px-4 file:py-2 file:rounded-xl file:border-0 file:bg-[#006b5f] file:text-white file:text-xs file:font-bold file:cursor-pointer" />
+                  className="w-full text-sm text-[#555f6f] file:mr-3 file:px-4 file:py-2 file:rounded-xl file:border-0 file:bg-[#A87813] file:text-white file:text-xs file:font-bold file:cursor-pointer" />
               </div>
 
               {/* Place text fields + signatures on PDF */}
@@ -474,7 +474,7 @@ export default function AdminDocumentsPage() {
               <div className="flex gap-3 pt-4 border-t border-[#bbcac6]/15">
                 <button onClick={() => setShowEditor(false)} className="flex-1 py-3 bg-[#eff4ff] text-[#555f6f] rounded-xl font-['Manrope'] font-bold text-sm">Cancel</button>
                 <button onClick={handleSaveTemplate} disabled={saving}
-                  className="flex-[2] py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40">
+                  className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40">
                   {saving ? "Saving..." : "Save Template"}
                 </button>
               </div>
@@ -498,7 +498,7 @@ export default function AdminDocumentsPage() {
               <div className="space-y-1.5">
                 <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold block">Member *</label>
                 <select value={sendTenantId} onChange={e => setSendTenantId(e.target.value)}
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none">
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none">
                   <option value="">Select member</option>
                   {tenants.map(t => (
                     <option key={t.id} value={t.id}>
@@ -515,7 +515,7 @@ export default function AdminDocumentsPage() {
                   <div className="space-y-2">
                     <p className="text-xs font-bold text-[#121c2a]">From Template</p>
                     <select value={sendTemplateId} onChange={e => handleSendTemplateChange(e.target.value)}
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none">
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none">
                       <option value="">Select template</option>
                       {templates.filter(t => t.is_active && t.pdf_url).map(t => (
                         <option key={t.id} value={t.id}>{t.name}</option>
@@ -525,7 +525,7 @@ export default function AdminDocumentsPage() {
                   <div className="space-y-2">
                     <p className="text-xs font-bold text-[#121c2a]">Or Upload PDF</p>
                     <input type="file" accept="application/pdf" onChange={handleSendPdfUpload}
-                      className="w-full text-sm text-[#555f6f] file:mr-3 file:px-3 file:py-2 file:rounded-xl file:border-0 file:bg-[#eff4ff] file:text-[#006b5f] file:text-xs file:font-bold" />
+                      className="w-full text-sm text-[#555f6f] file:mr-3 file:px-3 file:py-2 file:rounded-xl file:border-0 file:bg-[#eff4ff] file:text-[#A87813] file:text-xs file:font-bold" />
                   </div>
                 </div>
               </div>
@@ -533,7 +533,7 @@ export default function AdminDocumentsPage() {
               {/* Preview + field placement */}
               {sendPdfUrl && (
                 <div className="space-y-2">
-                  <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#006b5f] font-bold">
+                  <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#A87813] font-bold">
                     Preview — data fields will be auto-filled from member profile
                   </p>
                   <PdfFieldPlacer
@@ -549,7 +549,7 @@ export default function AdminDocumentsPage() {
               <div className="flex gap-3 pt-4 border-t border-[#bbcac6]/15">
                 <button onClick={() => setShowSend(false)} className="flex-1 py-3 bg-[#eff4ff] text-[#555f6f] rounded-xl font-['Manrope'] font-bold text-sm">Cancel</button>
                 <button onClick={handleSendToMember} disabled={sending || !sendTenantId || (!sendPdfUrl)}
-                  className="flex-[2] py-3 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2">
+                  className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-40 flex items-center justify-center gap-2">
                   <span className="material-symbols-outlined text-[18px]">{sending ? "progress_activity" : "send"}</span>
                   {sending ? "Sending..." : "Send to Member"}
                 </button>
@@ -563,7 +563,7 @@ export default function AdminDocumentsPage() {
       <section className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm">
         <div className="px-8 py-6 border-b border-[#bbcac6]/15 flex items-center justify-between">
           <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a] flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#006b5f] text-[20px]">description</span>
+            <span className="material-symbols-outlined text-[#A87813] text-[20px]">description</span>
             Templates
           </h2>
           <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
@@ -586,7 +586,7 @@ export default function AdminDocumentsPage() {
               <div key={tpl.id} className="px-8 py-5 flex items-center justify-between hover:bg-[#f8f9ff] transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-xl bg-[#eff4ff] flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[#006b5f] text-[20px]">
+                    <span className="material-symbols-outlined text-[#A87813] text-[20px]">
                       {tpl.pdf_url ? "picture_as_pdf" : "code"}
                     </span>
                   </div>
@@ -601,7 +601,7 @@ export default function AdminDocumentsPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <button onClick={() => openEditTemplate(tpl)}
-                    className="p-2 rounded-lg hover:bg-[#eff4ff] text-[#6c7a77] hover:text-[#006b5f] transition-colors">
+                    className="p-2 rounded-lg hover:bg-[#eff4ff] text-[#6c7a77] hover:text-[#A87813] transition-colors">
                     <span className="material-symbols-outlined text-[18px]">edit</span>
                   </button>
                   <button onClick={async () => {

@@ -160,7 +160,7 @@ export default function AdminLocksPage() {
               <section key={property.id}>
                 {/* Property header */}
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="px-3 py-1 bg-[#006b5f] text-white rounded-full font-['Inter'] text-xs font-bold tracking-widest">
+                  <div className="px-3 py-1 bg-[#A87813] text-white rounded-full font-['Inter'] text-xs font-bold tracking-widest">
                     {property.code}
                   </div>
                   <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-xl text-[#121c2a]">{property.name}</h2>
@@ -173,7 +173,7 @@ export default function AdminLocksPage() {
                     label="Main Door"
                     sublabel="Building entrance"
                     code={mainDoor}
-                    accent="#006b5f"
+                    accent="#A87813"
                     isEditing={isEditingMain}
                     editValue={editValue}
                     setEditValue={setEditValue}
@@ -248,7 +248,7 @@ function LockCard({
         {!isEditing && (
           <button
             onClick={onEdit}
-            className="p-1.5 rounded-lg hover:bg-[#eff4ff] text-[#6c7a77] hover:text-[#006b5f] transition-colors flex-shrink-0"
+            className="p-1.5 rounded-lg hover:bg-[#eff4ff] text-[#6c7a77] hover:text-[#A87813] transition-colors flex-shrink-0"
             title="Edit code"
           >
             <span className="material-symbols-outlined text-[16px]">edit</span>
@@ -264,13 +264,13 @@ function LockCard({
             onChange={(e) => setEditValue(e.target.value)}
             placeholder="e.g. 1234#"
             autoFocus
-            className="w-full bg-[#eff4ff] border-0 rounded-xl px-3 py-2 text-base font-mono font-bold text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+            className="w-full bg-[#eff4ff] border-0 rounded-xl px-3 py-2 text-base font-mono font-bold text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
           />
           <div className="flex gap-2">
             <button
               onClick={onSave}
               disabled={saving}
-              className="flex-1 px-3 py-2 bg-[#006b5f] text-white rounded-lg font-['Manrope'] font-bold text-xs hover:bg-[#005047] disabled:opacity-50"
+              className="flex-1 px-3 py-2 bg-[#A87813] text-white rounded-lg font-['Manrope'] font-bold text-xs hover:bg-[#005047] disabled:opacity-50"
             >
               {saving ? "Saving..." : "Save"}
             </button>
@@ -290,7 +290,7 @@ function LockCard({
           className={`text-left px-3 py-2.5 rounded-xl border transition-colors ${
             isEmpty
               ? "bg-[#fff8e1] border-[#fde68a] text-[#92400e] cursor-default"
-              : "bg-[#eff4ff] border-transparent hover:border-[#14b8a6]/40"
+              : "bg-[#eff4ff] border-transparent hover:border-[#D9A441]/40"
           }`}
         >
           {isEmpty ? (

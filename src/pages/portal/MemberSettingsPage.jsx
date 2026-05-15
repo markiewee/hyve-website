@@ -154,7 +154,7 @@ export default function MemberSettingsPage() {
         {/* Personal Details */}
         <section className="bg-white rounded-xl p-6 border border-[#bbcac6]/15 shadow-sm">
           <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg mb-4 flex items-center gap-2 text-[#121c2a]">
-            <span className="material-symbols-outlined text-[#006b5f] text-[20px]">person</span>
+            <span className="material-symbols-outlined text-[#A87813] text-[20px]">person</span>
             Personal Details
           </h2>
           <form onSubmit={handleSaveDetails} className="space-y-4">
@@ -165,7 +165,7 @@ export default function MemberSettingsPage() {
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                 />
               </div>
               <div className="space-y-1.5">
@@ -174,7 +174,7 @@ export default function MemberSettingsPage() {
                   type="text"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                 />
               </div>
               <div className="space-y-1.5">
@@ -182,7 +182,7 @@ export default function MemberSettingsPage() {
                 <select
                   value={nationality}
                   onChange={(e) => setNationality(e.target.value)}
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                 >
                   <option value="">Select</option>
                   {["Singaporean", "Singapore PR", "Malaysian", "Indonesian", "Filipino", "Thai", "Vietnamese", "Indian", "Chinese", "Japanese", "Korean", "Myanmar", "British", "American", "Australian", "French", "German", "Other"].map(n => (
@@ -198,7 +198,7 @@ export default function MemberSettingsPage() {
                   type="text"
                   value={emergencyName}
                   onChange={(e) => setEmergencyName(e.target.value)}
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                 />
               </div>
               <div className="space-y-1.5">
@@ -207,14 +207,14 @@ export default function MemberSettingsPage() {
                   type="text"
                   value={emergencyPhone}
                   onChange={(e) => setEmergencyPhone(e.target.value)}
-                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                  className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                 />
               </div>
             </div>
             <button
               type="submit"
               disabled={saving}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-50"
             >
               {saving ? "Saving..." : "Save Changes"}
             </button>
@@ -224,7 +224,7 @@ export default function MemberSettingsPage() {
         {/* Email */}
         <section className="bg-white rounded-xl p-6 border border-[#bbcac6]/15 shadow-sm">
           <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg mb-4 flex items-center gap-2 text-[#121c2a]">
-            <span className="material-symbols-outlined text-[#006b5f] text-[20px]">mail</span>
+            <span className="material-symbols-outlined text-[#A87813] text-[20px]">mail</span>
             Email Address
           </h2>
           {isPlaceholderEmail && (
@@ -245,13 +245,13 @@ export default function MemberSettingsPage() {
                 value={newEmail}
                 onChange={(e) => setNewEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
               />
             </div>
             <button
               type="submit"
               disabled={emailSaving}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-50"
             >
               {emailSaving ? "Sending..." : isPlaceholderEmail ? "Set Email" : "Update Email"}
             </button>
@@ -261,7 +261,7 @@ export default function MemberSettingsPage() {
         {/* Password */}
         <section className="bg-white rounded-xl p-6 border border-[#bbcac6]/15 shadow-sm">
           <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg mb-4 flex items-center gap-2 text-[#121c2a]">
-            <span className="material-symbols-outlined text-[#006b5f] text-[20px]">lock</span>
+            <span className="material-symbols-outlined text-[#A87813] text-[20px]">lock</span>
             Change Password
           </h2>
           <form onSubmit={handleChangePassword} className="space-y-4">
@@ -272,7 +272,7 @@ export default function MemberSettingsPage() {
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 placeholder="Enter current password"
-                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
               />
             </div>
             <div className="space-y-1.5">
@@ -283,7 +283,7 @@ export default function MemberSettingsPage() {
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="Min 8 characters"
                 minLength={8}
-                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
               />
             </div>
             <div className="space-y-1.5">
@@ -293,13 +293,13 @@ export default function MemberSettingsPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Re-enter password"
-                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 text-sm font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
               />
             </div>
             <button
               type="submit"
               disabled={pwSaving || !currentPassword || !newPassword}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006a61] disabled:opacity-50"
             >
               {pwSaving ? "Updating..." : "Change Password"}
             </button>

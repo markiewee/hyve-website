@@ -280,7 +280,7 @@ const FAQsPage = () => {
         <div className="mb-12">
           <Link 
             to="/" 
-            className="inline-flex items-center text-teal-600 hover:text-teal-700 mb-6 font-medium"
+            className="inline-flex items-center text-honey-700 hover:text-honey-800 mb-6 font-medium"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             {t('public.faq.backToHome')}
@@ -338,7 +338,7 @@ const FAQsPage = () => {
         </div>
 
         {/* CTA Section */}
-        <Card className="mt-12 bg-teal-50 border-teal-200">
+        <Card className="mt-12 bg-honey-50 border-honey-200">
           <CardContent className="text-center py-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               {ctaContent.title}
@@ -349,7 +349,7 @@ const FAQsPage = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <a href={`mailto:${contactInfo.email}`}>
-                <Button size="lg" className="bg-teal-600 hover:bg-teal-700 w-full sm:w-auto">
+                <Button size="lg" className="bg-honey-700 hover:bg-honey-800 w-full sm:w-auto">
                   Email Us
                 </Button>
               </a>
@@ -361,7 +361,7 @@ const FAQsPage = () => {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="border-teal-600 text-teal-600 hover:bg-teal-50 w-full sm:w-auto"
+                  className="border-honey-700 text-honey-700 hover:bg-honey-50 w-full sm:w-auto"
                 >
                   WhatsApp Us
                 </Button>

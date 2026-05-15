@@ -158,9 +158,9 @@ export default function NewIssuePage() {
               <button
                 key={key}
                 onClick={() => handleSelectCategory(key)}
-                className="bg-white rounded-xl p-5 border border-[#bbcac6]/15 shadow-sm hover:border-[#006b5f]/40 hover:shadow-md transition-all text-center group"
+                className="bg-white rounded-xl p-5 border border-[#bbcac6]/15 shadow-sm hover:border-[#A87813]/40 hover:shadow-md transition-all text-center group"
               >
-                <span className="material-symbols-outlined text-[28px] text-[#006b5f] mb-2 block group-hover:scale-110 transition-transform">
+                <span className="material-symbols-outlined text-[28px] text-[#A87813] mb-2 block group-hover:scale-110 transition-transform">
                   {diag.icon}
                 </span>
                 <p className="font-['Manrope'] font-bold text-xs text-[#121c2a]">{diag.title}</p>
@@ -173,9 +173,9 @@ export default function NewIssuePage() {
         {phase === "diagnose" && diagnostic && (
           <div className="bg-white rounded-2xl border border-[#bbcac6]/15 shadow-sm overflow-hidden">
             {/* Header */}
-            <div className="bg-[#006b5f]/5 px-6 py-4 border-b border-[#bbcac6]/15 flex items-center justify-between">
+            <div className="bg-[#A87813]/5 px-6 py-4 border-b border-[#bbcac6]/15 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <span className="material-symbols-outlined text-[#006b5f] text-[24px]">{diagnostic.icon}</span>
+                <span className="material-symbols-outlined text-[#A87813] text-[24px]">{diagnostic.icon}</span>
                 <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">{diagnostic.title}</h2>
               </div>
               <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold">
@@ -190,7 +190,7 @@ export default function NewIssuePage() {
                   <div
                     key={i}
                     className={`h-1.5 flex-1 rounded-full transition-colors ${
-                      i <= currentStep ? "bg-[#006b5f]" : "bg-[#eff4ff]"
+                      i <= currentStep ? "bg-[#A87813]" : "bg-[#eff4ff]"
                     }`}
                   />
                 ))}
@@ -201,9 +201,9 @@ export default function NewIssuePage() {
                 <p className="font-['Manrope'] text-sm text-[#121c2a] font-semibold mb-2">
                   {diagnostic.steps[currentStep].text}
                 </p>
-                <div className="flex items-start gap-2 mt-3 bg-[#006b5f]/5 rounded-lg p-3">
-                  <span className="material-symbols-outlined text-[#006b5f] text-[18px] shrink-0 mt-0.5">lightbulb</span>
-                  <p className="font-['Manrope'] text-xs text-[#006b5f]">
+                <div className="flex items-start gap-2 mt-3 bg-[#A87813]/5 rounded-lg p-3">
+                  <span className="material-symbols-outlined text-[#A87813] text-[18px] shrink-0 mt-0.5">lightbulb</span>
+                  <p className="font-['Manrope'] text-xs text-[#A87813]">
                     {diagnostic.steps[currentStep].action}
                   </p>
                 </div>
@@ -216,7 +216,7 @@ export default function NewIssuePage() {
                   <p className="font-['Manrope'] font-bold text-sm text-[#065f46]">Great, glad that worked!</p>
                   <button
                     onClick={() => { setPhase("select"); setSelectedCategory(null); setResolved(false); }}
-                    className="mt-3 text-xs font-['Manrope'] font-bold text-[#006b5f] hover:underline"
+                    className="mt-3 text-xs font-['Manrope'] font-bold text-[#A87813] hover:underline"
                   >
                     Back to home
                   </button>
@@ -253,7 +253,7 @@ export default function NewIssuePage() {
               {!resolved && (
                 <button
                   onClick={() => setPhase("report")}
-                  className="w-full text-center text-xs font-['Manrope'] text-[#6c7a77] hover:text-[#006b5f] hover:underline"
+                  className="w-full text-center text-xs font-['Manrope'] text-[#6c7a77] hover:text-[#A87813] hover:underline"
                 >
                   Skip self-help — I need to report this now
                 </button>
@@ -267,7 +267,7 @@ export default function NewIssuePage() {
           <div>
             <button
               onClick={() => { setPhase("select"); setSelectedCategory(null); }}
-              className="mb-4 inline-flex items-center gap-1 text-sm font-['Manrope'] font-bold text-[#006b5f] hover:underline"
+              className="mb-4 inline-flex items-center gap-1 text-sm font-['Manrope'] font-bold text-[#A87813] hover:underline"
             >
               <span className="material-symbols-outlined text-[16px]">arrow_back</span>
               Back to self-help

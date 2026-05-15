@@ -72,7 +72,7 @@ export default function InvestorDashboardPage() {
             Your investment performance across Lazybee properties.
             {returnRate > 0 && (
               <> Your portfolio is performing{" "}
-                <span className="text-[#006b5f] font-bold">+{returnRate.toFixed(1)}%</span> return.
+                <span className="text-[#A87813] font-bold">+{returnRate.toFixed(1)}%</span> return.
               </>
             )}
           </p>
@@ -83,9 +83,9 @@ export default function InvestorDashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-12">
         {/* ROI Widget (Bento Large) */}
         <div className="md:col-span-4 bg-[#eff4ff] p-8 rounded-[2rem] flex flex-col justify-between relative overflow-hidden group">
-          <div className="absolute -right-8 -top-8 w-32 h-32 bg-[#006b5f]/10 rounded-full blur-3xl group-hover:bg-[#006b5f]/20 transition-colors" />
+          <div className="absolute -right-8 -top-8 w-32 h-32 bg-[#A87813]/10 rounded-full blur-3xl group-hover:bg-[#A87813]/20 transition-colors" />
           <div>
-            <span className="font-['Inter'] text-xs font-bold tracking-widest text-[#006b5f] uppercase mb-1 block">
+            <span className="font-['Inter'] text-xs font-bold tracking-widest text-[#A87813] uppercase mb-1 block">
               Total Return Rate
             </span>
             {dashLoading ? (
@@ -93,7 +93,7 @@ export default function InvestorDashboardPage() {
             ) : (
               <>
                 <h3 className="font-['Plus_Jakarta_Sans'] text-6xl font-black text-[#121c2a] mb-2">
-                  {returnRate.toFixed(1)}<span className="text-[#14b8a6]">%</span>
+                  {returnRate.toFixed(1)}<span className="text-[#D9A441]">%</span>
                 </h3>
                 <p className="font-['Manrope'] text-sm text-[#555f6f]">
                   Annualised portfolio return
@@ -104,7 +104,7 @@ export default function InvestorDashboardPage() {
           <div className="mt-8">
             <div className="h-1 w-full bg-[#bbcac6]/30 rounded-full overflow-hidden">
               <div
-                className="h-full bg-[#006b5f] rounded-full transition-all"
+                className="h-full bg-[#A87813] rounded-full transition-all"
                 style={{ width: `${Math.min(returnRate * 5, 100)}%` }}
               />
             </div>
@@ -148,9 +148,9 @@ export default function InvestorDashboardPage() {
 
           <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-[#bbcac6]/10">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-[#14b8a6]/10 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-[#D9A441]/10 flex items-center justify-center">
                 <span
-                  className="material-symbols-outlined text-[#006b5f]"
+                  className="material-symbols-outlined text-[#A87813]"
                   style={{ fontVariationSettings: "'FILL' 1" }}
                 >
                   payments

@@ -158,7 +158,7 @@ export default function AdminAnnouncementsPage() {
           className={`px-3 sm:px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm transition-all flex items-center gap-2 shrink-0 ${
             showForm
               ? "bg-[#eff4ff] text-[#555f6f] hover:bg-[#d9e3f6]"
-              : "bg-[#006b5f] text-white hover:opacity-90 shadow-sm"
+              : "bg-[#A87813] text-white hover:opacity-90 shadow-sm"
           }`}
         >
           <span className="material-symbols-outlined text-[18px]">
@@ -176,7 +176,7 @@ export default function AdminAnnouncementsPage() {
           {showForm && (
             <div className="bg-white rounded-2xl p-8 border border-[#bbcac6]/15 shadow-sm">
               <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#121c2a] mb-6 flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#006b5f] text-[20px]">campaign</span>
+                <span className="material-symbols-outlined text-[#A87813] text-[20px]">campaign</span>
                 Post Announcement
               </h2>
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -189,7 +189,7 @@ export default function AdminAnnouncementsPage() {
                     required
                     value={form.title}
                     onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                     placeholder="Announcement title"
                   />
                 </div>
@@ -203,7 +203,7 @@ export default function AdminAnnouncementsPage() {
                     rows={4}
                     value={form.content}
                     onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none resize-none"
+                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none resize-none"
                     placeholder="Announcement details…"
                   />
                 </div>
@@ -222,7 +222,7 @@ export default function AdminAnnouncementsPage() {
                             value={p}
                             checked={form.priority === p}
                             onChange={() => setForm((f) => ({ ...f, priority: p }))}
-                            className="accent-[#006b5f]"
+                            className="accent-[#A87813]"
                           />
                           <span className="font-['Manrope'] text-sm font-medium text-[#121c2a]">
                             {p.charAt(0) + p.slice(1).toLowerCase()}
@@ -239,7 +239,7 @@ export default function AdminAnnouncementsPage() {
                     <select
                       value={form.property_id}
                       onChange={(e) => setForm((f) => ({ ...f, property_id: e.target.value }))}
-                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                      className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                     >
                       <option value="">All Properties</option>
                       {properties.map((p) => (
@@ -259,14 +259,14 @@ export default function AdminAnnouncementsPage() {
                     type="date"
                     value={form.expires_at}
                     onChange={(e) => setForm((f) => ({ ...f, expires_at: e.target.value }))}
-                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#14b8a6] outline-none"
+                    className="w-full bg-[#eff4ff] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-[#121c2a] focus:ring-2 focus:ring-[#D9A441] outline-none"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full py-4 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
                 >
                   <span className="material-symbols-outlined text-[18px]">send</span>
                   {submitting ? "Posting…" : "Post Announcement"}
@@ -279,7 +279,7 @@ export default function AdminAnnouncementsPage() {
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
               <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Active</p>
-              <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#006b5f]">{activeCount}</p>
+              <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#A87813]">{activeCount}</p>
             </div>
             <div className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm">
               <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6c7a77] font-bold mb-3">Total</p>

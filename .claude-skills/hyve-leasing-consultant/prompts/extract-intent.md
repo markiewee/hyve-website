@@ -1,6 +1,6 @@
 # Extract Intent
 
-Given the last 10 messages of a Hyve prospect chat, extract structured intent.
+Given the last 10 messages of a lazybee prospect chat, extract structured intent.
 
 ## Schema
 

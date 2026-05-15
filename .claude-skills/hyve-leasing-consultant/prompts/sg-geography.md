@@ -2,13 +2,13 @@
 
 You MUST consult this whenever a prospect mentions a location, MRT station,
 workplace, school, or "near to X" in their message. The consultant should
-**never** invent commute times or mis-locate a Hyve property.
+**never** invent commute times or mis-locate a lazybee property.
 
 If a prospect names a place not on this map, say so honestly ("I'm not sure
 how that maps from our properties — let me check with the team") rather than
 guessing.
 
-## Hyve Properties — Exact Locations
+## lazybee Properties — Exact Locations
 
 | Property | Address | Area | MRT lines | Nearest station |
 |---|---|---|---|---|
@@ -52,7 +52,7 @@ exact commute time for you".
 When the prospect says "near X":
 
 1. Look up X on the destination table or MRT lines above.
-2. Identify which Hyve property has the **shortest commute** to X.
+2. Identify which lazybee property has the **shortest commute** to X.
 3. Say it plainly: "CP at Serangoon is about 10–15 min from Paya Lebar — direct on the Circle Line."
 4. If X is unknown, say "I'm not sure of the exact commute — let me confirm with the team."
 5. Never invent station names, change counts, or commute times.

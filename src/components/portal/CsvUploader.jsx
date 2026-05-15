@@ -48,9 +48,9 @@ export default function CsvUploader({ onFileSelected, importing, progress }) {
         "relative flex flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-8 py-12 transition-all duration-200 select-none",
         importing
           ? "cursor-default opacity-80"
-          : "cursor-pointer hover:border-[#14b8a6] hover:bg-[#14b8a6]/5",
+          : "cursor-pointer hover:border-[#D9A441] hover:bg-[#D9A441]/5",
         dragOver
-          ? "border-[#14b8a6] bg-[#14b8a6]/5"
+          ? "border-[#D9A441] bg-[#D9A441]/5"
           : "border-[#bbcac6]/30 bg-white",
       ].join(" ")}
     >
@@ -64,12 +64,12 @@ export default function CsvUploader({ onFileSelected, importing, progress }) {
 
       {importing ? (
         <>
-          <span className="material-symbols-outlined text-4xl text-[#006b5f]">
+          <span className="material-symbols-outlined text-4xl text-[#A87813]">
             sync
           </span>
           <p
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            className="text-sm font-semibold text-[#006b5f]"
+            className="text-sm font-semibold text-[#A87813]"
           >
             Importing…{" "}
             {progress
@@ -78,7 +78,7 @@ export default function CsvUploader({ onFileSelected, importing, progress }) {
           </p>
           <div className="w-full max-w-xs overflow-hidden rounded-full bg-[#bbcac6]/30 h-2">
             <div
-              className="h-full rounded-full bg-[#006b5f] transition-all duration-300"
+              className="h-full rounded-full bg-[#A87813] transition-all duration-300"
               style={{ width: `${progressPercent}%` }}
             />
           </div>

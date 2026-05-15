@@ -89,9 +89,9 @@ const BlogPage = () => {
           </div>
           {/* Decorative elements */}
           <div className="absolute right-12 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-6 z-0 opacity-20">
-            <div className="w-48 h-48 rounded-full border-[3px] border-[#006b5f]"></div>
+            <div className="w-48 h-48 rounded-full border-[3px] border-[#A87813]"></div>
             <div className="w-32 h-32 rounded-full bg-[#71f8e4]/40 -mt-20 ml-24"></div>
-            <div className="w-24 h-24 rounded-2xl border-[3px] border-[#14b8a6] rotate-12 -mt-10 ml-4"></div>
+            <div className="w-24 h-24 rounded-2xl border-[3px] border-[#D9A441] rotate-12 -mt-10 ml-4"></div>
           </div>
           <div className="absolute -right-8 -bottom-8 w-64 h-64 bg-[#89f5e7]/20 rounded-full blur-3xl z-0"></div>
           <div className="relative z-10 max-w-3xl px-8 md:px-20">
@@ -99,7 +99,7 @@ const BlogPage = () => {
               JOURNAL
             </span>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-['Plus_Jakarta_Sans'] font-extrabold tracking-tighter text-[#121c2a] leading-[0.9] mb-8">
-              Stories from the <span className="text-[#006b5f] italic">Sanctuary</span>
+              Stories from the <span className="text-[#A87813] italic">Sanctuary</span>
             </h1>
             <p className="text-xl text-[#3c4947] font-['Manrope'] max-w-xl leading-relaxed">
               Insights into coliving, community building, and the vibrant events shaping our global network.
@@ -118,7 +118,7 @@ const BlogPage = () => {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-6 py-2 rounded-xl font-['Inter'] text-sm font-semibold transition-all ${
                   selectedCategory === category
-                    ? 'bg-[#006b5f] text-white'
+                    ? 'bg-[#A87813] text-white'
                     : 'bg-[#d9e3f6] text-[#555f6f] hover:bg-[#dee9fc]'
                 }`}
               >
@@ -150,7 +150,7 @@ const BlogPage = () => {
             <p className="text-[#3c4947] mb-4">Try adjusting your search or filters.</p>
             <button
               onClick={() => { setSearchTerm(''); setSelectedCategory('all'); }}
-              className="bg-[#006b5f] text-white px-6 py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold hover:opacity-90 transition-all"
+              className="bg-[#A87813] text-white px-6 py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold hover:opacity-90 transition-all"
             >
               Clear All Filters
             </button>
@@ -170,7 +170,7 @@ const BlogPage = () => {
                       onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-blog.jpg'; }}
                     />
                     <div className="absolute top-6 left-6">
-                      <span className="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-['Inter'] font-bold text-[#006b5f] shadow-sm uppercase tracking-widest">
+                      <span className="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-['Inter'] font-bold text-[#A87813] shadow-sm uppercase tracking-widest">
                         {featuredPost.category}
                       </span>
                     </div>
@@ -180,7 +180,7 @@ const BlogPage = () => {
                     <span className="w-1 h-1 rounded-full bg-[#bbcac6]"></span>
                     <span>{featuredPost.readTime} MIN READ</span>
                   </div>
-                  <h2 className="text-3xl md:text-4xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] group-hover:text-[#006b5f] transition-colors leading-tight mb-4">
+                  <h2 className="text-3xl md:text-4xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] group-hover:text-[#A87813] transition-colors leading-tight mb-4">
                     {featuredPost.title}
                   </h2>
                   <p className="text-lg text-[#3c4947] font-['Manrope'] leading-relaxed max-w-2xl">
@@ -203,7 +203,7 @@ const BlogPage = () => {
                       onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-blog.jpg'; }}
                     />
                     <div className="absolute top-4 left-4">
-                      <span className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-['Inter'] font-bold text-[#006b5f] shadow-sm uppercase tracking-widest">
+                      <span className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-['Inter'] font-bold text-[#A87813] shadow-sm uppercase tracking-widest">
                         {sidebarPost.category}
                       </span>
                     </div>
@@ -213,7 +213,7 @@ const BlogPage = () => {
                     <span className="w-1 h-1 rounded-full bg-[#bbcac6]"></span>
                     <span>{sidebarPost.readTime} MIN READ</span>
                   </div>
-                  <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] group-hover:text-[#006b5f] transition-colors leading-snug">
+                  <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] group-hover:text-[#A87813] transition-colors leading-snug">
                     {sidebarPost.title}
                   </h3>
                 </Link>
@@ -233,7 +233,7 @@ const BlogPage = () => {
                       onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-blog.jpg'; }}
                     />
                     <div className="absolute top-4 left-4">
-                      <span className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-['Inter'] font-bold text-[#006b5f] shadow-sm uppercase tracking-widest">
+                      <span className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-['Inter'] font-bold text-[#A87813] shadow-sm uppercase tracking-widest">
                         {post.category}
                       </span>
                     </div>
@@ -243,7 +243,7 @@ const BlogPage = () => {
                     <span className="w-1 h-1 rounded-full bg-[#bbcac6]"></span>
                     <span>{post.readTime} MIN READ</span>
                   </div>
-                  <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] group-hover:text-[#006b5f] transition-colors leading-snug">
+                  <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] group-hover:text-[#A87813] transition-colors leading-snug">
                     {post.title}
                   </h3>
                 </Link>
@@ -251,7 +251,7 @@ const BlogPage = () => {
             ))}
 
             {/* Newsletter CTA */}
-            <aside className="md:col-span-4 flex flex-col justify-center bg-[#006b5f] text-white rounded-[2.5rem] p-10 relative overflow-hidden">
+            <aside className="md:col-span-4 flex flex-col justify-center bg-[#A87813] text-white rounded-[2.5rem] p-10 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#71f8e4]/20 rounded-full -mr-16 -mt-16 blur-3xl"></div>
               <span
                 className="material-symbols-outlined text-4xl mb-6"
@@ -268,7 +268,7 @@ const BlogPage = () => {
                 </p>
                 <button
                   onClick={() => window.open('https://t.me/lazybee_sg', '_blank', 'noopener,noreferrer')}
-                  className="w-full bg-white text-[#006b5f] rounded-xl px-4 py-3 font-['Plus_Jakarta_Sans'] font-bold hover:bg-slate-50 transition-colors"
+                  className="w-full bg-white text-[#A87813] rounded-xl px-4 py-3 font-['Plus_Jakarta_Sans'] font-bold hover:bg-slate-50 transition-colors"
                 >
                   Join Telegram
                 </button>

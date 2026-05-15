@@ -319,7 +319,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
       {/* Header */}
       <div className="px-8 py-6 border-b border-[#bbcac6]/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <span className="material-symbols-outlined text-[24px] text-[#006b5f]">
+          <span className="material-symbols-outlined text-[24px] text-[#A87813]">
             analytics
           </span>
           <h3 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#121c2a]">
@@ -336,7 +336,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
                 href={r.file_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-semibold text-sm hover:bg-[#005a50] transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-semibold text-sm hover:bg-[#005a50] transition-colors"
               >
                 <span className="material-symbols-outlined text-[18px]">
                   download
@@ -399,7 +399,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
             <tr>
               <td
                 colSpan={colCount}
-                className="px-6 pt-6 pb-2 font-['Inter'] text-[10px] uppercase tracking-widest text-[#006b5f] font-bold"
+                className="px-6 pt-6 pb-2 font-['Inter'] text-[10px] uppercase tracking-widest text-[#A87813] font-bold"
               >
                 <span className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[14px]">
@@ -418,13 +418,13 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
               {propertyIds.map((pid) => (
                 <td
                   key={pid}
-                  className="px-6 py-3 text-right font-['Plus_Jakarta_Sans'] font-semibold tabular-nums text-[#006b5f]"
+                  className="px-6 py-3 text-right font-['Plus_Jakarta_Sans'] font-semibold tabular-nums text-[#A87813]"
                 >
                   {formatSGD(incomeByProperty[pid] || 0)}
                 </td>
               ))}
               {showTotal && (
-                <td className="px-6 py-3 text-right font-['Plus_Jakarta_Sans'] font-bold tabular-nums text-[#006b5f] bg-[#f5f8ff]">
+                <td className="px-6 py-3 text-right font-['Plus_Jakarta_Sans'] font-bold tabular-nums text-[#A87813] bg-[#f5f8ff]">
                   {formatSGD(totalIncome)}
                 </td>
               )}
@@ -438,13 +438,13 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
               {propertyIds.map((pid) => (
                 <td
                   key={pid}
-                  className="px-6 py-3 text-right font-['Plus_Jakarta_Sans'] font-bold tabular-nums text-[#006b5f]"
+                  className="px-6 py-3 text-right font-['Plus_Jakarta_Sans'] font-bold tabular-nums text-[#A87813]"
                 >
                   {formatSGD(incomeByProperty[pid] || 0)}
                 </td>
               ))}
               {showTotal && (
-                <td className="px-6 py-3 text-right font-['Plus_Jakarta_Sans'] font-extrabold tabular-nums text-[#006b5f] bg-[#f5f8ff]">
+                <td className="px-6 py-3 text-right font-['Plus_Jakarta_Sans'] font-extrabold tabular-nums text-[#A87813] bg-[#f5f8ff]">
                   {formatSGD(totalIncome)}
                 </td>
               )}
@@ -612,7 +612,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
             <tr
               className={`border-t-2 ${
                 totalNetProfit >= 0
-                  ? "border-[#006b5f]/30 bg-[#f0fdf4]/50"
+                  ? "border-[#A87813]/30 bg-[#f0fdf4]/50"
                   : "border-[#ba1a1a]/30 bg-[#fef2f2]/50"
               }`}
             >
@@ -625,7 +625,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
                   <td
                     key={pid}
                     className={`px-6 py-4 text-right font-['Plus_Jakarta_Sans'] font-extrabold tabular-nums text-base ${
-                      net >= 0 ? "text-[#006b5f]" : "text-[#ba1a1a]"
+                      net >= 0 ? "text-[#A87813]" : "text-[#ba1a1a]"
                     }`}
                   >
                     {formatSGD(net)}
@@ -636,7 +636,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
                 <td
                   className={`px-6 py-4 text-right font-['Plus_Jakarta_Sans'] font-extrabold tabular-nums text-base ${
                     totalNetProfit >= 0
-                      ? "text-[#006b5f] bg-[#f0fdf4]/80"
+                      ? "text-[#A87813] bg-[#f0fdf4]/80"
                       : "text-[#ba1a1a] bg-[#fef2f2]/80"
                   }`}
                 >

@@ -57,7 +57,7 @@ export default function ActionInbox({ limit, showHeader = true, compact = false 
           {!compact && (
             <Link
               to="/portal/admin/inbox"
-              className="text-xs font-bold text-[#006b5f] hover:underline"
+              className="text-xs font-bold text-[#A87813] hover:underline"
             >
               View all →
             </Link>
@@ -128,7 +128,7 @@ export default function ActionInbox({ limit, showHeader = true, compact = false 
           {overflow > 0 && (
             <Link
               to="/portal/admin/inbox"
-              className="block text-center px-6 py-3 text-xs font-bold text-[#006b5f] hover:bg-[#eff4ff] transition-colors border-t border-[#bbcac6]/15"
+              className="block text-center px-6 py-3 text-xs font-bold text-[#A87813] hover:bg-[#eff4ff] transition-colors border-t border-[#bbcac6]/15"
             >
               + {overflow} more →
             </Link>

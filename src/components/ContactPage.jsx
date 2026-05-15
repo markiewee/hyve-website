@@ -102,7 +102,7 @@ ${formData.message}`;
 
               {isSubmitted ? (
                 <div className="text-center py-12">
-                  <span className="material-symbols-outlined text-6xl text-[#14b8a6] mb-4 block">check_circle</span>
+                  <span className="material-symbols-outlined text-6xl text-[#D9A441] mb-4 block">check_circle</span>
                   <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a] mb-2">Message Sent!</h3>
                   <p className="text-[#3c4947]">Thank you for reaching out. We&apos;ll be in touch soon.</p>
                 </div>
@@ -118,7 +118,7 @@ ${formData.message}`;
                         type="text"
                         value={formData.name}
                         onChange={(e) => handleInputChange('name', e.target.value)}
-                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#006b5f] focus:border-transparent outline-none font-['Manrope']"
+                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none font-['Manrope']"
                         placeholder="Your full name"
                       />
                     </div>
@@ -131,7 +131,7 @@ ${formData.message}`;
                         type="email"
                         value={formData.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
-                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#006b5f] focus:border-transparent outline-none font-['Manrope']"
+                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none font-['Manrope']"
                         placeholder="hello@example.com"
                       />
                     </div>
@@ -146,7 +146,7 @@ ${formData.message}`;
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => handleInputChange('phone', e.target.value)}
-                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#006b5f] focus:border-transparent outline-none font-['Manrope']"
+                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none font-['Manrope']"
                         placeholder="+65 1234 5678"
                       />
                     </div>
@@ -157,7 +157,7 @@ ${formData.message}`;
                       <select
                         value={formData.subject}
                         onChange={(e) => handleInputChange('subject', e.target.value)}
-                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#006b5f] focus:border-transparent outline-none appearance-none font-['Manrope']"
+                        className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none appearance-none font-['Manrope']"
                       >
                         <option value="">Select a subject</option>
                         <option value="viewing">Schedule a Viewing</option>
@@ -179,14 +179,14 @@ ${formData.message}`;
                       rows={5}
                       value={formData.message}
                       onChange={(e) => handleInputChange('message', e.target.value)}
-                      className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#006b5f] focus:border-transparent outline-none resize-none font-['Manrope']"
+                      className="w-full bg-[#eff4ff] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none resize-none font-['Manrope']"
                       placeholder="Tell us about your requirements, preferred location, budget, move-in date..."
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full bg-[#006b5f] text-white py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#006b5f]/90 transition-all active:scale-95 shadow-lg shadow-[#006b5f]/20 flex items-center justify-center gap-2"
+                    className="w-full bg-[#A87813] text-white py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#A87813]/90 transition-all active:scale-95 shadow-lg shadow-[#A87813]/20 flex items-center justify-center gap-2"
                   >
                     <span className="material-symbols-outlined">send</span>
                     {t('public.contact.send')}
@@ -208,21 +208,21 @@ ${formData.message}`;
                   rel="noopener noreferrer"
                   className="flex items-start gap-4 p-3 rounded-xl hover:bg-[#eff4ff] transition-colors"
                 >
-                  <div className="w-10 h-10 bg-[#14b8a6]/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <span className="material-symbols-outlined text-[#006b5f]">chat</span>
+                  <div className="w-10 h-10 bg-[#D9A441]/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span className="material-symbols-outlined text-[#A87813]">chat</span>
                   </div>
                   <div>
                     <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">{t('public.contact.whatsapp')}</h4>
                     <p className="text-sm text-[#3c4947]">+65 8088 5410</p>
-                    <p className="text-xs text-[#006b5f] font-['Inter'] font-semibold mt-1">Message us now</p>
+                    <p className="text-xs text-[#A87813] font-['Inter'] font-semibold mt-1">Message us now</p>
                   </div>
                 </a>
                 <a
                   href="mailto:admin@lazybee.sg"
                   className="flex items-start gap-4 p-3 rounded-xl hover:bg-[#eff4ff] transition-colors"
                 >
-                  <div className="w-10 h-10 bg-[#14b8a6]/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <span className="material-symbols-outlined text-[#006b5f]">mail</span>
+                  <div className="w-10 h-10 bg-[#D9A441]/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span className="material-symbols-outlined text-[#A87813]">mail</span>
                   </div>
                   <div>
                     <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#121c2a]">{t('public.contact.email')}</h4>
@@ -235,7 +235,7 @@ ${formData.message}`;
             {/* Office Hours */}
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-[rgba(187,202,198,0.15)]">
               <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg mb-4 flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#006b5f]">schedule</span>
+                <span className="material-symbols-outlined text-[#A87813]">schedule</span>
                 {t('public.contact.responseTime')}
               </h3>
               <div className="space-y-3 text-sm">
@@ -252,8 +252,8 @@ ${formData.message}`;
                   <span className="font-['Inter'] font-semibold text-[#121c2a]">Same day / next day</span>
                 </div>
               </div>
-              <div className="mt-4 p-3 bg-[#14b8a6]/10 rounded-xl">
-                <p className="text-sm text-[#006b5f] font-['Manrope']">
+              <div className="mt-4 p-3 bg-[#D9A441]/10 rounded-xl">
+                <p className="text-sm text-[#A87813] font-['Manrope']">
                   <strong>24/7 Support</strong> for current residents
                 </p>
               </div>
@@ -262,7 +262,7 @@ ${formData.message}`;
             {/* Quick link to properties */}
             <Link
               to="/properties"
-              className="block bg-[#006b5f] text-white p-6 rounded-2xl text-center hover:opacity-90 transition-all"
+              className="block bg-[#A87813] text-white p-6 rounded-2xl text-center hover:opacity-90 transition-all"
             >
               <span className="material-symbols-outlined text-3xl mb-2 block">home_work</span>
               <p className="font-['Plus_Jakarta_Sans'] font-bold">{t('public.contact.browseProperties')}</p>
@@ -295,7 +295,7 @@ ${formData.message}`;
           <div className="text-center mt-8">
             <Link
               to="/faqs"
-              className="text-[#006b5f] font-['Plus_Jakarta_Sans'] font-bold hover:underline underline-offset-4 inline-flex items-center gap-1"
+              className="text-[#A87813] font-['Plus_Jakarta_Sans'] font-bold hover:underline underline-offset-4 inline-flex items-center gap-1"
             >
               {t('public.contact.viewAllFAQs')}
               <span className="material-symbols-outlined text-sm">arrow_forward</span>

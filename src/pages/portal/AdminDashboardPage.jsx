@@ -132,11 +132,11 @@ export default function AdminDashboardPage() {
       value: counts.totalRooms,
       icon: "meeting_room",
       to: "/portal/property",
-      accent: "text-[#006b5f]",
-      bg: "bg-white hover:bg-[#006b5f] group",
+      accent: "text-[#A87813]",
+      bg: "bg-white hover:bg-[#A87813] group",
       valueCls: "text-[#121c2a] group-hover:text-white",
       labelCls: "text-[#6c7a77] group-hover:text-white/80",
-      iconCls: "text-[#006b5f] group-hover:text-white",
+      iconCls: "text-[#A87813] group-hover:text-white",
     },
     {
       label: "Active Members",
@@ -166,11 +166,11 @@ export default function AdminDashboardPage() {
       subtitle: `${counts.onlineDevices} online`,
       icon: "router",
       to: "/portal/admin/devices",
-      accent: "text-[#006b5f]",
-      bg: "bg-white hover:bg-[#006b5f] group",
+      accent: "text-[#A87813]",
+      bg: "bg-white hover:bg-[#A87813] group",
       valueCls: "text-[#121c2a] group-hover:text-white",
       labelCls: "text-[#6c7a77] group-hover:text-white/80",
-      iconCls: "text-[#006b5f] group-hover:text-white",
+      iconCls: "text-[#A87813] group-hover:text-white",
     },
   ];
 
@@ -240,10 +240,10 @@ export default function AdminDashboardPage() {
           <Link
             key={item.to}
             to={item.to}
-            className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm hover:border-[#006b5f]/30 hover:shadow-md transition-all flex items-start gap-4 group"
+            className="bg-white rounded-2xl p-6 border border-[#bbcac6]/15 shadow-sm hover:border-[#A87813]/30 hover:shadow-md transition-all flex items-start gap-4 group"
           >
-            <div className="w-10 h-10 rounded-xl bg-[#eff4ff] flex items-center justify-center shrink-0 group-hover:bg-[#006b5f] transition-colors">
-              <span className="material-symbols-outlined text-[#006b5f] group-hover:text-white text-[20px] transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-[#eff4ff] flex items-center justify-center shrink-0 group-hover:bg-[#A87813] transition-colors">
+              <span className="material-symbols-outlined text-[#A87813] group-hover:text-white text-[20px] transition-colors">
                 {item.icon}
               </span>
             </div>
@@ -261,7 +261,7 @@ export default function AdminDashboardPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-[#eff4ff] flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-[#006b5f] text-[20px]">draw</span>
+                <span className="material-symbols-outlined text-[#A87813] text-[20px]">draw</span>
               </div>
               <div>
                 <p className="font-['Manrope'] font-bold text-[#121c2a] text-sm">My Signature</p>
@@ -284,7 +284,7 @@ export default function AdminDashboardPage() {
               <button
                 type="button"
                 onClick={() => { setShowSigEditor((v) => !v); setSigMessage(null); }}
-                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#eff4ff] text-[#006b5f] hover:bg-[#006b5f] hover:text-white transition-colors"
+                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#eff4ff] text-[#A87813] hover:bg-[#A87813] hover:text-white transition-colors"
               >
                 {showSigEditor ? "Cancel" : profile.saved_signature ? "Update Signature" : "Add Signature"}
               </button>
@@ -310,7 +310,7 @@ export default function AdminDashboardPage() {
                 type="button"
                 onClick={handleSaveSignature}
                 disabled={sigSaving}
-                className="px-4 py-2 text-sm font-semibold rounded-lg bg-[#006b5f] text-white hover:bg-[#005a50] transition-colors disabled:opacity-50"
+                className="px-4 py-2 text-sm font-semibold rounded-lg bg-[#A87813] text-white hover:bg-[#005a50] transition-colors disabled:opacity-50"
               >
                 {sigSaving ? "Saving…" : "Save Signature"}
               </button>
@@ -321,7 +321,7 @@ export default function AdminDashboardPage() {
           {sigMessage && (
             <p
               className={`text-xs font-medium ${
-                sigMessage.type === "error" ? "text-red-600" : "text-[#006b5f]"
+                sigMessage.type === "error" ? "text-red-600" : "text-[#A87813]"
               }`}
             >
               {sigMessage.text}

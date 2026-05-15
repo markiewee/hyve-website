@@ -64,7 +64,7 @@ export default function RentPaymentCard({ payment, lateFeePerDay = 5 }) {
   }
 
   const statusIcon = status === "PAID" ? "check_circle" : status === "OVERDUE" ? "error" : "schedule";
-  const iconColor = status === "PAID" ? "text-green-500" : status === "OVERDUE" ? "text-red-500" : "text-[#006b5f]";
+  const iconColor = status === "PAID" ? "text-green-500" : status === "OVERDUE" ? "text-red-500" : "text-[#A87813]";
 
   return (
     <div className="flex items-center gap-4 px-6 py-5">

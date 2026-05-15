@@ -81,7 +81,7 @@ export function ConfirmHost() {
             className={
               pending?.destructive
                 ? "bg-[#FF3B3B] hover:bg-[#FF3B3B]/90 text-white"
-                : "bg-[#006b5f] hover:bg-[#006b5f]/90 text-white"
+                : "bg-[#A87813] hover:bg-[#A87813]/90 text-white"
             }
           >
             {pending?.confirmLabel ?? "Confirm"}

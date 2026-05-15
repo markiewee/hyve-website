@@ -305,7 +305,7 @@ Thin React Query / Supabase hooks — one per domain:
 
 - **Sanity → Supabase migration** in progress on `rename/lazybee-cleanup` branch. `cms_content` table created (empty); export script + frontend cutover pending.
 - **Hyve → Lazybee rename** completed in same branch (487 changes across 96 files). Domain, email, env var, brand strings, and 9 file/asset names all switched to Lazybee. Build green.
-- **Vercel todo:** add `LAZYBEE_VIEWINGS_CAL_ID` env var (mirroring old `HYVE_VIEWINGS_CAL_ID`) before merging to master, otherwise booking calendar breaks on deploy.
+- **Vercel todo:** ensure `LAZYBEE_VIEWINGS_CAL_ID` env var is set before merging to master, otherwise booking calendar breaks on deploy.
 - **V1 viewing routes (`/view/*`)** still present — delete after V2 cutover stability is observed.
 - **Bundle size** > 500KB warning — defer split until any page becomes painfully slow.
 

@@ -989,7 +989,7 @@ export default function AdminExpenseImportPage() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-['Manrope'] font-semibold transition-all duration-150 ${
                     activeTab === tab.id
-                      ? "bg-white text-[#006b5f] shadow-sm"
+                      ? "bg-white text-[#A87813] shadow-sm"
                       : "text-[#6c7a77] hover:text-[#121c2a]"
                   }`}
                 >
@@ -1011,7 +1011,7 @@ export default function AdminExpenseImportPage() {
                 <select
                   value={selectedAccount}
                   onChange={(e) => setSelectedAccount(e.target.value)}
-                  className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white max-w-[220px]"
+                  className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white max-w-[220px]"
                 >
                   <option value="">Select account...</option>
                   {accounts.map((acc) => (
@@ -1025,12 +1025,12 @@ export default function AdminExpenseImportPage() {
                 type="month"
                 value={reconcileMonth}
                 onChange={(e) => setReconcileMonth(e.target.value)}
-                className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f]"
+                className="px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]"
               />
               <button
                 onClick={handleFetchAspire}
                 disabled={fetching || !selectedAccount}
-                className="px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+                className="px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
               >
                 <span className="material-symbols-outlined text-[18px]">account_balance</span>
                 {fetching ? "Fetching..." : "Fetch Aspire"}
@@ -1039,7 +1039,7 @@ export default function AdminExpenseImportPage() {
                 <button
                   onClick={handleResume}
                   disabled={resumeLoading}
-                  className="px-5 py-2.5 bg-white text-[#006b5f] border-2 border-[#006b5f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006b5f]/5 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+                  className="px-5 py-2.5 bg-white text-[#A87813] border-2 border-[#A87813] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#A87813]/5 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
                 >
                   <span className="material-symbols-outlined text-[18px]">history</span>
                   {resumeLoading ? "Loading..." : "Resume Progress"}
@@ -1058,7 +1058,7 @@ export default function AdminExpenseImportPage() {
               <button
                 onClick={handleGeneratePnl}
                 disabled={pnlLoading}
-                className="px-5 py-2.5 bg-white text-[#006b5f] border-2 border-[#006b5f] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#006b5f]/5 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+                className="px-5 py-2.5 bg-white text-[#A87813] border-2 border-[#A87813] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#A87813]/5 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
               >
                 <span className="material-symbols-outlined text-[18px]">assessment</span>
                 {pnlLoading ? "Generating..." : "Generate P&L"}
@@ -1104,7 +1104,7 @@ export default function AdminExpenseImportPage() {
             {/* Loading spinner */}
             {fetching && (
               <div className="px-8 py-8 flex items-center justify-center gap-3">
-                <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#006b5f] border-r-transparent" />
+                <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#A87813] border-r-transparent" />
                 <span className="font-['Manrope'] text-sm text-[#6c7a77]">
                   Fetching transactions...
                 </span>
@@ -1162,7 +1162,7 @@ export default function AdminExpenseImportPage() {
                                     onChange={(e) =>
                                       setEdit(txn._key, "property_id", e.target.value)
                                     }
-                                    className="flex-1 min-w-[120px] px-2 py-1.5 rounded-lg border border-[#bbcac6]/30 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white"
+                                    className="flex-1 min-w-[120px] px-2 py-1.5 rounded-lg border border-[#bbcac6]/30 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
                                   >
                                     <option value="">Property...</option>
                                     {properties.map((p) => (
@@ -1179,7 +1179,7 @@ export default function AdminExpenseImportPage() {
                                       onChange={(e) =>
                                         setEdit(txn._key, "room_id", e.target.value || null)
                                       }
-                                      className="min-w-[100px] px-2 py-1.5 rounded-lg border border-[#bbcac6]/30 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white"
+                                      className="min-w-[100px] px-2 py-1.5 rounded-lg border border-[#bbcac6]/30 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
                                     >
                                       <option value="">Room (optional)</option>
                                       {getRoomsForProperty(edit.property_id).map((r) => (
@@ -1196,7 +1196,7 @@ export default function AdminExpenseImportPage() {
                                     onChange={(e) =>
                                       setEdit(txn._key, "category", e.target.value)
                                     }
-                                    className="flex-1 min-w-[120px] px-2 py-1.5 rounded-lg border border-[#bbcac6]/30 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white"
+                                    className="flex-1 min-w-[120px] px-2 py-1.5 rounded-lg border border-[#bbcac6]/30 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
                                   >
                                     <option value="">Category...</option>
                                     {EXPENSE_CATEGORIES.map((c) => (
@@ -1213,7 +1213,7 @@ export default function AdminExpenseImportPage() {
                                       setEdit(txn._key, "accrual_month", e.target.value)
                                     }
                                     title="Accounting period"
-                                    className="min-w-[110px] px-2 py-1.5 rounded-lg border border-[#bbcac6]/30 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white"
+                                    className="min-w-[110px] px-2 py-1.5 rounded-lg border border-[#bbcac6]/30 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
                                   >
                                     {Array.from({ length: 12 }, (_, i) => {
                                       const d = new Date();
@@ -1231,7 +1231,7 @@ export default function AdminExpenseImportPage() {
                                     disabled={
                                       isSaving || !edit.property_id || !edit.category
                                     }
-                                    className="px-3 py-1.5 bg-[#006b5f] text-white text-xs font-bold rounded-lg hover:opacity-90 disabled:opacity-50 flex items-center gap-1"
+                                    className="px-3 py-1.5 bg-[#A87813] text-white text-xs font-bold rounded-lg hover:opacity-90 disabled:opacity-50 flex items-center gap-1"
                                   >
                                     {isSaving ? (
                                       <span className="material-symbols-outlined text-[14px] animate-spin">
@@ -1278,7 +1278,7 @@ export default function AdminExpenseImportPage() {
                             </span>
                             <button
                               onClick={() => handleUnignore(txn)}
-                              className="text-[10px] text-[#006b5f] font-bold hover:underline shrink-0"
+                              className="text-[10px] text-[#A87813] font-bold hover:underline shrink-0"
                             >
                               Undo
                             </button>
@@ -1310,7 +1310,7 @@ export default function AdminExpenseImportPage() {
                         }, {})
                       ).map(([propId, txns]) => (
                         <div key={propId} className="mb-4">
-                          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#006b5f] font-bold mb-2 flex items-center gap-2">
+                          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#A87813] font-bold mb-2 flex items-center gap-2">
                             <span className="material-symbols-outlined text-[14px]">apartment</span>
                             {propId === "_unassigned" ? "Unassigned" : getPropertyName(propId)}
                           </p>
@@ -1370,7 +1370,7 @@ export default function AdminExpenseImportPage() {
             <button
               onClick={handleGeneratePnl}
               disabled={pnlLoading}
-              className="px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+              className="px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
             >
               <span className="material-symbols-outlined text-[18px]">assessment</span>
               {pnlLoading ? "Generating..." : "Generate P&L Report"}
@@ -1394,7 +1394,7 @@ export default function AdminExpenseImportPage() {
                       <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#121c2a]">
                         {getPropertyName(propId)}
                       </p>
-                      <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#006b5f] tabular-nums">
+                      <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#A87813] tabular-nums">
                         {formatSGD(propTotal)}
                       </p>
                     </div>
@@ -1405,10 +1405,10 @@ export default function AdminExpenseImportPage() {
                         <div key={month} className={sortedMonths.length > 1 ? "mb-3 last:mb-0" : ""}>
                           {sortedMonths.length > 1 && (
                             <div className="flex items-center justify-between mb-1">
-                              <span className="font-['Inter'] text-[9px] uppercase tracking-widest text-[#006b5f] font-bold">
+                              <span className="font-['Inter'] text-[9px] uppercase tracking-widest text-[#A87813] font-bold">
                                 {formatMonthLabel(month)}
                               </span>
-                              <span className="font-['Plus_Jakarta_Sans'] text-[10px] font-semibold text-[#006b5f] tabular-nums">
+                              <span className="font-['Plus_Jakarta_Sans'] text-[10px] font-semibold text-[#A87813] tabular-nums">
                                 {formatSGD(monthTotal)}
                               </span>
                             </div>
@@ -1462,7 +1462,7 @@ export default function AdminExpenseImportPage() {
               <button
                 onClick={handleFinalizeMonth}
                 disabled={finalizing}
-                className="px-5 py-2.5 bg-[#006b5f] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+                className="px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">lock</span>
                 {finalizing ? "Finalizing..." : "Finalize Month"}
@@ -1485,7 +1485,7 @@ export default function AdminExpenseImportPage() {
                       {getPropertyName(propId)}
                     </th>
                   ))}
-                  <th className="text-right py-3 pl-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#006b5f] font-bold">
+                  <th className="text-right py-3 pl-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#A87813] font-bold">
                     Total
                   </th>
                 </tr>
@@ -1495,7 +1495,7 @@ export default function AdminExpenseImportPage() {
                 <tr className="bg-[#eff4ff]/50">
                   <td
                     colSpan={pnlData.properties.length + 2}
-                    className="py-2 px-0 font-['Inter'] text-[10px] uppercase tracking-widest text-[#006b5f] font-bold"
+                    className="py-2 px-0 font-['Inter'] text-[10px] uppercase tracking-widest text-[#A87813] font-bold"
                   >
                     Income
                   </td>
@@ -1512,7 +1512,7 @@ export default function AdminExpenseImportPage() {
                       {formatSGD(pnlData.income[propId] || 0)}
                     </td>
                   ))}
-                  <td className="py-2 pl-4 text-right font-['Plus_Jakarta_Sans'] font-bold text-[#006b5f] tabular-nums">
+                  <td className="py-2 pl-4 text-right font-['Plus_Jakarta_Sans'] font-bold text-[#A87813] tabular-nums">
                     {formatSGD(
                       pnlData.properties.reduce(
                         (s, p) => s + (pnlData.income[p] || 0),
@@ -1659,7 +1659,7 @@ export default function AdminExpenseImportPage() {
                       <td
                         key={propId}
                         className={`py-3 px-4 text-right font-['Plus_Jakarta_Sans'] font-bold text-lg tabular-nums ${
-                          net >= 0 ? "text-[#006b5f]" : "text-[#ba1a1a]"
+                          net >= 0 ? "text-[#A87813]" : "text-[#ba1a1a]"
                         }`}
                       >
                         {net < 0 ? `(${formatSGD(Math.abs(net))})` : formatSGD(net)}
@@ -1675,7 +1675,7 @@ export default function AdminExpenseImportPage() {
                       return (
                         <span
                           className={`font-['Plus_Jakarta_Sans'] font-bold text-lg tabular-nums ${
-                            totalNet >= 0 ? "text-[#006b5f]" : "text-[#ba1a1a]"
+                            totalNet >= 0 ? "text-[#A87813]" : "text-[#ba1a1a]"
                           }`}
                         >
                           {totalNet < 0
@@ -1733,7 +1733,7 @@ export default function AdminExpenseImportPage() {
                         placeholder={`Notes for ${getPropertyName(propId)}...`}
                         rows={3}
                         disabled={isFinalized}
-                        className="w-full px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-xs font-['Manrope'] text-[#121c2a] placeholder:text-[#bbcac6] focus:outline-none focus:ring-2 focus:ring-[#006b5f] bg-white resize-y disabled:bg-gray-50 disabled:opacity-60"
+                        className="w-full px-3 py-2 rounded-lg border border-[#bbcac6]/30 text-xs font-['Manrope'] text-[#121c2a] placeholder:text-[#bbcac6] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white resize-y disabled:bg-gray-50 disabled:opacity-60"
                       />
                     </td>
                   ))}

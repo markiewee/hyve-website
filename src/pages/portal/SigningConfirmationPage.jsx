@@ -98,7 +98,7 @@ export default function SigningConfirmationPage() {
     return (
       <PortalLayout>
         <div className="flex items-center justify-center min-h-[60vh]">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#006b5f]" />
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#A87813]" />
         </div>
       </PortalLayout>
     );
@@ -133,7 +133,7 @@ export default function SigningConfirmationPage() {
         </div>
 
         {/* Heading */}
-        <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#006b5f] mb-2">
+        <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#A87813] mb-2">
           Agreement Signed Successfully
         </h1>
         <p className="font-['Manrope'] text-sm text-[#6c7a77] mb-6">
@@ -186,7 +186,7 @@ export default function SigningConfirmationPage() {
 
           <Button
             onClick={() => navigate("/portal/onboarding")}
-            className="w-full sm:w-auto font-['Manrope'] bg-[#006b5f] hover:bg-[#005a50] gap-2"
+            className="w-full sm:w-auto font-['Manrope'] bg-[#A87813] hover:bg-[#005a50] gap-2"
           >
             Continue to Onboarding
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
