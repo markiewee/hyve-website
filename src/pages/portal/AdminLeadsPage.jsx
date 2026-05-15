@@ -4,6 +4,7 @@ import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from 
 import { useLeads } from "@/hooks/useLeads";
 import { LeadColumn } from "@/components/portal/leads/LeadColumn";
 import { LeadDrawer } from "@/components/portal/leads/LeadDrawer";
+import { LeadFunnelPanel } from "@/components/portal/leads/LeadFunnelPanel";
 import { Button } from "@/components/ui/button";
 
 // Order: prospect lifecycle, then legacy aliases mixed in where they fit semantically
@@ -66,6 +67,8 @@ export default function AdminLeadsPage() {
           {showArchived ? "Hide archived" : "Show archived"}
         </Button>
       </div>
+
+      <LeadFunnelPanel />
 
       {error && (
         <div className="mb-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">
