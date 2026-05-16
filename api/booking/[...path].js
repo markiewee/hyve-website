@@ -195,10 +195,31 @@ async function handleWindows(req, res) {
     horizonDays,
   });
 
+  // 48-hour lead time gate. Prospects can't book a slot that starts in less
+  // than MIN_LEAD_HOURS from now — Mark needs prep time + tenant courtesy
+  // notice. Env-overridable via BOOKING_MIN_LEAD_HOURS.
+  const minLeadHours = Number(process.env.BOOKING_MIN_LEAD_HOURS || 48);
+  const leadCutoffMs = now.getTime() + minLeadHours * 3600 * 1000;
+  const gatedWindows = windows.map((w) => {
+    const windowStartMs = new Date(w.window_start).getTime();
+    if (windowStartMs < leadCutoffMs) {
+      return {
+        ...w,
+        state: "CLOSED",
+        anchor_property: null,
+        free_slot_count: 0,
+        slots: [],
+        closed_reason: "min-lead-hours",
+      };
+    }
+    return w;
+  });
+
   res.setHeader("Cache-Control", "no-store");
   return res.status(200).json({
-    windows,
+    windows: gatedWindows,
     horizon_days: horizonDays,
+    min_lead_hours: minLeadHours,
     rules_version: "v1",
     computed_at: new Date().toISOString(),
   });
@@ -442,6 +463,22 @@ async function handleCreate(req, res) {
   const slotEnd = addMinutesIso(slotStart, SLOT_MINUTES);
   if (Number.isNaN(new Date(slotStart).getTime())) {
     return res.status(400).json({ error: "invalid slot_start" });
+  }
+
+  // 48-hour lead time gate (mirrors handleWindows). Catches bots / replays
+  // that bypass the UI. Admin path skips this — Mark's admin tools can
+  // still force-create within the lead window when needed.
+  const minLeadHours = Number(process.env.BOOKING_MIN_LEAD_HOURS || 48);
+  if (body.rules_version !== "admin") {
+    const hoursAhead = (new Date(slotStart).getTime() - Date.now()) / 3600_000;
+    if (hoursAhead < minLeadHours) {
+      return res.status(409).json({
+        error: "too-soon",
+        message: `Bookings require at least ${minLeadHours} hours notice — pick a slot from a later window.`,
+        min_lead_hours: minLeadHours,
+        hours_ahead: Math.round(hoursAhead * 10) / 10,
+      });
+    }
   }
 
   const { data: property, error: propErr } = await supabase
