@@ -46,7 +46,18 @@ export default function BookingFlow({ propertyCode, roomCode }) {
   // Property + rooms
   const [room, setRoom] = useState(null);
   const [allRooms, setAllRooms] = useState([]);
-  const [selectedRoomCode, setSelectedRoomCode] = useState(roomCode || "");
+  // Multi-select up to MAX_ROOMS rooms. Empty array = "I'm flexible".
+  // Order matters — first picked is treated as the primary room downstream.
+  const MAX_ROOMS = 2;
+  const [selectedRoomCodes, setSelectedRoomCodes] = useState(roomCode ? [roomCode] : []);
+  const toggleRoomCode = (code) => {
+    setSelectedRoomCodes((prev) => {
+      if (prev.includes(code)) return prev.filter((c) => c !== code);
+      if (prev.length >= MAX_ROOMS) return prev; // ignore — capped
+      return [...prev, code];
+    });
+  };
+  const clearRoomSelection = () => setSelectedRoomCodes([]);
   const [pageLoading, setPageLoading] = useState(true);
   const [pageError, setPageError] = useState(null);
 
@@ -121,10 +132,10 @@ export default function BookingFlow({ propertyCode, roomCode }) {
           );
           if (match) {
             setRoom(match);
-            setSelectedRoomCode(match.unit_code);
+            setSelectedRoomCodes([match.unit_code]);
           } else {
             setRoom(null);
-            setSelectedRoomCode("");
+            setSelectedRoomCodes([]);
           }
         }
       } catch (err) {
@@ -196,7 +207,10 @@ export default function BookingFlow({ propertyCode, roomCode }) {
     try {
       const result = await createBooking({
         property: property.code,
-        room: selectedRoomCode || undefined,
+        // Multi-room (max 2). Send `rooms` array; legacy `room` kept for any
+        // older API path that still reads the singular field.
+        rooms: selectedRoomCodes.length > 0 ? selectedRoomCodes : undefined,
+        room: selectedRoomCodes[0] || undefined,
         slot_start: selectedSlot.start,
         name: name.trim(),
         email: email.trim(),
@@ -275,7 +289,8 @@ export default function BookingFlow({ propertyCode, roomCode }) {
         email: ohEmail.trim() || null,
         phone,
         property: property.code,
-        room_code: selectedRoomCode || null,
+        // Off-horizon lead capture only stores one preferred room — use the first pick
+        room_code: selectedRoomCodes[0] || null,
         target_move_in_date: ohMoveInDate,
         source,
       });
@@ -399,39 +414,53 @@ export default function BookingFlow({ propertyCode, roomCode }) {
               </div>
 
               <form className="space-y-6" onSubmit={handleSubmit} noValidate>
-                {/* Optional room selector */}
+                {/* Multi-room picker — up to 2 rooms per viewing */}
                 {!room && allRooms.length > 0 && (
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937] mb-2 ml-1">
-                      Which room?
-                    </label>
+                    <div className="flex items-baseline justify-between mb-2 ml-1">
+                      <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937]">
+                        Which room{selectedRoomCodes.length > 1 ? "s" : ""}? <span className="text-[#6B7280] font-normal normal-case tracking-normal">(pick up to {MAX_ROOMS})</span>
+                      </label>
+                      <span className="text-[10px] text-[#6B7280] font-medium">
+                        {selectedRoomCodes.length}/{MAX_ROOMS} selected
+                      </span>
+                    </div>
                     <div className="flex flex-wrap gap-2">
                       <button
                         type="button"
-                        onClick={() => setSelectedRoomCode("")}
+                        onClick={clearRoomSelection}
                         className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
-                          !selectedRoomCode
+                          selectedRoomCodes.length === 0
                             ? "bg-[#A87813] text-white shadow-md"
                             : "bg-[#e6e8ea] text-[#1F2937] hover:bg-[#D9A441]/20"
                         }`}
                       >
                         I&apos;m flexible
                       </button>
-                      {allRooms.map((r) => (
-                        <button
-                          key={r.id}
-                          type="button"
-                          onClick={() => setSelectedRoomCode(r.unit_code)}
-                          className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
-                            selectedRoomCode === r.unit_code
-                              ? "bg-[#A87813] text-white shadow-md"
-                              : "bg-[#e6e8ea] text-[#1F2937] hover:bg-[#D9A441]/20"
-                          }`}
-                        >
-                          {r.unit_code}
-                          {r.monthly_rent ? ` · S$${r.monthly_rent}` : ""}
-                        </button>
-                      ))}
+                      {allRooms.map((r) => {
+                        const isSelected = selectedRoomCodes.includes(r.unit_code);
+                        const isCapped = !isSelected && selectedRoomCodes.length >= MAX_ROOMS;
+                        return (
+                          <button
+                            key={r.id}
+                            type="button"
+                            onClick={() => toggleRoomCode(r.unit_code)}
+                            disabled={isCapped}
+                            aria-pressed={isSelected}
+                            title={isCapped ? `Pick up to ${MAX_ROOMS} rooms — deselect one first` : ""}
+                            className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                              isSelected
+                                ? "bg-[#A87813] text-white shadow-md"
+                                : isCapped
+                                  ? "bg-[#e6e8ea] text-[#9CA3AF] cursor-not-allowed opacity-50"
+                                  : "bg-[#e6e8ea] text-[#1F2937] hover:bg-[#D9A441]/20"
+                            }`}
+                          >
+                            {r.unit_code}
+                            {r.monthly_rent ? ` · S$${r.monthly_rent}` : ""}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
