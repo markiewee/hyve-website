@@ -409,7 +409,19 @@ async function handleCreate(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   const body = req.body || {};
   const propertyCode = normalizePropertyCode(body.property);
-  const roomCode = body.room ? String(body.room).trim() : null;
+  // Multi-room (max 2). Accept either:
+  //   rooms: ["TG-PR1", "TG-PR2"]   (V3, preferred)
+  //   room:  "TG-PR1"               (legacy single, still supported)
+  const roomCodesRaw = Array.isArray(body.rooms)
+    ? body.rooms
+    : body.room
+      ? [body.room]
+      : [];
+  const roomCodes = roomCodesRaw
+    .map((c) => (c == null ? null : String(c).trim()))
+    .filter(Boolean)
+    .slice(0, 2);
+  const roomCode = roomCodes[0] || null; // legacy single-room var, still used below for back-compat
   const slotStart = body.slot_start;
   const name = String(body.name || "").trim();
   const email = String(body.email || "").trim().toLowerCase() || null;
@@ -443,19 +455,41 @@ async function handleCreate(req, res) {
   }
   if (!property) return res.status(404).json({ error: `Unknown property '${propertyCode}'` });
 
-  let roomId = null;
-  let roomName = null;
-  if (roomCode) {
-    const { data: room } = await supabase
+  // Resolve all selected room codes to UUIDs. Validate every code belongs
+  // to the picked property — refuse the booking if any code doesn't match
+  // (prevents cross-property mistakes from URL tampering or stale UI state).
+  let roomIds = [];
+  let roomId = null;     // legacy mirror — first selected room
+  let roomName = null;   // legacy mirror — first selected room display name
+  if (roomCodes.length > 0) {
+    const { data: matchedRooms, error: roomsErr } = await supabase
       .from("rooms")
       .select("id, name, unit_code")
       .eq("property_id", property.id)
-      .or(`unit_code.eq.${roomCode},name.eq.${roomCode}`)
-      .maybeSingle();
-    if (room) {
-      roomId = room.id;
-      roomName = room.name || room.unit_code;
+      .in("unit_code", roomCodes);
+    if (roomsErr) {
+      console.error("[booking/create] rooms lookup error:", roomsErr);
+      return res.status(500).json({ error: "Room lookup failed" });
     }
+    const matched = matchedRooms || [];
+    if (matched.length !== roomCodes.length) {
+      const missing = roomCodes.filter(
+        (c) => !matched.some((r) => (r.unit_code || "").toLowerCase() === c.toLowerCase()),
+      );
+      return res.status(400).json({
+        error: "unknown_room",
+        message: `Room(s) not found for ${propertyCode}: ${missing.join(", ")}`,
+      });
+    }
+    // Preserve the order the prospect picked them in — first = primary
+    roomIds = roomCodes.map(
+      (c) => matched.find((r) => (r.unit_code || "").toLowerCase() === c.toLowerCase()).id,
+    );
+    const firstRoom = matched.find(
+      (r) => (r.unit_code || "").toLowerCase() === roomCodes[0].toLowerCase(),
+    );
+    roomId = firstRoom.id;
+    roomName = firstRoom.name || firstRoom.unit_code;
   }
 
   // Race-guard: DB
@@ -570,6 +604,9 @@ async function handleCreate(req, res) {
     .from("property_viewings")
     .insert({
       property_id: property.id,
+      // room_ids[] is the canonical column. Trigger sync_property_viewings_room_id
+      // mirrors room_ids[0] back to room_id so legacy queries keep working.
+      room_ids: roomIds.length > 0 ? roomIds : null,
       room_id: roomId,
       prospect_name: name,
       prospect_email: email,
