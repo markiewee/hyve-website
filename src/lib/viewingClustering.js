@@ -18,12 +18,13 @@ const WINDOW_DEFS = [
 ];
 
 export const SLOT_STATE = Object.freeze({
-  OPEN_ANY:       "OPEN-ANY",
-  PROP_RESERVED:  "PROP-RESERVED",
-  BLOCKED_BUFFER: "BLOCKED-BUFFER",
-  BOOKED:         "BOOKED",
-  WINDOW_CLOSED:  "WINDOW-CLOSED",
-  OUT_OF_HORIZON: "OUT-OF-HORIZON",
+  OPEN_ANY:         "OPEN-ANY",
+  PROP_RESERVED:    "PROP-RESERVED",
+  BLOCKED_BUFFER:   "BLOCKED-BUFFER",
+  BLOCKED_CONFLICT: "BLOCKED-CONFLICT", // overlaps a non-viewing GCal event
+  BOOKED:           "BOOKED",
+  WINDOW_CLOSED:    "WINDOW-CLOSED",
+  OUT_OF_HORIZON:   "OUT-OF-HORIZON",
 });
 
 export const WINDOW_STATE = Object.freeze({
@@ -126,6 +127,20 @@ function isWindowEdge(slotStartMs, slotEndMs, window) {
   return slotStartMs === window.startMs || slotEndMs === window.endMs;
 }
 
+/**
+ * Returns true if [slotStartMs, slotEndMs) overlaps any blocker interval.
+ * Blockers are arbitrary GCal events (not booking windows, not viewings)
+ * that mark Mark as unavailable inside an otherwise-open window.
+ */
+function slotHitsBlocker(slotStartMs, slotEndMs, blockers) {
+  if (!blockers || blockers.length === 0) return false;
+  return blockers.some((b) => {
+    const bStart = new Date(b.start).getTime();
+    const bEnd   = new Date(b.end).getTime();
+    return slotStartMs < bEnd && bStart < slotEndMs;
+  });
+}
+
 // ── Resolver ─────────────────────────────────────────────────────────
 
 /**
@@ -140,7 +155,7 @@ function isWindowEdge(slotStartMs, slotEndMs, window) {
  * @returns {{state: string, anchorProperty: string|null,
  *            slots: Array<{start:string,end:string,state:string}>}}
  */
-export function resolveSlots({ propertyOfInterest, window, gcalEvent, bookings }) {
+export function resolveSlots({ propertyOfInterest, window, gcalEvent, bookings, blockers = [] }) {
   if (!gcalEvent) {
     return { state: WINDOW_STATE.CLOSED, anchorProperty: null, slots: [] };
   }
@@ -168,6 +183,15 @@ export function resolveSlots({ propertyOfInterest, window, gcalEvent, bookings }
     // BOOKED takes priority
     if (isSlotBooked(slotStartMs, bookings)) {
       slots.push({ start: startIso, end: endIso, state: SLOT_STATE.BOOKED });
+      continue;
+    }
+
+    // GCal blocker (any non-booking-window, non-viewing event Mark dropped
+    // on the Lazybee Viewings calendar) blocks the slot regardless of who
+    // the anchor is. Checked after BOOKED so an active viewing keeps its
+    // BOOKED label, but before any OPEN/PROP_RESERVED resolution.
+    if (slotHitsBlocker(slotStartMs, slotEndMs, blockers)) {
+      slots.push({ start: startIso, end: endIso, state: SLOT_STATE.BLOCKED_CONFLICT });
       continue;
     }
 
@@ -247,6 +271,7 @@ export function buildWindowsResponse({
   now,
   gcalEvents,
   allBookings,
+  blockers = [],
   horizonDays = 7,
 }) {
   const upcomingWindows = listUpcomingWindows(now, horizonDays);
@@ -256,11 +281,19 @@ export function buildWindowsResponse({
       const ms = new Date(b.slot_start).getTime();
       return ms >= w.startMs && ms < w.endMs;
     });
+    // Keep blockers that overlap this window at all — even partial overlap
+    // matters because a 1-hour blocker can clip multiple slot starts.
+    const windowBlockers = blockers.filter((b) => {
+      const bStart = new Date(b.start).getTime();
+      const bEnd   = new Date(b.end).getTime();
+      return bStart < w.endMs && bEnd > w.startMs;
+    });
     const resolution = resolveSlots({
       propertyOfInterest,
       window: w,
       gcalEvent,
       bookings: windowBookings,
+      blockers: windowBlockers,
     });
     const freeSlotCount = resolution.slots.filter(
       (s) =>
@@ -300,6 +333,7 @@ export function validateBookingAttempt({
   window,
   gcalEvent,
   bookings,
+  blockers = [],
 }) {
   if (!gcalEvent) return { code: "window-closed", payload: {} };
 
@@ -315,6 +349,10 @@ export function validateBookingAttempt({
 
   if (isSlotBooked(slotStartMs, bookings)) {
     return { code: "slot-taken", payload: {} };
+  }
+
+  if (slotHitsBlocker(slotStartMs, slotEndMs, blockers)) {
+    return { code: "slot-conflict", payload: {} };
   }
 
   if (gcalEvent.anchorProperty && gcalEvent.anchorProperty !== propertyOfInterest) {

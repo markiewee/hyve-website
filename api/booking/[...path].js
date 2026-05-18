@@ -31,7 +31,7 @@ import {
   isSlotStillFree,
   createEvent,
   cancelEvent,
-  listBookingWindowEvents,
+  listBookingCalendarState,
 } from "../../src/lib/googleCalendar.js";
 import {
   buildWindowsResponse,
@@ -160,8 +160,11 @@ async function handleWindows(req, res) {
   const horizonEnd = new Date(now.getTime() + horizonDays * 24 * 60 * 60 * 1000);
 
   let gcalEvents = [];
+  let blockers = [];
   try {
-    gcalEvents = await listBookingWindowEvents(now.toISOString(), horizonEnd.toISOString());
+    const state = await listBookingCalendarState(now.toISOString(), horizonEnd.toISOString());
+    gcalEvents = state.windows;
+    blockers = state.blockers;
   } catch (err) {
     console.error("[booking/windows] gcal failed:", err);
     return res.status(503).json({ error: "calendar service unavailable" });
@@ -192,6 +195,7 @@ async function handleWindows(req, res) {
     now,
     gcalEvents,
     allBookings: bookingsForResolver,
+    blockers,
     horizonDays,
   });
 
@@ -581,17 +585,24 @@ async function handleCreate(req, res) {
       return res.status(409).json({ error: "slot is not in any V3 viewing window" });
     }
 
-    // Fetch GCal event for this window (if any)
+    // Fetch GCal event for this window (if any) AND the blockers that
+    // overlap it. Single events.list call returns both partitions.
     let gcalEvent = null;
+    let windowBlockers = [];
     try {
-      const events = await listBookingWindowEvents(
+      const state = await listBookingCalendarState(
         new Date(window.startMs - 60_000).toISOString(),
         new Date(window.endMs + 60_000).toISOString()
       );
       gcalEvent =
-        events.find(
+        state.windows.find(
           (e) => Math.abs(new Date(e.start).getTime() - window.startMs) <= 5 * 60_000
         ) || null;
+      windowBlockers = state.blockers.filter((b) => {
+        const bStart = new Date(b.start).getTime();
+        const bEnd   = new Date(b.end).getTime();
+        return bStart < window.endMs && bEnd > window.startMs;
+      });
     } catch (err) {
       console.error("[booking/create] gcal lookup failed:", err);
       return res.status(503).json({ error: "calendar service unavailable" });
@@ -624,6 +635,7 @@ async function handleCreate(req, res) {
       window,
       gcalEvent,
       bookings: bookingsForValidator,
+      blockers: windowBlockers,
     });
     if (validation) {
       return res.status(409).json({

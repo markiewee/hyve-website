@@ -9,6 +9,7 @@ import {
   describeWindowState,
   isSlotClickable,
   slotStateClass,
+  slotStateTitle,
 } from "./_clusteringMeta";
 
 // All times Asia/Singapore. Slots come back from the API as ISO strings with
@@ -187,6 +188,24 @@ export default function BookingFlow({ propertyCode, roomCode }) {
       console.error("Windows reload failed", err);
     }
   }
+
+  // Refetch windows when the tab regains focus / becomes visible again.
+  // Without this, a tab left open from last week renders stale dates and
+  // slot states until manual reload — a real bug we hit live.
+  useEffect(() => {
+    if (!property) return undefined;
+    const onVisible = () => {
+      if (document.visibilityState === "visible") reloadWindows();
+    };
+    const onFocus = () => reloadWindows();
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", onFocus);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", onFocus);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [property]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -537,7 +556,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                                         onClick={() => clickable && setSelectedSlot(s)}
                                         disabled={!clickable}
                                         className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${slotStateClass(s, selected)}`}
-                                        title={s.state}
+                                        title={slotStateTitle(s)}
                                       >
                                         {fmtSlotTime(s.start)}
                                       </button>

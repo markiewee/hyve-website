@@ -45,9 +45,22 @@ export function describeWindowState(window, propertyOfInterest) {
 export function isSlotClickable(slot, propertyOfInterest, anchorProperty) {
   if (slot.state === "BOOKED") return false;
   if (slot.state === "BLOCKED-BUFFER") return false;
+  if (slot.state === "BLOCKED-CONFLICT") return false;
   if (slot.state === "WINDOW-CLOSED") return false;
   if (slot.state === "PROP-RESERVED") return anchorProperty === propertyOfInterest;
   return slot.state === "OPEN-ANY";
+}
+
+/**
+ * Tooltip / title text per slot state.
+ */
+export function slotStateTitle(slot) {
+  if (slot.state === "BOOKED") return "Already booked";
+  if (slot.state === "BLOCKED-BUFFER") return "Travel buffer — pick the edge slot";
+  if (slot.state === "BLOCKED-CONFLICT") return "Mark has a conflict at this time";
+  if (slot.state === "WINDOW-CLOSED") return "Window closed";
+  if (slot.state === "PROP-RESERVED") return "Reserved for another property this window";
+  return "Available";
 }
 
 /**
@@ -57,6 +70,7 @@ export function slotStateClass(slot, isSelected) {
   if (isSelected) return "bg-[#A87813] text-white shadow-md scale-105";
   if (slot.state === "BOOKED") return "bg-slate-100 text-slate-300 cursor-not-allowed line-through";
   if (slot.state === "BLOCKED-BUFFER") return "bg-amber-50 text-amber-300 cursor-not-allowed";
+  if (slot.state === "BLOCKED-CONFLICT") return "bg-slate-100 text-slate-400 cursor-not-allowed line-through";
   if (slot.state === "PROP-RESERVED") return "bg-[#D9A441]/10 text-[#A87813] hover:bg-[#D9A441]/25";
   return "bg-[#e6e8ea] text-[#1F2937] hover:bg-[#D9A441]/20 hover:text-[#A87813]";
 }

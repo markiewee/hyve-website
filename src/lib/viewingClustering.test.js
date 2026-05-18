@@ -284,3 +284,88 @@ test("Cross-property at far end: CP at 21:00 after TG cluster 19:45 → OPEN-ANY
   const at2100 = r.slots.find((s) => s.start === SLOT_AT("21:00"));
   assert.equal(at2100.state, SLOT_STATE.OPEN_ANY);
 });
+
+// ── Blocker (non-viewing GCal event) tests ───────────────────────────
+
+test("GCal blocker 20:00-20:30 → 20:00 and 20:15 slots are BLOCKED-CONFLICT", () => {
+  const r = resolveSlots({
+    propertyOfInterest: "IH",
+    window: friWindow(),
+    gcalEvent: openGcal,
+    bookings: [],
+    blockers: [{
+      start: "2026-05-15T20:00:00+08:00",
+      end:   "2026-05-15T20:30:00+08:00",
+      summary: "Dentist",
+    }],
+  });
+  const at1945 = r.slots.find((s) => s.start === SLOT_AT("19:45"));
+  const at2000 = r.slots.find((s) => s.start === SLOT_AT("20:00"));
+  const at2015 = r.slots.find((s) => s.start === SLOT_AT("20:15"));
+  const at2030 = r.slots.find((s) => s.start === SLOT_AT("20:30"));
+  assert.equal(at1945.state, SLOT_STATE.OPEN_ANY);
+  assert.equal(at2000.state, SLOT_STATE.BLOCKED_CONFLICT);
+  assert.equal(at2015.state, SLOT_STATE.BLOCKED_CONFLICT);
+  assert.equal(at2030.state, SLOT_STATE.OPEN_ANY);
+});
+
+test("Blocker doesn't override BOOKED state — booking keeps BOOKED label", () => {
+  const r = resolveSlots({
+    propertyOfInterest: "IH",
+    window: friWindow(),
+    gcalEvent: openGcal,
+    bookings: [{
+      slot_start: "2026-05-15T20:00:00+08:00",
+      slot_end:   "2026-05-15T20:15:00+08:00",
+      property_code: "IH",
+      status: "confirmed",
+    }],
+    blockers: [{
+      start: "2026-05-15T20:00:00+08:00",
+      end:   "2026-05-15T20:30:00+08:00",
+      summary: "Dentist",
+    }],
+  });
+  const at2000 = r.slots.find((s) => s.start === SLOT_AT("20:00"));
+  assert.equal(at2000.state, SLOT_STATE.BOOKED);
+});
+
+test("validateBookingAttempt rejects slot overlapping a blocker", () => {
+  const result = validateBookingAttempt({
+    propertyOfInterest: "IH",
+    slotStartIso: "2026-05-15T20:00:00+08:00",
+    window: friWindow(),
+    gcalEvent: openGcal,
+    bookings: [],
+    blockers: [{
+      start: "2026-05-15T20:00:00+08:00",
+      end:   "2026-05-15T20:30:00+08:00",
+      summary: "Dentist",
+    }],
+  });
+  assert.equal(result?.code, "slot-conflict");
+});
+
+test("buildWindowsResponse filters blockers to those overlapping each window", () => {
+  // Blocker on Friday only — Saturday window should be unaffected.
+  const now = new Date("2026-05-12T08:00:00+08:00");
+  const gcalEvents = [
+    { start: "2026-05-15T19:00:00+08:00", end: "2026-05-15T22:00:00+08:00", anchorProperty: null },
+    { start: "2026-05-16T10:00:00+08:00", end: "2026-05-16T13:00:00+08:00", anchorProperty: null },
+  ];
+  const out = buildWindowsResponse({
+    propertyOfInterest: "IH",
+    now,
+    gcalEvents,
+    allBookings: [],
+    blockers: [{
+      start: "2026-05-15T20:00:00+08:00",
+      end:   "2026-05-15T20:30:00+08:00",
+      summary: "Dentist",
+    }],
+  });
+  const fri = out.find((w) => w.key === "fri-evening");
+  const sat = out.find((w) => w.key === "sat-morning");
+  assert.ok(fri.slots.some((s) => s.state === SLOT_STATE.BLOCKED_CONFLICT));
+  assert.ok(sat.slots.every((s) => s.state !== SLOT_STATE.BLOCKED_CONFLICT));
+});

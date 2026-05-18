@@ -309,16 +309,29 @@ export const _internal = {
 // weekly windows to open it. We list those events on every form load.
 
 const BOOKING_WINDOW_RE = /^booking window( — (CP|IH|TG) only)?$/i;
+// Lazybee Viewing events are created by createEvent() above, summary shape:
+//   "Lazybee Viewing — <name> @ <PROP>[-<room>]"
+// They're already tracked as rows in property_viewings, so we exclude them
+// when building the blocker list (otherwise an active booking would also
+// look like a calendar conflict and stack-up double-blocking the slot).
+const LAZYBEE_VIEWING_RE = /^lazybee viewing\b/i;
 
 /**
- * List GCal events tagged as "booking window" within the given range,
- * parsing optional property-anchor suffixes.
+ * Fetch every event on the Lazybee Viewings calendar within the range and
+ * partition into:
+ *   - windows:  the `booking window[ — XX only]` events that OPEN slots
+ *   - blockers: any other event Mark drops to mark himself unavailable
+ *               (e.g. "dentist", "lunch w/ Jason"). Lazybee Viewing events
+ *               are excluded — those are already counted as BOOKED via the DB.
+ *
+ * One `events.list` call covers both — spec §6 line 469.
  *
  * @param {string} startIso ISO 8601 with timezone
  * @param {string} endIso   ISO 8601 with timezone
- * @returns {Promise<Array<{start:string, end:string, summary:string, anchorProperty:string|null}>>}
+ * @returns {Promise<{windows: Array<{start,end,summary,anchorProperty}>,
+ *                    blockers: Array<{start,end,summary}>}>}
  */
-export async function listBookingWindowEvents(startIso, endIso) {
+export async function listBookingCalendarState(startIso, endIso) {
   const cal = getCalendarClient();
   const calendarId = getCalendarId();
   const r = await cal.events.list({
@@ -328,19 +341,36 @@ export async function listBookingWindowEvents(startIso, endIso) {
     singleEvents: true,
     orderBy: "startTime",
     timeZone: TZ,
-    q: "booking window",
-    maxResults: 50,
+    maxResults: 250,
   });
   const items = r.data.items || [];
-  return items
-    .filter((ev) => BOOKING_WINDOW_RE.test(String(ev.summary || "").trim()))
-    .map((ev) => {
-      const m = String(ev.summary || "").match(/—\s*(CP|IH|TG)\s*only/i);
-      return {
-        start: ev.start?.dateTime || ev.start?.date,
-        end:   ev.end?.dateTime   || ev.end?.date,
-        summary: ev.summary,
+  const windows = [];
+  const blockers = [];
+  for (const ev of items) {
+    const summary = String(ev.summary || "").trim();
+    const start = ev.start?.dateTime || ev.start?.date;
+    const end   = ev.end?.dateTime   || ev.end?.date;
+    if (!start || !end) continue;
+    if (BOOKING_WINDOW_RE.test(summary)) {
+      const m = summary.match(/—\s*(CP|IH|TG)\s*only/i);
+      windows.push({
+        start,
+        end,
+        summary,
         anchorProperty: m ? m[1].toUpperCase() : null,
-      };
-    });
+      });
+      continue;
+    }
+    if (LAZYBEE_VIEWING_RE.test(summary)) continue;
+    blockers.push({ start, end, summary });
+  }
+  return { windows, blockers };
+}
+
+/**
+ * Back-compat shim — older callers only need the booking-window events.
+ */
+export async function listBookingWindowEvents(startIso, endIso) {
+  const { windows } = await listBookingCalendarState(startIso, endIso);
+  return windows;
 }
