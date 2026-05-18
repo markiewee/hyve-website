@@ -6,7 +6,7 @@ import { supabase } from "../lib/supabase";
  * and exposes mutation helpers.
  *
  * @param {Object} [options]
- * @param {boolean} [options.includeArchived=false] - If true, includes archived statuses (signed, closed_won, lost, closed_lost, cold)
+ * @param {boolean} [options.includeArchived=false] - If true, includes archived statuses (signed, closed_won, lost, closed_lost). 'cold' is NOT archived — it's a parking lane on the active board.
  * @returns {Object} { leads, loading, error, updateStatus, updateLead, refresh }
  */
 export function useLeads({ includeArchived = false } = {}) {
@@ -24,11 +24,12 @@ export function useLeads({ includeArchived = false } = {}) {
       .order("last_message_at", { ascending: false, nullsLast: true });
 
     if (!includeArchived) {
-      // Exclude archived statuses: signed, closed_won, lost, closed_lost, cold
+      // Exclude archived statuses: signed, closed_won, lost, closed_lost
+      // 'cold' stays visible — it's a parking lane on the active board.
       query = query.not(
         "status",
         "in",
-        "(signed,closed_won,lost,closed_lost,cold)"
+        "(signed,closed_won,lost,closed_lost)"
       );
     }
 

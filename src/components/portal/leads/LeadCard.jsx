@@ -41,6 +41,7 @@ const STALE_WINDOWS = {
   qualified: 14,
   viewing_done: 7,
   agreement_sent: 7,
+  cold: 30,           // re-warm or move to lost after a month of silence
 };
 
 function isStale(lead) {

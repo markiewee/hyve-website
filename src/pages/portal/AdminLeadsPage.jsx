@@ -1,5 +1,5 @@
 // src/pages/portal/AdminLeadsPage.jsx
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { useLeads } from "@/hooks/useLeads";
 import { LeadColumn } from "@/components/portal/leads/LeadColumn";
@@ -7,16 +7,19 @@ import { LeadDrawer } from "@/components/portal/leads/LeadDrawer";
 import { LeadFunnelPanel } from "@/components/portal/leads/LeadFunnelPanel";
 import { Button } from "@/components/ui/button";
 
-// Order: prospect lifecycle, then legacy aliases mixed in where they fit semantically
+// Order: prospect lifecycle, then legacy aliases mixed in where they fit semantically.
+// 'cold' sits between viewing_done and the closed/lost archive lanes — it's a
+// parking lane for leads that went silent but might re-warm, NOT a final state.
 const ACTIVE_STATUSES = [
   "new",
   "qualified",
   "viewing_booked",
   "viewed",          // legacy — pairs with viewing_booked/done
   "viewing_done",
+  "cold",            // holding lane for silent-but-revivable leads
   "agreement_sent",
 ];
-const ARCHIVED_STATUSES = ["signed", "closed_won", "lost", "closed_lost", "cold"];
+const ARCHIVED_STATUSES = ["signed", "closed_won", "lost", "closed_lost"];
 
 export default function AdminLeadsPage() {
   const [showArchived, setShowArchived] = useState(false);
@@ -29,6 +32,14 @@ export default function AdminLeadsPage() {
   // Require 8px movement before drag starts — otherwise a click never reaches the card.
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
 
+  // Tracks whether the most recent pointer interaction was a drag, so we can
+  // suppress the click that fires after a successful drop (the card's onClick
+  // runs after dragend, by which time isDragging is already false — see
+  // https://github.com/clauderic/dnd-kit/issues/591). Without this guard,
+  // every drop also opens the LeadDrawer, which Mark perceived as DnD being
+  // broken.
+  const justDraggedRef = useRef(false);
+
   const columns = showArchived ? [...ACTIVE_STATUSES, ...ARCHIVED_STATUSES] : ACTIVE_STATUSES;
 
   const byStatus = Object.fromEntries(columns.map((s) => [s, []]));
@@ -36,9 +47,25 @@ export default function AdminLeadsPage() {
     if (byStatus[lead.status]) byStatus[lead.status].push(lead);
   }
 
+  function handleDragStart() {
+    justDraggedRef.current = true;
+  }
+
   async function handleDragEnd(event) {
     const { active, over } = event;
-    if (!over || !columns.includes(over.id)) return;
+    // Keep the suppression flag set just long enough for the synthetic click
+    // (fired right after pointerup) to bail out inside handleCardClick.
+    setTimeout(() => {
+      justDraggedRef.current = false;
+    }, 0);
+
+    if (!over) return;
+    // Allow drops anywhere in the active board, even if the showArchived
+    // toggle is off and the target is currently hidden. Validate against the
+    // full status whitelist instead of the visible columns subset.
+    const allStatuses = [...ACTIVE_STATUSES, ...ARCHIVED_STATUSES];
+    if (!allStatuses.includes(over.id)) return;
+
     const lead = leads.find((l) => l.id === active.id);
     if (lead && lead.status !== over.id) {
       try {
@@ -50,6 +77,7 @@ export default function AdminLeadsPage() {
   }
 
   function handleCardClick(lead) {
+    if (justDraggedRef.current) return;
     setSelected(lead);
     setDrawerOpen(true);
   }
@@ -76,7 +104,12 @@ export default function AdminLeadsPage() {
         </div>
       )}
 
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      >
         <div className="flex gap-3 overflow-x-auto pb-4">
           {columns.map((status) => (
             <LeadColumn
