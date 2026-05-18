@@ -70,7 +70,7 @@ export function cancelUrlFor(token) {
 export function isValidSgtIso(s) {
   if (!s || typeof s !== "string") return false;
   // Allow explicit +08:00, +0800, or trailing Z (we'll normalize)
-  return /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?([+-]\d{2}:?\d{2}|Z)$/.test(s);
+  return /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?(\.\d+)?([+-]\d{2}:?\d{2}|Z)$/.test(s);
 }
 
 export function snippet(s, max = 140) {
