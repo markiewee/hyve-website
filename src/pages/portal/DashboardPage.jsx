@@ -42,9 +42,11 @@ export default function DashboardPage() {
   const { profile } = useAuth();
   const { t } = useLanguage();
 
-  // Super admin should see admin dashboard, not tenant dashboard
-  // Regular admins can still see tenant dashboard (they might be residents too)
-  if (profile?.role === "SUPER_ADMIN") {
+  // Admins always go to the admin dashboard. (Until 2026-05, only SUPER_ADMIN
+  // was redirected here, but SUPER_ADMIN was demoted to ADMIN to fix the
+  // 36-policy RLS gap — and now Mark logging in as admin@hyve.sg was landing
+  // on the tenant dashboard.)
+  if (profile?.role === "ADMIN" || profile?.role === "SUPER_ADMIN") {
     return <Navigate to="/portal/admin" replace />;
   }
 
