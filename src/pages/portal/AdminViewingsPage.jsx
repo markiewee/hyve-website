@@ -102,10 +102,12 @@ function CalendarTab({ viewings, refetch }) {
   const [activeViewing, setActiveViewing] = useState(null);
   const [activeBlock, setActiveBlock] = useState(null);
   const [gcalBlockers, setGcalBlockers] = useState([]);
+  const [gcalWindows, setGcalWindows] = useState([]);
   const [gcalError, setGcalError] = useState(null);
 
-  // Pull Mark's GCal busy ranges so the grid shows real availability, not just
-  // what's in the property_viewings table.
+  // Pull Mark's GCal busy ranges + booking windows so the grid mirrors what
+  // prospects see on lazybee.sg/book (windows = green/clickable, outside
+  // windows = faded "no window", gcal busy = rose).
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -114,11 +116,13 @@ function CalendarTab({ viewings, refetch }) {
         if (!res.ok) {
           setGcalError(`GCal sync failed (${res.status})`);
           setGcalBlockers([]);
+          setGcalWindows([]);
           return;
         }
         const body = await res.json();
         if (!cancelled) {
           setGcalBlockers(Array.isArray(body.blockers) ? body.blockers : []);
+          setGcalWindows(Array.isArray(body.windows) ? body.windows : []);
           setGcalError(null);
         }
       } catch (err) {
@@ -133,15 +137,13 @@ function CalendarTab({ viewings, refetch }) {
     };
   }, []);
 
-  // Set of "dayIso|hour:mm" slot keys covered by a gcal blocker. Each blocker
-  // can span multiple 30-min slots; we expand its range against GRID_HOURS.
-  const gcalBlockedKeys = useMemo(() => {
-    const s = new Set();
-    for (const b of gcalBlockers) {
-      if (!b.start || !b.end) continue;
-      const startD = new Date(b.start);
-      const endD = new Date(b.end);
-      // Step through 30-min slots that overlap the event in SGT.
+  // Expand any time range (gcal blocker or window) into 30-min slot keys.
+  function expandToSlotKeys(ranges) {
+    const out = new Set();
+    for (const r of ranges) {
+      if (!r.start || !r.end) continue;
+      const startD = new Date(r.start);
+      const endD = new Date(r.end);
       const t = new Date(startD);
       while (t < endD) {
         const sgt = new Date(t.toLocaleString("en-US", { timeZone: "Asia/Singapore" }));
@@ -149,13 +151,29 @@ function CalendarTab({ viewings, refetch }) {
         const hour = sgt.getHours();
         const half = sgt.getMinutes() >= 30;
         if (GRID_HOURS.includes(hour)) {
-          s.add(hashSlotKey(dayIso, hour, half));
+          out.add(hashSlotKey(dayIso, hour, half));
         }
         t.setMinutes(t.getMinutes() + 30);
       }
     }
-    return s;
-  }, [gcalBlockers]);
+    return out;
+  }
+
+  const gcalBlockedKeys = useMemo(() => expandToSlotKeys(gcalBlockers), [gcalBlockers]);
+  const windowKeys = useMemo(() => expandToSlotKeys(gcalWindows), [gcalWindows]);
+  // Only enforce the "outside-window = not bookable" rule for property-filter
+  // views matching the window's anchor property (or unfiltered). Windows tagged
+  // "— CP only" should grey out for IH/TG, etc.
+  const windowKeysByAnchor = useMemo(() => {
+    const map = {};
+    for (const w of gcalWindows) {
+      const anchor = w.anchorProperty || "ALL";
+      if (!map[anchor]) map[anchor] = new Set();
+      const sub = expandToSlotKeys([w]);
+      for (const k of sub) map[anchor].add(k);
+    }
+    return map;
+  }, [gcalWindows]);
 
   const filteredViewings = useMemo(() => {
     if (!propertyFilter) return viewings;
@@ -215,7 +233,10 @@ function CalendarTab({ viewings, refetch }) {
         </div>
         <div className="flex items-center gap-3 text-xs text-slate-500 font-medium ml-auto">
           <span className="inline-flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded bg-emerald-100 border border-emerald-300" /> free
+            <span className="w-3 h-3 rounded bg-emerald-200 border border-emerald-300" /> in window
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded bg-emerald-50/40 border border-emerald-100" /> outside
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="w-3 h-3 rounded bg-honey-500" /> booked
@@ -290,6 +311,15 @@ function CalendarTab({ viewings, refetch }) {
                           viewing?.status === "cancelled" || viewing?.status === "CANCELLED";
                         const free = !viewing;
                         const gcalBusy = free && gcalBlockedKeys.has(key);
+                        // Inside a booking window we set on gcal? Mirrors what
+                        // prospects see at lazybee.sg/book — anything outside
+                        // a window is unbookable from their side.
+                        const anchorKey = propertyFilter || "ALL";
+                        const inWindow =
+                          windowKeys.has(key) &&
+                          (!propertyFilter ||
+                            (windowKeysByAnchor[anchorKey]?.has(key) ?? false) ||
+                            (windowKeysByAnchor.ALL?.has(key) ?? false));
                         return (
                           <button
                             key={`${key}-${half}`}
@@ -322,7 +352,9 @@ function CalendarTab({ viewings, refetch }) {
                                     ? "bg-honey-500 hover:bg-honey-700"
                                     : gcalBusy
                                       ? "bg-rose-200 cursor-not-allowed"
-                                      : "bg-emerald-50/50 hover:bg-emerald-100"
+                                      : inWindow
+                                        ? "bg-emerald-200 hover:bg-emerald-300"
+                                        : "bg-emerald-50/30 hover:bg-emerald-100"
                             }`}
                             title={
                               viewing
@@ -1088,14 +1120,6 @@ export default function AdminViewingsPage() {
 }
 
 function DeepLinkMenu({ onCopy, onClose }) {
-  const [rooms, setRooms] = useState([]);
-  useEffect(() => {
-    supabase
-      .from("rooms")
-      .select("id, name, unit_code, property_id, is_available, properties(code, name)")
-      .order("unit_code")
-      .then(({ data }) => setRooms(data || []));
-  }, []);
   const origin = typeof window !== "undefined" ? window.location.origin : "https://lazybee.sg";
 
   return (
@@ -1124,28 +1148,6 @@ function DeepLinkMenu({ onCopy, onClose }) {
           </button>
         );
       })}
-      <div className="px-4 py-3 border-y border-slate-100">
-        <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">
-          Room links
-        </span>
-      </div>
-      {rooms
-        .filter((r) => r.is_available !== false && r.properties?.code)
-        .map((r) => {
-          const url = `${origin}/book/${r.properties.code}/${r.unit_code}`;
-          return (
-            <button
-              key={r.id}
-              onClick={() => onCopy(url)}
-              className="w-full px-4 py-2 text-left hover:bg-slate-50 flex items-center justify-between text-xs border-b border-slate-50"
-            >
-              <span className="font-medium text-slate-700">
-                {r.properties.code} · {r.unit_code}
-              </span>
-              <span className="text-slate-400">copy</span>
-            </button>
-          );
-        })}
     </div>
   );
 }
