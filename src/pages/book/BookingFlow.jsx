@@ -249,24 +249,33 @@ export default function BookingFlow({ propertyCode, roomCode }) {
       if (err.status === 409) {
         const code = err.body?.error || "";
         setSlotConflict(true);
-        if (code === "wrong-property" && err.body?.anchor_property) {
+        if (code === "not-adjacent" && Array.isArray(err.body?.suggested_slot_starts) && err.body.suggested_slot_starts.length > 0) {
+          const choices = err.body.suggested_slot_starts.map(fmtSlotTime).join(" or ");
           setSubmitError(
-            `That window is anchored to ${err.body.anchor_property} this weekend. Pick a different window or property.`
+            `We batch viewings back-to-back so Mark can host every prospect in person. The closest open slot${err.body.suggested_slot_starts.length > 1 ? "s are" : " is"} ${choices} — give one of those a try.`
+          );
+        } else if (code === "wrong-property" && err.body?.anchor_property) {
+          setSubmitError(
+            `This window is reserved for ${err.body.anchor_property} viewings only. Pick a different window or property.`
           );
         } else if (code === "travel-buffer" && err.body?.earliest_allowed) {
           setSubmitError(
-            `Mark needs 30 min travel buffer between properties. Earliest slot is ${fmtSlotTime(err.body.earliest_allowed)}.`
+            `Another property is being viewed nearby — Mark needs 30 min to travel between. The next open slot is ${fmtSlotTime(err.body.earliest_allowed)}.`
           );
         } else if (code === "would-block-existing") {
-          setSubmitError("That slot would block an already-booked viewing at another property. Try a different time.");
+          setSubmitError("Booking that slot would push another viewing out of reach. Try the slot closest to the existing cluster instead.");
+        } else if (code === "slot-conflict") {
+          setSubmitError("Mark has a conflict at that exact time. Pick another slot in this window.");
+        } else if (code === "slot-taken") {
+          setSubmitError("Someone else just locked that exact time — pick another slot from the grid.");
         } else if (code === "window-closed") {
-          setSubmitError("That window just closed. Pick another or try the off-horizon form below.");
+          setSubmitError("That window just closed. Pick another, or flag a future move-in below and we will ping you when it opens.");
         } else {
-          setSubmitError("Someone just took that slot. Pick another.");
+          setSubmitError("We couldn't lock that slot — the grid below has been refreshed, please pick another.");
         }
         await reloadWindows();
       } else {
-        setSubmitError(err.message || "Booking failed. Try again or WhatsApp us.");
+        setSubmitError(err.message || "Something went wrong. Try again or WhatsApp us on +65 8088 5410.");
       }
       setSubmitting(false);
     }
@@ -580,11 +589,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                   </p>
                 </div>
 
-                {slotConflict && (
-                  <p className="text-xs text-[#93000a] font-medium mt-2">
-                    Windows refreshed — pick another.
-                  </p>
-                )}
+                {/* slotConflict signal handled by the submit-error banner below — no duplicate notice here */}
 
                 {/* Contact form */}
                 <div className="pt-4 border-t border-[#e6e8ea] space-y-4">

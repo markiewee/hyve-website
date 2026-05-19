@@ -203,13 +203,36 @@ export function resolveSlots({ propertyOfInterest, window, gcalEvent, bookings, 
 
     // Anchor present.
     if (anchor === propertyOfInterest) {
-      // Same-property prospect: their entire window is reserved for them,
-      // unless extending here would block a downstream cross-property cluster
-      // (Carl-from-the-spec scenario).
+      // Same-property prospect. Tight-clustering rule (cluster max):
+      // once an own-property cluster exists, only the slot immediately
+      // before its earliest booking and the slot immediately after its
+      // latest booking are bookable (plus any open slot inside the cluster
+      // range — gap fill). Everything else is hidden so the cluster grows
+      // back-to-back and never gets fragmented.
+      if (!ownCluster) {
+        // No cluster yet — this prospect seeds it, can pick anywhere.
+        slots.push({
+          start: startIso,
+          end: endIso,
+          state: SLOT_STATE.PROP_RESERVED,
+        });
+        continue;
+      }
+      const withinCluster = slotStartMs >= ownCluster.earliestMs && slotEndMs <= ownCluster.latestMs;
+      const adjBefore = slotEndMs === ownCluster.earliestMs;
+      const adjAfter  = slotStartMs === ownCluster.latestMs;
+      if (!withinCluster && !adjBefore && !adjAfter) {
+        slots.push({
+          start: startIso,
+          end: endIso,
+          state: SLOT_STATE.BLOCKED_BUFFER,
+        });
+        continue;
+      }
       const otherClusters = clusters.filter((c) => c.property !== propertyOfInterest);
       const wouldBlockDownstream = otherClusters.some((other) => {
-        const newLatest   = ownCluster ? Math.max(ownCluster.latestMs,   slotEndMs)   : slotEndMs;
-        const newEarliest = ownCluster ? Math.min(ownCluster.earliestMs, slotStartMs) : slotStartMs;
+        const newLatest   = adjAfter  ? slotEndMs   : ownCluster.latestMs;
+        const newEarliest = adjBefore ? slotStartMs : ownCluster.earliestMs;
         if (other.earliestMs >= newLatest && other.earliestMs - newLatest < TRAVEL_BUFFER_MS) return true;
         if (newEarliest >= other.latestMs && newEarliest - other.latestMs < TRAVEL_BUFFER_MS) return true;
         return false;
@@ -371,11 +394,32 @@ export function validateBookingAttempt({
   const ownCluster    = clusters.find((c) => c.property === propertyOfInterest) || null;
   const otherClusters = clusters.filter((c) => c.property !== propertyOfInterest);
 
-  // Same-property prospect: skip travel-buffer (they own the cluster) and
-  // jump straight to the would-block-existing check. Carl scenario.
+  // Same-property prospect: tight-clustering rule. Only allow slots that
+  // either fall inside the existing cluster (gap fill) or are immediately
+  // adjacent to its edges. Anything else gets bounced with a 'not-adjacent'
+  // payload that names the closest two clickable slots so the UI can show
+  // a friendly nudge.
   if (ownCluster) {
-    const newLatest   = Math.max(ownCluster.latestMs,   slotEndMs);
-    const newEarliest = Math.min(ownCluster.earliestMs, slotStartMs);
+    const withinCluster = slotStartMs >= ownCluster.earliestMs && slotEndMs <= ownCluster.latestMs;
+    const adjBefore = slotEndMs === ownCluster.earliestMs;
+    const adjAfter  = slotStartMs === ownCluster.latestMs;
+    if (!withinCluster && !adjBefore && !adjAfter) {
+      const beforeMs = ownCluster.earliestMs - SLOT_MS;
+      const afterMs  = ownCluster.latestMs;
+      const inWindow = (ms) => ms >= window.startMs && ms + SLOT_MS <= window.endMs;
+      const suggestions = [];
+      if (inWindow(beforeMs)) suggestions.push(new Date(beforeMs).toISOString());
+      if (inWindow(afterMs))  suggestions.push(new Date(afterMs).toISOString());
+      return {
+        code: "not-adjacent",
+        payload: {
+          property: propertyOfInterest,
+          suggested_slot_starts: suggestions,
+        },
+      };
+    }
+    const newLatest   = adjAfter  ? slotEndMs   : ownCluster.latestMs;
+    const newEarliest = adjBefore ? slotStartMs : ownCluster.earliestMs;
     for (const other of otherClusters) {
       if (other.earliestMs >= newLatest && other.earliestMs - newLatest < TRAVEL_BUFFER_MS) {
         return { code: "would-block-existing", payload: {} };

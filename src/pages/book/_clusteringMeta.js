@@ -22,15 +22,22 @@ export function describeWindowState(window, propertyOfInterest) {
   if (window.state === "CLOSED") {
     return { label: "Closed this week", clickable: false, tone: "muted" };
   }
+  if (window.free_slot_count === 0) {
+    if (window.state === "OPEN-PROP" && window.anchor_property !== propertyOfInterest) {
+      return {
+        label: `${window.anchor_property} fully booked this window`,
+        clickable: false,
+        tone: "muted",
+      };
+    }
+    return { label: "Fully booked", clickable: false, tone: "muted" };
+  }
   if (window.state === "OPEN-PROP" && window.anchor_property !== propertyOfInterest) {
     return {
-      label: `Booked for ${window.anchor_property} this week`,
-      clickable: false,
-      tone: "muted",
+      label: `${window.free_slot_count} slot${window.free_slot_count === 1 ? "" : "s"} open (after ${window.anchor_property} cluster)`,
+      clickable: true,
+      tone: "open",
     };
-  }
-  if (window.free_slot_count === 0) {
-    return { label: "Fully booked", clickable: false, tone: "muted" };
   }
   return {
     label: `${window.free_slot_count} slot${window.free_slot_count === 1 ? "" : "s"} open`,

@@ -54,7 +54,7 @@ test("open window, no bookings → 12 slots, all OPEN-ANY", () => {
   assert.ok(r.slots.every((s) => s.state === SLOT_STATE.OPEN_ANY));
 });
 
-test("TG booked at 19:45, TG prospect: BOOKED + PROP-RESERVED rest", () => {
+test("TG booked at 19:45, TG prospect: tight cluster — only adjacent slots PROP_RESERVED", () => {
   const bookings = [{
     slot_start: "2026-05-15T19:45:00+08:00",
     slot_end:   "2026-05-15T20:00:00+08:00",
@@ -70,9 +70,18 @@ test("TG booked at 19:45, TG prospect: BOOKED + PROP-RESERVED rest", () => {
   assert.equal(r.anchorProperty, "TG");
   const at1945 = r.slots.find((s) => s.start === SLOT_AT("19:45"));
   assert.equal(at1945.state, SLOT_STATE.BOOKED);
-  // 19:00 is window-edge, but TG owns the cluster — still PROP_RESERVED
+  // 19:30 is the slot ending at 19:45 → adjacent before, clickable
+  const at1930 = r.slots.find((s) => s.start === SLOT_AT("19:30"));
+  assert.equal(at1930.state, SLOT_STATE.PROP_RESERVED);
+  // 20:00 is the slot starting at 20:00 → adjacent after, clickable
+  const at2000 = r.slots.find((s) => s.start === SLOT_AT("20:00"));
+  assert.equal(at2000.state, SLOT_STATE.PROP_RESERVED);
+  // 19:00 is window-edge but NOT adjacent (one slot away from 19:30 buffer)
   const at1900 = r.slots.find((s) => s.start === SLOT_AT("19:00"));
-  assert.equal(at1900.state, SLOT_STATE.PROP_RESERVED);
+  assert.equal(at1900.state, SLOT_STATE.BLOCKED_BUFFER);
+  // 20:15 is one slot past the cluster's adjacent-after → not adjacent
+  const at2015 = r.slots.find((s) => s.start === SLOT_AT("20:15"));
+  assert.equal(at2015.state, SLOT_STATE.BLOCKED_BUFFER);
 });
 
 test("TG booked at 19:45, CP prospect: edge OPEN-ANY, near BLOCKED-BUFFER, far OPEN-ANY", () => {
@@ -115,10 +124,27 @@ test("GCal pre-anchored TG — CP booking attempt rejected", () => {
   assert.equal(result.payload.anchor_property, "TG");
 });
 
-test("Carl scenario: TG extension at 20:15 would invalidate booked CP at 20:30 → would-block-existing", () => {
+test("Tight cluster: TG extension to 20:00 (adjacent) when CP at 20:30 → would-block-existing", () => {
   const bookings = [
     { slot_start: "2026-05-15T19:45:00+08:00", slot_end: "2026-05-15T20:00:00+08:00", property_code: "TG", status: "confirmed" },
     { slot_start: "2026-05-15T20:30:00+08:00", slot_end: "2026-05-15T20:45:00+08:00", property_code: "CP", status: "confirmed" },
+  ];
+  // 20:00 is the only adjacent-after slot. Extending TG cluster to [19:45, 20:15]
+  // leaves only 15 min to CP at 20:30 — under the 30-min travel buffer.
+  const result = validateBookingAttempt({
+    propertyOfInterest: "TG",
+    slotStartIso: "2026-05-15T20:00:00+08:00",
+    window: friWindow(),
+    gcalEvent: openGcal,
+    bookings,
+  });
+  assert.ok(result);
+  assert.equal(result.code, "would-block-existing");
+});
+
+test("Tight cluster: TG prospect tries 20:15 (NOT adjacent) → not-adjacent with suggestions", () => {
+  const bookings = [
+    { slot_start: "2026-05-15T19:45:00+08:00", slot_end: "2026-05-15T20:00:00+08:00", property_code: "TG", status: "confirmed" },
   ];
   const result = validateBookingAttempt({
     propertyOfInterest: "TG",
@@ -128,7 +154,11 @@ test("Carl scenario: TG extension at 20:15 would invalidate booked CP at 20:30 �
     bookings,
   });
   assert.ok(result);
-  assert.equal(result.code, "would-block-existing");
+  assert.equal(result.code, "not-adjacent");
+  assert.ok(Array.isArray(result.payload.suggested_slot_starts));
+  // suggestions should include the slot ending at 19:45 (start 19:30) and the slot starting at 20:00
+  assert.ok(result.payload.suggested_slot_starts.some((iso) => iso.startsWith("2026-05-15T11:30")));
+  assert.ok(result.payload.suggested_slot_starts.some((iso) => iso.startsWith("2026-05-15T12:00")));
 });
 
 test("Cross-property: CP at 20:00 immediately after TG ends 20:00 → travel-buffer", () => {
