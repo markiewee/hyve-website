@@ -351,6 +351,26 @@ async function buildEmail(
       };
     }
 
+    case "PASSWORD_RESET": {
+      const { reset_url, expires_in_minutes } = details;
+      const ttl = expires_in_minutes || 60;
+      return {
+        subject: "Reset your Lazybee portal password",
+        html: generic({
+          preheader: "A password reset was requested for your account.",
+          badge: "Password Reset",
+          headline: "Reset your password.",
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            "We received a request to reset the password for your Lazybee portal account. Click the button below to choose a new one.",
+            `This link expires in ${ttl} minutes. If you didn't request a reset, you can ignore this email — your password won't change.`,
+          ],
+          cta: { label: "Reset Password", url: reset_url },
+          ctaCaption: "One-time use link",
+        }),
+      };
+    }
+
     case "TA_COUNTER_SIGNED": {
       const { ref_number } = details;
       return {

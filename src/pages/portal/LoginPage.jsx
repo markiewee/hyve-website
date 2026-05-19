@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { supabase } from "../../lib/supabase";
 import { useLanguage } from "../../i18n/LanguageContext";
 import Wordmark from "../../components/Wordmark";
 
@@ -17,19 +16,32 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [resetSent, setResetSent] = useState(false);
   const [resetError, setResetError] = useState(null);
+  const [resetSubmitting, setResetSubmitting] = useState(false);
 
   async function handleForgotPassword() {
     setResetSent(false);
     setResetError(null);
-    if (!identifier || !identifier.includes("@")) {
-      setResetError(t("login.resetEmailRequired"));
+    if (!identifier || !identifier.trim()) {
+      setResetError("Enter your username first, then click Forgot password.");
       return;
     }
-    const { error: resetErr } = await supabase.auth.resetPasswordForEmail(identifier);
-    if (resetErr) {
-      setResetError(resetErr.message || "Failed to send reset email.");
-    } else {
-      setResetSent(true);
+    setResetSubmitting(true);
+    try {
+      const r = await fetch("/api/portal/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "request", username: identifier.trim() }),
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) {
+        setResetError(data.error || "Could not request reset. Try again.");
+      } else {
+        setResetSent(true);
+      }
+    } catch (err) {
+      setResetError(err.message || "Network error. Try again.");
+    } finally {
+      setResetSubmitting(false);
     }
   }
 
@@ -194,14 +206,15 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={handleForgotPassword}
-                  className="text-xs font-['Manrope'] font-medium text-[#A87813] hover:underline transition-colors"
+                  disabled={resetSubmitting}
+                  className="text-xs font-['Manrope'] font-medium text-[#A87813] hover:underline transition-colors disabled:opacity-60"
                 >
-                  {t("login.forgotPassword")}
+                  {resetSubmitting ? "Sending..." : t("login.forgotPassword")}
                 </button>
               </div>
               {resetSent && (
                 <p className="text-xs font-['Manrope'] text-[#A87813] mt-1">
-                  {t("login.resetSent")}
+                  If that account exists, a reset link has been emailed. Check your inbox (expires in 60 min).
                 </p>
               )}
               {resetError && (

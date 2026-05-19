@@ -26,6 +26,7 @@ import FloatingWhatsApp from './components/FloatingWhatsApp';
 import { AuthProvider } from './hooks/useAuth';
 import AuthGuard from './components/portal/AuthGuard';
 import LoginPage from './pages/portal/LoginPage';
+import ResetPasswordPage from './pages/portal/ResetPasswordPage';
 import SignupPage from './pages/portal/SignupPage';
 import DashboardPage from './pages/portal/DashboardPage';
 import BillingPage from './pages/portal/BillingPage';
@@ -123,6 +124,7 @@ function AppContent() {
           {/* Portal routes — no Navbar/Footer */}
           <Route path="/portal" element={<Navigate to="/portal/login" replace />} />
           <Route path="/portal/login" element={<LoginPage />} />
+          <Route path="/portal/reset-password" element={<ResetPasswordPage />} />
           <Route path="/portal/signup" element={<SignupPage />} />
           <Route
             path="/portal/onboarding"
