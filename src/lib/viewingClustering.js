@@ -203,12 +203,11 @@ export function resolveSlots({ propertyOfInterest, window, gcalEvent, bookings, 
 
     // Anchor present.
     if (anchor === propertyOfInterest) {
-      // Same-property prospect. Tight-clustering rule (cluster max):
-      // once an own-property cluster exists, only the slot immediately
-      // before its earliest booking and the slot immediately after its
-      // latest booking are bookable (plus any open slot inside the cluster
-      // range — gap fill). Everything else is hidden so the cluster grows
-      // back-to-back and never gets fragmented.
+      // Same-property prospect. Strict cluster-max rule: exactly two
+      // openings per property per window — the slot immediately before
+      // the cluster's earliest booking and the slot immediately after
+      // its latest. No within-cluster gap fill. Forces tight back-to-
+      // back booking; prospects can't drop into the middle of a gap.
       if (!ownCluster) {
         // No cluster yet — this prospect seeds it, can pick anywhere.
         slots.push({
@@ -218,10 +217,9 @@ export function resolveSlots({ propertyOfInterest, window, gcalEvent, bookings, 
         });
         continue;
       }
-      const withinCluster = slotStartMs >= ownCluster.earliestMs && slotEndMs <= ownCluster.latestMs;
       const adjBefore = slotEndMs === ownCluster.earliestMs;
       const adjAfter  = slotStartMs === ownCluster.latestMs;
-      if (!withinCluster && !adjBefore && !adjAfter) {
+      if (!adjBefore && !adjAfter) {
         slots.push({
           start: startIso,
           end: endIso,
@@ -400,10 +398,9 @@ export function validateBookingAttempt({
   // payload that names the closest two clickable slots so the UI can show
   // a friendly nudge.
   if (ownCluster) {
-    const withinCluster = slotStartMs >= ownCluster.earliestMs && slotEndMs <= ownCluster.latestMs;
     const adjBefore = slotEndMs === ownCluster.earliestMs;
     const adjAfter  = slotStartMs === ownCluster.latestMs;
-    if (!withinCluster && !adjBefore && !adjAfter) {
+    if (!adjBefore && !adjAfter) {
       const beforeMs = ownCluster.earliestMs - SLOT_MS;
       const afterMs  = ownCluster.latestMs;
       const inWindow = (ms) => ms >= window.startMs && ms + SLOT_MS <= window.endMs;

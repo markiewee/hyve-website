@@ -315,6 +315,29 @@ test("Cross-property at far end: CP at 21:00 after TG cluster 19:45 → OPEN-ANY
   assert.equal(at2100.state, SLOT_STATE.OPEN_ANY);
 });
 
+test("Strict cluster: TG bookings at 19:30 + 20:30 leave only adj-edge slots open for TG, no gap fill", () => {
+  const bookings = [
+    { slot_start: "2026-05-15T19:30:00+08:00", slot_end: "2026-05-15T19:45:00+08:00", property_code: "TG", status: "confirmed" },
+    { slot_start: "2026-05-15T20:30:00+08:00", slot_end: "2026-05-15T20:45:00+08:00", property_code: "TG", status: "confirmed" },
+  ];
+  const r = resolveSlots({
+    propertyOfInterest: "TG",
+    window: friWindow(),
+    gcalEvent: openGcal,
+    bookings,
+  });
+  // Cluster spans 19:30 → 20:45. Edges only: 19:15 (adj-before) and 20:45 (adj-after).
+  assert.equal(r.slots.find((s) => s.start === SLOT_AT("19:15")).state, SLOT_STATE.PROP_RESERVED);
+  assert.equal(r.slots.find((s) => s.start === SLOT_AT("20:45")).state, SLOT_STATE.PROP_RESERVED);
+  // Bookings keep BOOKED label.
+  assert.equal(r.slots.find((s) => s.start === SLOT_AT("19:30")).state, SLOT_STATE.BOOKED);
+  assert.equal(r.slots.find((s) => s.start === SLOT_AT("20:30")).state, SLOT_STATE.BOOKED);
+  // Mid-cluster gap slots are BLOCKED — no gap fill under strict rule.
+  ["19:45","20:00","20:15"].forEach((t) => {
+    assert.equal(r.slots.find((s) => s.start === SLOT_AT(t)).state, SLOT_STATE.BLOCKED_BUFFER);
+  });
+});
+
 // ── Blocker (non-viewing GCal event) tests ───────────────────────────
 
 test("GCal blocker 20:00-20:30 → 20:00 and 20:15 slots are BLOCKED-CONFLICT", () => {
