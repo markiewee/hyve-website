@@ -377,9 +377,9 @@ export default function BookingFlow({ propertyCode, roomCode }) {
             <span className="text-base font-bold tracking-tighter text-honey-800 font-['Plus_Jakarta_Sans']">
               Lazybee · {property.name}
             </span>
-            {room && (
-              <span className="block text-[10px] text-slate-500 font-medium">
-                {room.unit_code}
+            {(selectedRoomCodes.length > 0 || room) && (
+              <span className="block text-[10px] text-[#A87813] font-bold tracking-wide uppercase">
+                Viewing: {selectedRoomCodes.length > 0 ? selectedRoomCodes.join(" + ") : room.unit_code}
               </span>
             )}
           </div>
@@ -683,6 +683,11 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                   ) : selectedSlot ? (
                     <>
                       Confirm — {fmtSlotTime(selectedSlot.start)}
+                      {selectedRoomCodes.length > 0
+                        ? ` for ${selectedRoomCodes.join(" + ")}`
+                        : room?.unit_code
+                          ? ` for ${room.unit_code}`
+                          : ""}
                       <span className="material-symbols-outlined text-sm">check</span>
                     </>
                   ) : (

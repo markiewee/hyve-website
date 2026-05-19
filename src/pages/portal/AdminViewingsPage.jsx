@@ -285,6 +285,7 @@ function CalendarTab({ viewings, refetch }) {
             <table className="w-full">
               <thead className="bg-slate-50 border-b border-slate-200 text-[10px] uppercase tracking-widest text-slate-500 font-bold">
                 <tr>
+                  <th className="px-4 py-2 text-left">Room</th>
                   <th className="px-4 py-2 text-left">When</th>
                   <th className="px-4 py-2 text-left">Property</th>
                   <th className="px-4 py-2 text-left">Prospect</th>
@@ -305,6 +306,11 @@ function CalendarTab({ viewings, refetch }) {
                       onClick={() => setActiveViewing(v)}
                       className="border-b border-slate-100 last:border-b-0 hover:bg-slate-50 cursor-pointer text-sm"
                     >
+                      <td className="px-4 py-3 font-bold text-slate-900 tabular-nums">
+                        {v.rooms?.unit_code || (
+                          <span className="text-slate-400 font-medium italic">flexible</span>
+                        )}
+                      </td>
                       <td className="px-4 py-3 font-medium text-slate-900">
                         {fmtDate(v.slot_start)} · {fmtTime(v.slot_start)}
                       </td>
@@ -315,9 +321,6 @@ function CalendarTab({ viewings, refetch }) {
                       </td>
                       <td className="px-4 py-3 text-slate-700">
                         {v.prospect_name || "Unknown"}
-                        {v.rooms?.unit_code ? (
-                          <span className="text-slate-400 ml-2 text-xs">{v.rooms.unit_code}</span>
-                        ) : null}
                       </td>
                       <td className="px-4 py-3 text-slate-500 text-xs">
                         {v.captain?.full_name || "—"}
