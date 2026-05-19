@@ -269,22 +269,6 @@ export default function PropertyGuidePage() {
             <HouseRulesCard propertyId={propertyId} />
             {faq && <FAQCard guide={faq} />}
 
-            <div className="bg-white border border-[#E8E0CE]/15 rounded-2xl p-6 shadow-sm">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-[#A87813] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>build</span>
-                </div>
-                <div>
-                  <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#1F2937] mb-1">Submit an Issue</h3>
-                  <p className="font-['Manrope'] text-sm text-[#6B7280] mb-3">Maintenance, repairs, or complaints — we'll assign it to a vendor.</p>
-                  <Link to="/portal/issues/new" className="inline-flex items-center gap-2 bg-[#A87813] text-white rounded-xl px-5 py-2.5 font-['Manrope'] font-bold text-sm hover:bg-[#A87813] transition-colors">
-                    <span className="material-symbols-outlined text-[16px]">add</span>
-                    New Issue
-                  </Link>
-                </div>
-              </div>
-            </div>
-
             <div className="bg-[#F2D88A] border border-[#E8E0CE]/10 rounded-2xl p-6">
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0">
