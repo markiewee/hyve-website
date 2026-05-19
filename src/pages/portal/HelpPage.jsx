@@ -196,7 +196,7 @@ export default function HelpPage() {
           </p>
         </Link>
         <a
-          href="https://wa.me/6580885410"
+          href="https://wa.me/6580695410"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-white rounded-xl p-4 border border-[#E8E0CE]/15 shadow-sm hover:border-[#A87813]/40 transition-all text-center group"
@@ -283,13 +283,13 @@ export default function HelpPage() {
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
-            href="https://wa.me/6580885410"
+            href="https://wa.me/6580695410"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#A87813] text-white px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 transition-all"
           >
             <span className="material-symbols-outlined text-[18px]">chat</span>
-            WhatsApp +65 8088 5410
+            WhatsApp +65 8069 5410
           </a>
           <a
             href="mailto:admin@lazybee.sg"

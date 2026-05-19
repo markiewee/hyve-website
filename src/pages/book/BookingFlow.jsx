@@ -298,7 +298,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
         }
         await reloadWindows();
       } else {
-        setSubmitError(err.message || "Something went wrong. Try again or WhatsApp us on +65 8088 5410.");
+        setSubmitError(err.message || "Something went wrong. Try again or WhatsApp us on +65 8069 5410.");
       }
       setSubmitting(false);
     }
@@ -417,7 +417,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
           </div>
         </div>
         <a
-          href="https://wa.me/6580885410"
+          href="https://wa.me/6580695410"
           className="material-symbols-outlined text-slate-500 cursor-pointer hover:bg-slate-50 p-2 rounded-full transition-colors"
           aria-label="WhatsApp support"
         >
@@ -876,7 +876,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
           <div className="flex gap-4 text-xs font-medium text-slate-500">
             <Link to="/">About</Link>
             <Link to="/properties">Properties</Link>
-            <a href="https://wa.me/6580885410">Support</a>
+            <a href="https://wa.me/6580695410">Support</a>
           </div>
         </footer>
       </main>

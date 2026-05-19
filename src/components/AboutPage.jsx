@@ -38,7 +38,7 @@ const AboutPage = () => {
           legalName: "Makery Pte. Ltd.",
           url: "https://www.lazybee.sg",
           email: "admin@lazybee.sg",
-          telephone: "+6580885410",
+          telephone: "+6580695410",
           description: "Singapore's leading co-living operator offering fully furnished rooms from S$950/month across Thomson, Hougang, and Bukit Batok.",
           foundingDate: "2023",
           areaServed: { "@type": "Country", name: "Singapore" },
@@ -213,7 +213,7 @@ const AboutPage = () => {
               {t('public.about.exploreLocations')}
             </Link>
             <a
-              href="https://wa.me/6580885410?text=Hi!%20I'm%20interested%20in%20a%20room%20at%20Lazybee."
+              href="https://wa.me/6580695410?text=Hi!%20I'm%20interested%20in%20a%20room%20at%20Lazybee."
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#D9A441]/20 text-white border border-[#D9A441]/30 backdrop-blur-md px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-extrabold hover:bg-[#D9A441]/30 transition-colors inline-block"

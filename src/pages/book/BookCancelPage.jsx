@@ -106,7 +106,7 @@ export default function BookCancelPage() {
             If you booked recently, the link may not have synced yet.
           </p>
           <a
-            href="https://wa.me/6580885410"
+            href="https://wa.me/6580695410"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm"
           >
             <span className="material-symbols-outlined text-sm">chat</span>

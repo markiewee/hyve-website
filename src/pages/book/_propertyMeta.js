@@ -95,7 +95,7 @@ export function isValidPhone(phone) {
 }
 
 // Captain WhatsApp fallback — generic Lazybee number until the API resolves a per-property captain.
-export const LAZYBEE_WA_NUMBER = "6580885410";
+export const LAZYBEE_WA_NUMBER = "6580695410";
 
 export function buildCaptainWaLink({ phone, propertyName, slotStart }) {
   const number = (phone || LAZYBEE_WA_NUMBER).replace(/[^\d]/g, "");

@@ -341,7 +341,7 @@ export default function ScheduleViewingPage() {
           <span className="material-symbols-outlined text-5xl text-[#ba1a1a] mb-4 block">error_outline</span>
           <h1 className="font-['Plus_Jakarta_Sans'] text-xl font-bold mb-2">{pageError}</h1>
           <p className="text-[#1F2937] text-sm">Check the URL and try again, or contact us on WhatsApp.</p>
-          <a href="https://wa.me/6580885410" className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm">
+          <a href="https://wa.me/6580695410" className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm">
             <span className="material-symbols-outlined text-sm">chat</span>
             Contact Us
           </a>
@@ -407,7 +407,7 @@ export default function ScheduleViewingPage() {
             </div>
 
             <a
-              href={`https://wa.me/6580885410?text=${encodeURIComponent(`Hi! I just booked a viewing:\n\n📍 ${confirmedViewing.properties?.name}\n📅 ${dateDisplay} at ${formatTime(confirmedViewing.viewing_time)}\n${confirmedViewing.rooms ? `🛏️ ${confirmedViewing.rooms.name || confirmedViewing.rooms.unit_code}\n` : ''}👤 ${confirmedViewing.prospect_name}\n📱 ${confirmedViewing.prospect_whatsapp || ''}\n\nPlease add me to a group chat to coordinate!`)}`}
+              href={`https://wa.me/6580695410?text=${encodeURIComponent(`Hi! I just booked a viewing:\n\n📍 ${confirmedViewing.properties?.name}\n📅 ${dateDisplay} at ${formatTime(confirmedViewing.viewing_time)}\n${confirmedViewing.rooms ? `🛏️ ${confirmedViewing.rooms.name || confirmedViewing.rooms.unit_code}\n` : ''}👤 ${confirmedViewing.prospect_name}\n📱 ${confirmedViewing.prospect_whatsapp || ''}\n\nPlease add me to a group chat to coordinate!`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full py-4 bg-[#25D366] text-white font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-wide rounded-lg hover:bg-[#25D366]/90 active:scale-[0.98] transition-all editorial-shadow flex items-center justify-center gap-2"
@@ -425,7 +425,7 @@ export default function ScheduleViewingPage() {
           <div className="flex gap-4 text-xs font-medium text-slate-500">
             <a href="/">About</a>
             <a href="/properties">Properties</a>
-            <a href="https://wa.me/6580885410">Support</a>
+            <a href="https://wa.me/6580695410">Support</a>
           </div>
         </footer>
       </div>
@@ -439,7 +439,7 @@ export default function ScheduleViewingPage() {
     <div className="min-h-screen bg-[#FAF6EC] font-['Inter'] text-[#191c1e]">
       <header className="bg-white shadow-sm flex justify-between items-center px-6 py-3 w-full border-b border-slate-100 sticky top-0 z-50">
         <span className="text-xl font-bold tracking-tighter text-honey-800 font-['Plus_Jakarta_Sans']">Lazybee</span>
-        <a href="https://wa.me/6580885410" className="material-symbols-outlined text-slate-500 cursor-pointer hover:bg-slate-50 p-2 rounded-full transition-colors">
+        <a href="https://wa.me/6580695410" className="material-symbols-outlined text-slate-500 cursor-pointer hover:bg-slate-50 p-2 rounded-full transition-colors">
           help_outline
         </a>
       </header>
@@ -668,7 +668,7 @@ export default function ScheduleViewingPage() {
           <div className="flex gap-4 text-xs font-medium text-slate-500">
             <a href="/">About</a>
             <a href="/properties">Properties</a>
-            <a href="https://wa.me/6580885410">Support</a>
+            <a href="https://wa.me/6580695410">Support</a>
           </div>
         </footer>
       </main>

@@ -17,7 +17,7 @@ export default function BookLandingPage() {
           Lazybee
         </Link>
         <a
-          href="https://wa.me/6580885410"
+          href="https://wa.me/6580695410"
           className="material-symbols-outlined text-slate-500 cursor-pointer hover:bg-slate-50 p-2 rounded-full transition-colors"
           aria-label="Chat with us on WhatsApp"
         >
@@ -113,7 +113,7 @@ export default function BookLandingPage() {
           <div className="flex gap-4 text-xs font-medium text-slate-500">
             <Link to="/">About</Link>
             <Link to="/properties">Properties</Link>
-            <a href="https://wa.me/6580885410">Support</a>
+            <a href="https://wa.me/6580695410">Support</a>
           </div>
         </footer>
       </main>

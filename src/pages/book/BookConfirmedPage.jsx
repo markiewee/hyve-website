@@ -115,7 +115,7 @@ export default function BookConfirmedPage() {
             {error || "Booking not found"}
           </h1>
           <a
-            href="https://wa.me/6580885410"
+            href="https://wa.me/6580695410"
             className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm"
           >
             <span className="material-symbols-outlined text-sm">chat</span>
@@ -288,7 +288,7 @@ export default function BookConfirmedPage() {
         <div className="flex gap-4 text-xs font-medium text-slate-500">
           <Link to="/">About</Link>
           <Link to="/properties">Properties</Link>
-          <a href="https://wa.me/6580885410">Support</a>
+          <a href="https://wa.me/6580695410">Support</a>
         </div>
       </footer>
     </div>

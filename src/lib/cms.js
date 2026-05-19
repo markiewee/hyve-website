@@ -19,6 +19,12 @@ export const QUERIES = {
   neighborhoodsFull:   { kind: 'neighborhoodsFull' },
 };
 
+const NEIGHBORHOOD_BY_CODE = {
+  CP: { name: 'Serangoon', slug: 'serangoon' },
+  IH: { name: 'Jurong East', slug: 'jurong-east' },
+  TG: { name: 'Lentor', slug: 'lentor' },
+};
+
 const mapProperty = (p, opts = {}) => ({
   _id: p.id,
   name: p.name,
@@ -44,7 +50,7 @@ const mapProperty = (p, opts = {}) => ({
   nearbyAmenities: p.nearby_amenities ?? [],
   featured: !!p.featured,
   status: p.status,
-  neighborhood: null,
+  neighborhood: NEIGHBORHOOD_BY_CODE[p.code] ?? null,
 });
 
 const mapRoom = (r) => ({

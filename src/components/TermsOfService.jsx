@@ -157,7 +157,7 @@ const TermsOfService = () => {
           </p>
           <div className="bg-gray-50 p-4 rounded-lg">
             <p className="mb-2"><strong>Email:</strong> admin@lazybee.sg</p>
-            <p className="mb-2"><strong>WhatsApp:</strong> +65 80885410</p>
+            <p className="mb-2"><strong>WhatsApp:</strong> +65 80695410</p>
             <p><strong>Address:</strong> Singapore</p>
           </div>
         </div>

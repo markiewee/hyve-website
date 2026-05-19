@@ -123,7 +123,7 @@ function InvalidState() {
             admin@lazybee.sg
           </a>
           <a
-            href="https://wa.me/6580885410"
+            href="https://wa.me/6580695410"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-200 text-[#191c1e] rounded-xl text-sm font-bold hover:bg-slate-50 transition-all"
@@ -134,7 +134,7 @@ function InvalidState() {
             >
               chat
             </span>
-            WhatsApp +65 8088 5410
+            WhatsApp +65 8069 5410
           </a>
         </div>
       </div>
@@ -174,7 +174,7 @@ function ExpiredState() {
             admin@lazybee.sg
           </a>
           <a
-            href="https://wa.me/6580885410"
+            href="https://wa.me/6580695410"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-200 text-[#191c1e] rounded-xl text-sm font-bold hover:bg-slate-50 transition-all"
@@ -185,7 +185,7 @@ function ExpiredState() {
             >
               chat
             </span>
-            WhatsApp +65 8088 5410
+            WhatsApp +65 8069 5410
           </a>
         </div>
       </div>

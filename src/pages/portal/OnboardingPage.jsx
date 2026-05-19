@@ -176,7 +176,7 @@ function StepContent({ currentStep, onboarding, advanceStep, updateOnboarding, r
             <div className="bg-white border border-[#E8E0CE]/15 rounded-xl p-5 space-y-2 sm:col-span-2">
               <span className="material-symbols-outlined text-[#A87813] text-[24px]">support_agent</span>
               <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#1F2937]">Need Help?</h4>
-              <p className="text-xs text-[#6B7280] font-['Manrope'] leading-relaxed">WhatsApp us anytime at <strong>+65 8088 5410</strong> or email <strong>admin@lazybee.sg</strong>. We typically respond within an hour.</p>
+              <p className="text-xs text-[#6B7280] font-['Manrope'] leading-relaxed">WhatsApp us anytime at <strong>+65 8069 5410</strong> or email <strong>admin@lazybee.sg</strong>. We typically respond within an hour.</p>
             </div>
           </div>
 

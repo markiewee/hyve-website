@@ -153,7 +153,7 @@ export default function ViewingPage() {
           <div className="mb-6 flex justify-center"><Wordmark size="md" /></div>
           <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#191c1e] mb-2">{t.notFound}</h1>
           <p className="text-[#1F2937] font-['Inter']">{t.notFoundDesc}</p>
-          <a href="https://wa.me/6580885410" className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-lg font-['Inter'] font-semibold text-sm">
+          <a href="https://wa.me/6580695410" className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-lg font-['Inter'] font-semibold text-sm">
             {t.contactUs}
           </a>
         </div>
@@ -344,7 +344,7 @@ export default function ViewingPage() {
 
             {/* Contact / WhatsApp */}
             <a
-              href="https://wa.me/6580885410"
+              href="https://wa.me/6580695410"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-between p-6 bg-[#f2f4f6] rounded-xl border border-[#E8E0CE]/15 hover:bg-[#e6e8ea] transition-colors group"
@@ -355,7 +355,7 @@ export default function ViewingPage() {
                 </div>
                 <div>
                   <p className="text-xs font-bold text-[#565e74] uppercase tracking-widest">{t.needHelp}</p>
-                  <p className="text-lg font-['Plus_Jakarta_Sans'] font-bold text-[#191c1e]">+65 8088 5410</p>
+                  <p className="text-lg font-['Plus_Jakarta_Sans'] font-bold text-[#191c1e]">+65 8069 5410</p>
                 </div>
               </div>
               <span className="material-symbols-outlined text-[#6B7280] group-hover:translate-x-1 transition-transform">arrow_forward</span>

@@ -138,7 +138,7 @@
     "guideDocumentsTitle": "Your Documents",
     "guideDocumentsDesc": "View your tenancy agreement and upload documents like stamping certificates.",
     "guideHelpTitle": "Need Help?",
-    "guideHelpDesc": "WhatsApp us anytime at +65 8088 5410 or email admin@lazybee.sg. We typically respond within an hour."
+    "guideHelpDesc": "WhatsApp us anytime at +65 8069 5410 or email admin@lazybee.sg. We typically respond within an hour."
   },
   "issues": {
     "title": "Need Help?",
@@ -260,7 +260,7 @@
     "welcomeTo": "Welcome to {property}",
     "readThrough": "Here's everything you need to know for a smooth move-in. Please read through before continuing.",
     "needHelp": "Need help?",
-    "needHelpDesc": "WhatsApp us anytime at +65 8088 5410 or email admin@lazybee.sg. We typically respond within an hour.",
+    "needHelpDesc": "WhatsApp us anytime at +65 8069 5410 or email admin@lazybee.sg. We typically respond within an hour.",
     "readAck": "I've read the move-in instructions and understand the house guidelines.",
     "continueChecklist": "Continue to Room Checklist",
     "keyCollection": "Key Collection",
@@ -280,7 +280,7 @@
     "rentPayment": "Rent Payment",
     "rentPaymentDesc": "Rent is due on the 1st of each month via bank transfer. Details are in your Billing page. Late fees apply after the 5th.",
     "maintenance": "Maintenance Issues",
-    "maintenanceDesc": "Report any issues via the portal (Issues page). For emergencies, WhatsApp us at +65 8088 5410.",
+    "maintenanceDesc": "Report any issues via the portal (Issues page). For emergencies, WhatsApp us at +65 8069 5410.",
     "community": "Community",
     "communityDesc": "Be respectful of your housemates. Quiet hours are 10pm\u20138am. Guests are welcome but overnight stays need prior notice."
   },
@@ -357,7 +357,7 @@
     "settingsTitle": "Settings",
     "settingsText": "Update your personal details, change your password, or set up your email address.",
     "helpTitle": "Need Help?",
-    "helpText": "WhatsApp us anytime at +65 8088 5410 or email admin@lazybee.sg. We typically respond within an hour. Enjoy your stay!",
+    "helpText": "WhatsApp us anytime at +65 8069 5410 or email admin@lazybee.sg. We typically respond within an hour. Enjoy your stay!",
     "skipTour": "Skip tour",
     "getStarted": "Get Started"
   },

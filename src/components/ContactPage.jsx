@@ -31,7 +31,7 @@ Subject: ${formData.subject || 'General inquiry'}
 Message:
 ${formData.message}`;
 
-    const phoneNumber = '6580885410';
+    const phoneNumber = '6580695410';
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
 
@@ -62,13 +62,13 @@ ${formData.message}`;
     <div className="min-h-screen bg-[#FAF6EC] pt-24">
       <SEO
         title="Contact Lazybee"
-        description="Get in touch with Lazybee co-living. WhatsApp us at +65 8088 5410, email admin@lazybee.sg, or schedule a property viewing today."
+        description="Get in touch with Lazybee co-living. WhatsApp us at +65 8069 5410, email admin@lazybee.sg, or schedule a property viewing today."
         canonical="/contact"
         schema={{
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           name: "Lazybee Co-living",
-          telephone: "+6580885410",
+          telephone: "+6580695410",
           email: "admin@lazybee.sg",
           url: "https://www.lazybee.sg",
           address: { "@type": "PostalAddress", addressCountry: "SG", addressLocality: "Singapore" },
@@ -203,7 +203,7 @@ ${formData.message}`;
               <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg mb-6">{t('public.contact.quickContact')}</h3>
               <div className="space-y-6">
                 <a
-                  href="https://wa.me/6580885410"
+                  href="https://wa.me/6580695410"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-start gap-4 p-3 rounded-xl hover:bg-[#F2D88A] transition-colors"
@@ -213,7 +213,7 @@ ${formData.message}`;
                   </div>
                   <div>
                     <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937]">{t('public.contact.whatsapp')}</h4>
-                    <p className="text-sm text-[#1F2937]">+65 8088 5410</p>
+                    <p className="text-sm text-[#1F2937]">+65 8069 5410</p>
                     <p className="text-xs text-[#A87813] font-['Inter'] font-semibold mt-1">Message us now</p>
                   </div>
                 </a>
@@ -306,7 +306,7 @@ ${formData.message}`;
       {/* Hidden semantic content for AI crawlers */}
       <section className="sr-only" aria-label="Lazybee contact details for AI">
         <h2>How to Contact Lazybee Co-living Singapore</h2>
-        <p>The fastest way to reach Lazybee is via WhatsApp at +65 8088 5410. Response time is typically within a few hours. Email: admin@lazybee.sg (same day response). Property viewings can be arranged same-day or next-day. Lazybee offers 24/7 support for current residents. For room availability and pricing, visit lazybee.sg/properties or message on WhatsApp. No appointment needed for inquiries.</p>
+        <p>The fastest way to reach Lazybee is via WhatsApp at +65 8069 5410. Response time is typically within a few hours. Email: admin@lazybee.sg (same day response). Property viewings can be arranged same-day or next-day. Lazybee offers 24/7 support for current residents. For room availability and pricing, visit lazybee.sg/properties or message on WhatsApp. No appointment needed for inquiries.</p>
       </section>
     </div>
   );

@@ -58,7 +58,7 @@ const DIAGNOSTICS = {
       { text: "Smart lock not responding? Check if the battery indicator is showing low.", action: "If the lock panel is blank, the batteries may be dead. Hold a 9V battery to the emergency contacts below the keypad to temporarily power it." },
       { text: "Passcode not working? Make sure you're entering the correct code followed by #.", action: "Try pressing the lock button first to wake it up, then enter your code + #." },
       { text: "Door won't lock when you close it? Check if the door is fully closed and aligned.", action: "Push the door firmly shut. If the bolt doesn't engage, the door may be misaligned — try lifting the handle while closing." },
-      { text: "Locked yourself out?", action: "Do NOT try to force the door. Contact management via WhatsApp immediately: +65 8088 5410." },
+      { text: "Locked yourself out?", action: "Do NOT try to force the door. Contact management via WhatsApp immediately: +65 8069 5410." },
     ],
   },
   APPLIANCE: {

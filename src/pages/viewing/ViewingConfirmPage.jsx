@@ -139,7 +139,7 @@ export default function ViewingConfirmPage() {
             {error || "This viewing link is invalid or has expired."}
           </p>
           <a
-            href="https://wa.me/6580885410"
+            href="https://wa.me/6580695410"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#A87813] text-white rounded-lg font-['Inter'] font-semibold text-sm hover:opacity-90 transition-all"
           >
             Contact Us
@@ -279,11 +279,11 @@ export default function ViewingConfirmPage() {
                   </p>
                   <div className="bg-[#f2f4f6] rounded-lg p-6 max-w-sm mx-auto space-y-3">
                     <a
-                      href="https://wa.me/6580885410"
+                      href="https://wa.me/6580695410"
                       className="flex items-center gap-3 justify-center px-6 py-3 bg-[#25D366] text-white rounded-lg font-bold text-sm hover:opacity-90 transition-all"
                     >
                       <WhatsAppIcon className="w-5 h-5 fill-white" />
-                      WhatsApp us at +65 8088 5410
+                      WhatsApp us at +65 8069 5410
                     </a>
                     <a
                       href="mailto:admin@lazybee.sg"
@@ -311,11 +311,11 @@ export default function ViewingConfirmPage() {
                 </div>
                 <div className="text-left">
                   <p className="text-xs font-['Inter'] text-[#1F2937] font-medium">Need help?</p>
-                  <p className="text-sm font-['Plus_Jakarta_Sans'] font-bold text-[#191c1e]">WhatsApp us at +65 8088 5410</p>
+                  <p className="text-sm font-['Plus_Jakarta_Sans'] font-bold text-[#191c1e]">WhatsApp us at +65 8069 5410</p>
                 </div>
               </div>
               <a
-                href="https://wa.me/6580885410"
+                href="https://wa.me/6580695410"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 rounded-lg bg-[#25D366] text-white font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2"
@@ -330,7 +330,7 @@ export default function ViewingConfirmPage() {
           <div className="mt-12 flex flex-col items-center gap-4">
             <div className="flex gap-6 mt-4">
               <a className="text-[#1F2937]/60 text-xs hover:text-[#A87813] transition-colors uppercase tracking-widest font-bold" href="/privacy-policy">Privacy Policy</a>
-              <a className="text-[#1F2937]/60 text-xs hover:text-[#A87813] transition-colors uppercase tracking-widest font-bold" href="https://wa.me/6580885410">Support</a>
+              <a className="text-[#1F2937]/60 text-xs hover:text-[#A87813] transition-colors uppercase tracking-widest font-bold" href="https://wa.me/6580695410">Support</a>
             </div>
           </div>
         </div>

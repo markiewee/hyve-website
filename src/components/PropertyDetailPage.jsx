@@ -277,7 +277,7 @@ ${requestFormData.message || 'No additional message provided'}
 *Submitted via:* Lazybee Website
 *Time:* ${new Date().toLocaleString()}`;
 
-      const phoneNumber = '6580885410';
+      const phoneNumber = '6580695410';
       const encodedMessage = encodeURIComponent(message);
       window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
 
@@ -967,7 +967,7 @@ ${requestFormData.message || 'No additional message provided'}
                     Schedule a Viewing
                   </Link>
                   <a
-                    href={`https://wa.me/6580885410?text=${encodeURIComponent(`Hi! I'm interested in viewing ${property.name}.`)}`}
+                    href={`https://wa.me/6580695410?text=${encodeURIComponent(`Hi! I'm interested in viewing ${property.name}.`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full border border-[rgba(187,202,198,0.3)] text-[#1F2937] py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
@@ -1009,7 +1009,7 @@ ${requestFormData.message || 'No additional message provided'}
           </div>
           <div className="flex items-center gap-2">
             <a
-              href={`https://wa.me/6580885410?text=${encodeURIComponent(`Hi! I'm interested in ${property.name}.`)}`}
+              href={`https://wa.me/6580695410?text=${encodeURIComponent(`Hi! I'm interested in ${property.name}.`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 flex items-center justify-center rounded-full border border-[#E8E0CE] text-[#A87813]"
@@ -1123,7 +1123,7 @@ ${requestFormData.message || 'No additional message provided'}
                         value={requestFormData.phone}
                         onChange={(e) => setRequestFormData(prev => ({ ...prev, phone: e.target.value }))}
                         className="w-full bg-[#F2D88A] border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#A87813] focus:border-transparent outline-none"
-                        placeholder="+65 8088 5410"
+                        placeholder="+65 8069 5410"
                       />
                     </div>
                   </div>
