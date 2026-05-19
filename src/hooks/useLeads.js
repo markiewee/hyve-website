@@ -1,36 +1,36 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 
+const ARCHIVED_SET = new Set(["signed", "closed_won", "lost", "closed_lost"]);
+
 /**
- * Fetches leads from Supabase with optional filtering, subscribes to Realtime updates,
- * and exposes mutation helpers.
+ * Fetches leads from Supabase with optional filtering, subscribes to Realtime
+ * updates, and exposes mutation helpers.
  *
- * @param {Object} [options]
- * @param {boolean} [options.includeArchived=false] - If true, includes archived statuses (signed, closed_won, lost, closed_lost). 'cold' is NOT archived — it's a parking lane on the active board.
- * @returns {Object} { leads, loading, error, updateStatus, updateLead, refresh }
+ * Realtime applies the row-level payload directly to local state instead of
+ * refetching the whole list. A blanket refetch reorders the array on every
+ * inbox-sweep / activity-log bump, which yanks cards out from under dnd-kit
+ * mid-drag and makes the Kanban feel broken.
  */
 export function useLeads({ includeArchived = false } = {}) {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchLeads = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+  const shouldShow = useCallback(
+    (row) => (includeArchived ? true : !ARCHIVED_SET.has(row.status)),
+    [includeArchived]
+  );
 
+  const fetchLeads = useCallback(async () => {
+    setError(null);
     let query = supabase
       .from("leads")
       .select("*")
       .order("last_message_at", { ascending: false, nullsLast: true });
 
     if (!includeArchived) {
-      // Exclude archived statuses: signed, closed_won, lost, closed_lost
-      // 'cold' stays visible — it's a parking lane on the active board.
-      query = query.not(
-        "status",
-        "in",
-        "(signed,closed_won,lost,closed_lost)"
-      );
+      query = query.not("status", "in", "(signed,closed_won,lost,closed_lost)");
     }
 
     const { data, error: fetchError } = await query;
@@ -45,20 +45,46 @@ export function useLeads({ includeArchived = false } = {}) {
   }, [includeArchived]);
 
   useEffect(() => {
+    setLoading(true);
     fetchLeads();
 
-    // Realtime subscription — refetch on any change to leads table
     const channel = supabase
       .channel("leads_changes")
       .on(
         "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "leads",
-        },
-        () => {
-          fetchLeads();
+        { event: "INSERT", schema: "public", table: "leads" },
+        (payload) => {
+          const row = payload.new;
+          if (!row || !shouldShow(row)) return;
+          setLeads((current) =>
+            current.some((l) => l.id === row.id) ? current : [row, ...current]
+          );
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "leads" },
+        (payload) => {
+          const row = payload.new;
+          if (!row) return;
+          setLeads((current) => {
+            const existing = current.find((l) => l.id === row.id);
+            if (!shouldShow(row)) {
+              return existing ? current.filter((l) => l.id !== row.id) : current;
+            }
+            if (!existing) return [row, ...current];
+            // Merge to keep ordering stable — do NOT re-sort.
+            return current.map((l) => (l.id === row.id ? { ...l, ...row } : l));
+          });
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "DELETE", schema: "public", table: "leads" },
+        (payload) => {
+          const id = payload.old?.id;
+          if (!id) return;
+          setLeads((current) => current.filter((l) => l.id !== id));
         }
       )
       .subscribe();
@@ -66,48 +92,43 @@ export function useLeads({ includeArchived = false } = {}) {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [fetchLeads]);
+  }, [fetchLeads, shouldShow]);
 
   /**
-   * Update the status of a lead and set status_changed_at timestamp.
-   * Optimistic: applies the new status to local state immediately so the
-   * Kanban card moves on drop. If the DB write fails, reverts and refetches.
-   * @param {string} id - Lead ID
-   * @param {string} status - New status value
+   * Update the status of a lead. Optimistic: applies the new status to local
+   * state immediately so the Kanban card moves on drop. Reverts + refetches
+   * on DB failure.
    */
-  const updateStatus = useCallback(async (id, status) => {
-    setError(null);
-    const nowIso = new Date().toISOString();
-    let previous = null;
-    setLeads((current) => {
-      previous = current;
-      return current.map((l) =>
-        l.id === id ? { ...l, status, status_changed_at: nowIso } : l
-      );
-    });
+  const updateStatus = useCallback(
+    async (id, status) => {
+      setError(null);
+      const nowIso = new Date().toISOString();
+      let previous = null;
+      setLeads((current) => {
+        previous = current;
+        return current.map((l) =>
+          l.id === id ? { ...l, status, status_changed_at: nowIso } : l
+        );
+      });
 
-    const { error: updateError } = await supabase
-      .from("leads")
-      .update({ status, status_changed_at: nowIso })
-      .eq("id", id);
+      const { error: updateError } = await supabase
+        .from("leads")
+        .update({ status, status_changed_at: nowIso })
+        .eq("id", id);
 
-    if (updateError) {
-      console.error("Error updating lead status:", updateError);
-      setError(updateError.message);
-      if (previous) setLeads(previous);
-      throw updateError;
-    }
-  }, []);
+      if (updateError) {
+        console.error("Error updating lead status:", updateError);
+        setError(updateError.message);
+        if (previous) setLeads(previous);
+        throw updateError;
+      }
+    },
+    []
+  );
 
-  /**
-   * Update arbitrary fields on a lead (excluding system fields).
-   * @param {string} id - Lead ID
-   * @param {Object} patch - Fields to update (will exclude id, created_at, updated_at)
-   */
   const updateLead = useCallback(async (id, patch) => {
     setError(null);
     const payload = { ...patch };
-    // Remove system fields that shouldn't be directly updated
     delete payload.id;
     delete payload.created_at;
     delete payload.updated_at;
