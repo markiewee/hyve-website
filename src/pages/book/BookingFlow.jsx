@@ -121,11 +121,16 @@ export default function BookingFlow({ propertyCode, roomCode }) {
         }
         const { data: roomsData } = await supabase
           .from("rooms")
-          .select("id, name, unit_code, room_type, monthly_rent, is_available")
+          .select("id, name, unit_code, room_type, price_monthly, next_available, available_until")
           .eq("property_id", propRow.id)
           .order("unit_code");
         if (!active) return;
-        const visibleRooms = (roomsData || []).filter((r) => r.is_available !== false);
+        // Show every room that hasn't already been booked through the lease end.
+        // available_until in the past = room is locked. Everything else is fair to view.
+        const todayIsoDate = new Date().toISOString().slice(0, 10);
+        const visibleRooms = (roomsData || []).filter(
+          (r) => !r.available_until || r.available_until >= todayIsoDate
+        );
         setAllRooms(visibleRooms);
         if (roomCode) {
           const match = visibleRooms.find(
@@ -485,7 +490,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                             }`}
                           >
                             {r.unit_code}
-                            {r.monthly_rent ? ` · S$${r.monthly_rent}` : ""}
+                            {r.price_monthly ? ` · S$${Number(r.price_monthly).toLocaleString()}` : ""}
                           </button>
                         );
                       })}
@@ -555,22 +560,22 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                             {isOpen && desc.clickable && (
                               <div className="px-4 pb-4 pt-1 border-t border-slate-100">
                                 <div className="flex flex-wrap gap-2 pt-3">
-                                  {w.slots.map((s) => {
-                                    const clickable = isSlotClickable(s, property.code, w.anchor_property);
-                                    const selected = selectedSlot?.start === s.start;
-                                    return (
-                                      <button
-                                        key={s.start}
-                                        type="button"
-                                        onClick={() => clickable && setSelectedSlot(s)}
-                                        disabled={!clickable}
-                                        className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${slotStateClass(s, selected)}`}
-                                        title={slotStateTitle(s)}
-                                      >
-                                        {fmtSlotTime(s.start)}
-                                      </button>
-                                    );
-                                  })}
+                                  {w.slots
+                                    .filter((s) => isSlotClickable(s, property.code, w.anchor_property))
+                                    .map((s) => {
+                                      const selected = selectedSlot?.start === s.start;
+                                      return (
+                                        <button
+                                          key={s.start}
+                                          type="button"
+                                          onClick={() => setSelectedSlot(s)}
+                                          className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${slotStateClass(s, selected)}`}
+                                          title={slotStateTitle(s)}
+                                        >
+                                          {fmtSlotTime(s.start)}
+                                        </button>
+                                      );
+                                    })}
                                 </div>
                                 {w.anchor_property === property.code && (
                                   <p className="text-[10px] text-[#A87813] mt-3">
