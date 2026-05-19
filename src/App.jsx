@@ -56,7 +56,6 @@ import BookLandingPage from './pages/book/BookLandingPage';
 import { BookPropertyPage, BookRoomPage } from './pages/book/BookingFlow';
 import BookConfirmedPage from './pages/book/BookConfirmedPage';
 import BookCancelPage from './pages/book/BookCancelPage';
-import AdminTasksPage from './pages/portal/AdminTasksPage';
 import TenantDocumentsPage from './pages/portal/TenantDocumentsPage';
 import MemberSettingsPage from './pages/portal/MemberSettingsPage';
 import HelpPage from './pages/portal/HelpPage';
@@ -357,14 +356,6 @@ function AppContent() {
             element={
               <AuthGuard requiredRole="ADMIN">
                 <AdminFinancialsPage />
-              </AuthGuard>
-            }
-          />
-          <Route
-            path="/portal/admin/tasks"
-            element={
-              <AuthGuard requiredRole="ADMIN">
-                <AdminTasksPage />
               </AuthGuard>
             }
           />
