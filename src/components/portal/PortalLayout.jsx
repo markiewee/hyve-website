@@ -15,7 +15,6 @@ function useNavLinks(role) {
       { label: t("nav.documents"), to: "/portal/documents", icon: "folder_open" },
       { label: t("nav.billing"), to: "/portal/billing", icon: "payments" },
       { label: t("nav.issues"), to: "/portal/issues", icon: "build" },
-      { label: t("nav.maintenance"), to: "/portal/maintenance", icon: "engineering" },
       { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
     ];
 
@@ -25,7 +24,6 @@ function useNavLinks(role) {
       { label: t("nav.documents"), to: "/portal/documents", icon: "folder_open" },
       { label: t("nav.billing"), to: "/portal/billing", icon: "payments" },
       { label: t("nav.issues"), to: "/portal/issues", icon: "build" },
-      { label: t("nav.maintenance"), to: "/portal/maintenance", icon: "engineering" },
       { label: t("nav.propertyOverview"), to: "/portal/property", icon: "apartment" },
       { label: t("nav.tickets"), to: "/portal/property/tickets", icon: "confirmation_number" },
       { label: t("nav.members"), to: "/portal/property/tenants", icon: "group" },
