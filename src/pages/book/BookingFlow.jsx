@@ -57,6 +57,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
   // Property + rooms
   const [room, setRoom] = useState(null);
   const [allRooms, setAllRooms] = useState([]);
+  const [earliestUpcomingDate, setEarliestUpcomingDate] = useState(null);
   // Multi-select up to MAX_ROOMS rooms. Empty array = "I'm flexible".
   // Order matters — first picked is treated as the primary room downstream.
   const MAX_ROOMS = 2;
@@ -150,6 +151,13 @@ export default function BookingFlow({ propertyCode, roomCode }) {
           return false;
         });
         setAllRooms(visibleRooms);
+        // Surface the earliest upcoming free date across ALL rooms (not just
+        // the 4-mo window) so the empty state can tell prospects when to come back.
+        const futureFreeDates = (roomsData || [])
+          .map((r) => r.next_available)
+          .filter((d) => d && d > todayIsoDate)
+          .sort();
+        setEarliestUpcomingDate(futureFreeDates[0] || null);
         if (roomCode) {
           const match = visibleRooms.find(
             (r) => (r.unit_code || "").toLowerCase() === roomCode.toLowerCase()
@@ -389,9 +397,24 @@ export default function BookingFlow({ propertyCode, roomCode }) {
     );
   }
 
+  const noUnitsAvailable = !room && allRooms.length === 0;
+
   const headerCopy = room
     ? `Book a viewing for ${room.name || room.unit_code}`
-    : "Book a viewing";
+    : noUnitsAvailable
+      ? "No available units right now"
+      : "Book a viewing";
+
+  function fmtUpcomingMonth(dateIso) {
+    if (!dateIso) return null;
+    const [y, m] = dateIso.split("-").map((s) => parseInt(s, 10));
+    return new Date(Date.UTC(y, m - 1, 1)).toLocaleString("en-SG", {
+      month: "long",
+      year: "numeric",
+      timeZone: "Asia/Singapore",
+    });
+  }
+  const upcomingLabel = fmtUpcomingMonth(earliestUpcomingDate);
 
   return (
     <div className="min-h-screen bg-[#FAF6EC] font-['Inter'] text-[#191c1e]">
@@ -460,10 +483,36 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                   {headerCopy}
                 </h2>
                 <p className="text-[#1F2937] text-sm leading-relaxed">
-                  Mark hosts every viewing in person. Pick a window below to see the open times.
+                  {noUnitsAvailable
+                    ? upcomingLabel
+                      ? `All rooms at ${property.name} are taken through ${upcomingLabel}. Use the form on the right to flag your move-in date and we'll reach out when slots open.`
+                      : `All rooms at ${property.name} are fully occupied right now. Use the form on the right to flag your move-in date and we'll reach out when slots open.`
+                    : "Mark hosts every viewing in person. Pick a window below to see the open times."}
                 </p>
               </div>
 
+              {noUnitsAvailable ? (
+                <div className="rounded-lg border border-slate-200 bg-slate-50 p-6 flex flex-col items-center text-center gap-3">
+                  <span className="material-symbols-outlined text-4xl text-[#A87813]">
+                    event_busy
+                  </span>
+                  <p className="text-sm text-[#1F2937] font-medium leading-relaxed max-w-sm">
+                    Nothing to view today — every room at {property.name} is currently leased out.
+                  </p>
+                  {upcomingLabel && (
+                    <p className="text-xs text-[#6B7280] leading-relaxed">
+                      Next opening: <span className="font-semibold text-[#191c1e]">{upcomingLabel}</span>
+                    </p>
+                  )}
+                  <Link
+                    to="/book"
+                    className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 bg-[#A87813] text-white rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-xs"
+                  >
+                    <span className="material-symbols-outlined text-sm">arrow_back</span>
+                    See other properties
+                  </Link>
+                </div>
+              ) : (
               <form className="space-y-6" onSubmit={handleSubmit} noValidate>
                 {/* Multi-room picker — up to 2 rooms per viewing, with photos */}
                 {!room && allRooms.length > 0 && (
@@ -762,6 +811,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                   .
                 </p>
               </form>
+              )}
             </div>
           </div>
 
