@@ -162,14 +162,14 @@ const PropertiesPage = ({ searchFilters, setSearchFilters }) => {
           </div>
           <div className="text-right">
             <p className="text-lg font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
-              ${property.startingPrice}<span className="text-xs font-normal text-[#6B7280]">{t('public.properties.perMonth')}</span>
+              <span className="text-xs font-medium text-[#6B7280] mr-1">From</span>${property.startingPrice}<span className="text-xs font-normal text-[#6B7280]">{t('public.properties.perMonth')}</span>
             </p>
           </div>
         </div>
         <div className="flex gap-3 pt-2 flex-wrap">
           {(property.amenities || []).slice(0, 3).map((amenity, index) => (
-            <div key={index} className="flex items-center gap-1.5 bg-[#FAF0CC]/50 px-3 py-1.5 rounded-lg">
-              <span className="text-xs font-['Inter'] font-semibold text-[#1F2937]">{amenity}</span>
+            <div key={index} className="flex items-center gap-1.5 bg-[#A87813]/10 border border-[#A87813]/20 px-3 py-1.5 rounded-lg">
+              <span className="text-xs font-['Inter'] font-semibold text-[#A87813]">{amenity}</span>
             </div>
           ))}
         </div>

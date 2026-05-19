@@ -747,7 +747,7 @@ feat: add public prospect availability poll page with When2Meet grid
 
 Simple page at `/view/confirm/:token`. Shows viewing details (property, date, time) and two buttons:
 - "Yes, I'm coming!" → updates `prospect_confirmed_attending = true`, shows "See you there!"
-- "I need to reschedule" → shows "WhatsApp us at +65 8088 5410"
+- "I need to reschedule" → shows "WhatsApp us at +65 8069 5410"
 
 Uses a simple Supabase query to find the viewing by token and update it.
 

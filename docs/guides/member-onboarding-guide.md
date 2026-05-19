@@ -2,7 +2,7 @@
 
 **Version:** 1.0
 **Last updated:** 27 March 2026
-**Support:** WhatsApp +65 8088 5410
+**Support:** WhatsApp +65 8069 5410
 
 ---
 
@@ -203,7 +203,7 @@ Your AC usage is tracked via the portal dashboard.
 Rent is due on the **1st of each month** via bank transfer. Details are in your Billing page. Late fees apply after the 5th.
 
 ### Maintenance Issues / 维修问题
-Report any issues via the portal (**Issues** page). For emergencies, WhatsApp us at **+65 8088 5410**.
+Report any issues via the portal (**Issues** page). For emergencies, WhatsApp us at **+65 8069 5410**.
 
 ### Community / 社区
 Be respectful of your housemates. Quiet hours are 10 PM to 8 AM. Guests are welcome but overnight stays need prior notice.
@@ -335,7 +335,7 @@ Contact your admin. They can reset your password from the portal. Alternatively,
 
 ### I forgot my username. / 我忘记了用户名。
 
-Contact your admin via WhatsApp at **+65 8088 5410**. Your username was provided when your account was created.
+Contact your admin via WhatsApp at **+65 8069 5410**. Your username was provided when your account was created.
 
 ### My agreement is not ready yet. Can I still move in? / 协议还没准备好，我能入住吗？
 
@@ -351,7 +351,7 @@ A late fee is applied after the 5th of each month. Pay on time to avoid extra ch
 
 ### How do I report an emergency? / 如何报告紧急情况？
 
-For emergencies (water leak, electrical hazard, security issue), **WhatsApp us immediately at +65 8088 5410**. For non-urgent issues, use the Issues page in the portal.
+For emergencies (water leak, electrical hazard, security issue), **WhatsApp us immediately at +65 8069 5410**. For non-urgent issues, use the Issues page in the portal.
 
 ### Can I have guests stay overnight? / 我可以让客人过夜吗？
 
@@ -374,7 +374,7 @@ Guests are welcome, but overnight stays require prior notice to the property man
 
 ### Who do I contact for help? / 我应该联系谁寻求帮助？
 
-- **WhatsApp:** +65 8088 5410
+- **WhatsApp:** +65 8069 5410
 - **Portal:** Report an issue via the Issues page
 - **Email:** admin@lazybee.sg
 

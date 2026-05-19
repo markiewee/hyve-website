@@ -321,7 +321,7 @@ OPEN → IN_PROGRESS → RESOLVED → CLOSED
 3. Update the status as the issue progresses
 4. The member receives a TICKET_STATUS_CHANGED email notification on each update
 
-> **Emergency issues:** Members are instructed to WhatsApp +65 8088 5410 for urgent matters (water leaks, electrical hazards, security).
+> **Emergency issues:** Members are instructed to WhatsApp +65 8069 5410 for urgent matters (water leaks, electrical hazards, security).
 
 ---
 

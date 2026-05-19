@@ -59,7 +59,10 @@ const mapRoom = (r) => ({
   roomType: r.room_type,
   priceMonthly: r.price_monthly,
   sizeSqm: r.size_sqm,
-  isAvailable: !r.available_until || new Date(r.available_until) > new Date(),
+  // Available now only if next_available is today/past (or unset and not blocked).
+  isAvailable:
+    (!r.next_available || new Date(r.next_available) <= new Date()) &&
+    (!r.available_until || new Date(r.available_until) <= new Date()),
   availableFrom: r.next_available,
   images: (r.photos ?? []).map((src) => ({
     image: { src, alt: r.name, caption: null },

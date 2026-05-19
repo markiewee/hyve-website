@@ -178,7 +178,7 @@ When you log in, your Dashboard shows:
 
 If you need help at any time:
 
-- **WhatsApp:** [+65 8088 5410](https://wa.me/6580885410) (fastest — usually responds within 1 hour)
+- **WhatsApp:** [+65 8069 5410](https://wa.me/6580695410) (fastest — usually responds within 1 hour)
 - **Email:** admin@lazybee.sg (responds within 24 hours)
 - **In Portal:** Click **"Quick Support"** button in the sidebar
 
