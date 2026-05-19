@@ -1,21 +1,33 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../i18n/LanguageContext';
+import { supabase } from '../lib/supabase';
 import Wordmark from './Wordmark';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const { t } = useLanguage();
 
-  const handleNewsletterSubmit = (e) => {
+  const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
-    if (!email.trim()) return;
-    // Not wired to a backend yet — confirm intent locally so users know their submit registered.
-    // TODO: integrate with mailing list provider.
-    setSubscribed(true);
-    setEmail('');
-    setTimeout(() => setSubscribed(false), 6000);
+    const value = email.trim().toLowerCase();
+    if (!value) return;
+    setSubmitting(true);
+    try {
+      // Upsert so repeat signups don't error on the unique constraint;
+      // we'd rather quietly succeed than show a noisy error to the user.
+      const { error } = await supabase
+        .from('newsletter_subscribers')
+        .upsert({ email: value, source: 'footer' }, { onConflict: 'email' });
+      if (error) console.error('newsletter signup failed:', error.message);
+      setSubscribed(true);
+      setEmail('');
+      setTimeout(() => setSubscribed(false), 6000);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -115,7 +127,8 @@ const Footer = () => {
               />
               <button
                 type="submit"
-                className="bg-[#A87813] text-white p-3 rounded-lg hover:opacity-90 transition-opacity flex-shrink-0"
+                disabled={submitting}
+                className="bg-[#A87813] text-white p-3 rounded-lg hover:opacity-90 transition-opacity flex-shrink-0 disabled:opacity-50"
               >
                 <span className="material-symbols-outlined text-sm">arrow_forward</span>
               </button>

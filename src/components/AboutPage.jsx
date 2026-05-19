@@ -62,15 +62,14 @@ const AboutPage = () => {
           <div className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl bg-[#FAF0CC]">
             <img
               className="w-full h-full object-cover"
-              src="/hero_coliving_interior.jpg"
+              src="/photos/tg-hero.jpg"
               onError={(e) => {
                 if (e.currentTarget.dataset.fallbackUsed !== '1') {
                   e.currentTarget.dataset.fallbackUsed = '1';
-                  e.currentTarget.src =
-                    '/photos/cp-hero.jpg';
+                  e.currentTarget.src = '/photos/cp-hero.jpg';
                 }
               }}
-              alt="Modern architectural coliving space"
+              alt="Lazybee Thomson Grove sunlit balcony"
               loading="lazy"
             />
           </div>
