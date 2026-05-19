@@ -47,39 +47,28 @@ async function handleRequest(req, res) {
   // Always respond with the same success shape — don't reveal account existence.
   const okPayload = { ok: true };
 
-  // Look up the auth user directly via the Admin REST endpoint (avoids pagination
-  // issues with listUsers and the absence of a getUserByEmail SDK method).
-  const adminUrl = `${process.env.VITE_IOT_SUPABASE_URL}/auth/v1/admin/users?email=${encodeURIComponent(email)}`;
-  const adminRes = await fetch(adminUrl, {
-    headers: {
-      apikey: process.env.IOT_SUPABASE_SERVICE_ROLE_KEY,
-      Authorization: `Bearer ${process.env.IOT_SUPABASE_SERVICE_ROLE_KEY}`,
-    },
-  });
-  if (!adminRes.ok) {
-    console.error("admin user lookup failed:", adminRes.status, await adminRes.text());
+  // SECURITY DEFINER RPC: joins auth.users → tenant_profiles in one trip,
+  // returns nothing if user is missing or profile is inactive.
+  const { data: rows, error: rpcErr } = await supabase.rpc(
+    "find_user_for_password_reset",
+    { p_email: email }
+  );
+  if (rpcErr) {
+    console.error("find_user RPC failed:", rpcErr);
     return res.status(200).json(okPayload);
   }
-  const adminBody = await adminRes.json();
-  const user = Array.isArray(adminBody?.users) ? adminBody.users[0] : adminBody?.id ? adminBody : null;
-  if (!user?.id) return res.status(200).json(okPayload);
-
-  const { data: profile, error: profileErr } = await supabase
-    .from("tenant_profiles")
-    .select("id")
-    .eq("user_id", user.id)
-    .eq("is_active", true)
-    .maybeSingle();
-  if (profileErr) console.error("profile lookup failed:", profileErr);
-  if (!profile) return res.status(200).json(okPayload);
+  const match = Array.isArray(rows) ? rows[0] : rows;
+  if (!match?.user_id) return res.status(200).json(okPayload);
+  const userId = match.user_id;
+  const profileId = match.tenant_profile_id;
 
   const rawToken = crypto.randomBytes(32).toString("hex");
   const tokenHash = sha256(rawToken);
   const expiresAt = new Date(Date.now() + TOKEN_TTL_MINUTES * 60 * 1000).toISOString();
 
   const { error: insertErr } = await supabase.from("password_reset_tokens").insert({
-    tenant_profile_id: profile.id,
-    user_id: user.id,
+    tenant_profile_id: profileId,
+    user_id: userId,
     token_hash: tokenHash,
     expires_at: expiresAt,
     requested_ip:
@@ -93,7 +82,7 @@ async function handleRequest(req, res) {
   const resetUrl = `${SITE_BASE}/portal/reset-password?token=${rawToken}`;
 
   try {
-    await invokeNotify(profile.id, resetUrl);
+    await invokeNotify(profileId, resetUrl);
   } catch (err) {
     console.error("notify-tenant failed:", err);
     // Still return success — user shouldn't learn whether email was deliverable.
