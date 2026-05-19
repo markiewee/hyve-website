@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import { Toaster } from 'sonner';
 import './App.css';
 
 // Components
@@ -457,6 +458,7 @@ function App() {
       <AuthProvider>
         <AppContent />
         <ConfirmHost />
+        <Toaster position="top-right" richColors closeButton />
       </AuthProvider>
     </Router>
   );

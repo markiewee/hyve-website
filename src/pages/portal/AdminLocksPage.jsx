@@ -89,13 +89,23 @@ export default function AdminLocksPage() {
           .eq("id", block.guideId);
         if (error) throw error;
       } else {
+        // title + section are NOT NULL on property_guides — required even though
+        // the locks page only reads/writes the content field.
         const { data, error } = await supabase
           .from("property_guides")
-          .insert({ property_id: propertyId, section: "access_codes", content: newContent })
+          .insert({
+            property_id: propertyId,
+            section: "access_codes",
+            title: "Unit Access Codes",
+            content: newContent,
+          })
           .select("id")
           .single();
         if (error) throw error;
         block.guideId = data.id;
+        setPropertyData((prev) =>
+          prev.map((b) => (b.property.id === propertyId ? { ...b, guideId: data.id } : b))
+        );
       }
 
       setPropertyData((prev) =>
