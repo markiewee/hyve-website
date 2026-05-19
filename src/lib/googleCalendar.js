@@ -273,6 +273,12 @@ export async function getAvailableSlots(date, propertyCode /* eslint-disable-lin
  * Re-check whether a specific slot is still free against the cal AND DB.
  * Used as a race guard inside the create transaction.
  *
+ * Uses events.list (via listBookingCalendarState) instead of raw freebusy so
+ * the booking-window event that OPENS this slot doesn't itself register as
+ * busy. Only treats real blockers (any non-window, non-LazybeeViewing event
+ * Mark drops on the calendar) as busy here. Existing viewings are caught
+ * earlier by the property_viewings DB check in handleCreate.
+ *
  * @param {string} slotStartIso ISO with offset
  * @param {string} slotEndIso   ISO with offset
  * @returns {Promise<boolean>}
@@ -281,11 +287,11 @@ export async function isSlotStillFree(slotStartIso, slotEndIso) {
   const startMs = new Date(slotStartIso).getTime();
   const endMs = new Date(slotEndIso).getTime();
   // Pad each side by 1 second to be safe with API rounding
-  const busy = await listFreeBusy(
+  const { blockers } = await listBookingCalendarState(
     new Date(startMs - 1000).toISOString(),
     new Date(endMs + 1000).toISOString()
   );
-  return !busy.some((b) => {
+  return !blockers.some((b) => {
     const bStart = new Date(b.start).getTime();
     const bEnd = new Date(b.end).getTime();
     return overlaps(startMs, endMs, bStart, bEnd);
