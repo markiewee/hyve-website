@@ -47,23 +47,30 @@ async function handleRequest(req, res) {
   // Always respond with the same success shape — don't reveal account existence.
   const okPayload = { ok: true };
 
-  const { data: users, error: lookupErr } = await supabase.auth.admin.listUsers({
-    page: 1,
-    perPage: 200,
+  // Look up the auth user directly via the Admin REST endpoint (avoids pagination
+  // issues with listUsers and the absence of a getUserByEmail SDK method).
+  const adminUrl = `${process.env.VITE_IOT_SUPABASE_URL}/auth/v1/admin/users?email=${encodeURIComponent(email)}`;
+  const adminRes = await fetch(adminUrl, {
+    headers: {
+      apikey: process.env.IOT_SUPABASE_SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${process.env.IOT_SUPABASE_SERVICE_ROLE_KEY}`,
+    },
   });
-  if (lookupErr) {
-    console.error("listUsers failed:", lookupErr);
-    return res.status(okPayload ? 200 : 500).json(okPayload);
+  if (!adminRes.ok) {
+    console.error("admin user lookup failed:", adminRes.status, await adminRes.text());
+    return res.status(200).json(okPayload);
   }
-  const user = users?.users?.find((u) => u.email?.toLowerCase() === email);
-  if (!user) return res.status(200).json(okPayload);
+  const adminBody = await adminRes.json();
+  const user = Array.isArray(adminBody?.users) ? adminBody.users[0] : adminBody?.id ? adminBody : null;
+  if (!user?.id) return res.status(200).json(okPayload);
 
-  const { data: profile } = await supabase
+  const { data: profile, error: profileErr } = await supabase
     .from("tenant_profiles")
     .select("id")
     .eq("user_id", user.id)
     .eq("is_active", true)
     .maybeSingle();
+  if (profileErr) console.error("profile lookup failed:", profileErr);
   if (!profile) return res.status(200).json(okPayload);
 
   const rawToken = crypto.randomBytes(32).toString("hex");
