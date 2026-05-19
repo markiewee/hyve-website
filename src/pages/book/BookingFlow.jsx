@@ -121,7 +121,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
         }
         const { data: roomsData } = await supabase
           .from("rooms")
-          .select("id, name, unit_code, room_type, price_monthly, next_available, available_until")
+          .select("id, name, unit_code, room_type, price_monthly, next_available, available_until, photos")
           .eq("property_id", propRow.id)
           .order("unit_code");
         if (!active) return;
@@ -447,10 +447,10 @@ export default function BookingFlow({ propertyCode, roomCode }) {
               </div>
 
               <form className="space-y-6" onSubmit={handleSubmit} noValidate>
-                {/* Multi-room picker — up to 2 rooms per viewing */}
+                {/* Multi-room picker — up to 2 rooms per viewing, with photos */}
                 {!room && allRooms.length > 0 && (
                   <div>
-                    <div className="flex items-baseline justify-between mb-2 ml-1">
+                    <div className="flex items-baseline justify-between mb-3 ml-1">
                       <label className="block text-[11px] font-bold uppercase tracking-widest text-[#1F2937]">
                         Which room{selectedRoomCodes.length > 1 ? "s" : ""}? <span className="text-[#6B7280] font-normal normal-case tracking-normal">(pick up to {MAX_ROOMS})</span>
                       </label>
@@ -458,21 +458,23 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                         {selectedRoomCodes.length}/{MAX_ROOMS} selected
                       </span>
                     </div>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                       <button
                         type="button"
                         onClick={clearRoomSelection}
-                        className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                        className={`relative aspect-[4/3] rounded-lg overflow-hidden border-2 transition-all flex flex-col items-center justify-center gap-1 text-xs font-medium ${
                           selectedRoomCodes.length === 0
-                            ? "bg-[#A87813] text-white shadow-md"
-                            : "bg-[#e6e8ea] text-[#1F2937] hover:bg-[#D9A441]/20"
+                            ? "border-[#A87813] bg-[#A87813] text-white shadow-md"
+                            : "border-transparent bg-[#e6e8ea] text-[#1F2937] hover:border-[#D9A441]/40"
                         }`}
                       >
-                        I&apos;m flexible
+                        <span className="material-symbols-outlined text-2xl">apps</span>
+                        <span className="text-[10px] uppercase tracking-wide">I&apos;m flexible</span>
                       </button>
                       {allRooms.map((r) => {
                         const isSelected = selectedRoomCodes.includes(r.unit_code);
                         const isCapped = !isSelected && selectedRoomCodes.length >= MAX_ROOMS;
+                        const photo = Array.isArray(r.photos) && r.photos.length > 0 ? r.photos[0] : null;
                         return (
                           <button
                             key={r.id}
@@ -481,16 +483,41 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                             disabled={isCapped}
                             aria-pressed={isSelected}
                             title={isCapped ? `Pick up to ${MAX_ROOMS} rooms — deselect one first` : ""}
-                            className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                            className={`relative aspect-[4/3] rounded-lg overflow-hidden border-2 transition-all text-left ${
                               isSelected
-                                ? "bg-[#A87813] text-white shadow-md"
+                                ? "border-[#A87813] shadow-md ring-2 ring-[#A87813]/30"
                                 : isCapped
-                                  ? "bg-[#e6e8ea] text-[#9CA3AF] cursor-not-allowed opacity-50"
-                                  : "bg-[#e6e8ea] text-[#1F2937] hover:bg-[#D9A441]/20"
+                                  ? "border-transparent opacity-40 cursor-not-allowed"
+                                  : "border-transparent hover:border-[#D9A441]/60"
                             }`}
                           >
-                            {r.unit_code}
-                            {r.price_monthly ? ` · S$${Number(r.price_monthly).toLocaleString()}` : ""}
+                            {photo ? (
+                              <img
+                                src={photo}
+                                alt={r.name || r.unit_code}
+                                className="absolute inset-0 w-full h-full object-cover"
+                                loading="lazy"
+                              />
+                            ) : (
+                              <div className="absolute inset-0 bg-[#e6e8ea] flex items-center justify-center text-[#6B7280] text-[10px]">
+                                no photo
+                              </div>
+                            )}
+                            {/* gradient for legibility */}
+                            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent" />
+                            <div className="absolute bottom-1.5 left-2 right-2 text-white">
+                              <div className="text-xs font-bold leading-tight">{r.unit_code}</div>
+                              {r.price_monthly ? (
+                                <div className="text-[10px] font-medium opacity-90">
+                                  S${Number(r.price_monthly).toLocaleString()}/mo
+                                </div>
+                              ) : null}
+                            </div>
+                            {isSelected && (
+                              <div className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-[#A87813] text-white flex items-center justify-center shadow">
+                                <span className="material-symbols-outlined text-sm">check</span>
+                              </div>
+                            )}
                           </button>
                         );
                       })}
@@ -577,11 +604,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                                       );
                                     })}
                                 </div>
-                                {w.anchor_property === property.code && (
-                                  <p className="text-[10px] text-[#A87813] mt-3">
-                                    {property.code} is anchored for this window — back-to-back slots welcome.
-                                  </p>
-                                )}
+                                {/* anchor-callout removed — internal detail, noise for prospects */}
                               </div>
                             )}
                           </div>
