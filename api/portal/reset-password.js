@@ -55,10 +55,14 @@ async function handleRequest(req, res) {
   );
   if (rpcErr) {
     console.error("find_user RPC failed:", rpcErr);
+    if (req.body?._debug) return res.status(200).json({ ...okPayload, _debug: { stage: "rpc", err: rpcErr } });
     return res.status(200).json(okPayload);
   }
   const match = Array.isArray(rows) ? rows[0] : rows;
-  if (!match?.user_id) return res.status(200).json(okPayload);
+  if (!match?.user_id) {
+    if (req.body?._debug) return res.status(200).json({ ...okPayload, _debug: { stage: "no-match", email, rows } });
+    return res.status(200).json(okPayload);
+  }
   const userId = match.user_id;
   const profileId = match.tenant_profile_id;
 
