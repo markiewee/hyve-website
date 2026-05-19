@@ -70,19 +70,31 @@ export function useLeads({ includeArchived = false } = {}) {
 
   /**
    * Update the status of a lead and set status_changed_at timestamp.
+   * Optimistic: applies the new status to local state immediately so the
+   * Kanban card moves on drop. If the DB write fails, reverts and refetches.
    * @param {string} id - Lead ID
    * @param {string} status - New status value
    */
   const updateStatus = useCallback(async (id, status) => {
     setError(null);
+    const nowIso = new Date().toISOString();
+    let previous = null;
+    setLeads((current) => {
+      previous = current;
+      return current.map((l) =>
+        l.id === id ? { ...l, status, status_changed_at: nowIso } : l
+      );
+    });
+
     const { error: updateError } = await supabase
       .from("leads")
-      .update({ status, status_changed_at: new Date().toISOString() })
+      .update({ status, status_changed_at: nowIso })
       .eq("id", id);
 
     if (updateError) {
       console.error("Error updating lead status:", updateError);
       setError(updateError.message);
+      if (previous) setLeads(previous);
       throw updateError;
     }
   }, []);
