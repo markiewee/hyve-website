@@ -38,6 +38,16 @@ function todayIso() {
   return new Date().toISOString().slice(0, 10);
 }
 
+// "2026-06-20" -> "June"; null/past -> "Available now"
+function fmtAvailableMonth(nextAvailable) {
+  if (!nextAvailable) return "Available now";
+  const today = new Date().toISOString().slice(0, 10);
+  if (nextAvailable <= today) return "Available now";
+  const [y, m] = nextAvailable.split("-").map((s) => parseInt(s, 10));
+  const name = new Date(Date.UTC(y, m - 1, 1)).toLocaleString("en-SG", { month: "long", timeZone: "Asia/Singapore" });
+  return `Available from ${name}`;
+}
+
 export default function BookingFlow({ propertyCode, roomCode }) {
   const navigate = useNavigate();
   const [params] = useSearchParams();
@@ -125,12 +135,20 @@ export default function BookingFlow({ propertyCode, roomCode }) {
           .eq("property_id", propRow.id)
           .order("unit_code");
         if (!active) return;
-        // Show every room that hasn't already been booked through the lease end.
-        // available_until in the past = room is locked. Everything else is fair to view.
+        // Show rooms that become available within the next 4 months, or are
+        // already vacant. Prospects don't book what's more than 4 months out.
         const todayIsoDate = new Date().toISOString().slice(0, 10);
-        const visibleRooms = (roomsData || []).filter(
-          (r) => !r.available_until || r.available_until >= todayIsoDate
-        );
+        const cutoff = new Date();
+        cutoff.setMonth(cutoff.getMonth() + 4);
+        const cutoffIso = cutoff.toISOString().slice(0, 10);
+        const visibleRooms = (roomsData || []).filter((r) => {
+          if (r.next_available && r.next_available <= cutoffIso) return true;
+          // Currently vacant: no upcoming free date set AND not booked into the future.
+          if (!r.next_available && (!r.available_until || r.available_until >= todayIsoDate)) {
+            return true;
+          }
+          return false;
+        });
         setAllRooms(visibleRooms);
         if (roomCode) {
           const match = visibleRooms.find(
@@ -512,6 +530,9 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                                   S${Number(r.price_monthly).toLocaleString()}/mo
                                 </div>
                               ) : null}
+                              <div className="text-[10px] font-medium opacity-90">
+                                {fmtAvailableMonth(r.next_available)}
+                              </div>
                             </div>
                             {isSelected && (
                               <div className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-[#A87813] text-white flex items-center justify-center shadow">
