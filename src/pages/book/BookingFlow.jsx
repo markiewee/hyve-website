@@ -286,7 +286,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
             `Another property is being viewed nearby — Mark needs 30 min to travel between. The next open slot is ${fmtSlotTime(err.body.earliest_allowed)}.`
           );
         } else if (code === "would-block-existing") {
-          setSubmitError("Booking that slot would push another viewing out of reach. Try the slot closest to the existing cluster instead.");
+          setSubmitError("Booking that slot would push another viewing out of reach. Try the slot closest to the existing booking instead.");
         } else if (code === "slot-conflict") {
           setSubmitError("Mark has a conflict at that exact time. Pick another slot in this window.");
         } else if (code === "slot-taken") {
@@ -460,7 +460,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                   {headerCopy}
                 </h2>
                 <p className="text-[#1F2937] text-sm leading-relaxed">
-                  Mark hosts every viewing in person, so we cluster bookings into <strong>3 weekly windows</strong> — Friday evening, Saturday morning, Sunday afternoon. Pick a window with open slots.
+                  Mark hosts every viewing in person. Pick a window below to see the open times.
                 </p>
               </div>
 
@@ -633,9 +633,7 @@ export default function BookingFlow({ propertyCode, roomCode }) {
                       })}
                     </div>
                   )}
-                  <p className="text-[10px] text-[#6B7280] mt-2 ml-1">
-                    Mark hosts every viewing — windows cluster by property to avoid 30-min cross-island runs.
-                  </p>
+                  {/* footer line removed */}
                 </div>
 
                 {/* slotConflict signal handled by the submit-error banner below — no duplicate notice here */}

@@ -34,7 +34,7 @@ export function describeWindowState(window, propertyOfInterest) {
   }
   if (window.state === "OPEN-PROP" && window.anchor_property !== propertyOfInterest) {
     return {
-      label: `${window.free_slot_count} slot${window.free_slot_count === 1 ? "" : "s"} open (after ${window.anchor_property} cluster)`,
+      label: `${window.free_slot_count} slot${window.free_slot_count === 1 ? "" : "s"} open`,
       clickable: true,
       tone: "open",
     };
