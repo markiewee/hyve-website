@@ -60,7 +60,6 @@ import BookCancelPage from './pages/book/BookCancelPage';
 import TenantDocumentsPage from './pages/portal/TenantDocumentsPage';
 import MemberSettingsPage from './pages/portal/MemberSettingsPage';
 import HelpPage from './pages/portal/HelpPage';
-import MaintenanceSchedulePage from './pages/portal/MaintenanceSchedulePage';
 import InvestorDashboardPage from './pages/portal/InvestorDashboardPage';
 import InvestorReportsPage from './pages/portal/InvestorReportsPage';
 import InvestorSignupPage from './pages/portal/InvestorSignupPage';
@@ -195,14 +194,6 @@ function AppContent() {
             element={
               <AuthGuard>
                 <NewIssuePage />
-              </AuthGuard>
-            }
-          />
-          <Route
-            path="/portal/maintenance"
-            element={
-              <AuthGuard>
-                <MaintenanceSchedulePage />
               </AuthGuard>
             }
           />
