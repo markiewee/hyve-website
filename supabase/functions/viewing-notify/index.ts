@@ -9,8 +9,7 @@
 //   - viewing-confirmation       → prospect (with .ics + cancel link)
 //   - viewing-captain-notify     → captain
 //   - viewing-admin-notify       → admin@lazybee.sg / mark@meetmillia.com
-//   - viewing-reminder-24h       → prospect
-//   - viewing-reminder-2h        → prospect (door code, mailbox, captain phone, parking)
+//   - viewing-reminder-24h       → prospect + cc admin (door code, captain, mailbox, parking — evening before)
 //   - viewing-cancelled          → prospect + captain + admin
 //
 // Legacy:
@@ -364,38 +363,15 @@ function tplAdminNotify(args: { viewing: any }) {
   };
 }
 
-function tplReminder24h(args: { viewing: any; cancelUrl: string }) {
-  const { viewing, cancelUrl } = args;
+function tplReminder24h(args: {
+  viewing: any;
+  captain: { name: string; phone: string | null };
+  cancelUrl: string;
+}) {
+  const { viewing, captain, cancelUrl } = args;
   const slotIso = viewing.slot_start || `${viewing.viewing_date}T${viewing.viewing_time}+08:00`;
   const propertyName = viewing.properties?.name || "Lazybee";
   const propertyAddress = viewing.properties?.address || "";
-  const html = shell({
-    title: "Reminder — viewing tomorrow",
-    preheader: `${propertyName} on ${fmtDateTime(slotIso)}`,
-    bodyHtml: `
-      <p style="font-size:16px;color:#121c2a;">Hi ${escapeHtml(viewing.prospect_name || "there")},</p>
-      <p style="font-size:15px;color:#3c4947;">Quick reminder — your Lazybee viewing is in about 24 hours.</p>
-      ${detailsTable([
-        ["When", fmtDateTime(slotIso)],
-        ["Property", propertyName],
-        ["Address", propertyAddress],
-      ])}
-      <p style="font-size:14px;color:#3c4947;">Still good to come?</p>
-      <p style="font-size:14px;color:#3c4947;margin-top:16px;">If something came up, no stress — just <a href="${cancelUrl}" style="color:#006b5f;">cancel here</a> so we can free up the slot.</p>
-      <p style="font-size:13px;color:#6c7a77;margin-top:24px;">We'll send a 2-hour reminder closer to the time with door code + meeting point.</p>
-    `,
-  });
-  return { subject: `Tomorrow: viewing at ${propertyName}`, html };
-}
-
-function tplReminder2h(args: { viewing: any; captain: { name: string; phone: string | null } }) {
-  const { viewing, captain } = args;
-  const slotIso = viewing.slot_start || `${viewing.viewing_date}T${viewing.viewing_time}+08:00`;
-  const propertyName = viewing.properties?.name || "Lazybee";
-  const propertyAddress = viewing.properties?.address || "";
-  // Resolution order: per-viewing override → per-room → property default. The
-  // property default ensures the prospect gets the code even when no captain
-  // is assigned — they should never have to wait on someone to let them in.
   const accessCode =
     viewing.access_code ||
     viewing.rooms?.access_code ||
@@ -413,21 +389,23 @@ function tplReminder2h(args: { viewing: any; captain: { name: string; phone: str
       : "Self-serve — use the code above";
 
   const html = shell({
-    title: "See you in ~2 hours",
-    preheader: `${propertyName} at ${fmtTime(slotIso)}`,
+    title: "Tomorrow: viewing details inside",
+    preheader: `${propertyName} on ${fmtDateTime(slotIso)} — door code + meeting point`,
     bodyHtml: `
       <p style="font-size:16px;color:#121c2a;">Hi ${escapeHtml(viewing.prospect_name || "there")},</p>
-      <p style="font-size:15px;color:#3c4947;">Your viewing is coming up at <strong>${escapeHtml(fmtTime(slotIso))}</strong>. Here's everything you need to get in:</p>
+      <p style="font-size:15px;color:#3c4947;">Quick reminder — your Lazybee viewing is tomorrow. Everything you need to get in is below.</p>
       ${detailsTable([
+        ["When", fmtDateTime(slotIso)],
+        ["Property", propertyName],
         ["Address", propertyAddress],
         ["Door code", accessCode || "Message us on WhatsApp on arrival"],
         ["Contact", captainLine],
         ["Mailbox / parking", securityInstructions || "—"],
       ])}
-      <p style="font-size:14px;color:#3c4947;">If you're running late, just WhatsApp us. See you soon.</p>
+      <p style="font-size:14px;color:#3c4947;">Running late or something came up? WhatsApp us, or <a href="${cancelUrl}" style="color:#006b5f;">cancel here</a> so we can free the slot.</p>
     `,
   });
-  return { subject: `In ~2h: viewing at ${propertyName}`, html };
+  return { subject: `Tomorrow: viewing at ${propertyName}`, html };
 }
 
 function tplCancelled(args: { viewing: any; recipientType: "prospect" | "captain" | "admin"; cancelUrl: string }) {
@@ -606,24 +584,18 @@ async function dispatch(event: string, ids: { viewing_id?: string; lead_id?: str
     }
     case "viewing-reminder-24h": {
       if (!viewing.prospect_email) return { skipped: "no prospect email" };
-      const t = tplReminder24h({ viewing, cancelUrl });
-      await sendEmail({ to: viewing.prospect_email, subject: t.subject, html: t.html });
-      // mark as sent
+      const t = tplReminder24h({ viewing, captain, cancelUrl });
+      await sendEmail({
+        to: viewing.prospect_email,
+        cc: [ADMIN_EMAIL],
+        subject: t.subject,
+        html: t.html,
+      });
       await supabase
         .from("property_viewings")
         .update({ reminder_24h_sent_at: new Date().toISOString() })
         .eq("id", viewing.id);
-      return { sent: true, to: viewing.prospect_email };
-    }
-    case "viewing-reminder-2h": {
-      if (!viewing.prospect_email) return { skipped: "no prospect email" };
-      const t = tplReminder2h({ viewing, captain });
-      await sendEmail({ to: viewing.prospect_email, subject: t.subject, html: t.html });
-      await supabase
-        .from("property_viewings")
-        .update({ reminder_2h_sent_at: new Date().toISOString() })
-        .eq("id", viewing.id);
-      return { sent: true, to: viewing.prospect_email };
+      return { sent: true, to: viewing.prospect_email, cc: ADMIN_EMAIL };
     }
     case "viewing-cancelled": {
       const out: Record<string, unknown> = {};

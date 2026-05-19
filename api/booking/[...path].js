@@ -994,31 +994,11 @@ async function handleCron(req, res) {
     r24.results.push({ id: v.id });
   }
 
-  // 2h sweep available via ?include_2h=1 only (Hobby cron is daily)
-  let r2 = { skipped: "daily-cron" };
-  if (req.query?.include_2h) {
-    const lo2 = new Date(now + 1.5 * 60 * 60 * 1000).toISOString();
-    const hi2 = new Date(now + 2.5 * 60 * 60 * 1000).toISOString();
-    const { data: due2 } = await supabase
-      .from("property_viewings")
-      .select("id")
-      .eq("status", "confirmed")
-      .is("reminder_2h_sent_at", null)
-      .gte("slot_start", lo2)
-      .lte("slot_start", hi2);
-    r2 = { count: due2?.length || 0, results: [] };
-    for (const v of due2 || []) {
-      await fireNotify("viewing-reminder-2h", v.id);
-      r2.results.push({ id: v.id });
-    }
-  }
-
   return res.status(200).json({
     ok: true,
     ts: new Date().toISOString(),
     off_horizon: offHorizonSweep,
     reminder_24h: r24,
-    reminder_2h: r2,
   });
 }
 

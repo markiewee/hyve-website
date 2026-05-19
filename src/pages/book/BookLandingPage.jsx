@@ -94,7 +94,7 @@ export default function BookLandingPage() {
           {[
             { icon: "schedule", title: "Pick a slot", body: "Real-time availability — no chasing." },
             { icon: "mark_email_read", title: "Instant confirmation", body: "Email + calendar invite right away." },
-            { icon: "key", title: "We meet you there", body: "Door code + captain WhatsApp 2h before." },
+            { icon: "key", title: "We meet you there", body: "Door code + captain WhatsApp the evening before." },
           ].map((step) => (
             <div key={step.title} className="px-2">
               <div className="w-12 h-12 mx-auto rounded-full bg-[#D9A441]/15 flex items-center justify-center mb-3">
