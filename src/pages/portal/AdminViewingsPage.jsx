@@ -101,6 +101,61 @@ function CalendarTab({ viewings, refetch }) {
   const [propertyFilter, setPropertyFilter] = useState("");
   const [activeViewing, setActiveViewing] = useState(null);
   const [activeBlock, setActiveBlock] = useState(null);
+  const [gcalBlockers, setGcalBlockers] = useState([]);
+  const [gcalError, setGcalError] = useState(null);
+
+  // Pull Mark's GCal busy ranges so the grid shows real availability, not just
+  // what's in the property_viewings table.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/booking/admin-calendar");
+        if (!res.ok) {
+          setGcalError(`GCal sync failed (${res.status})`);
+          setGcalBlockers([]);
+          return;
+        }
+        const body = await res.json();
+        if (!cancelled) {
+          setGcalBlockers(Array.isArray(body.blockers) ? body.blockers : []);
+          setGcalError(null);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          console.error("admin-calendar fetch failed:", err);
+          setGcalError("GCal sync failed");
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Set of "dayIso|hour:mm" slot keys covered by a gcal blocker. Each blocker
+  // can span multiple 30-min slots; we expand its range against GRID_HOURS.
+  const gcalBlockedKeys = useMemo(() => {
+    const s = new Set();
+    for (const b of gcalBlockers) {
+      if (!b.start || !b.end) continue;
+      const startD = new Date(b.start);
+      const endD = new Date(b.end);
+      // Step through 30-min slots that overlap the event in SGT.
+      const t = new Date(startD);
+      while (t < endD) {
+        const sgt = new Date(t.toLocaleString("en-US", { timeZone: "Asia/Singapore" }));
+        const dayIso = isoDate(sgt);
+        const hour = sgt.getHours();
+        const half = sgt.getMinutes() >= 30;
+        if (GRID_HOURS.includes(hour)) {
+          s.add(hashSlotKey(dayIso, hour, half));
+        }
+        t.setMinutes(t.getMinutes() + 30);
+      }
+    }
+    return s;
+  }, [gcalBlockers]);
 
   const filteredViewings = useMemo(() => {
     if (!propertyFilter) return viewings;
@@ -168,6 +223,14 @@ function CalendarTab({ viewings, refetch }) {
           <span className="inline-flex items-center gap-1.5">
             <span className="w-3 h-3 rounded bg-slate-300" /> blocked
           </span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded bg-rose-200 border border-rose-300" /> gcal busy
+          </span>
+          {gcalError && (
+            <span className="text-rose-600 font-semibold" title={gcalError}>
+              · gcal sync error
+            </span>
+          )}
         </div>
       </div>
 
@@ -226,10 +289,15 @@ function CalendarTab({ viewings, refetch }) {
                         const cancelled =
                           viewing?.status === "cancelled" || viewing?.status === "CANCELLED";
                         const free = !viewing;
+                        const gcalBusy = free && gcalBlockedKeys.has(key);
                         return (
                           <button
                             key={`${key}-${half}`}
                             onClick={() => {
+                              if (gcalBusy) {
+                                // GCal-only busy — no admin write path, just informational.
+                                return;
+                              }
                               if (free) {
                                 setActiveBlock({
                                   property: propertyFilter || "TG",
@@ -252,7 +320,9 @@ function CalendarTab({ viewings, refetch }) {
                                   ? "bg-red-50 hover:bg-red-100"
                                   : viewing
                                     ? "bg-honey-500 hover:bg-honey-700"
-                                    : "bg-emerald-50/50 hover:bg-emerald-100"
+                                    : gcalBusy
+                                      ? "bg-rose-200 cursor-not-allowed"
+                                      : "bg-emerald-50/50 hover:bg-emerald-100"
                             }`}
                             title={
                               viewing

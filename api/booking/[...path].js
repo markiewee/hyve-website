@@ -430,6 +430,26 @@ async function handleAdminLeadReminder(req, res) {
   return res.status(200).json({ success: true });
 }
 
+// Admin-only: returns gcal blockers + booking windows for the next 14 days so
+// the /portal/admin/viewings calendar grid can render Mark's real availability.
+async function handleAdminCalendar(req, res) {
+  if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
+  if (!(await isAdmin(req))) return res.status(403).json({ error: "Admin only" });
+  try {
+    const now = new Date();
+    const horizon = new Date(now);
+    horizon.setDate(horizon.getDate() + 21); // 14d grid + buffer
+    const state = await listBookingCalendarState(now.toISOString(), horizon.toISOString());
+    return res.status(200).json({
+      blockers: state.blockers || [],
+      windows: state.windows || [],
+    });
+  } catch (err) {
+    console.error("[admin-calendar] failed:", err);
+    return res.status(500).json({ error: err.message || "gcal fetch failed" });
+  }
+}
+
 async function handleCreate(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   const body = req.body || {};
@@ -1037,6 +1057,8 @@ export default async function handler(req, res) {
         return await handleOffHorizonLead(req, res);
       case "admin-lead-reminder":
         return await handleAdminLeadReminder(req, res);
+      case "admin-calendar":
+        return await handleAdminCalendar(req, res);
       case "auth-login":
       case "auth/login":
         return await handleAuthLogin(req, res);
