@@ -287,7 +287,7 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
             )}
           </div>
 
-          <div className="flex gap-2 pt-2">
+          <div className="flex gap-2 pt-2 flex-wrap">
             <Button onClick={handleSave} disabled={saving}>
               {saving ? "Saving…" : "Save"}
             </Button>
@@ -298,6 +298,18 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
                 </a>
               </Button>
             )}
+            <ArchiveMenu
+              onPick={async (archiveStatus) => {
+                setSaving(true);
+                try {
+                  await onSave({ ...draft, status: archiveStatus });
+                  onOpenChange(false);
+                } finally {
+                  setSaving(false);
+                }
+              }}
+              disabled={saving}
+            />
             <Button variant="ghost" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
@@ -305,6 +317,48 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
         </div>
       </SheetContent>
     </Sheet>
+  );
+}
+
+const ARCHIVE_PICKS = [
+  { value: "signed", label: "Mark Signed" },
+  { value: "closed_won", label: "Mark Won" },
+  { value: "lost", label: "Mark Lost" },
+  { value: "closed_lost", label: "Archive (closed_lost)" },
+];
+
+function ArchiveMenu({ onPick, disabled }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="relative">
+      <Button
+        variant="outline"
+        disabled={disabled}
+        onClick={() => setOpen((v) => !v)}
+      >
+        Archive ▾
+      </Button>
+      {open && (
+        <>
+          <div className="fixed inset-0 z-30" onClick={() => setOpen(false)} />
+          <div className="absolute right-0 bottom-full mb-1 z-40 w-48 bg-white border border-slate-200 rounded-md shadow-lg py-1 text-sm">
+            {ARCHIVE_PICKS.map((p) => (
+              <button
+                key={p.value}
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  onPick(p.value);
+                }}
+                className="w-full text-left px-3 py-1.5 hover:bg-slate-100"
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
   );
 }
 

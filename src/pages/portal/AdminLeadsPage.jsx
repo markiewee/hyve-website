@@ -82,6 +82,14 @@ export default function AdminLeadsPage() {
     setDrawerOpen(true);
   }
 
+  async function handleArchive(leadId, status) {
+    try {
+      await updateStatus(leadId, status);
+    } catch (e) {
+      console.error("Archive failed", e);
+    }
+  }
+
   return (
     <div className="p-4 max-w-[1800px] mx-auto">
       <div className="flex items-center justify-between mb-4">
@@ -117,6 +125,7 @@ export default function AdminLeadsPage() {
               status={status}
               leads={byStatus[status]}
               onCardClick={handleCardClick}
+              onArchive={handleArchive}
             />
           ))}
         </div>

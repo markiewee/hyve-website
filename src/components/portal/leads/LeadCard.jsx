@@ -1,5 +1,13 @@
+import { useState } from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { evaluateReadiness } from "@/lib/viewingReadiness";
+
+const ARCHIVE_OPTIONS = [
+  { value: "signed", label: "Mark Signed" },
+  { value: "closed_won", label: "Mark Won" },
+  { value: "lost", label: "Mark Lost" },
+  { value: "closed_lost", label: "Archive (closed_lost)" },
+];
 
 const SOURCE_BADGES = {
   airbnb: "bg-rose-100 text-rose-700",
@@ -61,16 +69,28 @@ function timeAgo(iso) {
   return `${Math.round(hrs / 24)}d`;
 }
 
-export function LeadCard({ lead, onClick }) {
+export function LeadCard({ lead, onClick, onArchive }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id: lead.id });
   const stale = isStale(lead);
   const readiness = evaluateReadiness(lead);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const style = transform
     ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`, opacity: isDragging ? 0.5 : 1 }
     : undefined;
 
   const badgeClass = SOURCE_BADGES[lead.source] || SOURCE_BADGES.other;
+
+  function stop(e) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  function handleArchivePick(e, status) {
+    stop(e);
+    setMenuOpen(false);
+    onArchive?.(lead.id, status);
+  }
 
   return (
     <div
@@ -79,14 +99,57 @@ export function LeadCard({ lead, onClick }) {
       {...listeners}
       {...attributes}
       onClick={(e) => {
-        // Only treat as click if not a drag
         if (!isDragging) onClick?.(lead);
       }}
-      className={`bg-white rounded-md shadow-sm p-3 mb-2 cursor-grab active:cursor-grabbing
+      className={`relative bg-white rounded-md shadow-sm p-3 mb-2 cursor-grab active:cursor-grabbing
         border-2 ${stale ? "border-yellow-400" : "border-transparent"}
-        hover:shadow-md transition-shadow select-none`}
+        hover:shadow-md transition-shadow select-none group`}
     >
-      <div className="flex items-start justify-between gap-2 mb-1">
+      {onArchive && (
+        <div
+          className="absolute top-1 right-1 z-10"
+          onPointerDown={stop}
+          onMouseDown={stop}
+          onClick={stop}
+        >
+          <button
+            type="button"
+            title="Archive lead"
+            aria-label="Archive lead"
+            onClick={(e) => {
+              stop(e);
+              setMenuOpen((v) => !v);
+            }}
+            className="opacity-0 group-hover:opacity-100 hover:opacity-100 transition-opacity
+              w-5 h-5 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100
+              flex items-center justify-center text-xs leading-none"
+          >
+            ✕
+          </button>
+          {menuOpen && (
+            <>
+              <div
+                className="fixed inset-0 z-20"
+                onPointerDown={(e) => { stop(e); setMenuOpen(false); }}
+                onClick={(e) => { stop(e); setMenuOpen(false); }}
+              />
+              <div className="absolute right-0 top-6 z-30 w-44 bg-white border border-slate-200 rounded-md shadow-lg py-1 text-xs">
+                {ARCHIVE_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={(e) => handleArchivePick(e, opt.value)}
+                    className="w-full text-left px-3 py-1.5 hover:bg-slate-100"
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      )}
+      <div className="flex items-start justify-between gap-2 mb-1 pr-5">
         <div className="font-medium text-sm truncate">{lead.name || "(no name)"}</div>
         <span className={`text-[10px] px-1.5 py-0.5 rounded ${badgeClass} whitespace-nowrap`}>
           {lead.source}

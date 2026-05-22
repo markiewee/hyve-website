@@ -16,7 +16,7 @@ const COLUMN_LABELS = {
   cold: "Cold",
 };
 
-export function LeadColumn({ status, leads, onCardClick }) {
+export function LeadColumn({ status, leads, onCardClick, onArchive }) {
   const { setNodeRef, isOver } = useDroppable({ id: status });
 
   return (
@@ -34,7 +34,7 @@ export function LeadColumn({ status, leads, onCardClick }) {
         }`}
       >
         {leads.map((lead) => (
-          <LeadCard key={lead.id} lead={lead} onClick={onCardClick} />
+          <LeadCard key={lead.id} lead={lead} onClick={onCardClick} onArchive={onArchive} />
         ))}
         {leads.length === 0 && (
           <div className="text-xs text-slate-400 italic px-2 py-4">No leads</div>
