@@ -276,8 +276,27 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
             />
           </div>
 
-          <div className="text-xs text-slate-500 border-t pt-3">
+          <div className="text-xs text-slate-500 border-t pt-3 space-y-1.5">
             <div>Source: <span className="text-slate-700">{lead.source || "—"}</span></div>
+            <div className="flex items-center gap-2">
+              <label className="text-slate-500">Date initiated:</label>
+              <input
+                type="date"
+                value={
+                  draft.date_initiated
+                    ? new Date(draft.date_initiated).toISOString().slice(0, 10)
+                    : ""
+                }
+                onChange={(e) => {
+                  const v = e.target.value;
+                  setDraft({
+                    ...draft,
+                    date_initiated: v ? new Date(`${v}T00:00:00`).toISOString() : null,
+                  });
+                }}
+                className="text-xs border border-slate-200 rounded px-1.5 py-0.5 text-slate-700"
+              />
+            </div>
             <div>
               Last message:{" "}
               <span className="text-slate-700">{lead.last_message_excerpt || "—"}</span>

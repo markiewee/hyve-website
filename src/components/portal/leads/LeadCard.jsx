@@ -69,6 +69,13 @@ function timeAgo(iso) {
   return `${Math.round(hrs / 24)}d`;
 }
 
+function shortDate(iso) {
+  if (!iso) return null;
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return null;
+  return d.toLocaleDateString("en-SG", { day: "numeric", month: "short" });
+}
+
 export function LeadCard({ lead, onClick, onArchive }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id: lead.id });
   const stale = isStale(lead);
@@ -192,7 +199,14 @@ export function LeadCard({ lead, onClick, onArchive }) {
           {lead.matched_room_codes.join(", ")}
         </div>
       )}
-      <div className="text-[10px] text-slate-400">⏱ {timeAgo(lead.last_message_at)}</div>
+      <div className="flex items-center justify-between text-[10px] text-slate-400">
+        <span>⏱ {timeAgo(lead.last_message_at)}</span>
+        {shortDate(lead.date_initiated) && (
+          <span title={`Initiated ${new Date(lead.date_initiated).toLocaleString("en-SG")}`}>
+            📅 {shortDate(lead.date_initiated)}
+          </span>
+        )}
+      </div>
     </div>
   );
 }
