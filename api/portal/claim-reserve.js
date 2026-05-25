@@ -39,12 +39,12 @@ export default async function handler(req, res) {
   // 1. Look up the reserve (service role bypasses RLS).
   const { data: rv, error: rvErr } = await supabase
     .from("property_viewings")
-    .select("id, room_id, property_id, prospect_name, prospect_phone, prospect_email, preferred_move_in, viewing_type, portal_invite_token")
+    .select("id, room_id, property_id, prospect_name, prospect_phone, prospect_email, preferred_move_in, is_reserve, portal_invite_token")
     .eq("token", token)
     .maybeSingle();
 
   if (rvErr || !rv) return respond(404, { error: "Reservation not found" }, EXPIRED_URL);
-  if (rv.viewing_type !== "reserve_hold") {
+  if (!rv.is_reserve) {
     return respond(400, { error: "Not a reservation" }, EXPIRED_URL);
   }
 
