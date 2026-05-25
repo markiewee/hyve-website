@@ -98,9 +98,22 @@ function computeRoomAvailability(room, tenants, today) {
       next_available = d.toISOString().slice(0, 10);
     }
   } else if (future.length > 0) {
-    const d = new Date(future[0].moved_in_at);
-    d.setDate(d.getDate() - 1);
-    available_until = d.toISOString().slice(0, 10);
+    const firstFutureStart = new Date(future[0].moved_in_at);
+    const gapDays = Math.round((firstFutureStart - today) / 86400000);
+    const latestFutureEnd = future
+      .map(t => t.lease_end)
+      .filter(Boolean)
+      .sort()
+      .pop();
+    if (gapDays <= 60 && latestFutureEnd) {
+      const d = new Date(latestFutureEnd);
+      d.setDate(d.getDate() + 1);
+      next_available = d.toISOString().slice(0, 10);
+    } else {
+      const d = new Date(future[0].moved_in_at);
+      d.setDate(d.getDate() - 1);
+      available_until = d.toISOString().slice(0, 10);
+    }
   }
 
   const upcoming_bookings = future.map(t => ({
