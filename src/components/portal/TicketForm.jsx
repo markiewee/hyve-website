@@ -32,6 +32,10 @@ export default function TicketForm({ preselectedCategory = null }) {
       setError("Please describe the issue.");
       return;
     }
+    if (photos.length === 0) {
+      setError("At least one photo is required so the handyman knows what to fix.");
+      return;
+    }
 
     setError(null);
     setSubmitting(true);
@@ -54,33 +58,43 @@ export default function TicketForm({ preselectedCategory = null }) {
 
       if (insertError) throw insertError;
 
-      // 2. Upload photos and insert ticket_photos rows
-      if (photos.length > 0) {
-        await Promise.all(
-          Array.from(photos).map(async (file) => {
-            const timestamp = Date.now();
-            const path = `tickets/${ticket.id}/${timestamp}-${file.name}`;
+      // 2. Upload photos and insert ticket_photos rows — at least one MUST succeed
+      const uploadResults = await Promise.all(
+        Array.from(photos).map(async (file) => {
+          const timestamp = Date.now();
+          const path = `tickets/${ticket.id}/${timestamp}-${file.name}`;
 
-            const { error: uploadError } = await supabase.storage
-              .from("ticket-photos")
-              .upload(path, file);
+          const { error: uploadError } = await supabase.storage
+            .from("ticket-photos")
+            .upload(path, file);
 
-            if (uploadError) {
-              console.error("Photo upload failed:", uploadError);
-              return; // Don't block the whole submission for a photo error
-            }
+          if (uploadError) {
+            console.error("Photo upload failed:", uploadError);
+            return false;
+          }
 
-            const { data: urlData } = supabase.storage
-              .from("ticket-photos")
-              .getPublicUrl(path);
+          const { data: urlData } = supabase.storage
+            .from("ticket-photos")
+            .getPublicUrl(path);
 
-            await supabase.from("ticket_photos").insert({
-              ticket_id: ticket.id,
-              url: urlData.publicUrl,
-              storage_path: path,
-            });
-          })
-        );
+          const { error: rowError } = await supabase.from("ticket_photos").insert({
+            ticket_id: ticket.id,
+            url: urlData.publicUrl,
+            storage_path: path,
+          });
+          if (rowError) {
+            console.error("Photo row insert failed:", rowError);
+            return false;
+          }
+          return true;
+        })
+      );
+
+      const succeeded = uploadResults.filter(Boolean).length;
+      if (succeeded === 0) {
+        // Roll back the ticket so we never have a photo-less record
+        await supabase.from("maintenance_tickets").delete().eq("id", ticket.id);
+        throw new Error("Photo upload failed. Please check your connection and try again.");
       }
 
       navigate("/portal/issues");
@@ -160,19 +174,24 @@ export default function TicketForm({ preselectedCategory = null }) {
           htmlFor="photos"
           className="block text-sm font-medium text-foreground mb-2"
         >
-          Photos <span className="text-muted-foreground font-normal">(optional)</span>
+          Photos <span className="text-red-600 font-normal">(required — at least 1)</span>
         </label>
         <input
           id="photos"
           type="file"
           multiple
+          required
           accept="image/*"
           onChange={(e) => setPhotos(e.target.files)}
           className="block w-full text-sm text-muted-foreground file:mr-4 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-sm file:font-medium file:bg-secondary file:text-secondary-foreground hover:file:bg-secondary/80"
         />
-        {photos.length > 0 && (
+        {photos.length > 0 ? (
           <p className="text-xs text-muted-foreground mt-1">
             {photos.length} file{photos.length > 1 ? "s" : ""} selected
+          </p>
+        ) : (
+          <p className="text-xs text-muted-foreground mt-1">
+            Snap a photo of the issue so the handyman knows exactly what to fix.
           </p>
         )}
       </div>
