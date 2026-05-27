@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import SEO from './SEO';
 import FadeIn from './marketing/FadeIn';
 import { useLanguage } from '../i18n/LanguageContext';
+import { BOOKING_URL } from '../lib/booking';
+import { track, EVENTS } from '../lib/analytics';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -267,11 +269,12 @@ ${formData.message}`;
               </div>
             </div>
 
-            {/* Book a viewing CTA */}
+            {/* Browse properties CTA */}
             <a
-              href="https://wa.me/6580695410?text=Hi!%20I'd%20like%20to%20book%20a%20viewing%20at%20Lazybee."
+              href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => track(EVENTS.BROWSE_ROOMS_CLICK, { source: 'contact_browse' })}
               className="block bg-accent text-accent-foreground p-6 rounded-2xl text-center hover:opacity-90 transition-all"
             >
               <span className="material-symbols-outlined text-3xl mb-2 block">home_work</span>

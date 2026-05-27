@@ -218,7 +218,7 @@ const HousematePreview = ({ propertyId }) => {
 
   return (
     <div>
-      <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] mb-2">
+      <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-foreground mb-2">
         Who you&apos;ll be living with
       </h3>
       <p className="text-sm text-[#6B7280] font-['Manrope'] mb-6">
@@ -231,7 +231,7 @@ const HousematePreview = ({ propertyId }) => {
             className="flex items-center gap-2 bg-surface px-4 py-3 rounded-xl border border-[rgba(187,202,198,0.15)] hover:border-accent/30 transition-colors"
           >
             <span className="text-2xl leading-none">{h.flag}</span>
-            <span className="font-['Inter'] text-sm font-semibold text-[#1F2937]">{h.age}</span>
+            <span className="font-['Inter'] text-sm font-semibold text-foreground">{h.age}</span>
           </div>
         ))}
       </div>

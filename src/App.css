@@ -105,6 +105,21 @@
   --honey-700: #A87813;
   --honey-800: #876010;
   --honey-900: #5C420B;
+
+  /* Portal sidebar + charts (consumed by ui/sidebar.jsx) — remapped to dark palette */
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--accent);
+  --sidebar-primary-foreground: var(--accent-foreground);
+  --sidebar-accent: var(--surface-container);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+  --chart-1: #c47a35;
+  --chart-2: #d9a441;
+  --chart-3: #5b8a72;
+  --chart-4: #6b7280;
+  --chart-5: #8a5a44;
 }
 
 

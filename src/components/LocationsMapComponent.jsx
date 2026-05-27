@@ -210,7 +210,7 @@ const LocationsMapComponent = ({
                           {matchingProperties.map((p) => (
                             <a
                               key={p._id || p.id}
-                              href={`/property/${p.slug?.current || p.id || p._id}`}
+                              href={`https://book.lazybee.sg/?room=${p.slug?.current || p.id || p._id}`}
                               style={{
                                 display: 'block',
                                 padding: '6px 10px',
