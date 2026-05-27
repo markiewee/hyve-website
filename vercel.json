@@ -1,26 +1,21 @@
 {
+  "redirects": [
+    { "source": "/properties", "destination": "https://book.lazybee.sg", "statusCode": 301 },
+    { "source": "/property/:id*", "destination": "https://book.lazybee.sg", "statusCode": 301 },
+    { "source": "/book", "destination": "https://book.lazybee.sg", "statusCode": 301 },
+    { "source": "/book/:path*", "destination": "https://book.lazybee.sg/:path*", "statusCode": 301 },
+    { "source": "/view/:path*", "destination": "https://book.lazybee.sg", "statusCode": 301 }
+  ],
   "rewrites": [
-    {
-      "source": "/((?!api/|pitchv1).*)",
-      "destination": "/index.html"
-    }
+    { "source": "/((?!api/|pitchv1).*)", "destination": "/index.html" }
   ],
   "headers": [
     {
       "source": "/api/(.*)",
       "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, PUT, DELETE, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization"
-        }
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
       ]
     }
   ],
