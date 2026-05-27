@@ -1,27 +1,59 @@
 import SEO from './SEO';
 import FadeIn from './marketing/FadeIn';
-import BrowseRoomsButton from './marketing/BrowseRoomsButton';
-import CtaBand from './marketing/CtaBand';
 import { lodgingBusinessSchema, orgSchema } from '../lib/seo';
 import { BOOKING_URL } from '../lib/booking';
+import { track, EVENTS } from '../lib/analytics';
 import heroImg from '../assets/hero_coliving_interior.jpg';
+import lentorImg from '../assets/river_valley_exterior.jpg';
+import jurongImg from '../assets/modern_condo_exterior.jpg';
+import serangoonImg from '../assets/tiong_bahru_neighborhood.jpg';
+
+const onBrowse = (source) => track(EVENTS.BROWSE_ROOMS_CLICK, { source });
+
+function CtaButton({ source, label = 'Browse rooms', className = '' }) {
+  return (
+    <a
+      href={BOOKING_URL}
+      onClick={() => onBrowse(source)}
+      className={`inline-flex items-center gap-3 bg-accent text-accent-foreground px-12 py-5 font-medium text-xs uppercase tracking-[0.3em] hover:opacity-90 active:scale-95 transition-all ${className}`}
+    >
+      {label} <span aria-hidden>→</span>
+    </a>
+  );
+}
 
 const VALUE_PROPS = [
-  { t: 'All-inclusive', d: 'One monthly payment — rent, utilities, WiFi, weekly cleaning.' },
-  { t: 'From S$950/mo', d: 'Fully furnished private rooms. No agent fees.' },
-  { t: 'Near MRT', d: 'Lentor, Jurong East & Serangoon — all a short walk from the train.' },
-  { t: 'Flexible', d: 'Leases from 3 months. No 12-month lock-in.' },
+  { n: '01 / Benefits', t: 'All-inclusive', d: 'One monthly price covers rent, utilities and high-speed WiFi — no hidden costs.' },
+  { n: '02 / Pricing', t: 'From S$950/mo', d: 'Premium living that stays accessible. No agent fees, ever.' },
+  { n: '03 / Transit', t: 'Near MRT', d: 'Every home is picked for its walk to a major MRT line.' },
+  { n: '04 / Lease', t: 'Flexible', d: 'Leases from 3 months. No long lock-ins, no complex paperwork.' },
 ];
-const STEPS = [
-  { n: '1', t: 'Browse', d: 'See live availability across all our homes.' },
-  { n: '2', t: 'Reserve — no deposit', d: 'Hold your room instantly, no money down.' },
-  { n: '3', t: 'Move in', d: 'Sign online, pay, get your keys.' },
-];
+
 const AREAS = [
-  { area: 'Lentor', blurb: 'Quiet, leafy, near Lentor & Bright Hill MRT.', q: 'lentor' },
-  { area: 'Jurong East', blurb: 'West-side hub, malls and MRT interchange minutes away.', q: 'jurong-east' },
-  { area: 'Serangoon', blurb: 'Northeast heartland charm, near Serangoon MRT.', q: 'serangoon' },
+  { n: 'Location / 01', area: 'Lentor', q: 'lentor', img: lentorImg,
+    blurb: 'Quiet residential calm nestled in nature corridors, minutes from the city. Near Lentor & Bright Hill MRT.' },
+  { n: 'Location / 02', area: 'Jurong East', q: 'jurong-east', img: jurongImg,
+    blurb: "The second CBD — urban convenience at the heart of Singapore's western hub. By the Jurong East MRT interchange." },
+  { n: 'Location / 03', area: 'Serangoon', q: 'serangoon', img: serangoonImg,
+    blurb: 'A vibrant lifestyle enclave known for its food scene and connectivity. Near the Serangoon MRT interchange.' },
 ];
+
+const STEPS = [
+  { n: 'Step 01', t: 'Browse', d: 'Explore curated rooms with high-fidelity photography and live availability across every home.' },
+  { n: 'Step 02', t: 'Reserve', d: 'Lock in your favourite space instantly online. No upfront deposit required to hold your room.' },
+  { n: 'Step 03', t: 'Arrival', d: 'Pick up your keys and step into a fully furnished home — ready the moment you are.' },
+];
+
+const COMPARISON = [
+  { f: 'Starting price', us: 'S$950/mo', them: 'S$1,400/mo' },
+  { f: 'Agent fees', us: 'None', them: 'Required' },
+  { f: 'Minimum lease', us: 'Flexible (3 mo+)', them: 'Fixed (6 mo+)' },
+  { f: 'To reserve', us: 'No deposit', them: '1 mo deposit' },
+];
+
+const Eyebrow = ({ children, className = '' }) => (
+  <span className={`block text-[11px] uppercase tracking-[0.4em] font-semibold ${className}`}>{children}</span>
+);
 
 export default function HomePage() {
   return (
@@ -34,105 +66,117 @@ export default function HomePage() {
       />
 
       {/* Hero */}
-      <section className="relative min-h-[88vh] flex items-end overflow-hidden">
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <img src={heroImg} alt="A bright, furnished Lazybee co-living common area in Singapore" className="w-full h-full object-cover kenburns" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/30 to-background" />
+          <div className="absolute inset-0 bg-background/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background" />
         </div>
-        <div className="relative max-w-screen-2xl mx-auto px-6 md:px-8 pb-20 w-full">
-          <FadeIn>
-            <h1 className="font-display tracking-display text-5xl md:text-7xl font-extrabold max-w-3xl">
-              Co-living in Singapore, all bills in.
-            </h1>
-            <p className="text-foreground-variant text-lg md:text-xl mt-6 max-w-xl">
-              Fully furnished rooms from S$950/month. Near MRT. No agent fees. Reserve online — no deposit to hold.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <BrowseRoomsButton source="home_hero" />
-            </div>
-          </FadeIn>
-        </div>
+        <FadeIn className="relative z-10 text-center max-w-5xl px-6">
+          <Eyebrow className="text-accent mb-8 tracking-[0.6em]">Singapore</Eyebrow>
+          <h1 className="font-display font-light tracking-[-0.05em] leading-none text-7xl md:text-[140px] mb-10">
+            Lazybee.
+          </h1>
+          <p className="font-light text-foreground-variant text-base md:text-lg max-w-xl mx-auto mb-12 leading-relaxed">
+            Fully furnished rooms from S$950/month. Near MRT. No agent fees. Reserve online — no deposit to hold.
+          </p>
+          <div className="flex justify-center">
+            <CtaButton source="home_hero" />
+          </div>
+        </FadeIn>
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-foreground-variant/50 text-2xl animate-bounce" aria-hidden>↓</div>
       </section>
 
       {/* Value props */}
-      <section className="max-w-screen-2xl mx-auto px-6 md:px-8 py-16 grid grid-cols-2 md:grid-cols-4 gap-6">
-        {VALUE_PROPS.map((v, i) => (
-          <FadeIn key={v.t} delay={i * 0.05}>
-            <div className="bg-surface rounded-2xl border border-border p-6 h-full">
-              <h3 className="font-display font-bold text-xl mb-2">{v.t}</h3>
-              <p className="text-foreground-variant text-sm">{v.d}</p>
-            </div>
-          </FadeIn>
-        ))}
-      </section>
-
-      {/* How it works */}
-      <section className="bg-surface py-20">
-        <div className="max-w-screen-2xl mx-auto px-6 md:px-8">
-          <FadeIn><h2 className="font-display tracking-display text-3xl md:text-4xl font-bold mb-12">How it works</h2></FadeIn>
-          <div className="grid md:grid-cols-3 gap-8">
-            {STEPS.map((s, i) => (
-              <FadeIn key={s.n} delay={i * 0.08}>
-                <div className="flex gap-4">
-                  <span className="font-display text-accent text-4xl font-extrabold">{s.n}</span>
-                  <div><h3 className="font-display font-bold text-xl">{s.t}</h3><p className="text-foreground-variant mt-1">{s.d}</p></div>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Neighbourhood highlights — area level, links into booking site */}
-      <section className="max-w-screen-2xl mx-auto px-6 md:px-8 py-20">
-        <FadeIn><h2 className="font-display tracking-display text-3xl md:text-4xl font-bold mb-12">Where we are</h2></FadeIn>
-        <div className="grid md:grid-cols-3 gap-6">
-          {AREAS.map((n) => (
-            <FadeIn key={n.area}>
-              <div className="bg-surface rounded-2xl border border-border overflow-hidden">
-                <div className="p-6">
-                  <h3 className="font-display font-bold text-2xl">{n.area}</h3>
-                  <p className="text-foreground-variant mt-2 mb-4">{n.blurb}</p>
-                  <BrowseRoomsButton source={`home_area_${n.q}`} label="See rooms here →" href={`${BOOKING_URL}/?area=${n.q}`} className="text-sm px-5 py-2" />
-                </div>
-              </div>
+      <section className="px-6 md:px-20 py-28 md:py-40">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-16 max-w-screen-2xl mx-auto">
+          {VALUE_PROPS.map((v, i) => (
+            <FadeIn key={v.t} delay={i * 0.08} className="flex flex-col gap-6">
+              <Eyebrow className="text-foreground-variant">{v.n}</Eyebrow>
+              <h3 className="font-display font-normal text-3xl leading-tight">{v.t}</h3>
+              <p className="text-foreground-variant text-sm leading-relaxed">{v.d}</p>
             </FadeIn>
           ))}
         </div>
       </section>
 
-      {/* Comparison table — keep accurate; strong SEO/AEO asset */}
-      <section className="bg-surface py-20">
-        <div className="max-w-4xl mx-auto px-6 md:px-8">
-          <FadeIn><h2 className="font-display tracking-display text-3xl md:text-4xl font-bold mb-8">Lazybee vs other co-living</h2></FadeIn>
-          <div className="overflow-x-auto rounded-2xl border border-border">
-            <table className="w-full text-left">
-              <thead className="bg-surface-container">
-                <tr><th className="p-4 font-display">&nbsp;</th><th className="p-4 font-display text-accent">Lazybee</th><th className="p-4 font-display text-foreground-variant">Typical co-living</th></tr>
-              </thead>
-              <tbody className="divide-y divide-border text-sm">
-                <tr><td className="p-4 font-semibold">Starting price</td><td className="p-4">S$950/mo, all-inclusive</td><td className="p-4 text-foreground-variant">S$1,200–2,500+ before extras</td></tr>
-                <tr><td className="p-4 font-semibold">Agent fees</td><td className="p-4">None</td><td className="p-4 text-foreground-variant">Often half a month</td></tr>
-                <tr><td className="p-4 font-semibold">Minimum lease</td><td className="p-4">3 months</td><td className="p-4 text-foreground-variant">6–12 months</td></tr>
-                <tr><td className="p-4 font-semibold">To reserve</td><td className="p-4">Online, no deposit to hold</td><td className="p-4 text-foreground-variant">Deposit up front</td></tr>
-                <tr><td className="p-4 font-semibold">Utilities included</td><td className="p-4">Yes — electricity, water, gas, WiFi</td><td className="p-4 text-foreground-variant">Often separate</td></tr>
-                <tr><td className="p-4 font-semibold">Furnished</td><td className="p-4">Fully furnished, premium finishes</td><td className="p-4 text-foreground-variant">Varies</td></tr>
-              </tbody>
-            </table>
+      {/* Property showcase — alternating full-height splits */}
+      <section>
+        {AREAS.map((a, i) => (
+          <div key={a.area} className={`flex flex-col ${i % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} md:h-screen`}>
+            <div className="w-full md:w-1/2 h-72 md:h-auto overflow-hidden">
+              <img src={a.img} alt={`Lazybee co-living in ${a.area}, Singapore`} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+            </div>
+            <div className={`w-full md:w-1/2 flex items-center px-6 md:px-20 py-16 md:py-20 ${i % 2 === 1 ? 'bg-surface' : 'bg-surface-container'}`}>
+              <FadeIn className="max-w-md">
+                <Eyebrow className="text-accent mb-6">{a.n}</Eyebrow>
+                <h3 className="font-display font-light tracking-[-0.03em] text-5xl md:text-6xl mb-8">{a.area}</h3>
+                <p className="text-foreground-variant mb-10 leading-relaxed">{a.blurb}</p>
+                <a
+                  href={`${BOOKING_URL}/?area=${a.q}`}
+                  onClick={() => onBrowse(`home_area_${a.q}`)}
+                  className="inline-block text-[11px] uppercase tracking-[0.3em] font-semibold text-accent border-b border-accent pb-2 hover:opacity-60 transition-opacity"
+                >
+                  See rooms here
+                </a>
+              </FadeIn>
+            </div>
           </div>
+        ))}
+      </section>
+
+      {/* How it works */}
+      <section className="px-6 md:px-20 py-28 md:py-40">
+        <FadeIn className="text-center mb-20 md:mb-28">
+          <Eyebrow className="text-accent mb-6">Process</Eyebrow>
+          <h2 className="font-display font-light tracking-[-0.03em] text-5xl md:text-7xl">Seamless transition.</h2>
+        </FadeIn>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-24 max-w-screen-2xl mx-auto">
+          {STEPS.map((s, i) => (
+            <FadeIn key={s.t} delay={i * 0.08} className="flex flex-col gap-8">
+              <Eyebrow className="text-foreground-variant/50">{s.n}</Eyebrow>
+              <h3 className="font-display font-normal text-3xl">{s.t}</h3>
+              <p className="text-foreground-variant leading-relaxed">{s.d}</p>
+            </FadeIn>
+          ))}
         </div>
       </section>
 
-      {/* FAQ teaser */}
-      <section className="max-w-3xl mx-auto px-6 md:px-8 py-20 text-center">
-        <FadeIn>
-          <h2 className="font-display tracking-display text-3xl font-bold mb-4">Questions?</h2>
-          <p className="text-foreground-variant mb-6">How co-living works, what's included, lease terms and more.</p>
-          <a href="/faqs" className="text-accent font-display font-semibold hover:underline">Read the FAQs →</a>
-        </FadeIn>
+      {/* Comparison — "The Standard." */}
+      <section className="bg-surface px-6 md:px-20 py-28 md:py-40">
+        <div className="max-w-5xl mx-auto">
+          <FadeIn className="flex flex-col md:flex-row justify-between md:items-end mb-16 md:mb-24 gap-8">
+            <h2 className="font-display font-light tracking-[-0.03em] text-5xl md:text-6xl leading-none">The standard.</h2>
+            <p className="text-foreground-variant max-w-sm text-sm leading-relaxed">
+              Comparing the Lazybee experience with traditional co-living in Singapore.
+            </p>
+          </FadeIn>
+          <FadeIn className="border-t border-border">
+            <div className="grid grid-cols-3 py-8 border-b border-border items-center">
+              <Eyebrow className="text-foreground-variant/50">Features</Eyebrow>
+              <Eyebrow className="text-accent text-center">Lazybee</Eyebrow>
+              <Eyebrow className="text-foreground-variant/40 text-center">Typical</Eyebrow>
+            </div>
+            {COMPARISON.map((r) => (
+              <div key={r.f} className="grid grid-cols-3 py-8 border-b border-border/60 items-center">
+                <span className="text-sm md:text-base">{r.f}</span>
+                <span className="text-center font-medium text-sm md:text-base">{r.us}</span>
+                <span className="text-center text-foreground-variant/50 text-sm md:text-base">{r.them}</span>
+              </div>
+            ))}
+          </FadeIn>
+        </div>
       </section>
 
-      <CtaBand source="home_footer" />
+      {/* Final CTA */}
+      <section className="relative min-h-[70vh] flex items-center justify-center bg-surface-container px-6 py-28">
+        <FadeIn className="relative z-10 text-center max-w-3xl">
+          <h2 className="font-display font-light tracking-[-0.03em] text-5xl md:text-7xl mb-12">Begin your journey.</h2>
+          <div className="flex justify-center">
+            <CtaButton source="home_final" label="View available rooms" />
+          </div>
+        </FadeIn>
+      </section>
     </main>
   );
 }
