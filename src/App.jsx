@@ -7,8 +7,6 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './components/HomePage';
-import PropertiesPage from './components/PropertiesPage';
-import PropertyDetailPage from './components/PropertyDetailPage';
 import LocationsPage from './components/LocationsPage';
 import AboutPage from './components/AboutPage';
 import FAQsPage from './components/FAQsPage';
@@ -51,13 +49,6 @@ import AdminViewingsPage from './pages/portal/AdminViewingsPage';
 import AdminViewingDetailPage from './pages/portal/AdminViewingDetailPage';
 import CaptainClaimsPage from './pages/portal/CaptainClaimsPage';
 import CaptainClaimFormPage from './pages/portal/CaptainClaimFormPage';
-import ViewingPage from './pages/ViewingPage';
-import ScheduleViewingPage from './pages/viewing/ScheduleViewingPage';
-import ViewingConfirmPage from './pages/viewing/ViewingConfirmPage';
-import BookLandingPage from './pages/book/BookLandingPage';
-import { BookPropertyPage, BookRoomPage } from './pages/book/BookingFlow';
-import BookConfirmedPage from './pages/book/BookConfirmedPage';
-import BookCancelPage from './pages/book/BookCancelPage';
 import TenantDocumentsPage from './pages/portal/TenantDocumentsPage';
 import MemberSettingsPage from './pages/portal/MemberSettingsPage';
 import HelpPage from './pages/portal/HelpPage';
@@ -78,7 +69,7 @@ import { ConfirmHost } from './lib/confirm';
 function AppContent() {
   const location = useLocation();
   const isPortal = location.pathname.startsWith('/portal');
-  const isViewing = location.pathname.startsWith('/view/') || location.pathname.startsWith('/book');
+  const isViewing = false; // booking + viewing flows now live on book.lazybee.sg
 
   const [searchFilters, setSearchFilters] = useState({
     location: '',
@@ -100,16 +91,6 @@ function AppContent() {
               />
             } 
           />
-          <Route 
-            path="/properties" 
-            element={
-              <PropertiesPage 
-                searchFilters={searchFilters}
-                setSearchFilters={setSearchFilters}
-              />
-            } 
-          />
-          <Route path="/property/:id" element={<PropertyDetailPage />} />
           <Route path="/locations" element={<LocationsPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/blog" element={<BlogPage />} />
@@ -420,22 +401,11 @@ function AppContent() {
               </AuthGuard>
             }
           />
-          {/* Public viewing pages — no auth */}
-          {/* V2 booking flow */}
-          <Route path="/book" element={<BookLandingPage />} />
-          <Route path="/book/cancel" element={<BookCancelPage />} />
-          <Route path="/book/confirmed/:viewing_id" element={<BookConfirmedPage />} />
-          <Route path="/book/:property" element={<BookPropertyPage />} />
-          <Route path="/book/:property/:room" element={<BookRoomPage />} />
-          {/* V1 — legacy, kept until V2 cutover is verified */}
-          <Route path="/view/schedule/:propertySlug/:roomSlug?" element={<ScheduleViewingPage />} />
-          <Route path="/view/confirm/:token" element={<ViewingConfirmPage />} />
-          <Route path="/view/:token" element={<ViewingPage />} />
           <Route path="*" element={
-            <div className="min-h-screen flex flex-col items-center justify-center py-20">
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">Page not found</h1>
-              <p className="text-lg text-gray-600 mb-8">Sorry, the page you're looking for doesn't exist.</p>
-              <a href="/" className="text-honey-700 hover:text-honey-800 font-medium">Go back home</a>
+            <div className="min-h-screen flex flex-col items-center justify-center py-20 bg-background text-foreground">
+              <h1 className="font-display text-4xl font-bold tracking-display mb-4">Page not found</h1>
+              <p className="text-foreground-variant mb-8">Sorry, that page doesn't exist.</p>
+              <a href="/" className="text-accent hover:underline font-medium">Go back home</a>
             </div>
           } />
         </Routes>
