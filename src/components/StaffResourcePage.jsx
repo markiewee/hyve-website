@@ -645,35 +645,34 @@ export default function StaffResourcePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#FAF6EC] pt-24 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#A87813]" />
-      </div>
+      <main className="min-h-screen bg-background text-foreground pt-24 md:pt-28 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent" />
+      </main>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#FAF6EC] pt-24 px-6">
+      <main className="min-h-screen bg-background text-foreground pt-24 md:pt-28 px-6">
         <div className="max-w-7xl mx-auto text-center py-20">
-          <p className="text-red-600">Failed to load data: {error}</p>
+          <p className="text-red-400">Failed to load data: {error}</p>
         </div>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF6EC] pt-24">
+    <main className="min-h-screen bg-background text-foreground pt-24 md:pt-28">
       <SEO
-        title="Staff Resource Guide"
-        description="Internal reference for Lazybee sales and operations staff."
-        noindex={true}
+        title="Staff Resources"
+        noindex
       />
 
       <section className="px-6 md:px-8 py-12 max-w-7xl mx-auto">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1F2937] mb-2">
+        <h1 className="font-display text-3xl sm:text-4xl font-extrabold tracking-display text-foreground mb-2">
           Staff Resource Guide
         </h1>
-        <p className="text-[#1F2937] text-lg font-['Manrope']">
+        <p className="text-foreground-variant text-lg">
           Quick reference for sales &amp; ops — room details, availability, and policies.
         </p>
       </section>
@@ -701,6 +700,6 @@ export default function StaffResourcePage() {
       <LeaseTermsSection />
       <MoveInProcessSection />
       <FAQSection />
-    </div>
+    </main>
   );
 }
