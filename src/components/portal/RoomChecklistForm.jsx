@@ -103,9 +103,16 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
       const safeName = areaName.toLowerCase().replace(/\s+/g, "-");
       const path = `checklists/${profile.id}/${safeName}-${timestamp}.jpg`;
 
+      // Android galleries often give an empty file.type. supabase-js takes the
+      // multipart content-type from the Blob's own .type (ignoring the option),
+      // so re-wrap into a typed File so the stored photo renders inline.
+      const typed =
+        file.type && file.type.startsWith("image/")
+          ? file
+          : new File([file], file.name, { type: "image/jpeg" });
       const { error: uploadError } = await supabase.storage
         .from("tenant-documents")
-        .upload(path, file, { upsert: true });
+        .upload(path, typed, { upsert: true });
 
       if (uploadError) {
         console.error(`Upload failed for ${areaName}:`, uploadError);

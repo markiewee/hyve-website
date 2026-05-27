@@ -60,10 +60,17 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
       const timestamp = Date.now();
       const path = `tenants/${profile.id}/deposit-proof-${timestamp}.jpg`;
 
+      // Android galleries often give an empty file.type. supabase-js takes the
+      // multipart content-type from the Blob's own .type (ignoring the option),
+      // so re-wrap into a typed File so the proof renders inline.
+      const typedProof =
+        proofFile.type && proofFile.type.startsWith("image/")
+          ? proofFile
+          : new File([proofFile], proofFile.name || `deposit-proof.jpg`, { type: "image/jpeg" });
       setUploading(true);
       const { error: uploadError } = await supabase.storage
         .from("tenant-documents")
-        .upload(path, proofFile, { upsert: true });
+        .upload(path, typedProof, { upsert: true });
       setUploading(false);
 
       if (uploadError) throw uploadError;

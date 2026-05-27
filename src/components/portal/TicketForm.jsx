@@ -6,6 +6,37 @@ import { supabase } from "../../lib/supabase";
 const CATEGORIES = ["AC", "PLUMBING", "ELECTRICAL", "FURNITURE", "CLEANING", "OTHER"];
 const SHARED_LOCATIONS = ["Kitchen", "Living Room", "Bathroom (Shared)", "Corridor", "Laundry Area", "Other"];
 
+// The ticket-photos bucket only allows image/* MIME types. Android galleries
+// often hand us a File with an empty or "application/octet-stream" type, which
+// the bucket rejects (415). Derive a concrete image content-type from the file
+// extension so the upload always carries a valid image/* header.
+const EXT_MIME = {
+  jpg: "image/jpeg",
+  jpeg: "image/jpeg",
+  png: "image/png",
+  webp: "image/webp",
+  heic: "image/heic",
+  heif: "image/heif",
+  gif: "image/gif",
+  bmp: "image/bmp",
+};
+
+function resolveImageContentType(file) {
+  if (file.type && file.type.startsWith("image/")) return file.type;
+  const ext = file.name.split(".").pop()?.toLowerCase();
+  return EXT_MIME[ext] || "image/jpeg";
+}
+
+// supabase-js uploads a File/Blob via multipart FormData and takes the part's
+// content-type from the Blob's own .type — the `contentType` upload option is
+// IGNORED for File bodies. So when the type is missing/wrong we must re-wrap the
+// bytes into a new File that carries a valid image/* type, or the image/*-only
+// bucket rejects it with 415.
+function toTypedImageFile(file) {
+  if (file.type && file.type.startsWith("image/")) return file;
+  return new File([file], file.name, { type: resolveImageContentType(file) });
+}
+
 export default function TicketForm({ preselectedCategory = null }) {
   const { user, profile } = useAuth();
   const navigate = useNavigate();
@@ -41,7 +72,32 @@ export default function TicketForm({ preselectedCategory = null }) {
     setSubmitting(true);
 
     try {
-      // 1. Insert the ticket
+      // 1. Upload photos to storage FIRST. We deliberately do not create the
+      //    ticket until at least one photo is secured — tenants can't DELETE a
+      //    ticket (RLS), so an insert-then-rollback approach leaves orphan
+      //    photo-less tickets whenever an upload fails. Upload-first means a
+      //    failure simply aborts before any ticket row exists.
+      const batchId =
+        (globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+      const uploaded = [];
+      for (const file of Array.from(photos)) {
+        const path = `tickets/${batchId}/${Date.now()}-${file.name}`;
+        const { error: uploadError } = await supabase.storage
+          .from("ticket-photos")
+          .upload(path, toTypedImageFile(file));
+        if (uploadError) {
+          console.error("Photo upload failed:", uploadError);
+          continue;
+        }
+        const { data: urlData } = supabase.storage.from("ticket-photos").getPublicUrl(path);
+        uploaded.push({ path, url: urlData.publicUrl });
+      }
+
+      if (uploaded.length === 0) {
+        throw new Error("Photo upload failed. Please check your connection and try again.");
+      }
+
+      // 2. Now that a photo is secured, create the ticket.
       const cleanDescription = description.trim().replace(/<[^>]*>/g, "");
       const { data: ticket, error: insertError } = await supabase
         .from("maintenance_tickets")
@@ -58,44 +114,11 @@ export default function TicketForm({ preselectedCategory = null }) {
 
       if (insertError) throw insertError;
 
-      // 2. Upload photos and insert ticket_photos rows — at least one MUST succeed
-      const uploadResults = await Promise.all(
-        Array.from(photos).map(async (file) => {
-          const timestamp = Date.now();
-          const path = `tickets/${ticket.id}/${timestamp}-${file.name}`;
-
-          const { error: uploadError } = await supabase.storage
-            .from("ticket-photos")
-            .upload(path, file);
-
-          if (uploadError) {
-            console.error("Photo upload failed:", uploadError);
-            return false;
-          }
-
-          const { data: urlData } = supabase.storage
-            .from("ticket-photos")
-            .getPublicUrl(path);
-
-          const { error: rowError } = await supabase.from("ticket_photos").insert({
-            ticket_id: ticket.id,
-            url: urlData.publicUrl,
-            storage_path: path,
-          });
-          if (rowError) {
-            console.error("Photo row insert failed:", rowError);
-            return false;
-          }
-          return true;
-        })
+      // 3. Link the uploaded photos to the ticket.
+      const { error: rowError } = await supabase.from("ticket_photos").insert(
+        uploaded.map((u) => ({ ticket_id: ticket.id, url: u.url, storage_path: u.path }))
       );
-
-      const succeeded = uploadResults.filter(Boolean).length;
-      if (succeeded === 0) {
-        // Roll back the ticket so we never have a photo-less record
-        await supabase.from("maintenance_tickets").delete().eq("id", ticket.id);
-        throw new Error("Photo upload failed. Please check your connection and try again.");
-      }
+      if (rowError) console.error("Photo row insert failed:", rowError);
 
       navigate("/portal/issues");
     } catch (err) {
