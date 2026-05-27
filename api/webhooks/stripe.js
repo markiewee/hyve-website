@@ -118,7 +118,37 @@ export default async function handler(req, res) {
       }
     }
 
-    if (session.metadata?.type !== "invoice") {
+    if (session.metadata?.type === "reserve_deposit") {
+      // Soft-reserve deposit → first paid deposit wins the room.
+      const token = session.metadata.soft_reserve_token;
+      const roomId = session.metadata.room_id;
+      if (token && roomId) {
+        // Already won by someone else?
+        const { data: alreadyWon } = await supabase
+          .from("soft_reserves").select("id").eq("room_id", roomId).eq("status", "won").maybeSingle();
+        if (alreadyWon) {
+          // This payer lost the race → refund and mark lost.
+          try {
+            if (session.payment_intent) await stripe.refunds.create({ payment_intent: session.payment_intent });
+          } catch (e) { console.error("[reserve_deposit] refund failed:", e); }
+          await supabase.from("soft_reserves")
+            .update({ status: "lost", updated_at: new Date().toISOString() })
+            .eq("token", token);
+        } else {
+          // Winner: mark won, knock out siblings on the same room.
+          await supabase.from("soft_reserves")
+            .update({ status: "won", updated_at: new Date().toISOString() })
+            .eq("token", token);
+          await supabase.from("soft_reserves")
+            .update({ status: "lost", updated_at: new Date().toISOString() })
+            .eq("room_id", roomId)
+            .neq("token", token)
+            .in("status", ["reserved", "account_created"]);
+        }
+      }
+    }
+
+    if (session.metadata?.type !== "invoice" && session.metadata?.type !== "reserve_deposit") {
       await supabase
         .from("onboarding_progress")
         .update({
