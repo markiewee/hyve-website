@@ -7,6 +7,43 @@ const supabase = createClient(
 );
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+const PROOF_BUCKET = "deposit_proofs";
+const ADMIN_EMAILS = (process.env.RESERVE_NOTIFY_TO || "admin@hyve.sg,mark@meetmillia.com")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+// Send via Resend — the portal's email transport (RESEND_API_KEY). Verified sender
+// matches the notify-tenant edge function: "Lazybee Co-living <hello@lazybee.sg>".
+async function sendEmail(to, subject, html) {
+  if (!process.env.RESEND_API_KEY) throw new Error("RESEND_API_KEY not configured");
+  const r = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from: "Lazybee Co-living <hello@lazybee.sg>",
+      reply_to: "hello@lazybee.sg",
+      to: Array.isArray(to) ? to : [to],
+      subject,
+      html,
+    }),
+  });
+  const text = await r.text();
+  if (!r.ok) throw new Error(`resend ${r.status}: ${text.slice(0, 300)}`);
+  return text;
+}
+
+function confirmPage(title, body) {
+  return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${title}</title></head>
+<body style="margin:0;background:#0d0d10;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:24px">
+<div style="max-width:440px;text-align:center">
+<p style="font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#c9a96a;margin:0 0 12px">Lazybee · Hyve</p>
+<h1 style="font-weight:300;font-size:30px;line-height:1.2;margin:0 0 14px">${title}</h1>
+<p style="color:#b8b8bd;font-size:15px;line-height:1.6;margin:0">${body}</p>
+</div></body></html>`;
+}
+
 /**
  * POST /api/portal/claim-reserve
  * Body: { token, email, password, name?, move_in?, duration_months?, has_pass? }
@@ -18,8 +55,97 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 export default async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
 
+  // ── GET ?confirm_token=… → Mark clicks the confirm link in his email.
+  // Atomically assigns the room to this reserve (bank-transfer deposit verified).
+  if (req.method === "GET") {
+    const confirmToken = String(req.query?.confirm_token || "").trim();
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    if (!confirmToken) return res.status(400).send(confirmPage("Invalid link", "This confirm link is missing its token."));
+
+    const { data: sr } = await supabase
+      .from("soft_reserves")
+      .select("id, token, room_id, status, tenant_profile_id, prospect_name")
+      .eq("confirm_token", confirmToken)
+      .maybeSingle();
+    if (!sr) return res.status(404).send(confirmPage("Link not found", "We couldn't find this reservation. It may have been removed."));
+
+    if (sr.status === "won")
+      return res.status(200).send(confirmPage("Already confirmed", "This room is already assigned to this guest. Nothing more to do."));
+
+    // Room taken by another reserve → tell Mark to refund this transfer manually.
+    const { data: otherWon } = await supabase
+      .from("soft_reserves")
+      .select("id").eq("room_id", sr.room_id).eq("status", "won").neq("id", sr.id).maybeSingle();
+    if (otherWon) {
+      await supabase.from("soft_reserves").update({ status: "lost", updated_at: new Date().toISOString() }).eq("id", sr.id);
+      return res.status(200).send(confirmPage("Room already taken", "Someone else secured this room first. Please refund this guest's bank transfer manually — no room was assigned."));
+    }
+
+    // Winner: mark won, knock out siblings, advance onboarding past the deposit step.
+    await supabase.from("soft_reserves").update({ status: "won", updated_at: new Date().toISOString() }).eq("id", sr.id);
+    await supabase.from("soft_reserves")
+      .update({ status: "lost", updated_at: new Date().toISOString() })
+      .eq("room_id", sr.room_id).neq("id", sr.id).in("status", ["reserved", "account_created", "deposit_pending"]);
+    if (sr.tenant_profile_id) {
+      await supabase.from("onboarding_progress")
+        .update({ deposit_completed_at: new Date().toISOString(), deposit_verified: true, deposit_method: "BANK_TRANSFER", current_step: "HOUSE_RULES" })
+        .eq("tenant_profile_id", sr.tenant_profile_id);
+    }
+    return res.status(200).send(confirmPage("Room confirmed ✓", `${sr.prospect_name || "The guest"} now holds this room. They can finish onboarding in the portal.`));
+  }
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  // ── notify_proof: a bank-transfer screenshot was uploaded. Email the prospect
+  // ("confirm in 2-4h") and Mark (screenshot + one-click confirm link).
+  if (req.body?.action === "notify_proof") {
+    const token = String(req.body.token || "").trim();
+    if (!token) return res.status(400).json({ error: "token required" });
+
+    const { data: sr } = await supabase
+      .from("soft_reserves")
+      .select("id, room_id, prospect_name, prospect_email, deposit_proof_url, confirm_token")
+      .eq("token", token)
+      .maybeSingle();
+    if (!sr) return res.status(404).json({ error: "reserve_not_found" });
+
+    const { data: room } = await supabase
+      .from("rooms").select("name, unit_code, price_monthly").eq("id", sr.room_id).maybeSingle();
+    const roomLabel = room ? `${room.name || room.unit_code || "your room"}` : "your room";
+
+    let proofUrl = null;
+    if (sr.deposit_proof_url) {
+      const { data: signed } = await supabase.storage
+        .from(PROOF_BUCKET).createSignedUrl(sr.deposit_proof_url, 60 * 60 * 24 * 3);
+      proofUrl = signed?.signedUrl || null;
+    }
+    const confirmLink = `https://www.lazybee.sg/api/portal/claim-reserve?confirm_token=${sr.confirm_token}`;
+
+    try {
+      if (sr.prospect_email) {
+        await sendEmail(
+          sr.prospect_email,
+          `We've got your deposit for ${roomLabel}`,
+          `<p>Hi ${sr.prospect_name || "there"},</p>
+<p>Thanks — we've received your bank transfer screenshot for <strong>${roomLabel}</strong>. We'll verify it and confirm your room by email within <strong>2–4 hours</strong>.</p>
+<p>Hang tight — nothing more to do for now.</p><p>— Hyve</p>`
+        );
+      }
+      await sendEmail(
+        ADMIN_EMAILS,
+        `Deposit proof — ${sr.prospect_name || "prospect"} · ${roomLabel}`,
+        `<p><strong>${sr.prospect_name || "A prospect"}</strong> (${sr.prospect_email || "no email"}) uploaded a bank-transfer screenshot for <strong>${roomLabel}</strong>${room?.price_monthly ? ` ($${Number(room.price_monthly).toLocaleString()}/mo)` : ""}.</p>
+${proofUrl ? `<p><a href="${proofUrl}">View the screenshot</a> (link valid 3 days)</p>` : "<p>(screenshot link unavailable)</p>"}
+<p style="margin:24px 0"><a href="${confirmLink}" style="background:#c9a96a;color:#000;padding:14px 28px;border-radius:999px;text-decoration:none;font-weight:600">Confirm &amp; assign room</a></p>
+<p style="color:#888;font-size:13px">Clicking confirms the deposit and locks the room to this guest. If the room's already taken, you'll be told to refund the transfer manually.</p>`
+      );
+    } catch (e) {
+      console.error("[claim-reserve] notify_proof email failed:", e);
+      return res.status(200).json({ ok: true, emailed: false });
+    }
+    return res.status(200).json({ ok: true, emailed: true });
   }
 
   const { token, email, password, name, move_in, duration_months, has_pass } =
