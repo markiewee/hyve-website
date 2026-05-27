@@ -55,6 +55,7 @@
     "nodemailer": "^7.0.5",
     "papaparse": "^5.4.1",
     "pdf-lib": "^1.17.1",
+    "posthog-js": "^1.376.2",
     "react": "^19.1.0",
     "react-day-picker": "8.10.1",
     "react-dom": "^19.1.0",
