@@ -208,7 +208,7 @@ const HousematePreview = ({ propertyId }) => {
     return (
       <div className="animate-pulse flex gap-3">
         {[1, 2, 3].map(i => (
-          <div key={i} className="w-16 h-16 rounded-full bg-slate-200" />
+          <div key={i} className="w-16 h-16 rounded-full bg-surface-container" />
         ))}
       </div>
     );
@@ -228,7 +228,7 @@ const HousematePreview = ({ propertyId }) => {
         {housemates.map((h) => (
           <div
             key={h.id}
-            className="flex items-center gap-2 bg-white px-4 py-3 rounded-xl border border-[rgba(187,202,198,0.15)] hover:border-[#A87813]/30 transition-colors"
+            className="flex items-center gap-2 bg-surface px-4 py-3 rounded-xl border border-[rgba(187,202,198,0.15)] hover:border-accent/30 transition-colors"
           >
             <span className="text-2xl leading-none">{h.flag}</span>
             <span className="font-['Inter'] text-sm font-semibold text-[#1F2937]">{h.age}</span>

@@ -95,7 +95,6 @@
   --input: #2a2d2d;
   --ring: var(--accent);
 
-  /* TODO(Task 17): remove honey scale after page redesigns */
   --honey-50: #FDF8E8;
   --honey-100: #FAF0CC;
   --honey-200: #F2D88A;

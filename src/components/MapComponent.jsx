@@ -76,7 +76,7 @@ const MapComponent = ({
         icon: {
           url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="20" cy="20" r="18" fill="#A87813" stroke="white" stroke-width="4"/>
+              <circle cx="20" cy="20" r="18" fill="#c47a35" stroke="white" stroke-width="4"/>
               <circle cx="20" cy="20" r="8" fill="white"/>
             </svg>
           `),
@@ -89,9 +89,9 @@ const MapComponent = ({
       const infoWindow = new window.google.maps.InfoWindow({
         content: `
           <div style="padding: 10px; max-width: 250px;">
-            <h3 style="margin: 0 0 8px 0; color: #A87813; font-size: 16px;">${property.name}</h3>
+            <h3 style="margin: 0 0 8px 0; color: #c47a35; font-size: 16px;">${property.name}</h3>
             <p style="margin: 0 0 8px 0; color: #666; font-size: 14px;">${property.address}</p>
-            <p style="margin: 0; color: #A87813; font-weight: bold;">From $${property.startingPrice}/month</p>
+            <p style="margin: 0; color: #c47a35; font-weight: bold;">From $${property.startingPrice}/month</p>
           </div>
         `
       });
@@ -276,8 +276,8 @@ const MapComponent = ({
     return (
       <Card className={className}>
         <CardContent className="p-6">
-          <div className="text-center text-gray-500">
-            <MapPin className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+          <div className="text-center text-foreground-variant">
+            <MapPin className="w-12 h-12 mx-auto mb-4 text-foreground-variant/50" />
             <p>Property location not available</p>
           </div>
         </CardContent>
@@ -299,8 +299,8 @@ const MapComponent = ({
         {!isLoaded && (
           <div className="absolute inset-0 bg-gray-100 rounded-lg flex items-center justify-center">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-honey-700 mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading map...</p>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent mx-auto mb-4"></div>
+              <p className="text-foreground-variant">Loading map...</p>
             </div>
           </div>
         )}
@@ -312,7 +312,7 @@ const MapComponent = ({
               size="sm"
               variant="secondary"
               onClick={toggle3D}
-              className="bg-white/90 hover:bg-white shadow-md"
+              className="bg-surface/90 hover:bg-surface shadow-md"
             >
               <Layers className="w-4 h-4 mr-1" />
               {viewMode === '2d' ? '3D' : '2D'}
@@ -322,7 +322,7 @@ const MapComponent = ({
               size="sm"
               variant="secondary"
               onClick={resetView}
-              className="bg-white/90 hover:bg-white shadow-md"
+              className="bg-surface/90 hover:bg-surface shadow-md"
             >
               <RotateCcw className="w-4 h-4" />
             </Button>
@@ -331,7 +331,7 @@ const MapComponent = ({
               size="sm"
               variant="secondary"
               onClick={toggleAmenities}
-              className="bg-white/90 hover:bg-white shadow-md"
+              className="bg-surface/90 hover:bg-surface shadow-md"
             >
               <Navigation className="w-4 h-4 mr-1" />
               POI
@@ -341,11 +341,11 @@ const MapComponent = ({
 
         {/* Map Legend */}
         {isLoaded && showAmenities && (
-          <div className="absolute bottom-4 left-4 bg-white/90 rounded-lg p-3 shadow-md max-w-48">
+          <div className="absolute bottom-4 left-4 bg-surface/90 rounded-lg p-3 shadow-md max-w-48">
             <h4 className="font-semibold text-sm mb-2">Legend</h4>
             <div className="grid grid-cols-2 gap-1 text-xs">
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded-full bg-honey-700"></div>
+                <div className="w-3 h-3 rounded-full bg-accent"></div>
                 <span>Property</span>
               </div>
               <div className="flex items-center gap-1">
@@ -381,10 +381,10 @@ const MapComponent = ({
         )}
 
         {/* Property Info Overlay */}
-        <div className="absolute bottom-4 right-4 bg-white/90 rounded-lg p-3 shadow-md max-w-xs">
+        <div className="absolute bottom-4 right-4 bg-surface/90 rounded-lg p-3 shadow-md max-w-xs">
           <h4 className="font-semibold text-sm mb-1">{property.name}</h4>
-          <p className="text-xs text-gray-600 mb-1">{property.neighborhood}</p>
-          <p className="text-xs text-honey-700 font-semibold">
+          <p className="text-xs text-foreground-variant mb-1">{property.neighborhood}</p>
+          <p className="text-xs text-accent font-semibold">
             {property.availableRooms} rooms available from ${property.startingPrice}/mo
           </p>
         </div>

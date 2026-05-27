@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { useState } from 'react';
 import { Toaster } from 'sonner';
 import './App.css';
 
@@ -70,13 +69,6 @@ function AppContent() {
   const location = useLocation();
   const isPortal = location.pathname.startsWith('/portal');
   const isViewing = false; // booking + viewing flows now live on book.lazybee.sg
-
-  const [searchFilters, setSearchFilters] = useState({
-    location: '',
-    priceRange: [0, 2500],
-    availableFrom: '',
-    roomType: ''
-  });
 
   return (
       <div className="min-h-screen bg-background">
