@@ -1,325 +1,93 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { client, QUERIES, urlFor } from '../lib/cms';
-import LocationsMapComponent from './LocationsMapComponent';
 import SEO from './SEO';
-import { useLanguage } from '../i18n/LanguageContext';
+import { lodgingBusinessSchema, breadcrumbSchema } from '../lib/seo';
+import FadeIn from './marketing/FadeIn';
+import BrowseRoomsButton from './marketing/BrowseRoomsButton';
+import CtaBand from './marketing/CtaBand';
+import { BOOKING_URL } from '../lib/booking';
+
+const AREAS = [
+  {
+    name: 'Lentor',
+    slug: 'lentor',
+    mrt: 'Near Lentor MRT (Thomson-East Coast Line) and Bright Hill MRT.',
+    blurb:
+      'Quiet, leafy and residential — Lentor sits in one of Singapore\'s most sought-after new-growth corridors. Nature trails, parks and the brand-new Lentor Modern mall are all within walking distance.',
+  },
+  {
+    name: 'Jurong East',
+    slug: 'jurong-east',
+    mrt: 'Near Jurong East MRT interchange (East-West & North-South Lines).',
+    blurb:
+      'The commercial heart of the west — JEM, Westgate and IMM malls plus major employers are minutes away. A well-connected interchange makes the rest of the island easy to reach.',
+  },
+  {
+    name: 'Serangoon',
+    slug: 'serangoon',
+    mrt: 'Near Serangoon MRT interchange (North-East & Circle Lines).',
+    blurb:
+      'Northeast heartland charm at its best — hawker centres, NEX mall and a vibrant food scene sit right on your doorstep, with two MRT lines keeping every corner of Singapore close.',
+  },
+];
 
 const LocationsPage = () => {
-  const { t } = useLanguage();
-  const [selectedNeighborhood, setSelectedNeighborhood] = useState(null);
-  const [neighborhoods, setNeighborhoods] = useState([]);
-  const [properties, setProperties] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [sanityNeighborhoods, sanityProperties] = await Promise.all([
-          client.fetch(QUERIES.neighborhoodsFull),
-          client.fetch(QUERIES.properties)
-        ]);
-
-        if (sanityNeighborhoods && sanityNeighborhoods.length > 0) {
-          setNeighborhoods(sanityNeighborhoods);
-          setProperties(sanityProperties || []);
-        } else {
-          const { neighborhoods: sampleNeighborhoods, properties: sampleProperties } = await import('../data/sampleData');
-          setNeighborhoods(sampleNeighborhoods);
-          setProperties(sampleProperties);
-        }
-      } catch (error) {
-        console.error('Error fetching data from Sanity:', error);
-        const { neighborhoods: sampleNeighborhoods, properties: sampleProperties } = await import('../data/sampleData');
-        setNeighborhoods(sampleNeighborhoods);
-        setProperties(sampleProperties);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const getPropertiesInNeighborhood = (neighborhoodName) => {
-    return properties.filter(property => {
-      const propNeighborhood = property.neighborhood?.name || property.neighborhood;
-      return propNeighborhood === neighborhoodName;
-    });
-  };
-
-  const getNeighborhoodImage = (neighborhood) => {
-    if (neighborhood.images?.[0]?.image) {
-      return urlFor(neighborhood.images[0].image).width(800).height(600).url();
-    }
-    return '/photos/tg-hero.jpg';
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#FAF6EC] pt-20">
-        <div className="flex h-[calc(100vh-80px)]">
-          <div className="w-full md:w-[420px] bg-[#F2D88A] p-8 animate-pulse space-y-6">
-            <div className="h-8 bg-slate-200 rounded w-2/3"></div>
-            <div className="h-4 bg-slate-200 rounded w-full"></div>
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="bg-white p-6 rounded-xl space-y-4">
-                <div className="h-6 bg-slate-200 rounded w-1/2"></div>
-                <div className="aspect-[16/9] bg-slate-200 rounded-lg"></div>
-                <div className="h-4 bg-slate-200 rounded w-full"></div>
-              </div>
-            ))}
-          </div>
-          <div className="hidden md:block flex-1 bg-slate-200 animate-pulse"></div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-[#FAF6EC] pt-20">
+    <main className="bg-background text-foreground pt-24 md:pt-28">
       <SEO
-        title="Co-living Locations in Singapore"
-        description="Discover Lazybee co-living locations across Singapore. Find rooms near MRT stations in Thomson, Hougang, Bukit Batok and more."
+        title="Co-living locations in Singapore"
+        description="Lazybee co-living in Lentor, Jurong East and Serangoon — all near MRT. Browse rooms by area."
         canonical="/locations"
-        schema={{
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: "https://www.lazybee.sg" },
-            { "@type": "ListItem", position: 2, name: "Locations", item: "https://www.lazybee.sg/locations" }
-          ]
-        }}
+        schema={[
+          lodgingBusinessSchema(),
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Locations', path: '/locations' },
+          ]),
+        ]}
       />
-      <div className="flex flex-col md:flex-row h-auto md:h-[calc(100vh-80px)]">
-        {/* Side Panel: Area Guides */}
-        <aside className="w-full md:w-[420px] bg-[#F2D88A] md:h-full flex flex-col z-10 shadow-2xl overflow-y-auto scrollbar-hide">
-          <div className="p-6 md:p-8">
-            <header className="mb-8">
-              <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#A87813] font-bold mb-2 block">
-                {t('public.locations.badge')}
-              </span>
-              <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold tracking-tight text-[#1F2937] leading-tight">
-                {t('public.locations.title')}
-              </h1>
-              <p className="text-[#1F2937] mt-3 leading-relaxed font-['Manrope']">
-                {t('public.locations.subtitle')}
-              </p>
-            </header>
 
-            <div className="space-y-6">
-              {neighborhoods.map((neighborhood) => {
-                const neighborhoodProperties = getPropertiesInNeighborhood(neighborhood.name);
-                return (
-                  <div
-                    key={neighborhood._id || neighborhood.name}
-                    className="group bg-white p-6 rounded-xl border border-[rgba(187,202,198,0.15)] hover:shadow-lg transition-all duration-300 cursor-pointer"
-                    onClick={() => setSelectedNeighborhood(neighborhood)}
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h3 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#1F2937]">
-                          {neighborhood.name}
-                        </h3>
-                        <p className="font-['Inter'] text-sm text-[#6B7280]">
-                          {neighborhoodProperties.length} propert{neighborhoodProperties.length !== 1 ? 'ies' : 'y'}
-                        </p>
-                      </div>
-                    </div>
+      {/* Page header */}
+      <section className="max-w-4xl mx-auto px-6 py-16 md:py-24 text-center">
+        <FadeIn>
+          <h1 className="font-display tracking-display text-4xl md:text-6xl font-bold mb-6">
+            Where Lazybee lives
+          </h1>
+          <p className="text-foreground-variant text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+            Three neighbourhoods across Singapore — all near MRT, all fully
+            furnished, all ready to move into.
+          </p>
+        </FadeIn>
+      </section>
 
-                    <div className="aspect-[16/9] rounded-lg overflow-hidden mb-4 relative">
-                      <img
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        src={getNeighborhoodImage(neighborhood)}
-                        alt={neighborhood.name}
-                        loading="lazy"
-                      />
-                    </div>
-
-                    {/* Tags */}
-                    {neighborhood.highlights && neighborhood.highlights.length > 0 && (
-                      <div className="flex gap-2 mb-4 overflow-x-auto scrollbar-hide">
-                        {neighborhood.highlights.slice(0, 3).map((highlight, idx) => (
-                          <div key={idx} className="flex items-center gap-1 bg-[#FAF0CC] px-3 py-1 rounded-full whitespace-nowrap">
-                            <span className="text-xs font-['Inter']">{highlight}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    <p className="text-sm text-[#1F2937] leading-relaxed">
-                      {neighborhood.description
-                        ? neighborhood.description.substring(0, 120) + '...'
-                        : `Discover ${neighborhood.name}, one of Singapore's most vibrant neighborhoods.`}
-                    </p>
-
-                    {/* Price range */}
-                    {neighborhood.priceRange?.rentRange && (
-                      <p className="mt-3 text-sm font-['Inter'] font-semibold text-[#A87813]">
-                        {neighborhood.priceRange.rentRange.replace(/(\d[\d,]*)/g, (m, num, offset, str) => {
-                          // Only prepend $ if not already preceded by $
-                          if (offset > 0 && str[offset - 1] === '$') return num;
-                          return '$' + num;
-                        })}
-                      </p>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-            <footer className="mt-12 py-8 text-center">
-              <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-slate-400">
-                &copy; {new Date().getFullYear()} Lazybee Living. Architectural Sanctuary.
-              </p>
-            </footer>
-          </div>
-        </aside>
-
-        {/* Map Area */}
-        <section className="flex-1 relative bg-[#FAF0CC]">
-          <LocationsMapComponent
-            properties={properties}
-            neighborhoods={neighborhoods}
-            height="calc(100vh - 80px)"
-            onPropertySelect={(property) => {
-              console.log('Selected property:', property);
-            }}
-          />
-
-        </section>
-      </div>
-
-      {/* Neighborhood Detail Modal */}
-      {selectedNeighborhood && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="relative">
-              <img
-                src={getNeighborhoodImage(selectedNeighborhood)}
-                alt={selectedNeighborhood.name}
-                className="w-full aspect-[3/2] object-cover rounded-t-2xl"
-              />
-              <button
-                className="absolute top-4 right-4 bg-white/90 hover:bg-white p-2 rounded-full transition-colors"
-                onClick={() => setSelectedNeighborhood(null)}
-              >
-                <span className="material-symbols-outlined">close</span>
-              </button>
-              <div className="absolute bottom-6 left-8 text-white">
-                <h2 className="text-3xl font-['Plus_Jakarta_Sans'] font-bold drop-shadow-lg">{selectedNeighborhood.name}</h2>
+      {/* Area cards grid */}
+      <section className="max-w-6xl mx-auto px-6 pb-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {AREAS.map((area) => (
+            <FadeIn key={area.slug}>
+              <div className="bg-surface rounded-2xl border border-border p-6 flex flex-col h-full">
+                <h2 className="font-display font-bold text-2xl mb-2">
+                  {area.name}
+                </h2>
+                <p className="text-accent text-sm font-medium mb-4">
+                  {area.mrt}
+                </p>
+                <p className="text-foreground-variant text-sm leading-relaxed flex-1">
+                  {area.blurb}
+                </p>
+                <BrowseRoomsButton
+                  source={`locations_${area.slug}`}
+                  label="See rooms here →"
+                  href={`${BOOKING_URL}/?area=${area.slug}`}
+                  className="text-sm px-5 py-2 mt-4"
+                />
               </div>
-            </div>
-
-            <div className="p-6 md:p-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold mb-4">{t('public.locations.aboutArea')}</h3>
-                  <p className="text-[#1F2937] mb-6 font-['Manrope'] leading-relaxed">
-                    {selectedNeighborhood.description}
-                  </p>
-
-                  {selectedNeighborhood.highlights && (
-                    <div className="mb-6">
-                      <h4 className="font-['Plus_Jakarta_Sans'] font-bold mb-2">Highlights</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedNeighborhood.highlights.map((highlight, index) => (
-                          <span key={index} className="bg-[#F2D88A] text-[#1F2937] px-3 py-1 rounded-full text-sm font-['Inter']">
-                            {highlight}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  {selectedNeighborhood.transport && selectedNeighborhood.transport.length > 0 && (
-                    <div className="mb-6">
-                      <h4 className="font-['Plus_Jakarta_Sans'] font-bold mb-2 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-[#A87813]">train</span>
-                        {t('public.locations.transportation')}
-                      </h4>
-                      {selectedNeighborhood.transport.map((transport, index) => (
-                        <p key={index} className="text-sm text-[#1F2937] mb-1 font-['Manrope']">
-                          <strong>{transport.type}:</strong> {transport.description}
-                        </p>
-                      ))}
-                    </div>
-                  )}
-
-                  {selectedNeighborhood.priceRange?.rentRange && (
-                    <div className="mb-6">
-                      <h4 className="font-['Plus_Jakarta_Sans'] font-bold mb-1 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-[#A87813]">payments</span>
-                        Typical Rent
-                      </h4>
-                      <p className="text-lg font-['Plus_Jakarta_Sans'] font-extrabold text-[#A87813]">
-                        {selectedNeighborhood.priceRange.rentRange.replace(/(\d[\d,]*)/g, (m, num, offset, str) => {
-                          if (offset > 0 && str[offset - 1] === '$') return num;
-                          return '$' + num;
-                        })}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Properties in this neighborhood */}
-              <div className="border-t border-slate-100 pt-6 mt-4">
-                <h4 className="font-['Plus_Jakarta_Sans'] font-bold mb-4">Available Properties</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {getPropertiesInNeighborhood(selectedNeighborhood.name).map((property) => (
-                    <Link
-                      key={property.id || property._id}
-                      to={`/property/${property.id || property.slug?.current || property._id}`}
-                      className="group bg-[#F2D88A] rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
-                    >
-                      <div className="relative aspect-[3/2]">
-                        <img
-                          src={
-                            property.images?.[0]?.image
-                              ? urlFor(property.images[0].image).width(800).height(600).url()
-                              : `/${property.images?.[0] || 'stock_apart1.png'}`
-                          }
-                          alt={property.name}
-                          loading="lazy"
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <span className="absolute top-3 right-3 bg-[#A87813] text-white px-3 py-1 rounded-full text-xs font-['Inter'] font-bold">
-                          ${property.startingPrice}/mo
-                        </span>
-                      </div>
-                      <div className="p-4">
-                        <h5 className="font-['Plus_Jakarta_Sans'] font-bold mb-1">{property.name}</h5>
-                        <p className="text-sm text-[#6B7280] font-['Manrope']">
-                          {property.availableRooms} rooms available
-                        </p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-6 flex gap-3">
-                <Link
-                  to="/properties"
-                  className="flex-1 bg-[#A87813] text-white py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-center hover:opacity-90 transition-all"
-                >
-                  {t('public.locations.viewProperties')}
-                </Link>
-                <button
-                  onClick={() => setSelectedNeighborhood(null)}
-                  className="flex-1 border border-slate-200 py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-center hover:bg-slate-50 transition-all"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
+            </FadeIn>
+          ))}
         </div>
-      )}
-    </div>
+      </section>
+
+      {/* CTA footer band */}
+      <CtaBand source="locations_footer" />
+    </main>
   );
 };
 
