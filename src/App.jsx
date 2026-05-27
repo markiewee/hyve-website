@@ -82,15 +82,7 @@ function AppContent() {
       <div className="min-h-screen bg-background">
         {!isPortal && !isViewing && <Navbar />}
         <Routes>
-          <Route 
-            path="/" 
-            element={
-              <HomePage 
-                searchFilters={searchFilters}
-                setSearchFilters={setSearchFilters}
-              />
-            } 
-          />
+          <Route path="/" element={<HomePage />} />
           <Route path="/locations" element={<LocationsPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/blog" element={<BlogPage />} />
