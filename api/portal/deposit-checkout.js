@@ -68,6 +68,59 @@ export default async function handler(req, res) {
     return res.status(200).json({ url: session.url, checkout_url: session.url });
   }
 
+  // ── Reserve deposit (soft-reserve flow, no bearer — reserve token is the credential) ──
+  if (type === "reserve_deposit") {
+    const token = req.body?.token;
+    if (!token) return res.status(400).json({ error: "token is required" });
+
+    const { data: sr, error: srErr } = await supabase
+      .from("soft_reserves")
+      .select("id, room_id, status, tenant_profile_id")
+      .eq("token", token)
+      .maybeSingle();
+    if (srErr || !sr) return res.status(404).json({ error: "reserve_not_found" });
+    if (["won", "lost", "expired"].includes(sr.status)) return res.status(409).json({ error: "reserve_closed" });
+
+    // Room-taken guard: someone already won this room.
+    const { data: wonRow } = await supabase
+      .from("soft_reserves").select("id").eq("room_id", sr.room_id).eq("status", "won").maybeSingle();
+    if (wonRow) return res.status(409).json({ error: "room_taken" });
+
+    // Deposit amount from the onboarding row created at account creation; fallback to room calc.
+    let depositAmount = null;
+    if (sr.tenant_profile_id) {
+      const { data: ob } = await supabase
+        .from("onboarding_progress").select("deposit_amount").eq("tenant_profile_id", sr.tenant_profile_id).maybeSingle();
+      if (ob?.deposit_amount != null) depositAmount = Number(ob.deposit_amount);
+    }
+    if (depositAmount == null) {
+      const { data: room } = await supabase.from("rooms").select("price_monthly, deposit_months").eq("id", sr.room_id).maybeSingle();
+      if (room?.price_monthly != null && room?.deposit_months != null) depositAmount = Number(room.price_monthly) * Number(room.deposit_months);
+    }
+    if (depositAmount == null || depositAmount <= 0) return res.status(400).json({ error: "deposit_amount_unavailable" });
+
+    // 3% card service fee (note: differs from the 4% used on the standard onboarding deposit).
+    const totalCents = Math.round(depositAmount * 1.03 * 100);
+    try {
+      const session = await stripe.checkout.sessions.create({
+        mode: "payment",
+        currency: "sgd",
+        line_items: [{
+          price_data: { currency: "sgd", product_data: { name: "Security Deposit + 3% card fee" }, unit_amount: totalCents },
+          quantity: 1,
+        }],
+        metadata: { type: "reserve_deposit", soft_reserve_token: token, room_id: sr.room_id },
+        success_url: `https://hyve-booking.vercel.app/reserved/${token}?deposit=success`,
+        cancel_url: `https://hyve-booking.vercel.app/reserved/${token}?deposit=cancel`,
+      });
+      await supabase.from("soft_reserves").update({ stripe_session_id: session.id, updated_at: new Date().toISOString() }).eq("id", sr.id);
+      return res.status(200).json({ checkout_url: session.url });
+    } catch (err) {
+      console.error("[reserve_deposit] stripe error:", err);
+      return res.status(500).json({ error: "Failed to create checkout session" });
+    }
+  }
+
   // ── Deposit and charge flows require bearer token ──
   const authHeader = req.headers.authorization ?? "";
   const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
