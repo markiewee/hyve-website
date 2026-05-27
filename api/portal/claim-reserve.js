@@ -265,15 +265,21 @@ ${proofUrl ? `<p><a href="${proofUrl}">View the screenshot</a> (link valid 3 day
       });
 
     if (authError) {
-      // Fall back: find an existing user with this email.
-      const { data: listData } = await supabase.auth.admin.listUsers();
-      const existing =
-        listData?.users?.find(
-          (u) => u.email?.toLowerCase() === email.toLowerCase()
-        ) || null;
-
-      if (existing) {
-        userId = existing.id;
+      // Email already exists → reuse that auth user (spec: match by email).
+      // auth.admin.listUsers() returns empty in this project, so resolve the id
+      // via generateLink, which looks the user up server-side and sends no email.
+      let existingId = null;
+      try {
+        const { data: linkData } = await supabase.auth.admin.generateLink({
+          type: "recovery",
+          email,
+        });
+        existingId = linkData?.user?.id || null;
+      } catch (e) {
+        console.error("[claim-reserve] generateLink lookup failed:", e);
+      }
+      if (existingId) {
+        userId = existingId;
       } else {
         return res.status(400).json({ error: authError.message });
       }
