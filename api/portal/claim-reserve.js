@@ -121,6 +121,11 @@ export default async function handler(req, res) {
         .from(PROOF_BUCKET).createSignedUrl(sr.deposit_proof_url, 60 * 60 * 24 * 3);
       proofUrl = signed?.signedUrl || null;
     }
+    // No screenshot → nothing to verify. Don't send a confirm email.
+    if (!proofUrl) {
+      console.error("[claim-reserve] notify_proof: no screenshot for token", token, "— skipping email");
+      return res.status(422).json({ error: "no_screenshot", emailed: false });
+    }
     const confirmLink = `https://www.lazybee.sg/api/portal/claim-reserve?confirm_token=${sr.confirm_token}`;
 
     try {
