@@ -33,6 +33,15 @@ async function sendEmail(to, subject, html) {
   return text;
 }
 
+function depositReceiptHtml({ name, roomLabel, deposit, method }) {
+  const amount = deposit != null ? `$${Number(deposit).toLocaleString()}` : "your deposit";
+  return `<p>Hi ${name || "there"},</p>
+<p>Great news — we've received and confirmed ${amount} as the deposit for <strong>${roomLabel}</strong>${method ? ` (${method})` : ""}. <strong>The room is yours.</strong></p>
+<p><strong>Next step:</strong> log in to your portal with your email and password to finish onboarding — sign your agreement, upload your ID, and get your move-in details.</p>
+<p style="margin:24px 0"><a href="https://lazybee.sg/portal/login" style="background:#c9a96a;color:#000;padding:14px 28px;border-radius:999px;text-decoration:none;font-weight:600">Log in to the portal</a></p>
+<p style="color:#888;font-size:13px">Keep this email as your deposit receipt. See you soon — Hyve.</p>`;
+}
+
 function confirmPage(title, body) {
   return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${title}</title></head>
@@ -64,7 +73,7 @@ export default async function handler(req, res) {
 
     const { data: sr } = await supabase
       .from("soft_reserves")
-      .select("id, token, room_id, status, tenant_profile_id, prospect_name")
+      .select("id, token, room_id, status, tenant_profile_id, prospect_name, prospect_email")
       .eq("confirm_token", confirmToken)
       .maybeSingle();
     if (!sr) return res.status(404).send(confirmPage("Link not found", "We couldn't find this reservation. It may have been removed."));
@@ -90,6 +99,22 @@ export default async function handler(req, res) {
       await supabase.from("onboarding_progress")
         .update({ deposit_completed_at: new Date().toISOString(), deposit_verified: true, deposit_method: "BANK_TRANSFER", current_step: "HOUSE_RULES" })
         .eq("tenant_profile_id", sr.tenant_profile_id);
+    }
+    // Receipt: confirm to the guest that their deposit is verified and the room is theirs.
+    if (sr.prospect_email) {
+      try {
+        const { data: room } = await supabase
+          .from("rooms").select("name, unit_code, price_monthly, deposit_months").eq("id", sr.room_id).maybeSingle();
+        const roomLabel = room?.name || room?.unit_code || "your room";
+        const deposit = room ? Number(room.price_monthly) * (Number(room.deposit_months) || 1) : null;
+        await sendEmail(
+          sr.prospect_email,
+          `Deposit confirmed — you've secured ${roomLabel}`,
+          depositReceiptHtml({ name: sr.prospect_name, roomLabel, deposit, method: "bank transfer" })
+        );
+      } catch (e) {
+        console.error("[claim-reserve] deposit receipt email failed:", e);
+      }
     }
     return res.status(200).send(confirmPage("Room confirmed ✓", `${sr.prospect_name || "The guest"} now holds this room. They can finish onboarding in the portal.`));
   }
