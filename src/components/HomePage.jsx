@@ -74,7 +74,7 @@ export default function HomePage() {
         </div>
         <FadeIn className="relative z-10 text-center max-w-5xl px-6">
           <Eyebrow className="text-accent mb-8 tracking-[0.6em]">Singapore</Eyebrow>
-          <h1 className="font-display font-light tracking-[-0.05em] leading-none text-7xl md:text-[140px] mb-10">
+          <h1 className="font-display font-bold tracking-display leading-[0.98] text-7xl md:text-8xl mb-10">
             Lazybee.
           </h1>
           <p className="font-light text-foreground-variant text-base md:text-lg max-w-xl mx-auto mb-12 leading-relaxed">
@@ -110,7 +110,7 @@ export default function HomePage() {
             <div className={`w-full md:w-1/2 flex items-center px-6 md:px-20 py-16 md:py-20 ${i % 2 === 1 ? 'bg-surface' : 'bg-surface-container'}`}>
               <FadeIn className="max-w-md">
                 <Eyebrow className="text-accent mb-6">{a.n}</Eyebrow>
-                <h3 className="font-display font-light tracking-[-0.03em] text-5xl md:text-6xl mb-8">{a.area}</h3>
+                <h3 className="font-display font-light tracking-display text-5xl md:text-6xl mb-8">{a.area}</h3>
                 <p className="text-foreground-variant mb-10 leading-relaxed">{a.blurb}</p>
                 <a
                   href={`${BOOKING_URL}/?area=${a.q}`}
@@ -129,7 +129,7 @@ export default function HomePage() {
       <section className="px-6 md:px-20 py-28 md:py-40">
         <FadeIn className="text-center mb-20 md:mb-28">
           <Eyebrow className="text-accent mb-6">Process</Eyebrow>
-          <h2 className="font-display font-light tracking-[-0.03em] text-5xl md:text-7xl">Seamless transition.</h2>
+          <h2 className="font-display font-light tracking-display text-5xl md:text-7xl">Seamless transition.</h2>
         </FadeIn>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-24 max-w-screen-2xl mx-auto">
           {STEPS.map((s, i) => (
@@ -146,7 +146,7 @@ export default function HomePage() {
       <section className="bg-surface px-6 md:px-20 py-28 md:py-40">
         <div className="max-w-5xl mx-auto">
           <FadeIn className="flex flex-col md:flex-row justify-between md:items-end mb-16 md:mb-24 gap-8">
-            <h2 className="font-display font-light tracking-[-0.03em] text-5xl md:text-6xl leading-none">The standard.</h2>
+            <h2 className="font-display font-light tracking-display text-5xl md:text-6xl leading-none">The standard.</h2>
             <p className="text-foreground-variant max-w-sm text-sm leading-relaxed">
               Comparing the Lazybee experience with traditional co-living in Singapore.
             </p>
@@ -171,7 +171,7 @@ export default function HomePage() {
       {/* Final CTA */}
       <section className="relative min-h-[70vh] flex items-center justify-center bg-surface-container px-6 py-28">
         <FadeIn className="relative z-10 text-center max-w-3xl">
-          <h2 className="font-display font-light tracking-[-0.03em] text-5xl md:text-7xl mb-12">Begin your journey.</h2>
+          <h2 className="font-display font-light tracking-display text-5xl md:text-7xl mb-12">Begin your journey.</h2>
           <div className="flex justify-center">
             <CtaButton source="home_final" label="View available rooms" />
           </div>
