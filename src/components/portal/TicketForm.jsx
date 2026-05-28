@@ -5,6 +5,7 @@ import { supabase } from "../../lib/supabase";
 
 const CATEGORIES = ["AC", "PLUMBING", "ELECTRICAL", "FURNITURE", "CLEANING", "OTHER"];
 const SHARED_LOCATIONS = ["Kitchen", "Living Room", "Bathroom (Shared)", "Corridor", "Laundry Area", "Other"];
+const MAX_PHOTOS = 5;
 
 // The ticket-photos bucket only allows image/* MIME types. Android galleries
 // often hand us a File with an empty or "application/octet-stream" type, which
@@ -52,6 +53,17 @@ export default function TicketForm({ preselectedCategory = null }) {
   const [photos, setPhotos] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [photoNotice, setPhotoNotice] = useState(null);
+
+  function handlePhotoChange(e) {
+    const picked = Array.from(e.target.files || []);
+    if (picked.length > MAX_PHOTOS) {
+      setPhotoNotice(`Only the first ${MAX_PHOTOS} photos will be used (you selected ${picked.length}).`);
+    } else {
+      setPhotoNotice(null);
+    }
+    setPhotos(picked.slice(0, MAX_PHOTOS));
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -197,7 +209,7 @@ export default function TicketForm({ preselectedCategory = null }) {
           htmlFor="photos"
           className="block text-sm font-medium text-foreground mb-2"
         >
-          Photos <span className="text-red-600 font-normal">(required — at least 1)</span>
+          Photos <span className="text-red-600 font-normal">(required — at least 1, up to {MAX_PHOTOS})</span>
         </label>
         <input
           id="photos"
@@ -205,17 +217,20 @@ export default function TicketForm({ preselectedCategory = null }) {
           multiple
           required
           accept="image/*"
-          onChange={(e) => setPhotos(e.target.files)}
+          onChange={handlePhotoChange}
           className="block w-full text-sm text-muted-foreground file:mr-4 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-sm file:font-medium file:bg-secondary file:text-secondary-foreground hover:file:bg-secondary/80"
         />
         {photos.length > 0 ? (
           <p className="text-xs text-muted-foreground mt-1">
-            {photos.length} file{photos.length > 1 ? "s" : ""} selected
+            {photos.length} of {MAX_PHOTOS} file{photos.length > 1 ? "s" : ""} selected
           </p>
         ) : (
           <p className="text-xs text-muted-foreground mt-1">
             Snap a photo of the issue so the handyman knows exactly what to fix.
           </p>
+        )}
+        {photoNotice && (
+          <p className="text-xs text-amber-600 mt-1">{photoNotice}</p>
         )}
       </div>
 
