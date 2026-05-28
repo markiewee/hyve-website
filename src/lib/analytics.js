@@ -14,7 +14,6 @@ export function initAnalytics() {
     persistence: 'localStorage+cookie',
     // Stitch the marketing → booking funnel across the subdomain hop.
     cross_subdomain_cookie: true,
-    cookie_domain: '.lazybee.sg',
   });
   initialized = true;
 }
