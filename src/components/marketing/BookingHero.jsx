@@ -34,9 +34,11 @@ const SLIDES = [
 
 const MOVE_IN = [
   { value: '', label: 'Anytime' },
-  { value: 'now', label: 'Within 2 weeks' },
-  { value: '30', label: 'Within 30 days' },
-  { value: '60', label: 'Within 60 days' },
+  { value: '2d', label: 'Within 2 days' },
+  { value: '2w', label: 'Within 2 weeks' },
+  { value: '1m', label: 'In around a month' },
+  { value: '2m', label: 'In around 2 months' },
+  { value: '2m+', label: 'In more than 2 months' },
 ];
 
 const BUDGET = [

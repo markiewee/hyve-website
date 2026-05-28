@@ -158,12 +158,12 @@ export default function HomePage() {
             <SecondaryCta label="Talk to the founders" source="hero" href="mailto:mark@meetmillia.com?subject=Lazybee%20—%20Investor%20intro" />
           </div>
 
-          {/* Traction strip */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-12 gap-y-8 pt-12 border-t border-border/60 max-w-3xl">
+          {/* Traction strip — frosted glass */}
+          <div className="relative inline-flex rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl divide-x divide-white/10">
             {TRACTION.map((s) => (
-              <div key={s.l}>
-                <p className="font-display text-3xl md:text-4xl font-bold tracking-display">{s.v}</p>
-                <p className="mt-2 text-[10px] uppercase tracking-[0.25em] text-foreground-variant">{s.l}</p>
+              <div key={s.l} className="px-6 py-5 md:px-8 md:py-6">
+                <p className="font-display text-2xl md:text-3xl font-bold tracking-display text-white">{s.v}</p>
+                <p className="mt-1 text-[10px] uppercase tracking-[0.25em] text-white/60">{s.l}</p>
               </div>
             ))}
           </div>
@@ -178,9 +178,9 @@ export default function HomePage() {
             Why this works.
           </h2>
         </FadeIn>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16 max-w-screen-2xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-screen-2xl mx-auto">
           {THESIS.map((v, i) => (
-            <FadeIn key={v.t} delay={i * 0.08} className="flex flex-col gap-6">
+            <FadeIn key={v.t} delay={i * 0.08} className="rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-2xl p-8 md:p-10 flex flex-col gap-6">
               <Eyebrow className="text-foreground-variant">{v.n}</Eyebrow>
               <h3 className="font-display font-normal text-3xl leading-tight">{v.t}</h3>
               <p className="text-foreground-variant text-sm leading-relaxed">{v.d}</p>
@@ -201,11 +201,11 @@ export default function HomePage() {
                 <Eyebrow className="text-accent mb-6">{p.n}</Eyebrow>
                 <h3 className="font-display font-light tracking-display text-5xl md:text-6xl mb-8">{p.name}</h3>
                 <p className="text-foreground-variant mb-10 leading-relaxed">{p.blurb}</p>
-                <div className="grid grid-cols-3 gap-6 pt-8 border-t border-border/60">
+                <div className="flex divide-x divide-white/15 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
                   {p.stats.map((s) => (
-                    <div key={s.l}>
-                      <p className="font-display font-bold text-2xl">{s.v}</p>
-                      <p className="mt-1 text-[10px] uppercase tracking-[0.25em] text-foreground-variant">{s.l}</p>
+                    <div key={s.l} className="px-5 py-4 md:px-6 flex-1">
+                      <p className="font-display font-bold text-xl md:text-2xl text-white">{s.v}</p>
+                      <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-white/55">{s.l}</p>
                     </div>
                   ))}
                 </div>
@@ -224,9 +224,9 @@ export default function HomePage() {
               How Lazybee turns master leases into a defensible, scalable operating business.
             </p>
           </FadeIn>
-          <FadeIn className="border-t border-border">
-            {ECONOMICS.map((r) => (
-              <div key={r.f} className="grid grid-cols-1 md:grid-cols-2 py-8 border-b border-border/60 gap-3">
+          <FadeIn className="rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-2xl p-2 md:p-4">
+            {ECONOMICS.map((r, i) => (
+              <div key={r.f} className={`grid grid-cols-1 md:grid-cols-2 px-6 py-7 md:py-8 gap-3 ${i !== ECONOMICS.length - 1 ? 'border-b border-white/10' : ''}`}>
                 <Eyebrow className="text-foreground-variant/70 md:pt-1">{r.f}</Eyebrow>
                 <span className="text-base md:text-lg">{r.v}</span>
               </div>
@@ -257,9 +257,9 @@ export default function HomePage() {
           <Eyebrow className="text-accent mb-6">Team</Eyebrow>
           <h2 className="font-display font-light tracking-display text-5xl md:text-7xl leading-none">Who's building it.</h2>
         </FadeIn>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 max-w-5xl mx-auto">
           {TEAM.map((m, i) => (
-            <FadeIn key={m.name} delay={i * 0.08} className="flex flex-col gap-6">
+            <FadeIn key={m.name} delay={i * 0.08} className="rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-2xl p-10 md:p-12 flex flex-col gap-6">
               <h3 className="font-display font-normal text-4xl">{m.name}</h3>
               <Eyebrow className="text-accent">{m.role}</Eyebrow>
               <p className="text-foreground-variant leading-relaxed">{m.bio}</p>

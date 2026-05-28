@@ -7,9 +7,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './components/HomePage';
 import LocationsPage from './components/LocationsPage';
-import AboutPage from './components/AboutPage';
 import FAQsPage from './components/FAQsPage';
-import ResidentGuidePage from './components/ResidentGuidePage';
 import ContactPage from './components/ContactPage';
 import BlogPage from './components/BlogPage';
 import BlogPostPage from './components/BlogPostPage';
@@ -75,12 +73,12 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/locations" element={<LocationsPage />} />
-          <Route path="/about" element={<AboutPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faqs" element={<FAQsPage />} />
-          <Route path="/residents" element={<ResidentGuidePage />} />
+          <Route path="/about" element={<Navigate to="/" replace />} />
+          <Route path="/residents" element={<Navigate to="/" replace />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/cookie-policy" element={<CookiePolicy />} />
