@@ -1,23 +1,20 @@
-// Inbound webhook: external automation backend (n8n, custom worker, etc.) POSTs
-// here to update the status / assignment / resolution of a maintenance ticket.
+// Inbound webhook: Millia → Lazybee.
 //
 // Endpoint:   POST /functions/v1/ticket-status-callback
-// Auth:       HMAC-SHA256 over the raw request body, header X-Lazybee-Signature
-//             format "sha256=<hex>". Shared secret is the env var
-//             LAZYBEE_WEBHOOK_SECRET, set on both sides.
-// Idempotent: X-Lazybee-Delivery (UUID) is checked against webhook_deliveries —
-//             repeats return the original result without re-applying the update.
+// Auth:       HMAC-SHA256 over "{timestamp}.{raw_body}", header
+//             X-Millia-Signature: sha256=<hex>. Timestamp in X-Millia-Timestamp.
+//             Shared secret = env MILLIA_PARTNER_SECRET.
+// Replay:    |now - timestamp| > 300s → 401 stale_timestamp.
+// Idempotent: X-Millia-Delivery-Id (or payload.delivery_id) checked against
+//             partner_inbound_log — repeats return duplicate=true.
 //
-// Body shape:
-// {
-//   "ticket_id": "uuid",
-//   "status": "IN_PROGRESS" | "ESCALATED" | "RESOLVED",
-//   "assigned_to_email": "captain@navid.sg",   // optional
-//   "resolution_note": "Replaced compressor",  // required when status=RESOLVED
-//   "internal_ref": "navid-#4823",             // optional, backend's own ID
-//   "occurred_at": "2026-05-28T10:30:00Z",     // optional
-//   "meta": { "actor": "alam@navid.sg" }       // optional, free-form
-// }
+// Spec: docs/integrations/millia-handshake-v1.md (v1).
+//
+// Events accepted: ticket.updated, ticket.closed.
+// Behaviour: After signature + replay + dedup, INSERT into partner_inbound_log
+// (status=pending) and immediately 200. A separate worker applies the update to
+// maintenance_tickets (TODO: implement as a Supabase scheduled function — see
+// the Celery-equivalent on Jason's side).
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -26,18 +23,24 @@ const supabase = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
 );
 
-const SECRET = Deno.env.get("LAZYBEE_WEBHOOK_SECRET") ?? "";
-const SOURCE = "ticket-status-callback";
+// TODO: rename LAZYBEE_WEBHOOK_SECRET → MILLIA_PARTNER_SECRET on the project,
+// or share the value with Jason during integration. Fall back for now so the
+// already-set secret keeps working until rename.
+const SECRET =
+  Deno.env.get("MILLIA_PARTNER_SECRET") ??
+  Deno.env.get("LAZYBEE_WEBHOOK_SECRET") ??
+  "";
 
-const VALID_STATUSES = new Set(["IN_PROGRESS", "ESCALATED", "RESOLVED"]);
-
-// status transitions a webhook is allowed to apply.
-const ALLOWED_TRANSITIONS: Record<string, Set<string>> = {
-  OPEN: new Set(["IN_PROGRESS", "ESCALATED", "RESOLVED"]),
-  IN_PROGRESS: new Set(["ESCALATED", "RESOLVED"]),
-  ESCALATED: new Set(["IN_PROGRESS", "RESOLVED"]),
-  RESOLVED: new Set(), // terminal — re-open must go through admin UI
-};
+const REPLAY_WINDOW_SECONDS = 300;
+const ACCEPTED_EVENTS = new Set(["ticket.updated", "ticket.closed"]);
+const CANONICAL_STATUSES = new Set([
+  "open",
+  "in_progress",
+  "on_hold",
+  "resolved",
+  "closed",
+  "cancelled",
+]);
 
 function json(status: number, body: Record<string, unknown>) {
   return new Response(JSON.stringify(body), {
@@ -46,135 +49,177 @@ function json(status: number, body: Record<string, unknown>) {
   });
 }
 
-async function verifySignature(rawBody: string, header: string | null): Promise<boolean> {
-  if (!SECRET) return false;
-  if (!header || !header.startsWith("sha256=")) return false;
-  const expectedHex = header.slice("sha256=".length).toLowerCase();
+function constantTimeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) {
+    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return diff === 0;
+}
 
+async function hmacHex(secret: string, message: string): Promise<string> {
   const key = await crypto.subtle.importKey(
     "raw",
-    new TextEncoder().encode(SECRET),
+    new TextEncoder().encode(secret),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"],
   );
-  const sigBuf = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(rawBody));
-  const actualHex = Array.from(new Uint8Array(sigBuf))
+  const sigBuf = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    new TextEncoder().encode(message),
+  );
+  return Array.from(new Uint8Array(sigBuf))
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
+}
 
-  // Constant-time compare.
-  if (actualHex.length !== expectedHex.length) return false;
-  let diff = 0;
-  for (let i = 0; i < actualHex.length; i++) {
-    diff |= actualHex.charCodeAt(i) ^ expectedHex.charCodeAt(i);
-  }
-  return diff === 0;
+async function verifySignature(
+  timestamp: string,
+  rawBody: string,
+  header: string | null,
+): Promise<boolean> {
+  if (!SECRET) return false;
+  if (!header || !header.startsWith("sha256=")) return false;
+  const expected = header.slice("sha256=".length).toLowerCase();
+  const actual = await hmacHex(SECRET, `${timestamp}.${rawBody}`);
+  return constantTimeEqual(actual, expected);
 }
 
 Deno.serve(async (req) => {
   if (req.method !== "POST") return json(405, { error: "method_not_allowed" });
 
-  const deliveryId = req.headers.get("X-Lazybee-Delivery");
-  const signature = req.headers.get("X-Lazybee-Signature");
+  const signature = req.headers.get("X-Millia-Signature");
+  const timestampHeader = req.headers.get("X-Millia-Timestamp");
+  const deliveryHeader = req.headers.get("X-Millia-Delivery-Id");
   const rawBody = await req.text();
 
-  if (!deliveryId) return json(400, { error: "missing_delivery_id" });
-  if (!(await verifySignature(rawBody, signature))) {
+  // --- timestamp / replay window -------------------------------------------
+  const ts = Number(timestampHeader);
+  if (!timestampHeader || !Number.isFinite(ts)) {
+    return json(401, { error: "stale_timestamp" });
+  }
+  const nowSec = Math.floor(Date.now() / 1000);
+  if (Math.abs(nowSec - ts) > REPLAY_WINDOW_SECONDS) {
+    return json(401, { error: "stale_timestamp" });
+  }
+
+  // --- signature ------------------------------------------------------------
+  if (!(await verifySignature(timestampHeader, rawBody, signature))) {
     return json(401, { error: "invalid_signature" });
   }
 
-  // Idempotency: replay returns the original result.
-  const { data: existing } = await supabase
-    .from("webhook_deliveries")
-    .select("result_status, result_body")
-    .eq("delivery_id", deliveryId)
-    .maybeSingle();
-  if (existing) {
-    return new Response(JSON.stringify(existing.result_body ?? {}), {
-      status: existing.result_status,
-      headers: { "Content-Type": "application/json", "X-Replay": "1" },
-    });
-  }
-
+  // --- parse body -----------------------------------------------------------
   let payload: Record<string, unknown>;
   try {
     payload = JSON.parse(rawBody);
   } catch {
-    return json(400, { error: "invalid_json" });
+    return json(422, { error: "schema_violation", detail: "invalid_json" });
   }
 
-  const ticketId = String(payload.ticket_id ?? "");
-  const status = String(payload.status ?? "");
-  const resolutionNote = payload.resolution_note ? String(payload.resolution_note) : null;
-  const assignedToEmail = payload.assigned_to_email ? String(payload.assigned_to_email) : null;
+  const deliveryId =
+    deliveryHeader ?? (payload.delivery_id ? String(payload.delivery_id) : "");
+  const event = String(payload.event ?? "");
+  const ticket = (payload.ticket ?? {}) as Record<string, unknown>;
+  const ticketId = ticket.id ? String(ticket.id) : null;
+  const canonicalStatus = ticket.status ? String(ticket.status) : null;
 
-  if (!ticketId) return json(400, { error: "missing_ticket_id" });
-  if (!VALID_STATUSES.has(status)) return json(400, { error: "invalid_status", allowed: [...VALID_STATUSES] });
-  if (status === "RESOLVED" && !resolutionNote) {
-    return json(400, { error: "resolution_note_required_for_resolved" });
+  if (!deliveryId) {
+    return json(422, { error: "schema_violation", detail: "missing_delivery_id" });
   }
-
-  // Look up the current ticket so we can validate the transition.
-  const { data: ticket, error: ticketErr } = await supabase
-    .from("maintenance_tickets")
-    .select("id, status")
-    .eq("id", ticketId)
-    .maybeSingle();
-  if (ticketErr) return json(500, { error: "ticket_lookup_failed", detail: ticketErr.message });
-  if (!ticket) return json(404, { error: "ticket_not_found" });
-
-  const allowed = ALLOWED_TRANSITIONS[ticket.status] ?? new Set<string>();
-  if (!allowed.has(status)) {
-    return json(409, {
-      error: "invalid_transition",
-      current_status: ticket.status,
-      requested_status: status,
+  if (!ACCEPTED_EVENTS.has(event)) {
+    return json(422, {
+      error: "schema_violation",
+      detail: `unsupported_event: ${event}`,
+    });
+  }
+  if (!ticketId) {
+    return json(422, { error: "schema_violation", detail: "missing_ticket_id" });
+  }
+  if (!canonicalStatus || !CANONICAL_STATUSES.has(canonicalStatus)) {
+    return json(422, {
+      error: "schema_violation",
+      detail: `invalid_status: ${canonicalStatus}`,
     });
   }
 
-  // Resolve assigned_to_email → user id (optional).
-  let assignedToId: string | null = null;
-  if (assignedToEmail) {
-    const { data: user } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("email", assignedToEmail)
-      .maybeSingle();
-    assignedToId = user?.id ?? null;
+  // --- idempotency check ---------------------------------------------------
+  const { data: existing } = await supabase
+    .from("partner_inbound_log")
+    .select("status")
+    .eq("delivery_id", deliveryId)
+    .maybeSingle();
+
+  if (existing) {
+    const body: Record<string, unknown> = {
+      received: true,
+      delivery_id: deliveryId,
+      duplicate: true,
+    };
+    if (existing.status === "unmapped") body.status = "unmapped";
+    return json(200, body);
   }
 
-  // Apply the update.
-  const update: Record<string, unknown> = {
-    status,
-    updated_at: new Date().toISOString(),
-  };
-  if (assignedToId) update.assigned_to = assignedToId;
-  if (status === "RESOLVED") {
-    update.resolution_note = resolutionNote;
-    update.resolved_at = new Date().toISOString();
-    if (assignedToId) update.resolved_by = assignedToId;
-  }
-
-  const { data: updated, error: updateErr } = await supabase
+  // --- resolve ticket → mapped? --------------------------------------------
+  const { data: localTicket } = await supabase
     .from("maintenance_tickets")
-    .update(update)
+    .select("id")
     .eq("id", ticketId)
-    .select("id, status, assigned_to, resolution_note, resolved_at, updated_at")
-    .single();
-  if (updateErr) return json(500, { error: "update_failed", detail: updateErr.message });
+    .maybeSingle();
 
-  const result = { ok: true, ticket: updated };
+  if (!localTicket) {
+    // Don't reject — config drift shouldn't trigger retry storms.
+    await supabase.from("partner_inbound_log").insert({
+      delivery_id: deliveryId,
+      partner: "millia",
+      event,
+      ticket_id: null,
+      payload,
+      status: "unmapped",
+      processed_at: new Date().toISOString(),
+    });
+    return json(200, {
+      received: true,
+      delivery_id: deliveryId,
+      duplicate: false,
+      status: "unmapped",
+    });
+  }
 
-  // Record the delivery so replays are no-ops.
-  await supabase.from("webhook_deliveries").insert({
+  // --- enqueue: write pending row, return 200 ------------------------------
+  // The worker (TODO: Supabase scheduled function) will pick this up, map the
+  // canonical status → local enum, update maintenance_tickets, and stamp
+  // last_sync_source='partner_inbound' to prevent the outbound trigger from
+  // echoing it back.
+  const { error: insertErr } = await supabase
+    .from("partner_inbound_log")
+    .insert({
+      delivery_id: deliveryId,
+      partner: "millia",
+      event,
+      ticket_id: ticketId,
+      payload,
+      status: "pending",
+    });
+
+  if (insertErr) {
+    // Unique-violation race on delivery_id: treat as duplicate.
+    if (insertErr.code === "23505") {
+      return json(200, {
+        received: true,
+        delivery_id: deliveryId,
+        duplicate: true,
+      });
+    }
+    console.error("[ticket-status-callback] enqueue failed", insertErr);
+    return json(500, { error: "enqueue_failed", detail: insertErr.message });
+  }
+
+  return json(200, {
+    received: true,
     delivery_id: deliveryId,
-    source: SOURCE,
-    ticket_id: ticketId,
-    payload,
-    result_status: 200,
-    result_body: result,
+    duplicate: false,
   });
-
-  return json(200, result);
 });
