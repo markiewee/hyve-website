@@ -23,10 +23,11 @@ const supabase = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
 );
 
-// TODO: rename LAZYBEE_WEBHOOK_SECRET → MILLIA_PARTNER_SECRET on the project,
-// or share the value with Jason during integration. Fall back for now so the
-// already-set secret keeps working until rename.
+// Per spec §1: two secrets per partner.
+//   PARTNER_LAZYBEE_OUTBOUND_SECRET = Millia signs with this, we verify.
+// Legacy names accepted as fallback during transition.
 const SECRET =
+  Deno.env.get("PARTNER_LAZYBEE_OUTBOUND_SECRET") ??
   Deno.env.get("MILLIA_PARTNER_SECRET") ??
   Deno.env.get("LAZYBEE_WEBHOOK_SECRET") ??
   "";
@@ -96,18 +97,15 @@ Deno.serve(async (req) => {
   const deliveryHeader = req.headers.get("X-Millia-Delivery-Id");
   const rawBody = await req.text();
 
-  // --- timestamp / replay window -------------------------------------------
+  // --- timestamp / replay window + signature -------------------------------
+  // Per spec §3 response codes: both timestamp-skew and HMAC-mismatch return
+  // 401 invalid_signature with no further detail. Collapsing the two cases
+  // avoids leaking which gate failed.
   const ts = Number(timestampHeader);
-  if (!timestampHeader || !Number.isFinite(ts)) {
-    return json(401, { error: "stale_timestamp" });
-  }
   const nowSec = Math.floor(Date.now() / 1000);
-  if (Math.abs(nowSec - ts) > REPLAY_WINDOW_SECONDS) {
-    return json(401, { error: "stale_timestamp" });
-  }
-
-  // --- signature ------------------------------------------------------------
-  if (!(await verifySignature(timestampHeader, rawBody, signature))) {
+  const timestampOk =
+    timestampHeader && Number.isFinite(ts) && Math.abs(nowSec - ts) <= REPLAY_WINDOW_SECONDS;
+  if (!timestampOk || !(await verifySignature(timestampHeader ?? "", rawBody, signature))) {
     return json(401, { error: "invalid_signature" });
   }
 

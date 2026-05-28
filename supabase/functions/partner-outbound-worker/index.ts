@@ -8,9 +8,9 @@
 //              where next_attempt_at <= now() AND status = 'pending'.
 //              Signs each envelope with HMAC-SHA256 over "{ts}.{body}", POSTs
 //              to MILLIA_OUTBOUND_WEBHOOK_URL, and records the result.
-// Backoff:     1m, 2m, 5m, 15m, 30m, 1h, 2h, 4h, 8h cap. After 24h elapsed
-//              since created_at → dead_lettered + console.error (RIA signal
-//              lives on Jason's side, not ours).
+// Backoff:     1s · 4s · 16s · 64s · 256s then 1h cap (Jason's spec §3).
+//              After 24h elapsed since created_at → dead_lettered +
+//              console.error (RIA signal lives on Jason's side, not ours).
 //
 // Spec: docs/integrations/millia-handshake-v1.md (v1).
 
@@ -21,7 +21,11 @@ const supabase = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
 );
 
+// Per spec §1: two secrets per partner.
+//   PARTNER_LAZYBEE_INBOUND_SECRET = we sign with this, Millia verifies.
+// Legacy names accepted as fallback during transition.
 const SECRET =
+  Deno.env.get("PARTNER_LAZYBEE_INBOUND_SECRET") ??
   Deno.env.get("MILLIA_PARTNER_SECRET") ??
   Deno.env.get("LAZYBEE_WEBHOOK_SECRET") ??
   "";
@@ -29,11 +33,10 @@ const TARGET_URL = Deno.env.get("MILLIA_OUTBOUND_WEBHOOK_URL") ?? "";
 
 const BATCH_SIZE = 20;
 const DEAD_LETTER_AFTER_MS = 24 * 60 * 60 * 1000; // 24h
-const REQUEST_TIMEOUT_MS = 10_000;
+const REQUEST_TIMEOUT_MS = 5_000; // Jason §4 retry policy: ">5s timeout" is a failure.
 
-// Backoff schedule in seconds, indexed by attempt count (post-failure).
-// attempt=1 → wait 60s before next try, attempt=2 → 120s, ... attempt>=9 → 8h cap.
-const BACKOFF_SECONDS = [60, 120, 300, 900, 1800, 3600, 7200, 14400, 28800];
+// Backoff schedule in seconds (Jason §3): 1, 4, 16, 64, 256, then 1h cap.
+const BACKOFF_SECONDS = [1, 4, 16, 64, 256, 3600];
 
 function backoffSeconds(attempt: number): number {
   if (attempt <= 0) return BACKOFF_SECONDS[0];
@@ -172,7 +175,7 @@ Deno.serve(async (_req) => {
     return new Response(
       JSON.stringify({
         error: "missing_env",
-        detail: "MILLIA_PARTNER_SECRET and MILLIA_OUTBOUND_WEBHOOK_URL required",
+        detail: "PARTNER_LAZYBEE_INBOUND_SECRET and MILLIA_OUTBOUND_WEBHOOK_URL required",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
     );
