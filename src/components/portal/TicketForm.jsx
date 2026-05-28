@@ -38,6 +38,37 @@ function toTypedImageFile(file) {
   return new File([file], file.name, { type: resolveImageContentType(file) });
 }
 
+function isHeic(file) {
+  const t = (file.type || "").toLowerCase();
+  const ext = file.name.split(".").pop()?.toLowerCase();
+  return t === "image/heic" || t === "image/heif" || ext === "heic" || ext === "heif";
+}
+
+// iPhones save photos as HEIC by default. iOS Safari can render HEIC, but
+// Chrome / Firefox / most admin browsers cannot — admins would see broken
+// thumbnails. Convert HEIC to JPEG client-side before upload so the photo is
+// viewable everywhere. heic2any is dynamically imported so the ~1MB libheif
+// WASM payload only loads when an iOS user actually picks a HEIC file.
+async function convertHeicToJpeg(file) {
+  const { default: heic2any } = await import("heic2any");
+  const result = await heic2any({ blob: file, toType: "image/jpeg", quality: 0.9 });
+  const jpegBlob = Array.isArray(result) ? result[0] : result;
+  const newName = file.name.replace(/\.(heic|heif)$/i, ".jpg");
+  return new File([jpegBlob], newName, { type: "image/jpeg" });
+}
+
+async function prepareForUpload(file) {
+  if (isHeic(file)) {
+    try {
+      return await convertHeicToJpeg(file);
+    } catch (e) {
+      console.error("HEIC conversion failed, uploading original:", e);
+      // Fall through to the typed-file path so we at least preserve the upload.
+    }
+  }
+  return toTypedImageFile(file);
+}
+
 export default function TicketForm({ preselectedCategory = null }) {
   const { user, profile } = useAuth();
   const navigate = useNavigate();
@@ -93,10 +124,11 @@ export default function TicketForm({ preselectedCategory = null }) {
         (globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`);
       const uploaded = [];
       for (const file of Array.from(photos)) {
-        const path = `tickets/${batchId}/${Date.now()}-${file.name}`;
+        const prepared = await prepareForUpload(file);
+        const path = `tickets/${batchId}/${Date.now()}-${prepared.name}`;
         const { error: uploadError } = await supabase.storage
           .from("ticket-photos")
-          .upload(path, toTypedImageFile(file));
+          .upload(path, prepared);
         if (uploadError) {
           console.error("Photo upload failed:", uploadError);
           continue;

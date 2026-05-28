@@ -48,6 +48,7 @@
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.15.0",
     "googleapis": "^171.4.0",
+    "heic2any": "^0.0.4",
     "input-otp": "^1.4.2",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.510.0",
