@@ -1,9 +1,9 @@
 import SEO from './SEO';
 import FadeIn from './marketing/FadeIn';
+import BookingHero from './marketing/BookingHero';
 import { lodgingBusinessSchema, orgSchema } from '../lib/seo';
 import { BOOKING_URL } from '../lib/booking';
 import { track, EVENTS } from '../lib/analytics';
-import heroImg from '../assets/hero_coliving_interior.jpg';
 import lentorImg from '../assets/river_valley_exterior.jpg';
 import jurongImg from '../assets/modern_condo_exterior.jpg';
 import serangoonImg from '../assets/tiong_bahru_neighborhood.jpg';
@@ -65,27 +65,7 @@ export default function HomePage() {
         schema={[orgSchema(), lodgingBusinessSchema()]}
       />
 
-      {/* Hero */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={heroImg} alt="A bright, furnished Lazybee co-living common area in Singapore" className="w-full h-full object-cover kenburns" />
-          <div className="absolute inset-0 bg-background/40" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background" />
-        </div>
-        <FadeIn className="relative z-10 text-center max-w-5xl px-6">
-          <Eyebrow className="text-accent mb-8 tracking-[0.6em]">Singapore</Eyebrow>
-          <h1 className="font-display font-bold tracking-display leading-[0.98] text-7xl md:text-8xl mb-10">
-            Lazybee.
-          </h1>
-          <p className="font-light text-foreground-variant text-base md:text-lg max-w-xl mx-auto mb-12 leading-relaxed">
-            Fully furnished rooms from S$950/month. Near MRT. No agent fees. Reserve online — no deposit to hold.
-          </p>
-          <div className="flex justify-center">
-            <CtaButton source="home_hero" />
-          </div>
-        </FadeIn>
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-foreground-variant/50 text-2xl animate-bounce" aria-hidden>↓</div>
-      </section>
+      <BookingHero subtitle="by Lazybee" />
 
       {/* Value props */}
       <section className="px-6 md:px-20 py-28 md:py-40">
@@ -105,7 +85,7 @@ export default function HomePage() {
         {AREAS.map((a, i) => (
           <div key={a.area} className={`flex flex-col ${i % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} md:h-screen`}>
             <div className="w-full md:w-1/2 h-72 md:h-auto overflow-hidden">
-              <img src={a.img} alt={`Lazybee co-living in ${a.area}, Singapore`} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+              <img src={a.img} alt={`Lazybee co-living in ${a.area}, Singapore`} className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
             </div>
             <div className={`w-full md:w-1/2 flex items-center px-6 md:px-20 py-16 md:py-20 ${i % 2 === 1 ? 'bg-surface' : 'bg-surface-container'}`}>
               <FadeIn className="max-w-md">

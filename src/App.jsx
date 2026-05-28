@@ -17,7 +17,6 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import CookiePolicy from './components/CookiePolicy';
 import StaffResourcePage from './components/StaffResourcePage';
-import FloatingWhatsApp from './components/FloatingWhatsApp';
 
 // Auth
 import { AuthProvider } from './hooks/useAuth';
@@ -394,7 +393,6 @@ function AppContent() {
           } />
         </Routes>
         {!isPortal && !isViewing && <Footer />}
-        {!isPortal && !isViewing && <FloatingWhatsApp />}
       </div>
   );
 }
