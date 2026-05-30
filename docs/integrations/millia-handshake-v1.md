@@ -1,6 +1,6 @@
 # Millia ↔ Partners Webhook Handshake — v1
 
-**Status:** Draft for implementation. Lazybee/Hyve side is the first partner.
+**Status:** LIVE (verified 2026-05-30). Lazybee/Hyve is the first partner — full pipe proven end-to-end (portal ticket → Millia task, `task_id` returned). Mapping merges on `unit_code` (see §8).
 **Owners:** Mark (Lazybee/Hyve, partner) · Jason (Millia, central hub).
 **Schema version:** `1`.
 
@@ -122,40 +122,60 @@ status outside the canonical set.
 
 ## 4. Envelope
 
-Identical shape in both directions.
+Frozen v1 shape. Top-level `room` / `property` / `submitter` / `links` — Millia
+resolves the ticket to a property by **`room.unit_code`** (see §8), so the room
+block is top-level, never nested under `ticket`.
 
 ```json
 {
-  "event": "ticket.updated",
+  "event": "ticket.created",
   "delivery_id": "0f1c9c5e-7d3b-4d4a-9c2f-3a5b8e6f1a90",
   "occurred_at": "2026-05-28T12:34:56Z",
   "ticket": {
     "id": "<owning-side ticket uuid>",
-    "status": "in_progress",
+    "status": "open",
     "category": "AC",
     "description": "Aircon not cooling, dripping water",
-    "room": {
-      "id": "<uuid>",
-      "unit_code": "CP-MBR",
-      "property_code": "CP",
-      "property_name": "Chiltern Park"
-    },
-    "assignee": { "name": "Alam (Navid)", "role": "VENDOR" },
-    "notes": "Vendor scheduled site visit 3pm Friday",
-    "photos": [
-      { "url": "https://diiilqpfmlxjwiaeophb.supabase.co/storage/v1/object/public/ticket-photos/abc.jpg" }
-    ],
+    "location_label": "CP-PR1",
     "created_at": "2026-05-27T09:00:00Z",
     "updated_at": "2026-05-28T12:34:55Z"
   },
-  "meta": { "source": "lazybee_partner", "schema_version": 1 }
+  "room": {
+    "id": "<our rooms.id uuid>",
+    "unit_code": "CP-PR1",
+    "name": "CP Premium Room 1",
+    "property_id": "<our properties.id uuid>"
+  },
+  "property": {
+    "id": "<our properties.id uuid>",
+    "code": "CP",
+    "name": "Chiltern Park 135",
+    "address": null
+  },
+  "submitter": {
+    "user_id": "<auth.users uuid>",
+    "name": "John Tan",
+    "email": "john@example.com",
+    "phone": "+65 9123 4567",
+    "role": "TENANT"
+  },
+  "photos": [
+    { "url": "https://diiilqpfmlxjwiaeophb.supabase.co/storage/v1/object/public/ticket-photos/abc.jpg" }
+  ],
+  "links": {
+    "admin_ticket_url": "https://www.lazybee.sg/portal/admin/tickets?ticket=<id>",
+    "resident_ticket_url": "https://www.lazybee.sg/portal/issues"
+  },
+  "meta": { "source": "portal_ticket_form", "env": "production", "schema_version": 1 }
 }
 ```
 
 - `ticket.id` is always the **owning side's** id. For Lazybee-originated
   tickets, that's `maintenance_tickets.id` on the Lazybee Supabase. Millia
   echoes that exact UUID back on subsequent updates.
-- `ticket.assignee`, `ticket.notes`, `ticket.photos` are optional/nullable.
+- **`room.unit_code`** is the mapping key (`CP-MR`, `CP-PR1` … `TG-STD2`). It is
+  also mirrored in `ticket.location_label`.
+- `submitter`, `property.address`, `photos`, and `links` are optional/nullable.
 - `meta.source` is informational; receivers MUST NOT route on it.
 
 ---
@@ -340,32 +360,23 @@ Captain on Millia side marks ticket in_progress
 
 ---
 
-## 8. Partner mapping bootstrap (admin-only)
+## 8. Partner mapping (unit-code merge)
 
-- **URL:** `POST /functions/v1/partner-room-sync`
-- **Auth:** Bearer JWT, role `ADMIN` (NOT signature-gated — this is a tooling
-  endpoint, not webhook traffic).
-- **Body:**
-  ```json
-  {
-    "partner": "millia",
-    "rooms": [
-      {
-        "partner_room_id": "<uuid on Millia side>",
-        "partner_unit_code": "CP-MBR",
-        "millia_property_id": "<uuid on Millia side>",
-        "room_id": "<our rooms.id uuid>"
-      }
-    ]
-  }
-  ```
-- Upserts into `partner_property_mappings` on PK `(partner, partner_room_id)`.
-- Inbound webhooks reference tickets by `ticket.id` (Lazybee-owned UUID), so
-  the mapping table is not strictly required for the v1 ticket flow. It IS
-  required for future flows where Millia references rooms by partner-side ids
-  (e.g. tenant moves, room status changes).
-- Inbound webhook arriving for an unknown `ticket.id` → `200` with
-  `status: "unmapped"`, logged in `partner_inbound_log`. Task is not modified.
+As of 2026-05-30, Millia resolves partner tickets to properties by
+**`room.unit_code`** — the shared code namespace both sides already use
+(`CP-MR`, `CP-PR1` … `TG-STD2`). No UUID exchange and no bootstrap call are
+required: the partner sends `room.unit_code` on every webhook and Millia matches
+on it. (Note: master-room codes are `CP-MR` / `TG-MR`, not `CP-MBR`; IH has no
+master.)
+
+- A webhook whose `room.unit_code` is not yet known on the Millia side → `200`
+  with `status: "unmapped"`, logged in `partner_inbound_log`. No task is created.
+  Once the code is mapped, the next event resolves and Millia returns a
+  `task_id` (e.g. `{"received": true, "task_id": "<uuid>"}`).
+- The legacy UUID bootstrap (`POST /functions/v1/partner-room-sync`, body keyed
+  on `partner_room_id` / `millia_property_id`) is **superseded** for the v1
+  ticket flow. The `partner_property_mappings` table remains for future flows
+  that reference rooms by partner-side UUIDs (tenant moves, room status, etc.).
 
 ---
 

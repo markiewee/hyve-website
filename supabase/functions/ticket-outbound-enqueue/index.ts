@@ -134,16 +134,19 @@ Deno.serve(async (req) => {
 
   const canonicalStatus = STATUS_MAP[record.status] ?? "open";
 
-  // Fetch room + property + photos for the full envelope.
+  // Fetch room + property + photos for the full envelope (Jason frozen v1 §3).
+  const SITE_URL = Deno.env.get("PUBLIC_SITE_URL") ?? "https://www.lazybee.sg";
+  const ENV = Deno.env.get("MILLIA_ENV") ?? "production";
+
   const [{ data: room }, { data: property }, { data: photos }] = await Promise.all([
     supabase
       .from("rooms")
-      .select("id, unit_code")
+      .select("id, unit_code, name")
       .eq("id", record.room_id)
       .maybeSingle(),
     supabase
       .from("properties")
-      .select("id, name, code")
+      .select("id, name, code, address")
       .eq("id", record.property_id)
       .maybeSingle(),
     supabase
@@ -152,21 +155,55 @@ Deno.serve(async (req) => {
       .eq("ticket_id", record.id),
   ]);
 
-  let assignee: { name: string; role: string } | null = null;
-  if (record.assigned_to) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("full_name, role")
-      .eq("id", record.assigned_to)
+  // Submitter identity. maintenance_tickets.submitted_by → auth.users(id).
+  // Mirror notify-tenant's resolution: tenant_profiles (by user_id) →
+  // tenant_details (by tenant_profile_id), with an auth.users fallback for
+  // email/phone. Internal portal logins use @portal.lazybee.sg — never leak
+  // those as a contact email.
+  let submitter:
+    | { user_id: string; name: string; email: string | null; phone: string | null; role: string }
+    | null = null;
+  if (record.submitted_by) {
+    const { data: tp } = await supabase
+      .from("tenant_profiles")
+      .select("id, role")
+      .eq("user_id", record.submitted_by)
       .maybeSingle();
-    if (profile) {
-      assignee = {
-        name: profile.full_name ?? "",
-        role: profile.role ?? "",
-      };
+
+    let fullName = "";
+    let email: string | null = null;
+    let phone: string | null = null;
+
+    if (tp?.id) {
+      const { data: details } = await supabase
+        .from("tenant_details")
+        .select("full_name, email, phone")
+        .eq("tenant_profile_id", tp.id)
+        .maybeSingle();
+      fullName = details?.full_name ?? "";
+      email = details?.email ?? null;
+      phone = details?.phone ?? null;
     }
+
+    if (!email || !phone) {
+      const { data: userData } = await supabase.auth.admin.getUserById(record.submitted_by);
+      const authEmail = userData?.user?.email ?? null;
+      if (!email && authEmail && !authEmail.endsWith("@portal.lazybee.sg")) email = authEmail;
+      if (!phone) phone = userData?.user?.phone ?? null;
+    }
+
+    submitter = {
+      user_id: record.submitted_by,
+      name: fullName,
+      email,
+      phone,
+      role: tp?.role ?? "TENANT",
+    };
   }
 
+  // Frozen v1 §3 inbound shape: top-level room / property / submitter / links.
+  // Millia maps tickets to properties by the TOP-LEVEL room.id (UUID), so it
+  // must live here — not nested under ticket — or every ticket quarantines.
   const envelope = {
     event,
     delivery_id: "", // filled below
@@ -176,22 +213,33 @@ Deno.serve(async (req) => {
       status: canonicalStatus,
       category: record.category,
       description: record.description,
-      room: {
-        id: room?.id ?? record.room_id,
-        unit_code: room?.unit_code ?? null,
-        property_code: property?.code ?? null,
-        property_name: property?.name ?? null,
-      },
-      assignee,
-      notes: record.resolution_note,
-      photos: (photos ?? []).map((p: { photo_url: string }) => ({
-        url: p.photo_url,
-      })),
+      location_label: room?.unit_code ?? null,
       created_at: record.created_at,
       updated_at: record.updated_at,
     },
+    room: {
+      id: room?.id ?? record.room_id,
+      unit_code: room?.unit_code ?? null,
+      name: room?.name ?? null,
+      property_id: record.property_id,
+    },
+    property: {
+      id: property?.id ?? record.property_id,
+      code: property?.code ?? null,
+      name: property?.name ?? null,
+      address: property?.address ?? null,
+    },
+    submitter,
+    photos: (photos ?? []).map((p: { photo_url: string }) => ({
+      url: p.photo_url,
+    })),
+    links: {
+      admin_ticket_url: `${SITE_URL}/portal/admin/tickets?ticket=${record.id}`,
+      resident_ticket_url: `${SITE_URL}/portal/issues`,
+    },
     meta: {
-      source: "lazybee_partner",
+      source: "portal_ticket_form",
+      env: ENV,
       schema_version: 1,
     },
   };
