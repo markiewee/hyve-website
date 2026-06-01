@@ -31,6 +31,7 @@ export default function AdminBillingPage() {
   return (
     <PortalLayout>
       <PageHeader
+        eyebrow="Admin"
         title="Money"
         subtitle="One area for everything money — rent, invoices, expenses, and P&L. Pick a destination."
       />

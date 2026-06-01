@@ -36,6 +36,7 @@ export default function AdminMembersPage() {
     <PortalLayout>
       <div className="space-y-4">
         <PageHeader
+          eyebrow="Admin"
           title="Members"
           action={
             <select
@@ -51,7 +52,7 @@ export default function AdminMembersPage() {
           }
         />
 
-        <div className="flex gap-2 border-b border-[#DDD0AD]">
+        <div className="flex gap-2 border-b border-border">
           {MODES.map((m) => {
             const dot = m.key === "CLAIMS" && pendingClaimCount > 0;
             return (
@@ -62,7 +63,7 @@ export default function AdminMembersPage() {
                 className={`relative px-4 py-2 text-sm font-medium ${
                   mode === m.key
                     ? "border-b-2 border-[#A87813] text-[#A87813]"
-                    : "text-[#57534E] hover:text-[#181511]"
+                    : "text-foreground-variant hover:text-foreground"
                 }`}
               >
                 {m.label}

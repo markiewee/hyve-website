@@ -9,6 +9,7 @@ export default function AdminInboxPage() {
   return (
     <PortalLayout>
       <PageHeader
+        eyebrow="Admin"
         title="Inbox"
         subtitle="Everything that needs admin attention right now — overdue rent, escalated tickets, unstaffed viewings, pending reviews, expiring leases."
       />

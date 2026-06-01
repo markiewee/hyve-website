@@ -177,6 +177,7 @@ export default function AdminDashboardPage() {
   return (
     <PortalLayout>
       <PageHeader
+        eyebrow="Admin"
         title="Admin Console"
         subtitle="Global stats, action inbox, and quick links to every admin tool."
       />

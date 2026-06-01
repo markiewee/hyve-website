@@ -702,6 +702,7 @@ export default function InvestorReportsPage() {
   return (
     <InvestorLayout>
       <section className="mb-12">
+        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Investor</span>
         <h2 className="font-['Hanken_Grotesk'] text-4xl font-extrabold text-foreground tracking-tight mb-2">
           Reports
         </h2>

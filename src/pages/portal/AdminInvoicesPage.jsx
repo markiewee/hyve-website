@@ -70,6 +70,7 @@ export default function AdminInvoicesPage() {
   return (
     <PortalLayout>
       <div className="mb-6">
+        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-3">Admin</span>
         <h2 className="font-display text-2xl font-extrabold text-foreground tracking-tight mb-1">
           Invoice Management
         </h2>
