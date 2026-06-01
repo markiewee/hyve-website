@@ -26,6 +26,7 @@ const supabase = createClient(
 // Local status → canonical status mapping.
 const STATUS_MAP: Record<string, string> = {
   OPEN: "open",
+  ACKNOWLEDGED: "in_progress",
   IN_PROGRESS: "in_progress",
   ESCALATED: "on_hold",
   RESOLVED: "resolved",

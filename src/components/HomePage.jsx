@@ -141,8 +141,9 @@ export default function HomePage() {
       <section className="relative min-h-screen flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <img src={heroImg} alt="Lazybee co-living interior" className="w-full h-full object-cover kenburns" />
-          <div className="absolute inset-0 bg-background/70" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background" />
+          {/* Directional scrim: solid behind the left-aligned copy, image breathes on the right */}
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/25" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
         </div>
         <FadeIn className="relative z-10 max-w-5xl px-6 md:px-20 py-32 md:py-40">
           <Eyebrow className="text-accent mb-8">Lazybee · As an investment</Eyebrow>
@@ -269,7 +270,7 @@ export default function HomePage() {
       </section>
 
       {/* Final CTA */}
-      <section className="relative min-h-[70vh] flex items-center justify-center px-6 py-28 bg-background">
+      <section className="relative flex items-center justify-center px-6 py-28 md:py-40 bg-background">
         <FadeIn className="relative z-10 text-center max-w-3xl">
           <Eyebrow className="text-accent mb-8">Get involved</Eyebrow>
           <h2 className="font-display font-light tracking-display text-5xl md:text-7xl mb-10 leading-none">Let's talk.</h2>
