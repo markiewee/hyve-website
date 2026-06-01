@@ -669,11 +669,12 @@ export default function StaffResourcePage() {
       />
 
       <section className="px-6 md:px-8 py-12 max-w-7xl mx-auto">
+        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Internal · Sales &amp; ops</span>
         <h1 className="font-display text-3xl sm:text-4xl font-extrabold tracking-display text-foreground mb-2">
           Staff Resource Guide
         </h1>
         <p className="text-foreground-variant text-lg">
-          Quick reference for sales &amp; ops — room details, availability, and policies.
+          Live room details and availability — pull pricing, beds, and move-in dates fast.
         </p>
       </section>
 
@@ -696,10 +697,6 @@ export default function StaffResourcePage() {
           </Tabs>
         )}
       </section>
-
-      <LeaseTermsSection />
-      <MoveInProcessSection />
-      <FAQSection />
     </main>
   );
 }
