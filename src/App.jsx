@@ -8,8 +8,6 @@ import Footer from './components/Footer';
 import HomePage from './components/HomePage';
 import FAQsPage from './components/FAQsPage';
 import ContactPage from './components/ContactPage';
-import BlogPage from './components/BlogPage';
-import BlogPostPage from './components/BlogPostPage';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import CookiePolicy from './components/CookiePolicy';
@@ -72,8 +70,8 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/locations" element={<Navigate to="/" replace />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/:slug" element={<BlogPostPage />} />
+          <Route path="/blog" element={<Navigate to="/" replace />} />
+          <Route path="/blog/:slug" element={<Navigate to="/" replace />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faqs" element={<FAQsPage />} />
           <Route path="/about" element={<Navigate to="/" replace />} />

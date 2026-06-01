@@ -10,7 +10,8 @@ const Navbar = () => {
   useEffect(() => { setIsOpen(false); }, [location.pathname]);
 
   const navigation = [
-    { name: 'Blog', href: '/blog' },
+    { name: 'FAQs', href: '/faqs' },
+    { name: 'Contact', href: '/contact' },
   ];
   const isActive = (path) => location.pathname === path;
   const onBrowse = () => track(EVENTS.BROWSE_ROOMS_CLICK, { source: 'navbar' });
