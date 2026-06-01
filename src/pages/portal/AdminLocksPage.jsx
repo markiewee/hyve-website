@@ -138,6 +138,7 @@ export default function AdminLocksPage() {
     <PortalLayout>
       <div className="mb-10 flex items-start justify-between">
         <div>
+          <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Operations</span>
           <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">
             Smart Locks
           </h1>

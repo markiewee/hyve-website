@@ -590,6 +590,7 @@ export default function CaptainViewingsPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
+        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Property</span>
         <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">
           Viewings
         </h1>

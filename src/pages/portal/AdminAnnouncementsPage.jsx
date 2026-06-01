@@ -146,6 +146,7 @@ export default function AdminAnnouncementsPage() {
       {/* Page header */}
       <div className="mb-10 flex items-start justify-between gap-4">
         <div>
+          <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Property</span>
           <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
             Announcements
           </h1>

@@ -32,7 +32,8 @@ export default function CaptainClaimFormPage() {
   return (
     <PortalLayout>
       <div className="max-w-xl mx-auto p-4">
-        <h1 className="text-2xl font-semibold mb-4">Submit a claim</h1>
+        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-3">Claims</span>
+        <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight mb-4">Submit a claim</h1>
         <ClaimForm
           propertyId={propertyId}
           propertyName={propertyName}

@@ -569,7 +569,8 @@ export default function AdminOnboardingDetailPage() {
   return (
     <PortalLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-foreground">
+        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-3">Members</span>
+        <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
           Onboarding: {unitCode}
         </h1>
         <p className="text-sm text-muted-foreground mt-1">{propertyName}</p>
