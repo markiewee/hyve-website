@@ -175,12 +175,6 @@ function RoomCard({ room }) {
               {room.bed_size.replace(/_/g, ' ')}
             </span>
           )}
-          {room.has_private_bathroom && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-accent/10 text-accent">
-              <span className="material-symbols-outlined text-[14px]">bathtub</span>
-              Ensuite
-            </span>
-          )}
           {room.max_occupancy > 1 && (
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-white/5 text-foreground-variant border border-white/10">
               <span className="material-symbols-outlined text-[14px]">group</span>
@@ -256,8 +250,6 @@ function RoomCard({ room }) {
               <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
                 <Detail label="Floor" value={room.floor} />
                 <Detail label="Bed" value={room.bed_size?.replace(/_/g, ' ')} />
-                <Detail label="Bathroom" value={room.has_private_bathroom ? 'Private (Ensuite)' : 'Shared'} />
-                <Detail label="Aircon" value={room.has_aircon ? 'Yes' : 'No'} />
                 <Detail label="Furnishing" value={room.furnishing_level?.replace(/_/g, ' ')} />
                 <Detail label="Deposit" value={room.deposit_months ? `${room.deposit_months} month${room.deposit_months > 1 ? 's' : ''}` : null} />
                 <Detail label="Min stay" value={room.min_stay_months ? `${room.min_stay_months} months` : null} />
@@ -340,7 +332,6 @@ function PropertySection({ property }) {
         <p className="text-foreground text-sm mb-2">{p.address}</p>
         <div className="flex gap-4 mb-4 text-sm">
           <span className="text-foreground"><span className="font-semibold text-foreground">{p.rooms?.length || 0}</span> rooms</span>
-          {p.num_bathrooms && <span className="text-foreground"><span className="font-semibold text-foreground">{p.num_bathrooms}</span> bathroom{p.num_bathrooms > 1 ? 's' : ''}</span>}
           <span className="text-foreground">
             <span className="font-semibold text-foreground">
               {p.rooms?.reduce((count, r) => count + (r.tenant_profiles?.filter(isCurrent).length || 0), 0)}
