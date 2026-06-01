@@ -3,14 +3,13 @@ import FadeIn from './FadeIn';
 import { track, EVENTS } from '../../lib/analytics';
 
 /*
- * Returns Estimator — investor hook on the Lazybee home.
- * Punch in a Singapore postal code + two sliders → live co-living economics,
- * benchmarked off Lazybee's live portfolio (3 properties, 18 rooms, full occupancy).
- * Figures are illustrative; unit-level underwriting lives in the deck.
+ * Landlord estimator — "what your unit could earn with Lazybee".
+ * Postal code + PSF + bathrooms → what Lazybee would pay the landlord on a
+ * managed master lease, vs open-market rent. Targets supply (landlords).
+ * Illustrative; real offers are made after a viewing.
  */
 
 // First 2 digits of a SG postal code = postal sector → URA district.
-// We only need the sector→tier mapping to pick a room-rate benchmark.
 const SECTOR_DISTRICT = {
   '01': 'D01', '02': 'D01', '03': 'D01', '04': 'D01', '05': 'D01', '06': 'D01',
   '07': 'D02', '08': 'D02', '14': 'D03', '15': 'D03', '16': 'D03',
@@ -39,13 +38,13 @@ const DISTRICT_NAME = {
   D25: 'Woodlands / Admiralty', D26: 'Mandai / Upper Thomson', D27: 'Yishun / Sembawang', D28: 'Seletar / Yio Chu Kang',
 };
 
-// Tier → blended room rate (S$/mo), grounded in Lazybee's live S$950–1,500 range.
-const CCR = new Set(['D01', 'D02', 'D06', 'D07', 'D09', 'D10', 'D11']); // core central — prime
-const RCR = new Set(['D03', 'D04', 'D05', 'D08', 'D12', 'D13', 'D14', 'D15', 'D20']); // rest of central — fringe
+// Tier → default market rental PSF (S$/sqft/mo) for the area.
+const CCR = new Set(['D01', 'D02', 'D06', 'D07', 'D09', 'D10', 'D11']);
+const RCR = new Set(['D03', 'D04', 'D05', 'D08', 'D12', 'D13', 'D14', 'D15', 'D20']);
 const TIER = {
-  CCR: { rate: 1450, label: 'Core Central — prime' },
-  RCR: { rate: 1200, label: 'City fringe' },
-  OCR: { rate: 1000, label: 'Suburban' },
+  CCR: { psf: 5.2, label: 'Core Central — prime' },
+  RCR: { psf: 4.3, label: 'City fringe' },
+  OCR: { psf: 3.6, label: 'Suburban' },
 };
 
 function lookup(postal) {
@@ -57,40 +56,53 @@ function lookup(postal) {
   return { district, name: DISTRICT_NAME[district], tier: TIER[tierKey], tierKey };
 }
 
-const OCCUPANCY = 0.92;        // conservative vs the portfolio's trailing 100%
-const OPEX_RATE = 0.18;        // wifi, utilities, cleaning, platform, maintenance
-const FIT_OUT_PER_ROOM = 3500; // one-time furnishing capex
+const PREMIUM = 0.10;     // what Lazybee pays above open-market whole-unit rent
+const LEASE_TERM = '12–24 mo';
+
+// Bathrooms → rough unit size (sqft) and lettable bedrooms.
+const sizeFromBaths = (b) => b * 380 + 540;   // 1→920, 2→1300, 3→1680, 4→2060
+const roomsFromBaths = (b) => b + 1;          // 2-bath ≈ 3 lettable rooms
 
 const sgd = (n) => 'S$' + Math.round(n).toLocaleString('en-SG');
 
 export default function ReturnsEstimator() {
   const [postal, setPostal] = useState('');
-  const [rooms, setRooms] = useState(6);
-  const [lease, setLease] = useState(5500); // monthly master lease they'd pay the landlord
+  const [psf, setPsf] = useState(4.0);
+  const [baths, setBaths] = useState(2);
 
   const loc = useMemo(() => lookup(postal), [postal]);
-  const rate = loc?.tier.rate ?? 1100;
+
+  // When a valid postal resolves, snap PSF to the area default once.
+  const onPostal = (v) => {
+    const clean = v.replace(/\D/g, '').slice(0, 6);
+    setPostal(clean);
+    const l = lookup(clean);
+    if (l && clean.length >= 2) {
+      setPsf(l.tier.psf);
+      track(EVENTS.BROWSE_ROOMS_CLICK, { source: 'estimator', intent: 'postal', district: l.district });
+    }
+  };
 
   const m = useMemo(() => {
-    const gross = rooms * rate * OCCUPANCY;
-    const opex = gross * OPEX_RATE;
-    const net = gross - opex - lease;
-    const capex = rooms * FIT_OUT_PER_ROOM;
-    const margin = gross > 0 ? net / gross : 0;
-    const payback = net > 0 ? capex / net : null;
-    return { gross, opex, net, capex, margin, annual: net * 12, payback };
-  }, [rooms, rate, lease]);
-
-  const positive = m.net > 0;
+    const size = sizeFromBaths(baths);
+    const rooms = roomsFromBaths(baths);
+    const market = psf * size;
+    const pays = market * (1 + PREMIUM);
+    return { size, rooms, market, pays, annual: pays * 12 };
+  }, [psf, baths]);
 
   return (
     <section className="px-6 md:px-20 py-28 md:py-40 bg-surface">
       <div className="max-w-screen-xl mx-auto">
         <FadeIn className="mb-14 md:mb-20">
-          <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-6">Run the numbers</span>
+          <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-6">For landlords</span>
           <h2 className="font-display font-light tracking-display text-5xl md:text-7xl leading-none max-w-3xl">
-            What a unit could return.
+            What your unit could earn.
           </h2>
+          <p className="mt-6 text-foreground-variant text-lg max-w-2xl leading-relaxed">
+            Hand us the keys. We furnish, fill, and manage it — and pay you a guaranteed monthly lease,
+            typically above open-market rent. No agents, no voids, no chasing tenants.
+          </p>
         </FadeIn>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
@@ -105,8 +117,7 @@ export default function ReturnsEstimator() {
                 inputMode="numeric"
                 maxLength={6}
                 value={postal}
-                onChange={(e) => setPostal(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                onBlur={() => loc && track(EVENTS.BROWSE_ROOMS_CLICK, { source: 'estimator', intent: 'postal', district: loc.district })}
+                onChange={(e) => onPostal(e.target.value)}
                 placeholder="e.g. 569933"
                 className="w-full rounded-full border border-white/10 bg-background/60 px-6 py-4 text-lg tracking-wide text-foreground placeholder:text-foreground-variant/40 outline-none focus:border-accent transition-colors"
               />
@@ -124,32 +135,35 @@ export default function ReturnsEstimator() {
               </div>
             </div>
 
-            {/* Rooms */}
+            {/* PSF */}
             <div>
               <div className="flex items-baseline justify-between mb-4">
-                <label className="text-[11px] uppercase tracking-[0.3em] font-semibold text-foreground-variant">Rooms in the unit</label>
-                <span className="font-display text-2xl font-bold text-white">{rooms}</span>
+                <label className="text-[11px] uppercase tracking-[0.3em] font-semibold text-foreground-variant">Market rent (PSF)</label>
+                <span className="font-display text-2xl font-bold text-white">S${psf.toFixed(1)}<span className="text-sm text-white/50"> /sqft</span></span>
               </div>
               <input
-                type="range" min={3} max={9} step={1} value={rooms}
-                onChange={(e) => setRooms(Number(e.target.value))}
-                className="w-full accent-[#c47a35]"
-              />
-            </div>
-
-            {/* Master lease */}
-            <div>
-              <div className="flex items-baseline justify-between mb-4">
-                <label className="text-[11px] uppercase tracking-[0.3em] font-semibold text-foreground-variant">Your monthly lease</label>
-                <span className="font-display text-2xl font-bold text-white">{sgd(lease)}</span>
-              </div>
-              <input
-                type="range" min={3000} max={12000} step={250} value={lease}
-                onChange={(e) => setLease(Number(e.target.value))}
+                type="range" min={2.5} max={7} step={0.1} value={psf}
+                onChange={(e) => setPsf(Number(e.target.value))}
                 className="w-full accent-[#c47a35]"
               />
               <p className="mt-3 text-xs text-foreground-variant/60">
-                What you'd pay the landlord. Room rate auto-set from the postal code ({sgd(rate)}/room) at {Math.round(OCCUPANCY * 100)}% occupancy.
+                Auto-set from your postal code — nudge it to match your unit.
+              </p>
+            </div>
+
+            {/* Bathrooms */}
+            <div>
+              <div className="flex items-baseline justify-between mb-4">
+                <label className="text-[11px] uppercase tracking-[0.3em] font-semibold text-foreground-variant">Bathrooms</label>
+                <span className="font-display text-2xl font-bold text-white">{baths}</span>
+              </div>
+              <input
+                type="range" min={1} max={5} step={1} value={baths}
+                onChange={(e) => setBaths(Number(e.target.value))}
+                className="w-full accent-[#c47a35]"
+              />
+              <p className="mt-3 text-xs text-foreground-variant/60">
+                ≈ {m.rooms} lettable rooms · ~{m.size.toLocaleString('en-SG')} sqft
               </p>
             </div>
           </FadeIn>
@@ -158,28 +172,34 @@ export default function ReturnsEstimator() {
           <FadeIn className="rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-2xl p-8 md:p-12 flex flex-col justify-between">
             <div>
               <span className="block text-[11px] uppercase tracking-[0.3em] font-semibold text-foreground-variant mb-3">
-                Estimated net profit / month
+                Lazybee pays you / month
               </span>
-              <p className={`font-display font-bold tracking-display leading-none text-6xl md:text-7xl ${positive ? 'text-accent' : 'text-red-400'}`}>
-                {positive ? sgd(m.net) : '—' + sgd(Math.abs(m.net))}
+              <p className="font-display font-bold tracking-display leading-none text-6xl md:text-7xl text-accent">
+                {sgd(m.pays)}
               </p>
               <p className="mt-4 text-foreground-variant">
-                {positive
-                  ? <>≈ <span className="text-foreground font-medium">{sgd(m.annual)}</span> a year · {Math.round(m.margin * 100)}% net margin</>
-                  : <>This lease is above what the rooms can carry here — drag it down.</>}
+                ≈ <span className="text-foreground font-medium">{Math.round(PREMIUM * 100)}% above</span> the{' '}
+                {sgd(m.market)} open-market rent · guaranteed · fully managed
               </p>
             </div>
 
             <div className="mt-10 grid grid-cols-3 divide-x divide-white/10 rounded-2xl border border-white/10 bg-white/5">
-              <Stat label="Gross / mo" value={sgd(m.gross)} />
-              <Stat label="Fit-out" value={sgd(m.capex)} />
-              <Stat label="Payback" value={m.payback ? Math.ceil(m.payback) + ' mo' : '—'} />
+              <Stat label="Market rent" value={sgd(m.market)} />
+              <Stat label="Per year" value={sgd(m.annual)} />
+              <Stat label="Lease" value={LEASE_TERM} />
             </div>
 
-            <p className="mt-8 text-[11px] leading-relaxed text-foreground-variant/50">
-              Illustrative only, based on Lazybee's live portfolio assumptions ({Math.round(OCCUPANCY * 100)}% occupancy,
-              {' '}{Math.round(OPEX_RATE * 100)}% opex, {sgd(FIT_OUT_PER_ROOM)}/room fit-out). Not an offer or financial advice.
-              Unit-level underwriting is in the deck.
+            <a
+              href="/contact"
+              onClick={() => track(EVENTS.BROWSE_ROOMS_CLICK, { source: 'estimator', intent: 'list_unit' })}
+              className="mt-8 inline-flex items-center justify-center gap-3 rounded-full bg-accent text-accent-foreground px-10 py-4 font-semibold text-xs uppercase tracking-[0.3em] hover:opacity-90 active:scale-95 transition-all"
+            >
+              List your unit <span aria-hidden>→</span>
+            </a>
+
+            <p className="mt-6 text-[11px] leading-relaxed text-foreground-variant/50">
+              Illustrative only — a guaranteed offer is made after a quick viewing. Figures assume a
+              {' '}{Math.round(PREMIUM * 100)}% premium to open-market rent, set against Lazybee's live portfolio.
             </p>
           </FadeIn>
         </div>
