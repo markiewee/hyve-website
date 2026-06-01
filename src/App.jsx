@@ -6,7 +6,6 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './components/HomePage';
-import LocationsPage from './components/LocationsPage';
 import FAQsPage from './components/FAQsPage';
 import ContactPage from './components/ContactPage';
 import BlogPage from './components/BlogPage';
@@ -72,7 +71,7 @@ function AppContent() {
         {!isPortal && !isViewing && <Navbar />}
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/locations" element={<LocationsPage />} />
+          <Route path="/locations" element={<Navigate to="/" replace />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/contact" element={<ContactPage />} />

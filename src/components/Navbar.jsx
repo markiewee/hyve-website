@@ -10,7 +10,6 @@ const Navbar = () => {
   useEffect(() => { setIsOpen(false); }, [location.pathname]);
 
   const navigation = [
-    { name: 'Locations', href: '/locations' },
     { name: 'Blog', href: '/blog' },
   ];
   const isActive = (path) => location.pathname === path;
