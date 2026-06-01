@@ -27,12 +27,13 @@ const NAT_TO_FLAG = {
   'Ukrainian': '🇺🇦', 'Malaysian': '🇲🇾', 'Chinese': '🇨🇳', 'Japanese': '🇯🇵',
   'Korean': '🇰🇷', 'British': '🇬🇧', 'Australian': '🇦🇺', 'French': '🇫🇷',
   'German': '🇩🇪', 'Myanmar': '🇲🇲', 'Bangladeshi': '🇧🇩', 'Sri Lankan': '🇱🇰',
-  'Other': '🏳️',
+  'Singapore PR': '🇸🇬', 'Singapore': '🇸🇬', 'PR': '🇸🇬',
 };
 
 function getFlag(nationality) {
-  if (!nationality) return '🏳️';
-  return NAT_TO_FLAG[nationality] || '🏳️';
+  if (!nationality) return '';
+  const key = nationality.trim();
+  return NAT_TO_FLAG[key] || '';
 }
 
 function formatDate(dateStr) {
@@ -345,8 +346,8 @@ function PropertySection({ property }) {
           const allTenants = p.rooms?.flatMap(r =>
             (r.tenant_profiles || []).filter(isCurrent).map(t => ({
               ...t,
-              nationality: t.tenant_details?.[0]?.nationality,
-              name: t.tenant_details?.[0]?.full_name || t.username,
+              nationality: t.tenant_details?.nationality,
+              name: t.tenant_details?.full_name || t.username,
             }))
           ) || [];
           if (allTenants.length === 0) return null;
