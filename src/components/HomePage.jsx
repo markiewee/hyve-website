@@ -1,5 +1,6 @@
 import SEO from './SEO';
 import FadeIn from './marketing/FadeIn';
+import ReturnsEstimator from './marketing/ReturnsEstimator';
 import { lodgingBusinessSchema, orgSchema } from '../lib/seo';
 import { BOOKING_URL } from '../lib/booking';
 import { track, EVENTS } from '../lib/analytics';
@@ -98,6 +99,9 @@ export default function HomePage() {
           </div>
         ))}
       </section>
+
+      {/* ── The hook: estimate returns from a postal code ── */}
+      <ReturnsEstimator />
 
       {/* ── Close: the same one ask ── */}
       <section className="px-6 py-28 md:py-44 bg-background">
