@@ -68,7 +68,7 @@ export default function InvestorSignupPage() {
         <div className="absolute inset-0 bg-gradient-to-tr from-accent via-accent/80 to-transparent" />
         <div className="relative z-10 flex flex-col justify-between p-16 w-full h-full">
           <div>
-            <span className="font-display text-[#D9A441] font-extrabold tracking-tighter text-3xl">
+            <span className="font-display text-[#c47a35] font-extrabold tracking-tighter text-3xl">
               Lazybee Living
             </span>
           </div>
@@ -76,14 +76,14 @@ export default function InvestorSignupPage() {
             <h1 className="font-display text-5xl font-bold text-white leading-tight tracking-tight mb-8">
               The Sanctuary of Growth
             </h1>
-            <p className="text-[#D9A441]/90 text-lg font-['Inter'] font-medium leading-relaxed mb-12">
+            <p className="text-[#c47a35]/90 text-lg font-['Inter'] font-medium leading-relaxed mb-12">
               Join an exclusive collective of visionaries shaping the future of
               premium living through institutional-grade architectural assets.
             </p>
             <div className="grid grid-cols-2 gap-6">
               <div className="p-6 rounded-xl bg-white/5 border border-white/10">
                 <span
-                  className="material-symbols-outlined text-[#D9A441] text-[30px] mb-4 block"
+                  className="material-symbols-outlined text-[#c47a35] text-[30px] mb-4 block"
                   style={{ fontVariationSettings: "'FILL' 1" }}
                 >
                   account_balance
@@ -97,7 +97,7 @@ export default function InvestorSignupPage() {
               </div>
               <div className="p-6 rounded-xl bg-white/5 border border-white/10">
                 <span
-                  className="material-symbols-outlined text-[#D9A441] text-[30px] mb-4 block"
+                  className="material-symbols-outlined text-[#c47a35] text-[30px] mb-4 block"
                   style={{ fontVariationSettings: "'FILL' 1" }}
                 >
                   insights
@@ -116,7 +116,7 @@ export default function InvestorSignupPage() {
               {["A", "B", "C"].map((l) => (
                 <div
                   key={l}
-                  className="w-10 h-10 rounded-full border-2 border-accent bg-[#D9A441] flex items-center justify-center text-white text-xs font-bold"
+                  className="w-10 h-10 rounded-full border-2 border-accent bg-[#c47a35] flex items-center justify-center text-white text-xs font-bold"
                 >
                   {l}
                 </div>

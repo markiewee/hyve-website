@@ -537,7 +537,7 @@ export default function AdminOnboardingPage() {
 
                   {/* Computed end date / period display */}
                   {inviteEndDate && inviteStartDate && (
-                    <div className="bg-[#A87813]/5 rounded-lg px-3 py-2 text-xs font-['Inter'] text-[#A87813] flex items-center gap-2">
+                    <div className="bg-[#c47a35]/5 rounded-lg px-3 py-2 text-xs font-['Inter'] text-[#c47a35] flex items-center gap-2">
                       <span className="material-symbols-outlined text-[16px]">event</span>
                       <span>
                         {new Date(inviteStartDate + "T00:00:00").toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" })}

@@ -173,7 +173,7 @@ const MapComponent = ({
         type: 'supermarket',
         radius: 1000,
         limit: 5,
-        color: '#D9A441',
+        color: '#c47a35',
         icon: 'M3 3h2l.4 2M7 13h10l4-8H5.4m1.6 8L6 5H4m3 8v6a1 1 0 001 1h1a1 1 0 001-1v-6m-6 0h8',
         category: 'Grocery'
       },
@@ -181,7 +181,7 @@ const MapComponent = ({
         type: 'pharmacy',
         radius: 1500,
         limit: 3,
-        color: '#D9A441',
+        color: '#c47a35',
         icon: 'M12 2v8m-4-4h8',
         category: 'Pharmacy'
       }

@@ -10,13 +10,13 @@ const RENDER_WIDTH = 612;
 const FIELD_TYPES = [
   { key: "TENANT_NAME", label: "Member Name", color: "#3b82f6" },
   { key: "ID_NUMBER", label: "ID Number", color: "#8b5cf6" },
-  { key: "PHONE", label: "Phone", color: "#D9A441" },
-  { key: "ROOM_CODE", label: "Room", color: "#D9A441" },
+  { key: "PHONE", label: "Phone", color: "#c47a35" },
+  { key: "ROOM_CODE", label: "Room", color: "#c47a35" },
   { key: "PROPERTY_NAME", label: "Property", color: "#f59e0b" },
   { key: "PROPERTY_ADDRESS", label: "Address", color: "#ef4444" },
   { key: "MONTHLY_RENT", label: "Rent", color: "#ec4899" },
   { key: "DEPOSIT_AMOUNT", label: "Deposit", color: "#f97316" },
-  { key: "LICENCE_PERIOD", label: "Licence Period", color: "#D9A441" },
+  { key: "LICENCE_PERIOD", label: "Licence Period", color: "#c47a35" },
   { key: "START_DATE", label: "Start Date", color: "#6366f1" },
   { key: "END_DATE", label: "End Date", color: "#a855f7" },
   { key: "REF_NUMBER", label: "Ref Number", color: "#78716c" },
@@ -25,7 +25,7 @@ const FIELD_TYPES = [
 
 const SIG_TYPES = [
   { key: "tenant", label: "Member Signature", color: "#3b82f6" },
-  { key: "admin", label: "Licensor Signature", color: "#A87813" },
+  { key: "admin", label: "Licensor Signature", color: "#c47a35" },
 ];
 
 function clamp(val, min, max) { return Math.max(min, Math.min(max, val)); }

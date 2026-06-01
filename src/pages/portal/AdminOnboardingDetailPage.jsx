@@ -1138,7 +1138,7 @@ export default function AdminOnboardingDetailPage() {
             <SectionCard title="Login Credentials">
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-[#A87813]/10 flex items-center justify-center text-[#A87813] font-bold text-lg shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-[#c47a35]/10 flex items-center justify-center text-[#c47a35] font-bold text-lg shrink-0">
                     {(tenantDetails?.full_name || onboarding.tenant_profiles.username || "?").charAt(0).toUpperCase()}
                   </div>
                   <div>
@@ -1199,7 +1199,7 @@ export default function AdminOnboardingDetailPage() {
                     <Button
                       size="sm"
                       variant="outline"
-                      className="h-7 text-xs bg-[#A87813]/5 border-[#A87813]/20 text-[#A87813] hover:bg-[#A87813]/10"
+                      className="h-7 text-xs bg-[#c47a35]/5 border-[#c47a35]/20 text-[#c47a35] hover:bg-[#c47a35]/10"
                       onClick={async () => {
                         setActionLoading(true);
                         const chars = "abcdefghijkmnpqrstuvwxyz23456789";
