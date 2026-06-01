@@ -151,14 +151,13 @@ export default function AvailabilityGrid({
 
   return (
     <div
-      className="rounded-2xl bg-white border border-[#E8E0CE]/15 shadow-sm p-4 sm:p-6"
+      className="rounded-2xl bg-surface border border-border p-4 sm:p-6"
       onPointerUp={handlePointerUp}
       onPointerLeave={handlePointerUp}
     >
       {/* Heading */}
       <h3
-        className="text-sm font-semibold text-[#1F2937] mb-4"
-        style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+        className="text-sm font-semibold text-foreground mb-4 font-display"
       >
         Select your availability
       </h3>
@@ -174,26 +173,24 @@ export default function AvailabilityGrid({
             display: "grid",
             gridTemplateColumns: `60px repeat(${days}, 1fr)`,
             gap: "2px",
-            fontFamily: "'Manrope', sans-serif",
           }}
         >
           {/* Header row: empty corner + day headers */}
-          <div className="sticky left-0 z-10 bg-white" />
+          <div className="sticky left-0 z-10 bg-surface" />
           {columns.map((col, ci) => (
             <div
               key={ci}
               className="flex flex-col items-center py-2 select-none"
             >
-              <span className="text-xs font-medium text-[#6B7280]">
+              <span className="text-xs font-medium text-foreground-variant">
                 {col.dayLabel}
               </span>
               <span
-                className="text-base font-bold text-[#1F2937] leading-tight"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                className="text-base font-bold text-foreground leading-tight font-display"
               >
                 {col.dateNum}
               </span>
-              <span className="text-[10px] text-[#6B7280] uppercase tracking-wide">
+              <span className="text-[10px] text-foreground-variant uppercase tracking-wide">
                 {col.month}
               </span>
             </div>
@@ -204,9 +201,9 @@ export default function AvailabilityGrid({
             <React.Fragment key={`row-${ri}`}>
               {/* Time label — sticky on mobile */}
               <div
-                className="sticky left-0 z-10 bg-white flex items-center justify-end pr-2"
+                className="sticky left-0 z-10 bg-surface flex items-center justify-end pr-2"
               >
-                <span className="text-[10px] text-[#6B7280] whitespace-nowrap tabular-nums">
+                <span className="text-[10px] text-foreground-variant whitespace-nowrap tabular-nums">
                   {label}
                 </span>
               </div>
@@ -223,9 +220,9 @@ export default function AvailabilityGrid({
                 if (highlighted) {
                   cellClass += " bg-green-500";
                 } else if (selected) {
-                  cellClass += " bg-[#A87813]";
+                  cellClass += " bg-accent";
                 } else {
-                  cellClass += " bg-[#f1f3f5]";
+                  cellClass += " bg-white/5";
                 }
 
                 if (!readOnly) {
@@ -278,13 +275,13 @@ export default function AvailabilityGrid({
       </div>
 
       {/* Legend */}
-      <div className="flex items-center gap-4 mt-4 text-[10px] text-[#6B7280]">
+      <div className="flex items-center gap-4 mt-4 text-[10px] text-foreground-variant">
         <span className="flex items-center gap-1.5">
-          <span className="inline-block w-3 h-3 rounded bg-[#f1f3f5]" />
+          <span className="inline-block w-3 h-3 rounded bg-white/5" />
           Available
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="inline-block w-3 h-3 rounded bg-[#A87813]" />
+          <span className="inline-block w-3 h-3 rounded bg-accent" />
           Selected
         </span>
         {highlightSlot && (

@@ -132,33 +132,33 @@ export default function AdminDashboardPage() {
       value: counts.totalRooms,
       icon: "meeting_room",
       to: "/portal/property",
-      accent: "text-[#A87813]",
-      bg: "bg-white hover:bg-[#A87813] group",
-      valueCls: "text-[#181511] group-hover:text-white",
-      labelCls: "text-[#57534E] group-hover:text-white/80",
-      iconCls: "text-[#A87813] group-hover:text-white",
+      accent: "text-accent",
+      bg: "bg-surface hover:bg-accent group",
+      valueCls: "text-foreground group-hover:text-white",
+      labelCls: "text-foreground-variant group-hover:text-white/80",
+      iconCls: "text-accent group-hover:text-white",
     },
     {
       label: "Active Members",
       value: counts.activeTenants,
       icon: "group",
       to: "/portal/admin/onboarding",
-      accent: "text-[#57534E]",
-      bg: "bg-white hover:bg-[#57534E] group",
-      valueCls: "text-[#181511] group-hover:text-white",
-      labelCls: "text-[#57534E] group-hover:text-white/80",
-      iconCls: "text-[#57534E] group-hover:text-white",
+      accent: "text-foreground-variant",
+      bg: "bg-surface hover:bg-white/10 group",
+      valueCls: "text-foreground group-hover:text-foreground",
+      labelCls: "text-foreground-variant group-hover:text-foreground",
+      iconCls: "text-foreground-variant group-hover:text-foreground",
     },
     {
       label: "Open Tickets",
       value: counts.openTickets,
       icon: "build",
       to: "/portal/admin/tickets",
-      accent: "text-[#ba1a1a]",
-      bg: "bg-white hover:bg-[#ba1a1a] group",
-      valueCls: "text-[#181511] group-hover:text-white",
-      labelCls: "text-[#57534E] group-hover:text-white/80",
-      iconCls: "text-[#ba1a1a] group-hover:text-white",
+      accent: "text-red-400",
+      bg: "bg-surface hover:bg-red-500/15 group",
+      valueCls: "text-foreground group-hover:text-red-300",
+      labelCls: "text-foreground-variant group-hover:text-red-300",
+      iconCls: "text-red-400 group-hover:text-red-300",
     },
     {
       label: "Devices",
@@ -166,11 +166,11 @@ export default function AdminDashboardPage() {
       subtitle: `${counts.onlineDevices} online`,
       icon: "router",
       to: "/portal/admin/devices",
-      accent: "text-[#A87813]",
-      bg: "bg-white hover:bg-[#A87813] group",
-      valueCls: "text-[#181511] group-hover:text-white",
-      labelCls: "text-[#57534E] group-hover:text-white/80",
-      iconCls: "text-[#A87813] group-hover:text-white",
+      accent: "text-accent",
+      bg: "bg-surface hover:bg-accent group",
+      valueCls: "text-foreground group-hover:text-white",
+      labelCls: "text-foreground-variant group-hover:text-white/80",
+      iconCls: "text-accent group-hover:text-white",
     },
   ];
 
@@ -187,10 +187,10 @@ export default function AdminDashboardPage() {
           <Link
             key={stat.label}
             to={stat.to}
-            className={`${stat.bg} rounded-2xl p-6 border border-[#DDD0AD] shadow-sm transition-all duration-300 cursor-pointer flex flex-col justify-between h-40`}
+            className={`${stat.bg} rounded-2xl p-6 border border-border transition-all duration-300 cursor-pointer flex flex-col justify-between h-40`}
           >
             <div className="flex items-start justify-between">
-              <div className={`w-10 h-10 rounded-xl bg-[#EAC25A] group-hover:bg-white/20 flex items-center justify-center transition-colors`}>
+              <div className={`w-10 h-10 rounded-xl bg-white/5 group-hover:bg-white/20 flex items-center justify-center transition-colors`}>
                 <span className={`material-symbols-outlined text-[20px] ${stat.iconCls} transition-colors`}>
                   {stat.icon}
                 </span>
@@ -204,7 +204,7 @@ export default function AdminDashboardPage() {
                 {stat.label}
               </p>
               {loading ? (
-                <div className="h-8 w-16 bg-[#EAC25A] animate-pulse rounded" />
+                <div className="h-8 w-16 bg-white/5 animate-pulse rounded" />
               ) : (
                 <>
                   <p className={`font-['Hanken_Grotesk'] text-3xl font-extrabold ${stat.valueCls} transition-colors`}>
@@ -240,16 +240,16 @@ export default function AdminDashboardPage() {
           <Link
             key={item.to}
             to={item.to}
-            className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm hover:border-[#A87813]/30 hover:shadow-md transition-all flex items-start gap-4 group"
+            className="bg-surface rounded-2xl p-6 border border-border hover:border-accent/30 transition-all flex items-start gap-4 group"
           >
-            <div className="w-10 h-10 rounded-xl bg-[#EAC25A] flex items-center justify-center shrink-0 group-hover:bg-[#A87813] transition-colors">
-              <span className="material-symbols-outlined text-[#A87813] group-hover:text-white text-[20px] transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-accent transition-colors">
+              <span className="material-symbols-outlined text-accent group-hover:text-white text-[20px] transition-colors">
                 {item.icon}
               </span>
             </div>
             <div>
-              <p className="font-['Inter'] font-bold text-[#181511] text-sm">{item.label}</p>
-              <p className="font-['Inter'] text-[#57534E] text-xs mt-0.5">{item.desc}</p>
+              <p className="font-['Inter'] font-bold text-foreground text-sm">{item.label}</p>
+              <p className="font-['Inter'] text-foreground-variant text-xs mt-0.5">{item.desc}</p>
             </div>
           </Link>
         ))}
@@ -257,15 +257,15 @@ export default function AdminDashboardPage() {
 
       {/* My Signature */}
       {profile && (
-        <div className="mt-8 bg-white rounded-2xl border border-[#DDD0AD] shadow-sm p-6 space-y-4">
+        <div className="mt-8 bg-surface rounded-2xl border border-border p-6 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#EAC25A] flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-[#A87813] text-[20px]">draw</span>
+              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-accent text-[20px]">draw</span>
               </div>
               <div>
-                <p className="font-['Inter'] font-bold text-[#181511] text-sm">My Signature</p>
-                <p className="font-['Inter'] text-[#57534E] text-xs mt-0.5">
+                <p className="font-['Inter'] font-bold text-foreground text-sm">My Signature</p>
+                <p className="font-['Inter'] text-foreground-variant text-xs mt-0.5">
                   This signature will be used when counter-signing member agreements.
                 </p>
               </div>
@@ -276,7 +276,7 @@ export default function AdminDashboardPage() {
                   type="button"
                   onClick={handleClearSignature}
                   disabled={sigSaving}
-                  className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-red-200 text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+                  className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-red-500/25 text-red-300 hover:bg-red-500/15 transition-colors disabled:opacity-50"
                 >
                   Clear Saved Signature
                 </button>
@@ -284,7 +284,7 @@ export default function AdminDashboardPage() {
               <button
                 type="button"
                 onClick={() => { setShowSigEditor((v) => !v); setSigMessage(null); }}
-                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#EAC25A] text-[#A87813] hover:bg-[#A87813] hover:text-white transition-colors"
+                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white/5 text-accent hover:bg-accent hover:text-white transition-colors"
               >
                 {showSigEditor ? "Cancel" : profile.saved_signature ? "Update Signature" : "Add Signature"}
               </button>
@@ -293,7 +293,7 @@ export default function AdminDashboardPage() {
 
           {/* Saved signature preview */}
           {profile.saved_signature && !showSigEditor && (
-            <div className="rounded-xl border border-[#DDD0AD] bg-[#FBF8F0] p-3 inline-block">
+            <div className="rounded-xl border border-border bg-white p-3 inline-block">
               <img
                 src={profile.saved_signature}
                 alt="Saved signature"
@@ -310,7 +310,7 @@ export default function AdminDashboardPage() {
                 type="button"
                 onClick={handleSaveSignature}
                 disabled={sigSaving}
-                className="px-4 py-2 text-sm font-semibold rounded-lg bg-[#A87813] text-white hover:bg-[#A87813] transition-colors disabled:opacity-50"
+                className="px-4 py-2 text-sm font-semibold rounded-lg bg-accent text-white hover:bg-accent transition-colors disabled:opacity-50"
               >
                 {sigSaving ? "Saving…" : "Save Signature"}
               </button>
@@ -321,7 +321,7 @@ export default function AdminDashboardPage() {
           {sigMessage && (
             <p
               className={`text-xs font-medium ${
-                sigMessage.type === "error" ? "text-red-600" : "text-[#A87813]"
+                sigMessage.type === "error" ? "text-red-400" : "text-accent"
               }`}
             >
               {sigMessage.text}

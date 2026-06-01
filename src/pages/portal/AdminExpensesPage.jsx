@@ -17,18 +17,18 @@ const EXPENSE_CATEGORIES = [
 ];
 
 const CATEGORY_BADGE = {
-  MASTER_LEASE: "bg-blue-100 text-blue-700",
-  UTILITIES: "bg-amber-100 text-amber-700",
-  MAINTENANCE: "bg-orange-100 text-orange-700",
-  CLEANING: "bg-[#d1fae5] text-[#065f46]",
-  INSURANCE: "bg-purple-100 text-purple-700",
-  MANAGEMENT_FEE: "bg-indigo-100 text-indigo-700",
-  MARKETING: "bg-pink-100 text-pink-700",
-  SUPPLIES: "bg-[#F6E6B4] text-[#57534E]",
-  STAFF: "bg-violet-100 text-violet-700",
-  PLATFORM_FEES: "bg-cyan-100 text-cyan-700",
-  GOODS_TRANSPORT: "bg-honey-100 text-honey-800",
-  OTHER: "bg-[#EAC25A] text-[#57534E]",
+  MASTER_LEASE: "bg-blue-500/15 text-blue-300",
+  UTILITIES: "bg-amber-500/15 text-amber-300",
+  MAINTENANCE: "bg-amber-500/15 text-amber-300",
+  CLEANING: "bg-emerald-500/15 text-emerald-300",
+  INSURANCE: "bg-purple-500/15 text-purple-300",
+  MANAGEMENT_FEE: "bg-blue-500/15 text-blue-300",
+  MARKETING: "bg-pink-500/15 text-pink-300",
+  SUPPLIES: "bg-white/5 text-foreground-variant",
+  STAFF: "bg-purple-500/15 text-purple-300",
+  PLATFORM_FEES: "bg-blue-500/15 text-blue-300",
+  GOODS_TRANSPORT: "bg-accent/15 text-accent",
+  OTHER: "bg-white/5 text-foreground-variant",
 };
 
 function formatSGD(amount) {
@@ -183,34 +183,34 @@ export default function AdminExpensesPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511] tracking-tight">
+        <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
           Expense Tracking
         </h1>
-        <p className="text-[#57534E] font-['Inter'] font-medium mt-1">
+        <p className="text-foreground-variant font-body font-medium mt-1">
           Log and review property expenses by month.
         </p>
-        <p className="text-[#57534E]/70 font-['Inter'] text-xs mt-1">
+        <p className="text-foreground-variant/70 font-body text-xs mt-1">
           Manually logged expenses
         </p>
       </div>
 
       {/* Metric cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
-        <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-3">Total Expenses</p>
-          <p className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511]">
+        <div className="bg-surface rounded-2xl p-6 border border-border">
+          <p className="font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-3">Total Expenses</p>
+          <p className="font-display text-3xl font-extrabold text-foreground">
             {formatSGD(total)}
           </p>
         </div>
-        <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-3">Recurring</p>
-          <p className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#A87813]">
+        <div className="bg-surface rounded-2xl p-6 border border-border">
+          <p className="font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-3">Recurring</p>
+          <p className="font-display text-3xl font-extrabold text-accent">
             {formatSGD(recurringTotal)}
           </p>
         </div>
-        <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-3">Line Items</p>
-          <p className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511]">
+        <div className="bg-surface rounded-2xl p-6 border border-border">
+          <p className="font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-3">Line Items</p>
+          <p className="font-display text-3xl font-extrabold text-foreground">
             {expenses.length}
           </p>
         </div>
@@ -220,13 +220,13 @@ export default function AdminExpensesPage() {
         {/* Left: expense form + selectors */}
         <div className="lg:col-span-5 space-y-6">
           {/* Selectors */}
-          <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm space-y-4">
+          <div className="bg-surface rounded-2xl p-6 border border-border space-y-4">
             <div>
-              <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+              <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                 Property
               </label>
               <select
-                className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground focus:ring-2 focus:ring-accent outline-none"
                 value={selectedProperty}
                 onChange={(e) => setSelectedProperty(e.target.value)}
               >
@@ -238,20 +238,20 @@ export default function AdminExpensesPage() {
               </select>
             </div>
             <div>
-              <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+              <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                 Month
               </label>
               <input
                 type="month"
                 value={selectedMonth}
                 onChange={(e) => setSelectedMonth(e.target.value)}
-                className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground focus:ring-2 focus:ring-accent outline-none"
               />
             </div>
             <button
               onClick={handleCopyLastMonth}
               disabled={copying || !selectedProperty}
-              className="w-full py-3 border border-[#DDD0AD] rounded-xl font-['Inter'] font-bold text-sm text-[#57534E] hover:bg-[#EAC25A] disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+              className="w-full py-3 border border-border rounded-xl font-body font-bold text-sm text-foreground-variant hover:bg-white/5 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
             >
               <span className="material-symbols-outlined text-[18px]">content_copy</span>
               {copying ? "Copying…" : "Copy Last Month's Recurring"}
@@ -259,18 +259,18 @@ export default function AdminExpensesPage() {
           </div>
 
           {/* Add expense form */}
-          <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm">
-            <h2 className="font-['Hanken_Grotesk'] font-bold text-[#181511] mb-5 flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#A87813] text-[20px]">add_circle</span>
+          <div className="bg-surface rounded-2xl p-6 border border-border">
+            <h2 className="font-display font-bold text-foreground mb-5 flex items-center gap-2">
+              <span className="material-symbols-outlined text-accent text-[20px]">add_circle</span>
               Log Expense
             </h2>
             <form onSubmit={handleAdd} className="space-y-4">
               <div>
-                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                   Category
                 </label>
                 <select
-                  className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                  className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground focus:ring-2 focus:ring-accent outline-none"
                   value={form.category}
                   onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
                 >
@@ -280,7 +280,7 @@ export default function AdminExpensesPage() {
                 </select>
               </div>
               <div>
-                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                   Amount (SGD)
                 </label>
                 <input
@@ -291,11 +291,11 @@ export default function AdminExpensesPage() {
                   value={form.amount}
                   onChange={(e) => setForm((f) => ({ ...f, amount: e.target.value }))}
                   required
-                  className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                  className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground focus:ring-2 focus:ring-accent outline-none"
                 />
               </div>
               <div>
-                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                   Description
                 </label>
                 <input
@@ -303,7 +303,7 @@ export default function AdminExpensesPage() {
                   placeholder="e.g. Monthly master lease payment"
                   value={form.description}
                   onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-                  className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                  className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground focus:ring-2 focus:ring-accent outline-none"
                 />
               </div>
               <div className="flex items-center gap-3 py-1">
@@ -312,16 +312,16 @@ export default function AdminExpensesPage() {
                   type="checkbox"
                   checked={form.is_recurring}
                   onChange={(e) => setForm((f) => ({ ...f, is_recurring: e.target.checked }))}
-                  className="rounded border-[#DDD0AD] text-[#A87813] focus:ring-[#D9A441] w-4 h-4"
+                  className="rounded border-border text-accent focus:ring-accent w-4 h-4"
                 />
-                <label htmlFor="is-recurring" className="font-['Inter'] text-sm text-[#57534E] cursor-pointer font-medium">
+                <label htmlFor="is-recurring" className="font-body text-sm text-foreground-variant cursor-pointer font-medium">
                   Recurring expense (copy to next month)
                 </label>
               </div>
               <button
                 type="submit"
                 disabled={adding || !selectedProperty}
-                className="w-full py-4 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+                className="w-full py-4 bg-accent text-white rounded-xl font-body font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">add</span>
                 {adding ? "Adding…" : "Add Expense"}
@@ -332,61 +332,61 @@ export default function AdminExpensesPage() {
 
         {/* Right: expenses table */}
         <div className="lg:col-span-7">
-          <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm overflow-hidden">
-            <div className="px-6 py-5 border-b border-[#DDD0AD] flex items-center justify-between">
-              <h2 className="font-['Hanken_Grotesk'] font-bold text-[#181511]">
+          <div className="bg-surface rounded-2xl border border-border overflow-hidden">
+            <div className="px-6 py-5 border-b border-border flex items-center justify-between">
+              <h2 className="font-display font-bold text-foreground">
                 Expenses for Month
               </h2>
-              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">
+              <span className="font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold">
                 {expenses.length} items
               </span>
             </div>
 
             {loadingExpenses ? (
-              <div className="divide-y divide-[#DDD0AD]">
+              <div className="divide-y divide-white/10">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="px-6 py-4 flex items-center justify-between">
                     <div className="space-y-2">
-                      <div className="h-4 w-20 bg-[#EAC25A] animate-pulse rounded" />
-                      <div className="h-3 w-32 bg-[#EAC25A] animate-pulse rounded" />
+                      <div className="h-4 w-20 bg-white/5 animate-pulse rounded" />
+                      <div className="h-3 w-32 bg-white/5 animate-pulse rounded" />
                     </div>
-                    <div className="h-4 w-16 bg-[#EAC25A] animate-pulse rounded" />
+                    <div className="h-4 w-16 bg-white/5 animate-pulse rounded" />
                   </div>
                 ))}
               </div>
             ) : expenses.length === 0 ? (
               <div className="p-8 text-center">
-                <p className="text-[#57534E] font-['Inter'] text-sm">
+                <p className="text-foreground-variant font-body text-sm">
                   No expenses recorded for this property/month.
                 </p>
               </div>
             ) : (
               <>
-                <div className="divide-y divide-[#DDD0AD]">
+                <div className="divide-y divide-white/10">
                   {expenses.map((e) => {
                     const badge = CATEGORY_BADGE[e.category] ?? CATEGORY_BADGE.OTHER;
                     return (
-                      <div key={e.id} className="px-6 py-4 flex items-center justify-between hover:bg-[#FAF6EC] transition-colors">
+                      <div key={e.id} className="px-6 py-4 flex items-center justify-between hover:bg-white/5 transition-colors">
                         <div className="flex items-center gap-3 min-w-0">
                           <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest shrink-0 ${badge}`}>
                             {e.category}
                           </span>
-                          <span className="font-['Inter'] text-sm text-[#57534E] truncate">
+                          <span className="font-body text-sm text-foreground-variant truncate">
                             {e.description || "—"}
                           </span>
                           {e.is_recurring && (
-                            <span className="material-symbols-outlined text-[14px] text-[#A87813] shrink-0" title="Recurring">
+                            <span className="material-symbols-outlined text-[14px] text-accent shrink-0" title="Recurring">
                               autorenew
                             </span>
                           )}
                         </div>
                         <div className="flex items-center gap-3 shrink-0 ml-4">
-                          <span className="font-['Hanken_Grotesk'] font-bold text-sm text-[#181511] tabular-nums">
+                          <span className="font-display font-bold text-sm text-foreground tabular-nums">
                             {formatSGD(e.amount)}
                           </span>
                           <button
                             onClick={() => handleDelete(e.id)}
-                            className="material-symbols-outlined text-[18px] text-[#DDD0AD] hover:text-[#ba1a1a] transition-colors"
+                            className="material-symbols-outlined text-[18px] text-foreground-variant hover:text-red-300 transition-colors"
                           >
                             delete
                           </button>
@@ -397,19 +397,19 @@ export default function AdminExpensesPage() {
                 </div>
 
                 {/* Total footer */}
-                <div className="px-6 py-4 bg-[#EAC25A] flex items-center justify-between border-t border-[#DDD0AD]">
-                  <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold">Total</span>
-                  <span className="font-['Hanken_Grotesk'] font-extrabold text-[#181511]">
+                <div className="px-6 py-4 bg-white/5 flex items-center justify-between border-t border-border">
+                  <span className="font-body text-xs uppercase tracking-widest text-foreground-variant font-bold">Total</span>
+                  <span className="font-display font-extrabold text-foreground">
                     {formatSGD(total)}
                   </span>
                 </div>
 
                 {/* Recurring audit banner */}
                 {expenses.filter((e) => e.is_recurring).length > 0 && (
-                  <div className="bg-[#A87813] px-6 py-4 flex items-center justify-between">
+                  <div className="bg-accent px-6 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-[#D9A441] text-[20px]">autorenew</span>
-                      <span className="font-['Inter'] text-white text-sm font-medium">
+                      <span className="material-symbols-outlined text-white/80 text-[20px]">autorenew</span>
+                      <span className="font-body text-white text-sm font-medium">
                         {expenses.filter((e) => e.is_recurring).length} recurring expense{expenses.filter((e) => e.is_recurring).length !== 1 ? "s" : ""} — {formatSGD(recurringTotal)}/month
                       </span>
                     </div>

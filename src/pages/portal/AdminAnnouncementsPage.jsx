@@ -5,15 +5,15 @@ import PortalLayout from "../../components/portal/PortalLayout";
 import { confirm } from "../../lib/confirm";
 
 const PRIORITY_BADGE = {
-  INFO: "bg-blue-100 text-blue-700",
-  WARNING: "bg-amber-100 text-amber-700",
-  URGENT: "bg-[#ffdad6] text-[#ba1a1a]",
+  INFO: "bg-blue-500/15 text-blue-300",
+  WARNING: "bg-amber-500/15 text-amber-300",
+  URGENT: "bg-red-500/15 text-red-300",
 };
 
 const PRIORITY_CARD = {
-  INFO: "border-blue-200 bg-blue-50/50",
-  WARNING: "border-amber-200 bg-amber-50/50",
-  URGENT: "border-[#ba1a1a]/20 bg-[#ffdad6]/30",
+  INFO: "border-blue-500/25 bg-blue-500/10",
+  WARNING: "border-amber-500/25 bg-amber-500/10",
+  URGENT: "border-red-500/25 bg-red-500/10",
 };
 
 function formatDate(dateStr) {
@@ -146,10 +146,10 @@ export default function AdminAnnouncementsPage() {
       {/* Page header */}
       <div className="mb-10 flex items-start justify-between gap-4">
         <div>
-          <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511] tracking-tight">
+          <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
             Announcements
           </h1>
-          <p className="text-[#57534E] font-['Inter'] font-medium mt-1">
+          <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
             Post and manage announcements to residents.
           </p>
         </div>
@@ -157,8 +157,8 @@ export default function AdminAnnouncementsPage() {
           onClick={() => setShowForm((v) => !v)}
           className={`px-3 sm:px-6 py-3 rounded-xl font-['Inter'] font-bold text-sm transition-all flex items-center gap-2 shrink-0 ${
             showForm
-              ? "bg-[#EAC25A] text-[#57534E] hover:bg-[#F6E6B4]"
-              : "bg-[#A87813] text-white hover:opacity-90 shadow-sm"
+              ? "bg-surface-container text-foreground-variant hover:bg-white/5"
+              : "bg-accent text-white hover:opacity-90"
           }`}
         >
           <span className="material-symbols-outlined text-[18px]">
@@ -174,14 +174,14 @@ export default function AdminAnnouncementsPage() {
         <div className="lg:col-span-7 space-y-8">
           {/* New announcement form */}
           {showForm && (
-            <div className="bg-white rounded-2xl p-8 border border-[#DDD0AD] shadow-sm">
-              <h2 className="font-['Hanken_Grotesk'] font-bold text-lg text-[#181511] mb-6 flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#A87813] text-[20px]">campaign</span>
+            <div className="bg-surface rounded-2xl p-8 border border-border">
+              <h2 className="font-display font-bold text-lg text-foreground mb-6 flex items-center gap-2">
+                <span className="material-symbols-outlined text-accent text-[20px]">campaign</span>
                 Post Announcement
               </h2>
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                     Title
                   </label>
                   <input
@@ -189,13 +189,13 @@ export default function AdminAnnouncementsPage() {
                     required
                     value={form.title}
                     onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                    className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                    className="w-full bg-surface-container border border-border rounded-xl px-4 py-3 font-['Inter'] text-foreground focus:ring-2 focus:ring-accent outline-none"
                     placeholder="Announcement title"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                     Content
                   </label>
                   <textarea
@@ -203,14 +203,14 @@ export default function AdminAnnouncementsPage() {
                     rows={4}
                     value={form.content}
                     onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
-                    className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none resize-none"
+                    className="w-full bg-surface-container border border-border rounded-xl px-4 py-3 font-['Inter'] text-foreground focus:ring-2 focus:ring-accent outline-none resize-none"
                     placeholder="Announcement details…"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-3">
+                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-foreground-variant font-bold mb-3">
                       Priority
                     </label>
                     <div className="flex items-center gap-3">
@@ -222,9 +222,9 @@ export default function AdminAnnouncementsPage() {
                             value={p}
                             checked={form.priority === p}
                             onChange={() => setForm((f) => ({ ...f, priority: p }))}
-                            className="accent-[#A87813]"
+                            className="accent-accent"
                           />
-                          <span className="font-['Inter'] text-sm font-medium text-[#181511]">
+                          <span className="font-['Inter'] text-sm font-medium text-foreground">
                             {p.charAt(0) + p.slice(1).toLowerCase()}
                           </span>
                         </label>
@@ -233,13 +233,13 @@ export default function AdminAnnouncementsPage() {
                   </div>
 
                   <div>
-                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                       Property
                     </label>
                     <select
                       value={form.property_id}
                       onChange={(e) => setForm((f) => ({ ...f, property_id: e.target.value }))}
-                      className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                      className="w-full bg-surface-container border border-border rounded-xl px-4 py-3 font-['Inter'] text-foreground focus:ring-2 focus:ring-accent outline-none"
                     >
                       <option value="">All Properties</option>
                       {properties.map((p) => (
@@ -252,21 +252,21 @@ export default function AdminAnnouncementsPage() {
                 </div>
 
                 <div>
-                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
-                    Expires At <span className="normal-case text-[#57534E]/60 font-normal">(optional)</span>
+                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
+                    Expires At <span className="normal-case text-foreground-variant/60 font-normal">(optional)</span>
                   </label>
                   <input
                     type="date"
                     value={form.expires_at}
                     onChange={(e) => setForm((f) => ({ ...f, expires_at: e.target.value }))}
-                    className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                    className="w-full bg-surface-container border border-border rounded-xl px-4 py-3 font-['Inter'] text-foreground focus:ring-2 focus:ring-accent outline-none"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full py-4 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
                 >
                   <span className="material-symbols-outlined text-[18px]">send</span>
                   {submitting ? "Posting…" : "Post Announcement"}
@@ -277,47 +277,47 @@ export default function AdminAnnouncementsPage() {
 
           {/* Stats sub-grid */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm">
-              <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-3">Active</p>
-              <p className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#A87813]">{activeCount}</p>
+            <div className="bg-surface rounded-2xl p-6 border border-border">
+              <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-3">Active</p>
+              <p className="font-display text-3xl font-extrabold text-accent">{activeCount}</p>
             </div>
-            <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm">
-              <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-3">Total</p>
-              <p className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511]">{announcements.length}</p>
+            <div className="bg-surface rounded-2xl p-6 border border-border">
+              <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-3">Total</p>
+              <p className="font-display text-3xl font-extrabold text-foreground">{announcements.length}</p>
             </div>
           </div>
         </div>
 
         {/* Right: active announcements stream */}
         <div className="lg:col-span-5">
-          <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm overflow-hidden h-full">
-            <div className="px-6 py-5 border-b border-[#DDD0AD] flex items-center justify-between">
-              <h2 className="font-['Hanken_Grotesk'] font-bold text-[#181511]">
+          <div className="bg-surface rounded-2xl border border-border overflow-hidden h-full">
+            <div className="px-6 py-5 border-b border-border flex items-center justify-between">
+              <h2 className="font-display font-bold text-foreground">
                 All Announcements
               </h2>
-              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">
+              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold">
                 {announcements.length} total
               </span>
             </div>
 
             {loading ? (
-              <div className="divide-y divide-[#DDD0AD]">
+              <div className="divide-y divide-white/10">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="p-6 space-y-3">
                     <div className="flex justify-between">
-                      <div className="h-4 w-32 bg-[#EAC25A] animate-pulse rounded" />
-                      <div className="h-5 w-14 bg-[#EAC25A] animate-pulse rounded-full" />
+                      <div className="h-4 w-32 bg-surface-container animate-pulse rounded" />
+                      <div className="h-5 w-14 bg-surface-container animate-pulse rounded-full" />
                     </div>
-                    <div className="h-3 w-full bg-[#EAC25A] animate-pulse rounded" />
+                    <div className="h-3 w-full bg-surface-container animate-pulse rounded" />
                   </div>
                 ))}
               </div>
             ) : announcements.length === 0 ? (
               <div className="p-8 text-center">
-                <p className="text-[#57534E] font-['Inter'] text-sm">No announcements yet.</p>
+                <p className="text-foreground-variant font-['Inter'] text-sm">No announcements yet.</p>
               </div>
             ) : (
-              <div className="divide-y divide-[#DDD0AD] max-h-[600px] overflow-y-auto">
+              <div className="divide-y divide-white/10 max-h-[600px] overflow-y-auto">
                 {announcements.map((a) => {
                   const expired = isExpired(a.expires_at);
                   const active = a.is_active && !expired;
@@ -326,36 +326,36 @@ export default function AdminAnnouncementsPage() {
                   return (
                     <div key={a.id} className={`p-6 ${active ? cardStyle : "opacity-50"}`}>
                       <div className="flex items-start justify-between gap-3 mb-2">
-                        <p className="font-['Inter'] font-bold text-[#181511] text-sm leading-snug flex-1">
+                        <p className="font-['Inter'] font-bold text-foreground text-sm leading-snug flex-1">
                           {a.title}
                         </p>
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest shrink-0 ${PRIORITY_BADGE[a.priority] ?? "bg-[#EAC25A] text-[#57534E]"}`}>
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest shrink-0 ${PRIORITY_BADGE[a.priority] ?? "bg-surface-container text-foreground-variant"}`}>
                           {a.priority}
                         </span>
                       </div>
-                      <p className="font-['Inter'] text-[#57534E] text-xs mb-3 line-clamp-2">
+                      <p className="font-['Inter'] text-foreground-variant text-xs mb-3 line-clamp-2">
                         {a.content}
                       </p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <span className="font-['Inter'] text-[10px] text-[#57534E]">
+                          <span className="font-['Inter'] text-[10px] text-foreground-variant">
                             {a.properties?.name ?? "All Properties"}
                           </span>
-                          <span className="text-[#DDD0AD]">·</span>
-                          <span className="font-['Inter'] text-[10px] text-[#57534E]">
+                          <span className="text-foreground-variant/50">·</span>
+                          <span className="font-['Inter'] text-[10px] text-foreground-variant">
                             {formatDate(a.created_at)}
                           </span>
                         </div>
                         {active && (
                           <button
                             onClick={() => handleDeactivate(a.id)}
-                            className="font-['Inter'] text-[10px] font-bold text-[#57534E] hover:text-[#ba1a1a] transition-colors uppercase tracking-widest"
+                            className="font-['Inter'] text-[10px] font-bold text-foreground-variant hover:text-red-300 transition-colors uppercase tracking-widest"
                           >
                             Deactivate
                           </button>
                         )}
                         {!active && (
-                          <span className="font-['Inter'] text-[10px] text-[#DDD0AD] uppercase tracking-widest">
+                          <span className="font-['Inter'] text-[10px] text-foreground-variant/50 uppercase tracking-widest">
                             {expired ? "Expired" : "Inactive"}
                           </span>
                         )}

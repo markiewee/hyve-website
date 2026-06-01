@@ -480,27 +480,27 @@ export default function AdminInvestorsPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511] tracking-tight">
+        <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
           Investor Management
         </h1>
-        <p className="text-[#57534E] font-['Inter'] font-medium mt-1">
+        <p className="text-foreground-variant font-body font-medium mt-1">
           Manage investor profiles, track capital, and send invitations.
         </p>
       </div>
 
       {/* Summary stats */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
-        <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-3">Total Investors</p>
-          <p className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511]">{investors.length}</p>
+        <div className="bg-surface rounded-2xl p-6 border border-border">
+          <p className="font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-3">Total Investors</p>
+          <p className="font-display text-3xl font-extrabold text-foreground">{investors.length}</p>
         </div>
-        <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-3">Active</p>
-          <p className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#A87813]">{activeCount}</p>
+        <div className="bg-surface rounded-2xl p-6 border border-border">
+          <p className="font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-3">Active</p>
+          <p className="font-display text-3xl font-extrabold text-accent">{activeCount}</p>
         </div>
-        <div className="bg-[#A87813] rounded-2xl p-6">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#D9A441]/80 font-bold mb-3">Total Capital</p>
-          <p className="font-['Hanken_Grotesk'] text-2xl font-extrabold text-white">
+        <div className="bg-accent rounded-2xl p-6">
+          <p className="font-body text-[10px] uppercase tracking-widest text-white/80 font-bold mb-3">Total Capital</p>
+          <p className="font-display text-2xl font-extrabold text-white">
             {formatSGD(totalCapitalAll)}
           </p>
         </div>
@@ -509,14 +509,14 @@ export default function AdminInvestorsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left: invite form */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm">
-            <h2 className="font-['Hanken_Grotesk'] font-bold text-[#181511] mb-5 flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#A87813] text-[20px]">person_add</span>
+          <div className="bg-surface rounded-2xl p-6 border border-border">
+            <h2 className="font-display font-bold text-foreground mb-5 flex items-center gap-2">
+              <span className="material-symbols-outlined text-accent text-[20px]">person_add</span>
               Invite Investor
             </h2>
             <form onSubmit={handleInvite} className="space-y-4">
               <div>
-                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                   Full Name
                 </label>
                 <input
@@ -525,11 +525,11 @@ export default function AdminInvestorsPage() {
                   onChange={(e) => setInviteName(e.target.value)}
                   placeholder="Jane Tan"
                   required
-                  className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                  className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground focus:ring-2 focus:ring-accent outline-none"
                 />
               </div>
               <div>
-                <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                   Email Address
                 </label>
                 <input
@@ -538,21 +538,21 @@ export default function AdminInvestorsPage() {
                   onChange={(e) => setInviteEmail(e.target.value)}
                   placeholder="jane@example.com"
                   required
-                  className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                  className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground focus:ring-2 focus:ring-accent outline-none"
                 />
               </div>
 
               {inviteError && (
-                <div className="p-3 bg-[#ffdad6] rounded-xl flex items-start gap-2">
-                  <span className="material-symbols-outlined text-[#ba1a1a] text-[18px] shrink-0">error</span>
-                  <p className="font-['Inter'] text-sm text-[#ba1a1a]">{inviteError}</p>
+                <div className="p-3 bg-red-500/15 rounded-xl flex items-start gap-2">
+                  <span className="material-symbols-outlined text-red-300 text-[18px] shrink-0">error</span>
+                  <p className="font-body text-sm text-red-300">{inviteError}</p>
                 </div>
               )}
 
               <button
                 type="submit"
                 disabled={inviting}
-                className="w-full py-4 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+                className="w-full py-4 bg-accent text-white rounded-xl font-body font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">send</span>
                 {inviting ? "Sending..." : "Send Invite"}
@@ -560,14 +560,14 @@ export default function AdminInvestorsPage() {
             </form>
 
             {inviteUrl && (
-              <div className="mt-4 p-4 bg-[#d1fae5] rounded-xl">
-                <p className="font-['Inter'] text-sm font-bold text-[#065f46] mb-2">
+              <div className="mt-4 p-4 bg-emerald-500/15 rounded-xl">
+                <p className="font-body text-sm font-bold text-emerald-300 mb-2">
                   Invite link created (expires in 30 days):
                 </p>
-                <p className="font-['Inter'] text-xs text-[#065f46] break-all mb-3">{inviteUrl}</p>
+                <p className="font-body text-xs text-emerald-300 break-all mb-3">{inviteUrl}</p>
                 <button
                   onClick={() => navigator.clipboard.writeText(inviteUrl)}
-                  className="px-4 py-2 border border-[#065f46]/30 rounded-lg font-['Inter'] font-bold text-xs text-[#065f46] hover:bg-[#065f46]/10 transition-all flex items-center gap-1.5"
+                  className="px-4 py-2 border border-emerald-500/25 rounded-lg font-body font-bold text-xs text-emerald-300 hover:bg-emerald-500/10 transition-all flex items-center gap-1.5"
                 >
                   <span className="material-symbols-outlined text-[16px]">content_copy</span>
                   Copy Link
@@ -579,37 +579,37 @@ export default function AdminInvestorsPage() {
 
         {/* Right: investor directory table */}
         <div className="lg:col-span-8">
-          <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm overflow-hidden">
-            <div className="px-6 py-5 border-b border-[#DDD0AD] flex items-center justify-between">
-              <h2 className="font-['Hanken_Grotesk'] font-bold text-[#181511]">
+          <div className="bg-surface rounded-2xl border border-border overflow-hidden">
+            <div className="px-6 py-5 border-b border-border flex items-center justify-between">
+              <h2 className="font-display font-bold text-foreground">
                 Investor Directory
               </h2>
-              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">
+              <span className="font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold">
                 {investors.length} total
               </span>
             </div>
 
             {loading ? (
-              <div className="divide-y divide-[#DDD0AD]">
+              <div className="divide-y divide-white/10">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="px-6 py-5 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-[#EAC25A] animate-pulse rounded-full" />
+                      <div className="w-10 h-10 bg-white/5 animate-pulse rounded-full" />
                       <div className="space-y-2">
-                        <div className="h-4 w-28 bg-[#EAC25A] animate-pulse rounded" />
-                        <div className="h-3 w-36 bg-[#EAC25A] animate-pulse rounded" />
+                        <div className="h-4 w-28 bg-white/5 animate-pulse rounded" />
+                        <div className="h-3 w-36 bg-white/5 animate-pulse rounded" />
                       </div>
                     </div>
-                    <div className="h-4 w-20 bg-[#EAC25A] animate-pulse rounded" />
+                    <div className="h-4 w-20 bg-white/5 animate-pulse rounded" />
                   </div>
                 ))}
               </div>
             ) : investors.length === 0 ? (
               <div className="p-8 text-center">
-                <p className="text-[#57534E] font-['Inter'] text-sm">No investors yet.</p>
+                <p className="text-foreground-variant font-body text-sm">No investors yet.</p>
               </div>
             ) : (
-              <div className="divide-y divide-[#DDD0AD]">
+              <div className="divide-y divide-white/10">
                 {investors.map((inv) => {
                   const totalCapital = (inv.investments ?? []).reduce(
                     (sum, i) => sum + Number(i.capital_contributed ?? 0),
@@ -631,18 +631,18 @@ export default function AdminInvestorsPage() {
                     <div key={inv.id}>
                       <button
                         onClick={() => handleToggleExpand(inv.id)}
-                        className="w-full text-left px-6 py-5 hover:bg-[#FAF6EC] transition-colors"
+                        className="w-full text-left px-6 py-5 hover:bg-white/5 transition-colors"
                       >
                         <div className="flex items-center justify-between gap-4">
                           <div className="flex items-center gap-3 min-w-0">
-                            <div className="w-10 h-10 rounded-full bg-[#F6E6B4] flex items-center justify-center text-[#A87813] font-bold text-xs shrink-0">
+                            <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-accent font-bold text-xs shrink-0">
                               {initials}
                             </div>
                             <div className="min-w-0">
-                              <p className="font-['Inter'] font-bold text-[#181511] text-sm truncate">
+                              <p className="font-body font-bold text-foreground text-sm truncate">
                                 {inv.full_name ?? "—"}
                               </p>
-                              <p className="font-['Inter'] text-[#57534E] text-xs truncate">{inv.email}</p>
+                              <p className="font-body text-foreground-variant text-xs truncate">{inv.email}</p>
                             </div>
                           </div>
 
@@ -650,20 +650,20 @@ export default function AdminInvestorsPage() {
                             {propCodes.map((code) => (
                               <span
                                 key={code}
-                                className="font-['Inter'] text-xs font-bold bg-[#EAC25A] text-[#A87813] px-2 py-1 rounded"
+                                className="font-body text-xs font-bold bg-white/5 text-accent px-2 py-1 rounded"
                               >
                                 {code}
                               </span>
                             ))}
-                            <span className="font-['Hanken_Grotesk'] font-bold text-sm text-[#181511] tabular-nums">
+                            <span className="font-display font-bold text-sm text-foreground tabular-nums">
                               {formatSGD(totalCapital)}
                             </span>
                             <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${
-                              inv.is_active ? "bg-[#d1fae5] text-[#065f46]" : "bg-[#F6E6B4] text-[#57534E]"
+                              inv.is_active ? "bg-emerald-500/15 text-emerald-300" : "bg-white/5 text-foreground-variant"
                             }`}>
                               {inv.is_active ? "Active" : "Pending"}
                             </span>
-                            <span className={`material-symbols-outlined text-[16px] text-[#57534E] transition-transform ${isExpanded ? "rotate-180" : ""}`}>
+                            <span className={`material-symbols-outlined text-[16px] text-foreground-variant transition-transform ${isExpanded ? "rotate-180" : ""}`}>
                               expand_more
                             </span>
                           </div>
@@ -671,44 +671,44 @@ export default function AdminInvestorsPage() {
                       </button>
 
                       {isExpanded && (
-                        <div className="bg-[#FAF6EC] border-t border-[#DDD0AD] px-6 py-6">
+                        <div className="bg-white/5 border-t border-border px-6 py-6">
                           {/* Investments table */}
-                          <h4 className="font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-3">
+                          <h4 className="font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-3">
                             Investments
                           </h4>
 
                           {(inv.investments ?? []).length === 0 ? (
-                            <p className="font-['Inter'] text-sm text-[#57534E] mb-4">No investments yet.</p>
+                            <p className="font-body text-sm text-foreground-variant mb-4">No investments yet.</p>
                           ) : (
-                            <div className="rounded-xl overflow-hidden border border-[#DDD0AD] mb-5">
+                            <div className="rounded-xl overflow-hidden border border-border mb-5">
                               <table className="w-full">
-                                <thead className="bg-[#EAC25A]">
+                                <thead className="bg-white/5">
                                   <tr>
-                                    <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Property</th>
-                                    <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Capital</th>
-                                    <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Share</th>
-                                    <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold hidden sm:table-cell">Equity</th>
+                                    <th className="text-left px-4 py-3 font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Property</th>
+                                    <th className="text-right px-4 py-3 font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Capital</th>
+                                    <th className="text-right px-4 py-3 font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Share</th>
+                                    <th className="text-left px-4 py-3 font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold hidden sm:table-cell">Equity</th>
                                   </tr>
                                 </thead>
-                                <tbody className="divide-y divide-[#DDD0AD] bg-white">
+                                <tbody className="divide-y divide-white/10 bg-surface">
                                   {(inv.investments ?? []).map((i) => {
                                     const sharePercent = Number(i.share_percentage ?? 0);
                                     return (
                                       <tr key={i.id}>
-                                        <td className="px-4 py-3 font-['Inter'] text-sm font-medium text-[#181511]">
+                                        <td className="px-4 py-3 font-body text-sm font-medium text-foreground">
                                           {i.properties?.name ?? "—"}
                                         </td>
-                                        <td className="px-4 py-3 text-right font-['Inter'] text-sm tabular-nums font-medium">
+                                        <td className="px-4 py-3 text-right font-body text-sm tabular-nums font-medium">
                                           {formatSGD(i.capital_contributed)}
                                         </td>
-                                        <td className="px-4 py-3 text-right font-['Hanken_Grotesk'] font-bold text-sm text-[#A87813]">
+                                        <td className="px-4 py-3 text-right font-display font-bold text-sm text-accent">
                                           {sharePercent.toFixed(1)}%
                                         </td>
                                         <td className="px-4 py-3 hidden sm:table-cell">
                                           <div className="flex items-center gap-2">
-                                            <div className="flex-1 h-1.5 bg-[#EAC25A] rounded-full overflow-hidden max-w-[80px]">
+                                            <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden max-w-[80px]">
                                               <div
-                                                className="h-full bg-[#A87813] rounded-full"
+                                                className="h-full bg-accent rounded-full"
                                                 style={{ width: `${Math.min(sharePercent, 100)}%` }}
                                               />
                                             </div>
@@ -723,12 +723,12 @@ export default function AdminInvestorsPage() {
                           )}
 
                           {/* Add Investment form */}
-                          <h4 className="font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-3">
+                          <h4 className="font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-3">
                             Add Investment
                           </h4>
                           <div className="flex flex-col sm:flex-row gap-3">
                             <select
-                              className="flex-1 bg-white border border-[#DDD0AD] rounded-xl px-4 py-3 font-['Inter'] text-sm text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                              className="flex-1 bg-surface border border-border rounded-xl px-4 py-3 font-body text-sm text-foreground focus:ring-2 focus:ring-accent outline-none"
                               value={form.propertyId ?? ""}
                               onChange={(e) =>
                                 setAddInvForm((prev) => ({
@@ -756,12 +756,12 @@ export default function AdminInvestorsPage() {
                                   [inv.id]: { ...form, capital: e.target.value },
                                 }))
                               }
-                              className="flex-1 bg-white border border-[#DDD0AD] rounded-xl px-4 py-3 font-['Inter'] text-sm text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                              className="flex-1 bg-surface border border-border rounded-xl px-4 py-3 font-body text-sm text-foreground focus:ring-2 focus:ring-accent outline-none"
                             />
                             <button
                               onClick={() => handleAddInvestment(inv.id)}
                               disabled={!form.propertyId || !form.capital}
-                              className="px-5 py-3 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all shrink-0"
+                              className="px-5 py-3 bg-accent text-white rounded-xl font-body font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all shrink-0"
                             >
                               Add
                             </button>
@@ -779,36 +779,36 @@ export default function AdminInvestorsPage() {
 
       {/* ─── Monthly Distributions Section ─────────────────────────────────────── */}
       <div className="mt-12 mb-10">
-        <h2 className="font-['Hanken_Grotesk'] text-2xl font-extrabold text-[#181511] tracking-tight mb-1">
+        <h2 className="font-display text-2xl font-extrabold text-foreground tracking-tight mb-1">
           Monthly Distributions
         </h2>
-        <p className="text-[#57534E] font-['Inter'] font-medium">
+        <p className="text-foreground-variant font-body font-medium">
           Calculate and approve investor distributions from confirmed P&L data.
         </p>
       </div>
 
       {/* Calculation controls */}
-      <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm mb-8">
-        <h3 className="font-['Hanken_Grotesk'] font-bold text-[#181511] mb-5 flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#A87813] text-[20px]">calculate</span>
+      <div className="bg-surface rounded-2xl p-6 border border-border mb-8">
+        <h3 className="font-display font-bold text-foreground mb-5 flex items-center gap-2">
+          <span className="material-symbols-outlined text-accent text-[20px]">calculate</span>
           Calculate Distributions
         </h3>
         <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4">
           <div>
-            <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+            <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
               Month
             </label>
             <input
               type="month"
               value={distMonth}
               onChange={(e) => setDistMonth(e.target.value)}
-              className="bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+              className="bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground focus:ring-2 focus:ring-accent outline-none"
             />
           </div>
           <button
             onClick={handleCalculateDistributions}
             disabled={calculating}
-            className="px-6 py-3 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+            className="px-6 py-3 bg-accent text-white rounded-xl font-body font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
           >
             <span className="material-symbols-outlined text-[18px]">sync</span>
             {calculating ? "Calculating..." : "Calculate Distributions"}
@@ -816,27 +816,27 @@ export default function AdminInvestorsPage() {
         </div>
 
         {calcError && (
-          <div className="mt-4 p-3 bg-[#ffdad6] rounded-xl flex items-start gap-2">
-            <span className="material-symbols-outlined text-[#ba1a1a] text-[18px] shrink-0">error</span>
-            <p className="font-['Inter'] text-sm text-[#ba1a1a]">{calcError}</p>
+          <div className="mt-4 p-3 bg-red-500/15 rounded-xl flex items-start gap-2">
+            <span className="material-symbols-outlined text-red-300 text-[18px] shrink-0">error</span>
+            <p className="font-body text-sm text-red-300">{calcError}</p>
           </div>
         )}
       </div>
 
       {/* Pending Distributions */}
       {distLoading ? (
-        <div className="h-32 bg-[#EAC25A] animate-pulse rounded-2xl mb-8" />
+        <div className="h-32 bg-white/5 animate-pulse rounded-2xl mb-8" />
       ) : pendingDistributions.length > 0 && (
-        <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm overflow-hidden mb-8">
-          <div className="px-6 py-5 border-b border-[#DDD0AD] flex items-center justify-between">
-            <h3 className="font-['Hanken_Grotesk'] font-bold text-[#181511] flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#e6a817] text-[20px]">pending</span>
+        <div className="bg-surface rounded-2xl border border-border overflow-hidden mb-8">
+          <div className="px-6 py-5 border-b border-border flex items-center justify-between">
+            <h3 className="font-display font-bold text-foreground flex items-center gap-2">
+              <span className="material-symbols-outlined text-amber-400 text-[20px]">pending</span>
               Pending Distributions
             </h3>
             <button
               onClick={handleApproveAll}
               disabled={approvingAll}
-              className="px-4 py-2 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-xs hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-1.5"
+              className="px-4 py-2 bg-accent text-white rounded-xl font-body font-bold text-xs hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-1.5"
             >
               <span className="material-symbols-outlined text-[16px]">done_all</span>
               {approvingAll ? "Approving..." : "Approve All"}
@@ -845,44 +845,44 @@ export default function AdminInvestorsPage() {
 
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-[#EAC25A]">
+              <thead className="bg-white/5">
                 <tr>
-                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Investor</th>
-                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Property</th>
-                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Gross Profit</th>
-                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Share %</th>
-                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Distribution</th>
-                  <th className="text-center px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Action</th>
+                  <th className="text-left px-4 py-3 font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Investor</th>
+                  <th className="text-left px-4 py-3 font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Property</th>
+                  <th className="text-right px-4 py-3 font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Gross Profit</th>
+                  <th className="text-right px-4 py-3 font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Share %</th>
+                  <th className="text-right px-4 py-3 font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Distribution</th>
+                  <th className="text-center px-4 py-3 font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#DDD0AD]">
+              <tbody className="divide-y divide-white/10">
                 {pendingDistributions.map((dist) => (
-                  <tr key={dist.id} className="hover:bg-[#FAF6EC] transition-colors">
-                    <td className="px-4 py-3 font-['Inter'] text-sm font-medium text-[#181511]">
+                  <tr key={dist.id} className="hover:bg-white/5 transition-colors">
+                    <td className="px-4 py-3 font-body text-sm font-medium text-foreground">
                       {dist.investors?.name ?? dist.investors?.email ?? "—"}
                     </td>
-                    <td className="px-4 py-3 font-['Inter'] text-sm text-[#57534E]">
+                    <td className="px-4 py-3 font-body text-sm text-foreground-variant">
                       {dist.properties?.name ?? "—"}
                       {dist.properties?.code && (
-                        <span className="ml-1.5 font-['Inter'] text-xs font-bold bg-[#EAC25A] text-[#A87813] px-1.5 py-0.5 rounded">
+                        <span className="ml-1.5 font-body text-xs font-bold bg-white/5 text-accent px-1.5 py-0.5 rounded">
                           {dist.properties.code}
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-right font-['Inter'] text-sm tabular-nums">
+                    <td className="px-4 py-3 text-right font-body text-sm tabular-nums">
                       {formatSGD(dist.gross_profit)}
                     </td>
-                    <td className="px-4 py-3 text-right font-['Hanken_Grotesk'] font-bold text-sm text-[#A87813]">
+                    <td className="px-4 py-3 text-right font-display font-bold text-sm text-accent">
                       {Number(dist.share_percentage ?? 0).toFixed(1)}%
                     </td>
-                    <td className="px-4 py-3 text-right font-['Hanken_Grotesk'] font-bold text-sm text-[#181511] tabular-nums">
+                    <td className="px-4 py-3 text-right font-display font-bold text-sm text-foreground tabular-nums">
                       {formatSGD(dist.amount)}
                     </td>
                     <td className="px-4 py-3 text-center">
                       <button
                         onClick={() => handleMarkPaid(dist.id)}
                         disabled={approvingId === dist.id}
-                        className="px-3 py-1.5 bg-[#d1fae5] text-[#065f46] rounded-lg font-['Inter'] font-bold text-xs hover:bg-[#065f46] hover:text-white disabled:opacity-50 transition-all"
+                        className="px-3 py-1.5 bg-emerald-500/15 text-emerald-300 rounded-lg font-body font-bold text-xs hover:bg-emerald-500 hover:text-white disabled:opacity-50 transition-all"
                       >
                         {approvingId === dist.id ? "..." : "Mark Paid"}
                       </button>
@@ -897,12 +897,12 @@ export default function AdminInvestorsPage() {
 
       {/* Paid Distributions */}
       {!distLoading && paidDistributions.length > 0 && (
-        <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm overflow-hidden mb-8">
-          <div className="px-6 py-5 border-b border-[#DDD0AD]">
-            <h3 className="font-['Hanken_Grotesk'] font-bold text-[#181511] flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#16a34a] text-[20px]">check_circle</span>
+        <div className="bg-surface rounded-2xl border border-border overflow-hidden mb-8">
+          <div className="px-6 py-5 border-b border-border">
+            <h3 className="font-display font-bold text-foreground flex items-center gap-2">
+              <span className="material-symbols-outlined text-emerald-400 text-[20px]">check_circle</span>
               Paid Distributions
-              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold ml-2">
+              <span className="font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold ml-2">
                 {paidDistributions.length} paid
               </span>
             </h3>
@@ -910,27 +910,27 @@ export default function AdminInvestorsPage() {
 
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-[#f0fdf4]">
+              <thead className="bg-emerald-500/10">
                 <tr>
-                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Investor</th>
-                  <th className="text-left px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Property</th>
-                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Amount</th>
-                  <th className="text-right px-4 py-3 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Paid At</th>
+                  <th className="text-left px-4 py-3 font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Investor</th>
+                  <th className="text-left px-4 py-3 font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Property</th>
+                  <th className="text-right px-4 py-3 font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Amount</th>
+                  <th className="text-right px-4 py-3 font-body text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Paid At</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#DDD0AD]">
+              <tbody className="divide-y divide-white/10">
                 {paidDistributions.map((dist) => (
-                  <tr key={dist.id} className="hover:bg-[#FAF6EC] transition-colors">
-                    <td className="px-4 py-3 font-['Inter'] text-sm font-medium text-[#181511]">
+                  <tr key={dist.id} className="hover:bg-white/5 transition-colors">
+                    <td className="px-4 py-3 font-body text-sm font-medium text-foreground">
                       {dist.investors?.name ?? "—"}
                     </td>
-                    <td className="px-4 py-3 font-['Inter'] text-sm text-[#57534E]">
+                    <td className="px-4 py-3 font-body text-sm text-foreground-variant">
                       {dist.properties?.name ?? "—"}
                     </td>
-                    <td className="px-4 py-3 text-right font-['Hanken_Grotesk'] font-bold text-sm text-[#16a34a] tabular-nums">
+                    <td className="px-4 py-3 text-right font-display font-bold text-sm text-emerald-400 tabular-nums">
                       {formatSGD(dist.amount)}
                     </td>
-                    <td className="px-4 py-3 text-right font-['Inter'] text-xs text-[#57534E]">
+                    <td className="px-4 py-3 text-right font-body text-xs text-foreground-variant">
                       {dist.paid_at ? new Date(dist.paid_at).toLocaleDateString("en-SG", {
                         day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit",
                       }) : "—"}
@@ -945,35 +945,35 @@ export default function AdminInvestorsPage() {
 
       {/* Empty state for distributions */}
       {!distLoading && distributions.length === 0 && (
-        <div className="flex flex-col items-center justify-center gap-3 py-16 bg-white rounded-2xl border border-[#DDD0AD] shadow-sm">
-          <span className="material-symbols-outlined text-5xl text-[#DDD0AD]">payments</span>
-          <p className="font-['Hanken_Grotesk'] text-base font-semibold text-[#A87813]">
+        <div className="flex flex-col items-center justify-center gap-3 py-16 bg-surface rounded-2xl border border-border">
+          <span className="material-symbols-outlined text-5xl text-foreground-variant">payments</span>
+          <p className="font-display text-base font-semibold text-accent">
             No distributions for this month
           </p>
-          <p className="font-['Inter'] text-sm text-[#57534E]">
+          <p className="font-body text-sm text-foreground-variant">
             Select a month and calculate distributions from confirmed bank transactions.
           </p>
         </div>
       )}
 
       {/* ─── Reports Section ───────────────────────────────────────────── */}
-      <div className="mt-12 pt-8 border-t-2 border-[#DDD0AD]">
-        <h2 className="font-['Hanken_Grotesk'] text-2xl font-extrabold text-[#181511] mb-6 flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#A87813]">description</span>
+      <div className="mt-12 pt-8 border-t-2 border-border">
+        <h2 className="font-display text-2xl font-extrabold text-foreground mb-6 flex items-center gap-2">
+          <span className="material-symbols-outlined text-accent">description</span>
           Investor Reports
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Upload form */}
           <div className="lg:col-span-5">
-            <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm">
-              <h3 className="font-['Hanken_Grotesk'] font-bold text-[#181511] mb-5">
+            <div className="bg-surface rounded-2xl p-6 border border-border">
+              <h3 className="font-display font-bold text-foreground mb-5">
                 Add / Update Report
               </h3>
               <form onSubmit={handleSaveReport} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                    <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                       Month
                     </label>
                     <input
@@ -981,18 +981,18 @@ export default function AdminInvestorsPage() {
                       value={reportMonth}
                       onChange={(e) => setReportMonth(e.target.value)}
                       required
-                      className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                      className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground focus:ring-2 focus:ring-accent outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                    <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                       Property
                     </label>
                     <select
                       value={reportPropertyId}
                       onChange={(e) => setReportPropertyId(e.target.value)}
                       required
-                      className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                      className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground focus:ring-2 focus:ring-accent outline-none"
                     >
                       <option value="">Select...</option>
                       {properties.map((p) => (
@@ -1003,7 +1003,7 @@ export default function AdminInvestorsPage() {
                 </div>
 
                 <div>
-                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                  <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                     Title
                   </label>
                   <input
@@ -1011,13 +1011,13 @@ export default function AdminInvestorsPage() {
                     value={reportTitle}
                     onChange={(e) => setReportTitle(e.target.value)}
                     placeholder={`${reportMonth} Monthly Report`}
-                    className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                    className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground focus:ring-2 focus:ring-accent outline-none"
                   />
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
                   <div>
-                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                    <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                       Revenue
                     </label>
                     <input
@@ -1026,11 +1026,11 @@ export default function AdminInvestorsPage() {
                       value={reportRevenue}
                       onChange={(e) => setReportRevenue(e.target.value)}
                       placeholder="0.00"
-                      className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none tabular-nums"
+                      className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground focus:ring-2 focus:ring-accent outline-none tabular-nums"
                     />
                   </div>
                   <div>
-                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                    <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                       Expenses
                     </label>
                     <input
@@ -1039,11 +1039,11 @@ export default function AdminInvestorsPage() {
                       value={reportExpenses}
                       onChange={(e) => setReportExpenses(e.target.value)}
                       placeholder="0.00"
-                      className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none tabular-nums"
+                      className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground focus:ring-2 focus:ring-accent outline-none tabular-nums"
                     />
                   </div>
                   <div>
-                    <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                    <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                       Distributed
                     </label>
                     <input
@@ -1052,13 +1052,13 @@ export default function AdminInvestorsPage() {
                       value={reportDistribution}
                       onChange={(e) => setReportDistribution(e.target.value)}
                       placeholder="0.00"
-                      className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] outline-none tabular-nums"
+                      className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground outline-none tabular-nums"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                  <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                     Notes (optional)
                   </label>
                   <textarea
@@ -1066,33 +1066,33 @@ export default function AdminInvestorsPage() {
                     onChange={(e) => setReportNotes(e.target.value)}
                     rows={2}
                     placeholder="Any commentary for investors..."
-                    className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none resize-none"
+                    className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground focus:ring-2 focus:ring-accent outline-none resize-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-2">
+                  <label className="block font-body text-xs uppercase tracking-widest text-foreground-variant font-bold mb-2">
                     PDF Report (optional)
                   </label>
                   <input
                     type="file"
                     accept=".pdf"
                     onChange={(e) => setReportFile(e.target.files?.[0] ?? null)}
-                    className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-[#181511] text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-[#A87813] file:text-white file:font-semibold file:text-xs"
+                    className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-accent file:text-white file:font-semibold file:text-xs"
                   />
                 </div>
 
                 {reportError && (
-                  <p className="text-sm text-red-600 font-['Inter']">{reportError}</p>
+                  <p className="text-sm text-red-300 font-body">{reportError}</p>
                 )}
                 {reportSuccess && (
-                  <p className="text-sm text-green-600 font-['Inter']">{reportSuccess}</p>
+                  <p className="text-sm text-emerald-300 font-body">{reportSuccess}</p>
                 )}
 
                 <button
                   type="submit"
                   disabled={reportSaving || !reportPropertyId}
-                  className="w-full py-3 rounded-xl font-['Inter'] font-bold text-white bg-[#A87813] hover:bg-[#A87813] disabled:opacity-50 transition-colors"
+                  className="w-full py-3 rounded-xl font-body font-bold text-white bg-accent hover:bg-accent disabled:opacity-50 transition-colors"
                 >
                   {reportSaving ? "Saving..." : "Save Report"}
                 </button>
@@ -1102,37 +1102,37 @@ export default function AdminInvestorsPage() {
 
           {/* Existing reports list */}
           <div className="lg:col-span-7">
-            <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm overflow-hidden">
-              <div className="px-6 py-4 border-b border-[#DDD0AD]">
-                <h3 className="font-['Hanken_Grotesk'] font-bold text-[#181511]">
+            <div className="bg-surface rounded-2xl border border-border overflow-hidden">
+              <div className="px-6 py-4 border-b border-border">
+                <h3 className="font-display font-bold text-foreground">
                   Recent Reports
                 </h3>
               </div>
               {reportsLoading ? (
                 <div className="p-6 space-y-3">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="h-10 bg-[#EAC25A] animate-pulse rounded-xl" />
+                    <div key={i} className="h-10 bg-white/5 animate-pulse rounded-xl" />
                   ))}
                 </div>
               ) : existingReports.length === 0 ? (
-                <div className="p-6 text-center text-[#57534E] font-['Inter']">
+                <div className="p-6 text-center text-foreground-variant font-body">
                   No reports yet.
                 </div>
               ) : (
-                <div className="divide-y divide-[#DDD0AD]">
+                <div className="divide-y divide-white/10">
                   {existingReports.map((r) => (
                     <div key={r.id} className="px-6 py-4 flex items-center justify-between">
                       <div className="min-w-0">
-                        <p className="font-['Inter'] font-semibold text-[#181511] text-sm truncate">
+                        <p className="font-body font-semibold text-foreground text-sm truncate">
                           {r.title}
                         </p>
-                        <p className="font-['Inter'] text-xs text-[#57534E]">
+                        <p className="font-body text-xs text-foreground-variant">
                           {r.properties?.name ?? "\u2014"} &middot;{" "}
                           {new Date(r.month).toLocaleDateString("en-SG", { month: "short", year: "numeric" })}
                         </p>
                       </div>
                       <div className="flex items-center gap-3 flex-shrink-0">
-                        <span className="font-['Hanken_Grotesk'] font-bold text-sm text-[#A87813] tabular-nums">
+                        <span className="font-display font-bold text-sm text-accent tabular-nums">
                           {formatSGD(r.net_income)}
                         </span>
                         {r.file_url && (
@@ -1140,14 +1140,14 @@ export default function AdminInvestorsPage() {
                             href={r.file_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#A87813] hover:text-[#A87813]"
+                            className="text-accent hover:text-accent"
                           >
                             <span className="material-symbols-outlined text-[18px]">download</span>
                           </a>
                         )}
                         <button
                           onClick={() => handleDeleteReport(r.id)}
-                          className="text-[#57534E] hover:text-[#ba1a1a] transition-colors"
+                          className="text-foreground-variant hover:text-red-300 transition-colors"
                         >
                           <span className="material-symbols-outlined text-[18px]">delete</span>
                         </button>

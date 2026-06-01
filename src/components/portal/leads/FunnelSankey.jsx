@@ -35,8 +35,8 @@ function FunnelNode(props) {
   const labelX = isLeft ? x + width + 8 : isRight ? x - 8 : x + width / 2;
   const labelY = isPool ? y + height + 14 : y + height / 2;
   const anchor = isLeft ? "start" : isRight ? "end" : "middle";
-  const labelFill = isPool || isRight ? "#181511" : "#181511";
-  const subFill = "#64748b";
+  const labelFill = isPool || isRight ? "#e2e2e2" : "#e2e2e2";
+  const subFill = "#c4c7c7";
 
   return (
     <Layer key={`fn-node-${index}`}>
@@ -47,7 +47,7 @@ function FunnelNode(props) {
         height={Math.max(height, 1)}
         fill={fill}
         fillOpacity={1}
-        stroke="#fff"
+        stroke="#0c0f0f"
         strokeWidth={isPool ? 0 : 1}
       />
       {isPool ? (
@@ -119,11 +119,11 @@ function FunnelTooltip({ payload, total }) {
     const v = p.value;
     const pct = total > 0 ? ((v / total) * 100).toFixed(1) : "0.0";
     return (
-      <div className="bg-white border border-slate-200 rounded shadow-md px-2.5 py-1.5 text-xs">
-        <div className="font-medium text-slate-900">
-          {p.source.name} <span className="text-slate-400">→</span> {p.target.name}
+      <div className="bg-surface border border-border rounded px-2.5 py-1.5 text-xs">
+        <div className="font-medium text-foreground">
+          {p.source.name} <span className="text-foreground-variant">→</span> {p.target.name}
         </div>
-        <div className="text-slate-600 mt-0.5">
+        <div className="text-foreground-variant mt-0.5">
           {v} lead{v === 1 ? "" : "s"} · {pct}%
         </div>
       </div>
@@ -132,9 +132,9 @@ function FunnelTooltip({ payload, total }) {
 
   const pct = total > 0 ? ((p.count / total) * 100).toFixed(1) : "0.0";
   return (
-    <div className="bg-white border border-slate-200 rounded shadow-md px-2.5 py-1.5 text-xs">
-      <div className="font-medium text-slate-900">{p.name}</div>
-      <div className="text-slate-600 mt-0.5">
+    <div className="bg-surface border border-border rounded px-2.5 py-1.5 text-xs">
+      <div className="font-medium text-foreground">{p.name}</div>
+      <div className="text-foreground-variant mt-0.5">
         {p.count} lead{p.count === 1 ? "" : "s"} · {pct}%
       </div>
     </div>
@@ -145,7 +145,7 @@ export function FunnelSankey({ data, total, height = 280 }) {
   if (!data || data.links.length === 0) {
     return (
       <div
-        className="flex items-center justify-center text-slate-400 text-sm italic"
+        className="flex items-center justify-center text-foreground-variant text-sm italic"
         style={{ height }}
       >
         No leads in this timeframe yet — adjust the filter or wait for new prospects.

@@ -280,7 +280,7 @@ const LocationsMapComponent = ({
             size="sm"
             variant="secondary"
             onClick={resetView}
-            className="bg-surface/90 hover:bg-surface shadow-md"
+            className="bg-surface/90 hover:bg-surface"
           >
             <RotateCcw className="w-4 h-4 mr-1" />
             Fit All
@@ -288,7 +288,7 @@ const LocationsMapComponent = ({
         </div>
 
         {/* Map Info Overlay */}
-        <div className="absolute bottom-4 left-4 bg-surface/95 rounded-lg p-3 shadow-md" style={{ zIndex: 1000 }}>
+        <div className="absolute bottom-4 left-4 bg-surface/95 rounded-lg p-3 border border-border" style={{ zIndex: 1000 }}>
           <div className="text-xs text-foreground-variant">
             {showProperties ? (
               <div className="flex items-center gap-2">
@@ -306,7 +306,7 @@ const LocationsMapComponent = ({
 
         {/* Selected property info */}
         {selectedProperty && (
-          <div className="absolute bottom-4 right-4 bg-surface/95 rounded-lg p-3 shadow-md max-w-xs" style={{ zIndex: 1000 }}>
+          <div className="absolute bottom-4 right-4 bg-surface/95 rounded-lg p-3 border border-border max-w-xs" style={{ zIndex: 1000 }}>
             <h4 className="font-semibold text-sm mb-1">{selectedProperty.name}</h4>
             <p className="text-xs text-foreground-variant mb-1">
               {selectedProperty.neighborhood?.name || selectedProperty.neighborhood}

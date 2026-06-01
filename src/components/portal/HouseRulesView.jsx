@@ -71,7 +71,7 @@ export default function HouseRulesView({ onboarding, advanceStep, updateOnboardi
     return (
       <div className="space-y-3">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="h-4 bg-gray-100 animate-pulse rounded" />
+          <div key={i} className="h-4 bg-surface-container animate-pulse rounded" />
         ))}
       </div>
     );
@@ -103,7 +103,7 @@ export default function HouseRulesView({ onboarding, advanceStep, updateOnboardi
         </div>
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-400">{error}</p>}
 
       <div className="flex flex-wrap items-center gap-3">
         <Button

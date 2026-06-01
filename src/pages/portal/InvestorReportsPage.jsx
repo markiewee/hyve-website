@@ -65,10 +65,10 @@ const EXPENSE_CATEGORY_ORDER = [
 
 function SkeletonRow() {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm space-y-3">
-      <div className="h-4 w-1/3 bg-[#EAC25A] animate-pulse rounded" />
-      <div className="h-4 w-full bg-[#EAC25A] animate-pulse rounded" />
-      <div className="h-4 w-2/3 bg-[#EAC25A] animate-pulse rounded" />
+    <div className="bg-surface rounded-2xl p-6 border border-border space-y-3">
+      <div className="h-4 w-1/3 bg-surface-container animate-pulse rounded" />
+      <div className="h-4 w-full bg-surface-container animate-pulse rounded" />
+      <div className="h-4 w-2/3 bg-surface-container animate-pulse rounded" />
     </div>
   );
 }
@@ -250,16 +250,16 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm overflow-hidden">
-        <div className="px-8 py-6 border-b border-[#DDD0AD]">
-          <div className="h-6 w-48 bg-[#EAC25A] animate-pulse rounded" />
+      <div className="bg-surface rounded-2xl border border-border overflow-hidden">
+        <div className="px-8 py-6 border-b border-border">
+          <div className="h-6 w-48 bg-surface-container animate-pulse rounded" />
         </div>
         <div className="p-8 space-y-3">
-          <div className="h-4 w-full bg-[#EAC25A] animate-pulse rounded" />
-          <div className="h-4 w-full bg-[#EAC25A] animate-pulse rounded" />
-          <div className="h-4 w-2/3 bg-[#EAC25A] animate-pulse rounded" />
-          <div className="h-4 w-full bg-[#EAC25A] animate-pulse rounded" />
-          <div className="h-4 w-1/2 bg-[#EAC25A] animate-pulse rounded" />
+          <div className="h-4 w-full bg-surface-container animate-pulse rounded" />
+          <div className="h-4 w-full bg-surface-container animate-pulse rounded" />
+          <div className="h-4 w-2/3 bg-surface-container animate-pulse rounded" />
+          <div className="h-4 w-full bg-surface-container animate-pulse rounded" />
+          <div className="h-4 w-1/2 bg-surface-container animate-pulse rounded" />
         </div>
       </div>
     );
@@ -315,14 +315,14 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
   const colCount = propertyIds.length + (showTotal ? 2 : 1); // label col + property cols + total col
 
   return (
-    <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm overflow-hidden">
+    <div className="bg-surface rounded-2xl border border-border overflow-hidden">
       {/* Header */}
-      <div className="px-8 py-6 border-b border-[#DDD0AD] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="px-8 py-6 border-b border-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <span className="material-symbols-outlined text-[24px] text-[#A87813]">
+          <span className="material-symbols-outlined text-[24px] text-accent">
             analytics
           </span>
-          <h3 className="font-['Hanken_Grotesk'] text-xl font-bold text-[#181511]">
+          <h3 className="font-['Hanken_Grotesk'] text-xl font-bold text-foreground">
             {monthLabel}
           </h3>
         </div>
@@ -336,7 +336,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
                 href={r.file_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#A87813] text-white rounded-xl font-['Inter'] font-semibold text-sm hover:bg-[#A87813] transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-accent text-background rounded-xl font-['Inter'] font-semibold text-sm hover:bg-accent/90 transition-colors"
               >
                 <span className="material-symbols-outlined text-[18px]">
                   download
@@ -352,14 +352,14 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
 
       {/* Notes */}
       {notesForMonth.length > 0 && (
-        <div className="px-8 py-4 border-b border-[#DDD0AD] bg-[#EAC25A]/50">
+        <div className="px-8 py-4 border-b border-border bg-surface-container">
           {notesForMonth.map((n, i) => (
             <p
               key={i}
-              className="font-['Inter'] text-sm text-[#57534E] italic"
+              className="font-['Inter'] text-sm text-foreground-variant italic"
             >
               {n.property && (
-                <span className="font-semibold not-italic text-[#181511]">
+                <span className="font-semibold not-italic text-foreground">
                   {n.property}:{" "}
                 </span>
               )}
@@ -374,20 +374,20 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
         <table className="w-full text-sm">
           {/* Column headers */}
           <thead>
-            <tr className="bg-[#EAC25A]">
-              <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold whitespace-nowrap">
+            <tr className="bg-surface-container">
+              <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap">
                 &nbsp;
               </th>
               {propertyIds.map((pid) => (
                 <th
                   key={pid}
-                  className="text-right px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold whitespace-nowrap"
+                  className="text-right px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap"
                 >
                   {propertyMap[pid]?.name || propertyMap[pid]?.code || "Property"}
                 </th>
               ))}
               {showTotal && (
-                <th className="text-right px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#181511] font-bold whitespace-nowrap bg-[#F6E6B4]">
+                <th className="text-right px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground font-bold whitespace-nowrap bg-white/5">
                   Total
                 </th>
               )}
@@ -399,7 +399,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
             <tr>
               <td
                 colSpan={colCount}
-                className="px-6 pt-6 pb-2 font-['Inter'] text-[10px] uppercase tracking-widest text-[#A87813] font-bold"
+                className="px-6 pt-6 pb-2 font-['Inter'] text-[10px] uppercase tracking-widest text-accent font-bold"
               >
                 <span className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[14px]">
@@ -411,40 +411,40 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
             </tr>
 
             {/* Rent Collected */}
-            <tr className="hover:bg-[#FAF6EC] transition-colors">
-              <td className="px-6 py-3 font-['Inter'] text-[#181511] pl-10">
+            <tr className="hover:bg-white/5 transition-colors">
+              <td className="px-6 py-3 font-['Inter'] text-foreground pl-10">
                 Rent Collected
               </td>
               {propertyIds.map((pid) => (
                 <td
                   key={pid}
-                  className="px-6 py-3 text-right font-['Hanken_Grotesk'] font-semibold tabular-nums text-[#A87813]"
+                  className="px-6 py-3 text-right font-['Hanken_Grotesk'] font-semibold tabular-nums text-accent"
                 >
                   {formatSGD(incomeByProperty[pid] || 0)}
                 </td>
               ))}
               {showTotal && (
-                <td className="px-6 py-3 text-right font-['Hanken_Grotesk'] font-bold tabular-nums text-[#A87813] bg-[#f5f8ff]">
+                <td className="px-6 py-3 text-right font-['Hanken_Grotesk'] font-bold tabular-nums text-accent bg-white/5">
                   {formatSGD(totalIncome)}
                 </td>
               )}
             </tr>
 
             {/* Total Income row */}
-            <tr className="border-t border-[#DDD0AD]">
-              <td className="px-6 py-3 font-['Inter'] font-bold text-[#181511]">
+            <tr className="border-t border-border">
+              <td className="px-6 py-3 font-['Inter'] font-bold text-foreground">
                 Total Income
               </td>
               {propertyIds.map((pid) => (
                 <td
                   key={pid}
-                  className="px-6 py-3 text-right font-['Hanken_Grotesk'] font-bold tabular-nums text-[#A87813]"
+                  className="px-6 py-3 text-right font-['Hanken_Grotesk'] font-bold tabular-nums text-accent"
                 >
                   {formatSGD(incomeByProperty[pid] || 0)}
                 </td>
               ))}
               {showTotal && (
-                <td className="px-6 py-3 text-right font-['Hanken_Grotesk'] font-extrabold tabular-nums text-[#A87813] bg-[#f5f8ff]">
+                <td className="px-6 py-3 text-right font-['Hanken_Grotesk'] font-extrabold tabular-nums text-accent bg-white/5">
                   {formatSGD(totalIncome)}
                 </td>
               )}
@@ -454,7 +454,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
             <tr>
               <td
                 colSpan={colCount}
-                className="px-6 pt-8 pb-2 font-['Inter'] text-[10px] uppercase tracking-widest text-[#ba1a1a] font-bold"
+                className="px-6 pt-8 pb-2 font-['Inter'] text-[10px] uppercase tracking-widest text-red-400 font-bold"
               >
                 <span className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[14px]">
@@ -469,9 +469,9 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
             {orderedCategories.map((cat) => (
               <tr
                 key={cat}
-                className="hover:bg-[#FAF6EC] transition-colors"
+                className="hover:bg-white/5 transition-colors"
               >
-                <td className="px-6 py-3 font-['Inter'] text-[#181511] pl-10">
+                <td className="px-6 py-3 font-['Inter'] text-foreground pl-10">
                   {categoryLabel(cat)}
                 </td>
                 {propertyIds.map((pid) => {
@@ -480,7 +480,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
                     <td
                       key={pid}
                       className={`px-6 py-3 text-right font-['Hanken_Grotesk'] font-semibold tabular-nums ${
-                        amt > 0 ? "text-[#ba1a1a]" : "text-[#DDD0AD]"
+                        amt > 0 ? "text-red-400" : "text-foreground-variant"
                       }`}
                     >
                       {amt > 0 ? formatSGD(amt) : "\u2014"}
@@ -489,10 +489,10 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
                 })}
                 {showTotal && (
                   <td
-                    className={`px-6 py-3 text-right font-['Hanken_Grotesk'] font-bold tabular-nums bg-[#f5f8ff] ${
+                    className={`px-6 py-3 text-right font-['Hanken_Grotesk'] font-bold tabular-nums bg-white/5 ${
                       categoryTotals[cat] > 0
-                        ? "text-[#ba1a1a]"
-                        : "text-[#DDD0AD]"
+                        ? "text-red-400"
+                        : "text-foreground-variant"
                     }`}
                   >
                     {categoryTotals[cat] > 0
@@ -508,7 +508,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
               <tr>
                 <td
                   colSpan={colCount}
-                  className="px-6 py-4 text-center font-['Inter'] text-sm text-[#57534E] italic"
+                  className="px-6 py-4 text-center font-['Inter'] text-sm text-foreground-variant italic"
                 >
                   No expenses recorded
                 </td>
@@ -516,20 +516,20 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
             )}
 
             {/* Total Expenses row */}
-            <tr className="border-t border-[#DDD0AD] bg-[#fef2f2]/30">
-              <td className="px-6 py-3 font-['Inter'] font-bold text-[#181511]">
+            <tr className="border-t border-border bg-red-500/10">
+              <td className="px-6 py-3 font-['Inter'] font-bold text-foreground">
                 Total Expenses
               </td>
               {propertyIds.map((pid) => (
                 <td
                   key={pid}
-                  className="px-6 py-3 text-right font-['Hanken_Grotesk'] font-bold tabular-nums text-[#ba1a1a]"
+                  className="px-6 py-3 text-right font-['Hanken_Grotesk'] font-bold tabular-nums text-red-400"
                 >
                   {formatSGD(totalExpensesByProperty[pid] || 0)}
                 </td>
               ))}
               {showTotal && (
-                <td className="px-6 py-3 text-right font-['Hanken_Grotesk'] font-extrabold tabular-nums text-[#ba1a1a] bg-[#fef2f2]/50">
+                <td className="px-6 py-3 text-right font-['Hanken_Grotesk'] font-extrabold tabular-nums text-red-400 bg-red-500/15">
                   {formatSGD(totalExpensesAll)}
                 </td>
               )}
@@ -539,7 +539,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
             <tr>
               <td
                 colSpan={colCount}
-                className="px-6 pt-8 pb-2 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold"
+                className="px-6 pt-8 pb-2 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold"
               >
                 <span className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[14px]">
@@ -551,8 +551,8 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
             </tr>
 
             {/* Carried Loss row */}
-            <tr className="hover:bg-[#FAF6EC] transition-colors">
-              <td className="px-6 py-3 font-['Inter'] text-[#181511] pl-10">
+            <tr className="hover:bg-white/5 transition-colors">
+              <td className="px-6 py-3 font-['Inter'] text-foreground pl-10">
                 Carried Loss (prev month)
               </td>
               {propertyIds.map((pid) => {
@@ -561,7 +561,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
                   <td
                     key={pid}
                     className={`px-6 py-3 text-right font-['Hanken_Grotesk'] font-semibold tabular-nums ${
-                      loss > 0 ? "text-[#ba1a1a]" : "text-[#DDD0AD]"
+                      loss > 0 ? "text-red-400" : "text-foreground-variant"
                     }`}
                   >
                     {loss > 0 ? formatSGD(loss) : "\u2014"}
@@ -570,8 +570,8 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
               })}
               {showTotal && (
                 <td
-                  className={`px-6 py-3 text-right font-['Hanken_Grotesk'] font-bold tabular-nums bg-[#f5f8ff] ${
-                    totalCarriedLoss > 0 ? "text-[#ba1a1a]" : "text-[#DDD0AD]"
+                  className={`px-6 py-3 text-right font-['Hanken_Grotesk'] font-bold tabular-nums bg-white/5 ${
+                    totalCarriedLoss > 0 ? "text-red-400" : "text-foreground-variant"
                   }`}
                 >
                   {totalCarriedLoss > 0 ? formatSGD(totalCarriedLoss) : "\u2014"}
@@ -580,8 +580,8 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
             </tr>
 
             {/* Management Fee row */}
-            <tr className="hover:bg-[#FAF6EC] transition-colors">
-              <td className="px-6 py-3 font-['Inter'] text-[#181511] pl-10">
+            <tr className="hover:bg-white/5 transition-colors">
+              <td className="px-6 py-3 font-['Inter'] text-foreground pl-10">
                 Management Fee
               </td>
               {propertyIds.map((pid) => {
@@ -590,7 +590,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
                   <td
                     key={pid}
                     className={`px-6 py-3 text-right font-['Hanken_Grotesk'] font-semibold tabular-nums ${
-                      fee > 0 ? "text-[#ba1a1a]" : "text-[#DDD0AD]"
+                      fee > 0 ? "text-red-400" : "text-foreground-variant"
                     }`}
                   >
                     {fee > 0 ? formatSGD(fee) : "\u2014"}
@@ -599,8 +599,8 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
               })}
               {showTotal && (
                 <td
-                  className={`px-6 py-3 text-right font-['Hanken_Grotesk'] font-bold tabular-nums bg-[#f5f8ff] ${
-                    totalMgmtFee > 0 ? "text-[#ba1a1a]" : "text-[#DDD0AD]"
+                  className={`px-6 py-3 text-right font-['Hanken_Grotesk'] font-bold tabular-nums bg-white/5 ${
+                    totalMgmtFee > 0 ? "text-red-400" : "text-foreground-variant"
                   }`}
                 >
                   {totalMgmtFee > 0 ? formatSGD(totalMgmtFee) : "\u2014"}
@@ -612,11 +612,11 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
             <tr
               className={`border-t-2 ${
                 totalNetProfit >= 0
-                  ? "border-[#A87813]/30 bg-[#f0fdf4]/50"
-                  : "border-[#ba1a1a]/30 bg-[#fef2f2]/50"
+                  ? "border-emerald-500/30 bg-emerald-500/10"
+                  : "border-red-500/30 bg-red-500/10"
               }`}
             >
-              <td className="px-6 py-4 font-['Hanken_Grotesk'] font-extrabold text-[#181511] text-base">
+              <td className="px-6 py-4 font-['Hanken_Grotesk'] font-extrabold text-foreground text-base">
                 Net Profit
               </td>
               {propertyIds.map((pid) => {
@@ -625,7 +625,7 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
                   <td
                     key={pid}
                     className={`px-6 py-4 text-right font-['Hanken_Grotesk'] font-extrabold tabular-nums text-base ${
-                      net >= 0 ? "text-[#A87813]" : "text-[#ba1a1a]"
+                      net >= 0 ? "text-emerald-300" : "text-red-400"
                     }`}
                   >
                     {formatSGD(net)}
@@ -636,8 +636,8 @@ function MonthlyPnLTable({ month, propertyIds, investments, reportsForMonth }) {
                 <td
                   className={`px-6 py-4 text-right font-['Hanken_Grotesk'] font-extrabold tabular-nums text-base ${
                     totalNetProfit >= 0
-                      ? "text-[#A87813] bg-[#f0fdf4]/80"
-                      : "text-[#ba1a1a] bg-[#fef2f2]/80"
+                      ? "text-emerald-300 bg-emerald-500/15"
+                      : "text-red-400 bg-red-500/15"
                   }`}
                 >
                   {formatSGD(totalNetProfit)}
@@ -702,10 +702,10 @@ export default function InvestorReportsPage() {
   return (
     <InvestorLayout>
       <section className="mb-12">
-        <h2 className="font-['Hanken_Grotesk'] text-4xl font-extrabold text-[#181511] tracking-tight mb-2">
+        <h2 className="font-['Hanken_Grotesk'] text-4xl font-extrabold text-foreground tracking-tight mb-2">
           Reports
         </h2>
-        <p className="font-['Inter'] text-[#57534E] text-lg leading-relaxed">
+        <p className="font-['Inter'] text-foreground-variant text-lg leading-relaxed">
           Monthly P&L statements and financial reports for your properties.
         </p>
       </section>
@@ -716,11 +716,11 @@ export default function InvestorReportsPage() {
           <SkeletonRow />
         </div>
       ) : reports.length === 0 ? (
-        <div className="bg-white rounded-[2rem] p-12 border border-[#DDD0AD] shadow-sm text-center">
-          <span className="material-symbols-outlined text-[48px] text-[#DDD0AD] mb-4 block">
+        <div className="bg-surface rounded-[2rem] p-12 border border-border text-center">
+          <span className="material-symbols-outlined text-[48px] text-foreground-variant mb-4 block">
             description
           </span>
-          <p className="font-['Inter'] text-[#57534E] text-lg">
+          <p className="font-['Inter'] text-foreground-variant text-lg">
             No reports available yet.
           </p>
         </div>
@@ -728,7 +728,7 @@ export default function InvestorReportsPage() {
         <div className="space-y-12">
           {years.map((year) => (
             <section key={year}>
-              <h3 className="font-['Hanken_Grotesk'] text-xl font-bold text-[#181511] mb-6">
+              <h3 className="font-['Hanken_Grotesk'] text-xl font-bold text-foreground mb-6">
                 {year}
               </h3>
               <div className="space-y-8">

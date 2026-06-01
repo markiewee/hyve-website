@@ -48,10 +48,10 @@ export default function CsvUploader({ onFileSelected, importing, progress }) {
         "relative flex flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-8 py-12 transition-all duration-200 select-none",
         importing
           ? "cursor-default opacity-80"
-          : "cursor-pointer hover:border-[#D9A441] hover:bg-[#D9A441]/5",
+          : "cursor-pointer hover:border-accent hover:bg-accent/5",
         dragOver
-          ? "border-[#D9A441] bg-[#D9A441]/5"
-          : "border-[#DDD0AD] bg-white",
+          ? "border-accent bg-accent/5"
+          : "border-border bg-surface",
       ].join(" ")}
     >
       <input
@@ -64,40 +64,40 @@ export default function CsvUploader({ onFileSelected, importing, progress }) {
 
       {importing ? (
         <>
-          <span className="material-symbols-outlined text-4xl text-[#A87813]">
+          <span className="material-symbols-outlined text-4xl text-accent">
             sync
           </span>
           <p
             style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
-            className="text-sm font-semibold text-[#A87813]"
+            className="text-sm font-semibold text-accent"
           >
             Importing…{" "}
             {progress
               ? `${progress.inserted} / ${progress.total} rows`
               : ""}
           </p>
-          <div className="w-full max-w-xs overflow-hidden rounded-full bg-[#DDD0AD] h-2">
+          <div className="w-full max-w-xs overflow-hidden rounded-full bg-surface-container h-2">
             <div
-              className="h-full rounded-full bg-[#A87813] transition-all duration-300"
+              className="h-full rounded-full bg-accent transition-all duration-300"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
         </>
       ) : (
         <>
-          <span className="material-symbols-outlined text-4xl text-[#57534E]">
+          <span className="material-symbols-outlined text-4xl text-foreground-variant">
             upload_file
           </span>
           <div className="text-center">
             <p
               style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
-              className="text-sm font-semibold text-[#A87813]"
+              className="text-sm font-semibold text-accent"
             >
               Drop Aspire CSV here
             </p>
             <p
               style={{ fontFamily: "'Inter', sans-serif" }}
-              className="text-xs text-[#57534E] mt-0.5"
+              className="text-xs text-foreground-variant mt-0.5"
             >
               or click to browse
             </p>

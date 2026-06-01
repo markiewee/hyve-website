@@ -345,7 +345,7 @@ const BlogPostPage = () => {
                 </Button>
 
                 {showShareMenu && (
-                  <div className="absolute right-0 top-full mt-2 bg-surface border border-border rounded-xl shadow-xl p-2 z-10 min-w-48">
+                  <div className="absolute right-0 top-full mt-2 bg-surface border border-border rounded-xl p-2 z-10 min-w-48">
                     <div className="space-y-1">
                       <Button
                         variant="ghost"
@@ -425,7 +425,7 @@ const BlogPostPage = () => {
                 </Button>
 
                 {showShareMenu && (
-                  <div className="absolute left-0 bottom-full mb-2 bg-surface border border-border rounded-xl shadow-xl p-2 z-10 min-w-48">
+                  <div className="absolute left-0 bottom-full mb-2 bg-surface border border-border rounded-xl p-2 z-10 min-w-48">
                     <div className="space-y-1">
                       <Button
                         variant="ghost"

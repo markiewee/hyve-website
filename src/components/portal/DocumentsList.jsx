@@ -21,10 +21,10 @@ const DOC_TYPE_ICONS = {
 };
 
 const STATUS_STYLE = {
-  PENDING: "bg-gray-100 text-gray-600",
-  SENT: "bg-yellow-100 text-yellow-700",
-  SIGNED: "bg-green-100 text-green-700",
-  EXPIRED: "bg-red-100 text-red-600",
+  PENDING: "bg-surface-container text-foreground-variant",
+  SENT: "bg-amber-500/15 text-amber-300",
+  SIGNED: "bg-emerald-500/15 text-emerald-300",
+  EXPIRED: "bg-red-500/15 text-red-300",
 };
 
 async function openSignedUrl(fileUrl) {
@@ -51,19 +51,19 @@ export default function DocumentsList({ documents }) {
   if (!documents || documents.length === 0) {
     return (
       <div>
-        <h3 className="font-['Hanken_Grotesk'] font-bold text-xl mb-4 flex items-center gap-2 text-[#181511]">
-          <span className="material-symbols-outlined text-[#A87813] text-[22px]">folder_open</span>
+        <h3 className="font-display font-bold text-xl mb-4 flex items-center gap-2 text-foreground">
+          <span className="material-symbols-outlined text-accent text-[22px]">folder_open</span>
           Documents
         </h3>
-        <p className="text-sm font-['Inter'] text-[#57534E]">No documents yet.</p>
+        <p className="text-sm text-foreground-variant">No documents yet.</p>
       </div>
     );
   }
 
   return (
     <div>
-      <h3 className="font-['Hanken_Grotesk'] font-bold text-xl mb-4 flex items-center gap-2 text-[#181511]">
-        <span className="material-symbols-outlined text-[#A87813] text-[22px]">folder_open</span>
+      <h3 className="font-display font-bold text-xl mb-4 flex items-center gap-2 text-foreground">
+        <span className="material-symbols-outlined text-accent text-[22px]">folder_open</span>
         Documents
       </h3>
       <div className="space-y-3">
@@ -72,15 +72,15 @@ export default function DocumentsList({ documents }) {
           return (
             <div
               key={doc.id}
-              className="py-3 px-3 rounded-lg border border-[#DDD0AD] hover:bg-[#FBF8F0] transition-colors space-y-2"
+              className="py-3 px-3 rounded-lg border border-border hover:bg-surface-container transition-colors space-y-2"
             >
               <div className="flex items-start gap-2">
-                <span className="material-symbols-outlined text-[#A87813] text-[16px] mt-0.5 shrink-0">{icon}</span>
+                <span className="material-symbols-outlined text-accent text-[16px] mt-0.5 shrink-0">{icon}</span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-['Inter'] font-bold text-[#181511] leading-tight">
+                  <p className="text-sm font-bold text-foreground leading-tight">
                     {doc.title || DOC_TYPE_LABELS[doc.doc_type] || doc.doc_type}
                   </p>
-                  <p className="text-[10px] font-['Inter'] text-[#57534E] mt-0.5">
+                  <p className="text-[10px] text-foreground-variant mt-0.5">
                     {DOC_TYPE_LABELS[doc.doc_type] || doc.doc_type}
                     {doc.created_at && ` · ${new Date(doc.created_at).toLocaleDateString("en-SG", { day: "numeric", month: "short" })}`}
                   </p>
@@ -93,7 +93,7 @@ export default function DocumentsList({ documents }) {
                 <button
                   onClick={async () => { setLoadingId(doc.id); await openSignedUrl(doc.file_url); setLoadingId(null); }}
                   disabled={loadingId === doc.id}
-                  className="w-full inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg bg-[#A87813]/10 text-[#A87813] text-xs font-['Inter'] font-bold hover:bg-[#A87813]/20 transition-colors disabled:opacity-50"
+                  className="w-full inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg bg-accent/10 text-accent text-xs font-bold hover:bg-accent/20 transition-colors disabled:opacity-50"
                 >
                   <span className="material-symbols-outlined text-[14px]">open_in_new</span>
                   {loadingId === doc.id ? "Opening..." : "View Document"}

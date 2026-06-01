@@ -3,10 +3,10 @@ import { format } from "date-fns";
 import { useClaims } from "../../hooks/useClaims";
 
 const STATUS_PILL = {
-  SUBMITTED: "bg-yellow-100 text-yellow-800",
-  APPROVED: "bg-blue-100 text-blue-800",
-  PAID: "bg-green-100 text-green-800",
-  REJECTED: "bg-red-100 text-red-800",
+  SUBMITTED: "bg-amber-500/15 text-amber-300",
+  APPROVED: "bg-blue-500/15 text-blue-300",
+  PAID: "bg-emerald-500/15 text-emerald-300",
+  REJECTED: "bg-red-500/15 text-red-300",
 };
 
 const CATEGORY_LABEL = {
@@ -47,7 +47,7 @@ export default function ClaimCard({ claim, mode = "captain", actions }) {
   }, [claim.item_url, claim.receipt_url, getSignedUrl]);
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4">
+    <div className="rounded-lg border border-border bg-surface p-4">
       <div className="flex gap-3">
         {thumbUrl && (
           <button
@@ -72,23 +72,23 @@ export default function ClaimCard({ claim, mode = "captain", actions }) {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="font-medium">{claim.properties?.name ?? "—"}</span>
-            <span className="text-gray-400">·</span>
+            <span className="text-foreground-variant">·</span>
             <span>{CATEGORY_LABEL[claim.category]}</span>
-            <span className="text-gray-400">·</span>
+            <span className="text-foreground-variant">·</span>
             <span className="font-semibold">S${Number(claim.amount_sgd).toFixed(2)}</span>
             <StatusPill status={claim.status} />
           </div>
-          <p className="text-sm text-gray-700 mt-1">{claim.description}</p>
-          <div className="text-xs text-gray-500 mt-1">
+          <p className="text-sm text-foreground mt-1">{claim.description}</p>
+          <div className="text-xs text-foreground-variant mt-1">
             Submitted {format(new Date(claim.created_at), "d MMM yyyy")}
           </div>
           {claim.admin_comment && (
-            <div className="mt-2 rounded bg-gray-50 p-2 text-xs text-gray-700">
+            <div className="mt-2 rounded bg-surface-container p-2 text-xs text-foreground">
               <span className="font-medium">Admin: </span>{claim.admin_comment}
             </div>
           )}
           {claim.payment_reference && (
-            <div className="mt-1 text-xs text-gray-500">
+            <div className="mt-1 text-xs text-foreground-variant">
               Paid · {claim.payment_reference}
             </div>
           )}

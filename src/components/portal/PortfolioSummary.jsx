@@ -13,7 +13,7 @@ function StatCard({ label, value, loading }) {
       <CardContent className="pt-5 pb-5">
         <p className="text-xs text-muted-foreground mb-1">{label}</p>
         {loading ? (
-          <div className="h-7 w-32 bg-gray-100 animate-pulse rounded" />
+          <div className="h-7 w-32 bg-surface-container animate-pulse rounded" />
         ) : (
           <p className="text-2xl font-bold tabular-nums">{value}</p>
         )}

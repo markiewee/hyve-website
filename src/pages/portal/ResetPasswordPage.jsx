@@ -51,8 +51,8 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row bg-[#FAF6EC]">
-      <section className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#A87813]">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-background">
+      <section className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-accent">
         <div className="absolute inset-0 opacity-40 mix-blend-overlay">
           <img
             className="w-full h-full object-cover"
@@ -60,14 +60,14 @@ export default function ResetPasswordPage() {
             alt=""
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#A87813] via-[#A87813]/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-accent via-accent/80 to-transparent" />
         <div className="relative z-10 flex flex-col justify-between p-16 w-full">
           <Wordmark size="lg" className="!text-white [&>span]:!text-white" />
           <div className="max-w-md">
-            <h1 className="font-['Hanken_Grotesk'] text-5xl font-bold text-white leading-tight tracking-tight mb-6">
+            <h1 className="font-display text-5xl font-bold text-white leading-tight tracking-tight mb-6">
               Set a new password.
             </h1>
-            <p className="text-[#D9A441] text-lg font-medium leading-relaxed opacity-90">
+            <p className="text-white/80 text-lg font-medium leading-relaxed opacity-90">
               Pick something memorable — at least 8 characters. You'll use it next time you sign in.
             </p>
           </div>
@@ -75,26 +75,26 @@ export default function ResetPasswordPage() {
         </div>
       </section>
 
-      <section className="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 md:p-16 bg-white">
+      <section className="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 md:p-16 bg-surface">
         <div className="w-full max-w-md">
           <div className="lg:hidden mb-8">
             <Wordmark size="md" />
           </div>
-          <h2 className="font-['Hanken_Grotesk'] text-3xl font-bold text-[#181511] tracking-tight mb-3">
+          <h2 className="font-display text-3xl font-bold text-foreground tracking-tight mb-3">
             Reset password
           </h2>
-          <p className="text-[#57534E] font-['Inter'] font-medium mb-10">
+          <p className="text-foreground-variant font-['Inter'] font-medium mb-10">
             Enter a new password for your portal account.
           </p>
 
           {done ? (
-            <div className="p-5 bg-[#d7e6e2] border border-[#006b5f]/20 rounded-xl space-y-3">
-              <p className="text-[#005047] font-['Inter'] font-semibold text-sm">
+            <div className="p-5 bg-emerald-500/10 border border-emerald-500/25 rounded-xl space-y-3">
+              <p className="text-emerald-300 font-['Inter'] font-semibold text-sm">
                 Password updated. Redirecting to login...
               </p>
               <Link
                 to="/portal/login"
-                className="text-xs font-['Inter'] font-medium text-[#A87813] hover:underline"
+                className="text-xs font-['Inter'] font-medium text-accent hover:underline"
               >
                 Or click here
               </Link>
@@ -102,21 +102,21 @@ export default function ResetPasswordPage() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
-                <div className="p-4 bg-[#ffdad6] border border-[#ba1a1a]/20 rounded-xl flex items-start gap-3">
-                  <span className="material-symbols-outlined text-[#ba1a1a] text-[20px] shrink-0 mt-0.5">
+                <div className="p-4 bg-red-500/10 border border-red-500/25 rounded-xl flex items-start gap-3">
+                  <span className="material-symbols-outlined text-red-300 text-[20px] shrink-0 mt-0.5">
                     error
                   </span>
-                  <p className="text-[#ba1a1a] text-sm font-['Inter'] font-medium">{error}</p>
+                  <p className="text-red-300 text-sm font-['Inter'] font-medium">{error}</p>
                 </div>
               )}
 
               <div>
-                <label className="block text-xs font-['Inter'] font-semibold text-[#57534E] uppercase tracking-widest mb-2 ml-1">
+                <label className="block text-xs font-['Inter'] font-semibold text-foreground-variant uppercase tracking-widest mb-2 ml-1">
                   New password
                 </label>
                 <div className="relative">
                   <input
-                    className="w-full px-4 py-4 bg-[#EAC25A] border-0 rounded-xl font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none transition-all"
+                    className="w-full px-4 py-4 bg-surface-container border border-border rounded-xl font-['Inter'] text-foreground focus:ring-2 focus:ring-accent outline-none transition-all"
                     type={showPassword ? "text" : "password"}
                     autoComplete="new-password"
                     required
@@ -128,7 +128,7 @@ export default function ResetPasswordPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
-                    className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-[#57534E] cursor-pointer hover:text-[#A87813] transition-colors"
+                    className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-foreground-variant cursor-pointer hover:text-accent transition-colors"
                   >
                     {showPassword ? "visibility_off" : "visibility"}
                   </button>
@@ -136,11 +136,11 @@ export default function ResetPasswordPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-['Inter'] font-semibold text-[#57534E] uppercase tracking-widest mb-2 ml-1">
+                <label className="block text-xs font-['Inter'] font-semibold text-foreground-variant uppercase tracking-widest mb-2 ml-1">
                   Confirm new password
                 </label>
                 <input
-                  className="w-full px-4 py-4 bg-[#EAC25A] border-0 rounded-xl font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none transition-all"
+                  className="w-full px-4 py-4 bg-surface-container border border-border rounded-xl font-['Inter'] text-foreground focus:ring-2 focus:ring-accent outline-none transition-all"
                   type={showPassword ? "text" : "password"}
                   autoComplete="new-password"
                   required
@@ -154,7 +154,7 @@ export default function ResetPasswordPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full py-5 bg-[#A87813] text-white rounded-xl font-['Hanken_Grotesk'] font-bold text-lg hover:bg-[#A87813] transition-all duration-300 shadow-lg shadow-[#A87813]/20 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full py-5 bg-accent text-white rounded-xl font-display font-bold text-lg hover:bg-accent/90 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {submitting ? "Updating..." : "Update password"}
               </button>
@@ -162,7 +162,7 @@ export default function ResetPasswordPage() {
               <div className="text-center">
                 <Link
                   to="/portal/login"
-                  className="text-xs font-['Inter'] font-medium text-[#A87813] hover:underline"
+                  className="text-xs font-['Inter'] font-medium text-accent hover:underline"
                 >
                   Back to login
                 </Link>

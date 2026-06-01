@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 import { useAdminInbox } from "../../hooks/useAdminInbox";
 
 const SEVERITY_STYLES = {
-  red:   { dot: "bg-[#FF3B3B]", text: "text-[#FF3B3B]", label: "URGENT" },
-  amber: { dot: "bg-[#FF9D4D]", text: "text-[#B45309]", label: "THIS WEEK" },
-  info:  { dot: "bg-[#5CA8FF]", text: "text-[#1E40AF]", label: "INFO" },
+  red:   { dot: "bg-red-400", text: "text-red-300", label: "URGENT" },
+  amber: { dot: "bg-amber-400", text: "text-amber-300", label: "THIS WEEK" },
+  info:  { dot: "bg-blue-400", text: "text-blue-300", label: "INFO" },
 };
 
 function formatTimeAgo(iso) {
@@ -35,20 +35,20 @@ export default function ActionInbox({ limit, showHeader = true, compact = false 
   ].filter((g) => g.items.length > 0);
 
   return (
-    <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm overflow-hidden">
+    <div className="bg-surface rounded-2xl border border-border overflow-hidden">
       {showHeader && (
-        <div className="px-6 py-4 border-b border-[#DDD0AD] flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-border flex items-center justify-between">
           <div>
-            <h3 className="font-['Hanken_Grotesk'] font-bold text-[#181511]">
+            <h3 className="font-display font-bold text-foreground">
               Needs your attention
             </h3>
             {!loading && (
-              <p className="text-xs text-[#57534E] mt-0.5">
+              <p className="text-xs text-foreground-variant mt-0.5">
                 {counts.total} item{counts.total === 1 ? "" : "s"}
                 {counts.red > 0 && (
                   <>
                     {" · "}
-                    <span className="text-[#FF3B3B] font-bold">{counts.red} urgent</span>
+                    <span className="text-red-300 font-bold">{counts.red} urgent</span>
                   </>
                 )}
               </p>
@@ -57,7 +57,7 @@ export default function ActionInbox({ limit, showHeader = true, compact = false 
           {!compact && (
             <Link
               to="/portal/admin/inbox"
-              className="text-xs font-bold text-[#A87813] hover:underline"
+              className="text-xs font-bold text-accent hover:underline"
             >
               View all →
             </Link>
@@ -68,15 +68,15 @@ export default function ActionInbox({ limit, showHeader = true, compact = false 
       {loading ? (
         <div className="p-6 space-y-2">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="h-12 bg-[#f4f6f9] rounded-lg animate-pulse" />
+            <div key={i} className="h-12 bg-surface-container rounded-lg animate-pulse" />
           ))}
         </div>
       ) : items.length === 0 ? (
         <div className="px-6 py-10 text-center">
-          <span className="material-symbols-outlined text-3xl text-[#5CD68A] mb-2 block">
+          <span className="material-symbols-outlined text-3xl text-emerald-400 mb-2 block">
             check_circle
           </span>
-          <p className="text-sm text-[#57534E] font-medium">All clear. Nothing needs attention.</p>
+          <p className="text-sm text-foreground-variant font-medium">All clear. Nothing needs attention.</p>
         </div>
       ) : (
         <div>
@@ -84,38 +84,38 @@ export default function ActionInbox({ limit, showHeader = true, compact = false 
             const style = SEVERITY_STYLES[g.severity];
             return (
               <div key={g.severity}>
-                <div className="px-6 py-2 bg-[#f9faf7] border-b border-[#DDD0AD]">
+                <div className="px-6 py-2 bg-surface-container border-b border-border">
                   <span
                     className={`text-[10px] font-bold uppercase tracking-widest ${style.text}`}
                   >
                     {style.label} · {g.items.length}
                   </span>
                 </div>
-                <ul className="divide-y divide-[#DDD0AD]">
+                <ul className="divide-y divide-white/10">
                   {g.items.map((it) => (
                     <li key={it.key}>
                       <Link
                         to={it.to}
-                        className="flex items-center gap-3 px-6 py-3 hover:bg-[#EAC25A] transition-colors"
+                        className="flex items-center gap-3 px-6 py-3 hover:bg-white/5 transition-colors"
                       >
                         <span
                           className={`w-2 h-2 rounded-full shrink-0 ${style.dot}`}
                         />
-                        <span className="material-symbols-outlined text-[20px] text-[#57534E] shrink-0">
+                        <span className="material-symbols-outlined text-[20px] text-foreground-variant shrink-0">
                           {it.icon}
                         </span>
-                        <span className="flex-1 text-sm font-medium text-[#181511] truncate">
+                        <span className="flex-1 text-sm font-medium text-foreground truncate">
                           {it.label}
                         </span>
                         {it.meta && (
-                          <span className="text-xs text-[#57534E] font-medium shrink-0">
+                          <span className="text-xs text-foreground-variant font-medium shrink-0">
                             {it.meta}
                           </span>
                         )}
-                        <span className="text-xs text-[#9999A1] shrink-0 w-16 text-right">
+                        <span className="text-xs text-foreground-variant shrink-0 w-16 text-right">
                           {formatTimeAgo(it.time)}
                         </span>
-                        <span className="material-symbols-outlined text-[18px] text-[#9999A1] shrink-0">
+                        <span className="material-symbols-outlined text-[18px] text-foreground-variant shrink-0">
                           chevron_right
                         </span>
                       </Link>
@@ -128,7 +128,7 @@ export default function ActionInbox({ limit, showHeader = true, compact = false 
           {overflow > 0 && (
             <Link
               to="/portal/admin/inbox"
-              className="block text-center px-6 py-3 text-xs font-bold text-[#A87813] hover:bg-[#EAC25A] transition-colors border-t border-[#DDD0AD]"
+              className="block text-center px-6 py-3 text-xs font-bold text-accent hover:bg-white/5 transition-colors border-t border-border"
             >
               + {overflow} more →
             </Link>

@@ -218,10 +218,10 @@ const HousematePreview = ({ propertyId }) => {
 
   return (
     <div>
-      <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-foreground mb-2">
+      <h3 className="text-2xl font-display font-bold text-foreground mb-2">
         Who you&apos;ll be living with
       </h3>
-      <p className="text-sm text-[#6B7280] font-['Manrope'] mb-6">
+      <p className="text-sm text-foreground-variant mb-6">
         Meet your future housemates at this property
       </p>
       <div className="flex flex-wrap gap-3">
@@ -235,7 +235,7 @@ const HousematePreview = ({ propertyId }) => {
           </div>
         ))}
       </div>
-      <p className="text-xs text-[#6B7280] font-['Inter'] mt-3">
+      <p className="text-xs text-foreground-variant font-['Inter'] mt-3">
         {housemates.length} current {housemates.length === 1 ? 'resident' : 'residents'}
       </p>
     </div>

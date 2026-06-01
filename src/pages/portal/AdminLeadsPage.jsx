@@ -95,7 +95,7 @@ export default function AdminLeadsPage() {
       <div className="flex items-center justify-between mb-4">
         <div>
           <h1 className="text-2xl font-semibold">Leads</h1>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-foreground-variant">
             {loading ? "Loading…" : `${leads.length} active prospect${leads.length === 1 ? "" : "s"}`}
           </p>
         </div>
@@ -107,7 +107,7 @@ export default function AdminLeadsPage() {
       <LeadFunnelPanel />
 
       {error && (
-        <div className="mb-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">
+        <div className="mb-3 text-sm text-red-300 bg-red-500/10 border border-red-500/25 rounded px-3 py-2">
           Failed to load leads: {error.message || String(error)}
         </div>
       )}

@@ -39,27 +39,27 @@ export default function AdminBillingPage() {
           <Link
             key={t.key}
             to={t.to}
-            className="bg-white rounded-2xl border border-[#DDD0AD] p-6 hover:border-[#A87813]/30 hover:shadow-md transition-all flex items-start gap-4"
+            className="bg-surface rounded-2xl border border-border p-6 hover:border-accent/30 transition-all flex items-start gap-4"
           >
-            <span className="material-symbols-outlined text-[#A87813] text-[28px] shrink-0">
+            <span className="material-symbols-outlined text-accent text-[28px] shrink-0">
               {t.key === "rent" ? "receipt_long"
                 : t.key === "invoices" ? "request_quote"
                 : t.key === "expenses" ? "account_balance"
                 : "bar_chart"}
             </span>
             <div className="min-w-0">
-              <h3 className="font-['Hanken_Grotesk'] font-bold text-[#181511] mb-1">
+              <h3 className="font-display font-bold text-foreground mb-1">
                 {t.label}
               </h3>
-              <p className="text-sm text-[#57534E]">{t.desc}</p>
+              <p className="text-sm text-foreground-variant">{t.desc}</p>
             </div>
-            <span className="material-symbols-outlined text-[#9999A1] ml-auto shrink-0">
+            <span className="material-symbols-outlined text-foreground-variant ml-auto shrink-0">
               chevron_right
             </span>
           </Link>
         ))}
       </div>
-      <p className="mt-8 text-xs text-[#9999A1]">
+      <p className="mt-8 text-xs text-foreground-variant">
         v1 of the unified Money area. Future: rent + invoices merge into one ledger
         with shared month selector and cascading "mark paid".
       </p>

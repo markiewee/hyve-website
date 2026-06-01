@@ -57,17 +57,17 @@ function getAvailabilityStatus(room) {
 }
 
 const STATUS_COLORS = {
-  green: 'bg-emerald-100 text-emerald-800',
-  amber: 'bg-amber-100 text-amber-800',
-  red: 'bg-red-100 text-red-800',
+  green: 'bg-emerald-500/15 text-emerald-300',
+  amber: 'bg-amber-500/15 text-amber-300',
+  red: 'bg-red-500/15 text-red-300',
 };
 
 function Detail({ label, value }) {
   if (!value) return null;
   return (
     <div className="flex justify-between">
-      <span className="text-[#1F2937]">{label}</span>
-      <span className="text-[#1F2937] font-medium capitalize">{value}</span>
+      <span className="text-foreground">{label}</span>
+      <span className="text-foreground font-medium capitalize">{value}</span>
     </div>
   );
 }
@@ -148,14 +148,14 @@ function RoomCard({ room }) {
 
   return (
     <div
-      className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+      className="bg-surface rounded-xl border border-border overflow-hidden cursor-pointer hover:border-white/20 transition-colors"
       onClick={() => setExpanded(!expanded)}
     >
       <div className="p-4">
         <div className="flex items-start justify-between mb-2">
           <div>
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-base">{room.unit_code}</h3>
-            <p className="text-sm text-[#1F2937]">{room.name}</p>
+            <h3 className="font-display font-bold text-foreground text-base">{room.unit_code}</h3>
+            <p className="text-sm text-foreground">{room.name}</p>
           </div>
           <ChevronDown
             className={`w-5 h-5 text-foreground-variant transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
@@ -163,14 +163,14 @@ function RoomCard({ room }) {
         </div>
         <div className="flex items-center gap-3 text-sm mb-2 flex-wrap">
           {room.price_monthly && (
-            <span className="font-semibold text-[#1F2937]">${room.price_monthly.toLocaleString()}/mo</span>
+            <span className="font-semibold text-foreground">${room.price_monthly.toLocaleString()}/mo</span>
           )}
           {room.size_sqm && (
-            <span className="text-[#1F2937]">{room.size_sqm} sqm</span>
+            <span className="text-foreground">{room.size_sqm} sqm</span>
           )}
-          <span className="text-[#1F2937]">{roomTypeLabel}</span>
+          <span className="text-foreground">{roomTypeLabel}</span>
           {room.bed_size && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-800 capitalize">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-white/5 text-foreground-variant border border-white/10 capitalize">
               <span className="material-symbols-outlined text-[14px]">bed</span>
               {room.bed_size.replace(/_/g, ' ')}
             </span>
@@ -182,7 +182,7 @@ function RoomCard({ room }) {
             </span>
           )}
           {room.max_occupancy > 1 && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-white/5 text-foreground-variant border border-white/10">
               <span className="material-symbols-outlined text-[14px]">group</span>
               Sleeps {room.max_occupancy}
             </span>
@@ -232,7 +232,7 @@ function RoomCard({ room }) {
                         className={`rounded-lg p-2 text-center ${
                           tier.highlight
                             ? 'bg-accent text-white'
-                            : 'bg-surface-container text-[#1F2937]'
+                            : 'bg-surface-container text-foreground'
                         }`}
                       >
                         <p className="text-[10px] font-bold uppercase tracking-wider opacity-80">{tier.label}</p>
@@ -241,11 +241,11 @@ function RoomCard({ room }) {
                     ))}
                   </div>
                   {room.next_available && (
-                    <div className="mt-2 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-                      <p className="text-xs font-semibold text-amber-800">
+                    <div className="mt-2 bg-amber-500/10 border border-amber-500/25 rounded-lg px-3 py-2">
+                      <p className="text-xs font-semibold text-amber-300">
                         Early bird: $50 off first 2 months if booked before {formatDate(room.next_available)}
                       </p>
-                      <p className="text-[10px] text-amber-600 mt-0.5">
+                      <p className="text-[10px] text-amber-400/80 mt-0.5">
                         Commit before current lease ends. Total saving: $100.
                       </p>
                     </div>
@@ -269,7 +269,7 @@ function RoomCard({ room }) {
                   <p className="text-xs font-bold uppercase tracking-wider text-accent mb-1">Amenities</p>
                   <div className="flex flex-wrap gap-1.5">
                     {room.amenities.map((a, i) => (
-                      <span key={i} className="px-2 py-0.5 bg-[#F2D88A] text-[#1F2937] text-xs rounded-full">{a}</span>
+                      <span key={i} className="px-2 py-0.5 bg-white/5 text-foreground-variant border border-white/10 text-xs rounded-full">{a}</span>
                     ))}
                   </div>
                 </div>
@@ -280,14 +280,14 @@ function RoomCard({ room }) {
                   <p className="text-xs font-bold uppercase tracking-wider text-accent mb-1">Facilities</p>
                   <div className="flex flex-wrap gap-1.5">
                     {room.facilities.map((f, i) => (
-                      <span key={i} className="px-2 py-0.5 bg-emerald-50 text-emerald-800 text-xs rounded-full">{f}</span>
+                      <span key={i} className="px-2 py-0.5 bg-emerald-500/15 text-emerald-300 text-xs rounded-full">{f}</span>
                     ))}
                   </div>
                 </div>
               )}
 
               {room.description && (
-                <p className="text-sm text-[#1F2937] italic">{room.description}</p>
+                <p className="text-sm text-foreground italic">{room.description}</p>
               )}
 
               {/* Upcoming bookings from Millia */}
@@ -300,20 +300,20 @@ function RoomCard({ room }) {
                         key={i}
                         className={`flex items-center justify-between text-xs px-3 py-2 rounded-lg ${
                           b.overlap
-                            ? 'bg-red-50 border border-red-200'
+                            ? 'bg-red-500/10 border border-red-500/25'
                             : 'bg-surface-container border border-border'
                         }`}
                       >
-                        <span className={`font-medium ${b.overlap ? 'text-red-800' : 'text-[#1F2937]'}`}>
+                        <span className={`font-medium ${b.overlap ? 'text-red-300' : 'text-foreground'}`}>
                           {formatDate(b.checkin)} → {formatDate(b.checkout)}
                         </span>
                         <div className="flex items-center gap-2">
                           {b.overlap && (
-                            <span className="px-1.5 py-0.5 bg-red-100 text-red-700 text-[10px] font-bold rounded uppercase">
+                            <span className="px-1.5 py-0.5 bg-red-500/20 text-red-300 text-[10px] font-bold rounded uppercase">
                               Overlap
                             </span>
                           )}
-                          <span className="text-[#1F2937] capitalize">{b.channel}</span>
+                          <span className="text-foreground capitalize">{b.channel}</span>
                         </div>
                       </div>
                     ))}
@@ -335,19 +335,19 @@ function PropertySection({ property }) {
   const isCurrent = t => t.is_active && Number(t.monthly_rent) > 0 && new Date(t.moved_in_at) <= today;
   return (
     <div className="space-y-8">
-      <div className="bg-surface rounded-2xl p-6 md:p-8 shadow-sm border border-border">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#1F2937] mb-1">{p.name}</h2>
-        <p className="text-[#1F2937] text-sm mb-2">{p.address}</p>
+      <div className="bg-surface rounded-2xl p-6 md:p-8 border border-border">
+        <h2 className="font-display text-2xl font-bold text-foreground mb-1">{p.name}</h2>
+        <p className="text-foreground text-sm mb-2">{p.address}</p>
         <div className="flex gap-4 mb-4 text-sm">
-          <span className="text-[#1F2937]"><span className="font-semibold text-[#1F2937]">{p.rooms?.length || 0}</span> rooms</span>
-          {p.num_bathrooms && <span className="text-[#1F2937]"><span className="font-semibold text-[#1F2937]">{p.num_bathrooms}</span> bathroom{p.num_bathrooms > 1 ? 's' : ''}</span>}
-          <span className="text-[#1F2937]">
-            <span className="font-semibold text-[#1F2937]">
+          <span className="text-foreground"><span className="font-semibold text-foreground">{p.rooms?.length || 0}</span> rooms</span>
+          {p.num_bathrooms && <span className="text-foreground"><span className="font-semibold text-foreground">{p.num_bathrooms}</span> bathroom{p.num_bathrooms > 1 ? 's' : ''}</span>}
+          <span className="text-foreground">
+            <span className="font-semibold text-foreground">
               {p.rooms?.reduce((count, r) => count + (r.tenant_profiles?.filter(isCurrent).length || 0), 0)}
             </span> tenants
           </span>
         </div>
-        {p.description && <p className="text-[#1F2937] mb-6 font-['Manrope']">{p.description}</p>}
+        {p.description && <p className="text-foreground mb-6">{p.description}</p>}
 
         {/* Tenant Composition */}
         {(() => {
@@ -365,11 +365,11 @@ function PropertySection({ property }) {
               <div className="space-y-1.5">
                 {allTenants.map((t, i) => (
                   <div key={i} className="flex items-center gap-2 text-sm">
-                    <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${t.gender === 'F' ? 'bg-pink-100 text-pink-700' : 'bg-blue-100 text-blue-700'}`}>
+                    <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${t.gender === 'F' ? 'bg-pink-500/20 text-pink-300' : 'bg-blue-500/20 text-blue-300'}`}>
                       {t.gender || '?'}
                     </span>
                     <span className="text-base">{getFlag(t.nationality)}</span>
-                    <span className="text-[#1F2937]">{t.name}</span>
+                    <span className="text-foreground">{t.name}</span>
                   </div>
                 ))}
               </div>
@@ -383,7 +383,7 @@ function PropertySection({ property }) {
               <h3 className="text-xs font-bold uppercase tracking-wider text-accent mb-2">Facilities</h3>
               <div className="flex flex-wrap gap-1.5">
                 {p.facilities.map((f, i) => (
-                  <span key={i} className="inline-block px-2.5 py-1 bg-[#F2D88A] text-[#1F2937] text-xs rounded-full">{f}</span>
+                  <span key={i} className="inline-block px-2.5 py-1 bg-white/5 text-foreground-variant border border-white/10 text-xs rounded-full">{f}</span>
                 ))}
               </div>
             </div>
@@ -394,7 +394,7 @@ function PropertySection({ property }) {
               <h3 className="text-xs font-bold uppercase tracking-wider text-accent mb-2">Nearest MRT</h3>
               <ul className="space-y-1">
                 {p.nearby_mrt.map((m, i) => (
-                  <li key={i} className="text-sm text-[#1F2937]">
+                  <li key={i} className="text-sm text-foreground">
                     <span className="font-medium">{m.station}</span> ({m.line}) — {m.walking_minutes} min walk
                   </li>
                 ))}
@@ -407,7 +407,7 @@ function PropertySection({ property }) {
               <h3 className="text-xs font-bold uppercase tracking-wider text-accent mb-2">Nearby</h3>
               <ul className="space-y-1">
                 {p.nearby_amenities.map((a, i) => (
-                  <li key={i} className="text-sm text-[#1F2937]">
+                  <li key={i} className="text-sm text-foreground">
                     <span className="font-medium">{a.name}</span> — {a.walking_minutes} min walk
                   </li>
                 ))}
@@ -421,7 +421,7 @@ function PropertySection({ property }) {
             <h3 className="text-xs font-bold uppercase tracking-wider text-accent mb-2">House Rules</h3>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1">
               {p.house_rules.map((rule, i) => (
-                <li key={i} className="text-sm text-[#1F2937] flex items-start gap-2">
+                <li key={i} className="text-sm text-foreground flex items-start gap-2">
                   <span className="text-accent mt-0.5">•</span> {rule}
                 </li>
               ))}
@@ -477,7 +477,7 @@ function PropertySection({ property }) {
       </div>
 
       <div>
-        <h2 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#1F2937] mb-4">
+        <h2 className="font-display text-xl font-bold text-foreground mb-4">
           Rooms ({p.rooms?.length || 0})
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -494,8 +494,8 @@ function TermCard({ title, value, subtitle }) {
   return (
     <div className="bg-surface-container rounded-xl p-5 text-center">
       <p className="text-xs font-bold uppercase tracking-wider text-accent mb-1">{title}</p>
-      <p className="text-xl font-bold text-[#1F2937] font-['Plus_Jakarta_Sans']">{value}</p>
-      {subtitle && <p className="text-xs text-[#1F2937] mt-1">{subtitle}</p>}
+      <p className="text-xl font-bold text-foreground font-display">{value}</p>
+      {subtitle && <p className="text-xs text-foreground mt-1">{subtitle}</p>}
     </div>
   );
 }
@@ -504,7 +504,7 @@ function LeaseTermsSection() {
   return (
     <section className="bg-surface py-16">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#1F2937] mb-6">Lease Terms</h2>
+        <h2 className="font-display text-2xl font-bold text-foreground mb-6">Lease Terms</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <TermCard title="Minimum Stay" value="3 months" />
           <TermCard title="Deposit" value="1 month rent" subtitle="Fully refundable" />
@@ -514,18 +514,18 @@ function LeaseTermsSection() {
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <h3 className="text-sm font-bold uppercase tracking-wider text-accent mb-2">Rent Includes</h3>
-            <ul className="space-y-1.5 text-sm text-[#1F2937]">
-              <li className="flex items-start gap-2"><span className="text-emerald-500 mt-0.5">✓</span> High-speed WiFi</li>
-              <li className="flex items-start gap-2"><span className="text-emerald-500 mt-0.5">✓</span> Utilities (water, electricity with AC allowance)</li>
-              <li className="flex items-start gap-2"><span className="text-emerald-500 mt-0.5">✓</span> Weekly common area cleaning</li>
-              <li className="flex items-start gap-2"><span className="text-emerald-500 mt-0.5">✓</span> Fully furnished room</li>
-              <li className="flex items-start gap-2"><span className="text-emerald-500 mt-0.5">✓</span> Cooking facilities</li>
-              <li className="flex items-start gap-2"><span className="text-emerald-500 mt-0.5">✓</span> Washing machine &amp; dryer access</li>
+            <ul className="space-y-1.5 text-sm text-foreground">
+              <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">✓</span> High-speed WiFi</li>
+              <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">✓</span> Utilities (water, electricity with AC allowance)</li>
+              <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">✓</span> Weekly common area cleaning</li>
+              <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">✓</span> Fully furnished room</li>
+              <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">✓</span> Cooking facilities</li>
+              <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">✓</span> Washing machine &amp; dryer access</li>
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-red-600 mb-2">Not Included</h3>
-            <ul className="space-y-1.5 text-sm text-[#1F2937]">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-red-400 mb-2">Not Included</h3>
+            <ul className="space-y-1.5 text-sm text-foreground">
               <li className="flex items-start gap-2"><span className="text-red-400 mt-0.5">✗</span> Personal AC usage over monthly allowance</li>
               <li className="flex items-start gap-2"><span className="text-red-400 mt-0.5">✗</span> Personal toiletries &amp; bedroom cleaning</li>
             </ul>
@@ -548,15 +548,15 @@ function MoveInProcessSection() {
   return (
     <section className="py-16 bg-surface-container">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#1F2937] mb-8">Move-in Process</h2>
+        <h2 className="font-display text-2xl font-bold text-foreground mb-8">Move-in Process</h2>
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
           {steps.map(step => (
-            <div key={step.num} className="bg-surface rounded-xl p-5 text-center shadow-sm border border-border">
+            <div key={step.num} className="bg-surface rounded-xl p-5 text-center border border-border">
               <div className="w-8 h-8 rounded-full bg-accent text-white font-bold text-sm flex items-center justify-center mx-auto mb-3">
                 {step.num}
               </div>
-              <p className="font-semibold text-[#1F2937] text-sm mb-1">{step.title}</p>
-              <p className="text-xs text-[#1F2937]">{step.desc}</p>
+              <p className="font-semibold text-foreground text-sm mb-1">{step.title}</p>
+              <p className="text-xs text-foreground">{step.desc}</p>
             </div>
           ))}
         </div>
@@ -581,14 +581,14 @@ function FAQSection() {
   return (
     <section className="py-16 bg-surface">
       <div className="max-w-3xl mx-auto px-6 md:px-8">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#1F2937] mb-6">Frequently Asked Questions</h2>
+        <h2 className="font-display text-2xl font-bold text-foreground mb-6">Frequently Asked Questions</h2>
         <Accordion type="single" collapsible>
           {faqs.map((faq, i) => (
             <AccordionItem key={i} value={`faq-${i}`}>
-              <AccordionTrigger className="text-left text-[#1F2937] font-medium">
+              <AccordionTrigger className="text-left text-foreground font-medium">
                 {faq.q}
               </AccordionTrigger>
-              <AccordionContent className="text-[#1F2937]">
+              <AccordionContent className="text-foreground">
                 {faq.a}
               </AccordionContent>
             </AccordionItem>

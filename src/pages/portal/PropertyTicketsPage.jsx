@@ -100,15 +100,15 @@ export default function PropertyTicketsPage() {
       {/* Page header */}
       <div className="mb-10 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511] tracking-tight">
+          <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">
             {isAdmin ? "All Tickets" : "Property Tickets"}
             {!loading && openTickets.length > 0 && (
-              <span className="ml-3 font-['Inter'] text-lg font-semibold text-[#57534E]">
+              <span className="ml-3 font-['Inter'] text-lg font-semibold text-foreground-variant">
                 ({openTickets.length} open)
               </span>
             )}
           </h1>
-          <p className="text-[#57534E] font-['Inter'] font-medium mt-1">
+          <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
             {isAdmin
               ? "Review and action maintenance tickets across all properties."
               : "Manage and action maintenance tickets for this property."}
@@ -119,7 +119,7 @@ export default function PropertyTicketsPage() {
           <select
             value={propertyFilter}
             onChange={(e) => setPropertyFilter(e.target.value)}
-            className="rounded border border-gray-300 px-3 py-2 text-sm bg-white"
+            className="rounded border border-border px-3 py-2 text-sm bg-surface text-foreground"
           >
             <option value="ALL">All Properties</option>
             {allProperties.map((p) => (
@@ -136,28 +136,28 @@ export default function PropertyTicketsPage() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm space-y-3"
+              className="bg-surface rounded-2xl p-6 border border-border space-y-3"
             >
               <div className="flex gap-3">
-                <div className="h-5 w-20 bg-[#EAC25A] animate-pulse rounded-full" />
-                <div className="h-5 w-16 bg-[#EAC25A] animate-pulse rounded-full" />
+                <div className="h-5 w-20 bg-white/5 animate-pulse rounded-full" />
+                <div className="h-5 w-16 bg-white/5 animate-pulse rounded-full" />
               </div>
-              <div className="h-4 w-3/4 bg-[#EAC25A] animate-pulse rounded" />
-              <div className="h-4 w-1/2 bg-[#EAC25A] animate-pulse rounded" />
+              <div className="h-4 w-3/4 bg-white/5 animate-pulse rounded" />
+              <div className="h-4 w-1/2 bg-white/5 animate-pulse rounded" />
             </div>
           ))}
         </div>
       ) : (
         <>
           {openTickets.length === 0 && resolvedTickets.length === 0 ? (
-            <div className="bg-white rounded-2xl p-12 border border-[#DDD0AD] shadow-sm flex flex-col items-center text-center">
-              <div className="w-16 h-16 bg-[#EAC25A] rounded-2xl flex items-center justify-center mb-4">
-                <span className="material-symbols-outlined text-[#A87813] text-[32px]">check_circle</span>
+            <div className="bg-surface rounded-2xl p-12 border border-border flex flex-col items-center text-center">
+              <div className="w-16 h-16 bg-accent/15 rounded-2xl flex items-center justify-center mb-4">
+                <span className="material-symbols-outlined text-accent text-[32px]">check_circle</span>
               </div>
-              <h3 className="font-['Hanken_Grotesk'] font-bold text-[#181511] text-lg mb-2">
+              <h3 className="font-['Hanken_Grotesk'] font-bold text-foreground text-lg mb-2">
                 No tickets
               </h3>
-              <p className="text-[#57534E] font-['Inter'] text-sm">
+              <p className="text-foreground-variant font-['Inter'] text-sm">
                 {isAdmin && propertyFilter === "ALL"
                   ? "There are no maintenance tickets in any property."
                   : "This property has no maintenance tickets."}
@@ -168,7 +168,7 @@ export default function PropertyTicketsPage() {
               {/* Open tickets */}
               {openTickets.length > 0 && (
                 <div className="mb-8">
-                  <h2 className="font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-4">
+                  <h2 className="font-['Inter'] text-xs uppercase tracking-widest text-foreground-variant font-bold mb-4">
                     Open ({openTickets.length})
                   </h2>
                   <div className="space-y-4">
@@ -182,7 +182,7 @@ export default function PropertyTicketsPage() {
               {/* Resolved tickets */}
               {resolvedTickets.length > 0 && (
                 <div>
-                  <h2 className="font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-4">
+                  <h2 className="font-['Inter'] text-xs uppercase tracking-widest text-foreground-variant font-bold mb-4">
                     Resolved ({resolvedTickets.length})
                   </h2>
                   <div className="space-y-4">

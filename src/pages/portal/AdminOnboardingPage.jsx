@@ -9,24 +9,24 @@ import { notifyMember } from "../../lib/notify";
 import { confirm } from "../../lib/confirm";
 
 const STEP_BADGE_COLORS = {
-  PERSONAL_DETAILS: "bg-[#F6E6B4] text-[#57534E]",
-  ID_VERIFICATION: "bg-blue-100 text-blue-700",
-  SIGN_TA: "bg-purple-100 text-purple-700",
-  DEPOSIT: "bg-amber-100 text-amber-700",
-  HOUSE_RULES: "bg-orange-100 text-orange-700",
-  MOVE_IN_CHECKLIST: "bg-indigo-100 text-indigo-700",
-  ACTIVE: "bg-[#d1fae5] text-[#065f46]",
-  END_OF_TENANCY: "bg-[#ffdad6] text-[#ba1a1a]",
+  PERSONAL_DETAILS: "bg-surface-container text-foreground-variant",
+  ID_VERIFICATION: "bg-blue-500/15 text-blue-300",
+  SIGN_TA: "bg-purple-500/15 text-purple-300",
+  DEPOSIT: "bg-amber-500/15 text-amber-300",
+  HOUSE_RULES: "bg-amber-500/15 text-amber-300",
+  MOVE_IN_CHECKLIST: "bg-blue-500/15 text-blue-300",
+  ACTIVE: "bg-emerald-500/15 text-emerald-300",
+  END_OF_TENANCY: "bg-red-500/15 text-red-300",
 };
 
 const STATUS_BADGE_COLORS = {
-  ONBOARDING: "bg-blue-100 text-blue-700",
-  IN_PROGRESS: "bg-blue-100 text-blue-700",
-  ACTIVE: "bg-[#d1fae5] text-[#065f46]",
-  COMPLETE: "bg-[#d1fae5] text-[#065f46]",
-  END_OF_TENANCY: "bg-amber-100 text-amber-700",
-  MOVED_OUT: "bg-gray-100 text-gray-600",
-  BLOCKED: "bg-[#ffdad6] text-[#ba1a1a]",
+  ONBOARDING: "bg-blue-500/15 text-blue-300",
+  IN_PROGRESS: "bg-blue-500/15 text-blue-300",
+  ACTIVE: "bg-emerald-500/15 text-emerald-300",
+  COMPLETE: "bg-emerald-500/15 text-emerald-300",
+  END_OF_TENANCY: "bg-amber-500/15 text-amber-300",
+  MOVED_OUT: "bg-surface-container text-foreground-variant",
+  BLOCKED: "bg-red-500/15 text-red-300",
 };
 
 const STEP_ORDER = [
@@ -348,16 +348,16 @@ export default function AdminOnboardingPage() {
       {/* Page header */}
       <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511] tracking-tight">
+          <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">
             Member Management
           </h1>
-          <p className="text-[#57534E] font-['Inter'] font-medium mt-1">
+          <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
             Full lifecycle — onboarding, active members, and move-outs.
           </p>
         </div>
         <button
           onClick={() => { setShowInvite(true); setInviteResult(null); setInviteUsername(""); setWizardStep(1); setWizardErrors({}); }}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#A87813] transition-colors shrink-0"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-accent/90 transition-colors shrink-0"
         >
           <span className="material-symbols-outlined text-[18px]">person_add</span>
           New Member
@@ -367,12 +367,12 @@ export default function AdminOnboardingPage() {
       {/* Invite Wizard Modal */}
       {showInvite && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setShowInvite(false)}>
-          <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-surface rounded-2xl w-full max-w-lg border border-border overflow-hidden" onClick={(e) => e.stopPropagation()}>
             {/* Wizard header */}
-            <div className="px-8 pt-6 pb-4 border-b border-[#DDD0AD]">
+            <div className="px-8 pt-6 pb-4 border-b border-border">
               <div className="flex items-center justify-between mb-3">
-                <h2 className="font-['Hanken_Grotesk'] text-xl font-bold text-[#181511]">New Member Setup</h2>
-                <button onClick={() => setShowInvite(false)} className="text-[#57534E] hover:text-[#181511]">
+                <h2 className="font-['Hanken_Grotesk'] text-xl font-bold text-foreground">New Member Setup</h2>
+                <button onClick={() => setShowInvite(false)} className="text-foreground-variant hover:text-foreground">
                   <span className="material-symbols-outlined">close</span>
                 </button>
               </div>
@@ -381,12 +381,12 @@ export default function AdminOnboardingPage() {
                 {["Account", "Tenancy", "Review TA", "Done"].map((label, i) => (
                   <div key={label} className="flex items-center gap-1.5 flex-1">
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
-                      wizardStep > i + 1 ? "bg-[#A87813] text-white" : wizardStep === i + 1 ? "bg-[#A87813] text-white" : "bg-[#EAC25A] text-[#57534E]"
+                      wizardStep > i + 1 ? "bg-accent text-white" : wizardStep === i + 1 ? "bg-accent text-white" : "bg-white/5 text-foreground-variant"
                     }`}>
                       {wizardStep > i + 1 ? <span className="material-symbols-outlined text-[14px]">check</span> : i + 1}
                     </div>
-                    <span className={`font-['Inter'] text-[9px] uppercase tracking-widest font-bold hidden sm:inline ${wizardStep >= i + 1 ? "text-[#181511]" : "text-[#DDD0AD]"}`}>{label}</span>
-                    {i < 3 && <div className={`flex-1 h-0.5 rounded ${wizardStep > i + 1 ? "bg-[#A87813]" : "bg-[#EAC25A]"}`} />}
+                    <span className={`font-['Inter'] text-[9px] uppercase tracking-widest font-bold hidden sm:inline ${wizardStep >= i + 1 ? "text-foreground" : "text-foreground-variant"}`}>{label}</span>
+                    {i < 3 && <div className={`flex-1 h-0.5 rounded ${wizardStep > i + 1 ? "bg-accent" : "bg-white/10"}`} />}
                   </div>
                 ))}
               </div>
@@ -397,22 +397,22 @@ export default function AdminOnboardingPage() {
               {wizardStep === 1 && (
                 <div className="space-y-4">
                   <div className="space-y-1.5">
-                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold block">Username *</label>
+                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold block">Username *</label>
                     <input
                       type="text"
                       value={inviteUsername}
                       onChange={(e) => setInviteUsername(e.target.value)}
                       placeholder="e.g. john-doe"
-                      className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 text-sm font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-['Inter'] text-foreground focus:ring-2 focus:ring-accent outline-none"
                     />
-                    <p className="text-[10px] text-[#57534E]">Letters, numbers, hyphens, underscores. Min 3 chars. Password will be auto-generated.</p>
+                    <p className="text-[10px] text-foreground-variant">Letters, numbers, hyphens, underscores. Min 3 chars. Password will be auto-generated.</p>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold block">Room *</label>
+                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold block">Room *</label>
                     <select
                       value={inviteRoomId}
                       onChange={(e) => setInviteRoomId(e.target.value)}
-                      className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 text-sm font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-['Inter'] text-foreground focus:ring-2 focus:ring-accent outline-none"
                     >
                       <option value="">Select room</option>
                       {[...rooms].sort((a, b) => {
@@ -431,7 +431,7 @@ export default function AdminOnboardingPage() {
                     </select>
                   </div>
                   {wizardErrors.step1 && (
-                    <p className="text-sm text-[#ba1a1a] bg-[#ffdad6]/40 rounded-lg px-3 py-2">{wizardErrors.step1}</p>
+                    <p className="text-sm text-red-300 bg-red-500/15 rounded-lg px-3 py-2">{wizardErrors.step1}</p>
                   )}
                   <button
                     onClick={() => {
@@ -445,7 +445,7 @@ export default function AdminOnboardingPage() {
                       setWizardErrors({});
                       setWizardStep(2);
                     }}
-                    className="w-full py-3 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#A87813] flex items-center justify-center gap-2"
+                    className="w-full py-3 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-accent/90 flex items-center justify-center gap-2"
                   >
                     Next: Tenancy Details
                     <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -458,46 +458,46 @@ export default function AdminOnboardingPage() {
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold block">Monthly Rent (SGD) *</label>
+                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold block">Monthly Rent (SGD) *</label>
                       <input
                         type="number" min="0" step="50"
                         value={inviteRent}
                         onChange={(e) => setInviteRent(e.target.value)}
                         placeholder="1200"
-                        className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 text-sm font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-['Inter'] text-foreground focus:ring-2 focus:ring-accent outline-none"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold block">Deposit (SGD) *</label>
+                      <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold block">Deposit (SGD) *</label>
                       <input
                         type="number" min="0" step="50"
                         value={inviteDeposit}
                         onChange={(e) => setInviteDeposit(e.target.value)}
                         placeholder="2400"
-                        className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 text-sm font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-['Inter'] text-foreground focus:ring-2 focus:ring-accent outline-none"
                       />
                     </div>
                   </div>
                   {/* Start date */}
                   <div className="space-y-1.5">
-                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold block">Start Date *</label>
+                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold block">Start Date *</label>
                     <input
                       type="date"
                       value={inviteStartDate}
                       onChange={(e) => setInviteStartDate(e.target.value)}
-                      className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 text-sm font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-['Inter'] text-foreground focus:ring-2 focus:ring-accent outline-none"
                     />
                   </div>
 
                   {/* End date mode toggle */}
                   <div className="space-y-2">
-                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold block">Tenancy End *</label>
+                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold block">Tenancy End *</label>
                     <div className="flex gap-2 mb-2">
                       <button
                         type="button"
                         onClick={() => setInviteEndMode("months")}
                         className={`flex-1 py-2 rounded-lg text-xs font-['Inter'] font-bold border-2 transition-all ${
-                          inviteEndMode === "months" ? "bg-[#A87813] text-white border-[#A87813]" : "bg-white text-[#57534E] border-[#DDD0AD]"
+                          inviteEndMode === "months" ? "bg-accent text-white border-accent" : "bg-surface text-foreground-variant border-border"
                         }`}
                       >
                         By number of months
@@ -506,7 +506,7 @@ export default function AdminOnboardingPage() {
                         type="button"
                         onClick={() => setInviteEndMode("date")}
                         className={`flex-1 py-2 rounded-lg text-xs font-['Inter'] font-bold border-2 transition-all ${
-                          inviteEndMode === "date" ? "bg-[#A87813] text-white border-[#A87813]" : "bg-white text-[#57534E] border-[#DDD0AD]"
+                          inviteEndMode === "date" ? "bg-accent text-white border-accent" : "bg-surface text-foreground-variant border-border"
                         }`}
                       >
                         By specific date
@@ -517,7 +517,7 @@ export default function AdminOnboardingPage() {
                       <select
                         value={inviteLicencePeriod}
                         onChange={(e) => setInviteLicencePeriod(e.target.value)}
-                        className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 text-sm font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-['Inter'] text-foreground focus:ring-2 focus:ring-accent outline-none"
                       >
                         {Array.from({ length: 36 }, (_, i) => i + 1).map(m => (
                           <option key={m} value={m}>{m} month{m > 1 ? "s" : ""}</option>
@@ -529,7 +529,7 @@ export default function AdminOnboardingPage() {
                         value={inviteEndDateManual}
                         onChange={(e) => setInviteEndDateManual(e.target.value)}
                         min={inviteStartDate || undefined}
-                        className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 text-sm font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-['Inter'] text-foreground focus:ring-2 focus:ring-accent outline-none"
                       />
                     )}
                   </div>
@@ -549,37 +549,37 @@ export default function AdminOnboardingPage() {
 
                   {/* Reference Number — auto-generated, editable */}
                   <div className="space-y-1.5">
-                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold block">
-                      Reference Number <span className="normal-case tracking-normal text-[#DDD0AD]">(auto-generated)</span>
+                    <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold block">
+                      Reference Number <span className="normal-case tracking-normal text-foreground-variant">(auto-generated)</span>
                     </label>
                     <input
                       type="text"
                       value={inviteRefNumber}
                       onChange={(e) => setInviteRefNumber(e.target.value)}
-                      className="w-full bg-[#EAC25A] border-0 rounded-xl px-4 py-3 text-sm font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-['Inter'] text-foreground focus:ring-2 focus:ring-accent outline-none"
                     />
                   </div>
 
                   {inviteResult?.type === "error" && (
-                    <p className="text-sm text-[#ba1a1a] bg-[#ffdad6]/40 rounded-lg px-3 py-2">{inviteResult.message}</p>
+                    <p className="text-sm text-red-300 bg-red-500/15 rounded-lg px-3 py-2">{inviteResult.message}</p>
                   )}
 
                   {/* Review summary */}
-                  <div className="bg-[#FAF6EC] rounded-xl p-4 space-y-1.5 text-xs font-['Inter']">
-                    <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-2">Summary</p>
-                    <p><span className="text-[#57534E]">Username:</span> <strong>{inviteUsername}</strong></p>
-                    <p><span className="text-[#57534E]">Room:</span> <strong>{selectedRoom?.unit_code} — {selectedRoom?.name}</strong></p>
-                    <p><span className="text-[#57534E]">Rent:</span> <strong>SGD {Number(inviteRent || 0).toLocaleString()}/mo</strong> · <span className="text-[#57534E]">Deposit:</span> <strong>SGD {Number(inviteDeposit || 0).toLocaleString()}</strong></p>
-                    <p><span className="text-[#57534E]">Period:</span> <strong>{calcLicencePeriod} months</strong> from <strong>{inviteStartDate || "TBD"}</strong>{inviteEndDate ? ` to ${inviteEndDate}` : ""}</p>
+                  <div className="bg-surface-container rounded-xl p-4 space-y-1.5 text-xs font-['Inter']">
+                    <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-2">Summary</p>
+                    <p><span className="text-foreground-variant">Username:</span> <strong>{inviteUsername}</strong></p>
+                    <p><span className="text-foreground-variant">Room:</span> <strong>{selectedRoom?.unit_code} — {selectedRoom?.name}</strong></p>
+                    <p><span className="text-foreground-variant">Rent:</span> <strong>SGD {Number(inviteRent || 0).toLocaleString()}/mo</strong> · <span className="text-foreground-variant">Deposit:</span> <strong>SGD {Number(inviteDeposit || 0).toLocaleString()}</strong></p>
+                    <p><span className="text-foreground-variant">Period:</span> <strong>{calcLicencePeriod} months</strong> from <strong>{inviteStartDate || "TBD"}</strong>{inviteEndDate ? ` to ${inviteEndDate}` : ""}</p>
                   </div>
 
                   {wizardErrors.step2 && (
-                    <p className="text-sm text-[#ba1a1a] bg-[#ffdad6]/40 rounded-lg px-3 py-2">{wizardErrors.step2}</p>
+                    <p className="text-sm text-red-300 bg-red-500/15 rounded-lg px-3 py-2">{wizardErrors.step2}</p>
                   )}
                   <div className="flex gap-3">
                     <button
                       onClick={() => setWizardStep(1)}
-                      className="flex-1 py-3 bg-[#EAC25A] text-[#57534E] rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#F6E6B4]"
+                      className="flex-1 py-3 bg-surface-container text-foreground-variant rounded-xl font-['Inter'] font-bold text-sm hover:bg-white/5"
                     >
                       Back
                     </button>
@@ -597,7 +597,7 @@ export default function AdminOnboardingPage() {
                         generateTaPreview();
                         setWizardStep(3);
                       }}
-                      className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#A87813] flex items-center justify-center gap-2"
+                      className="flex-[2] py-3 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-accent/90 flex items-center justify-center gap-2"
                     >
                       Next: Review Agreement
                       <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -611,11 +611,11 @@ export default function AdminOnboardingPage() {
                 <div className="space-y-4">
                   {taPreviewHtml ? (
                     <div className="space-y-3">
-                      <div className="bg-[#d1fae5] rounded-xl p-4 flex items-start gap-3">
-                        <span className="material-symbols-outlined text-[#065f46] text-[20px] shrink-0 mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                      <div className="bg-emerald-500/15 rounded-xl p-4 flex items-start gap-3">
+                        <span className="material-symbols-outlined text-emerald-300 text-[20px] shrink-0 mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                         <div>
-                          <p className="text-sm font-bold text-[#065f46]">Agreement generated</p>
-                          <p className="text-xs text-[#065f46]/80 mt-0.5">Auto-filled with member details. Click below to review the full document.</p>
+                          <p className="text-sm font-bold text-emerald-300">Agreement generated</p>
+                          <p className="text-xs text-emerald-300/80 mt-0.5">Auto-filled with member details. Click below to review the full document.</p>
                         </div>
                       </div>
                       <button
@@ -625,41 +625,41 @@ export default function AdminOnboardingPage() {
                           w.document.write(taPreviewHtml);
                           w.document.close();
                         }}
-                        className="w-full py-3 bg-white border-2 border-[#A87813]/20 text-[#A87813] rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#A87813]/5 flex items-center justify-center gap-2"
+                        className="w-full py-3 bg-surface border-2 border-accent/20 text-accent rounded-xl font-['Inter'] font-bold text-sm hover:bg-accent/5 flex items-center justify-center gap-2"
                       >
                         <span className="material-symbols-outlined text-[18px]">open_in_new</span>
                         Preview Full Agreement in New Tab
                       </button>
                     </div>
                   ) : (
-                    <div className="border border-dashed border-[#DDD0AD] rounded-xl p-8 text-center">
-                      <div className="animate-pulse text-[#57534E]">
+                    <div className="border border-dashed border-border rounded-xl p-8 text-center">
+                      <div className="animate-pulse text-foreground-variant">
                         <span className="material-symbols-outlined text-[32px] mb-2 block">progress_activity</span>
                         <p className="text-sm">Loading agreement template...</p>
                       </div>
                     </div>
                   )}
 
-                  <div className="bg-[#EAC25A] rounded-xl p-3 text-xs text-[#57534E] font-['Inter'] space-y-1">
-                    <p><strong className="text-[#181511]">Ref: {inviteRefNumber}</strong></p>
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-xs text-foreground-variant font-['Inter'] space-y-1">
+                    <p><strong className="text-foreground">Ref: {inviteRefNumber}</strong></p>
                     <p>The TA will be finalised after the member completes onboarding (personal details + ID verification). You will counter-sign as a final check.</p>
                   </div>
 
                   {inviteResult?.type === "error" && (
-                    <p className="text-sm text-[#ba1a1a] bg-[#ffdad6]/40 rounded-lg px-3 py-2">{inviteResult.message}</p>
+                    <p className="text-sm text-red-300 bg-red-500/15 rounded-lg px-3 py-2">{inviteResult.message}</p>
                   )}
 
                   <div className="flex gap-3">
                     <button
                       onClick={() => setWizardStep(2)}
-                      className="flex-1 py-3 bg-[#EAC25A] text-[#57534E] rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#F6E6B4]"
+                      className="flex-1 py-3 bg-surface-container text-foreground-variant rounded-xl font-['Inter'] font-bold text-sm hover:bg-white/5"
                     >
                       Back
                     </button>
                     <button
                       onClick={handleInvite}
                       disabled={inviting || !taPreviewHtml}
-                      className="flex-[2] py-3 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#A87813] disabled:opacity-40 flex items-center justify-center gap-2"
+                      className="flex-[2] py-3 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-accent/90 disabled:opacity-40 flex items-center justify-center gap-2"
                     >
                       {inviting ? (
                         <>
@@ -680,47 +680,47 @@ export default function AdminOnboardingPage() {
               {/* Step 4: Success */}
               {wizardStep === 4 && inviteResult?.type === "success" && (
                 <div className="space-y-5 text-center">
-                  <div className="w-16 h-16 mx-auto rounded-2xl bg-[#d1fae5] flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[#065f46] text-[32px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                  <div className="w-16 h-16 mx-auto rounded-2xl bg-emerald-500/15 flex items-center justify-center">
+                    <span className="material-symbols-outlined text-emerald-300 text-[32px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                   </div>
                   <div>
-                    <h3 className="font-['Hanken_Grotesk'] text-lg font-bold text-[#181511] mb-1">Member Created!</h3>
-                    <p className="text-xs text-[#57534E]">Share these login credentials with the new member.</p>
+                    <h3 className="font-['Hanken_Grotesk'] text-lg font-bold text-foreground mb-1">Member Created!</h3>
+                    <p className="text-xs text-foreground-variant">Share these login credentials with the new member.</p>
                   </div>
-                  <div className="bg-[#FAF6EC] rounded-xl p-5 text-left space-y-2">
+                  <div className="bg-surface-container rounded-xl p-5 text-left space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-[#57534E]">Username</span>
-                      <code className="text-sm font-bold text-[#181511] bg-white px-2 py-0.5 rounded">{inviteResult.username}</code>
+                      <span className="text-xs text-foreground-variant">Username</span>
+                      <code className="text-sm font-bold text-foreground bg-white/5 px-2 py-0.5 rounded">{inviteResult.username}</code>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-[#57534E]">Password</span>
-                      <code className="text-sm font-bold text-[#181511] bg-white px-2 py-0.5 rounded">{inviteResult.default_password}</code>
+                      <span className="text-xs text-foreground-variant">Password</span>
+                      <code className="text-sm font-bold text-foreground bg-white/5 px-2 py-0.5 rounded">{inviteResult.default_password}</code>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-[#57534E]">Login URL</span>
-                      <code className="text-xs text-[#A87813] bg-white px-2 py-0.5 rounded">lazybee.sg/portal/login</code>
+                      <span className="text-xs text-foreground-variant">Login URL</span>
+                      <code className="text-xs text-accent bg-white/5 px-2 py-0.5 rounded">lazybee.sg/portal/login</code>
                     </div>
                   </div>
                   <button
                     onClick={() => {
                       navigator.clipboard.writeText(`Username: ${inviteResult.username}\nPassword: ${inviteResult.default_password}\nLogin: lazybee.sg/portal/login`);
                     }}
-                    className="w-full py-2.5 bg-[#EAC25A] text-[#A87813] rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#F6E6B4] flex items-center justify-center gap-2"
+                    className="w-full py-2.5 bg-accent/15 text-accent rounded-xl font-['Inter'] font-bold text-sm hover:bg-accent/25 flex items-center justify-center gap-2"
                   >
                     <span className="material-symbols-outlined text-[16px]">content_copy</span>
                     Copy Credentials
                   </button>
 
                   {/* TA options */}
-                  <div className="border-t border-[#DDD0AD] pt-4 space-y-2">
-                    <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Tenancy Agreement</p>
+                  <div className="border-t border-border pt-4 space-y-2">
+                    <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Tenancy Agreement</p>
                     {taPreviewHtml ? (
-                      <p className="text-xs text-[#065f46] bg-[#d1fae5] rounded-lg px-3 py-2">
+                      <p className="text-xs text-emerald-300 bg-emerald-500/15 rounded-lg px-3 py-2">
                         <span className="material-symbols-outlined text-[14px] align-middle mr-1">check</span>
                         TA generated and sent to member for signing.
                       </p>
                     ) : (
-                      <p className="text-xs text-[#57534E]">No TA template was available — you can generate it later from the member's profile.</p>
+                      <p className="text-xs text-foreground-variant">No TA template was available — you can generate it later from the member's profile.</p>
                     )}
                   </div>
 
@@ -735,14 +735,14 @@ export default function AdminOnboardingPage() {
                           if (row) navigate(`/portal/admin/onboarding/${row.id}`);
                         }
                       }}
-                      className="flex-1 py-3 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#A87813] flex items-center justify-center gap-2"
+                      className="flex-1 py-3 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-accent/90 flex items-center justify-center gap-2"
                     >
                       <span className="material-symbols-outlined text-[18px]">open_in_new</span>
                       View Member Profile
                     </button>
                     <button
                       onClick={() => setShowInvite(false)}
-                      className="flex-1 py-3 bg-[#EAC25A] text-[#57534E] rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#F6E6B4]"
+                      className="flex-1 py-3 bg-surface-container text-foreground-variant rounded-xl font-['Inter'] font-bold text-sm hover:bg-white/5"
                     >
                       Done
                     </button>
@@ -757,22 +757,22 @@ export default function AdminOnboardingPage() {
       {/* Stat cards — clickable to filter */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 mb-6">
         {[
-          { label: "Total", count: rows.length, filter: "ALL", color: "text-[#181511]", bg: "bg-white" },
-          { label: "Registration", count: registrationCount, filter: "REGISTRATION", color: "text-purple-600", bg: "bg-white" },
-          { label: "Onboarding", count: onboardingCount, filter: "ONBOARDING", color: "text-blue-600", bg: "bg-white" },
-          { label: "Active", count: activeCount, filter: "ACTIVE", color: "text-[#A87813]", bg: "bg-white" },
-          { label: "Archived", count: archivedCount, filter: "ARCHIVED", color: "text-gray-500", bg: "bg-white" },
+          { label: "Total", count: rows.length, filter: "ALL", color: "text-foreground", bg: "bg-surface" },
+          { label: "Registration", count: registrationCount, filter: "REGISTRATION", color: "text-purple-300", bg: "bg-surface" },
+          { label: "Onboarding", count: onboardingCount, filter: "ONBOARDING", color: "text-blue-300", bg: "bg-surface" },
+          { label: "Active", count: activeCount, filter: "ACTIVE", color: "text-accent", bg: "bg-surface" },
+          { label: "Archived", count: archivedCount, filter: "ARCHIVED", color: "text-foreground-variant", bg: "bg-surface" },
         ].map(({ label, count, filter, color, bg }) => (
           <button
             key={filter}
             onClick={() => setLifecycleFilter(filter)}
-            className={`${bg} rounded-2xl p-6 border-2 shadow-sm text-left transition-all ${
-              lifecycleFilter === filter ? "border-[#A87813] ring-1 ring-[#A87813]/20" : "border-[#DDD0AD] hover:border-[#A87813]/30"
+            className={`${bg} rounded-2xl p-6 border-2 text-left transition-all ${
+              lifecycleFilter === filter ? "border-accent ring-1 ring-accent/20" : "border-border hover:border-accent/30"
             }`}
           >
-            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-3">{label}</p>
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-3">{label}</p>
             {loading ? (
-              <div className="h-8 w-10 bg-[#EAC25A] animate-pulse rounded" />
+              <div className="h-8 w-10 bg-white/5 animate-pulse rounded" />
             ) : (
               <p className={`font-['Hanken_Grotesk'] text-3xl font-extrabold ${color}`}>{count}</p>
             )}
@@ -783,10 +783,10 @@ export default function AdminOnboardingPage() {
       {/* Active filter indicator */}
       {lifecycleFilter !== "ALL" && (
         <div className="mb-4 flex items-center gap-2">
-          <span className="font-['Inter'] text-xs text-[#57534E]">
-            Showing: <strong className="text-[#181511]">{lifecycleFilter.replace(/_/g, " ")}</strong>
+          <span className="font-['Inter'] text-xs text-foreground-variant">
+            Showing: <strong className="text-foreground">{lifecycleFilter.replace(/_/g, " ")}</strong>
           </span>
-          <button onClick={() => setLifecycleFilter("ALL")} className="text-xs text-[#A87813] font-bold hover:underline">
+          <button onClick={() => setLifecycleFilter("ALL")} className="text-xs text-accent font-bold hover:underline">
             Clear filter
           </button>
         </div>
@@ -794,77 +794,77 @@ export default function AdminOnboardingPage() {
 
       {/* Table */}
       {loading ? (
-        <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm overflow-hidden">
-          <div className="divide-y divide-[#DDD0AD]">
+        <div className="bg-surface rounded-2xl border border-border overflow-hidden">
+          <div className="divide-y divide-white/10">
             {[1, 2, 3, 4, 5].map((i) => (
               <div key={i} className="px-8 py-5 flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-[#EAC25A] animate-pulse" />
+                  <div className="w-10 h-10 rounded-full bg-white/5 animate-pulse" />
                   <div className="space-y-2">
-                    <div className="h-4 w-24 bg-[#EAC25A] animate-pulse rounded" />
-                    <div className="h-3 w-32 bg-[#EAC25A] animate-pulse rounded" />
+                    <div className="h-4 w-24 bg-white/5 animate-pulse rounded" />
+                    <div className="h-3 w-32 bg-white/5 animate-pulse rounded" />
                   </div>
                 </div>
-                <div className="h-5 w-20 bg-[#EAC25A] animate-pulse rounded-full" />
+                <div className="h-5 w-20 bg-white/5 animate-pulse rounded-full" />
               </div>
             ))}
           </div>
         </div>
       ) : rows.length === 0 ? (
-        <div className="bg-white rounded-2xl p-12 border border-[#DDD0AD] shadow-sm text-center">
-          <p className="text-[#57534E] font-['Inter'] text-sm">No onboarding records found.</p>
+        <div className="bg-surface rounded-2xl p-12 border border-border text-center">
+          <p className="text-foreground-variant font-['Inter'] text-sm">No onboarding records found.</p>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm relative">
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10 sm:hidden rounded-r-2xl"></div>
+        <div className="bg-surface rounded-2xl border border-border relative">
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-surface to-transparent z-10 sm:hidden rounded-r-2xl"></div>
           <div className="overflow-x-auto">
           <table className="w-full min-w-[600px]">
-            <thead className="bg-[#EAC25A]">
+            <thead className="bg-surface-container">
               <tr>
-                <th className="text-left px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">
+                <th className="text-left px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold">
                   Tenant
                 </th>
-                <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">
+                <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold">
                   Status
                 </th>
-                <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">
+                <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold">
                   Current Step
                 </th>
-                <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold hidden md:table-cell">
+                <th className="text-left px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold hidden md:table-cell">
                   Lease
                 </th>
-                <th className="text-right px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">
+                <th className="text-right px-6 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#DDD0AD]">
+            <tbody className="divide-y divide-white/10">
               {filteredRows.map((row) => {
                 const unitCode = row.tenant_profiles?.rooms?.unit_code ?? "—";
                 const roomName = row.tenant_profiles?.rooms?.name ?? "";
                 const tenantName = row.tenant_profiles?.tenant_details?.full_name ?? row.tenant_profiles?.username ?? "";
                 const stepLabel = STEP_LABELS[row.current_step] ?? row.current_step;
-                const stepColor = STEP_BADGE_COLORS[row.current_step] ?? "bg-[#F6E6B4] text-[#57534E]";
-                const statusColor = STATUS_BADGE_COLORS[row.status] ?? "bg-[#F6E6B4] text-[#57534E]";
+                const stepColor = STEP_BADGE_COLORS[row.current_step] ?? "bg-surface-container text-foreground-variant";
+                const statusColor = STATUS_BADGE_COLORS[row.status] ?? "bg-surface-container text-foreground-variant";
                 const progress = getStepProgress(row.current_step);
                 const initials = tenantName ? tenantName.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase() : unitCode.slice(0, 2).toUpperCase();
 
                 return (
                   <tr
                     key={row.id}
-                    className="hover:bg-[#FAF6EC] cursor-pointer transition-colors"
+                    className="hover:bg-white/5 cursor-pointer transition-colors"
                     onClick={() => navigate(`/portal/admin/onboarding/${row.id}`)}
                   >
                     <td className="px-8 py-5">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-[#F6E6B4] flex items-center justify-center text-[#A87813] font-bold text-xs shrink-0">
+                        <div className="w-10 h-10 rounded-full bg-accent/15 flex items-center justify-center text-accent font-bold text-xs shrink-0">
                           {initials}
                         </div>
                         <div>
-                          <p className="font-['Inter'] font-bold text-[#181511] text-sm capitalize">
+                          <p className="font-['Inter'] font-bold text-foreground text-sm capitalize">
                             {tenantName || unitCode}
                           </p>
-                          <p className="font-['Inter'] text-[#57534E] text-xs">
+                          <p className="font-['Inter'] text-foreground-variant text-xs">
                             {unitCode}{roomName ? ` — ${roomName}` : ""}
                           </p>
                         </div>
@@ -872,7 +872,7 @@ export default function AdminOnboardingPage() {
                     </td>
                     <td className="px-6 py-5">
                       {isInProgress(row) && isRegistrationStep(row) ? (
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-purple-100 text-purple-700">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-purple-500/15 text-purple-300">
                           REGISTRATION
                         </span>
                       ) : (
@@ -888,12 +888,12 @@ export default function AdminOnboardingPage() {
                     </td>
                     <td className="px-6 py-5 hidden md:table-cell">
                       {row.tenancy_start_date ? (
-                        <div className="font-['Inter'] text-xs text-[#57534E]">
+                        <div className="font-['Inter'] text-xs text-foreground-variant">
                           <p>{formatDate(row.tenancy_start_date)}</p>
-                          <p className="text-[#DDD0AD]">to {formatDate(row.tenancy_end_date)}</p>
+                          <p className="text-foreground-variant">to {formatDate(row.tenancy_end_date)}</p>
                         </div>
                       ) : (
-                        <span className="font-['Inter'] text-xs text-[#DDD0AD]">—</span>
+                        <span className="font-['Inter'] text-xs text-foreground-variant">—</span>
                       )}
                     </td>
                     <td className="px-6 py-5 text-right">
@@ -905,7 +905,7 @@ export default function AdminOnboardingPage() {
                               navigator.clipboard.writeText(`Username: ${row.tenant_profiles.username}\nLogin: lazybee.sg/portal/login`);
                               alert(`Username copied to clipboard.\n\nLogin: lazybee.sg/portal/login`);
                             }}
-                            className="p-1.5 rounded-lg hover:bg-[#EAC25A] text-[#57534E] hover:text-[#A87813] transition-colors"
+                            className="p-1.5 rounded-lg hover:bg-white/5 text-foreground-variant hover:text-accent transition-colors"
                           >
                             <span className="material-symbols-outlined text-[18px]">key</span>
                           </button>
@@ -917,7 +917,7 @@ export default function AdminOnboardingPage() {
                               await supabase.from("onboarding_progress").update({ status: "END_OF_TENANCY", current_step: "END_OF_TENANCY" }).eq("id", row.id);
                               fetchOnboarding();
                             }}
-                            className="p-1.5 rounded-lg hover:bg-amber-50 text-[#57534E] hover:text-amber-600 transition-colors"
+                            className="p-1.5 rounded-lg hover:bg-amber-500/15 text-foreground-variant hover:text-amber-300 transition-colors"
                             title="Start offboarding"
                           >
                             <span className="material-symbols-outlined text-[18px]">logout</span>
@@ -933,7 +933,7 @@ export default function AdminOnboardingPage() {
                               if (e2) { alert("Profile deactivation failed: " + e2.message); return; }
                               fetchOnboarding();
                             }}
-                            className="p-1.5 rounded-lg hover:bg-gray-100 text-[#57534E] hover:text-gray-900 transition-colors"
+                            className="p-1.5 rounded-lg hover:bg-white/5 text-foreground-variant hover:text-foreground transition-colors"
                             title="Archive tenant"
                           >
                             <span className="material-symbols-outlined text-[18px]">archive</span>
@@ -941,7 +941,7 @@ export default function AdminOnboardingPage() {
                         )}
                         <button
                           onClick={() => navigate(`/portal/admin/onboarding/${row.id}`)}
-                          className="p-1.5 rounded-lg hover:bg-[#EAC25A] text-[#A87813] transition-colors"
+                          className="p-1.5 rounded-lg hover:bg-white/5 text-accent transition-colors"
                           title="View details"
                         >
                           <span className="material-symbols-outlined text-[18px]">open_in_new</span>

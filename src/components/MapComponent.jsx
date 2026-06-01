@@ -297,7 +297,7 @@ const MapComponent = ({
         
         {/* Loading Overlay */}
         {!isLoaded && (
-          <div className="absolute inset-0 bg-gray-100 rounded-lg flex items-center justify-center">
+          <div className="absolute inset-0 bg-surface-container rounded-lg flex items-center justify-center">
             <div className="text-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent mx-auto mb-4"></div>
               <p className="text-foreground-variant">Loading map...</p>
@@ -312,7 +312,7 @@ const MapComponent = ({
               size="sm"
               variant="secondary"
               onClick={toggle3D}
-              className="bg-surface/90 hover:bg-surface shadow-md"
+              className="bg-surface/90 hover:bg-surface"
             >
               <Layers className="w-4 h-4 mr-1" />
               {viewMode === '2d' ? '3D' : '2D'}
@@ -322,7 +322,7 @@ const MapComponent = ({
               size="sm"
               variant="secondary"
               onClick={resetView}
-              className="bg-surface/90 hover:bg-surface shadow-md"
+              className="bg-surface/90 hover:bg-surface"
             >
               <RotateCcw className="w-4 h-4" />
             </Button>
@@ -331,7 +331,7 @@ const MapComponent = ({
               size="sm"
               variant="secondary"
               onClick={toggleAmenities}
-              className="bg-surface/90 hover:bg-surface shadow-md"
+              className="bg-surface/90 hover:bg-surface"
             >
               <Navigation className="w-4 h-4 mr-1" />
               POI
@@ -341,7 +341,7 @@ const MapComponent = ({
 
         {/* Map Legend */}
         {isLoaded && showAmenities && (
-          <div className="absolute bottom-4 left-4 bg-surface/90 rounded-lg p-3 shadow-md max-w-48">
+          <div className="absolute bottom-4 left-4 bg-surface/90 rounded-lg p-3 border border-border max-w-48">
             <h4 className="font-semibold text-sm mb-2">Legend</h4>
             <div className="grid grid-cols-2 gap-1 text-xs">
               <div className="flex items-center gap-1">
@@ -381,7 +381,7 @@ const MapComponent = ({
         )}
 
         {/* Property Info Overlay */}
-        <div className="absolute bottom-4 right-4 bg-surface/90 rounded-lg p-3 shadow-md max-w-xs">
+        <div className="absolute bottom-4 right-4 bg-surface/90 rounded-lg p-3 border border-border max-w-xs">
           <h4 className="font-semibold text-sm mb-1">{property.name}</h4>
           <p className="text-xs text-foreground-variant mb-1">{property.neighborhood}</p>
           <p className="text-xs text-accent font-semibold">

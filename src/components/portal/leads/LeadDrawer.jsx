@@ -58,8 +58,8 @@ function ChipGroup({ options, selected, onToggle }) {
             onClick={() => onToggle(value)}
             className={`px-2.5 py-1 text-xs rounded-full border transition-colors ${
               active
-                ? "bg-emerald-100 border-emerald-400 text-emerald-800"
-                : "bg-white border-slate-300 text-slate-600 hover:bg-slate-50"
+                ? "bg-emerald-500/15 border-emerald-500/40 text-emerald-300"
+                : "bg-surface border-border text-foreground-variant hover:bg-white/5"
             }`}
           >
             {label}
@@ -117,7 +117,7 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
           <ViewingReadinessPanel lead={draft} />
 
           <div>
-            <label className="text-xs text-slate-500 block mb-1">Status</label>
+            <label className="text-xs text-foreground-variant block mb-1">Status</label>
             <select
               className="w-full border rounded px-2 py-1.5 text-sm"
               value={draft.status || "new"}
@@ -132,8 +132,8 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
           </div>
 
           <div>
-            <label className="text-xs text-slate-500 block mb-1">
-              Prospect summary <span className="text-slate-400">(AI-gleaned, editable)</span>
+            <label className="text-xs text-foreground-variant block mb-1">
+              Prospect summary <span className="text-foreground-variant">(AI-gleaned, editable)</span>
             </label>
             <Textarea
               rows={3}
@@ -144,7 +144,7 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
           </div>
 
           <div>
-            <label className="text-xs text-slate-500 block mb-1">
+            <label className="text-xs text-foreground-variant block mb-1">
               Matched rooms (comma-separated)
             </label>
             <input
@@ -163,13 +163,13 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
             />
           </div>
 
-          <div className="space-y-3 border-t border-slate-200 pt-3">
-            <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <div className="space-y-3 border-t border-border pt-3">
+            <div className="text-xs font-semibold uppercase tracking-wide text-foreground-variant">
               Intent
             </div>
 
             <div>
-              <label className="text-xs text-slate-500 block mb-1">Property</label>
+              <label className="text-xs text-foreground-variant block mb-1">Property</label>
               <ChipGroup
                 options={PROPERTY_OPTIONS}
                 selected={intent.properties || []}
@@ -178,7 +178,7 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
             </div>
 
             <div>
-              <label className="text-xs text-slate-500 block mb-1">Room type</label>
+              <label className="text-xs text-foreground-variant block mb-1">Room type</label>
               <ChipGroup
                 options={ROOM_TYPE_OPTIONS}
                 selected={intent.room_types || []}
@@ -188,7 +188,7 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs text-slate-500 block mb-1">
+                <label className="text-xs text-foreground-variant block mb-1">
                   Budget max (SGD/mo)
                 </label>
                 <input
@@ -205,7 +205,7 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
                 />
               </div>
               <div>
-                <label className="text-xs text-slate-500 block mb-1">Move-in date</label>
+                <label className="text-xs text-foreground-variant block mb-1">Move-in date</label>
                 <input
                   type="date"
                   className="w-full border rounded px-2 py-1.5 text-sm"
@@ -217,7 +217,7 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs text-slate-500 block mb-1">Tenant type</label>
+                <label className="text-xs text-foreground-variant block mb-1">Tenant type</label>
                 <select
                   className="w-full border rounded px-2 py-1.5 text-sm"
                   value={intent.tenant_type || ""}
@@ -233,7 +233,7 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
                 </select>
               </div>
               <div>
-                <label className="text-xs text-slate-500 block mb-1">Lease length</label>
+                <label className="text-xs text-foreground-variant block mb-1">Lease length</label>
                 <select
                   className="w-full border rounded px-2 py-1.5 text-sm"
                   value={intent.lease_months ?? ""}
@@ -253,7 +253,7 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
               </div>
             </div>
 
-            <label className="flex items-center gap-2 text-sm text-slate-700">
+            <label className="flex items-center gap-2 text-sm text-foreground">
               <input
                 type="checkbox"
                 checked={!!intent.pets_cat}
@@ -268,7 +268,7 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
           )}
 
           <div>
-            <label className="text-xs text-slate-500 block mb-1">Notes</label>
+            <label className="text-xs text-foreground-variant block mb-1">Notes</label>
             <Textarea
               rows={4}
               value={draft.notes || ""}
@@ -276,10 +276,10 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
             />
           </div>
 
-          <div className="text-xs text-slate-500 border-t pt-3 space-y-1.5">
-            <div>Source: <span className="text-slate-700">{lead.source || "—"}</span></div>
+          <div className="text-xs text-foreground-variant border-t pt-3 space-y-1.5">
+            <div>Source: <span className="text-foreground">{lead.source || "—"}</span></div>
             <div className="flex items-center gap-2">
-              <label className="text-slate-500">Date initiated:</label>
+              <label className="text-foreground-variant">Date initiated:</label>
               <input
                 type="date"
                 value={
@@ -294,15 +294,15 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
                     date_initiated: v ? new Date(`${v}T00:00:00`).toISOString() : null,
                   });
                 }}
-                className="text-xs border border-slate-200 rounded px-1.5 py-0.5 text-slate-700"
+                className="text-xs border border-border rounded px-1.5 py-0.5 text-foreground"
               />
             </div>
             <div>
               Last message:{" "}
-              <span className="text-slate-700">{lead.last_message_excerpt || "—"}</span>
+              <span className="text-foreground">{lead.last_message_excerpt || "—"}</span>
             </div>
             {lead.chat_id && (
-              <div>chat_id: <span className="text-slate-700 font-mono">{lead.chat_id}</span></div>
+              <div>chat_id: <span className="text-foreground font-mono">{lead.chat_id}</span></div>
             )}
           </div>
 
@@ -360,7 +360,7 @@ function ArchiveMenu({ onPick, disabled }) {
       {open && (
         <>
           <div className="fixed inset-0 z-30" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 bottom-full mb-1 z-40 w-48 bg-white border border-slate-200 rounded-md shadow-lg py-1 text-sm">
+          <div className="absolute right-0 bottom-full mb-1 z-40 w-48 bg-surface border border-border rounded-md py-1 text-sm">
             {ARCHIVE_PICKS.map((p) => (
               <button
                 key={p.value}
@@ -369,7 +369,7 @@ function ArchiveMenu({ onPick, disabled }) {
                   setOpen(false);
                   onPick(p.value);
                 }}
-                className="w-full text-left px-3 py-1.5 hover:bg-slate-100"
+                className="w-full text-left px-3 py-1.5 hover:bg-white/5"
               >
                 {p.label}
               </button>
@@ -419,11 +419,11 @@ function OffHorizonPanel({ lead }) {
   }
 
   return (
-    <div className="rounded-md border border-amber-200 bg-amber-50 p-3 space-y-2">
-      <div className="text-xs font-semibold uppercase tracking-wider text-amber-800">
+    <div className="rounded-md border border-amber-500/25 bg-amber-500/10 p-3 space-y-2">
+      <div className="text-xs font-semibold uppercase tracking-wider text-amber-300">
         Off-horizon — target {intent.target_move_in_date || "?"}
       </div>
-      <div className="text-xs text-amber-700">
+      <div className="text-xs text-amber-300">
         Sent {sentCount} reminder{sentCount === 1 ? "" : "s"}.
         {lastSent && ` Last: ${new Date(lastSent).toLocaleDateString()}.`}
         {dueAt && ` Next due: ${new Date(dueAt).toLocaleDateString()}.`}
@@ -454,7 +454,7 @@ function OffHorizonPanel({ lead }) {
           {busy === "cancel" ? "…" : "Cancel reminders"}
         </Button>
       </div>
-      {msg && <div className="text-xs text-amber-800">{msg}</div>}
+      {msg && <div className="text-xs text-amber-300">{msg}</div>}
     </div>
   );
 }
@@ -464,7 +464,7 @@ function ViewingReadinessPanel({ lead }) {
   return (
     <div
       className={`rounded-md border p-3 ${
-        r.ready ? "bg-emerald-50 border-emerald-200" : "bg-amber-50 border-amber-200"
+        r.ready ? "bg-emerald-500/10 border-emerald-500/25" : "bg-amber-500/10 border-amber-500/25"
       }`}
     >
       <div className="flex items-center justify-between mb-2">
@@ -473,7 +473,7 @@ function ViewingReadinessPanel({ lead }) {
             ? `Viewing-ready${r.viewingMode === "virtual" ? " (virtual)" : ""}`
             : "Viewing not yet ready"}
         </div>
-        <div className="text-xs text-slate-600">
+        <div className="text-xs text-foreground-variant">
           {r.met}/{r.total}
         </div>
       </div>
@@ -486,12 +486,12 @@ function ViewingReadinessPanel({ lead }) {
                 className={`inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold ${
                   done
                     ? "bg-emerald-500 text-white"
-                    : "bg-slate-200 text-slate-500"
+                    : "bg-white/10 text-foreground-variant"
                 }`}
               >
                 {done ? "✓" : ""}
               </span>
-              <span className={done ? "text-slate-700" : "text-slate-500"}>
+              <span className={done ? "text-foreground" : "text-foreground-variant"}>
                 {req.label}
               </span>
             </li>
@@ -499,7 +499,7 @@ function ViewingReadinessPanel({ lead }) {
         })}
       </ul>
       {!r.ready && (
-        <div className="text-[11px] text-amber-700 mt-2 leading-snug">
+        <div className="text-[11px] text-amber-300 mt-2 leading-snug">
           Viewing cannot proceed until all 5 are checked. Two roles need to be
           covered: <strong>door-opener</strong> (lets the prospect in) and
           <strong> shower</strong> (gives the tour) — the same resident or

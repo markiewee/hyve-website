@@ -140,10 +140,10 @@ export default function NewIssuePage() {
   return (
     <PortalLayout>
       <div className="mb-10">
-        <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511] tracking-tight">
+        <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">
           {phase === "report" ? "Report an Issue" : "Need Help?"}
         </h1>
-        <p className="text-[#57534E] font-['Inter'] font-medium mt-1">
+        <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
           {phase === "select" && "Let's try to fix it first. Select what's wrong."}
           {phase === "diagnose" && "Try these steps before submitting a ticket."}
           {phase === "report" && "The self-help steps didn't resolve it — let us know the details."}
@@ -158,12 +158,12 @@ export default function NewIssuePage() {
               <button
                 key={key}
                 onClick={() => handleSelectCategory(key)}
-                className="bg-white rounded-xl p-5 border border-[#DDD0AD] shadow-sm hover:border-[#A87813]/40 hover:shadow-md transition-all text-center group"
+                className="bg-surface rounded-xl p-5 border border-border hover:border-accent/40 transition-all text-center group"
               >
-                <span className="material-symbols-outlined text-[28px] text-[#A87813] mb-2 block group-hover:scale-110 transition-transform">
+                <span className="material-symbols-outlined text-[28px] text-accent mb-2 block group-hover:scale-110 transition-transform">
                   {diag.icon}
                 </span>
-                <p className="font-['Inter'] font-bold text-xs text-[#181511]">{diag.title}</p>
+                <p className="font-['Inter'] font-bold text-xs text-foreground">{diag.title}</p>
               </button>
             ))}
           </div>
@@ -171,14 +171,14 @@ export default function NewIssuePage() {
 
         {/* Phase 2: Diagnostic Steps */}
         {phase === "diagnose" && diagnostic && (
-          <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm overflow-hidden">
+          <div className="bg-surface rounded-2xl border border-border overflow-hidden">
             {/* Header */}
-            <div className="bg-[#A87813]/5 px-6 py-4 border-b border-[#DDD0AD] flex items-center justify-between">
+            <div className="bg-accent/10 px-6 py-4 border-b border-border flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <span className="material-symbols-outlined text-[#A87813] text-[24px]">{diagnostic.icon}</span>
-                <h2 className="font-['Hanken_Grotesk'] font-bold text-[#181511]">{diagnostic.title}</h2>
+                <span className="material-symbols-outlined text-accent text-[24px]">{diagnostic.icon}</span>
+                <h2 className="font-['Hanken_Grotesk'] font-bold text-foreground">{diagnostic.title}</h2>
               </div>
-              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">
+              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold">
                 Step {currentStep + 1} of {diagnostic.steps.length}
               </span>
             </div>
@@ -190,20 +190,20 @@ export default function NewIssuePage() {
                   <div
                     key={i}
                     className={`h-1.5 flex-1 rounded-full transition-colors ${
-                      i <= currentStep ? "bg-[#A87813]" : "bg-[#EAC25A]"
+                      i <= currentStep ? "bg-accent" : "bg-surface-container"
                     }`}
                   />
                 ))}
               </div>
 
               {/* Current step */}
-              <div className="bg-[#FAF6EC] rounded-xl p-5">
-                <p className="font-['Inter'] text-sm text-[#181511] font-semibold mb-2">
+              <div className="bg-surface-container rounded-xl p-5">
+                <p className="font-['Inter'] text-sm text-foreground font-semibold mb-2">
                   {diagnostic.steps[currentStep].text}
                 </p>
-                <div className="flex items-start gap-2 mt-3 bg-[#A87813]/5 rounded-lg p-3">
-                  <span className="material-symbols-outlined text-[#A87813] text-[18px] shrink-0 mt-0.5">lightbulb</span>
-                  <p className="font-['Inter'] text-xs text-[#A87813]">
+                <div className="flex items-start gap-2 mt-3 bg-accent/10 rounded-lg p-3">
+                  <span className="material-symbols-outlined text-accent text-[18px] shrink-0 mt-0.5">lightbulb</span>
+                  <p className="font-['Inter'] text-xs text-accent">
                     {diagnostic.steps[currentStep].action}
                   </p>
                 </div>
@@ -211,12 +211,12 @@ export default function NewIssuePage() {
 
               {/* Resolved? */}
               {resolved ? (
-                <div className="bg-[#d1fae5] rounded-xl p-5 text-center">
-                  <span className="material-symbols-outlined text-[#065f46] text-[32px] mb-2 block" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                  <p className="font-['Inter'] font-bold text-sm text-[#065f46]">Great, glad that worked!</p>
+                <div className="bg-emerald-500/15 rounded-xl p-5 text-center">
+                  <span className="material-symbols-outlined text-emerald-300 text-[32px] mb-2 block" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                  <p className="font-['Inter'] font-bold text-sm text-emerald-300">Great, glad that worked!</p>
                   <button
                     onClick={() => { setPhase("select"); setSelectedCategory(null); setResolved(false); }}
-                    className="mt-3 text-xs font-['Inter'] font-bold text-[#A87813] hover:underline"
+                    className="mt-3 text-xs font-['Inter'] font-bold text-accent hover:underline"
                   >
                     Back to home
                   </button>
@@ -225,14 +225,14 @@ export default function NewIssuePage() {
                 <div className="flex gap-3">
                   <button
                     onClick={() => setResolved(true)}
-                    className="flex-1 py-3 bg-[#d1fae5] text-[#065f46] rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#bbf7d0] transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 py-3 bg-emerald-500/15 text-emerald-300 rounded-xl font-['Inter'] font-bold text-sm hover:bg-emerald-500/25 transition-colors flex items-center justify-center gap-2"
                   >
                     <span className="material-symbols-outlined text-[18px]">check</span>
                     Fixed!
                   </button>
                   <button
                     onClick={handleNextStep}
-                    className="flex-1 py-3 bg-[#EAC25A] text-[#57534E] rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#F6E6B4] transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 py-3 bg-surface-container text-foreground rounded-xl font-['Inter'] font-bold text-sm hover:bg-white/5 transition-colors flex items-center justify-center gap-2"
                   >
                     {currentStep < diagnostic.steps.length - 1 ? (
                       <>
@@ -253,7 +253,7 @@ export default function NewIssuePage() {
               {!resolved && (
                 <button
                   onClick={() => setPhase("report")}
-                  className="w-full text-center text-xs font-['Inter'] text-[#57534E] hover:text-[#A87813] hover:underline"
+                  className="w-full text-center text-xs font-['Inter'] text-foreground-variant hover:text-accent hover:underline"
                 >
                   Skip self-help — I need to report this now
                 </button>
@@ -267,12 +267,12 @@ export default function NewIssuePage() {
           <div>
             <button
               onClick={() => { setPhase("select"); setSelectedCategory(null); }}
-              className="mb-4 inline-flex items-center gap-1 text-sm font-['Inter'] font-bold text-[#A87813] hover:underline"
+              className="mb-4 inline-flex items-center gap-1 text-sm font-['Inter'] font-bold text-accent hover:underline"
             >
               <span className="material-symbols-outlined text-[16px]">arrow_back</span>
               Back to self-help
             </button>
-            <div className="bg-white rounded-2xl p-8 border border-[#DDD0AD] shadow-sm">
+            <div className="bg-surface rounded-2xl p-8 border border-border">
               <TicketForm preselectedCategory={selectedCategory} />
             </div>
           </div>

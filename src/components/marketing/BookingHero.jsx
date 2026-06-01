@@ -75,7 +75,7 @@ function Select({ label, placeholder, value, options, onChange }) {
         </div>
       </button>
       {open && (
-        <div className="absolute left-0 right-0 top-full mt-2 z-30 overflow-hidden rounded-2xl border border-white/10 bg-neutral-900/95 backdrop-blur-2xl shadow-2xl">
+        <div className="absolute left-0 right-0 top-full mt-2 z-30 overflow-hidden rounded-2xl border border-white/10 bg-neutral-900/95 backdrop-blur-2xl">
           {options.map((o) => (
             <button
               key={o.value || 'any'}

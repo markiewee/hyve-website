@@ -16,7 +16,7 @@ export default function UsageProgressBar({ totalHours, freeHours = 300 }) {
           {hours.toFixed(1)} / {freeHours} free hours
         </span>
         {isOver ? (
-          <span className="text-red-600 font-medium">
+          <span className="text-red-400 font-medium">
             {overBy.toFixed(1)}h over — est. SGD ${estCharge.toFixed(2)}
           </span>
         ) : (
@@ -27,7 +27,7 @@ export default function UsageProgressBar({ totalHours, freeHours = 300 }) {
       </div>
 
       {/* Progress bar */}
-      <div className="relative h-2 w-full overflow-hidden rounded-full bg-gray-200">
+      <div className="relative h-2 w-full overflow-hidden rounded-full bg-surface-container">
         <div
           className={`h-full rounded-full transition-all ${isOver ? "bg-red-500" : "bg-green-500"}`}
           style={{ width: `${progressPct}%` }}

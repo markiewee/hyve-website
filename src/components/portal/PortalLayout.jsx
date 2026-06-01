@@ -103,8 +103,8 @@ function NavLink({ link, location, onClick }) {
       onClick={onClick}
       className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 ${
         isActive
-          ? "bg-white text-[#A87813] font-bold rounded-l-full shadow-sm translate-x-0"
-          : "text-[#57534E] hover:bg-[#EAC25A] hover:translate-x-1"
+          ? "bg-surface-container text-accent font-bold rounded-l-full translate-x-0"
+          : "text-foreground-variant hover:bg-white/5 hover:text-foreground hover:translate-x-1"
       }`}
     >
       <span
@@ -132,8 +132,8 @@ function AdminDropdown({ link, location, onLinkClick }) {
         onClick={() => setOpen((v) => !v)}
         className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 ${
           isChildActive
-            ? "text-[#A87813] font-bold"
-            : "text-[#57534E] hover:bg-[#EAC25A] hover:translate-x-1"
+            ? "text-accent font-bold"
+            : "text-foreground-variant hover:bg-white/5 hover:text-foreground hover:translate-x-1"
         }`}
       >
         <span className="material-symbols-outlined text-[20px] shrink-0">{link.icon}</span>
@@ -143,11 +143,11 @@ function AdminDropdown({ link, location, onLinkClick }) {
         </span>
       </button>
       {open && (
-        <div className="ml-4 space-y-0.5 border-l border-[#DDD0AD] pl-4 mb-1">
+        <div className="ml-4 space-y-0.5 border-l border-border pl-4 mb-1">
           {link.groups
             ? link.groups.map((g) => (
                 <div key={g.label} className="mb-2 last:mb-0">
-                  <div className="px-4 pt-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-[#57534E]/70 font-['Inter']">
+                  <div className="px-4 pt-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-foreground-variant/70 font-['Inter']">
                     {g.label}
                   </div>
                   {g.children.map((child) => (
@@ -172,19 +172,19 @@ function LanguageToggle() {
         onClick={() => setLanguage("en")}
         className={`px-2 py-1 text-xs font-['Inter'] font-bold rounded transition-colors ${
           lang === "en"
-            ? "bg-[#A87813] text-white"
-            : "text-[#57534E] hover:text-[#A87813]"
+            ? "bg-accent text-white"
+            : "text-foreground-variant hover:text-accent"
         }`}
       >
         EN
       </button>
-      <span className="text-[#DDD0AD]">|</span>
+      <span className="text-foreground-variant">|</span>
       <button
         onClick={() => setLanguage("zh")}
         className={`px-2 py-1 text-xs font-['Inter'] font-bold rounded transition-colors ${
           lang === "zh"
-            ? "bg-[#A87813] text-white"
-            : "text-[#57534E] hover:text-[#A87813]"
+            ? "bg-accent text-white"
+            : "text-foreground-variant hover:text-accent"
         }`}
       >
         中文
@@ -202,21 +202,21 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
   const firstName = displayName.split(" ")[0];
 
   return (
-    <aside className="h-screen w-64 fixed left-0 top-0 bg-slate-50 flex flex-col py-8 pl-4 z-40 border-r border-[#DDD0AD]">
+    <aside className="h-screen w-64 fixed left-0 top-0 bg-surface flex flex-col py-8 pl-4 z-40 border-r border-border">
       {/* Logo + user profile */}
       <div className="mb-10 px-4">
         <div className="mb-8">
           <Wordmark size="md" />
         </div>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#F6E6B4] flex items-center justify-center text-[#A87813] font-bold text-sm shrink-0">
+          <div className="w-10 h-10 rounded-full bg-accent/15 flex items-center justify-center text-accent font-bold text-sm shrink-0">
             {firstName.slice(0, 2).toUpperCase()}
           </div>
           <div className="min-w-0">
-            <p className="font-['Inter'] font-bold text-[#181511] text-sm truncate">
+            <p className="font-['Inter'] font-bold text-foreground text-sm truncate">
               {t("nav.welcome", { name: firstName })}
             </p>
-            <p className="font-['Inter'] text-[#57534E] text-xs truncate">
+            <p className="font-['Inter'] text-foreground-variant text-xs truncate">
               {unitCode ? `${unitCode} · ` : ""}{propertyName}
             </p>
           </div>
@@ -247,7 +247,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
         <Link
           to="/portal/issues/new"
           onClick={onLinkClick}
-          className="w-full py-3 px-4 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+          className="w-full py-3 px-4 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
         >
           <span className="material-symbols-outlined text-[18px]">support_agent</span>
           {t("nav.quickSupport")}
@@ -257,7 +257,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
           {onStartTour && (
             <button
               onClick={() => { localStorage.removeItem("lazybee_tour_done"); onStartTour(); }}
-              className="w-full flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#A87813] text-sm transition-colors"
+              className="w-full flex items-center gap-3 px-4 py-2 text-foreground-variant hover:text-accent text-sm transition-colors"
             >
               <span className="material-symbols-outlined text-[18px]">tour</span>
               <span className="font-['Inter']">{t("nav.takeTour")}</span>
@@ -266,14 +266,14 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
           <Link
             to="/portal/help"
             onClick={onLinkClick}
-            className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#A87813] text-sm transition-colors"
+            className="flex items-center gap-3 px-4 py-2 text-foreground-variant hover:text-accent text-sm transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">help</span>
             <span className="font-['Inter']">{t("nav.help")}</span>
           </Link>
           <button
             onClick={signOut}
-            className="w-full flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-red-500 text-sm transition-colors"
+            className="w-full flex items-center gap-3 px-4 py-2 text-foreground-variant hover:text-red-400 text-sm transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">logout</span>
             <span className="font-['Inter']">{t("nav.logout")}</span>
@@ -303,14 +303,14 @@ function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
   const isDropdownChildActive = dropdownChildren.some((c) => location.pathname === c.to);
 
   return (
-    <div className="md:hidden fixed bottom-0 w-full bg-white border-t border-[#DDD0AD] px-6 py-3 flex justify-between items-center z-50">
+    <div className="md:hidden fixed bottom-0 w-full bg-surface border-t border-border px-6 py-3 flex justify-between items-center z-50">
       {visibleLinks.map((link) => {
         const isActive = location.pathname === link.to;
         return (
           <Link
             key={link.to}
             to={link.to}
-            className={`flex flex-col items-center gap-1 ${isActive ? "text-[#A87813]" : "text-[#57534E]"}`}
+            className={`flex flex-col items-center gap-1 ${isActive ? "text-accent" : "text-foreground-variant"}`}
           >
             <span
               className="material-symbols-outlined text-[22px]"
@@ -325,7 +325,7 @@ function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
       {dropdownLink && (
         <button
           onClick={onOpenSidebar}
-          className={`flex flex-col items-center gap-1 ${isDropdownChildActive ? "text-[#A87813]" : "text-[#57534E]"}`}
+          className={`flex flex-col items-center gap-1 ${isDropdownChildActive ? "text-accent" : "text-foreground-variant"}`}
         >
           <span
             className="material-symbols-outlined text-[22px]"
@@ -357,7 +357,7 @@ export default function PortalLayout({ children }) {
   }, [profile]);
 
   return (
-    <div className="min-h-screen bg-[#FAF6EC]">
+    <div className="min-h-screen bg-background">
       {showTour && <PortalTour onComplete={() => setShowTour(false)} />}
       {/* Desktop Sidebar */}
       <div className="hidden md:block">
@@ -373,7 +373,7 @@ export default function PortalLayout({ children }) {
 
       {/* Mobile: hamburger button */}
       <button
-        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-white rounded-xl shadow-sm border border-[#DDD0AD] flex items-center justify-center text-[#A87813]"
+        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-surface rounded-xl border border-border flex items-center justify-center text-accent"
         onClick={() => setSidebarOpen(true)}
         aria-label="Open menu"
       >

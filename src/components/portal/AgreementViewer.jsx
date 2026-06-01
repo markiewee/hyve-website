@@ -104,7 +104,7 @@ function UnsignedView({ onboarding, pdfUrl, advanceStep, refetch, navigate }) {
   return (
     <div className="space-y-6">
       {/* PDF viewer */}
-      <div className="border border-border rounded-md overflow-auto bg-gray-50 max-h-[500px]">
+      <div className="border border-border rounded-md overflow-auto bg-surface-container max-h-[500px]">
         <Document
           file={pdfUrl}
           onLoadSuccess={({ numPages: n }) => setNumPages(n)}
@@ -114,7 +114,7 @@ function UnsignedView({ onboarding, pdfUrl, advanceStep, refetch, navigate }) {
             </div>
           }
           error={
-            <div className="flex items-center justify-center h-40 text-sm text-red-600">
+            <div className="flex items-center justify-center h-40 text-sm text-red-400">
               Failed to load agreement. Please try again.
             </div>
           }
@@ -142,7 +142,7 @@ function UnsignedView({ onboarding, pdfUrl, advanceStep, refetch, navigate }) {
         <SignatureCanvas signatureRef={signatureRef} />
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-400">{error}</p>}
 
       <Button
         type="button"
@@ -184,16 +184,16 @@ function TenantSignedView({ onboarding }) {
   return (
     <div className="space-y-6">
       {/* Success banner */}
-      <div className="rounded-lg border border-green-200 bg-green-50 p-5">
+      <div className="rounded-lg border border-emerald-500/25 bg-emerald-500/10 p-5">
         <div className="flex items-start gap-3">
-          <div className="mt-0.5 flex-shrink-0 w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-            <svg className="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="mt-0.5 flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/15 flex items-center justify-center">
+            <svg className="w-4 h-4 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
           <div>
-            <p className="text-sm font-semibold text-green-800">You've signed the agreement</p>
-            <p className="text-xs text-green-700 mt-0.5">
+            <p className="text-sm font-semibold text-emerald-300">You've signed the agreement</p>
+            <p className="text-xs text-emerald-300 mt-0.5">
               Signed on {formatDateTime(onboarding.ta_signed_at)}
             </p>
           </div>
@@ -273,21 +273,21 @@ function FullyExecutedView({ onboarding }) {
   return (
     <div className="space-y-6">
       {/* Fully executed banner */}
-      <div className="rounded-lg border border-[#A87813]/30 bg-[#A87813]/5 p-5">
+      <div className="rounded-lg border border-accent/30 bg-accent/5 p-5">
         <div className="flex items-start gap-3">
-          <div className="mt-0.5 flex-shrink-0 w-8 h-8 rounded-full bg-[#A87813]/10 flex items-center justify-center">
-            <svg className="w-4 h-4 text-[#A87813]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="mt-0.5 flex-shrink-0 w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center">
+            <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <p className="text-sm font-semibold text-[#A87813]">Agreement fully executed</p>
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#A87813] text-white uppercase tracking-wide">
+              <p className="text-sm font-semibold text-accent">Agreement fully executed</p>
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-accent text-white uppercase tracking-wide">
                 Completed
               </span>
             </div>
-            <p className="text-xs text-[#A87813]/80 mt-0.5">
+            <p className="text-xs text-accent/80 mt-0.5">
               Both parties have signed. Your tenancy agreement is legally binding.
             </p>
           </div>
@@ -302,8 +302,8 @@ function FullyExecutedView({ onboarding }) {
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
-              <span className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                <svg className="w-3 h-3 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <span className="w-5 h-5 rounded-full bg-emerald-500/15 flex items-center justify-center flex-shrink-0">
+                <svg className="w-3 h-3 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                 </svg>
               </span>
@@ -313,8 +313,8 @@ function FullyExecutedView({ onboarding }) {
           </div>
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
-              <span className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                <svg className="w-3 h-3 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <span className="w-5 h-5 rounded-full bg-emerald-500/15 flex items-center justify-center flex-shrink-0">
+                <svg className="w-3 h-3 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                 </svg>
               </span>
@@ -361,9 +361,9 @@ export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
   if (!taPath) {
     return (
       <div className="rounded-md border border-dashed border-border p-8 text-center">
-        <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-amber-50 flex items-center justify-center">
+        <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-amber-500/15 flex items-center justify-center">
           <svg
-            className="w-6 h-6 text-amber-500"
+            className="w-6 h-6 text-amber-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -413,8 +413,8 @@ export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
   if (taPath && !pdfUrl) {
     return (
       <div className="rounded-md border border-dashed border-border p-8 text-center">
-        <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-amber-50 flex items-center justify-center">
-          <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-amber-500/15 flex items-center justify-center">
+          <svg className="w-6 h-6 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>

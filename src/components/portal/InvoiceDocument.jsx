@@ -23,7 +23,7 @@ const STATUS_STYLES = {
   PARTIALLY_PAID: "bg-orange-100 text-orange-800",
   PAID: "bg-green-100 text-green-800",
   VOID: "bg-gray-100 text-gray-500",
-};
+}; // KEPT LIGHT — print document (id="invoice-print"), Exception 1
 
 export default function InvoiceDocument({ invoice }) {
   if (!invoice) return null;

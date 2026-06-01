@@ -173,7 +173,7 @@ const BlogPage = () => {
                       onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-blog.jpg'; }}
                     />
                     <div className="absolute top-6 left-6">
-                      <span className="bg-background/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-display font-bold text-accent shadow-sm uppercase tracking-display">
+                      <span className="bg-background/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-display font-bold text-accent uppercase tracking-display">
                         {featuredPost.category}
                       </span>
                     </div>
@@ -206,7 +206,7 @@ const BlogPage = () => {
                       onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-blog.jpg'; }}
                     />
                     <div className="absolute top-4 left-4">
-                      <span className="bg-background/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-display font-bold text-accent shadow-sm uppercase tracking-display">
+                      <span className="bg-background/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-display font-bold text-accent uppercase tracking-display">
                         {sidebarPost.category}
                       </span>
                     </div>
@@ -236,7 +236,7 @@ const BlogPage = () => {
                       onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-blog.jpg'; }}
                     />
                     <div className="absolute top-4 left-4">
-                      <span className="bg-background/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-display font-bold text-accent shadow-sm uppercase tracking-display">
+                      <span className="bg-background/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-display font-bold text-accent uppercase tracking-display">
                         {post.category}
                       </span>
                     </div>

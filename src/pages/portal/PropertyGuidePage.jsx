@@ -23,23 +23,23 @@ function WiFiCard({ guide }) {
   }
 
   return (
-    <div className="bg-white border border-[#DDD0AD] rounded-2xl p-6 shadow-sm">
+    <div className="bg-surface border border-border rounded-2xl p-6">
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
-          <span className="material-symbols-outlined text-[#A87813] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>wifi</span>
+        <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center shrink-0">
+          <span className="material-symbols-outlined text-accent text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>wifi</span>
         </div>
         <div>
-          <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-[#181511] mb-3">WiFi</h3>
+          <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-foreground mb-3">WiFi</h3>
           <div className="space-y-2">
             <div>
-              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Network</span>
-              <p className="font-['Inter'] text-sm font-semibold text-[#181511]">{network}</p>
+              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Network</span>
+              <p className="font-['Inter'] text-sm font-semibold text-foreground">{network}</p>
             </div>
             <div>
-              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">Password</span>
+              <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Password</span>
               <div className="flex items-center gap-2">
-                <p className="font-['Inter'] text-sm font-semibold text-[#181511] font-mono">{password}</p>
-                <button onClick={copyPassword} className="text-[#A87813] hover:text-[#A87813]">
+                <p className="font-['Inter'] text-sm font-semibold text-foreground font-mono">{password}</p>
+                <button onClick={copyPassword} className="text-accent hover:text-accent">
                   <span className="material-symbols-outlined text-[16px]">{copied ? "check" : "content_copy"}</span>
                 </button>
               </div>
@@ -57,25 +57,25 @@ function FAQCard({ guide }) {
   try { faqs = JSON.parse(guide.content); } catch { return null; }
 
   return (
-    <div className="bg-white border border-[#DDD0AD] rounded-2xl p-6 shadow-sm">
+    <div className="bg-surface border border-border rounded-2xl p-6">
       <div className="flex items-start gap-4 mb-4">
-        <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
-          <span className="material-symbols-outlined text-[#A87813] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>help</span>
+        <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center shrink-0">
+          <span className="material-symbols-outlined text-accent text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>help</span>
         </div>
-        <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-[#181511] pt-2">FAQ</h3>
+        <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-foreground pt-2">FAQ</h3>
       </div>
       <div className="space-y-1 ml-14">
         {faqs.map((faq, idx) => (
-          <div key={idx} className="border-b border-[#DDD0AD] last:border-0">
+          <div key={idx} className="border-b border-border last:border-0">
             <button
               onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
               className="w-full flex items-center justify-between py-3 text-left"
             >
-              <span className="font-['Inter'] text-sm font-semibold text-[#181511]">{faq.question}</span>
-              <span className="material-symbols-outlined text-[16px] text-[#57534E] transition-transform shrink-0 ml-2" style={{ transform: openIndex === idx ? "rotate(180deg)" : "rotate(0)" }}>expand_more</span>
+              <span className="font-['Inter'] text-sm font-semibold text-foreground">{faq.question}</span>
+              <span className="material-symbols-outlined text-[16px] text-foreground-variant transition-transform shrink-0 ml-2" style={{ transform: openIndex === idx ? "rotate(180deg)" : "rotate(0)" }}>expand_more</span>
             </button>
             {openIndex === idx && (
-              <p className="font-['Inter'] text-sm text-[#57534E] pb-3 leading-relaxed">{faq.answer}</p>
+              <p className="font-['Inter'] text-sm text-foreground-variant pb-3 leading-relaxed">{faq.answer}</p>
             )}
           </div>
         ))}
@@ -90,19 +90,19 @@ function SimpleMarkdown({ text }) {
     <div className="space-y-1.5">
       {lines.map((line, i) => {
         if (line.startsWith("## ")) {
-          return <h4 key={i} className="font-['Hanken_Grotesk'] font-bold text-[#181511] text-sm mt-2 mb-1">{line.slice(3)}</h4>;
+          return <h4 key={i} className="font-['Hanken_Grotesk'] font-bold text-foreground text-sm mt-2 mb-1">{line.slice(3)}</h4>;
         }
         if (line.startsWith("# ")) {
-          return <h3 key={i} className="font-['Hanken_Grotesk'] font-bold text-[#181511] text-base mt-2 mb-1">{line.slice(2)}</h3>;
+          return <h3 key={i} className="font-['Hanken_Grotesk'] font-bold text-foreground text-base mt-2 mb-1">{line.slice(2)}</h3>;
         }
         if (line.trim() === "") return <div key={i} className="h-1" />;
         // Bold: **text**
         const parts = line.split(/(\*\*[^*]+\*\*)/g);
         return (
-          <p key={i} className="font-['Inter'] text-sm text-[#57534E] leading-relaxed">
+          <p key={i} className="font-['Inter'] text-sm text-foreground-variant leading-relaxed">
             {parts.map((part, j) =>
               part.startsWith("**") && part.endsWith("**")
-                ? <strong key={j} className="font-semibold text-[#181511]">{part.slice(2, -2)}</strong>
+                ? <strong key={j} className="font-semibold text-foreground">{part.slice(2, -2)}</strong>
                 : part
             )}
           </p>
@@ -114,13 +114,13 @@ function SimpleMarkdown({ text }) {
 
 function GuideCard({ guide }) {
   return (
-    <div className="bg-white border border-[#DDD0AD] rounded-2xl p-6 shadow-sm">
+    <div className="bg-surface border border-border rounded-2xl p-6">
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
-          <span className="material-symbols-outlined text-[#A87813] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>{guide.icon}</span>
+        <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center shrink-0">
+          <span className="material-symbols-outlined text-accent text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>{guide.icon}</span>
         </div>
         <div className="min-w-0">
-          <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-[#181511] mb-2">{guide.title}</h3>
+          <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-foreground mb-2">{guide.title}</h3>
           <SimpleMarkdown text={guide.content} />
         </div>
       </div>
@@ -151,18 +151,18 @@ function HouseCaptainCard({ propertyId }) {
   const phone = captain.tenant_details?.[0]?.phone ?? captain.tenant_details?.phone ?? "";
 
   return (
-    <div className="bg-white border border-[#DDD0AD] rounded-2xl p-6 shadow-sm">
+    <div className="bg-surface border border-border rounded-2xl p-6">
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
-          <span className="material-symbols-outlined text-[#A87813] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>person</span>
+        <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center shrink-0">
+          <span className="material-symbols-outlined text-accent text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>person</span>
         </div>
         <div>
-          <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-[#181511] mb-1">House Captain</h3>
-          <p className="font-['Inter'] text-sm font-semibold text-[#181511]">{name}</p>
+          <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-foreground mb-1">House Captain</h3>
+          <p className="font-['Inter'] text-sm font-semibold text-foreground">{name}</p>
           {phone && (
-            <a href={`https://wa.me/${phone.replace(/[^0-9]/g, "")}`} className="font-['Inter'] text-sm text-[#A87813] hover:underline">{phone}</a>
+            <a href={`https://wa.me/${phone.replace(/[^0-9]/g, "")}`} className="font-['Inter'] text-sm text-accent hover:underline">{phone}</a>
           )}
-          <p className="font-['Inter'] text-xs text-[#57534E] mt-1">Your first point of contact for day-to-day questions at the apartment.</p>
+          <p className="font-['Inter'] text-xs text-foreground-variant mt-1">Your first point of contact for day-to-day questions at the apartment.</p>
         </div>
       </div>
     </div>
@@ -204,22 +204,22 @@ function HouseRulesCard({ propertyId }) {
   if (!rules) return null;
 
   return (
-    <div className="bg-white border border-[#DDD0AD] rounded-2xl p-6 shadow-sm">
+    <div className="bg-surface border border-border rounded-2xl p-6">
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
-          <span className="material-symbols-outlined text-[#A87813] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>gavel</span>
+        <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center shrink-0">
+          <span className="material-symbols-outlined text-accent text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>gavel</span>
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-[#181511]">House Rules</h3>
-            <button onClick={() => setExpanded(!expanded)} className="text-[#A87813] font-['Inter'] text-xs font-semibold hover:underline">
+            <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-foreground">House Rules</h3>
+            <button onClick={() => setExpanded(!expanded)} className="text-accent font-['Inter'] text-xs font-semibold hover:underline">
               {expanded ? "Collapse" : "View All"}
             </button>
           </div>
           {expanded ? (
-            <div className="font-['Inter'] text-sm text-[#57534E] whitespace-pre-wrap leading-relaxed max-h-[400px] overflow-y-auto">{rules.content}</div>
+            <div className="font-['Inter'] text-sm text-foreground-variant whitespace-pre-wrap leading-relaxed max-h-[400px] overflow-y-auto">{rules.content}</div>
           ) : (
-            <p className="font-['Inter'] text-sm text-[#57534E]">
+            <p className="font-['Inter'] text-sm text-foreground-variant">
               {rules.title ?? "Community guidelines for shared living"}
             </p>
           )}
@@ -245,10 +245,10 @@ export default function PropertyGuidePage() {
     <PortalLayout>
       <div className="max-w-4xl">
         <div className="mb-8">
-          <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511] tracking-tight">
+          <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">
             My Property
           </h1>
-          <p className="font-['Inter'] text-[#57534E] font-medium mt-1">
+          <p className="font-['Inter'] text-foreground-variant font-medium mt-1">
             Everything you need to know about living at {propertyName}
           </p>
         </div>
@@ -256,7 +256,7 @@ export default function PropertyGuidePage() {
         {loading ? (
           <div className="space-y-4">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-24 bg-gray-100 animate-pulse rounded-2xl" />
+              <div key={i} className="h-24 bg-surface-container animate-pulse rounded-2xl" />
             ))}
           </div>
         ) : (
@@ -269,19 +269,19 @@ export default function PropertyGuidePage() {
             <HouseRulesCard propertyId={propertyId} />
             {faq && <FAQCard guide={faq} />}
 
-            <div className="bg-[#EAC25A] border border-[#DDD0AD] rounded-2xl p-6">
+            <div className="bg-accent/10 border border-accent/25 rounded-2xl p-6">
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-[#A87813] text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>support</span>
+                <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-accent text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>support</span>
                 </div>
                 <div>
-                  <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-[#181511] mb-1">Contact Lazybee</h3>
-                  <p className="font-['Inter'] text-xs text-[#57534E] mb-2">Checked the FAQ and submitted a ticket first?</p>
+                  <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-foreground mb-1">Contact Lazybee</h3>
+                  <p className="font-['Inter'] text-xs text-foreground-variant mb-2">Checked the FAQ and submitted a ticket first?</p>
                   <a
                     href="https://wa.me/6580695410"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 font-['Inter'] text-sm font-semibold text-[#A87813] hover:underline"
+                    className="inline-flex items-center gap-2 font-['Inter'] text-sm font-semibold text-accent hover:underline"
                   >
                     <span className="material-symbols-outlined text-[16px]">chat</span>
                     WhatsApp +65 8069 5410

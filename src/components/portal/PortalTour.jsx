@@ -105,13 +105,13 @@ export default function PortalTour({ onComplete }) {
       {/* Highlight cutout */}
       {highlightRect && (
         <div
-          className="absolute border-2 border-[#D9A441] rounded-lg z-[101] pointer-events-none transition-all duration-300"
+          className="absolute border-2 border-accent rounded-lg z-[101] pointer-events-none transition-all duration-300"
           style={{
             top: highlightRect.top,
             left: highlightRect.left,
             width: highlightRect.width,
             height: highlightRect.height,
-            boxShadow: "0 0 0 9999px rgba(0,0,0,0.5), 0 0 20px rgba(113,248,228,0.4)",
+            boxShadow: "0 0 0 9999px rgba(0,0,0,0.6), 0 0 20px rgba(196,122,53,0.4)",
           }}
         />
       )}
@@ -132,14 +132,14 @@ export default function PortalTour({ onComplete }) {
             : undefined
         }
       >
-        <div className="bg-white rounded-2xl shadow-2xl p-6 w-[340px] max-w-[90vw]">
+        <div className="bg-surface border border-border rounded-2xl p-6 w-[340px] max-w-[90vw]">
           {/* Step indicator */}
           <div className="flex items-center gap-1.5 mb-4">
             {TOUR_STEPS.map((_, i) => (
               <div
                 key={i}
                 className={`h-1 flex-1 rounded-full transition-colors ${
-                  i <= step ? "bg-[#A87813]" : "bg-[#EAC25A]"
+                  i <= step ? "bg-accent" : "bg-white/10"
                 }`}
               />
             ))}
@@ -147,16 +147,16 @@ export default function PortalTour({ onComplete }) {
 
           {/* Icon + Content */}
           <div className="flex items-start gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-[#A87813] text-[22px]">
+            <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-accent text-[22px]">
                 {currentStep.icon}
               </span>
             </div>
             <div>
-              <h3 className="font-['Hanken_Grotesk'] font-bold text-[#181511] text-base">
+              <h3 className="font-display font-bold text-foreground text-base">
                 {currentStep.title}
               </h3>
-              <p className="font-['Inter'] text-sm text-[#57534E] mt-1 leading-relaxed">
+              <p className="font-['Inter'] text-sm text-foreground-variant mt-1 leading-relaxed">
                 {currentStep.text}
               </p>
             </div>
@@ -166,13 +166,13 @@ export default function PortalTour({ onComplete }) {
           <div className="flex items-center justify-between">
             <button
               onClick={handleSkip}
-              className="text-xs font-['Inter'] text-[#57534E] hover:text-[#181511] transition-colors"
+              className="text-xs font-['Inter'] text-foreground-variant hover:text-foreground transition-colors"
             >
               Skip tour
             </button>
             <button
               onClick={handleNext}
-              className="px-5 py-2 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#A87813] transition-colors flex items-center gap-1.5"
+              className="px-5 py-2 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 transition-opacity flex items-center gap-1.5"
             >
               {step < TOUR_STEPS.length - 1 ? (
                 <>
