@@ -1004,7 +1004,7 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
             <button
               onClick={saveNotes}
               disabled={saving}
-              className="mt-2 px-4 py-2 bg-accent text-white rounded-lg font-bold text-xs hover:bg-accent/90 disabled:opacity-50 transition-colors"
+              className="mt-2 px-4 py-2 bg-accent text-white rounded-full font-bold text-xs hover:bg-accent/90 disabled:opacity-50 transition-colors"
             >
               {saving ? "Saving…" : "Save notes"}
             </button>

@@ -185,7 +185,7 @@ export default function BillingPage() {
                 {payment.status === "PAID" && (
                   <button
                     onClick={() => setReceiptPayment({ ...payment, _type: "rent" })}
-                    className="ml-4 shrink-0 px-3 py-1 text-xs font-medium text-accent bg-accent/10 rounded-lg hover:bg-accent/20 whitespace-nowrap"
+                    className="ml-4 shrink-0 px-3 py-1 text-xs font-medium text-accent bg-accent/10 rounded-full hover:bg-accent/20 whitespace-nowrap"
                   >
                     Receipt
                   </button>
@@ -304,7 +304,7 @@ export default function BillingPage() {
                       <>
                         <button
                           onClick={() => setReceiptPayment({ ...charge, _type: "charge", _mode: "invoice" })}
-                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-accent/15 text-accent text-xs font-['Inter'] font-bold hover:bg-accent/25"
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-accent/15 text-accent text-xs font-['Inter'] font-bold hover:bg-accent/25"
                         >
                           <span className="material-symbols-outlined text-[14px]">receipt</span>
                           Invoice
@@ -323,7 +323,7 @@ export default function BillingPage() {
                               else alert(body.error || "Payment failed");
                             } catch { alert("Payment failed"); }
                           }}
-                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-accent text-white text-xs font-['Inter'] font-bold hover:opacity-90"
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-accent text-white text-xs font-['Inter'] font-bold hover:opacity-90"
                         >
                           <span className="material-symbols-outlined text-[14px]">credit_card</span>
                           Pay
@@ -333,7 +333,7 @@ export default function BillingPage() {
                     {isPaid && (
                       <button
                         onClick={() => setReceiptPayment({ ...charge, _type: "charge" })}
-                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-accent/15 text-accent text-xs font-['Inter'] font-bold hover:bg-accent/25"
+                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-accent/15 text-accent text-xs font-['Inter'] font-bold hover:bg-accent/25"
                       >
                         <span className="material-symbols-outlined text-[14px]">receipt</span>
                         Receipt

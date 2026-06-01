@@ -610,7 +610,7 @@ export default function AdminRentPage() {
           <button
             onClick={handleGenerateThisMonth}
             disabled={generating}
-            className="px-6 py-3 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+            className="px-6 py-3 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
           >
             <span className="material-symbols-outlined text-[18px]">receipt_long</span>
             {generating ? "Generating…" : "Generate This Month"}
@@ -721,7 +721,7 @@ export default function AdminRentPage() {
                             <button
                               onClick={() => openPaymentForm(p)}
                               disabled={isActionLoading}
-                              className="text-xs px-3 py-1.5 rounded-lg bg-accent text-white hover:opacity-90 disabled:opacity-50 transition-all font-['Inter'] font-bold whitespace-nowrap"
+                              className="text-xs px-3 py-1.5 rounded-full bg-accent text-white hover:opacity-90 disabled:opacity-50 transition-all font-['Inter'] font-bold whitespace-nowrap"
                             >
                               {isActionLoading ? "…" : "Mark Paid"}
                             </button>
@@ -777,7 +777,7 @@ export default function AdminRentPage() {
                             <button
                               onClick={() => handleConfirmPayment(p)}
                               disabled={isActionLoading}
-                              className="px-4 py-2 rounded-lg bg-accent text-white text-sm font-['Inter'] font-bold hover:opacity-90 disabled:opacity-50"
+                              className="px-4 py-2 rounded-full bg-accent text-white text-sm font-['Inter'] font-bold hover:opacity-90 disabled:opacity-50"
                             >
                               {isActionLoading ? "Saving…" : "Confirm Payment"}
                             </button>
@@ -856,7 +856,7 @@ export default function AdminRentPage() {
               </button>
             )}
             <button onClick={handleFetchAspire} disabled={aspireLoading || !aspireAccountId}
-              className="px-5 py-2.5 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0">
+              className="px-5 py-2.5 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0">
               <span className="material-symbols-outlined text-[18px]">account_balance</span>
               {aspireLoading ? "Fetching…" : "Fetch Aspire"}
             </button>
@@ -1056,7 +1056,7 @@ export default function AdminRentPage() {
               <button
                 onClick={handleCreateCharge}
                 disabled={chargeSaving}
-                className="px-6 py-2.5 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+                className="px-6 py-2.5 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">add_circle</span>
                 {chargeSaving ? "Creating..." : "Create Charge"}
@@ -1136,7 +1136,7 @@ export default function AdminRentPage() {
                           <button
                             onClick={() => handleMarkChargePaid(c.id)}
                             disabled={isLoading}
-                            className="text-xs px-3 py-1.5 rounded-lg bg-accent text-white hover:opacity-90 disabled:opacity-50 transition-all font-['Inter'] font-bold whitespace-nowrap"
+                            className="text-xs px-3 py-1.5 rounded-full bg-accent text-white hover:opacity-90 disabled:opacity-50 transition-all font-['Inter'] font-bold whitespace-nowrap"
                           >
                             {isLoading ? "..." : "Mark Paid"}
                           </button>

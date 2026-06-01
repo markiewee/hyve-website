@@ -201,7 +201,7 @@ export default function AdminDevicesPage() {
               setAssigning(false);
             }}
             disabled={!assignRoom || assigning}
-            className="px-6 py-3 bg-accent text-white rounded-xl font-body font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all shrink-0 flex items-center gap-2"
+            className="px-6 py-3 bg-accent text-white rounded-full font-body font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all shrink-0 flex items-center gap-2"
           >
             <span className="material-symbols-outlined text-[18px]">sensors</span>
             {assigning ? "Registering..." : "Register"}

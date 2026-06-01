@@ -190,7 +190,7 @@ export default function DashboardPage() {
             </div>
             <Link
               to="/portal/billing"
-              className="bg-accent text-white px-8 py-4 rounded-xl font-['Inter'] font-bold text-base hover:opacity-90 transition-all inline-flex items-center gap-2"
+              className="bg-accent text-white px-8 py-4 rounded-full font-['Inter'] font-bold text-base hover:opacity-90 transition-all inline-flex items-center gap-2"
             >
               {t("dashboard.viewBilling")}
               <span className="material-symbols-outlined text-[20px]">arrow_forward</span>

@@ -284,7 +284,7 @@ export default function AdminDashboardPage() {
               <button
                 type="button"
                 onClick={() => { setShowSigEditor((v) => !v); setSigMessage(null); }}
-                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white/5 text-accent hover:bg-accent hover:text-white transition-colors"
+                className="px-3 py-1.5 text-xs font-semibold rounded-full bg-white/5 text-accent hover:bg-accent hover:text-white transition-colors"
               >
                 {showSigEditor ? "Cancel" : profile.saved_signature ? "Update Signature" : "Add Signature"}
               </button>
@@ -310,7 +310,7 @@ export default function AdminDashboardPage() {
                 type="button"
                 onClick={handleSaveSignature}
                 disabled={sigSaving}
-                className="px-4 py-2 text-sm font-semibold rounded-lg bg-accent text-white hover:bg-accent transition-colors disabled:opacity-50"
+                className="px-4 py-2 text-sm font-semibold rounded-full bg-accent text-white hover:bg-accent transition-colors disabled:opacity-50"
               >
                 {sigSaving ? "Saving…" : "Save Signature"}
               </button>

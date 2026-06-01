@@ -93,7 +93,7 @@ export default function DocumentsList({ documents }) {
                 <button
                   onClick={async () => { setLoadingId(doc.id); await openSignedUrl(doc.file_url); setLoadingId(null); }}
                   disabled={loadingId === doc.id}
-                  className="w-full inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg bg-accent/10 text-accent text-xs font-bold hover:bg-accent/20 transition-colors disabled:opacity-50"
+                  className="w-full inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-full bg-accent/10 text-accent text-xs font-bold hover:bg-accent/20 transition-colors disabled:opacity-50"
                 >
                   <span className="material-symbols-outlined text-[14px]">open_in_new</span>
                   {loadingId === doc.id ? "Opening..." : "View Document"}

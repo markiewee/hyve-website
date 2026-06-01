@@ -325,7 +325,7 @@ export default function MoveInInstructions({ advanceStep }) {
         <button
           type="button"
           onClick={() => advanceStep(null)}
-          className="inline-flex items-center gap-2 bg-accent text-white rounded-xl px-7 py-3 font-display font-bold text-sm hover:opacity-90 transition-colors"
+          className="inline-flex items-center gap-2 bg-accent text-white rounded-full px-7 py-3 font-display font-bold text-sm hover:opacity-90 transition-colors"
         >
           Continue
           <span className="material-symbols-outlined text-[18px]">arrow_forward</span>

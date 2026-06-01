@@ -24,7 +24,7 @@ export default function IssuesPage() {
         </div>
         <Link
           to="/portal/issues/new"
-          className="bg-accent text-white px-6 py-3 rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2"
+          className="bg-accent text-white px-6 py-3 rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2"
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
           Report Issue
@@ -60,7 +60,7 @@ export default function IssuesPage() {
           </p>
           <Link
             to="/portal/issues/new"
-            className="bg-accent text-white px-6 py-3 rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2"
+            className="bg-accent text-white px-6 py-3 rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Report your first issue

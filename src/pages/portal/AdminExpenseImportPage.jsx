@@ -1030,7 +1030,7 @@ export default function AdminExpenseImportPage() {
               <button
                 onClick={handleFetchAspire}
                 disabled={fetching || !selectedAccount}
-                className="px-5 py-2.5 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+                className="px-5 py-2.5 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
               >
                 <span className="material-symbols-outlined text-[18px]">account_balance</span>
                 {fetching ? "Fetching..." : "Fetch Aspire"}
@@ -1039,7 +1039,7 @@ export default function AdminExpenseImportPage() {
                 <button
                   onClick={handleResume}
                   disabled={resumeLoading}
-                  className="px-5 py-2.5 bg-transparent text-accent border-2 border-accent rounded-xl font-['Inter'] font-bold text-sm hover:bg-accent/10 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+                  className="px-5 py-2.5 bg-transparent text-accent border-2 border-accent rounded-full font-['Inter'] font-bold text-sm hover:bg-accent/10 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
                 >
                   <span className="material-symbols-outlined text-[18px]">history</span>
                   {resumeLoading ? "Loading..." : "Resume Progress"}
@@ -1058,7 +1058,7 @@ export default function AdminExpenseImportPage() {
               <button
                 onClick={handleGeneratePnl}
                 disabled={pnlLoading}
-                className="px-5 py-2.5 bg-transparent text-accent border-2 border-accent rounded-xl font-['Inter'] font-bold text-sm hover:bg-accent/10 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+                className="px-5 py-2.5 bg-transparent text-accent border-2 border-accent rounded-full font-['Inter'] font-bold text-sm hover:bg-accent/10 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
               >
                 <span className="material-symbols-outlined text-[18px]">assessment</span>
                 {pnlLoading ? "Generating..." : "Generate P&L"}
@@ -1231,7 +1231,7 @@ export default function AdminExpenseImportPage() {
                                     disabled={
                                       isSaving || !edit.property_id || !edit.category
                                     }
-                                    className="px-3 py-1.5 bg-accent text-white text-xs font-bold rounded-lg hover:opacity-90 disabled:opacity-50 flex items-center gap-1"
+                                    className="px-3 py-1.5 bg-accent text-white text-xs font-bold rounded-full hover:opacity-90 disabled:opacity-50 flex items-center gap-1"
                                   >
                                     {isSaving ? (
                                       <span className="material-symbols-outlined text-[14px] animate-spin">
@@ -1370,7 +1370,7 @@ export default function AdminExpenseImportPage() {
             <button
               onClick={handleGeneratePnl}
               disabled={pnlLoading}
-              className="px-5 py-2.5 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+              className="px-5 py-2.5 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
             >
               <span className="material-symbols-outlined text-[18px]">assessment</span>
               {pnlLoading ? "Generating..." : "Generate P&L Report"}
@@ -1462,7 +1462,7 @@ export default function AdminExpenseImportPage() {
               <button
                 onClick={handleFinalizeMonth}
                 disabled={finalizing}
-                className="px-5 py-2.5 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+                className="px-5 py-2.5 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
               >
                 <span className="material-symbols-outlined text-[18px]">lock</span>
                 {finalizing ? "Finalizing..." : "Finalize Month"}

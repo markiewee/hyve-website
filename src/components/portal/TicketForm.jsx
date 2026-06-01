@@ -275,7 +275,7 @@ export default function TicketForm({ preselectedCategory = null }) {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+        className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
       >
         {submitting ? "Submitting…" : "Submit Issue"}
       </button>

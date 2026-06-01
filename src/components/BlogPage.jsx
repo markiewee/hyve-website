@@ -153,7 +153,7 @@ const BlogPage = () => {
             <p className="text-foreground-variant mb-4">Try adjusting your search or filters.</p>
             <button
               onClick={() => { setSearchTerm(''); setSelectedCategory('all'); }}
-              className="bg-accent text-background px-6 py-3 rounded-xl font-display font-bold hover:opacity-90 transition-all"
+              className="bg-accent text-background px-6 py-3 rounded-full font-display font-bold hover:opacity-90 transition-all"
             >
               Clear All Filters
             </button>

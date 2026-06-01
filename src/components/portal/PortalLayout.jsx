@@ -247,7 +247,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
         <Link
           to="/portal/issues/new"
           onClick={onLinkClick}
-          className="w-full py-3 px-4 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+          className="w-full py-3 px-4 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
         >
           <span className="material-symbols-outlined text-[18px]">support_agent</span>
           {t("nav.quickSupport")}

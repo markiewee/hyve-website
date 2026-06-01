@@ -172,7 +172,7 @@ export default function PortalTour({ onComplete }) {
             </button>
             <button
               onClick={handleNext}
-              className="px-5 py-2 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 transition-opacity flex items-center gap-1.5"
+              className="px-5 py-2 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 transition-opacity flex items-center gap-1.5"
             >
               {step < TOUR_STEPS.length - 1 ? (
                 <>

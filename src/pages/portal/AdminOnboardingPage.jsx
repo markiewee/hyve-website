@@ -357,7 +357,7 @@ export default function AdminOnboardingPage() {
         </div>
         <button
           onClick={() => { setShowInvite(true); setInviteResult(null); setInviteUsername(""); setWizardStep(1); setWizardErrors({}); }}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-accent/90 transition-colors shrink-0"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:bg-accent/90 transition-colors shrink-0"
         >
           <span className="material-symbols-outlined text-[18px]">person_add</span>
           New Member

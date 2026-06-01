@@ -112,7 +112,7 @@ function InvalidState() {
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
             href="mailto:admin@lazybee.sg"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent text-white rounded-xl text-sm font-bold hover:scale-[1.02] active:scale-95 transition-all"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent text-white rounded-full text-sm font-bold hover:scale-[1.02] active:scale-95 transition-all"
           >
             <span
               className="material-symbols-outlined text-sm"
@@ -163,7 +163,7 @@ function ExpiredState() {
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
             href="mailto:admin@lazybee.sg"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent text-white rounded-xl text-sm font-bold hover:scale-[1.02] active:scale-95 transition-all"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent text-white rounded-full text-sm font-bold hover:scale-[1.02] active:scale-95 transition-all"
           >
             <span
               className="material-symbols-outlined text-sm"
@@ -662,7 +662,7 @@ export default function ViewingPollPage() {
           <button
             onClick={handleSubmit}
             disabled={selectedSlots.length === 0 || submitting}
-            className="bg-accent text-white font-bold px-8 py-3.5 rounded-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100"
+            className="bg-accent text-white font-bold px-8 py-3.5 rounded-full hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100"
           >
             {submitting ? (
               <>

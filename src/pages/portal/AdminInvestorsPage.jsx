@@ -761,7 +761,7 @@ export default function AdminInvestorsPage() {
                             <button
                               onClick={() => handleAddInvestment(inv.id)}
                               disabled={!form.propertyId || !form.capital}
-                              className="px-5 py-3 bg-accent text-white rounded-xl font-body font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all shrink-0"
+                              className="px-5 py-3 bg-accent text-white rounded-full font-body font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all shrink-0"
                             >
                               Add
                             </button>
@@ -808,7 +808,7 @@ export default function AdminInvestorsPage() {
           <button
             onClick={handleCalculateDistributions}
             disabled={calculating}
-            className="px-6 py-3 bg-accent text-white rounded-xl font-body font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+            className="px-6 py-3 bg-accent text-white rounded-full font-body font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
           >
             <span className="material-symbols-outlined text-[18px]">sync</span>
             {calculating ? "Calculating..." : "Calculate Distributions"}
@@ -836,7 +836,7 @@ export default function AdminInvestorsPage() {
             <button
               onClick={handleApproveAll}
               disabled={approvingAll}
-              className="px-4 py-2 bg-accent text-white rounded-xl font-body font-bold text-xs hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-1.5"
+              className="px-4 py-2 bg-accent text-white rounded-full font-body font-bold text-xs hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-1.5"
             >
               <span className="material-symbols-outlined text-[16px]">done_all</span>
               {approvingAll ? "Approving..." : "Approve All"}
@@ -1078,7 +1078,7 @@ export default function AdminInvestorsPage() {
                     type="file"
                     accept=".pdf"
                     onChange={(e) => setReportFile(e.target.files?.[0] ?? null)}
-                    className="w-full bg-white/5 border-0 rounded-xl px-4 py-3 font-body text-foreground text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-accent file:text-white file:font-semibold file:text-xs"
+                    className="w-full bg-white/5 border-0 rounded-full px-4 py-3 font-body text-foreground text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-accent file:text-white file:font-semibold file:text-xs"
                   />
                 </div>
 

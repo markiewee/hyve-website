@@ -233,7 +233,7 @@ export default function AdminInvoicesPage() {
               <button
                 onClick={handleMarkPaid}
                 disabled={payProcessing || !payAmount}
-                className="px-4 py-2 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50"
+                className="px-4 py-2 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50"
               >
                 {payProcessing ? "Processing..." : "Confirm Payment"}
               </button>

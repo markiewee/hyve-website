@@ -214,7 +214,7 @@ export default function MemberSettingsPage() {
             <button
               type="submit"
               disabled={saving}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-accent/90 disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:bg-accent/90 disabled:opacity-50"
             >
               {saving ? "Saving..." : "Save Changes"}
             </button>
@@ -251,7 +251,7 @@ export default function MemberSettingsPage() {
             <button
               type="submit"
               disabled={emailSaving}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-accent/90 disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:bg-accent/90 disabled:opacity-50"
             >
               {emailSaving ? "Sending..." : isPlaceholderEmail ? "Set Email" : "Update Email"}
             </button>
@@ -299,7 +299,7 @@ export default function MemberSettingsPage() {
             <button
               type="submit"
               disabled={pwSaving || !currentPassword || !newPassword}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-accent/90 disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:bg-accent/90 disabled:opacity-50"
             >
               {pwSaving ? "Updating..." : "Change Password"}
             </button>

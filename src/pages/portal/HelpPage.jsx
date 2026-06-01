@@ -286,7 +286,7 @@ export default function HelpPage() {
             href="https://wa.me/6580695410"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 transition-all"
+            className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 transition-all"
           >
             <span className="material-symbols-outlined text-[18px]">chat</span>
             WhatsApp +65 8069 5410

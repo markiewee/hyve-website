@@ -73,7 +73,7 @@ export default function InvoiceDetailPage() {
               <button
                 onClick={handleStripePayment}
                 disabled={paying}
-                className="px-4 py-2 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+                className="px-4 py-2 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">credit_card</span>
                 {paying ? "Redirecting..." : `Pay with Stripe (+4%)`}

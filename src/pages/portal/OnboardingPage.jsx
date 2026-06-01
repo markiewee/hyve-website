@@ -183,7 +183,7 @@ function StepContent({ currentStep, onboarding, advanceStep, updateOnboarding, r
           <div className="text-center">
             <Link
               to="/portal/dashboard"
-              className="inline-flex items-center gap-2 bg-accent text-white rounded-xl px-8 py-4 font-['Inter'] font-bold text-base hover:opacity-90 transition-colors"
+              className="inline-flex items-center gap-2 bg-accent text-white rounded-full px-8 py-4 font-['Inter'] font-bold text-base hover:opacity-90 transition-colors"
             >
               <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
               Go to My Dashboard

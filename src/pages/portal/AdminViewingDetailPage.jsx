@@ -419,7 +419,7 @@ export default function AdminViewingDetailPage() {
                   Cancel
                 </button>
                 <button onClick={handleForceBook} disabled={forceSlots.length === 0}
-                  className="px-6 py-2.5 rounded-xl font-['Inter'] font-bold text-sm text-white bg-accent hover:opacity-90 active:scale-95 transition-all disabled:opacity-40">
+                  className="px-6 py-2.5 rounded-full font-['Inter'] font-bold text-sm text-white bg-accent hover:opacity-90 active:scale-95 transition-all disabled:opacity-40">
                   Confirm Slot
                 </button>
               </div>
@@ -462,7 +462,7 @@ export default function AdminViewingDetailPage() {
               Cancel
             </button>
             <button onClick={() => setShowForceBook(true)}
-              className="bg-accent text-white font-bold px-6 py-2.5 rounded-lg text-sm font-['Inter'] hover:opacity-90 active:scale-95 transition-all flex items-center gap-2">
+              className="bg-accent text-white font-bold px-6 py-2.5 rounded-full text-sm font-['Inter'] hover:opacity-90 active:scale-95 transition-all flex items-center gap-2">
               <span className="material-symbols-outlined text-lg">verified</span>
               Force Book
             </button>

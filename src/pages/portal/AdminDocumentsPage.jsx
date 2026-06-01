@@ -331,7 +331,7 @@ export default function AdminDocumentsPage() {
           <p className="text-foreground-variant font-['Inter'] font-medium mt-1">Upload PDF templates, place signature boxes, and send to members.</p>
         </div>
         <div className="flex gap-2 flex-wrap">
-          <button onClick={() => setShowGenerate(true)} className="inline-flex items-center gap-2 px-4 py-2.5 bg-accent text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-accent">
+          <button onClick={() => setShowGenerate(true)} className="inline-flex items-center gap-2 px-4 py-2.5 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:bg-accent">
             <span className="material-symbols-outlined text-[18px]">description</span>
             Generate Agreement
           </button>
@@ -457,7 +457,7 @@ export default function AdminDocumentsPage() {
                   Create your document in Word or Pages, export as PDF, then upload here.
                 </p>
                 <input type="file" accept="application/pdf" onChange={handleEditorPdfSelect}
-                  className="w-full text-sm text-foreground-variant file:mr-3 file:px-4 file:py-2 file:rounded-xl file:border-0 file:bg-accent file:text-white file:text-xs file:font-bold file:cursor-pointer" />
+                  className="w-full text-sm text-foreground-variant file:mr-3 file:px-4 file:py-2 file:rounded-full file:border-0 file:bg-accent file:text-white file:text-xs file:font-bold file:cursor-pointer" />
               </div>
 
               {/* Place text fields + signatures on PDF */}

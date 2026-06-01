@@ -289,7 +289,7 @@ function AvailabilitySection({ viewing, onConfirmed }) {
         <button
           onClick={handleSubmit}
           disabled={selectedSlots.length === 0 || submitting}
-          className="bg-accent text-white px-5 py-2.5 rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-40 transition-all flex items-center gap-2"
+          className="bg-accent text-white px-5 py-2.5 rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-40 transition-all flex items-center gap-2"
         >
           {submitting ? (
             <>
@@ -347,7 +347,7 @@ function IncomingCard({ viewing, onConfirmed }) {
         </div>
         <button
           onClick={() => setExpanded((v) => !v)}
-          className="w-full md:w-auto px-5 py-2.5 bg-accent text-white font-['Inter'] font-bold text-sm rounded-xl hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2"
+          className="w-full md:w-auto px-5 py-2.5 bg-accent text-white font-['Inter'] font-bold text-sm rounded-full hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2"
         >
           <span className="material-symbols-outlined text-[16px]">
             {expanded ? "expand_less" : "event_available"}
