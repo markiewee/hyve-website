@@ -35,7 +35,7 @@ function FunnelNode(props) {
   const labelX = isLeft ? x + width + 8 : isRight ? x - 8 : x + width / 2;
   const labelY = isPool ? y + height + 14 : y + height / 2;
   const anchor = isLeft ? "start" : isRight ? "end" : "middle";
-  const labelFill = isPool || isRight ? "#1F2937" : "#1F2937";
+  const labelFill = isPool || isRight ? "#181511" : "#181511";
   const subFill = "#64748b";
 
   return (

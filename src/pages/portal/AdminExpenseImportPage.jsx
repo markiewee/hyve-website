@@ -932,13 +932,13 @@ export default function AdminExpenseImportPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-8">
-        <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-1">
+        <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-1">
           Accounting
         </p>
-        <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#1F2937]">
+        <h1 className="font-['Hanken_Grotesk'] text-2xl font-bold text-[#181511]">
           Expense Reconciliation
         </h1>
-        <p className="font-['Manrope'] text-sm text-[#6B7280] mt-1">
+        <p className="font-['Inter'] text-sm text-[#57534E] mt-1">
           Fetch debit transactions from Aspire, tag to properties and categories, then generate P&L reports.
         </p>
       </div>
@@ -946,7 +946,7 @@ export default function AdminExpenseImportPage() {
       {/* Feedback message */}
       {message && (
         <div
-          className={`mb-6 px-5 py-3 rounded-xl text-sm font-['Manrope'] font-medium flex items-center gap-2 ${
+          className={`mb-6 px-5 py-3 rounded-xl text-sm font-['Inter'] font-medium flex items-center gap-2 ${
             message.type === "success"
               ? "bg-[#d1fae5]/60 text-[#065f46] border border-[#d1fae5]"
               : "bg-[#ffdad6]/40 text-[#ba1a1a] border border-[#ffdad6]"
@@ -969,17 +969,17 @@ export default function AdminExpenseImportPage() {
       {isFinalized && (
         <div className="mb-6 px-5 py-3 rounded-xl bg-[#d1fae5]/60 border border-[#d1fae5] flex items-center gap-2">
           <span className="material-symbols-outlined text-[#065f46] text-[18px]">verified</span>
-          <span className="font-['Manrope'] text-sm font-semibold text-[#065f46]">
+          <span className="font-['Inter'] text-sm font-semibold text-[#065f46]">
             {formatMonthLabel(reconcileMonth)} has been finalized.
           </span>
         </div>
       )}
 
       {/* ── Import Source Section ── */}
-      <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden">
-        <div className="px-8 py-6 border-b border-[#E8E0CE]/15 flex flex-col sm:flex-row sm:items-center gap-4">
+      <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm overflow-hidden">
+        <div className="px-8 py-6 border-b border-[#DDD0AD] flex flex-col sm:flex-row sm:items-center gap-4">
           <div className="flex-1">
-            <div className="flex gap-1 bg-[#F2D88A] rounded-xl p-1 w-fit">
+            <div className="flex gap-1 bg-[#EAC25A] rounded-xl p-1 w-fit">
               {[
                 { id: TAB_ASPIRE, label: "Aspire API", icon: "cloud_download" },
                 { id: TAB_CSV, label: "CSV Upload", icon: "upload_file" },
@@ -987,10 +987,10 @@ export default function AdminExpenseImportPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-['Manrope'] font-semibold transition-all duration-150 ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-['Inter'] font-semibold transition-all duration-150 ${
                     activeTab === tab.id
                       ? "bg-white text-[#A87813] shadow-sm"
-                      : "text-[#6B7280] hover:text-[#1F2937]"
+                      : "text-[#57534E] hover:text-[#181511]"
                   }`}
                 >
                   <span className="material-symbols-outlined text-[16px]">{tab.icon}</span>
@@ -1004,14 +1004,14 @@ export default function AdminExpenseImportPage() {
           {activeTab === TAB_ASPIRE && (
             <div className="flex items-center gap-3 flex-wrap">
               {accountsLoading ? (
-                <div className="h-10 bg-[#F2D88A] rounded-xl animate-pulse w-48" />
+                <div className="h-10 bg-[#EAC25A] rounded-xl animate-pulse w-48" />
               ) : accountsError ? (
-                <span className="font-['Manrope'] text-xs text-red-600">{accountsError}</span>
+                <span className="font-['Inter'] text-xs text-red-600">{accountsError}</span>
               ) : (
                 <select
                   value={selectedAccount}
                   onChange={(e) => setSelectedAccount(e.target.value)}
-                  className="px-3 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white max-w-[220px]"
+                  className="px-3 py-2 rounded-lg border border-[#DDD0AD] text-sm font-['Inter'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white max-w-[220px]"
                 >
                   <option value="">Select account...</option>
                   {accounts.map((acc) => (
@@ -1025,12 +1025,12 @@ export default function AdminExpenseImportPage() {
                 type="month"
                 value={reconcileMonth}
                 onChange={(e) => setReconcileMonth(e.target.value)}
-                className="px-3 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]"
+                className="px-3 py-2 rounded-lg border border-[#DDD0AD] text-sm font-['Inter'] focus:outline-none focus:ring-2 focus:ring-[#A87813]"
               />
               <button
                 onClick={handleFetchAspire}
                 disabled={fetching || !selectedAccount}
-                className="px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+                className="px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
               >
                 <span className="material-symbols-outlined text-[18px]">account_balance</span>
                 {fetching ? "Fetching..." : "Fetch Aspire"}
@@ -1039,7 +1039,7 @@ export default function AdminExpenseImportPage() {
                 <button
                   onClick={handleResume}
                   disabled={resumeLoading}
-                  className="px-5 py-2.5 bg-white text-[#A87813] border-2 border-[#A87813] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#A87813]/5 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+                  className="px-5 py-2.5 bg-white text-[#A87813] border-2 border-[#A87813] rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#A87813]/5 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
                 >
                   <span className="material-symbols-outlined text-[18px]">history</span>
                   {resumeLoading ? "Loading..." : "Resume Progress"}
@@ -1049,7 +1049,7 @@ export default function AdminExpenseImportPage() {
                 <button
                   onClick={handleSaveAll}
                   disabled={savingAll}
-                  className="px-5 py-2.5 bg-amber-500 text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-amber-600 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+                  className="px-5 py-2.5 bg-amber-500 text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-amber-600 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
                 >
                   <span className="material-symbols-outlined text-[18px]">save</span>
                   {savingAll ? "Saving..." : "Save Progress"}
@@ -1058,7 +1058,7 @@ export default function AdminExpenseImportPage() {
               <button
                 onClick={handleGeneratePnl}
                 disabled={pnlLoading}
-                className="px-5 py-2.5 bg-white text-[#A87813] border-2 border-[#A87813] rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#A87813]/5 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+                className="px-5 py-2.5 bg-white text-[#A87813] border-2 border-[#A87813] rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#A87813]/5 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
               >
                 <span className="material-symbols-outlined text-[18px]">assessment</span>
                 {pnlLoading ? "Generating..." : "Generate P&L"}
@@ -1066,7 +1066,7 @@ export default function AdminExpenseImportPage() {
               {hasFetched && (
                 <button
                   onClick={() => { setUntagged([]); setTagged([]); setIgnored([]); setEdits({}); setShowPnl(false); setPnlData(null); }}
-                  className="px-3 py-2.5 text-[#6B7280] hover:text-[#ba1a1a] rounded-xl font-['Manrope'] font-bold text-xs transition-colors flex items-center gap-1 shrink-0"
+                  className="px-3 py-2.5 text-[#57534E] hover:text-[#ba1a1a] rounded-xl font-['Inter'] font-bold text-xs transition-colors flex items-center gap-1 shrink-0"
                   title="Clear all transactions from view"
                 >
                   <span className="material-symbols-outlined text-[16px]">clear_all</span>
@@ -1079,7 +1079,7 @@ export default function AdminExpenseImportPage() {
 
         {/* Error */}
         {fetchError && (
-          <div className="px-8 py-3 bg-[#ffdad6]/30 text-[#ba1a1a] font-['Manrope'] text-sm">
+          <div className="px-8 py-3 bg-[#ffdad6]/30 text-[#ba1a1a] font-['Inter'] text-sm">
             {fetchError}
           </div>
         )}
@@ -1088,7 +1088,7 @@ export default function AdminExpenseImportPage() {
         {activeTab === TAB_CSV && (
           <div className="p-8">
             {csvError && (
-              <p className="font-['Manrope'] text-sm text-red-600 mb-4">{csvError}</p>
+              <p className="font-['Inter'] text-sm text-red-600 mb-4">{csvError}</p>
             )}
             <CsvUploader
               onFileSelected={handleCsvUpload}
@@ -1105,22 +1105,22 @@ export default function AdminExpenseImportPage() {
             {fetching && (
               <div className="px-8 py-8 flex items-center justify-center gap-3">
                 <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#A87813] border-r-transparent" />
-                <span className="font-['Manrope'] text-sm text-[#6B7280]">
+                <span className="font-['Inter'] text-sm text-[#57534E]">
                   Fetching transactions...
                 </span>
               </div>
             )}
 
             {!fetching && (
-              <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-[#E8E0CE]/15">
+              <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-[#DDD0AD]">
                 {/* ── LEFT: Untagged Transactions ── */}
                 <div className="p-6">
-                  <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-4">
+                  <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-4">
                     Untagged ({untagged.length})
                   </p>
                   <div className="space-y-3 max-h-[600px] overflow-y-auto pr-1">
                     {untagged.length === 0 ? (
-                      <p className="text-center text-[#6B7280] font-['Manrope'] text-sm py-8">
+                      <p className="text-center text-[#57534E] font-['Inter'] text-sm py-8">
                         All transactions tagged!
                       </p>
                     ) : (
@@ -1131,24 +1131,24 @@ export default function AdminExpenseImportPage() {
                         return (
                           <div
                             key={txn._key}
-                            className="rounded-xl border p-4 transition-all bg-white border-[#E8E0CE]/15"
+                            className="rounded-xl border p-4 transition-all bg-white border-[#DDD0AD]"
                           >
                             {/* Transaction header */}
                             <div className="flex items-start justify-between gap-3 mb-2">
                               <div className="flex-1 min-w-0">
-                                <p className="font-['Manrope'] font-bold text-sm text-[#1F2937] truncate">
+                                <p className="font-['Inter'] font-bold text-sm text-[#181511] truncate">
                                   {txn.description || "Unknown"}
                                 </p>
-                                <p className="font-['Inter'] text-xs text-[#6B7280] mt-0.5">
+                                <p className="font-['Inter'] text-xs text-[#57534E] mt-0.5">
                                   {formatDate(txn.transaction_date)}
                                   {txn.reference && (
-                                    <span className="ml-2 text-[#E8E0CE]">
+                                    <span className="ml-2 text-[#DDD0AD]">
                                       Ref: {txn.reference}
                                     </span>
                                   )}
                                 </p>
                               </div>
-                              <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm shrink-0 text-red-600 tabular-nums">
+                              <p className="font-['Hanken_Grotesk'] font-bold text-sm shrink-0 text-red-600 tabular-nums">
                                 {formatSGD(txn.amount)}
                               </p>
                             </div>
@@ -1162,7 +1162,7 @@ export default function AdminExpenseImportPage() {
                                     onChange={(e) =>
                                       setEdit(txn._key, "property_id", e.target.value)
                                     }
-                                    className="flex-1 min-w-[120px] px-2 py-1.5 rounded-lg border border-[#E8E0CE]/30 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
+                                    className="flex-1 min-w-[120px] px-2 py-1.5 rounded-lg border border-[#DDD0AD] text-xs font-['Inter'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
                                   >
                                     <option value="">Property...</option>
                                     {properties.map((p) => (
@@ -1179,7 +1179,7 @@ export default function AdminExpenseImportPage() {
                                       onChange={(e) =>
                                         setEdit(txn._key, "room_id", e.target.value || null)
                                       }
-                                      className="min-w-[100px] px-2 py-1.5 rounded-lg border border-[#E8E0CE]/30 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
+                                      className="min-w-[100px] px-2 py-1.5 rounded-lg border border-[#DDD0AD] text-xs font-['Inter'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
                                     >
                                       <option value="">Room (optional)</option>
                                       {getRoomsForProperty(edit.property_id).map((r) => (
@@ -1196,7 +1196,7 @@ export default function AdminExpenseImportPage() {
                                     onChange={(e) =>
                                       setEdit(txn._key, "category", e.target.value)
                                     }
-                                    className="flex-1 min-w-[120px] px-2 py-1.5 rounded-lg border border-[#E8E0CE]/30 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
+                                    className="flex-1 min-w-[120px] px-2 py-1.5 rounded-lg border border-[#DDD0AD] text-xs font-['Inter'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
                                   >
                                     <option value="">Category...</option>
                                     {EXPENSE_CATEGORIES.map((c) => (
@@ -1213,7 +1213,7 @@ export default function AdminExpenseImportPage() {
                                       setEdit(txn._key, "accrual_month", e.target.value)
                                     }
                                     title="Accounting period"
-                                    className="min-w-[110px] px-2 py-1.5 rounded-lg border border-[#E8E0CE]/30 text-xs font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
+                                    className="min-w-[110px] px-2 py-1.5 rounded-lg border border-[#DDD0AD] text-xs font-['Inter'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
                                   >
                                     {Array.from({ length: 12 }, (_, i) => {
                                       const d = new Date();
@@ -1246,7 +1246,7 @@ export default function AdminExpenseImportPage() {
                                   </button>
                                   <button
                                     onClick={() => handleIgnore(txn)}
-                                    className="px-3 py-1.5 text-[#6B7280] text-xs font-bold rounded-lg hover:bg-gray-100"
+                                    className="px-3 py-1.5 text-[#57534E] text-xs font-bold rounded-lg hover:bg-gray-100"
                                   >
                                     Ignore
                                   </button>
@@ -1259,8 +1259,8 @@ export default function AdminExpenseImportPage() {
 
                     {/* Ignored section */}
                     {ignored.length > 0 && (
-                      <div className="mt-4 pt-4 border-t border-[#E8E0CE]/15">
-                        <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-2">
+                      <div className="mt-4 pt-4 border-t border-[#DDD0AD]">
+                        <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-2">
                           Ignored ({ignored.length})
                         </p>
                         {ignored.map((txn) => (
@@ -1269,11 +1269,11 @@ export default function AdminExpenseImportPage() {
                             className="flex items-center justify-between gap-2 py-2 px-3 rounded-lg bg-gray-50 mb-1"
                           >
                             <div className="flex-1 min-w-0">
-                              <p className="font-['Manrope'] text-xs text-[#6B7280] truncate">
+                              <p className="font-['Inter'] text-xs text-[#57534E] truncate">
                                 {txn.description}
                               </p>
                             </div>
-                            <span className="font-['Plus_Jakarta_Sans'] text-xs text-[#6B7280] tabular-nums shrink-0">
+                            <span className="font-['Hanken_Grotesk'] text-xs text-[#57534E] tabular-nums shrink-0">
                               {formatSGD(txn.amount)}
                             </span>
                             <button
@@ -1291,12 +1291,12 @@ export default function AdminExpenseImportPage() {
 
                 {/* ── RIGHT: Tagged Transactions ── */}
                 <div className="p-6">
-                  <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-4">
+                  <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-4">
                     Tagged ({tagged.length})
                   </p>
                   <div className="space-y-2 max-h-[600px] overflow-y-auto pr-1">
                     {tagged.length === 0 ? (
-                      <p className="text-center text-[#6B7280] font-['Manrope'] text-sm py-8">
+                      <p className="text-center text-[#57534E] font-['Inter'] text-sm py-8">
                         No tagged transactions yet.
                       </p>
                     ) : (
@@ -1320,7 +1320,7 @@ export default function AdminExpenseImportPage() {
                                 key={txn._key}
                                 className="flex items-center gap-3 py-2.5 px-3 rounded-xl bg-[#d1fae5]/30 border border-[#d1fae5]"
                               >
-                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-[#F2D88A] text-[#6B7280]">
+                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-[#EAC25A] text-[#57534E]">
                                   {categoryLabel(txn.category)}
                                 </span>
                                 {txn._accrualMonth && txn._accrualMonth !== reconcileMonth && (
@@ -1328,15 +1328,15 @@ export default function AdminExpenseImportPage() {
                                     {txn._accrualMonth}
                                   </span>
                                 )}
-                                <p className="font-['Manrope'] text-xs text-[#1F2937] flex-1 min-w-0 truncate">
+                                <p className="font-['Inter'] text-xs text-[#181511] flex-1 min-w-0 truncate">
                                   {txn.description}
                                 </p>
-                                <p className="font-['Plus_Jakarta_Sans'] font-bold text-xs tabular-nums text-[#1F2937] shrink-0">
+                                <p className="font-['Hanken_Grotesk'] font-bold text-xs tabular-nums text-[#181511] shrink-0">
                                   {formatSGD(txn.amount)}
                                 </p>
                                 <button
                                   onClick={() => handleUndoTagged(txn)}
-                                  className="text-[#6B7280] hover:text-[#ba1a1a] transition-colors shrink-0"
+                                  className="text-[#57534E] hover:text-[#ba1a1a] transition-colors shrink-0"
                                   title="Undo — move back to untagged"
                                 >
                                   <span className="material-symbols-outlined text-[16px]">undo</span>
@@ -1357,20 +1357,20 @@ export default function AdminExpenseImportPage() {
 
       {/* ── Summary Section ── */}
       {hasFetched && Object.keys(summary).length > 0 && (
-        <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden mt-8">
-          <div className="px-8 py-6 border-b border-[#E8E0CE]/15 flex items-center justify-between">
+        <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm overflow-hidden mt-8">
+          <div className="px-8 py-6 border-b border-[#DDD0AD] flex items-center justify-between">
             <div>
-              <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937]">
+              <h2 className="font-['Hanken_Grotesk'] font-bold text-lg text-[#181511]">
                 Summary by Property
               </h2>
-              <p className="font-['Manrope'] text-[#6B7280] text-xs mt-0.5">
+              <p className="font-['Inter'] text-[#57534E] text-xs mt-0.5">
                 Total expenses across all periods: {formatSGD(totalSummary)}
               </p>
             </div>
             <button
               onClick={handleGeneratePnl}
               disabled={pnlLoading}
-              className="px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+              className="px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
             >
               <span className="material-symbols-outlined text-[18px]">assessment</span>
               {pnlLoading ? "Generating..." : "Generate P&L Report"}
@@ -1388,13 +1388,13 @@ export default function AdminExpenseImportPage() {
                 return (
                   <div
                     key={propId}
-                    className="rounded-xl border border-[#E8E0CE]/15 p-4"
+                    className="rounded-xl border border-[#DDD0AD] p-4"
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#1F2937]">
+                      <p className="font-['Hanken_Grotesk'] font-bold text-sm text-[#181511]">
                         {getPropertyName(propId)}
                       </p>
-                      <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-[#A87813] tabular-nums">
+                      <p className="font-['Hanken_Grotesk'] font-bold text-sm text-[#A87813] tabular-nums">
                         {formatSGD(propTotal)}
                       </p>
                     </div>
@@ -1408,7 +1408,7 @@ export default function AdminExpenseImportPage() {
                               <span className="font-['Inter'] text-[9px] uppercase tracking-widest text-[#A87813] font-bold">
                                 {formatMonthLabel(month)}
                               </span>
-                              <span className="font-['Plus_Jakarta_Sans'] text-[10px] font-semibold text-[#A87813] tabular-nums">
+                              <span className="font-['Hanken_Grotesk'] text-[10px] font-semibold text-[#A87813] tabular-nums">
                                 {formatSGD(monthTotal)}
                               </span>
                             </div>
@@ -1421,10 +1421,10 @@ export default function AdminExpenseImportPage() {
                                   key={cat}
                                   className="flex items-center justify-between text-xs"
                                 >
-                                  <span className="font-['Manrope'] text-[#6B7280]">
+                                  <span className="font-['Inter'] text-[#57534E]">
                                     {categoryLabel(cat)}
                                   </span>
-                                  <span className="font-['Plus_Jakarta_Sans'] font-semibold text-[#1F2937] tabular-nums">
+                                  <span className="font-['Hanken_Grotesk'] font-semibold text-[#181511] tabular-nums">
                                     {formatSGD(amt)}
                                   </span>
                                 </div>
@@ -1443,18 +1443,18 @@ export default function AdminExpenseImportPage() {
 
       {/* ── P&L Report ── */}
       {showPnl && pnlData && (
-        <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden mt-8">
-          <div className="px-8 py-6 border-b border-[#E8E0CE]/15 flex items-center justify-between">
+        <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm overflow-hidden mt-8">
+          <div className="px-8 py-6 border-b border-[#DDD0AD] flex items-center justify-between">
             <div>
-              <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937]">
+              <h2 className="font-['Hanken_Grotesk'] font-bold text-lg text-[#181511]">
                 P&L Report -- {formatMonthLabel(pnlData.month)}
               </h2>
-              <p className="font-['Manrope'] text-[#6B7280] text-xs mt-0.5">
+              <p className="font-['Inter'] text-[#57534E] text-xs mt-0.5">
                 Income from rent payments, expenses from tagged transactions.
               </p>
             </div>
             {isFinalized ? (
-              <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#d1fae5] text-[#065f46] font-['Manrope'] font-bold text-sm">
+              <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#d1fae5] text-[#065f46] font-['Inter'] font-bold text-sm">
                 <span className="material-symbols-outlined text-[16px]">verified</span>
                 Finalized
               </span>
@@ -1462,7 +1462,7 @@ export default function AdminExpenseImportPage() {
               <button
                 onClick={handleFinalizeMonth}
                 disabled={finalizing}
-                className="px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+                className="px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">lock</span>
                 {finalizing ? "Finalizing..." : "Finalize Month"}
@@ -1473,14 +1473,14 @@ export default function AdminExpenseImportPage() {
           <div className="px-8 py-6 overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[#E8E0CE]/15">
-                  <th className="text-left py-3 pr-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">
+                <tr className="border-b border-[#DDD0AD]">
+                  <th className="text-left py-3 pr-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold">
                     &nbsp;
                   </th>
                   {pnlData.properties.map((propId) => (
                     <th
                       key={propId}
-                      className="text-right py-3 px-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold"
+                      className="text-right py-3 px-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold"
                     >
                       {getPropertyName(propId)}
                     </th>
@@ -1492,7 +1492,7 @@ export default function AdminExpenseImportPage() {
               </thead>
               <tbody>
                 {/* Income section */}
-                <tr className="bg-[#F2D88A]/50">
+                <tr className="bg-[#EAC25A]/50">
                   <td
                     colSpan={pnlData.properties.length + 2}
                     className="py-2 px-0 font-['Inter'] text-[10px] uppercase tracking-widest text-[#A87813] font-bold"
@@ -1500,19 +1500,19 @@ export default function AdminExpenseImportPage() {
                     Income
                   </td>
                 </tr>
-                <tr className="border-b border-[#E8E0CE]/10">
-                  <td className="py-2 pr-4 font-['Manrope'] text-[#1F2937]">
+                <tr className="border-b border-[#DDD0AD]">
+                  <td className="py-2 pr-4 font-['Inter'] text-[#181511]">
                     Rent Collected
                   </td>
                   {pnlData.properties.map((propId) => (
                     <td
                       key={propId}
-                      className="py-2 px-4 text-right font-['Plus_Jakarta_Sans'] font-semibold text-[#1F2937] tabular-nums"
+                      className="py-2 px-4 text-right font-['Hanken_Grotesk'] font-semibold text-[#181511] tabular-nums"
                     >
                       {formatSGD(pnlData.income[propId] || 0)}
                     </td>
                   ))}
-                  <td className="py-2 pl-4 text-right font-['Plus_Jakarta_Sans'] font-bold text-[#A87813] tabular-nums">
+                  <td className="py-2 pl-4 text-right font-['Hanken_Grotesk'] font-bold text-[#A87813] tabular-nums">
                     {formatSGD(
                       pnlData.properties.reduce(
                         (s, p) => s + (pnlData.income[p] || 0),
@@ -1532,19 +1532,19 @@ export default function AdminExpenseImportPage() {
                   </td>
                 </tr>
                 {pnlData.categories.filter((cat) => cat !== "MANAGEMENT_FEES").map((cat) => (
-                  <tr key={cat} className="border-b border-[#E8E0CE]/10">
-                    <td className="py-2 pr-4 font-['Manrope'] text-[#1F2937]">
+                  <tr key={cat} className="border-b border-[#DDD0AD]">
+                    <td className="py-2 pr-4 font-['Inter'] text-[#181511]">
                       {categoryLabel(cat)}
                     </td>
                     {pnlData.properties.map((propId) => (
                       <td
                         key={propId}
-                        className="py-2 px-4 text-right font-['Plus_Jakarta_Sans'] font-semibold text-[#1F2937] tabular-nums"
+                        className="py-2 px-4 text-right font-['Hanken_Grotesk'] font-semibold text-[#181511] tabular-nums"
                       >
                         {formatSGD(pnlData.expenses[propId]?.[cat] || 0)}
                       </td>
                     ))}
-                    <td className="py-2 pl-4 text-right font-['Plus_Jakarta_Sans'] font-semibold text-[#1F2937] tabular-nums">
+                    <td className="py-2 pl-4 text-right font-['Hanken_Grotesk'] font-semibold text-[#181511] tabular-nums">
                       {formatSGD(
                         pnlData.properties.reduce(
                           (s, p) => s + (pnlData.expenses[p]?.[cat] || 0),
@@ -1556,8 +1556,8 @@ export default function AdminExpenseImportPage() {
                 ))}
 
                 {/* Total Expenses (excl management fees) */}
-                <tr className="border-b border-[#E8E0CE]/15">
-                  <td className="py-2 pr-4 font-['Manrope'] font-bold text-[#1F2937]">
+                <tr className="border-b border-[#DDD0AD]">
+                  <td className="py-2 pr-4 font-['Inter'] font-bold text-[#181511]">
                     Total Expenses
                   </td>
                   {pnlData.properties.map((propId) => {
@@ -1568,13 +1568,13 @@ export default function AdminExpenseImportPage() {
                     return (
                       <td
                         key={propId}
-                        className="py-2 px-4 text-right font-['Plus_Jakarta_Sans'] font-bold text-[#ba1a1a] tabular-nums"
+                        className="py-2 px-4 text-right font-['Hanken_Grotesk'] font-bold text-[#ba1a1a] tabular-nums"
                       >
                         {formatSGD(total)}
                       </td>
                     );
                   })}
-                  <td className="py-2 pl-4 text-right font-['Plus_Jakarta_Sans'] font-bold text-[#ba1a1a] tabular-nums">
+                  <td className="py-2 pl-4 text-right font-['Hanken_Grotesk'] font-bold text-[#ba1a1a] tabular-nums">
                     {formatSGD(
                       pnlData.properties.reduce((s, p) => {
                         const propExpenses = pnlData.expenses[p] || {};
@@ -1591,8 +1591,8 @@ export default function AdminExpenseImportPage() {
 
                 {/* Carried Loss (prev month) — only show if any property has carried loss */}
                 {pnlData.carriedLossFromPrev && pnlData.properties.some((p) => (pnlData.carriedLossFromPrev[p] || 0) > 0) && (
-                  <tr className="border-b border-[#E8E0CE]/10 bg-amber-50/30">
-                    <td className="py-2 pr-4 font-['Manrope'] text-[#1F2937] italic">
+                  <tr className="border-b border-[#DDD0AD] bg-amber-50/30">
+                    <td className="py-2 pr-4 font-['Inter'] text-[#181511] italic">
                       Carried Loss (prev month)
                     </td>
                     {pnlData.properties.map((propId) => {
@@ -1600,13 +1600,13 @@ export default function AdminExpenseImportPage() {
                       return (
                         <td
                           key={propId}
-                          className="py-2 px-4 text-right font-['Plus_Jakarta_Sans'] font-semibold tabular-nums text-amber-700"
+                          className="py-2 px-4 text-right font-['Hanken_Grotesk'] font-semibold tabular-nums text-amber-700"
                         >
                           {carried > 0 ? `(${formatSGD(carried)})` : "--"}
                         </td>
                       );
                     })}
-                    <td className="py-2 pl-4 text-right font-['Plus_Jakarta_Sans'] font-semibold tabular-nums text-amber-700">
+                    <td className="py-2 pl-4 text-right font-['Hanken_Grotesk'] font-semibold tabular-nums text-amber-700">
                       {formatSGD(
                         pnlData.properties.reduce(
                           (s, p) => s + (pnlData.carriedLossFromPrev[p] || 0),
@@ -1619,8 +1619,8 @@ export default function AdminExpenseImportPage() {
 
                 {/* Management Fee row */}
                 {pnlData.categories.includes("MANAGEMENT_FEES") && (
-                  <tr className="border-b border-[#E8E0CE]/10">
-                    <td className="py-2 pr-4 font-['Manrope'] text-[#1F2937]">
+                  <tr className="border-b border-[#DDD0AD]">
+                    <td className="py-2 pr-4 font-['Inter'] text-[#181511]">
                       Management Fee
                     </td>
                     {pnlData.properties.map((propId) => {
@@ -1629,15 +1629,15 @@ export default function AdminExpenseImportPage() {
                       return (
                         <td
                           key={propId}
-                          className={`py-2 px-4 text-right font-['Plus_Jakarta_Sans'] font-semibold tabular-nums ${
-                            waived ? "text-amber-600 italic" : "text-[#1F2937]"
+                          className={`py-2 px-4 text-right font-['Hanken_Grotesk'] font-semibold tabular-nums ${
+                            waived ? "text-amber-600 italic" : "text-[#181511]"
                           }`}
                         >
                           {waived ? "Waived (loss)" : formatSGD(applied)}
                         </td>
                       );
                     })}
-                    <td className="py-2 pl-4 text-right font-['Plus_Jakarta_Sans'] font-semibold text-[#1F2937] tabular-nums">
+                    <td className="py-2 pl-4 text-right font-['Hanken_Grotesk'] font-semibold text-[#181511] tabular-nums">
                       {formatSGD(
                         pnlData.properties.reduce(
                           (s, p) => s + (pnlData.mgmtFeeApplied?.[p] || 0),
@@ -1649,8 +1649,8 @@ export default function AdminExpenseImportPage() {
                 )}
 
                 {/* Net Profit */}
-                <tr className="bg-[#F2D88A]/30">
-                  <td className="py-3 pr-4 font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937]">
+                <tr className="bg-[#EAC25A]/30">
+                  <td className="py-3 pr-4 font-['Hanken_Grotesk'] font-bold text-lg text-[#181511]">
                     Net Profit
                   </td>
                   {pnlData.properties.map((propId) => {
@@ -1658,7 +1658,7 @@ export default function AdminExpenseImportPage() {
                     return (
                       <td
                         key={propId}
-                        className={`py-3 px-4 text-right font-['Plus_Jakarta_Sans'] font-bold text-lg tabular-nums ${
+                        className={`py-3 px-4 text-right font-['Hanken_Grotesk'] font-bold text-lg tabular-nums ${
                           net >= 0 ? "text-[#A87813]" : "text-[#ba1a1a]"
                         }`}
                       >
@@ -1674,7 +1674,7 @@ export default function AdminExpenseImportPage() {
                       );
                       return (
                         <span
-                          className={`font-['Plus_Jakarta_Sans'] font-bold text-lg tabular-nums ${
+                          className={`font-['Hanken_Grotesk'] font-bold text-lg tabular-nums ${
                             totalNet >= 0 ? "text-[#A87813]" : "text-[#ba1a1a]"
                           }`}
                         >
@@ -1689,8 +1689,8 @@ export default function AdminExpenseImportPage() {
 
                 {/* Loss Carried Forward — only show if any property has loss to carry */}
                 {pnlData.carriedLossForward && pnlData.properties.some((p) => (pnlData.carriedLossForward[p] || 0) > 0) && (
-                  <tr className="border-t border-[#E8E0CE]/10 bg-amber-50/20">
-                    <td className="py-2 pr-4 font-['Manrope'] font-semibold text-amber-700 italic">
+                  <tr className="border-t border-[#DDD0AD] bg-amber-50/20">
+                    <td className="py-2 pr-4 font-['Inter'] font-semibold text-amber-700 italic">
                       Loss Carried Forward
                     </td>
                     {pnlData.properties.map((propId) => {
@@ -1698,13 +1698,13 @@ export default function AdminExpenseImportPage() {
                       return (
                         <td
                           key={propId}
-                          className="py-2 px-4 text-right font-['Plus_Jakarta_Sans'] font-semibold tabular-nums text-amber-700"
+                          className="py-2 px-4 text-right font-['Hanken_Grotesk'] font-semibold tabular-nums text-amber-700"
                         >
                           {lossForward > 0 ? `(${formatSGD(lossForward)})` : "--"}
                         </td>
                       );
                     })}
-                    <td className="py-2 pl-4 text-right font-['Plus_Jakarta_Sans'] font-semibold tabular-nums text-amber-700">
+                    <td className="py-2 pl-4 text-right font-['Hanken_Grotesk'] font-semibold tabular-nums text-amber-700">
                       {formatSGD(
                         pnlData.properties.reduce(
                           (s, p) => s + (pnlData.carriedLossForward[p] || 0),
@@ -1717,7 +1717,7 @@ export default function AdminExpenseImportPage() {
 
                 {/* Notes per property */}
                 <tr>
-                  <td className="py-3 pr-4 align-top font-['Manrope'] font-semibold text-[#6B7280] text-xs pt-4">
+                  <td className="py-3 pr-4 align-top font-['Inter'] font-semibold text-[#57534E] text-xs pt-4">
                     Notes
                   </td>
                   {pnlData.properties.map((propId) => (
@@ -1733,7 +1733,7 @@ export default function AdminExpenseImportPage() {
                         placeholder={`Notes for ${getPropertyName(propId)}...`}
                         rows={3}
                         disabled={isFinalized}
-                        className="w-full px-3 py-2 rounded-lg border border-[#E8E0CE]/30 text-xs font-['Manrope'] text-[#1F2937] placeholder:text-[#E8E0CE] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white resize-y disabled:bg-gray-50 disabled:opacity-60"
+                        className="w-full px-3 py-2 rounded-lg border border-[#DDD0AD] text-xs font-['Inter'] text-[#181511] placeholder:text-[#DDD0AD] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white resize-y disabled:bg-gray-50 disabled:opacity-60"
                       />
                     </td>
                   ))}

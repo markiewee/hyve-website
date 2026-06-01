@@ -374,9 +374,9 @@ export default function AdminViewingDetailPage() {
     return (
       <PortalLayout>
         <div className="text-center py-20">
-          <span className="material-symbols-outlined text-5xl text-[#E8E0CE] mb-4">search_off</span>
-          <p className="text-[#6B7280] font-['Manrope'] font-medium">Viewing not found.</p>
-          <Link to="/portal/admin/viewings" className="text-[#A87813] font-['Manrope'] font-bold text-sm mt-4 inline-block hover:underline">
+          <span className="material-symbols-outlined text-5xl text-[#DDD0AD] mb-4">search_off</span>
+          <p className="text-[#57534E] font-['Inter'] font-medium">Viewing not found.</p>
+          <Link to="/portal/admin/viewings" className="text-[#A87813] font-['Inter'] font-bold text-sm mt-4 inline-block hover:underline">
             Back to Viewings
           </Link>
         </div>
@@ -389,7 +389,7 @@ export default function AdminViewingDetailPage() {
     <PortalLayout>
       {/* Toast */}
       {toast && (
-        <div className={`fixed top-6 right-6 z-50 px-5 py-3 rounded-xl shadow-lg text-sm font-['Manrope'] font-bold transition-all ${toast.type === "error" ? "bg-[#ffdad6] text-[#ba1a1a]" : "bg-[#d1fae5] text-[#065f46]"}`}>
+        <div className={`fixed top-6 right-6 z-50 px-5 py-3 rounded-xl shadow-lg text-sm font-['Inter'] font-bold transition-all ${toast.type === "error" ? "bg-[#ffdad6] text-[#ba1a1a]" : "bg-[#d1fae5] text-[#065f46]"}`}>
           {toast.msg}
         </div>
       )}
@@ -400,12 +400,12 @@ export default function AdminViewingDetailPage() {
           <div className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div className="p-8">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#1F2937]">Force Book Viewing</h3>
-                <button onClick={() => { setShowForceBook(false); setForceSlots([]); }} className="p-2 rounded-lg hover:bg-[#e0e3e5] transition-colors">
-                  <span className="material-symbols-outlined text-[#6B7280]">close</span>
+                <h3 className="font-['Hanken_Grotesk'] text-xl font-bold text-[#181511]">Force Book Viewing</h3>
+                <button onClick={() => { setShowForceBook(false); setForceSlots([]); }} className="p-2 rounded-lg hover:bg-[#E7DCC2] transition-colors">
+                  <span className="material-symbols-outlined text-[#57534E]">close</span>
                 </button>
               </div>
-              <p className="text-sm text-[#6B7280] font-['Manrope'] mb-6">
+              <p className="text-sm text-[#57534E] font-['Inter'] mb-6">
                 Select a time slot to confirm this viewing. This overrides the polling process.
               </p>
               <AvailabilityGrid
@@ -415,11 +415,11 @@ export default function AdminViewingDetailPage() {
                 onSlotsChange={(slots) => setForceSlots(slots.slice(-1))}
               />
               <div className="flex justify-end gap-3 mt-6">
-                <button onClick={() => { setShowForceBook(false); setForceSlots([]); }} className="px-5 py-2.5 rounded-xl font-['Manrope'] font-semibold text-sm text-[#1F2937] bg-[#e0e3e5] hover:bg-[#d8dadc] transition-colors">
+                <button onClick={() => { setShowForceBook(false); setForceSlots([]); }} className="px-5 py-2.5 rounded-xl font-['Inter'] font-semibold text-sm text-[#181511] bg-[#E7DCC2] hover:bg-[#d8dadc] transition-colors">
                   Cancel
                 </button>
                 <button onClick={handleForceBook} disabled={forceSlots.length === 0}
-                  className="px-6 py-2.5 rounded-xl font-['Manrope'] font-bold text-sm text-white bg-[#A87813] hover:opacity-90 active:scale-95 transition-all disabled:opacity-40 shadow-md shadow-[#A87813]/20">
+                  className="px-6 py-2.5 rounded-xl font-['Inter'] font-bold text-sm text-white bg-[#A87813] hover:opacity-90 active:scale-95 transition-all disabled:opacity-40 shadow-md shadow-[#A87813]/20">
                   Confirm Slot
                 </button>
               </div>
@@ -436,9 +436,9 @@ export default function AdminViewingDetailPage() {
               <span className="bg-[#dae2fd] text-[#5c647a] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest">
                 {viewing.status === "CANCELLED" ? "Cancelled" : "In Progress"}
               </span>
-              <h2 className="text-2xl font-bold font-['Plus_Jakarta_Sans'] tracking-tight text-[#191c1e]">Viewing Detail</h2>
+              <h2 className="text-2xl font-bold font-['Hanken_Grotesk'] tracking-tight text-[#181511]">Viewing Detail</h2>
             </div>
-            <p className="text-[#1F2937] text-sm font-['Manrope']">
+            <p className="text-[#181511] text-sm font-['Inter']">
               Requested on {fmtDate(viewing.created_at)}
               {poll?.expires_at && viewing.status === "POLLING" && (
                 <> &middot; {Math.max(0, Math.ceil((new Date(poll.expires_at) - Date.now()) / 86400000))} day{Math.ceil((new Date(poll.expires_at) - Date.now()) / 86400000) !== 1 ? "s" : ""} remaining to confirm</>
@@ -447,22 +447,22 @@ export default function AdminViewingDetailPage() {
           </div>
           <div className="flex flex-wrap gap-3">
             <button onClick={handleResendPoll}
-              className="bg-[#e0e3e5] text-[#191c1e] font-semibold px-5 py-2.5 rounded-lg text-sm font-['Manrope'] hover:bg-[#d8dadc] transition-colors flex items-center gap-2">
+              className="bg-[#E7DCC2] text-[#181511] font-semibold px-5 py-2.5 rounded-lg text-sm font-['Inter'] hover:bg-[#d8dadc] transition-colors flex items-center gap-2">
               <span className="material-symbols-outlined text-lg">refresh</span>
               Resend Poll
             </button>
             <button onClick={() => showToast("Reminder sent via Claudine")}
-              className="bg-[#e0e3e5] text-[#191c1e] font-semibold px-5 py-2.5 rounded-lg text-sm font-['Manrope'] hover:bg-[#d8dadc] transition-colors flex items-center gap-2">
+              className="bg-[#E7DCC2] text-[#181511] font-semibold px-5 py-2.5 rounded-lg text-sm font-['Inter'] hover:bg-[#d8dadc] transition-colors flex items-center gap-2">
               <span className="material-symbols-outlined text-lg">notifications_active</span>
               Send Reminder
             </button>
             <button onClick={handleCancel}
-              className="bg-[#ba1a1a]/10 text-[#ba1a1a] font-semibold px-5 py-2.5 rounded-lg text-sm font-['Manrope'] hover:bg-[#ba1a1a]/20 transition-colors flex items-center gap-2">
+              className="bg-[#ba1a1a]/10 text-[#ba1a1a] font-semibold px-5 py-2.5 rounded-lg text-sm font-['Inter'] hover:bg-[#ba1a1a]/20 transition-colors flex items-center gap-2">
               <span className="material-symbols-outlined text-lg">cancel</span>
               Cancel
             </button>
             <button onClick={() => setShowForceBook(true)}
-              className="bg-[#A87813] text-white font-bold px-6 py-2.5 rounded-lg text-sm font-['Manrope'] shadow-md shadow-[#A87813]/20 hover:opacity-90 active:scale-95 transition-all flex items-center gap-2">
+              className="bg-[#A87813] text-white font-bold px-6 py-2.5 rounded-lg text-sm font-['Inter'] shadow-md shadow-[#A87813]/20 hover:opacity-90 active:scale-95 transition-all flex items-center gap-2">
               <span className="material-symbols-outlined text-lg">verified</span>
               Force Book
             </button>
@@ -476,7 +476,7 @@ export default function AdminViewingDetailPage() {
                 if (viewing.rooms?.id) params.set("room_id", viewing.rooms.id);
                 window.location.href = `/portal/admin/onboarding?${params.toString()}`;
               }}
-              className="bg-[#FFD24A] text-[#1F2937] font-bold px-6 py-2.5 rounded-lg text-sm font-['Manrope'] shadow-md hover:opacity-90 active:scale-95 transition-all flex items-center gap-2"
+              className="bg-[#FFD24A] text-[#181511] font-bold px-6 py-2.5 rounded-lg text-sm font-['Inter'] shadow-md hover:opacity-90 active:scale-95 transition-all flex items-center gap-2"
               title="Open onboarding invite wizard pre-filled with this prospect"
             >
               <span className="material-symbols-outlined text-lg">person_add</span>
@@ -495,31 +495,31 @@ export default function AdminViewingDetailPage() {
 
               {/* Avatar + Name */}
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-16 h-16 rounded-full bg-[#FAF0CC] flex items-center justify-center text-[#A87813] font-bold text-xl shrink-0 border-2 border-[#D9A441]/20">
+                <div className="w-16 h-16 rounded-full bg-[#F6E6B4] flex items-center justify-center text-[#A87813] font-bold text-xl shrink-0 border-2 border-[#D9A441]/20">
                   {initials(viewing.prospect_name)}
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold font-['Plus_Jakarta_Sans'] text-[#191c1e]">{viewing.prospect_name}</h3>
-                  <p className="text-[#1F2937] font-medium text-sm font-['Manrope']">Prospect</p>
+                  <h3 className="text-xl font-bold font-['Hanken_Grotesk'] text-[#181511]">{viewing.prospect_name}</h3>
+                  <p className="text-[#181511] font-medium text-sm font-['Inter']">Prospect</p>
                 </div>
               </div>
 
               <div className="space-y-6">
                 {/* Contact Details */}
                 <div>
-                  <span className="block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1">Contact Details</span>
+                  <span className="block text-[10px] font-bold text-[#57534E] uppercase tracking-widest mb-1">Contact Details</span>
                   <div className="flex flex-col gap-2">
                     {viewing.prospect_email && (
-                      <a className="flex items-center gap-3 text-[#191c1e] hover:text-[#A87813] transition-colors" href={`mailto:${viewing.prospect_email}`}>
+                      <a className="flex items-center gap-3 text-[#181511] hover:text-[#A87813] transition-colors" href={`mailto:${viewing.prospect_email}`}>
                         <span className="material-symbols-outlined text-[#D9A441]">mail</span>
-                        <span className="text-sm font-medium font-['Manrope']">{viewing.prospect_email}</span>
+                        <span className="text-sm font-medium font-['Inter']">{viewing.prospect_email}</span>
                       </a>
                     )}
                     {viewing.prospect_phone && (
-                      <a className="flex items-center gap-3 text-[#191c1e] hover:text-[#A87813] transition-colors"
+                      <a className="flex items-center gap-3 text-[#181511] hover:text-[#A87813] transition-colors"
                         href={`https://wa.me/${viewing.prospect_phone.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer">
                         <span className="material-symbols-outlined text-[#D9A441]">chat_bubble</span>
-                        <span className="text-sm font-medium font-['Manrope']">{viewing.prospect_phone}</span>
+                        <span className="text-sm font-medium font-['Inter']">{viewing.prospect_phone}</span>
                         <span className="bg-green-100 text-green-700 text-[10px] px-1.5 py-0.5 rounded font-bold">WhatsApp</span>
                       </a>
                     )}
@@ -530,22 +530,22 @@ export default function AdminViewingDetailPage() {
                 <div className="grid grid-cols-2 gap-4">
                   {viewing.move_in_date && (
                     <div>
-                      <span className="block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1">Move-in Date</span>
-                      <p className="font-semibold text-[#191c1e] font-['Manrope']">{fmtDate(viewing.move_in_date)}</p>
+                      <span className="block text-[10px] font-bold text-[#57534E] uppercase tracking-widest mb-1">Move-in Date</span>
+                      <p className="font-semibold text-[#181511] font-['Inter']">{fmtDate(viewing.move_in_date)}</p>
                     </div>
                   )}
                   {viewing.source && (
                     <div>
-                      <span className="block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1">Source</span>
-                      <p className="font-semibold text-[#191c1e] font-['Manrope']">{viewing.source}</p>
+                      <span className="block text-[10px] font-bold text-[#57534E] uppercase tracking-widest mb-1">Source</span>
+                      <p className="font-semibold text-[#181511] font-['Inter']">{viewing.source}</p>
                     </div>
                   )}
                 </div>
 
                 {/* Notes */}
                 <div>
-                  <span className="block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1">Private Notes</span>
-                  <div className="bg-[#f2f4f6] rounded-lg mt-2">
+                  <span className="block text-[10px] font-bold text-[#57534E] uppercase tracking-widest mb-1">Private Notes</span>
+                  <div className="bg-[#FAF6EC] rounded-lg mt-2">
                     <textarea
                       ref={notesRef}
                       value={notes}
@@ -553,7 +553,7 @@ export default function AdminViewingDetailPage() {
                       onBlur={handleSaveNotes}
                       rows={3}
                       placeholder="Add private notes about this prospect..."
-                      className="w-full bg-transparent p-4 text-sm text-[#1F2937] font-['Manrope'] leading-relaxed italic resize-none outline-none focus:ring-2 focus:ring-[#D9A441] rounded-lg"
+                      className="w-full bg-transparent p-4 text-sm text-[#181511] font-['Inter'] leading-relaxed italic resize-none outline-none focus:ring-2 focus:ring-[#D9A441] rounded-lg"
                     />
                   </div>
                 </div>
@@ -568,7 +568,7 @@ export default function AdminViewingDetailPage() {
                 </div>
                 <span className="block text-[10px] font-bold uppercase tracking-widest mb-4 opacity-80">Currently Matched Slot</span>
                 <div className="space-y-1">
-                  <p className="text-3xl font-black font-['Plus_Jakarta_Sans'] leading-none">{fmtLongDate(poll.matched_slot)}</p>
+                  <p className="text-3xl font-black font-['Hanken_Grotesk'] leading-none">{fmtLongDate(poll.matched_slot)}</p>
                   <p className="text-xl font-medium opacity-90">{fmtTime(poll.matched_slot)}</p>
                 </div>
                 <div className="mt-6 flex items-center gap-2 bg-white/20 w-fit px-3 py-1.5 rounded-full">
@@ -584,10 +584,10 @@ export default function AdminViewingDetailPage() {
 
             {/* Lifecycle Progress Bar */}
             <div className="bg-white rounded-xl p-8 shadow-sm">
-              <h3 className="text-sm font-bold font-['Plus_Jakarta_Sans'] text-[#191c1e] mb-8 uppercase tracking-tighter">Viewing Lifecycle</h3>
+              <h3 className="text-sm font-bold font-['Hanken_Grotesk'] text-[#181511] mb-8 uppercase tracking-tighter">Viewing Lifecycle</h3>
               <div className="relative px-4">
                 {/* Progress line background */}
-                <div className="absolute top-1/2 left-0 w-full h-[2px] bg-[#e0e3e5] -translate-y-1/2" />
+                <div className="absolute top-1/2 left-0 w-full h-[2px] bg-[#E7DCC2] -translate-y-1/2" />
                 {/* Progress line active */}
                 <div
                   className="absolute top-1/2 left-0 h-[2px] bg-[#D9A441] -translate-y-1/2 transition-all"
@@ -605,14 +605,14 @@ export default function AdminViewingDetailPage() {
 
                     if (isPast) {
                       circleClass += "bg-[#A87813] text-white";
-                      labelClass += "text-[#191c1e]";
+                      labelClass += "text-[#181511]";
                       iconStyle = { fontVariationSettings: "'FILL' 1" };
                     } else if (isCurrent) {
                       circleClass += "bg-white border-2 border-[#D9A441] text-[#D9A441]";
                       labelClass += "text-[#A87813]";
                     } else {
-                      circleClass += "bg-white border border-[#e0e3e5] text-[#E8E0CE]";
-                      labelClass += "text-[#E8E0CE]";
+                      circleClass += "bg-white border border-[#E7DCC2] text-[#DDD0AD]";
+                      labelClass += "text-[#DDD0AD]";
                     }
 
                     return (
@@ -638,8 +638,8 @@ export default function AdminViewingDetailPage() {
                   <span className="text-[10px] font-bold text-[#A87813] uppercase tracking-widest">Captain</span>
                   <span className="material-symbols-outlined text-[#A87813]" style={{ fontVariationSettings: "'FILL' 1" }}>verified_user</span>
                 </div>
-                <h4 className="font-bold text-[#191c1e] font-['Manrope']">{captainName}</h4>
-                <p className="text-xs text-[#1F2937] font-['Manrope'] mb-4">House Captain</p>
+                <h4 className="font-bold text-[#181511] font-['Inter']">{captainName}</h4>
+                <p className="text-xs text-[#181511] font-['Inter'] mb-4">House Captain</p>
                 {captainResponded ? (
                   <div className="flex items-center gap-2 text-green-600 bg-green-50 w-fit px-3 py-1 rounded-full">
                     <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
@@ -659,8 +659,8 @@ export default function AdminViewingDetailPage() {
                   <span className="text-[10px] font-bold text-[#A87813] uppercase tracking-widest">Prospect</span>
                   <span className="material-symbols-outlined text-[#D9A441]">person</span>
                 </div>
-                <h4 className="font-bold text-[#191c1e] font-['Manrope']">{prospectName}</h4>
-                <p className="text-xs text-[#1F2937] font-['Manrope'] mb-4">Prospect</p>
+                <h4 className="font-bold text-[#181511] font-['Inter']">{prospectName}</h4>
+                <p className="text-xs text-[#181511] font-['Inter'] mb-4">Prospect</p>
                 {prospectResponded ? (
                   <div className="flex items-center gap-2 text-green-600 bg-green-50 w-fit px-3 py-1 rounded-full">
                     <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
@@ -675,13 +675,13 @@ export default function AdminViewingDetailPage() {
               </div>
 
               {/* Resident */}
-              <div className="bg-white p-6 rounded-xl border-l-4 border-[#E8E0CE] shadow-sm">
+              <div className="bg-white p-6 rounded-xl border-l-4 border-[#DDD0AD] shadow-sm">
                 <div className="flex justify-between items-start mb-4">
-                  <span className="text-[10px] font-bold text-[#E8E0CE] uppercase tracking-widest">Resident</span>
-                  <span className="material-symbols-outlined text-[#E8E0CE]">home</span>
+                  <span className="text-[10px] font-bold text-[#DDD0AD] uppercase tracking-widest">Resident</span>
+                  <span className="material-symbols-outlined text-[#DDD0AD]">home</span>
                 </div>
-                <h4 className="font-bold text-[#191c1e] font-['Manrope']">{residentName}</h4>
-                <p className="text-xs text-[#1F2937] font-['Manrope'] mb-4">Current Tenant</p>
+                <h4 className="font-bold text-[#181511] font-['Inter']">{residentName}</h4>
+                <p className="text-xs text-[#181511] font-['Inter'] mb-4">Current Tenant</p>
                 {residentResponded ? (
                   <div className="flex items-center gap-2 text-green-600 bg-green-50 w-fit px-3 py-1 rounded-full">
                     <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
@@ -690,7 +690,7 @@ export default function AdminViewingDetailPage() {
                 ) : (
                   <div className="flex items-center gap-2 text-[#9b4426] bg-[#9b4426]/10 w-fit px-3 py-1 rounded-full">
                     <span className="material-symbols-outlined text-xs">pending</span>
-                    <span className="text-[10px] font-bold">Waiting... <span className="text-[#6B7280]">(courtesy)</span></span>
+                    <span className="text-[10px] font-bold">Waiting... <span className="text-[#57534E]">(courtesy)</span></span>
                   </div>
                 )}
               </div>
@@ -698,12 +698,12 @@ export default function AdminViewingDetailPage() {
 
             {/* Activity Timeline */}
             <section className="bg-white rounded-xl p-8 shadow-sm">
-              <h3 className="text-sm font-bold font-['Plus_Jakarta_Sans'] text-[#191c1e] mb-8 uppercase tracking-tighter">Activity Timeline</h3>
+              <h3 className="text-sm font-bold font-['Hanken_Grotesk'] text-[#181511] mb-8 uppercase tracking-tighter">Activity Timeline</h3>
               {timeline.length === 0 ? (
-                <p className="text-sm text-[#6B7280] font-['Manrope']">No activity yet.</p>
+                <p className="text-sm text-[#57534E] font-['Inter']">No activity yet.</p>
               ) : (
                 <div className="space-y-8 relative">
-                  <div className="absolute top-0 left-3 w-[2px] h-full bg-[#f2f4f6]" />
+                  <div className="absolute top-0 left-3 w-[2px] h-full bg-[#FAF6EC]" />
                   {timeline.map((entry, i) => {
                     let dotClass = "absolute left-0 top-1 w-6 h-6 rounded-full flex items-center justify-center ";
                     let dotInner = null;
@@ -727,9 +727,9 @@ export default function AdminViewingDetailPage() {
                       <div key={i} className="relative pl-10">
                         <div className={dotClass}>{dotInner}</div>
                         <div>
-                          <p className="text-sm font-bold text-[#191c1e] font-['Manrope']">{entry.title}</p>
-                          <p className="text-xs text-[#1F2937] font-['Manrope'] mb-2">{entry.description}</p>
-                          <span className="text-[10px] text-[#6B7280] font-medium font-['Manrope']">{fmtDateTime(entry.time)}</span>
+                          <p className="text-sm font-bold text-[#181511] font-['Inter']">{entry.title}</p>
+                          <p className="text-xs text-[#181511] font-['Inter'] mb-2">{entry.description}</p>
+                          <span className="text-[10px] text-[#57534E] font-medium font-['Inter']">{fmtDateTime(entry.time)}</span>
                         </div>
                       </div>
                     );

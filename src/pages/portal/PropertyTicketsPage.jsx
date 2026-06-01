@@ -100,15 +100,15 @@ export default function PropertyTicketsPage() {
       {/* Page header */}
       <div className="mb-10 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
+          <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511] tracking-tight">
             {isAdmin ? "All Tickets" : "Property Tickets"}
             {!loading && openTickets.length > 0 && (
-              <span className="ml-3 font-['Manrope'] text-lg font-semibold text-[#6B7280]">
+              <span className="ml-3 font-['Inter'] text-lg font-semibold text-[#57534E]">
                 ({openTickets.length} open)
               </span>
             )}
           </h1>
-          <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">
+          <p className="text-[#57534E] font-['Inter'] font-medium mt-1">
             {isAdmin
               ? "Review and action maintenance tickets across all properties."
               : "Manage and action maintenance tickets for this property."}
@@ -136,28 +136,28 @@ export default function PropertyTicketsPage() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm space-y-3"
+              className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm space-y-3"
             >
               <div className="flex gap-3">
-                <div className="h-5 w-20 bg-[#F2D88A] animate-pulse rounded-full" />
-                <div className="h-5 w-16 bg-[#F2D88A] animate-pulse rounded-full" />
+                <div className="h-5 w-20 bg-[#EAC25A] animate-pulse rounded-full" />
+                <div className="h-5 w-16 bg-[#EAC25A] animate-pulse rounded-full" />
               </div>
-              <div className="h-4 w-3/4 bg-[#F2D88A] animate-pulse rounded" />
-              <div className="h-4 w-1/2 bg-[#F2D88A] animate-pulse rounded" />
+              <div className="h-4 w-3/4 bg-[#EAC25A] animate-pulse rounded" />
+              <div className="h-4 w-1/2 bg-[#EAC25A] animate-pulse rounded" />
             </div>
           ))}
         </div>
       ) : (
         <>
           {openTickets.length === 0 && resolvedTickets.length === 0 ? (
-            <div className="bg-white rounded-2xl p-12 border border-[#E8E0CE]/15 shadow-sm flex flex-col items-center text-center">
-              <div className="w-16 h-16 bg-[#F2D88A] rounded-2xl flex items-center justify-center mb-4">
+            <div className="bg-white rounded-2xl p-12 border border-[#DDD0AD] shadow-sm flex flex-col items-center text-center">
+              <div className="w-16 h-16 bg-[#EAC25A] rounded-2xl flex items-center justify-center mb-4">
                 <span className="material-symbols-outlined text-[#A87813] text-[32px]">check_circle</span>
               </div>
-              <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-lg mb-2">
+              <h3 className="font-['Hanken_Grotesk'] font-bold text-[#181511] text-lg mb-2">
                 No tickets
               </h3>
-              <p className="text-[#6B7280] font-['Manrope'] text-sm">
+              <p className="text-[#57534E] font-['Inter'] text-sm">
                 {isAdmin && propertyFilter === "ALL"
                   ? "There are no maintenance tickets in any property."
                   : "This property has no maintenance tickets."}
@@ -168,7 +168,7 @@ export default function PropertyTicketsPage() {
               {/* Open tickets */}
               {openTickets.length > 0 && (
                 <div className="mb-8">
-                  <h2 className="font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-4">
+                  <h2 className="font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-4">
                     Open ({openTickets.length})
                   </h2>
                   <div className="space-y-4">
@@ -182,7 +182,7 @@ export default function PropertyTicketsPage() {
               {/* Resolved tickets */}
               {resolvedTickets.length > 0 && (
                 <div>
-                  <h2 className="font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] font-bold mb-4">
+                  <h2 className="font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-4">
                     Resolved ({resolvedTickets.length})
                   </h2>
                   <div className="space-y-4">

@@ -69,50 +69,50 @@ export default function AdminDevicesPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
+        <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511] tracking-tight">
           IoT Devices & Energy
         </h1>
-        <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">
+        <p className="text-[#57534E] font-['Inter'] font-medium mt-1">
           Monitor AC controllers, energy sensors, and smart devices across all properties.
         </p>
       </div>
 
       {/* Summary stat cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10">
-        <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">
+        <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-3">
             Total Devices
           </p>
           {loading ? (
-            <div className="h-8 w-12 bg-[#F2D88A] animate-pulse rounded" />
+            <div className="h-8 w-12 bg-[#EAC25A] animate-pulse rounded" />
           ) : (
-            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937]">
+            <p className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511]">
               {devices.length}
             </p>
           )}
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">
+        <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-3">
             Online
           </p>
           {loading ? (
-            <div className="h-8 w-12 bg-[#F2D88A] animate-pulse rounded" />
+            <div className="h-8 w-12 bg-[#EAC25A] animate-pulse rounded" />
           ) : (
-            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#A87813]">
+            <p className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#A87813]">
               {onlineCount}
             </p>
           )}
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">
+        <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-3">
             Offline
           </p>
           {loading ? (
-            <div className="h-8 w-12 bg-[#F2D88A] animate-pulse rounded" />
+            <div className="h-8 w-12 bg-[#EAC25A] animate-pulse rounded" />
           ) : (
-            <p className={`font-['Plus_Jakarta_Sans'] text-3xl font-extrabold ${offlineCount > 0 ? "text-[#ba1a1a]" : "text-[#1F2937]"}`}>
+            <p className={`font-['Hanken_Grotesk'] text-3xl font-extrabold ${offlineCount > 0 ? "text-[#ba1a1a]" : "text-[#181511]"}`}>
               {offlineCount}
             </p>
           )}
@@ -126,7 +126,7 @@ export default function AdminDevicesPage() {
           {loading ? (
             <div className="h-8 w-12 bg-white/10 animate-pulse rounded" />
           ) : (
-            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-white">
+            <p className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-white">
               {devices.length > 0 ? Math.round((onlineCount / devices.length) * 100) : 0}%
             </p>
           )}
@@ -134,8 +134,8 @@ export default function AdminDevicesPage() {
       </div>
 
       {/* Assign device to room */}
-      <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm mb-8">
-        <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] mb-4 flex items-center gap-2">
+      <div className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm mb-8">
+        <h2 className="font-['Hanken_Grotesk'] font-bold text-[#181511] mb-4 flex items-center gap-2">
           <span className="material-symbols-outlined text-[#A87813] text-[20px]">add_circle</span>
           Register Sensor to Room
         </h2>
@@ -143,7 +143,7 @@ export default function AdminDevicesPage() {
           <select
             value={assignRoom}
             onChange={(e) => setAssignRoom(e.target.value)}
-            className="flex-1 bg-[#F2D88A] border-0 rounded-xl px-4 py-3 font-['Manrope'] text-sm text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none"
+            className="flex-1 bg-[#EAC25A] border-0 rounded-xl px-4 py-3 font-['Inter'] text-sm text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none"
           >
             <option value="">Select room...</option>
             {rooms
@@ -201,14 +201,14 @@ export default function AdminDevicesPage() {
               setAssigning(false);
             }}
             disabled={!assignRoom || assigning}
-            className="px-6 py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all shrink-0 flex items-center gap-2"
+            className="px-6 py-3 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all shrink-0 flex items-center gap-2"
           >
             <span className="material-symbols-outlined text-[18px]">sensors</span>
             {assigning ? "Registering..." : "Register"}
           </button>
         </div>
         {message && (
-          <div className={`mt-3 px-4 py-3 rounded-xl text-sm font-['Manrope'] ${message.type === "success" ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"}`}>
+          <div className={`mt-3 px-4 py-3 rounded-xl text-sm font-['Inter'] ${message.type === "success" ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"}`}>
             {message.text}
           </div>
         )}
@@ -220,31 +220,31 @@ export default function AdminDevicesPage() {
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm space-y-4"
+              className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm space-y-4"
             >
               <div className="flex justify-between items-start">
                 <div className="space-y-2">
-                  <div className="h-4 w-28 bg-[#F2D88A] animate-pulse rounded" />
-                  <div className="h-3 w-20 bg-[#F2D88A] animate-pulse rounded" />
+                  <div className="h-4 w-28 bg-[#EAC25A] animate-pulse rounded" />
+                  <div className="h-3 w-20 bg-[#EAC25A] animate-pulse rounded" />
                 </div>
-                <div className="h-6 w-16 bg-[#F2D88A] animate-pulse rounded-full" />
+                <div className="h-6 w-16 bg-[#EAC25A] animate-pulse rounded-full" />
               </div>
               <div className="space-y-2">
-                <div className="h-3 w-full bg-[#F2D88A] animate-pulse rounded" />
-                <div className="h-3 w-3/4 bg-[#F2D88A] animate-pulse rounded" />
+                <div className="h-3 w-full bg-[#EAC25A] animate-pulse rounded" />
+                <div className="h-3 w-3/4 bg-[#EAC25A] animate-pulse rounded" />
               </div>
             </div>
           ))}
         </div>
       ) : devices.length === 0 ? (
-        <div className="bg-white rounded-2xl p-12 border border-[#E8E0CE]/15 shadow-sm flex flex-col items-center text-center">
-          <div className="w-16 h-16 bg-[#F2D88A] rounded-2xl flex items-center justify-center mb-4">
+        <div className="bg-white rounded-2xl p-12 border border-[#DDD0AD] shadow-sm flex flex-col items-center text-center">
+          <div className="w-16 h-16 bg-[#EAC25A] rounded-2xl flex items-center justify-center mb-4">
             <span className="material-symbols-outlined text-[#A87813] text-[32px]">router</span>
           </div>
-          <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-lg mb-2">
+          <h3 className="font-['Hanken_Grotesk'] font-bold text-[#181511] text-lg mb-2">
             No devices registered
           </h3>
-          <p className="text-[#6B7280] font-['Manrope'] text-sm">
+          <p className="text-[#57534E] font-['Inter'] text-sm">
             IoT devices will appear here once they are configured and connected.
           </p>
         </div>

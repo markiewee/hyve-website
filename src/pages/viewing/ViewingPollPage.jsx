@@ -97,13 +97,13 @@ function InvalidState() {
       <div className="text-center max-w-md">
         <span className="text-5xl mb-6 block">🔗</span>
         <h1
-          className="text-2xl font-extrabold text-[#191c1e] mb-3"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+          className="text-2xl font-extrabold text-[#181511] mb-3"
+          style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
         >
           This viewing link is invalid
         </h1>
         <p
-          className="text-[#1F2937] text-sm mb-8"
+          className="text-[#181511] text-sm mb-8"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           The link you followed doesn't match any active viewing. It may have
@@ -126,7 +126,7 @@ function InvalidState() {
             href="https://wa.me/6580695410"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-200 text-[#191c1e] rounded-xl text-sm font-bold hover:bg-slate-50 transition-all"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-200 text-[#181511] rounded-xl text-sm font-bold hover:bg-slate-50 transition-all"
           >
             <span
               className="material-symbols-outlined text-sm"
@@ -148,13 +148,13 @@ function ExpiredState() {
       <div className="text-center max-w-md">
         <span className="text-5xl mb-6 block">⏰</span>
         <h1
-          className="text-2xl font-extrabold text-[#191c1e] mb-3"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+          className="text-2xl font-extrabold text-[#181511] mb-3"
+          style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
         >
           This viewing link has expired
         </h1>
         <p
-          className="text-[#1F2937] text-sm mb-8"
+          className="text-[#181511] text-sm mb-8"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           The scheduling window for this viewing has closed. Contact us to
@@ -177,7 +177,7 @@ function ExpiredState() {
             href="https://wa.me/6580695410"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-200 text-[#191c1e] rounded-xl text-sm font-bold hover:bg-slate-50 transition-all"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-200 text-[#181511] rounded-xl text-sm font-bold hover:bg-slate-50 transition-all"
           >
             <span
               className="material-symbols-outlined text-sm"
@@ -206,13 +206,13 @@ function WaitingState() {
           </span>
         </div>
         <h1
-          className="text-2xl font-extrabold text-[#191c1e] mb-3"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+          className="text-2xl font-extrabold text-[#181511] mb-3"
+          style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
         >
           Thanks! We're on it.
         </h1>
         <p
-          className="text-[#1F2937] text-sm leading-relaxed max-w-sm mx-auto"
+          className="text-[#181511] text-sm leading-relaxed max-w-sm mx-auto"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           We're matching your schedule with the host. You'll get a confirmation
@@ -255,7 +255,7 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
         <div className="flex items-center gap-2">
           <span
             className="text-xl font-bold tracking-tighter text-honey-800 font-headline"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
           >
             Lazybee
           </span>
@@ -274,12 +274,12 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
             </span>
           </div>
           <h1
-            className="text-3xl font-extrabold text-[#191c1e] mb-2"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            className="text-3xl font-extrabold text-[#181511] mb-2"
+            style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
           >
             Viewing Confirmed
           </h1>
-          <p className="text-[#1F2937] text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <p className="text-[#181511] text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>
             You're all set! Here are your viewing details.
           </p>
         </div>
@@ -296,7 +296,7 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
                 location_on
               </span>
               <div>
-                <p className="font-bold text-lg" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <p className="font-bold text-lg" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
                   {propertyName}
                 </p>
                 {propertyAddress && (
@@ -329,12 +329,12 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
                 </span>
               </div>
               <div>
-                <p className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-1">
+                <p className="text-xs font-bold text-[#57534E] uppercase tracking-widest mb-1">
                   Date & Time
                 </p>
                 <p
-                  className="text-lg font-bold text-[#191c1e]"
-                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                  className="text-lg font-bold text-[#181511]"
+                  style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
                 >
                   {fmtDate}
                 </p>
@@ -354,12 +354,12 @@ function ConfirmationState({ matchedSlot, viewing, property }) {
                   </span>
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-1">
+                  <p className="text-xs font-bold text-[#57534E] uppercase tracking-widest mb-1">
                     Door Code
                   </p>
                   <p
-                    className="text-2xl font-black text-[#191c1e] tracking-widest"
-                    style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                    className="text-2xl font-black text-[#181511] tracking-widest"
+                    style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
                   >
                     {doorCode}
                   </p>
@@ -471,13 +471,13 @@ export default function ViewingPollPage() {
 
   // ------ Active poll interface ------
   return (
-    <div className="min-h-screen bg-[#FAF6EC] text-[#191c1e] antialiased">
+    <div className="min-h-screen bg-[#FAF6EC] text-[#181511] antialiased">
       {/* Top Nav Bar */}
       <header className="bg-white shadow-sm flex justify-between items-center px-6 py-3 w-full border-b border-slate-100 sticky top-0 z-50">
         <div className="flex items-center gap-2">
           <span
             className="text-xl font-bold tracking-tighter text-honey-800 font-headline"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
           >
             Lazybee
           </span>
@@ -511,12 +511,12 @@ export default function ViewingPollPage() {
                   Viewing Schedule
                 </span>
                 <h1
-                  className="text-3xl font-extrabold tracking-tight text-[#191c1e] leading-tight"
-                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                  className="text-3xl font-extrabold tracking-tight text-[#181511] leading-tight"
+                  style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
                 >
                   Pick times you're free for a viewing
                 </h1>
-                <div className="flex items-center gap-2 text-[#1F2937]">
+                <div className="flex items-center gap-2 text-[#181511]">
                   <span
                     className="material-symbols-outlined text-sm"
                     data-icon="location_on"
@@ -541,13 +541,13 @@ export default function ViewingPollPage() {
             </div>
 
             {/* Mode Toggle */}
-            <div className="mt-8 flex p-1.5 bg-[#eceef0] rounded-xl w-full max-w-sm mx-auto md:mx-0">
+            <div className="mt-8 flex p-1.5 bg-[#F3ECDD] rounded-xl w-full max-w-sm mx-auto md:mx-0">
               <button
                 onClick={() => setViewingType("in_person")}
                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${
                   viewingType === "in_person"
                     ? "bg-white shadow-sm text-[#A87813]"
-                    : "text-[#1F2937] hover:text-[#191c1e]"
+                    : "text-[#181511] hover:text-[#181511]"
                 }`}
               >
                 <span
@@ -563,7 +563,7 @@ export default function ViewingPollPage() {
                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${
                   viewingType === "virtual"
                     ? "bg-white shadow-sm text-[#A87813]"
-                    : "text-[#1F2937] hover:text-[#191c1e]"
+                    : "text-[#181511] hover:text-[#181511]"
                 }`}
               >
                 <span
@@ -579,16 +579,16 @@ export default function ViewingPollPage() {
 
           {/* Availability Grid Card */}
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-            <div className="p-6 border-b border-[#eceef0]">
+            <div className="p-6 border-b border-[#F3ECDD]">
               <h2
-                className="text-lg font-bold text-[#191c1e] flex items-center gap-2"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                className="text-lg font-bold text-[#181511] flex items-center gap-2"
+                style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
               >
                 <span className="w-1 h-5 bg-[#D9A441] rounded-full" />
                 Availability Grid
               </h2>
               <p
-                className="text-sm text-[#1F2937] mt-1"
+                className="text-sm text-[#181511] mt-1"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 Select all slots that work for your schedule.
@@ -605,7 +605,7 @@ export default function ViewingPollPage() {
           </div>
 
           {/* Scheduling Note */}
-          <div className="bg-[#f2f4f6] rounded-2xl p-6 border border-white/50">
+          <div className="bg-[#FAF6EC] rounded-2xl p-6 border border-white/50">
             <div className="flex items-start gap-4">
               <div className="bg-[#D9A441]/20 p-2 rounded-lg text-[#A87813]">
                 <span
@@ -617,13 +617,13 @@ export default function ViewingPollPage() {
               </div>
               <div>
                 <h4
-                  className="font-bold text-[#191c1e]"
-                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                  className="font-bold text-[#181511]"
+                  style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
                 >
                   Scheduling Note
                 </h4>
                 <p
-                  className="text-sm text-[#1F2937] mt-1 leading-relaxed"
+                  className="text-sm text-[#181511] mt-1 leading-relaxed"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   Once you submit, we'll match your availability with our house
@@ -645,14 +645,14 @@ export default function ViewingPollPage() {
             </div>
             <div>
               <p
-                className="text-sm font-bold text-[#191c1e]"
+                className="text-sm font-bold text-[#181511]"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 {selectedSlots.length} slot{selectedSlots.length !== 1 ? "s" : ""}{" "}
                 selected
               </p>
               <p
-                className="text-[10px] uppercase tracking-wider font-bold text-[#E8E0CE]"
+                className="text-[10px] uppercase tracking-wider font-bold text-[#DDD0AD]"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 Minimum 3 recommended

@@ -84,10 +84,10 @@ export default function MoveInInstructions({ advanceStep }) {
             <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#A87813] mb-2">
               Arrival Instruction
             </p>
-            <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#A87813]">
+            <h2 className="font-['Hanken_Grotesk'] text-2xl font-extrabold text-[#A87813]">
               Check-in from 10:00 AM
             </h2>
-            <p className="text-sm text-[#1F2937] mt-1">
+            <p className="text-sm text-[#181511] mt-1">
               Your move-in date will be confirmed by your house captain
               {unitCode ? ` • ${unitCode}` : ""}
             </p>
@@ -110,7 +110,7 @@ export default function MoveInInstructions({ advanceStep }) {
         <div className="space-y-4">
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-[#D9A441]">wifi</span>
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-base text-[#191c1e]">
+            <h3 className="font-['Hanken_Grotesk'] font-bold text-base text-[#181511]">
               High-Speed WiFi
             </h3>
           </div>
@@ -121,7 +121,7 @@ export default function MoveInInstructions({ advanceStep }) {
                   <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest mb-1">
                     Network Name
                   </p>
-                  <p className="font-mono font-bold text-lg text-[#191c1e]">{wifiNetwork}</p>
+                  <p className="font-mono font-bold text-lg text-[#181511]">{wifiNetwork}</p>
                 </div>
                 {wifiPassword && (
                   <div className="pt-3 border-t border-slate-200/50">
@@ -129,7 +129,7 @@ export default function MoveInInstructions({ advanceStep }) {
                       Password
                     </p>
                     <div className="flex items-center justify-between gap-3">
-                      <p className="font-mono font-bold text-lg text-[#191c1e] break-all">
+                      <p className="font-mono font-bold text-lg text-[#181511] break-all">
                         {wifiPassword}
                       </p>
                       <button
@@ -161,7 +161,7 @@ export default function MoveInInstructions({ advanceStep }) {
         <div className="space-y-4">
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-[#D9A441]">inventory_2</span>
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-base text-[#191c1e]">
+            <h3 className="font-['Hanken_Grotesk'] font-bold text-base text-[#181511]">
               What's Provided
             </h3>
           </div>
@@ -176,7 +176,7 @@ export default function MoveInInstructions({ advanceStep }) {
                     <p className="text-[9px] uppercase font-bold text-[#D9A441] tracking-widest mb-1">
                       {category}
                     </p>
-                    <p className="text-[11px] text-[#1F2937] leading-relaxed">
+                    <p className="text-[11px] text-[#181511] leading-relaxed">
                       {Array.isArray(items) ? items.join(", ") : items}
                     </p>
                   </div>
@@ -185,7 +185,7 @@ export default function MoveInInstructions({ advanceStep }) {
             ) : providedItems && Array.isArray(providedItems) ? (
               <ul className="space-y-1">
                 {providedItems.map((item, idx) => (
-                  <li key={idx} className="flex items-center gap-2 text-sm text-[#1F2937]">
+                  <li key={idx} className="flex items-center gap-2 text-sm text-[#181511]">
                     <span
                       className="material-symbols-outlined text-[#D9A441] text-[16px]"
                       style={{ fontVariationSettings: "'FILL' 1" }}
@@ -201,19 +201,19 @@ export default function MoveInInstructions({ advanceStep }) {
               <div className="grid grid-cols-2 gap-x-4 gap-y-4">
                 <div>
                   <p className="text-[9px] uppercase font-bold text-[#D9A441] tracking-widest mb-1">Room</p>
-                  <p className="text-[11px] text-[#1F2937] leading-relaxed">Bed, Mattress,<br />Wardrobe, Desk</p>
+                  <p className="text-[11px] text-[#181511] leading-relaxed">Bed, Mattress,<br />Wardrobe, Desk</p>
                 </div>
                 <div>
                   <p className="text-[9px] uppercase font-bold text-[#D9A441] tracking-widest mb-1">Kitchen</p>
-                  <p className="text-[11px] text-[#1F2937] leading-relaxed">Fridge, Stove,<br />Microwave</p>
+                  <p className="text-[11px] text-[#181511] leading-relaxed">Fridge, Stove,<br />Microwave</p>
                 </div>
                 <div className="pt-2 border-t border-slate-200/50">
                   <p className="text-[9px] uppercase font-bold text-[#D9A441] tracking-widest mb-1">Laundry</p>
-                  <p className="text-[11px] text-[#1F2937] leading-relaxed">Washing Machine</p>
+                  <p className="text-[11px] text-[#181511] leading-relaxed">Washing Machine</p>
                 </div>
                 <div className="pt-2 border-t border-slate-200/50">
                   <p className="text-[9px] uppercase font-bold text-[#D9A441] tracking-widest mb-1">Common</p>
-                  <p className="text-[11px] text-[#1F2937] leading-relaxed">WiFi, Vacuum Cleaner</p>
+                  <p className="text-[11px] text-[#181511] leading-relaxed">WiFi, Vacuum Cleaner</p>
                 </div>
               </div>
             )}
@@ -223,7 +223,7 @@ export default function MoveInInstructions({ advanceStep }) {
 
       {/* Unit Access Codes */}
       <section>
-        <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-base text-[#191c1e] mb-4">
+        <h3 className="font-['Hanken_Grotesk'] font-bold text-base text-[#181511] mb-4">
           Unit Access Codes
         </h3>
         {codesUnlocked && (mainDoorCode || roomCode) ? (
@@ -236,7 +236,7 @@ export default function MoveInInstructions({ advanceStep }) {
                     Main Door
                   </p>
                 </div>
-                <p className="font-mono font-bold text-xl text-[#191c1e]">{mainDoorCode}</p>
+                <p className="font-mono font-bold text-xl text-[#181511]">{mainDoorCode}</p>
               </div>
             )}
             {roomCode && (
@@ -247,14 +247,14 @@ export default function MoveInInstructions({ advanceStep }) {
                     Your Room {unitCode ? `(${unitCode})` : ""}
                   </p>
                 </div>
-                <p className="font-mono font-bold text-xl text-[#191c1e]">{roomCode}</p>
+                <p className="font-mono font-bold text-xl text-[#181511]">{roomCode}</p>
               </div>
             )}
           </div>
         ) : (
           <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 flex items-start gap-3">
             <span className="material-symbols-outlined text-slate-400 text-[20px] mt-0.5">lock</span>
-            <p className="text-sm text-[#1F2937] font-['Inter'] leading-relaxed">
+            <p className="text-sm text-[#181511] font-['Inter'] leading-relaxed">
               Your door codes will appear here on your move-in day
               {tenancyStartDate ? ` (${tenancyStartDate})` : ""}.
             </p>
@@ -266,7 +266,7 @@ export default function MoveInInstructions({ advanceStep }) {
       <section className="pt-8 border-t border-slate-100">
         <div className="flex items-center gap-2 mb-6">
           <span className="material-symbols-outlined text-[#9b4426]">contact_support</span>
-          <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-base text-[#191c1e]">
+          <h3 className="font-['Hanken_Grotesk'] font-bold text-base text-[#181511]">
             Need Help?
           </h3>
         </div>
@@ -276,7 +276,7 @@ export default function MoveInInstructions({ advanceStep }) {
               1
             </div>
             <div>
-              <p className="font-bold text-xs mb-1 font-['Plus_Jakarta_Sans'] text-[#191c1e]">
+              <p className="font-bold text-xs mb-1 font-['Hanken_Grotesk'] text-[#181511]">
                 Resident Portal
               </p>
               <p className="text-[10px] text-slate-500 leading-tight font-['Inter']">
@@ -289,7 +289,7 @@ export default function MoveInInstructions({ advanceStep }) {
               2
             </div>
             <div>
-              <p className="font-bold text-xs mb-1 font-['Plus_Jakarta_Sans'] text-[#191c1e]">
+              <p className="font-bold text-xs mb-1 font-['Hanken_Grotesk'] text-[#181511]">
                 Self-Help Guides
               </p>
               <p className="text-[10px] text-slate-500 leading-tight font-['Inter']">
@@ -302,7 +302,7 @@ export default function MoveInInstructions({ advanceStep }) {
               3
             </div>
             <div>
-              <p className="font-bold text-xs mb-1 font-['Plus_Jakarta_Sans'] text-[#191c1e]">
+              <p className="font-bold text-xs mb-1 font-['Hanken_Grotesk'] text-[#181511]">
                 File a Ticket
               </p>
               <p className="text-[10px] text-slate-500 leading-tight font-['Inter']">
@@ -325,7 +325,7 @@ export default function MoveInInstructions({ advanceStep }) {
         <button
           type="button"
           onClick={() => advanceStep(null)}
-          className="inline-flex items-center gap-2 bg-[#A87813] text-white rounded-xl px-7 py-3 font-['Plus_Jakarta_Sans'] font-bold text-sm hover:bg-[#5C420B] transition-colors shadow-md shadow-[#A87813]/20"
+          className="inline-flex items-center gap-2 bg-[#A87813] text-white rounded-xl px-7 py-3 font-['Hanken_Grotesk'] font-bold text-sm hover:bg-[#5C420B] transition-colors shadow-md shadow-[#A87813]/20"
         >
           Continue
           <span className="material-symbols-outlined text-[18px]">arrow_forward</span>

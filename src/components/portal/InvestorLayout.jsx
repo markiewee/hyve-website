@@ -32,9 +32,9 @@ export default function InvestorLayout({ children }) {
   return (
     <div className="min-h-screen bg-[#FAF6EC] flex">
       {/* Sidebar */}
-      <aside className="hidden md:flex w-64 flex-col fixed inset-y-0 left-0 bg-white border-r border-[#E8E0CE]/15 z-30">
+      <aside className="hidden md:flex w-64 flex-col fixed inset-y-0 left-0 bg-white border-r border-[#DDD0AD] z-30">
         {/* Logo */}
-        <div className="h-16 flex items-center px-6 border-b border-[#E8E0CE]/10">
+        <div className="h-16 flex items-center px-6 border-b border-[#DDD0AD]">
           <Link
             to="/portal/investor/dashboard"
             className="flex items-center gap-2"
@@ -59,15 +59,15 @@ export default function InvestorLayout({ children }) {
               <Link
                 key={item.to}
                 to={item.to}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-['Manrope'] font-semibold transition-all ${
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-['Inter'] font-semibold transition-all ${
                   isActive
                     ? "bg-[#A87813] text-white shadow-sm shadow-[#A87813]/20"
-                    : "text-[#6B7280] hover:bg-[#F2D88A] hover:text-[#1F2937]"
+                    : "text-[#57534E] hover:bg-[#EAC25A] hover:text-[#181511]"
                 }`}
               >
                 <span
                   className={`material-symbols-outlined text-[20px] ${
-                    isActive ? "text-white" : "text-[#6B7280]"
+                    isActive ? "text-white" : "text-[#57534E]"
                   }`}
                   style={
                     isActive
@@ -84,25 +84,25 @@ export default function InvestorLayout({ children }) {
         </nav>
 
         {/* User card */}
-        <div className="p-4 border-t border-[#E8E0CE]/10">
+        <div className="p-4 border-t border-[#DDD0AD]">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-9 h-9 rounded-xl bg-[#A87813]/10 flex items-center justify-center">
-              <span className="font-['Plus_Jakarta_Sans'] font-bold text-xs text-[#A87813]">
+              <span className="font-['Hanken_Grotesk'] font-bold text-xs text-[#A87813]">
                 {initials}
               </span>
             </div>
             <div className="min-w-0">
-              <p className="font-['Manrope'] font-semibold text-[#1F2937] text-xs truncate">
+              <p className="font-['Inter'] font-semibold text-[#181511] text-xs truncate">
                 {displayName}
               </p>
-              <p className="font-['Inter'] text-[10px] text-[#6B7280] uppercase tracking-widest">
+              <p className="font-['Inter'] text-[10px] text-[#57534E] uppercase tracking-widest">
                 Investor
               </p>
             </div>
           </div>
           <button
             onClick={signOut}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-[#6B7280] hover:bg-[#ffdad6]/30 hover:text-[#ba1a1a] transition-colors text-xs font-['Manrope'] font-semibold"
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-[#57534E] hover:bg-[#ffdad6]/30 hover:text-[#ba1a1a] transition-colors text-xs font-['Inter'] font-semibold"
           >
             <span className="material-symbols-outlined text-[16px]">
               logout
@@ -113,7 +113,7 @@ export default function InvestorLayout({ children }) {
       </aside>
 
       {/* Mobile top bar */}
-      <header className="md:hidden fixed top-0 inset-x-0 h-14 bg-white border-b border-[#E8E0CE]/15 z-30 flex items-center justify-between px-4">
+      <header className="md:hidden fixed top-0 inset-x-0 h-14 bg-white border-b border-[#DDD0AD] z-30 flex items-center justify-between px-4">
         <Link
           to="/portal/investor/dashboard"
           className="flex items-center gap-2"
@@ -126,13 +126,13 @@ export default function InvestorLayout({ children }) {
               trending_up
             </span>
           </div>
-          <span className="font-['Plus_Jakarta_Sans'] font-extrabold text-[#1F2937] text-sm">
+          <span className="font-['Hanken_Grotesk'] font-extrabold text-[#181511] text-sm">
             Lazybee Investor
           </span>
         </Link>
         <button
           onClick={signOut}
-          className="flex items-center gap-1.5 text-[#6B7280] text-xs font-['Manrope'] font-semibold"
+          className="flex items-center gap-1.5 text-[#57534E] text-xs font-['Inter'] font-semibold"
         >
           <span className="material-symbols-outlined text-[16px]">logout</span>
           Sign Out
@@ -140,7 +140,7 @@ export default function InvestorLayout({ children }) {
       </header>
 
       {/* Mobile bottom nav */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-[#E8E0CE]/10 z-30 flex">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-[#DDD0AD] z-30 flex">
         {INVESTOR_NAV.map((item) => {
           const isActive = location.pathname === item.to;
           return (
@@ -148,7 +148,7 @@ export default function InvestorLayout({ children }) {
               key={item.to}
               to={item.to}
               className={`flex-1 flex flex-col items-center py-2.5 gap-1 text-[10px] font-['Inter'] font-bold uppercase tracking-widest transition-colors ${
-                isActive ? "text-[#A87813]" : "text-[#6B7280]"
+                isActive ? "text-[#A87813]" : "text-[#57534E]"
               }`}
             >
               <span

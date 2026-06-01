@@ -7,14 +7,14 @@ function SimpleMarkdown({ text }) {
   return (
     <div className="space-y-1.5">
       {lines.map((line, i) => {
-        if (line.startsWith("## ")) return <h4 key={i} className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-sm mt-2 mb-1">{line.slice(3)}</h4>;
+        if (line.startsWith("## ")) return <h4 key={i} className="font-['Hanken_Grotesk'] font-bold text-[#181511] text-sm mt-2 mb-1">{line.slice(3)}</h4>;
         if (line.trim() === "") return <div key={i} className="h-1" />;
         const parts = line.split(/(\*\*[^*]+\*\*)/g);
         return (
-          <p key={i} className="font-['Manrope'] text-sm text-[#6B7280] leading-relaxed">
+          <p key={i} className="font-['Inter'] text-sm text-[#57534E] leading-relaxed">
             {parts.map((part, j) =>
               part.startsWith("**") && part.endsWith("**")
-                ? <strong key={j} className="font-semibold text-[#1F2937]">{part.slice(2, -2)}</strong>
+                ? <strong key={j} className="font-semibold text-[#181511]">{part.slice(2, -2)}</strong>
                 : part
             )}
           </p>
@@ -26,7 +26,7 @@ function SimpleMarkdown({ text }) {
 
 function GuideCard({ icon, title, content }) {
   return (
-    <div className="bg-white border border-[#E8E0CE]/15 rounded-2xl p-6 shadow-sm">
+    <div className="bg-white border border-[#DDD0AD] rounded-2xl p-6 shadow-sm">
       <div className="flex items-start gap-4">
         <div className="w-10 h-10 rounded-xl bg-[#A87813]/10 flex items-center justify-center shrink-0">
           <span
@@ -37,7 +37,7 @@ function GuideCard({ icon, title, content }) {
           </span>
         </div>
         <div className="min-w-0">
-          <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#1F2937] mb-2">
+          <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-[#181511] mb-2">
             {title}
           </h3>
           <SimpleMarkdown text={content} />
@@ -77,10 +77,10 @@ export default function WelcomeSplash({ onContinue }) {
             celebration
           </span>
         </div>
-        <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#1F2937] mb-2">
+        <h2 className="font-['Hanken_Grotesk'] text-2xl font-extrabold text-[#181511] mb-2">
           Welcome to {propertyName}!
         </h2>
-        <p className="font-['Manrope'] text-sm text-[#6B7280] max-w-md mx-auto leading-relaxed">
+        <p className="font-['Inter'] text-sm text-[#57534E] max-w-md mx-auto leading-relaxed">
           Here's everything you need to know before moving in. Take a moment to review, then we'll get you set up.
         </p>
       </div>
@@ -113,7 +113,7 @@ export default function WelcomeSplash({ onContinue }) {
       <div className="text-center pt-4">
         <Button
           onClick={onContinue}
-          className="bg-[#A87813] hover:bg-[#A87813] text-white font-['Manrope'] font-bold px-8 py-3 rounded-xl text-sm"
+          className="bg-[#A87813] hover:bg-[#A87813] text-white font-['Inter'] font-bold px-8 py-3 rounded-xl text-sm"
         >
           <span className="material-symbols-outlined text-[18px] mr-2">arrow_forward</span>
           Let's Get Started

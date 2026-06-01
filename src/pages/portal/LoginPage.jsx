@@ -76,7 +76,7 @@ export default function LoginPage() {
             <Wordmark size="lg" className="!text-white [&>span]:!text-white" />
           </div>
           <div className="max-w-md">
-            <h1 className="font-['Plus_Jakarta_Sans'] text-5xl font-bold text-white leading-tight tracking-tight mb-8">
+            <h1 className="font-['Hanken_Grotesk'] text-5xl font-bold text-white leading-tight tracking-tight mb-8">
               {t("login.heroTitle")}
             </h1>
             <p className="text-[#D9A441] text-lg font-medium leading-relaxed mb-12 opacity-90">
@@ -85,12 +85,12 @@ export default function LoginPage() {
             <div className="grid grid-cols-2 gap-6">
               <div className="p-6 rounded-xl bg-white/5 backdrop-blur-md border border-white/10">
                 <span className="material-symbols-outlined text-[#D9A441] text-3xl mb-4 block">payments</span>
-                <h3 className="text-white font-['Plus_Jakarta_Sans'] font-bold text-sm mb-1">{t("login.easyBilling")}</h3>
+                <h3 className="text-white font-['Hanken_Grotesk'] font-bold text-sm mb-1">{t("login.easyBilling")}</h3>
                 <p className="text-white/60 text-xs">{t("login.easyBillingDesc")}</p>
               </div>
               <div className="p-6 rounded-xl bg-white/5 backdrop-blur-md border border-white/10">
                 <span className="material-symbols-outlined text-[#D9A441] text-3xl mb-4 block">support_agent</span>
-                <h3 className="text-white font-['Plus_Jakarta_Sans'] font-bold text-sm mb-1">{t("login.support247")}</h3>
+                <h3 className="text-white font-['Hanken_Grotesk'] font-bold text-sm mb-1">{t("login.support247")}</h3>
                 <p className="text-white/60 text-xs">{t("login.support247Desc")}</p>
               </div>
             </div>
@@ -99,7 +99,7 @@ export default function LoginPage() {
             <div className="w-8 h-8 rounded-full bg-[#D9A441]/20 flex items-center justify-center">
               <span className="material-symbols-outlined text-[#D9A441] text-[16px]">verified</span>
             </div>
-            <span className="text-white text-sm font-['Manrope'] font-medium">{t("login.trustedAcross")}</span>
+            <span className="text-white text-sm font-['Inter'] font-medium">{t("login.trustedAcross")}</span>
           </div>
         </div>
       </section>
@@ -112,34 +112,34 @@ export default function LoginPage() {
               <Wordmark size="md" />
             </div>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-['Plus_Jakarta_Sans'] text-3xl font-bold text-[#1F2937] tracking-tight">
+              <h2 className="font-['Hanken_Grotesk'] text-3xl font-bold text-[#181511] tracking-tight">
                 {t("login.title")}
               </h2>
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setLanguage("en")}
-                  className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
+                  className={`px-2 py-1 text-xs font-['Inter'] font-bold rounded transition-colors ${
                     lang === "en"
                       ? "bg-[#A87813] text-white"
-                      : "text-[#6B7280] hover:text-[#A87813]"
+                      : "text-[#57534E] hover:text-[#A87813]"
                   }`}
                 >
                   EN
                 </button>
-                <span className="text-[#E8E0CE]">|</span>
+                <span className="text-[#DDD0AD]">|</span>
                 <button
                   onClick={() => setLanguage("zh")}
-                  className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
+                  className={`px-2 py-1 text-xs font-['Inter'] font-bold rounded transition-colors ${
                     lang === "zh"
                       ? "bg-[#A87813] text-white"
-                      : "text-[#6B7280] hover:text-[#A87813]"
+                      : "text-[#57534E] hover:text-[#A87813]"
                   }`}
                 >
                   中文
                 </button>
               </div>
             </div>
-            <p className="text-[#6B7280] font-['Manrope'] font-medium">
+            <p className="text-[#57534E] font-['Inter'] font-medium">
               {t("login.subtitle")}
             </p>
           </div>
@@ -148,23 +148,23 @@ export default function LoginPage() {
             {error && (
               <div className="p-4 bg-[#ffdad6] border border-[#ba1a1a]/20 rounded-xl flex items-start gap-3">
                 <span className="material-symbols-outlined text-[#ba1a1a] text-[20px] shrink-0 mt-0.5">error</span>
-                <p className="text-[#ba1a1a] text-sm font-['Manrope'] font-medium">{error}</p>
+                <p className="text-[#ba1a1a] text-sm font-['Inter'] font-medium">{error}</p>
               </div>
             )}
 
             <div>
               <label
-                className="block text-xs font-['Inter'] font-semibold text-[#6B7280] uppercase tracking-widest mb-2 ml-1"
+                className="block text-xs font-['Inter'] font-semibold text-[#57534E] uppercase tracking-widest mb-2 ml-1"
                 htmlFor="identifier"
               >
                 {t("login.username")}
               </label>
               <div className="relative group">
-                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#6B7280] group-focus-within:text-[#A87813] transition-colors">
+                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#57534E] group-focus-within:text-[#A87813] transition-colors">
                   person
                 </span>
                 <input
-                  className="w-full pl-12 pr-4 py-4 bg-[#F2D88A] border-0 rounded-xl font-['Inter'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none transition-all placeholder:text-[#6B7280]/50"
+                  className="w-full pl-12 pr-4 py-4 bg-[#EAC25A] border-0 rounded-xl font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none transition-all placeholder:text-[#57534E]/50"
                   id="identifier"
                   type="text"
                   autoComplete="username"
@@ -178,14 +178,14 @@ export default function LoginPage() {
 
             <div>
               <label
-                className="block text-xs font-['Inter'] font-semibold text-[#6B7280] uppercase tracking-widest mb-2 ml-1"
+                className="block text-xs font-['Inter'] font-semibold text-[#57534E] uppercase tracking-widest mb-2 ml-1"
                 htmlFor="password"
               >
                 {t("login.password")}
               </label>
               <div className="relative group">
                 <input
-                  className="w-full px-4 py-4 bg-[#F2D88A] border-0 rounded-xl font-['Inter'] text-[#1F2937] focus:ring-2 focus:ring-[#D9A441] outline-none transition-all"
+                  className="w-full px-4 py-4 bg-[#EAC25A] border-0 rounded-xl font-['Inter'] text-[#181511] focus:ring-2 focus:ring-[#D9A441] outline-none transition-all"
                   id="password"
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
@@ -197,7 +197,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-[#6B7280] cursor-pointer hover:text-[#A87813] transition-colors"
+                  className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-[#57534E] cursor-pointer hover:text-[#A87813] transition-colors"
                 >
                   {showPassword ? "visibility_off" : "visibility"}
                 </button>
@@ -207,25 +207,25 @@ export default function LoginPage() {
                   type="button"
                   onClick={handleForgotPassword}
                   disabled={resetSubmitting}
-                  className="text-xs font-['Manrope'] font-medium text-[#A87813] hover:underline transition-colors disabled:opacity-60"
+                  className="text-xs font-['Inter'] font-medium text-[#A87813] hover:underline transition-colors disabled:opacity-60"
                 >
                   {resetSubmitting ? "Sending..." : t("login.forgotPassword")}
                 </button>
               </div>
               {resetSent && (
-                <p className="text-xs font-['Manrope'] text-[#A87813] mt-1">
+                <p className="text-xs font-['Inter'] text-[#A87813] mt-1">
                   If that account exists, a reset link has been emailed. Check your inbox (expires in 60 min).
                 </p>
               )}
               {resetError && (
-                <p className="text-xs font-['Manrope'] text-[#ba1a1a] mt-1">
+                <p className="text-xs font-['Inter'] text-[#ba1a1a] mt-1">
                   {resetError}
                 </p>
               )}
             </div>
 
             <button
-              className="w-full py-5 bg-[#A87813] text-white rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-lg hover:bg-[#A87813] transition-all duration-300 shadow-lg shadow-[#A87813]/20 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-5 bg-[#A87813] text-white rounded-xl font-['Hanken_Grotesk'] font-bold text-lg hover:bg-[#A87813] transition-all duration-300 shadow-lg shadow-[#A87813]/20 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
               type="submit"
               disabled={submitting}
             >
@@ -238,7 +238,7 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-12 pt-8 border-t border-[#E8E0CE]/20 flex justify-center gap-8">
+          <div className="mt-12 pt-8 border-t border-[#DDD0AD] flex justify-center gap-8">
             <div className="flex items-center gap-2 opacity-40">
               <span className="material-symbols-outlined text-sm">verified_user</span>
               <span className="text-[10px] font-['Inter'] font-bold uppercase tracking-widest">{t("login.sslEncrypted")}</span>

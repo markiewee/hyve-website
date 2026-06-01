@@ -139,7 +139,7 @@ export default function PortalTour({ onComplete }) {
               <div
                 key={i}
                 className={`h-1 flex-1 rounded-full transition-colors ${
-                  i <= step ? "bg-[#A87813]" : "bg-[#F2D88A]"
+                  i <= step ? "bg-[#A87813]" : "bg-[#EAC25A]"
                 }`}
               />
             ))}
@@ -153,10 +153,10 @@ export default function PortalTour({ onComplete }) {
               </span>
             </div>
             <div>
-              <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-base">
+              <h3 className="font-['Hanken_Grotesk'] font-bold text-[#181511] text-base">
                 {currentStep.title}
               </h3>
-              <p className="font-['Manrope'] text-sm text-[#6B7280] mt-1 leading-relaxed">
+              <p className="font-['Inter'] text-sm text-[#57534E] mt-1 leading-relaxed">
                 {currentStep.text}
               </p>
             </div>
@@ -166,13 +166,13 @@ export default function PortalTour({ onComplete }) {
           <div className="flex items-center justify-between">
             <button
               onClick={handleSkip}
-              className="text-xs font-['Manrope'] text-[#6B7280] hover:text-[#1F2937] transition-colors"
+              className="text-xs font-['Inter'] text-[#57534E] hover:text-[#181511] transition-colors"
             >
               Skip tour
             </button>
             <button
               onClick={handleNext}
-              className="px-5 py-2 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#A87813] transition-colors flex items-center gap-1.5"
+              className="px-5 py-2 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#A87813] transition-colors flex items-center gap-1.5"
             >
               {step < TOUR_STEPS.length - 1 ? (
                 <>

@@ -35,7 +35,7 @@ function getDaysInMonth() {
 }
 
 function SkeletonLine({ className = "" }) {
-  return <div className={`bg-[#F2D88A] animate-pulse rounded ${className}`} />;
+  return <div className={`bg-[#EAC25A] animate-pulse rounded ${className}`} />;
 }
 
 export default function DashboardPage() {
@@ -86,11 +86,11 @@ export default function DashboardPage() {
     <PortalLayout>
       {/* Editorial header */}
       <header className="mb-10 max-w-6xl">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-4xl lg:text-5xl font-extrabold text-[#1F2937] tracking-tight mb-3">
+        <h2 className="font-['Hanken_Grotesk'] text-4xl lg:text-5xl font-extrabold text-[#181511] tracking-tight mb-3">
           {t("dashboard.heroTitle", { property: "" })}{" "}
           <span className="text-[#A87813]">{propertyName}</span>
         </h2>
-        <p className="font-['Manrope'] text-[#6B7280] text-lg max-w-2xl leading-relaxed">
+        <p className="font-['Inter'] text-[#57534E] text-lg max-w-2xl leading-relaxed">
           {t("dashboard.greeting", { name: firstName })}{" "}
           {!usageLoading && todayHours > 0
             ? t("dashboard.acRunning", { hours: todayHours.toFixed(1) })
@@ -104,7 +104,7 @@ export default function DashboardPage() {
       {/* Outstanding Invoices */}
       {!invoicesLoading && invoiceList.filter(inv => inv.status !== "PAID" && inv.status !== "VOID").length > 0 && (
         <div className="mb-8 max-w-6xl">
-          <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-4 flex items-center gap-2 text-[#1F2937]">
+          <h3 className="font-['Hanken_Grotesk'] font-bold text-xl mb-4 flex items-center gap-2 text-[#181511]">
             <span className="material-symbols-outlined text-[#A87813] text-[22px]">receipt_long</span>
             Outstanding Invoices
           </h3>
@@ -118,16 +118,16 @@ export default function DashboardPage() {
                 <div
                   key={inv.id}
                   onClick={() => navigate(`/portal/billing/${inv.id}`)}
-                  className="bg-white rounded-xl border border-[#E8E0CE]/15 p-4 flex justify-between items-center cursor-pointer hover:shadow-md transition-all"
+                  className="bg-white rounded-xl border border-[#DDD0AD] p-4 flex justify-between items-center cursor-pointer hover:shadow-md transition-all"
                 >
                   <div>
-                    <p className="font-['Manrope'] font-bold text-sm text-[#1F2937]">Invoice #{inv.invoice_code}</p>
-                    <p className="font-['Manrope'] text-xs text-[#6B7280]">
+                    <p className="font-['Inter'] font-bold text-sm text-[#181511]">Invoice #{inv.invoice_code}</p>
+                    <p className="font-['Inter'] text-xs text-[#57534E]">
                       Due {new Date(inv.due_date).toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" })}
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="font-['Manrope'] font-bold text-sm text-[#1F2937]">
+                    <span className="font-['Inter'] font-bold text-sm text-[#181511]">
                       ${Number(inv.total_due).toFixed(2)}
                     </span>
                     <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${statusColor}`}>
@@ -151,10 +151,10 @@ export default function DashboardPage() {
         {/* ── Row 1 ── */}
 
         {/* Billing Overview — col-span-12 */}
-        <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#E8E0CE]/15 shadow-sm relative overflow-hidden">
+        <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#DDD0AD] shadow-sm relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#A87813]/5 rounded-full -mr-16 -mt-16 pointer-events-none" />
           <div className="relative z-10">
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-6 flex items-center gap-2 text-[#1F2937]">
+            <h3 className="font-['Hanken_Grotesk'] font-bold text-xl mb-6 flex items-center gap-2 text-[#181511]">
               <span className="material-symbols-outlined text-[#A87813] text-[22px]">account_balance_wallet</span>
               {t("dashboard.billingOverview")}
             </h3>
@@ -162,35 +162,35 @@ export default function DashboardPage() {
               {/* Monthly Rent */}
               <div className="bg-[#A87813]/5 rounded-xl p-5 border-b-2 border-[#A87813]">
                 <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#A87813] font-bold mb-1">{t("dashboard.monthlyRent")}</p>
-                <p className="font-['Plus_Jakarta_Sans'] text-2xl font-black text-[#1F2937]">
+                <p className="font-['Hanken_Grotesk'] text-2xl font-black text-[#181511]">
                   {(profile?.monthly_rent || profile?.rooms?.rent_amount)
                     ? `$${Number(profile.monthly_rent || profile.rooms?.rent_amount).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`
                     : "—"}
                 </p>
-                <p className="text-xs text-[#6B7280] mt-1">{t("dashboard.due1st")}</p>
+                <p className="text-xs text-[#57534E] mt-1">{t("dashboard.due1st")}</p>
               </div>
               {/* Outstanding Charges */}
               <div className={`rounded-xl p-5 border-b-2 ${totalCharges > 0 ? "bg-amber-50 border-amber-400" : "bg-gray-50 border-gray-200"}`}>
-                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-1">{t("dashboard.otherCharges")}</p>
-                <p className={`font-['Plus_Jakarta_Sans'] text-2xl font-black ${totalCharges > 0 ? "text-amber-700" : "text-[#1F2937]"}`}>
+                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-1">{t("dashboard.otherCharges")}</p>
+                <p className={`font-['Hanken_Grotesk'] text-2xl font-black ${totalCharges > 0 ? "text-amber-700" : "text-[#181511]"}`}>
                   ${totalCharges.toLocaleString("en-SG", { minimumFractionDigits: 2 })}
                 </p>
-                <p className="text-xs text-[#6B7280] mt-1">
+                <p className="text-xs text-[#57534E] mt-1">
                   {charges.length > 0 ? charges.map(c => c.description).join(", ") : t("dashboard.noCharges")}
                 </p>
               </div>
               {/* Total Due */}
-              <div className={`rounded-xl p-5 border-b-2 ${totalCharges > 0 ? "bg-red-50 border-red-400" : "bg-[#F2D88A] border-[#A87813]/30"}`}>
-                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-1">{t("dashboard.totalDue")}</p>
-                <p className="font-['Plus_Jakarta_Sans'] text-2xl font-black text-[#1F2937]">
+              <div className={`rounded-xl p-5 border-b-2 ${totalCharges > 0 ? "bg-red-50 border-red-400" : "bg-[#EAC25A] border-[#A87813]/30"}`}>
+                <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#57534E] font-bold mb-1">{t("dashboard.totalDue")}</p>
+                <p className="font-['Hanken_Grotesk'] text-2xl font-black text-[#181511]">
                   ${((Number(profile?.monthly_rent || 0) + totalCharges)).toLocaleString("en-SG", { minimumFractionDigits: 2 })}
                 </p>
-                <p className="text-xs text-[#6B7280] mt-1">{t("dashboard.rentCharges")}</p>
+                <p className="text-xs text-[#57534E] mt-1">{t("dashboard.rentCharges")}</p>
               </div>
             </div>
             <Link
               to="/portal/billing"
-              className="bg-[#A87813] text-white px-8 py-4 rounded-xl font-['Manrope'] font-bold text-base hover:opacity-90 transition-all inline-flex items-center gap-2"
+              className="bg-[#A87813] text-white px-8 py-4 rounded-xl font-['Inter'] font-bold text-base hover:opacity-90 transition-all inline-flex items-center gap-2"
             >
               {t("dashboard.viewBilling")}
               <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
@@ -201,20 +201,20 @@ export default function DashboardPage() {
         {/* ── Row 2 ── */}
 
         {/* AC Usage chart — col-span-7 */}
-        <section className="md:col-span-7 bg-white rounded-xl p-8 border border-[#E8E0CE]/15 shadow-sm">
-          <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-6 flex items-center gap-2 text-[#1F2937]">
+        <section className="md:col-span-7 bg-white rounded-xl p-8 border border-[#DDD0AD] shadow-sm">
+          <h3 className="font-['Hanken_Grotesk'] font-bold text-xl mb-6 flex items-center gap-2 text-[#181511]">
             <span className="material-symbols-outlined text-[#A87813] text-[22px]">ac_unit</span>
             {t("dashboard.acUsage")}
           </h3>
           {usageChart.loading ? (
-            <div className="h-[280px] bg-[#F2D88A] animate-pulse rounded-lg" />
+            <div className="h-[280px] bg-[#EAC25A] animate-pulse rounded-lg" />
           ) : (
             <UsageChart {...usageChart} />
           )}
         </section>
 
         {/* Tenancy Status — col-span-5 */}
-        <section className="md:col-span-5 bg-white rounded-xl p-8 border border-[#E8E0CE]/15 shadow-sm">
+        <section className="md:col-span-5 bg-white rounded-xl p-8 border border-[#DDD0AD] shadow-sm">
           {dashLoading ? (
             <div className="space-y-3">
               <SkeletonLine className="h-5 w-1/3" />
@@ -227,7 +227,7 @@ export default function DashboardPage() {
         </section>
 
         {/* ── Row 2.5: Documents — full width ── */}
-        <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#E8E0CE]/15 shadow-sm">
+        <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#DDD0AD] shadow-sm">
           {dashLoading ? (
             <div className="space-y-3">
               <SkeletonLine className="h-5 w-1/3" />
@@ -239,13 +239,13 @@ export default function DashboardPage() {
         </section>
 
         {/* ── Row 3: Monthly Allowance — full width ── */}
-        <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#E8E0CE]/15 shadow-sm">
+        <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#DDD0AD] shadow-sm">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl flex items-center gap-2 text-[#1F2937]">
+            <h3 className="font-['Hanken_Grotesk'] font-bold text-xl flex items-center gap-2 text-[#181511]">
               <span className="material-symbols-outlined text-[#A87813] text-[22px]">bolt</span>
               {t("dashboard.monthlyAllowance")}
             </h3>
-            <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280]">
+            <span className="font-['Inter'] text-xs uppercase tracking-widest text-[#57534E]">
               {t("dashboard.dayOf", { current: dayOfMonth, total: daysInMonth })}
             </span>
           </div>
@@ -257,7 +257,7 @@ export default function DashboardPage() {
           ) : (
             <>
               <UsageProgressBar totalHours={totalHours} freeHours={getFreeHours()} />
-              <p className="font-['Manrope'] text-sm text-[#6B7280] mt-4">
+              <p className="font-['Inter'] text-sm text-[#57534E] mt-4">
                 {t("dashboard.usageSummary", { used: totalHours.toFixed(1), free: getFreeHours() })}
               </p>
             </>
@@ -268,8 +268,8 @@ export default function DashboardPage() {
         <section className="md:col-span-12 grid grid-cols-2 sm:grid-cols-4 gap-4">
 
           {/* AC Status */}
-          <div className="bg-white rounded-xl p-6 border border-[#E8E0CE]/15 shadow-sm">
-            <p className="font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] mb-3">
+          <div className="bg-white rounded-xl p-6 border border-[#DDD0AD] shadow-sm">
+            <p className="font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] mb-3">
               {t("dashboard.acStatus")}
             </p>
             {statusLoading ? (
@@ -280,45 +280,45 @@ export default function DashboardPage() {
           </div>
 
           {/* Today */}
-          <div className="bg-white rounded-xl p-6 border border-[#E8E0CE]/15 shadow-sm">
-            <p className="font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] mb-3">
+          <div className="bg-white rounded-xl p-6 border border-[#DDD0AD] shadow-sm">
+            <p className="font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] mb-3">
               {t("dashboard.today")}
             </p>
             {usageLoading ? (
               <SkeletonLine className="h-7 w-16" />
             ) : (
-              <p className="font-['Plus_Jakarta_Sans'] text-3xl font-black text-[#1F2937]">
+              <p className="font-['Hanken_Grotesk'] text-3xl font-black text-[#181511]">
                 {todayHours.toFixed(1)}
-                <span className="text-base font-['Manrope'] font-normal text-[#6B7280] ml-1">h</span>
+                <span className="text-base font-['Inter'] font-normal text-[#57534E] ml-1">h</span>
               </p>
             )}
           </div>
 
           {/* Projected */}
-          <div className="bg-white rounded-xl p-6 border border-[#E8E0CE]/15 shadow-sm">
-            <p className="font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] mb-3">
+          <div className="bg-white rounded-xl p-6 border border-[#DDD0AD] shadow-sm">
+            <p className="font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] mb-3">
               {t("dashboard.projected")}
             </p>
             {usageLoading ? (
               <SkeletonLine className="h-7 w-16" />
             ) : (
-              <p className={`font-['Plus_Jakarta_Sans'] text-3xl font-black ${projected > getFreeHours() ? "text-[#ba1a1a]" : "text-[#1F2937]"}`}>
+              <p className={`font-['Hanken_Grotesk'] text-3xl font-black ${projected > getFreeHours() ? "text-[#ba1a1a]" : "text-[#181511]"}`}>
                 {projected.toFixed(0)}
-                <span className="text-base font-['Manrope'] font-normal text-[#6B7280] ml-1">h</span>
+                <span className="text-base font-['Inter'] font-normal text-[#57534E] ml-1">h</span>
               </p>
             )}
           </div>
 
           {/* Open Issues */}
-          <div className="bg-white rounded-xl p-6 border border-[#E8E0CE]/15 shadow-sm">
-            <p className="font-['Inter'] text-xs uppercase tracking-widest text-[#6B7280] mb-3">
+          <div className="bg-white rounded-xl p-6 border border-[#DDD0AD] shadow-sm">
+            <p className="font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] mb-3">
               {t("dashboard.openIssues")}
             </p>
             {dashLoading ? (
               <SkeletonLine className="h-7 w-10" />
             ) : (
               <div className="flex items-end justify-between">
-                <p className="font-['Plus_Jakarta_Sans'] text-3xl font-black text-[#1F2937]">
+                <p className="font-['Hanken_Grotesk'] text-3xl font-black text-[#181511]">
                   {openTickets ?? 0}
                 </p>
                 <Link

@@ -41,7 +41,7 @@ export default function InvoiceDetailPage() {
   if (!invoice) {
     return (
       <PortalLayout>
-        <p className="text-center py-20 text-[#6B7280] font-['Manrope']">Invoice not found.</p>
+        <p className="text-center py-20 text-[#57534E] font-['Inter']">Invoice not found.</p>
       </PortalLayout>
     );
   }
@@ -56,7 +56,7 @@ export default function InvoiceDetailPage() {
         <div className="flex justify-between items-center mb-6 print:hidden">
           <a
             href="/portal/billing"
-            className="font-['Manrope'] text-sm text-[#A87813] hover:underline flex items-center gap-1"
+            className="font-['Inter'] text-sm text-[#A87813] hover:underline flex items-center gap-1"
           >
             <span className="material-symbols-outlined text-[18px]">arrow_back</span>
             Back to Billing
@@ -64,7 +64,7 @@ export default function InvoiceDetailPage() {
           <div className="flex gap-3">
             <button
               onClick={() => window.print()}
-              className="px-4 py-2 border border-[#E8E0CE]/30 rounded-xl font-['Manrope'] text-sm text-[#1F2937] hover:bg-[#FAF6EC] transition-all flex items-center gap-2"
+              className="px-4 py-2 border border-[#DDD0AD] rounded-xl font-['Inter'] text-sm text-[#181511] hover:bg-[#FAF6EC] transition-all flex items-center gap-2"
             >
               <span className="material-symbols-outlined text-[18px]">print</span>
               Print
@@ -73,7 +73,7 @@ export default function InvoiceDetailPage() {
               <button
                 onClick={handleStripePayment}
                 disabled={paying}
-                className="px-4 py-2 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+                className="px-4 py-2 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">credit_card</span>
                 {paying ? "Redirecting..." : `Pay with Stripe (+4%)`}
@@ -84,22 +84,22 @@ export default function InvoiceDetailPage() {
 
         {payError && (
           <div className="mb-4 p-3 bg-[#ffdad6] rounded-xl print:hidden">
-            <p className="font-['Manrope'] text-sm text-[#ba1a1a]">{payError}</p>
+            <p className="font-['Inter'] text-sm text-[#ba1a1a]">{payError}</p>
           </div>
         )}
 
         {/* Invoice Document */}
-        <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm p-6">
+        <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm p-6">
           <InvoiceDocument invoice={invoice} />
         </div>
 
         {/* Cardless deposit instructions */}
         {canPay && (
-          <details className="mt-6 bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm p-6 print:hidden">
-            <summary className="font-['Manrope'] font-bold text-sm text-[#1F2937] cursor-pointer">
+          <details className="mt-6 bg-white rounded-2xl border border-[#DDD0AD] shadow-sm p-6 print:hidden">
+            <summary className="font-['Inter'] font-bold text-sm text-[#181511] cursor-pointer">
               Don't have an ATM card? Deposit at any DBS/POSB ATM
             </summary>
-            <ol className="mt-3 space-y-1 font-['Manrope'] text-sm text-[#6B7280] list-decimal list-inside">
+            <ol className="mt-3 space-y-1 font-['Inter'] text-sm text-[#57534E] list-decimal list-inside">
               <li>Touch the screen and select <strong>Cash Deposit</strong></li>
               <li>Select the <strong>Account Type</strong></li>
               <li>Enter Account Number <strong>885-215114-103</strong> and select Confirm</li>

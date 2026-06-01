@@ -73,13 +73,13 @@ export default function UsageChart({
         >
           <XAxis
             dataKey="label"
-            tick={{ fontSize: 10, fill: "#9ca3af" }}
+            tick={{ fontSize: 10, fill: "#A39C8E" }}
             tickLine={false}
             axisLine={false}
             interval={view === "day" ? 2 : 0}
           />
           <YAxis
-            tick={{ fontSize: 11, fill: "#9ca3af" }}
+            tick={{ fontSize: 11, fill: "#A39C8E" }}
             tickLine={false}
             axisLine={false}
             unit="h"

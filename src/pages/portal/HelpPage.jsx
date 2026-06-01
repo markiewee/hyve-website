@@ -156,10 +156,10 @@ export default function HelpPage() {
   return (
     <PortalLayout>
       <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
+        <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511] tracking-tight">
           {isZh ? "帮助中心" : "Help Centre"}
         </h1>
-        <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">
+        <p className="text-[#57534E] font-['Inter'] font-medium mt-1">
           {isZh
             ? "查找有关门户、账单、维修和居住的常见问题解答。"
             : "Find answers about the portal, billing, maintenance, and living at Lazybee."}
@@ -170,28 +170,28 @@ export default function HelpPage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
         <Link
           to="/portal/issues/new"
-          className="bg-white rounded-xl p-4 border border-[#E8E0CE]/15 shadow-sm hover:border-[#A87813]/40 transition-all text-center group"
+          className="bg-white rounded-xl p-4 border border-[#DDD0AD] shadow-sm hover:border-[#A87813]/40 transition-all text-center group"
         >
           <span className="material-symbols-outlined text-[24px] text-[#A87813] mb-1 block">support_agent</span>
-          <p className="font-['Manrope'] font-bold text-xs text-[#1F2937]">
+          <p className="font-['Inter'] font-bold text-xs text-[#181511]">
             {isZh ? "报告问题" : "Report Issue"}
           </p>
         </Link>
         <Link
           to="/portal/billing"
-          className="bg-white rounded-xl p-4 border border-[#E8E0CE]/15 shadow-sm hover:border-[#A87813]/40 transition-all text-center group"
+          className="bg-white rounded-xl p-4 border border-[#DDD0AD] shadow-sm hover:border-[#A87813]/40 transition-all text-center group"
         >
           <span className="material-symbols-outlined text-[24px] text-[#A87813] mb-1 block">payments</span>
-          <p className="font-['Manrope'] font-bold text-xs text-[#1F2937]">
+          <p className="font-['Inter'] font-bold text-xs text-[#181511]">
             {isZh ? "支付账单" : "Pay Bills"}
           </p>
         </Link>
         <Link
           to="/portal/documents"
-          className="bg-white rounded-xl p-4 border border-[#E8E0CE]/15 shadow-sm hover:border-[#A87813]/40 transition-all text-center group"
+          className="bg-white rounded-xl p-4 border border-[#DDD0AD] shadow-sm hover:border-[#A87813]/40 transition-all text-center group"
         >
           <span className="material-symbols-outlined text-[24px] text-[#A87813] mb-1 block">folder_open</span>
-          <p className="font-['Manrope'] font-bold text-xs text-[#1F2937]">
+          <p className="font-['Inter'] font-bold text-xs text-[#181511]">
             {isZh ? "我的文件" : "My Documents"}
           </p>
         </Link>
@@ -199,10 +199,10 @@ export default function HelpPage() {
           href="https://wa.me/6580695410"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-white rounded-xl p-4 border border-[#E8E0CE]/15 shadow-sm hover:border-[#A87813]/40 transition-all text-center group"
+          className="bg-white rounded-xl p-4 border border-[#DDD0AD] shadow-sm hover:border-[#A87813]/40 transition-all text-center group"
         >
           <span className="material-symbols-outlined text-[24px] text-[#A87813] mb-1 block">chat</span>
-          <p className="font-['Manrope'] font-bold text-xs text-[#1F2937]">
+          <p className="font-['Inter'] font-bold text-xs text-[#181511]">
             {isZh ? "WhatsApp 客服" : "WhatsApp Us"}
           </p>
         </a>
@@ -215,7 +215,7 @@ export default function HelpPage() {
           return (
             <div
               key={section.id}
-              className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden"
+              className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm overflow-hidden"
             >
               <button
                 onClick={() => setOpenSection(isOpen ? null : section.id)}
@@ -224,11 +224,11 @@ export default function HelpPage() {
                 <div className="w-10 h-10 rounded-xl bg-[#D9A441]/10 flex items-center justify-center shrink-0">
                   <span className="material-symbols-outlined text-[#A87813] text-[20px]">{section.icon}</span>
                 </div>
-                <span className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] flex-1 text-left">
+                <span className="font-['Hanken_Grotesk'] font-bold text-[#181511] flex-1 text-left">
                   {isZh ? section.titleZh : section.title}
                 </span>
                 <span
-                  className="material-symbols-outlined text-[#6B7280] text-[20px] transition-transform duration-200"
+                  className="material-symbols-outlined text-[#57534E] text-[20px] transition-transform duration-200"
                   style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
                 >
                   expand_more
@@ -236,7 +236,7 @@ export default function HelpPage() {
               </button>
 
               {isOpen && (
-                <div className="border-t border-[#E8E0CE]/15 divide-y divide-[#E8E0CE]/10">
+                <div className="border-t border-[#DDD0AD] divide-y divide-[#DDD0AD]">
                   {section.items.map((item, idx) => {
                     const itemKey = `${section.id}-${idx}`;
                     const itemOpen = openItems[itemKey];
@@ -249,13 +249,13 @@ export default function HelpPage() {
                           <span className="material-symbols-outlined text-[16px] text-[#A87813] shrink-0">
                             {itemOpen ? "remove" : "add"}
                           </span>
-                          <span className="font-['Manrope'] font-semibold text-sm text-[#1F2937]">
+                          <span className="font-['Inter'] font-semibold text-sm text-[#181511]">
                             {isZh ? item.qZh : item.q}
                           </span>
                         </button>
                         {itemOpen && (
                           <div className="px-6 pb-4 pl-[52px]">
-                            <p className="font-['Manrope'] text-sm text-[#1F2937] leading-relaxed">
+                            <p className="font-['Inter'] text-sm text-[#181511] leading-relaxed">
                               {isZh ? item.aZh : item.a}
                             </p>
                           </div>
@@ -273,10 +273,10 @@ export default function HelpPage() {
       {/* Contact footer */}
       <div className="mt-10 bg-[#A87813]/5 rounded-2xl p-8 text-center">
         <span className="material-symbols-outlined text-[32px] text-[#A87813] mb-3 block">contact_support</span>
-        <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937] mb-2">
+        <h3 className="font-['Hanken_Grotesk'] font-bold text-lg text-[#181511] mb-2">
           {isZh ? "还有问题？" : "Still need help?"}
         </h3>
-        <p className="font-['Manrope'] text-sm text-[#1F2937] mb-4">
+        <p className="font-['Inter'] text-sm text-[#181511] mb-4">
           {isZh
             ? "WhatsApp 我们，通常几小时内回复。"
             : "WhatsApp us — we typically reply within a few hours."}
@@ -286,14 +286,14 @@ export default function HelpPage() {
             href="https://wa.me/6580695410"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#A87813] text-white px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 transition-all"
+            className="inline-flex items-center gap-2 bg-[#A87813] text-white px-6 py-3 rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 transition-all"
           >
             <span className="material-symbols-outlined text-[18px]">chat</span>
             WhatsApp +65 8069 5410
           </a>
           <a
             href="mailto:admin@lazybee.sg"
-            className="inline-flex items-center gap-2 bg-white text-[#A87813] border border-[#A87813]/20 px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:bg-[#FAF6EC] transition-all"
+            className="inline-flex items-center gap-2 bg-white text-[#A87813] border border-[#A87813]/20 px-6 py-3 rounded-xl font-['Inter'] font-bold text-sm hover:bg-[#FAF6EC] transition-all"
           >
             <span className="material-symbols-outlined text-[18px]">mail</span>
             admin@lazybee.sg

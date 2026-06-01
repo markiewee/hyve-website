@@ -76,7 +76,7 @@ function formatTime(timeStr) {
 function InitialsAvatar({ name, size = "w-14 h-14 text-lg" }) {
   return (
     <div
-      className={`${size} rounded-full bg-[#FAF0CC] flex items-center justify-center text-[#A87813] font-bold shrink-0`}
+      className={`${size} rounded-full bg-[#F6E6B4] flex items-center justify-center text-[#A87813] font-bold shrink-0`}
     >
       {getInitials(name)}
     </div>
@@ -156,7 +156,7 @@ function Toast({ message, onClose }) {
         <span className="material-symbols-outlined text-[20px]">
           check_circle
         </span>
-        <span className="font-['Manrope'] font-semibold text-sm">
+        <span className="font-['Inter'] font-semibold text-sm">
           {message}
         </span>
         <button onClick={onClose} className="ml-2 hover:opacity-70">
@@ -233,10 +233,10 @@ function AvailabilitySection({ viewing, onConfirmed }) {
           schedule_send
         </span>
         <div>
-          <p className="font-['Manrope'] font-bold text-emerald-800 text-sm">
+          <p className="font-['Inter'] font-bold text-emerald-800 text-sm">
             Availability submitted
           </p>
-          <p className="font-['Manrope'] text-emerald-700 text-xs">
+          <p className="font-['Inter'] text-emerald-700 text-xs">
             Waiting for the prospect to respond. We'll notify you when a match
             is found.
           </p>
@@ -252,10 +252,10 @@ function AvailabilitySection({ viewing, onConfirmed }) {
           event_available
         </span>
         <div>
-          <p className="font-['Manrope'] font-bold text-emerald-800 text-sm">
+          <p className="font-['Inter'] font-bold text-emerald-800 text-sm">
             Viewing confirmed!
           </p>
-          <p className="font-['Manrope'] text-emerald-700 text-xs">
+          <p className="font-['Inter'] text-emerald-700 text-xs">
             {matchedSlot.toLocaleDateString("en-SG", {
               weekday: "long",
               day: "numeric",
@@ -282,14 +282,14 @@ function AvailabilitySection({ viewing, onConfirmed }) {
         onSlotsChange={setSelectedSlots}
       />
       <div className="flex items-center justify-between">
-        <p className="text-xs text-[#6B7280] font-['Manrope']">
+        <p className="text-xs text-[#57534E] font-['Inter']">
           {selectedSlots.length} slot{selectedSlots.length !== 1 ? "s" : ""}{" "}
           selected
         </p>
         <button
           onClick={handleSubmit}
           disabled={selectedSlots.length === 0 || submitting}
-          className="bg-[#A87813] text-white px-5 py-2.5 rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-40 transition-all flex items-center gap-2"
+          className="bg-[#A87813] text-white px-5 py-2.5 rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-40 transition-all flex items-center gap-2"
         >
           {submitting ? (
             <>
@@ -321,17 +321,17 @@ function IncomingCard({ viewing, onConfirmed }) {
   const poll = viewing.viewing_polls?.[0];
 
   return (
-    <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm hover:shadow-md transition-shadow">
+    <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm hover:shadow-md transition-shadow">
       <div className="p-6 flex flex-col md:flex-row gap-5 items-start md:items-center">
         <InitialsAvatar name={viewing.prospect_name} />
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center gap-3 mb-1">
-            <h3 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#1F2937]">
+            <h3 className="font-['Hanken_Grotesk'] text-lg font-bold text-[#181511]">
               {viewing.prospect_name}
             </h3>
             <StatusPill status={viewing.status} />
           </div>
-          <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[#6B7280]">
+          <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[#57534E]">
             <span className="flex items-center gap-1.5">
               <span className="material-symbols-outlined text-sm">bed</span>
               {viewing.rooms?.unit_code ?? viewing.rooms?.name ?? "Room"}
@@ -347,7 +347,7 @@ function IncomingCard({ viewing, onConfirmed }) {
         </div>
         <button
           onClick={() => setExpanded((v) => !v)}
-          className="w-full md:w-auto px-5 py-2.5 bg-[#A87813] text-white font-['Manrope'] font-bold text-sm rounded-xl hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2"
+          className="w-full md:w-auto px-5 py-2.5 bg-[#A87813] text-white font-['Inter'] font-bold text-sm rounded-xl hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2"
         >
           <span className="material-symbols-outlined text-[16px]">
             {expanded ? "expand_less" : "event_available"}
@@ -370,15 +370,15 @@ function UpcomingCard({ viewing }) {
   const poll = viewing.viewing_polls?.[0];
 
   return (
-    <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm p-6 flex flex-col md:flex-row gap-5 items-start md:items-center">
+    <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm p-6 flex flex-col md:flex-row gap-5 items-start md:items-center">
       <div
         className={`w-14 h-14 rounded-xl flex flex-col items-center justify-center shrink-0 ${
-          isToday ? "bg-[#A87813] text-white" : "bg-[#F2D88A] text-[#1F2937]"
+          isToday ? "bg-[#A87813] text-white" : "bg-[#EAC25A] text-[#181511]"
         }`}
       >
         <span
           className="text-lg font-bold leading-none"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+          style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
         >
           {viewing.viewing_date
             ? new Date(viewing.viewing_date).getDate()
@@ -394,20 +394,20 @@ function UpcomingCard({ viewing }) {
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex flex-wrap items-center gap-3 mb-1">
-          <h3 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-[#1F2937]">
+          <h3 className="font-['Hanken_Grotesk'] text-lg font-bold text-[#181511]">
             {viewing.prospect_name}
           </h3>
           <span
             className={`px-2.5 py-0.5 rounded-full text-xs font-bold tracking-tight ${
               isToday
                 ? "bg-[#A87813]/10 text-[#A87813]"
-                : "bg-[#F2D88A] text-[#6B7280]"
+                : "bg-[#EAC25A] text-[#57534E]"
             }`}
           >
             {dayLabel}
           </span>
         </div>
-        <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[#6B7280]">
+        <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[#57534E]">
           <span className="flex items-center gap-1.5">
             <span className="material-symbols-outlined text-sm">bed</span>
             {viewing.rooms?.unit_code ?? viewing.rooms?.name ?? "Room"}
@@ -424,11 +424,11 @@ function UpcomingCard({ viewing }) {
         </div>
       </div>
       <div className="text-right hidden md:block">
-        <p className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#1F2937]">
+        <p className="font-['Hanken_Grotesk'] text-sm font-bold text-[#181511]">
           {viewing.viewing_date ? formatDate(viewing.viewing_date) : ""}
         </p>
         {viewing.viewing_time && (
-          <p className="font-['Manrope'] text-sm text-[#6B7280]">
+          <p className="font-['Inter'] text-sm text-[#57534E]">
             {formatTime(viewing.viewing_time)}
           </p>
         )}
@@ -441,16 +441,16 @@ function PastCard({ viewing }) {
   const poll = viewing.viewing_polls?.[0];
 
   return (
-    <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm p-6 flex flex-col md:flex-row gap-5 items-start md:items-center opacity-70">
+    <div className="bg-white rounded-2xl border border-[#DDD0AD] shadow-sm p-6 flex flex-col md:flex-row gap-5 items-start md:items-center opacity-70">
       <InitialsAvatar name={viewing.prospect_name} size="w-12 h-12 text-base" />
       <div className="flex-1 min-w-0">
         <div className="flex flex-wrap items-center gap-3 mb-1">
-          <h3 className="font-['Plus_Jakarta_Sans'] text-base font-bold text-[#1F2937]">
+          <h3 className="font-['Hanken_Grotesk'] text-base font-bold text-[#181511]">
             {viewing.prospect_name}
           </h3>
           <StatusPill status={viewing.status === "CONFIRMED" ? "COMPLETED" : viewing.status} />
         </div>
-        <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[#6B7280]">
+        <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[#57534E]">
           <span className="flex items-center gap-1.5">
             <span className="material-symbols-outlined text-sm">bed</span>
             {viewing.rooms?.unit_code ?? viewing.rooms?.name ?? "Room"}
@@ -472,16 +472,16 @@ function PastCard({ viewing }) {
 
 function EmptyState({ icon, title, description }) {
   return (
-    <div className="bg-white rounded-2xl p-12 border border-[#E8E0CE]/15 shadow-sm flex flex-col items-center text-center">
-      <div className="w-16 h-16 bg-[#F2D88A] rounded-2xl flex items-center justify-center mb-4">
+    <div className="bg-white rounded-2xl p-12 border border-[#DDD0AD] shadow-sm flex flex-col items-center text-center">
+      <div className="w-16 h-16 bg-[#EAC25A] rounded-2xl flex items-center justify-center mb-4">
         <span className="material-symbols-outlined text-[#A87813] text-[32px]">
           {icon}
         </span>
       </div>
-      <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-lg mb-2">
+      <h3 className="font-['Hanken_Grotesk'] font-bold text-[#181511] text-lg mb-2">
         {title}
       </h3>
-      <p className="text-[#6B7280] font-['Manrope'] text-sm max-w-sm">
+      <p className="text-[#57534E] font-['Inter'] text-sm max-w-sm">
         {description}
       </p>
     </div>
@@ -494,16 +494,16 @@ function LoadingSkeleton() {
       {[1, 2, 3].map((i) => (
         <div
           key={i}
-          className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm"
+          className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm"
         >
           <div className="flex gap-5 items-center">
-            <div className="w-14 h-14 rounded-full bg-[#F2D88A] animate-pulse" />
+            <div className="w-14 h-14 rounded-full bg-[#EAC25A] animate-pulse" />
             <div className="flex-1 space-y-3">
               <div className="flex gap-3">
-                <div className="h-5 w-32 bg-[#F2D88A] animate-pulse rounded-full" />
-                <div className="h-5 w-24 bg-[#F2D88A] animate-pulse rounded-full" />
+                <div className="h-5 w-32 bg-[#EAC25A] animate-pulse rounded-full" />
+                <div className="h-5 w-24 bg-[#EAC25A] animate-pulse rounded-full" />
               </div>
-              <div className="h-4 w-2/3 bg-[#F2D88A] animate-pulse rounded" />
+              <div className="h-4 w-2/3 bg-[#EAC25A] animate-pulse rounded" />
             </div>
           </div>
         </div>
@@ -590,17 +590,17 @@ export default function CaptainViewingsPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
+        <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511] tracking-tight">
           Viewings
         </h1>
-        <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">
+        <p className="text-[#57534E] font-['Inter'] font-medium mt-1">
           Manage viewing requests for{" "}
-          <span className="font-semibold text-[#1F2937]">{propertyName}</span>.
+          <span className="font-semibold text-[#181511]">{propertyName}</span>.
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-8 border-b border-[#E8E0CE]/20 mb-8">
+      <div className="flex items-center gap-8 border-b border-[#DDD0AD] mb-8">
         {TABS.map((tab) => {
           const isActive = activeTab === tab.key;
           const count = tabData[tab.key]?.length ?? 0;
@@ -608,10 +608,10 @@ export default function CaptainViewingsPage() {
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`pb-3 text-sm font-['Manrope'] font-medium transition-all flex items-center gap-2 ${
+              className={`pb-3 text-sm font-['Inter'] font-medium transition-all flex items-center gap-2 ${
                 isActive
                   ? "text-[#A87813] font-bold border-b-2 border-[#A87813]"
-                  : "text-[#6B7280] hover:text-[#1F2937]"
+                  : "text-[#57534E] hover:text-[#181511]"
               }`}
             >
               {tab.label}
@@ -620,7 +620,7 @@ export default function CaptainViewingsPage() {
                   className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
                     isActive
                       ? "bg-[#A87813]/10 text-[#A87813]"
-                      : "bg-[#F2D88A] text-[#6B7280]"
+                      : "bg-[#EAC25A] text-[#57534E]"
                   }`}
                 >
                   {count}

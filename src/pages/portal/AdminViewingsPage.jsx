@@ -74,7 +74,7 @@ function TabButton({ active, onClick, children, count }) {
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm transition-all ${
+      className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-['Hanken_Grotesk'] font-bold text-sm transition-all ${
         active
           ? "bg-[#A87813] text-white shadow-md"
           : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
@@ -377,7 +377,7 @@ function CalendarTab({ viewings, refetch }) {
 
       {/* Upcoming list */}
       <div className="mt-8">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-slate-900 mb-3 tracking-tight">
+        <h2 className="font-['Hanken_Grotesk'] text-lg font-bold text-slate-900 mb-3 tracking-tight">
           Upcoming viewings ({upcoming.length})
         </h2>
         <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
@@ -495,7 +495,7 @@ function ViewingModal({ viewing, onClose, onChanged }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-slate-900">
+          <h3 className="font-['Hanken_Grotesk'] font-bold text-lg text-slate-900">
             Viewing details
           </h3>
           <button
@@ -602,7 +602,7 @@ function BlockSlotModal({ slot, onClose, onBlocked }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-slate-900">Block slot</h3>
+          <h3 className="font-['Hanken_Grotesk'] font-bold text-lg text-slate-900">Block slot</h3>
           <button
             onClick={onClose}
             className="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600"
@@ -725,7 +725,7 @@ function LeadsTab() {
         <span className="material-symbols-outlined text-4xl text-slate-400 mb-3 block">
           deployed_code
         </span>
-        <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-slate-900 mb-1">
+        <h3 className="font-['Hanken_Grotesk'] font-bold text-lg text-slate-900 mb-1">
           Leads table not deployed yet
         </h3>
         <p className="text-sm text-slate-500">
@@ -901,7 +901,7 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
       >
         <div className="sticky top-0 bg-white border-b border-slate-200 p-5 flex items-start justify-between">
           <div>
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-slate-900">
+            <h3 className="font-['Hanken_Grotesk'] font-bold text-lg text-slate-900">
               {lead.name}
             </h3>
             <p className="text-xs text-slate-500 mt-0.5">
@@ -1064,7 +1064,7 @@ export default function AdminViewingsPage() {
     <PortalLayout>
       <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="font-['Hanken_Grotesk'] text-2xl font-extrabold text-slate-900 tracking-tight">
             Viewings
           </h1>
           <p className="text-sm text-slate-500 font-medium mt-1">

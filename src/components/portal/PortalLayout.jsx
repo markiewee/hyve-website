@@ -57,6 +57,7 @@ function useNavLinks(role) {
           children: [
             { label: "Billing", to: "/portal/admin/billing", icon: "receipt_long" },
             { label: t("nav.expenses"), to: "/portal/admin/expenses", icon: "account_balance" },
+            { label: "Reconcile", to: "/portal/admin/expenses/import", icon: "account_balance_wallet" },
             { label: t("nav.financials"), to: "/portal/admin/financials", icon: "bar_chart" },
           ],
         },
@@ -103,7 +104,7 @@ function NavLink({ link, location, onClick }) {
       className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 ${
         isActive
           ? "bg-white text-[#A87813] font-bold rounded-l-full shadow-sm translate-x-0"
-          : "text-[#6B7280] hover:bg-[#F2D88A] hover:translate-x-1"
+          : "text-[#57534E] hover:bg-[#EAC25A] hover:translate-x-1"
       }`}
     >
       <span
@@ -112,7 +113,7 @@ function NavLink({ link, location, onClick }) {
       >
         {link.icon}
       </span>
-      <span className="font-['Manrope']">{link.label}</span>
+      <span className="font-['Inter']">{link.label}</span>
     </Link>
   );
 }
@@ -132,21 +133,21 @@ function AdminDropdown({ link, location, onLinkClick }) {
         className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 ${
           isChildActive
             ? "text-[#A87813] font-bold"
-            : "text-[#6B7280] hover:bg-[#F2D88A] hover:translate-x-1"
+            : "text-[#57534E] hover:bg-[#EAC25A] hover:translate-x-1"
         }`}
       >
         <span className="material-symbols-outlined text-[20px] shrink-0">{link.icon}</span>
-        <span className="font-['Manrope'] flex-1 text-left">{link.label}</span>
+        <span className="font-['Inter'] flex-1 text-left">{link.label}</span>
         <span className="material-symbols-outlined text-[16px] transition-transform duration-200" style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}>
           expand_more
         </span>
       </button>
       {open && (
-        <div className="ml-4 space-y-0.5 border-l border-[#E8E0CE]/30 pl-4 mb-1">
+        <div className="ml-4 space-y-0.5 border-l border-[#DDD0AD] pl-4 mb-1">
           {link.groups
             ? link.groups.map((g) => (
                 <div key={g.label} className="mb-2 last:mb-0">
-                  <div className="px-4 pt-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-[#6B7280]/70 font-['Manrope']">
+                  <div className="px-4 pt-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-[#57534E]/70 font-['Inter']">
                     {g.label}
                   </div>
                   {g.children.map((child) => (
@@ -169,21 +170,21 @@ function LanguageToggle() {
     <div className="flex items-center gap-1 px-4 py-2">
       <button
         onClick={() => setLanguage("en")}
-        className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
+        className={`px-2 py-1 text-xs font-['Inter'] font-bold rounded transition-colors ${
           lang === "en"
             ? "bg-[#A87813] text-white"
-            : "text-[#6B7280] hover:text-[#A87813]"
+            : "text-[#57534E] hover:text-[#A87813]"
         }`}
       >
         EN
       </button>
-      <span className="text-[#E8E0CE]">|</span>
+      <span className="text-[#DDD0AD]">|</span>
       <button
         onClick={() => setLanguage("zh")}
-        className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
+        className={`px-2 py-1 text-xs font-['Inter'] font-bold rounded transition-colors ${
           lang === "zh"
             ? "bg-[#A87813] text-white"
-            : "text-[#6B7280] hover:text-[#A87813]"
+            : "text-[#57534E] hover:text-[#A87813]"
         }`}
       >
         中文
@@ -201,21 +202,21 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
   const firstName = displayName.split(" ")[0];
 
   return (
-    <aside className="h-screen w-64 fixed left-0 top-0 bg-slate-50 flex flex-col py-8 pl-4 z-40 border-r border-[#E8E0CE]/20">
+    <aside className="h-screen w-64 fixed left-0 top-0 bg-slate-50 flex flex-col py-8 pl-4 z-40 border-r border-[#DDD0AD]">
       {/* Logo + user profile */}
       <div className="mb-10 px-4">
         <div className="mb-8">
           <Wordmark size="md" />
         </div>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#FAF0CC] flex items-center justify-center text-[#A87813] font-bold text-sm shrink-0">
+          <div className="w-10 h-10 rounded-full bg-[#F6E6B4] flex items-center justify-center text-[#A87813] font-bold text-sm shrink-0">
             {firstName.slice(0, 2).toUpperCase()}
           </div>
           <div className="min-w-0">
-            <p className="font-['Manrope'] font-bold text-[#1F2937] text-sm truncate">
+            <p className="font-['Inter'] font-bold text-[#181511] text-sm truncate">
               {t("nav.welcome", { name: firstName })}
             </p>
-            <p className="font-['Manrope'] text-[#6B7280] text-xs truncate">
+            <p className="font-['Inter'] text-[#57534E] text-xs truncate">
               {unitCode ? `${unitCode} · ` : ""}{propertyName}
             </p>
           </div>
@@ -246,7 +247,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
         <Link
           to="/portal/issues/new"
           onClick={onLinkClick}
-          className="w-full py-3 px-4 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+          className="w-full py-3 px-4 bg-[#A87813] text-white rounded-xl font-['Inter'] font-bold text-sm shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
         >
           <span className="material-symbols-outlined text-[18px]">support_agent</span>
           {t("nav.quickSupport")}
@@ -259,7 +260,7 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
               className="w-full flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#A87813] text-sm transition-colors"
             >
               <span className="material-symbols-outlined text-[18px]">tour</span>
-              <span className="font-['Manrope']">{t("nav.takeTour")}</span>
+              <span className="font-['Inter']">{t("nav.takeTour")}</span>
             </button>
           )}
           <Link
@@ -268,14 +269,14 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
             className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#A87813] text-sm transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">help</span>
-            <span className="font-['Manrope']">{t("nav.help")}</span>
+            <span className="font-['Inter']">{t("nav.help")}</span>
           </Link>
           <button
             onClick={signOut}
             className="w-full flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-red-500 text-sm transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">logout</span>
-            <span className="font-['Manrope']">{t("nav.logout")}</span>
+            <span className="font-['Inter']">{t("nav.logout")}</span>
           </button>
         </div>
       </div>
@@ -302,14 +303,14 @@ function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
   const isDropdownChildActive = dropdownChildren.some((c) => location.pathname === c.to);
 
   return (
-    <div className="md:hidden fixed bottom-0 w-full bg-white border-t border-[#E8E0CE]/20 px-6 py-3 flex justify-between items-center z-50">
+    <div className="md:hidden fixed bottom-0 w-full bg-white border-t border-[#DDD0AD] px-6 py-3 flex justify-between items-center z-50">
       {visibleLinks.map((link) => {
         const isActive = location.pathname === link.to;
         return (
           <Link
             key={link.to}
             to={link.to}
-            className={`flex flex-col items-center gap-1 ${isActive ? "text-[#A87813]" : "text-[#6B7280]"}`}
+            className={`flex flex-col items-center gap-1 ${isActive ? "text-[#A87813]" : "text-[#57534E]"}`}
           >
             <span
               className="material-symbols-outlined text-[22px]"
@@ -324,7 +325,7 @@ function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
       {dropdownLink && (
         <button
           onClick={onOpenSidebar}
-          className={`flex flex-col items-center gap-1 ${isDropdownChildActive ? "text-[#A87813]" : "text-[#6B7280]"}`}
+          className={`flex flex-col items-center gap-1 ${isDropdownChildActive ? "text-[#A87813]" : "text-[#57534E]"}`}
         >
           <span
             className="material-symbols-outlined text-[22px]"
@@ -372,7 +373,7 @@ export default function PortalLayout({ children }) {
 
       {/* Mobile: hamburger button */}
       <button
-        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-white rounded-xl shadow-sm border border-[#E8E0CE]/20 flex items-center justify-center text-[#A87813]"
+        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-white rounded-xl shadow-sm border border-[#DDD0AD] flex items-center justify-center text-[#A87813]"
         onClick={() => setSidebarOpen(true)}
         aria-label="Open menu"
       >

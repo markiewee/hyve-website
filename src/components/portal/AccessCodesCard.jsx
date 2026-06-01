@@ -39,8 +39,8 @@ export default function AccessCodesCard({ profile }) {
   }
 
   return (
-    <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#E8E0CE]/15 shadow-sm">
-      <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl mb-6 flex items-center gap-2 text-[#1F2937]">
+    <section className="md:col-span-12 bg-white rounded-xl p-8 border border-[#DDD0AD] shadow-sm">
+      <h3 className="font-['Hanken_Grotesk'] font-bold text-xl mb-6 flex items-center gap-2 text-[#181511]">
         <span className="material-symbols-outlined text-[#A87813] text-[22px]">lock</span>
         Unit Access Codes
       </h3>
@@ -60,7 +60,7 @@ export default function AccessCodesCard({ profile }) {
                 {copied === "main" ? "check" : "content_copy"}
               </span>
             </div>
-            <p className="font-mono font-bold text-2xl text-[#191c1e]">{mainDoorCode}</p>
+            <p className="font-mono font-bold text-2xl text-[#181511]">{mainDoorCode}</p>
             {copied === "main" && (
               <p className="text-[10px] text-[#A87813] font-semibold mt-1">Copied!</p>
             )}
@@ -83,7 +83,7 @@ export default function AccessCodesCard({ profile }) {
                 {copied === "room" ? "check" : "content_copy"}
               </span>
             </div>
-            <p className="font-mono font-bold text-2xl text-[#191c1e]">{roomCode}</p>
+            <p className="font-mono font-bold text-2xl text-[#181511]">{roomCode}</p>
             {copied === "room" && (
               <p className="text-[10px] text-[#A87813] font-semibold mt-1">Copied!</p>
             )}

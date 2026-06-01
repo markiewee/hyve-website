@@ -85,7 +85,7 @@ export default function AnnouncementBanner({ propertyId }) {
             color: "white",
             fontSize: "14px",
             fontWeight: 500,
-            fontFamily: "'Manrope', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             animation: "marquee 25s linear infinite",
             paddingLeft: "100%",
             paddingRight: "2rem",

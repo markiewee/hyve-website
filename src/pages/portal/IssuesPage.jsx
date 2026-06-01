@@ -15,16 +15,16 @@ export default function IssuesPage() {
       {/* Page header */}
       <div className="flex items-center justify-between mb-10">
         <div>
-          <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
+          <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-[#181511] tracking-tight">
             My Issues
           </h1>
-          <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">
+          <p className="text-[#57534E] font-['Inter'] font-medium mt-1">
             Track and manage your reported maintenance requests.
           </p>
         </div>
         <Link
           to="/portal/issues/new"
-          className="bg-[#A87813] text-white px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2 shadow-sm shadow-[#A87813]/20"
+          className="bg-[#A87813] text-white px-6 py-3 rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2 shadow-sm shadow-[#A87813]/20"
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
           Report Issue
@@ -36,31 +36,31 @@ export default function IssuesPage() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm space-y-3"
+              className="bg-white rounded-2xl p-6 border border-[#DDD0AD] shadow-sm space-y-3"
             >
               <div className="flex gap-3">
-                <div className="h-5 w-20 bg-[#F2D88A] animate-pulse rounded-full" />
-                <div className="h-5 w-16 bg-[#F2D88A] animate-pulse rounded-full" />
+                <div className="h-5 w-20 bg-[#EAC25A] animate-pulse rounded-full" />
+                <div className="h-5 w-16 bg-[#EAC25A] animate-pulse rounded-full" />
               </div>
-              <div className="h-4 w-3/4 bg-[#F2D88A] animate-pulse rounded" />
-              <div className="h-4 w-1/2 bg-[#F2D88A] animate-pulse rounded" />
+              <div className="h-4 w-3/4 bg-[#EAC25A] animate-pulse rounded" />
+              <div className="h-4 w-1/2 bg-[#EAC25A] animate-pulse rounded" />
             </div>
           ))}
         </div>
       ) : tickets.length === 0 ? (
-        <div className="bg-white rounded-2xl p-12 border border-[#E8E0CE]/15 shadow-sm flex flex-col items-center text-center">
-          <div className="w-16 h-16 bg-[#F2D88A] rounded-2xl flex items-center justify-center mb-4">
+        <div className="bg-white rounded-2xl p-12 border border-[#DDD0AD] shadow-sm flex flex-col items-center text-center">
+          <div className="w-16 h-16 bg-[#EAC25A] rounded-2xl flex items-center justify-center mb-4">
             <span className="material-symbols-outlined text-[#A87813] text-[32px]">build_circle</span>
           </div>
-          <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] text-lg mb-2">
+          <h3 className="font-['Hanken_Grotesk'] font-bold text-[#181511] text-lg mb-2">
             No issues reported
           </h3>
-          <p className="text-[#6B7280] font-['Manrope'] text-sm mb-6">
+          <p className="text-[#57534E] font-['Inter'] text-sm mb-6">
             Everything looking good? If something needs attention, let us know.
           </p>
           <Link
             to="/portal/issues/new"
-            className="bg-[#A87813] text-white px-6 py-3 rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2"
+            className="bg-[#A87813] text-white px-6 py-3 rounded-xl font-['Inter'] font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Report your first issue
