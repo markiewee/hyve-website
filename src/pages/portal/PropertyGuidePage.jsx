@@ -245,6 +245,7 @@ export default function PropertyGuidePage() {
     <PortalLayout>
       <div className="max-w-4xl">
         <div className="mb-8">
+          <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Your home</span>
           <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">
             My Property
           </h1>

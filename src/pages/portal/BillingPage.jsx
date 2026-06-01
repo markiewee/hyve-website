@@ -93,6 +93,7 @@ export default function BillingPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
+        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Billing</span>
         <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
           Billing & Payments
         </h1>

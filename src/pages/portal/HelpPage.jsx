@@ -156,6 +156,7 @@ export default function HelpPage() {
   return (
     <PortalLayout>
       <div className="mb-10">
+        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">{isZh ? "支持" : "Support"}</span>
         <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
           {isZh ? "帮助中心" : "Help Centre"}
         </h1>

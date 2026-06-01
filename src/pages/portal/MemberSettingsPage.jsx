@@ -142,6 +142,7 @@ export default function MemberSettingsPage() {
   return (
     <PortalLayout>
       <header className="mb-8">
+        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Account</span>
         <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
           Settings
         </h1>

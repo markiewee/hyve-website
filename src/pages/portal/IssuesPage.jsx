@@ -15,6 +15,7 @@ export default function IssuesPage() {
       {/* Page header */}
       <div className="flex items-center justify-between mb-10">
         <div>
+          <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Maintenance</span>
           <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">
             My Issues
           </h1>
