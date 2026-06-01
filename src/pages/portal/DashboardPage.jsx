@@ -86,6 +86,7 @@ export default function DashboardPage() {
     <PortalLayout>
       {/* Editorial header */}
       <header className="mb-10 max-w-6xl">
+        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Your home</span>
         <h2 className="font-display text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight mb-3">
           {t("dashboard.heroTitle", { property: "" })}{" "}
           <span className="text-accent">{propertyName}</span>
@@ -200,16 +201,30 @@ export default function DashboardPage() {
 
         {/* ── Row 2 ── */}
 
-        {/* AC Usage chart — col-span-7 */}
+        {/* AC Usage chart + allowance — col-span-7 */}
         <section className="md:col-span-7 bg-surface rounded-xl p-8 border border-border">
-          <h3 className="font-display font-bold text-xl mb-6 flex items-center gap-2 text-foreground">
-            <span className="material-symbols-outlined text-accent text-[22px]">ac_unit</span>
-            {t("dashboard.acUsage")}
-          </h3>
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="font-display font-bold text-xl flex items-center gap-2 text-foreground">
+              <span className="material-symbols-outlined text-accent text-[22px]">ac_unit</span>
+              {t("dashboard.acUsage")}
+            </h3>
+            <span className="font-['Inter'] text-xs uppercase tracking-widest text-foreground-variant">
+              {t("dashboard.dayOf", { current: dayOfMonth, total: daysInMonth })}
+            </span>
+          </div>
           {usageChart.loading ? (
             <div className="h-[280px] bg-white/5 animate-pulse rounded-lg" />
           ) : (
             <UsageChart {...usageChart} />
+          )}
+          {/* Monthly allowance — folded in from its own section */}
+          {!usageLoading && (
+            <div className="mt-6 pt-6 border-t border-border">
+              <UsageProgressBar totalHours={totalHours} freeHours={getFreeHours()} />
+              <p className="font-['Inter'] text-sm text-foreground-variant mt-4">
+                {t("dashboard.usageSummary", { used: totalHours.toFixed(1), free: getFreeHours() })}
+              </p>
+            </div>
           )}
         </section>
 
@@ -235,32 +250,6 @@ export default function DashboardPage() {
             </div>
           ) : (
             <DocumentsList documents={documents} />
-          )}
-        </section>
-
-        {/* ── Row 3: Monthly Allowance — full width ── */}
-        <section className="md:col-span-12 bg-surface rounded-xl p-8 border border-border">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="font-display font-bold text-xl flex items-center gap-2 text-foreground">
-              <span className="material-symbols-outlined text-accent text-[22px]">bolt</span>
-              {t("dashboard.monthlyAllowance")}
-            </h3>
-            <span className="font-['Inter'] text-xs uppercase tracking-widest text-foreground-variant">
-              {t("dashboard.dayOf", { current: dayOfMonth, total: daysInMonth })}
-            </span>
-          </div>
-          {usageLoading ? (
-            <div className="space-y-3">
-              <SkeletonLine className="h-4 w-full" />
-              <SkeletonLine className="h-3 w-full rounded-full" />
-            </div>
-          ) : (
-            <>
-              <UsageProgressBar totalHours={totalHours} freeHours={getFreeHours()} />
-              <p className="font-['Inter'] text-sm text-foreground-variant mt-4">
-                {t("dashboard.usageSummary", { used: totalHours.toFixed(1), free: getFreeHours() })}
-              </p>
-            </>
           )}
         </section>
 
