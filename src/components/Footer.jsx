@@ -41,7 +41,7 @@ const Footer = () => {
             <Wordmark size="md" />
           </Link>
           <p className="text-foreground-variant font-display text-sm leading-relaxed">
-            Pioneering the future of collective living through architectural innovation and community design.
+            Singapore co-living, productized — designed, leased and operated as a single product across every unit.
           </p>
           <p className="text-foreground-variant text-xs mt-2">Operated by Makery Pte. Ltd.</p>
           <div className="flex gap-4 mt-6">
@@ -75,6 +75,21 @@ const Footer = () => {
           <h4 className="font-display text-xs uppercase tracking-widest text-foreground font-bold">{t('public.footer.platform')}</h4>
           <ul className="space-y-2">
             <li>
+              <Link to="/contact" className="font-display text-xs uppercase tracking-widest text-foreground-variant hover:text-accent transition-colors duration-300">
+                List your unit
+              </Link>
+            </li>
+            <li>
+              <Link to="/faqs" className="font-display text-xs uppercase tracking-widest text-foreground-variant hover:text-accent transition-colors duration-300">
+                FAQs
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" className="font-display text-xs uppercase tracking-widest text-foreground-variant hover:text-accent transition-colors duration-300">
+                Contact
+              </Link>
+            </li>
+            <li>
               <a
                 href={BOOKING_URL}
                 onClick={() => track(EVENTS.BROWSE_ROOMS_CLICK, { source: 'footer' })}
@@ -82,21 +97,6 @@ const Footer = () => {
               >
                 Browse rooms →
               </a>
-            </li>
-            <li>
-              <Link to="/locations" className="font-display text-xs uppercase tracking-widest text-foreground-variant hover:text-accent transition-colors duration-300">
-                {t('public.footer.locations')}
-              </Link>
-            </li>
-            <li>
-              <Link to="/blog" className="font-display text-xs uppercase tracking-widest text-foreground-variant hover:text-accent transition-colors duration-300">
-                {t('public.footer.blog')}
-              </Link>
-            </li>
-            <li>
-              <Link to="/about" className="font-display text-xs uppercase tracking-widest text-foreground-variant hover:text-accent transition-colors duration-300">
-                {t('public.nav.about') || 'About'}
-              </Link>
             </li>
           </ul>
         </div>

@@ -31,12 +31,13 @@ const Navbar = () => {
             ))}
           </div>
         </div>
-        <div className="hidden md:flex items-center gap-4">
-          <a href="https://portal.lazybee.sg" className="font-display font-semibold text-foreground-variant hover:text-foreground px-4 py-2 text-sm">Portal</a>
-          <a href={BOOKING_URL} onClick={onBrowse}
+        <div className="hidden md:flex items-center gap-5">
+          <a href={BOOKING_URL} onClick={onBrowse} className="font-display font-semibold text-foreground-variant hover:text-foreground text-sm">Browse rooms</a>
+          <a href="https://portal.lazybee.sg" className="font-display font-semibold text-foreground-variant hover:text-foreground text-sm">Portal</a>
+          <Link to="/contact"
              className="bg-accent text-accent-foreground font-display font-bold px-6 py-2.5 rounded-full hover:opacity-90 active:scale-95 transition-all text-sm">
-            Browse rooms →
-          </a>
+            List your unit →
+          </Link>
         </div>
         <button className="md:hidden p-2 text-foreground active:scale-95" onClick={() => setIsOpen(!isOpen)} aria-label="Menu">
           <span className="material-symbols-outlined">{isOpen ? 'close' : 'menu'}</span>
@@ -53,9 +54,10 @@ const Navbar = () => {
               </Link>
             ))}
             <div className="pt-4 space-y-3 border-t border-border mt-2">
+              <a href={BOOKING_URL} onClick={() => { onBrowse(); setIsOpen(false); }} className="block text-center px-4 py-3 text-foreground-variant font-display font-semibold rounded-xl">Browse rooms</a>
               <a href="https://portal.lazybee.sg" onClick={() => setIsOpen(false)} className="block text-center px-4 py-3 text-foreground-variant font-display font-semibold rounded-xl">Portal</a>
-              <a href={BOOKING_URL} onClick={() => { onBrowse(); setIsOpen(false); }}
-                 className="block text-center bg-accent text-accent-foreground font-display font-bold px-6 py-3 rounded-full">Browse rooms →</a>
+              <Link to="/contact" onClick={() => setIsOpen(false)}
+                 className="block text-center bg-accent text-accent-foreground font-display font-bold px-6 py-3 rounded-full">List your unit →</Link>
             </div>
           </div>
         </div>
