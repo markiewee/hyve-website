@@ -74,6 +74,12 @@ const LOCATIONS = [
 
 const EMPTY_SEARCH = { date: '', dateMode: 'fixed', budget: '', location: 'ALL' };
 
+// Real lettable bedrooms have a room_type + price; common areas, kitchens,
+// yards and shared toilets have neither.
+function isLettable(room) {
+  return !!room.room_type && !!room.price_monthly;
+}
+
 function isSearchActive(s) {
   return !!(s.date || s.budget || (s.location && s.location !== 'ALL'));
 }
@@ -375,7 +381,7 @@ function PropertySection({ property }) {
         <h2 className="font-display text-2xl font-bold text-foreground mb-1">{p.name}</h2>
         <p className="text-foreground text-sm mb-2">{p.address}</p>
         <div className="flex gap-4 mb-4 text-sm">
-          <span className="text-foreground"><span className="font-semibold text-foreground">{p.rooms?.length || 0}</span> rooms</span>
+          <span className="text-foreground"><span className="font-semibold text-foreground">{p.rooms?.filter(isLettable).length || 0}</span> rooms</span>
           <span className="text-foreground">
             <span className="font-semibold text-foreground">
               {p.rooms?.reduce((count, r) => count + (r.tenant_profiles?.filter(isCurrent).length || 0), 0)}
@@ -513,10 +519,10 @@ function PropertySection({ property }) {
 
       <div>
         <h2 className="font-display text-xl font-bold text-foreground mb-4">
-          Rooms ({p.rooms?.length || 0})
+          Rooms ({p.rooms?.filter(isLettable).length || 0})
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {p.rooms?.map(room => (
+          {p.rooms?.filter(isLettable).map(room => (
             <RoomCard key={room.id} room={room} />
           ))}
         </div>
@@ -756,7 +762,7 @@ export default function StaffResourcePage() {
   const searchActive = isSearchActive(search);
   const results = searchActive
     ? properties
-        .flatMap((p) => (p.rooms || []).filter((r) => r.price_monthly).map((room) => ({ room, property: p })))
+        .flatMap((p) => (p.rooms || []).filter(isLettable).map((room) => ({ room, property: p })))
         .filter(({ room, property }) => roomMatchesSearch(room, property.code, search, today))
         .sort((a, b) => (a.room.price_monthly || 0) - (b.room.price_monthly || 0))
     : [];
