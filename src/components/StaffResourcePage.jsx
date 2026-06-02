@@ -63,6 +63,44 @@ const STATUS_COLORS = {
   red: 'bg-red-500/15 text-red-300',
 };
 
+const BUDGET_BAND = 200; // show rooms ±$200 around the target budget
+
+const LOCATIONS = [
+  { code: 'ALL', label: 'All properties' },
+  { code: 'CP', label: 'Chiltern Park · Serangoon' },
+  { code: 'IH', label: 'Ivory Heights · Jurong East' },
+  { code: 'TG', label: 'Thomson Grove · Lentor' },
+];
+
+const EMPTY_SEARCH = { date: '', dateMode: 'fixed', budget: '', location: 'ALL' };
+
+function isSearchActive(s) {
+  return !!(s.date || s.budget || (s.location && s.location !== 'ALL'));
+}
+
+// Does a room match the cross-property search? `today` is midnight-normalised.
+function roomMatchesSearch(room, propertyCode, s, today) {
+  // Budget: within ±BUDGET_BAND of the target
+  if (s.budget) {
+    const b = Number(s.budget);
+    if (!room.price_monthly) return false;
+    if (room.price_monthly < b - BUDGET_BAND || room.price_monthly > b + BUDGET_BAND) return false;
+  }
+  // Location
+  if (s.location && s.location !== 'ALL' && propertyCode !== s.location) return false;
+  // Move-in date — fixed = available by the date, flexible = within ~30 days after
+  if (s.date) {
+    const target = new Date(s.date); target.setHours(0, 0, 0, 0);
+    const from = room.next_available ? new Date(room.next_available) : today;
+    const limit = new Date(target);
+    if (s.dateMode === 'flexible') limit.setDate(limit.getDate() + 30);
+    if (from > limit) return false;
+    // Available now but vacated before the target — exclude
+    if (room.available_until && new Date(room.available_until) < target) return false;
+  }
+  return true;
+}
+
 function Detail({ label, value }) {
   if (!value) return null;
   return (
@@ -139,7 +177,7 @@ function getPricingTiers(basePrice) {
   ];
 }
 
-function RoomCard({ room }) {
+function RoomCard({ room, property }) {
   const [expanded, setExpanded] = useState(false);
   const status = getAvailabilityStatus(room);
   const isAvailable = status.color === 'green' || status.color === 'amber' && !room.next_available;
@@ -155,7 +193,12 @@ function RoomCard({ room }) {
       <div className="p-4">
         <div className="flex items-start justify-between mb-2">
           <div>
-            <h3 className="font-display font-bold text-foreground text-base">{room.unit_code}</h3>
+            <div className="flex items-center gap-2">
+              <h3 className="font-display font-bold text-foreground text-base">{room.unit_code}</h3>
+              {property && (
+                <span className="text-[10px] uppercase tracking-[0.15em] text-accent font-semibold">{property.name}</span>
+              )}
+            </div>
             <p className="text-sm text-foreground">{room.name}</p>
           </div>
           <ChevronDown
@@ -591,10 +634,65 @@ function FAQSection() {
   );
 }
 
+function RoomSearch({ search, setSearch, resultCount }) {
+  const set = (k, v) => setSearch((s) => ({ ...s, [k]: v }));
+  const active = isSearchActive(search);
+  const fieldCls =
+    'w-full rounded-full border border-white/10 bg-background/60 px-4 py-2.5 text-sm text-foreground placeholder:text-foreground-variant/40 outline-none focus:border-accent transition-colors';
+  const labelCls = 'block text-[10px] uppercase tracking-[0.25em] text-foreground-variant font-semibold mb-2';
+
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-2xl p-5 md:p-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-[1.6fr_1fr_1.2fr] gap-4 items-end">
+        {/* Move-in date + fixed/flexible */}
+        <div>
+          <label className={labelCls}>Move-in date</label>
+          <div className="flex gap-2">
+            <input type="date" value={search.date} onChange={(e) => set('date', e.target.value)} className={`${fieldCls} flex-1`} />
+            <div className="inline-flex rounded-full border border-white/10 overflow-hidden shrink-0">
+              {['fixed', 'flexible'].map((mode) => (
+                <button
+                  key={mode} type="button" onClick={() => set('dateMode', mode)}
+                  className={`px-3 text-xs capitalize transition-colors ${search.dateMode === mode ? 'bg-accent text-accent-foreground font-semibold' : 'text-foreground-variant hover:text-foreground'}`}
+                >
+                  {mode}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+        {/* Budget ±200 */}
+        <div>
+          <label className={labelCls}>Budget (±${BUDGET_BAND})</label>
+          <input type="number" inputMode="numeric" value={search.budget} onChange={(e) => set('budget', e.target.value)} placeholder="e.g. 1200" className={fieldCls} />
+        </div>
+        {/* Location */}
+        <div>
+          <label className={labelCls}>Location</label>
+          <select value={search.location} onChange={(e) => set('location', e.target.value)} className={`${fieldCls} appearance-none cursor-pointer`}>
+            {LOCATIONS.map((l) => <option key={l.code} value={l.code}>{l.label}</option>)}
+          </select>
+        </div>
+      </div>
+      {active && (
+        <div className="mt-4 flex items-center justify-between">
+          <span className="text-xs text-foreground-variant">
+            {resultCount} room{resultCount === 1 ? '' : 's'} across all properties
+          </span>
+          <button onClick={() => setSearch(EMPTY_SEARCH)} className="text-xs font-semibold text-accent hover:underline">
+            Clear search
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function StaffResourcePage() {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [search, setSearch] = useState(EMPTY_SEARCH);
 
   useEffect(() => {
     async function fetchData() {
@@ -653,6 +751,16 @@ export default function StaffResourcePage() {
     );
   }
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const searchActive = isSearchActive(search);
+  const results = searchActive
+    ? properties
+        .flatMap((p) => (p.rooms || []).filter((r) => r.price_monthly).map((room) => ({ room, property: p })))
+        .filter(({ room, property }) => roomMatchesSearch(room, property.code, search, today))
+        .sort((a, b) => (a.room.price_monthly || 0) - (b.room.price_monthly || 0))
+    : [];
+
   return (
     <main className="min-h-screen bg-background text-foreground pt-24 md:pt-28">
       <SEO
@@ -671,22 +779,38 @@ export default function StaffResourcePage() {
       </section>
 
       <section className="px-6 md:px-8 max-w-7xl mx-auto pb-16">
-        {properties.length > 0 && (
-          <Tabs defaultValue={properties[0].code}>
-            <TabsList className="mb-8 w-full sm:w-auto">
-              {properties.map(p => (
-                <TabsTrigger key={p.code} value={p.code} className="px-6 py-2.5 text-sm font-semibold">
-                  {p.code} — {p.name}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+        <RoomSearch search={search} setSearch={setSearch} resultCount={results.length} />
 
-            {properties.map(p => (
-              <TabsContent key={p.code} value={p.code}>
-                <PropertySection property={p} />
-              </TabsContent>
-            ))}
-          </Tabs>
+        {searchActive ? (
+          results.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {results.map(({ room, property }) => (
+                <RoomCard key={room.id} room={room} property={property} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20 text-foreground-variant">
+              No rooms match. Try widening the budget or switching dates to <span className="text-accent">flexible</span>.
+            </div>
+          )
+        ) : (
+          properties.length > 0 && (
+            <Tabs defaultValue={properties[0].code}>
+              <TabsList className="mb-8 w-full sm:w-auto">
+                {properties.map(p => (
+                  <TabsTrigger key={p.code} value={p.code} className="px-6 py-2.5 text-sm font-semibold">
+                    {p.code} — {p.name}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+
+              {properties.map(p => (
+                <TabsContent key={p.code} value={p.code}>
+                  <PropertySection property={p} />
+                </TabsContent>
+              ))}
+            </Tabs>
+          )
         )}
       </section>
     </main>
