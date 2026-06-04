@@ -23,7 +23,8 @@ export default function PropertyTenantsPage() {
           rooms(name, unit_code)
         `)
         .eq("property_id", propertyId)
-        .eq("is_active", true);
+        .eq("is_active", true)
+        .neq("role", "ADMIN"); // admins aren't housemates
 
       if (error) {
         console.error("Error fetching members:", error);
