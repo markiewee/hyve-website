@@ -30,59 +30,51 @@ function useNavLinks(role) {
       { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
     ];
 
-    const ADMIN_MANAGE_SECTION = {
-      label: t("nav.manage"),
-      icon: "manage_accounts",
-      groups: [
-        {
-          label: "Today",
-          children: [
-            { label: "Leads", to: "/portal/admin/leads", icon: "track_changes" },
-            { label: "Inbox", to: "/portal/admin/inbox", icon: "inbox" },
-            { label: t("nav.announcements"), to: "/portal/admin/announcements", icon: "campaign" },
-          ],
-        },
-        {
-          label: "People",
-          children: [
-            { label: t("nav.onboarding"), to: "/portal/admin/onboarding", icon: "how_to_reg" },
-            { label: t("nav.investors"), to: "/portal/admin/investors", icon: "trending_up" },
-          ],
-        },
-        {
-          label: "Money",
-          children: [
-            { label: "Billing", to: "/portal/admin/billing", icon: "receipt_long" },
-            { label: t("nav.expenses"), to: "/portal/admin/expenses", icon: "account_balance" },
-            { label: "Reconcile", to: "/portal/admin/expenses/import", icon: "account_balance_wallet" },
-            { label: t("nav.financials"), to: "/portal/admin/financials", icon: "bar_chart" },
-          ],
-        },
-        {
-          label: "Ops",
-          children: [
-            { label: t("nav.tickets"), to: "/portal/admin/tickets", icon: "confirmation_number" },
-            { label: "Locks", to: "/portal/admin/locks", icon: "lock" },
-            { label: t("nav.devices"), to: "/portal/admin/devices", icon: "router" },
-            { label: "Contract Generator", to: "/portal/admin/documents", icon: "description" },
-          ],
-        },
-      ],
-    };
-
-    // Super admin: admin-only, no tenant/resident views
-    const SUPER_ADMIN_NAV = [
-      { label: t("nav.admin"), to: "/portal/admin", icon: "admin_panel_settings" },
-      ADMIN_MANAGE_SECTION,
+    // Admin tools as inline sections — no collapsible "Manage" nesting.
+    const MANAGE_SECTIONS = [
+      {
+        section: "Today",
+        children: [
+          { label: "Leads", to: "/portal/admin/leads", icon: "track_changes" },
+          { label: "Inbox", to: "/portal/admin/inbox", icon: "inbox" },
+          { label: t("nav.announcements"), to: "/portal/admin/announcements", icon: "campaign" },
+        ],
+      },
+      {
+        section: "People",
+        children: [
+          { label: t("nav.onboarding"), to: "/portal/admin/onboarding", icon: "how_to_reg" },
+          { label: t("nav.investors"), to: "/portal/admin/investors", icon: "trending_up" },
+        ],
+      },
+      {
+        section: "Money",
+        children: [
+          { label: "Billing", to: "/portal/admin/billing", icon: "receipt_long" },
+          { label: t("nav.expenses"), to: "/portal/admin/expenses", icon: "account_balance" },
+          { label: "Reconcile", to: "/portal/admin/expenses/import", icon: "account_balance_wallet" },
+          { label: t("nav.financials"), to: "/portal/admin/financials", icon: "bar_chart" },
+        ],
+      },
+      {
+        section: "Ops",
+        children: [
+          { label: t("nav.tickets"), to: "/portal/admin/tickets", icon: "confirmation_number" },
+          { label: "Locks", to: "/portal/admin/locks", icon: "lock" },
+          { label: t("nav.devices"), to: "/portal/admin/devices", icon: "router" },
+          { label: "Contract Generator", to: "/portal/admin/documents", icon: "description" },
+        ],
+      },
     ];
 
-    // Admins aren't residents or captains — clean admin-only nav. The resident
-    // items (Dashboard, My Property, Documents, Billing, Issues) and the captain
-    // items (Property Overview, captain Tickets/Members/Viewings/Claims) all have
-    // admin equivalents in the Manage section, so they're dropped here.
+    const SUPER_ADMIN_NAV = [
+      { label: t("nav.admin"), to: "/portal/admin", icon: "admin_panel_settings" },
+      ...MANAGE_SECTIONS,
+    ];
+
     const ADMIN_RESIDENT_NAV = [
       { label: t("nav.admin"), to: "/portal/admin", icon: "admin_panel_settings" },
-      ADMIN_MANAGE_SECTION,
+      ...MANAGE_SECTIONS,
       { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
     ];
 
@@ -225,6 +217,18 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
       {/* Nav links */}
       <nav className="flex-1 space-y-1 overflow-y-auto scrollbar-hide pr-0">
         {navLinks.map((link) => {
+          if (link.section) {
+            return (
+              <div key={link.section} className="pt-3 first:pt-0">
+                <div className="px-4 pb-1 text-[10px] font-bold uppercase tracking-widest text-foreground-variant/70 font-['Inter']">
+                  {link.section}
+                </div>
+                {link.children.map((c) => (
+                  <NavLink key={c.to} link={c} location={location} onClick={onLinkClick} />
+                ))}
+              </div>
+            );
+          }
           if (link.children || link.groups) {
             return (
               <AdminDropdown
@@ -243,14 +247,6 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
 
       {/* CTA + footer */}
       <div className="mt-auto pr-4 space-y-4 pt-4">
-        <Link
-          to="/portal/issues/new"
-          onClick={onLinkClick}
-          className="w-full py-3 px-4 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-        >
-          <span className="material-symbols-outlined text-[18px]">support_agent</span>
-          {t("nav.quickSupport")}
-        </Link>
         <div className="space-y-1">
           <LanguageToggle />
           {onStartTour && (
