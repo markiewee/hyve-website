@@ -30,7 +30,9 @@ export default function PropertyOverviewPage() {
       const { data: roomData, error: roomError } = await supabase
         .from("rooms")
         .select("id, name, unit_code")
-        .eq("property_id", propertyId);
+        .eq("property_id", propertyId)
+        // Lettable bedrooms only — skip common areas / kitchens / yards / toilets
+        .not("room_type", "is", null);
 
       if (roomError) {
         console.error("Error fetching rooms:", roomError);

@@ -84,7 +84,9 @@ export default function AdminDashboardPage() {
       ).toISOString();
 
       const [rooms, tenants, tickets, devices, allDevices] = await Promise.all([
-        supabase.from("rooms").select("id", { count: "exact", head: true }),
+        // Only count lettable bedrooms (room_type set) — exclude common areas,
+        // kitchens, yards and shared toilets (room_type null).
+        supabase.from("rooms").select("id", { count: "exact", head: true }).not("room_type", "is", null),
         supabase
           .from("tenant_profiles")
           .select("id", { count: "exact", head: true })

@@ -112,6 +112,7 @@ export default function AdminOnboardingPage() {
 
   useEffect(() => {
     supabase.from("rooms").select("id, unit_code, name, property_id, properties(name, address, common_areas)")
+      .not("room_type", "is", null) // only lettable bedrooms can be assigned to a tenant
       .order("unit_code").then(({ data }) => setRooms(data ?? []));
     supabase.from("document_templates").select("id, name, doc_type, html_content, placeholders, signature_config")
       .eq("is_active", true).eq("doc_type", "LICENCE_AGREEMENT")
