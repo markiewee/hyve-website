@@ -81,8 +81,11 @@ function useNavLinks(role) {
     ];
 
     // Admin who's also a resident/house captain: sees both admin AND tenant/captain nav
+    // Admins aren't residents — strip the tenant items (My Property, Documents,
+    // Billing, Issues) and the tenant Dashboard; they have admin equivalents.
+    const RESIDENT_ONLY = ["/portal/settings", "/portal/dashboard", "/portal/guide", "/portal/documents", "/portal/billing", "/portal/issues"];
     const ADMIN_RESIDENT_NAV = [
-      ...HOUSE_CAPTAIN_NAV.filter(l => l.to !== "/portal/settings"),
+      ...HOUSE_CAPTAIN_NAV.filter(l => !RESIDENT_ONLY.includes(l.to)),
       { label: t("nav.admin"), to: "/portal/admin", icon: "admin_panel_settings" },
       ADMIN_MANAGE_SECTION,
       { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
