@@ -80,12 +80,11 @@ function useNavLinks(role) {
       ADMIN_MANAGE_SECTION,
     ];
 
-    // Admin who's also a resident/house captain: sees both admin AND tenant/captain nav
-    // Admins aren't residents — strip the tenant items (My Property, Documents,
-    // Billing, Issues) and the tenant Dashboard; they have admin equivalents.
-    const RESIDENT_ONLY = ["/portal/settings", "/portal/dashboard", "/portal/guide", "/portal/documents", "/portal/billing", "/portal/issues"];
+    // Admins aren't residents or captains — clean admin-only nav. The resident
+    // items (Dashboard, My Property, Documents, Billing, Issues) and the captain
+    // items (Property Overview, captain Tickets/Members/Viewings/Claims) all have
+    // admin equivalents in the Manage section, so they're dropped here.
     const ADMIN_RESIDENT_NAV = [
-      ...HOUSE_CAPTAIN_NAV.filter(l => !RESIDENT_ONLY.includes(l.to)),
       { label: t("nav.admin"), to: "/portal/admin", icon: "admin_panel_settings" },
       ADMIN_MANAGE_SECTION,
       { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
@@ -199,9 +198,10 @@ function LanguageToggle() {
 function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTour }) {
   const { t } = useLanguage();
   const isSuperAdmin = profile?.role === "SUPER_ADMIN";
-  const unitCode = isSuperAdmin ? "" : (profile?.rooms?.unit_code ?? profile?.room_id ?? "");
-  const propertyName = isSuperAdmin ? "Super Admin" : (profile?.properties?.name ?? profile?.rooms?.name ?? "Lazybee");
-  const displayName = profile?.tenant_details?.full_name ?? profile?.full_name ?? profile?.email ?? t("nav.defaultName");
+  const isAnyAdmin = isSuperAdmin || profile?.role === "ADMIN";
+  const unitCode = isAnyAdmin ? "" : (profile?.rooms?.unit_code ?? profile?.room_id ?? "");
+  const propertyName = isSuperAdmin ? "Super Admin" : isAnyAdmin ? "Administrator" : (profile?.properties?.name ?? profile?.rooms?.name ?? "Lazybee");
+  const displayName = profile?.tenant_details?.full_name ?? profile?.full_name ?? (isAnyAdmin ? "Admin" : null) ?? profile?.email ?? t("nav.defaultName");
   const firstName = displayName.split(" ")[0];
 
   return (
