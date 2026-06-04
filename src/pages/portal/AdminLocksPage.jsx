@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
+import SmartLockCard from "../../components/portal/SmartLockCard";
+import { listLocks, matchRoomLock, matchMainLock } from "../../lib/ttlock";
 import { toast } from "sonner";
 
 export default function AdminLocksPage() {
@@ -9,6 +11,7 @@ export default function AdminLocksPage() {
   const [editing, setEditing] = useState(null); // { propertyId, key } where key = "main_door" or unit_code
   const [editValue, setEditValue] = useState("");
   const [saving, setSaving] = useState(false);
+  const [locks, setLocks] = useState([]); // TTLock smart locks (empty if not configured)
 
   useEffect(() => { loadAll(); }, []);
 
@@ -49,6 +52,10 @@ export default function AdminLocksPage() {
         };
       });
       setPropertyData(merged);
+
+      // Smart locks (TTLock) — graceful: [] when not configured, so every door
+      // falls back to the passcode editor.
+      setLocks(await listLocks());
     } catch (err) {
       toast.error(err.message || "Failed to load access codes.");
     }
@@ -140,10 +147,10 @@ export default function AdminLocksPage() {
         <div>
           <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Operations</span>
           <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">
-            Smart Locks
+            Locks
           </h1>
           <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
-            Manage access codes for all property doors and rooms.
+            Passcode doors update manually; smart locks show live status, codes and entry log.
           </p>
         </div>
         <button
@@ -178,27 +185,47 @@ export default function AdminLocksPage() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {/* Main door card */}
-                  <LockCard
-                    icon="door_front"
-                    label="Main Door"
-                    sublabel="Building entrance"
-                    code={mainDoor}
-                    accent="#c47a35"
-                    isEditing={isEditingMain}
-                    editValue={editValue}
-                    setEditValue={setEditValue}
-                    onCopy={() => copyCode(mainDoor)}
-                    onEdit={() => startEdit(property.id, "main_door", mainDoor)}
-                    onCancel={cancelEdit}
-                    onSave={() => saveEdit(property.id, "main_door")}
-                    saving={saving}
-                  />
+                  {/* Main door — smart lock if matched, else passcode editor */}
+                  {(() => {
+                    const mainLock = matchMainLock(locks, property.code);
+                    return mainLock ? (
+                      <SmartLockCard lock={mainLock} icon="door_front" label="Main Door" sublabel="Building entrance" accent="#c47a35" />
+                    ) : (
+                      <LockCard
+                        icon="door_front"
+                        label="Main Door"
+                        sublabel="Building entrance"
+                        code={mainDoor}
+                        accent="#c47a35"
+                        isEditing={isEditingMain}
+                        editValue={editValue}
+                        setEditValue={setEditValue}
+                        onCopy={() => copyCode(mainDoor)}
+                        onEdit={() => startEdit(property.id, "main_door", mainDoor)}
+                        onCancel={cancelEdit}
+                        onSave={() => saveEdit(property.id, "main_door")}
+                        saving={saving}
+                      />
+                    );
+                  })()}
 
                   {/* One card per room */}
                   {rooms.map((room) => {
-                    const code = roomCodes[room.unit_code] || "";
                     const tenantName = tenantNameForRoom(room);
+                    const smartLock = matchRoomLock(locks, room.unit_code);
+                    if (smartLock) {
+                      return (
+                        <SmartLockCard
+                          key={room.id}
+                          lock={smartLock}
+                          icon="meeting_room"
+                          label={room.unit_code}
+                          sublabel={tenantName || room.name || "Unassigned"}
+                          accent="#c4c7c7"
+                        />
+                      );
+                    }
+                    const code = roomCodes[room.unit_code] || "";
                     const isEditingRoom = editing?.propertyId === property.id && editing?.key === room.unit_code;
                     return (
                       <LockCard

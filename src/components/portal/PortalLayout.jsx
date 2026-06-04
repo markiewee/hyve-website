@@ -47,7 +47,6 @@ function useNavLinks(role) {
         {
           label: "People",
           children: [
-            { label: t("nav.members"), to: "/portal/admin/members", icon: "group" },
             { label: t("nav.onboarding"), to: "/portal/admin/onboarding", icon: "how_to_reg" },
             { label: t("nav.investors"), to: "/portal/admin/investors", icon: "trending_up" },
           ],
@@ -64,9 +63,8 @@ function useNavLinks(role) {
         {
           label: "Ops",
           children: [
-            { label: t("nav.viewings"), to: "/portal/admin/viewings", icon: "visibility" },
             { label: t("nav.tickets"), to: "/portal/admin/tickets", icon: "confirmation_number" },
-            { label: t("nav.locks"), to: "/portal/admin/locks", icon: "lock" },
+            { label: "Locks", to: "/portal/admin/locks", icon: "lock" },
             { label: t("nav.devices"), to: "/portal/admin/devices", icon: "router" },
             { label: "Contract Generator", to: "/portal/admin/documents", icon: "description" },
           ],
