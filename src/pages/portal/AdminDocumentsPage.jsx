@@ -327,7 +327,8 @@ export default function AdminDocumentsPage() {
     <PortalLayout>
       <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">Documents</h1>
+          <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-3">Admin</span>
+          <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">Contract Generator</h1>
           <p className="text-foreground-variant font-['Inter'] font-medium mt-1">Upload PDF templates, place signature boxes, and send to members.</p>
         </div>
         <div className="flex gap-2 flex-wrap">

@@ -68,7 +68,7 @@ function useNavLinks(role) {
             { label: t("nav.tickets"), to: "/portal/admin/tickets", icon: "confirmation_number" },
             { label: t("nav.locks"), to: "/portal/admin/locks", icon: "lock" },
             { label: t("nav.devices"), to: "/portal/admin/devices", icon: "router" },
-            { label: t("nav.documents"), to: "/portal/admin/documents", icon: "description" },
+            { label: "Contract Generator", to: "/portal/admin/documents", icon: "description" },
           ],
         },
       ],
