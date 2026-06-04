@@ -116,6 +116,47 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
         <div className="space-y-4 mt-4 px-4 pb-6">
           <ViewingReadinessPanel lead={draft} />
 
+          {/* Editable contact details */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="col-span-2">
+              <label className="text-xs text-foreground-variant block mb-1">Name</label>
+              <input
+                className="w-full border rounded px-2 py-1.5 text-sm"
+                value={draft.name || ""}
+                onChange={(e) => setDraft({ ...draft, name: e.target.value })}
+                placeholder="Prospect name"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-foreground-variant block mb-1">Phone</label>
+              <input
+                className="w-full border rounded px-2 py-1.5 text-sm"
+                value={draft.phone || ""}
+                onChange={(e) => setDraft({ ...draft, phone: e.target.value })}
+                placeholder="+65 …"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-foreground-variant block mb-1">Email</label>
+              <input
+                type="email"
+                className="w-full border rounded px-2 py-1.5 text-sm"
+                value={draft.email || ""}
+                onChange={(e) => setDraft({ ...draft, email: e.target.value })}
+                placeholder="optional"
+              />
+            </div>
+            <div className="col-span-2">
+              <label className="text-xs text-foreground-variant block mb-1">Source</label>
+              <input
+                className="w-full border rounded px-2 py-1.5 text-sm"
+                value={draft.source || ""}
+                onChange={(e) => setDraft({ ...draft, source: e.target.value })}
+                placeholder="roomies, carousell, whatsapp…"
+              />
+            </div>
+          </div>
+
           <div>
             <label className="text-xs text-foreground-variant block mb-1">Status</label>
             <select
