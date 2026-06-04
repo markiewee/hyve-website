@@ -480,9 +480,9 @@ export default function AdminInvestorsPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Money</span>
+        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Admin</span>
         <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
-          Investor Management
+          Investors
         </h1>
         <p className="text-foreground-variant font-body font-medium mt-1">
           Manage investor profiles, track capital, and send invitations.
