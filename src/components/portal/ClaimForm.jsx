@@ -106,6 +106,7 @@ export default function ClaimForm({ propertyId, propertyName, prefill, onSuccess
           accept="image/jpeg,image/png,image/heic,image/webp"
           onChange={(e) => setReceiptFile(e.target.files?.[0] ?? null)}
           required
+          className="block w-full text-sm text-foreground-variant cursor-pointer file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-accent file:px-4 file:py-2 file:text-sm file:font-semibold file:text-accent-foreground hover:file:opacity-90"
         />
       </div>
 
@@ -116,6 +117,7 @@ export default function ClaimForm({ propertyId, propertyName, prefill, onSuccess
           accept="image/jpeg,image/png,image/heic,image/webp"
           onChange={(e) => setItemFile(e.target.files?.[0] ?? null)}
           required
+          className="block w-full text-sm text-foreground-variant cursor-pointer file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-accent file:px-4 file:py-2 file:text-sm file:font-semibold file:text-accent-foreground hover:file:opacity-90"
         />
       </div>
 
