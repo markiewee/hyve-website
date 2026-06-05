@@ -43,7 +43,7 @@ function useNavLinks(role) {
       {
         section: "People",
         children: [
-          { label: "Members", to: "/portal/admin/onboarding", icon: "how_to_reg" },
+          { label: "Members", to: "/portal/admin/members", icon: "how_to_reg" },
           { label: "Investors", to: "/portal/admin/investors", icon: "trending_up" },
         ],
       },

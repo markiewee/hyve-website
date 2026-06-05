@@ -56,7 +56,10 @@ function formatDate(dateStr) {
   });
 }
 
-export default function AdminOnboardingPage() {
+// Lifecycle tracker + New Member wizard. Rendered standalone (wrapped in
+// PortalLayout by the default export) AND embedded as the "Lifecycle" tab of
+// the merged Members page (embedded=true hides the duplicate page header).
+export function OnboardingLifecycle({ embedded = false }) {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { user } = useAuth();
@@ -395,9 +398,10 @@ export default function AdminOnboardingPage() {
   ];
 
   return (
-    <PortalLayout>
+    <>
       {/* Page header */}
-      <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <div className={`flex flex-col sm:flex-row sm:items-end gap-4 ${embedded ? "justify-end mb-4" : "justify-between mb-10"}`}>
+        {!embedded && (
         <div>
           <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Admin</span>
           <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">
@@ -407,6 +411,7 @@ export default function AdminOnboardingPage() {
             Full lifecycle — onboarding, active members, and move-outs.
           </p>
         </div>
+        )}
         <button
           onClick={() => { setShowInvite(true); setInviteResult(null); setInviteUsername(""); setWizardStep(1); setWizardErrors({}); }}
           className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:bg-accent/90 transition-colors shrink-0"
@@ -1052,6 +1057,14 @@ export default function AdminOnboardingPage() {
           </div>
         </div>
       )}
+    </>
+  );
+}
+
+export default function AdminOnboardingPage() {
+  return (
+    <PortalLayout>
+      <OnboardingLifecycle />
     </PortalLayout>
   );
 }

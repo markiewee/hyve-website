@@ -28,7 +28,6 @@ import PropertyTicketsPage from './pages/portal/PropertyTicketsPage';
 import PropertyTenantsPage from './pages/portal/PropertyTenantsPage';
 import AdminDashboardPage from './pages/portal/AdminDashboardPage';
 import AdminDevicesPage from './pages/portal/AdminDevicesPage';
-import AdminOnboardingPage from './pages/portal/AdminOnboardingPage';
 import AdminOnboardingDetailPage from './pages/portal/AdminOnboardingDetailPage';
 import AdminAnnouncementsPage from './pages/portal/AdminAnnouncementsPage';
 import AdminRentPage from './pages/portal/AdminRentPage';
@@ -246,14 +245,8 @@ function AppContent() {
               </AuthGuard>
             }
           />
-          <Route
-            path="/portal/admin/onboarding"
-            element={
-              <AuthGuard requiredRole="ADMIN">
-                <AdminOnboardingPage />
-              </AuthGuard>
-            }
-          />
+          {/* Onboarding/lifecycle merged into Members → /portal/admin/members (Lifecycle tab) */}
+          <Route path="/portal/admin/onboarding" element={<Navigate to="/portal/admin/members" replace />} />
           <Route
             path="/portal/admin/onboarding/:id"
             element={

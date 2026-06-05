@@ -5,10 +5,12 @@ import MembersRoster from "../../components/portal/MembersRoster";
 import MembersAlerts from "../../components/portal/MembersAlerts";
 import MembersCaptains from "../../components/portal/MembersCaptains";
 import MembersClaimsQueue from "../../components/portal/MembersClaimsQueue";
+import { OnboardingLifecycle } from "./AdminOnboardingPage";
 import { useMembersData } from "../../hooks/useMembersData";
 import { supabase } from "../../lib/supabase";
 
 const MODES = [
+  { key: "LIFECYCLE", label: "Lifecycle" },
   { key: "ROSTER", label: "Roster" },
   { key: "ALERTS", label: "Alerts" },
   { key: "CAPTAINS", label: "Captains" },
@@ -16,7 +18,7 @@ const MODES = [
 ];
 
 export default function AdminMembersPage() {
-  const [mode, setMode] = useState("ROSTER");
+  const [mode, setMode] = useState("LIFECYCLE");
   const [propertyFilter, setPropertyFilter] = useState("ALL");
   const [captainFilter, setCaptainFilter] = useState(null);
   const [allProperties, setAllProperties] = useState([]);
@@ -77,6 +79,7 @@ export default function AdminMembersPage() {
           })}
         </div>
 
+        {mode === "LIFECYCLE" && <OnboardingLifecycle embedded />}
         {mode === "ROSTER" && <MembersRoster properties={properties} loading={loading} />}
         {mode === "ALERTS" && <MembersAlerts properties={properties} loading={loading} />}
         {mode === "CAPTAINS" && (

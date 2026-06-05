@@ -96,7 +96,7 @@ export default function AdminDashboardPage() {
       label: "Active Members",
       value: counts.activeTenants,
       icon: "group",
-      to: "/portal/admin/onboarding",
+      to: "/portal/admin/members",
       accent: "text-foreground-variant",
       bg: "bg-surface hover:bg-white/10 group",
       valueCls: "text-foreground group-hover:text-foreground",
