@@ -6,6 +6,10 @@ const supabase = createClient(
   process.env.IOT_SUPABASE_SERVICE_ROLE_KEY
 );
 
+// Portal base URL. Defaults to the current live host (no-op until portal.lazybee.sg
+// DNS is live — then set PORTAL_BASE_URL=https://portal.lazybee.sg).
+const PORTAL_URL = process.env.PORTAL_BASE_URL || "https://lazybee.sg";
+
 export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
     return res.status(200).end();
@@ -113,7 +117,7 @@ export default async function handler(req, res) {
       profile_id: newProfile.id,
       username: cleanUsername,
       default_password: defaultPassword,
-      login_url: "https://lazybee.sg/portal/login",
+      login_url: `${PORTAL_URL}/portal/login`,
       message: `Tenant can login with username "${cleanUsername}" and password "${defaultPassword}". They will be prompted to set their email on first login.`,
     });
   }
@@ -160,7 +164,7 @@ export default async function handler(req, res) {
     console.error("Error creating onboarding_progress:", onboardingError);
   }
 
-  const invite_url = `https://lazybee.sg/portal/signup?token=${invite_token}`;
+  const invite_url = `${PORTAL_URL}/portal/signup?token=${invite_token}`;
 
   return res.status(200).json({
     invite_url,

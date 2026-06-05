@@ -8,6 +8,10 @@ const supabase = createClient(
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+// Portal base URL. Defaults to the current live host so this is a no-op until
+// portal.lazybee.sg DNS is live — then set PORTAL_BASE_URL=https://portal.lazybee.sg.
+const PORTAL_URL = process.env.PORTAL_BASE_URL || "https://lazybee.sg";
+
 export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
     return res.status(200).end();
@@ -50,8 +54,8 @@ export default async function handler(req, res) {
         quantity: 1,
       }],
       metadata: { invoice_id: invoice.id, invoice_code: invoice.invoice_code, type: "invoice" },
-      success_url: `https://lazybee.sg/portal/billing/${invoice.id}?paid=true`,
-      cancel_url: `https://lazybee.sg/portal/billing/${invoice.id}`,
+      success_url: `${PORTAL_URL}/portal/billing/${invoice.id}?paid=true`,
+      cancel_url: `${PORTAL_URL}/portal/billing/${invoice.id}`,
     };
 
     if (invoice.tenant_profiles?.stripe_customer_id) {
@@ -156,8 +160,8 @@ export default async function handler(req, res) {
           quantity: 1,
         }],
         metadata: { charge_id: charge.id, type: "charge" },
-        success_url: `https://lazybee.sg/portal/billing?charge_paid=${charge.id}`,
-        cancel_url: "https://lazybee.sg/portal/billing",
+        success_url: `${PORTAL_URL}/portal/billing?charge_paid=${charge.id}`,
+        cancel_url: `${PORTAL_URL}/portal/billing`,
       });
 
       return res.status(200).json({ checkout_url: session.url });
@@ -203,8 +207,8 @@ export default async function handler(req, res) {
         },
         quantity: 1,
       }],
-      success_url: "https://lazybee.sg/portal/onboarding?deposit=success",
-      cancel_url: "https://lazybee.sg/portal/onboarding?deposit=cancel",
+      success_url: `${PORTAL_URL}/portal/onboarding?deposit=success`,
+      cancel_url: `${PORTAL_URL}/portal/onboarding?deposit=cancel`,
     });
 
     await supabase

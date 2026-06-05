@@ -7,6 +7,7 @@ import PortalLayout from "../../components/portal/PortalLayout";
 import { STEP_LABELS, REGISTRATION_STEPS, ONBOARDING_STEPS } from "../../hooks/useOnboarding";
 import { notifyMember } from "../../lib/notify";
 import { confirm } from "../../lib/confirm";
+import { PORTAL_HOST, PORTAL_URL } from "../../lib/portal";
 
 const STEP_BADGE_COLORS = {
   PERSONAL_DETAILS: "bg-surface-container text-foreground-variant",
@@ -272,7 +273,7 @@ export function OnboardingLifecycle({ embedded = false }) {
         await notifyMember(body.profile_id, "MEMBER_CREATED", {
           username: inviteUsername,
           password: body.default_password,
-          login_url: "https://lazybee.sg/portal/login",
+          login_url: `${PORTAL_URL}/portal/login`,
         });
       } catch (_) { /* non-blocking */ }
 
@@ -755,12 +756,12 @@ export function OnboardingLifecycle({ embedded = false }) {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-foreground-variant">Login URL</span>
-                      <code className="text-xs text-accent bg-white/5 px-2 py-0.5 rounded">lazybee.sg/portal/login</code>
+                      <code className="text-xs text-accent bg-white/5 px-2 py-0.5 rounded">{PORTAL_HOST}/portal/login</code>
                     </div>
                   </div>
                   <button
                     onClick={() => {
-                      navigator.clipboard.writeText(`Username: ${inviteResult.username}\nPassword: ${inviteResult.default_password}\nLogin: lazybee.sg/portal/login`);
+                      navigator.clipboard.writeText(`Username: ${inviteResult.username}\nPassword: ${inviteResult.default_password}\nLogin: ${PORTAL_HOST}/portal/login`);
                     }}
                     className="w-full py-2.5 bg-accent/15 text-accent rounded-xl font-['Inter'] font-bold text-sm hover:bg-accent/25 flex items-center justify-center gap-2"
                   >
@@ -1003,8 +1004,8 @@ export function OnboardingLifecycle({ embedded = false }) {
                           <button
                             title={`Username: ${row.tenant_profiles.username}`}
                             onClick={() => {
-                              navigator.clipboard.writeText(`Username: ${row.tenant_profiles.username}\nLogin: lazybee.sg/portal/login`);
-                              alert(`Username copied to clipboard.\n\nLogin: lazybee.sg/portal/login`);
+                              navigator.clipboard.writeText(`Username: ${row.tenant_profiles.username}\nLogin: ${PORTAL_HOST}/portal/login`);
+                              alert(`Username copied to clipboard.\n\nLogin: ${PORTAL_HOST}/portal/login`);
                             }}
                             className="p-1.5 rounded-lg hover:bg-white/5 text-foreground-variant hover:text-accent transition-colors"
                           >

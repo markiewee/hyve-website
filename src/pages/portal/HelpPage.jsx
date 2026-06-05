@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { useLanguage } from "../../i18n/LanguageContext";
+import { PORTAL_HOST } from "../../lib/portal";
 
 const SECTIONS = [
   {
@@ -13,8 +14,8 @@ const SECTIONS = [
       {
         q: "How do I log in?",
         qZh: "如何登录？",
-        a: "Go to lazybee.sg/portal/login and enter the username and password given by your property manager. On first login, you'll be asked to set up your email.",
-        aZh: "前往 lazybee.sg/portal/login，输入物业经理提供的用户名和密码。首次登录时，系统会要求您设置电子邮件。",
+        a: `Go to ${PORTAL_HOST}/portal/login and enter the username and password given by your property manager. On first login, you'll be asked to set up your email.`,
+        aZh: `前往 ${PORTAL_HOST}/portal/login，输入物业经理提供的用户名和密码。首次登录时，系统会要求您设置电子邮件。`,
       },
       {
         q: "How do I change my password?",

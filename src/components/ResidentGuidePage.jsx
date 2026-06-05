@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import SEO from './SEO';
 import FadeIn from './marketing/FadeIn';
+import { PORTAL_HOST, PORTAL_URL } from '../lib/portal';
 
 const linkClass = 'text-accent underline underline-offset-2 hover:opacity-80 transition-opacity';
 
@@ -14,7 +15,7 @@ const sections = [
         <ol className="list-decimal pl-6 space-y-2 mb-4 text-foreground-variant">
           <li><strong className="text-foreground">Check the FAQs / this guide first</strong> — most common questions are answered here</li>
           <li><strong className="text-foreground">Ask your house captain</strong> — they handle day-to-day stuff and can often resolve things on the spot</li>
-          <li><strong className="text-foreground">Escalate to Lazybee</strong> — raise a ticket on the tenant portal (<a href="https://lazybee.sg/portal" className={linkClass}>lazybee.sg/portal</a>) or WhatsApp us</li>
+          <li><strong className="text-foreground">Escalate to Lazybee</strong> — raise a ticket on the tenant portal (<a href={`${PORTAL_URL}/portal`} className={linkClass}>{PORTAL_HOST}/portal</a>) or WhatsApp us</li>
         </ol>
         <h4 className="font-display text-foreground font-semibold mt-4 mb-2">What counts as urgent?</h4>
         <p className="text-foreground-variant mb-2">Call or WhatsApp us directly (don't just raise a ticket) for:</p>
@@ -33,7 +34,7 @@ const sections = [
     title: '2. Your Tenant Portal',
     content: (
       <>
-        <p className="mb-3 text-foreground-variant"><strong className="text-foreground">Login:</strong> <a href="https://lazybee.sg/portal" className={linkClass}>lazybee.sg/portal</a></p>
+        <p className="mb-3 text-foreground-variant"><strong className="text-foreground">Login:</strong> <a href={`${PORTAL_URL}/portal`} className={linkClass}>{PORTAL_HOST}/portal</a></p>
         <p className="mb-2 text-foreground-variant">Here you can:</p>
         <ul className="list-disc pl-6 space-y-1 mb-4 text-foreground-variant">
           <li>View and download your Tenancy Agreement</li>
@@ -202,7 +203,7 @@ const sections = [
     title: '8. Useful Links',
     content: (
       <ul className="list-disc pl-6 space-y-1 text-foreground-variant">
-        <li><strong className="text-foreground">Tenant portal:</strong> <a href="https://lazybee.sg/portal" className={linkClass}>lazybee.sg/portal</a></li>
+        <li><strong className="text-foreground">Tenant portal:</strong> <a href={`${PORTAL_URL}/portal`} className={linkClass}>{PORTAL_HOST}/portal</a></li>
         <li><strong className="text-foreground">Public FAQs:</strong> <a href="/faqs" className={linkClass}>lazybee.sg/faqs</a></li>
         <li><strong className="text-foreground">Transfer sample agreement:</strong> <a href="/docs/transfer-of-tenancy-sample.html" className={linkClass} target="_blank" rel="noreferrer">lazybee.sg/docs/transfer-of-tenancy-sample.html</a></li>
         <li><strong className="text-foreground">Email:</strong> <a href="mailto:admin@lazybee.sg" className={linkClass}>admin@lazybee.sg</a></li>

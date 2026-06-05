@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { confirm } from "../../lib/confirm";
+import { PORTAL_URL } from "../../lib/portal";
 
 function formatSGD(amount) {
   if (amount == null) return "—";
@@ -18,7 +19,7 @@ function getMonthStr(date) {
 const INVITE_BASE_URL =
   typeof window !== "undefined"
     ? `${window.location.origin}/portal/investor/signup`
-    : "https://lazybee.sg/portal/investor/signup";
+    : `${PORTAL_URL}/portal/investor/signup`;
 
 export default function AdminInvestorsPage() {
   const [investors, setInvestors] = useState([]);

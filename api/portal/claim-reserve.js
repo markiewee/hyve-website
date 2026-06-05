@@ -7,6 +7,10 @@ const supabase = createClient(
 );
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+// Portal base URL. Defaults to the current live host (no-op until portal.lazybee.sg
+// DNS is live — then set PORTAL_BASE_URL=https://portal.lazybee.sg).
+const PORTAL_URL = process.env.PORTAL_BASE_URL || "https://lazybee.sg";
+
 const PROOF_BUCKET = "deposit_proofs";
 const ADMIN_EMAILS = (process.env.RESERVE_NOTIFY_TO || "admin@hyve.sg,mark@meetmillia.com")
   .split(",")
@@ -38,7 +42,7 @@ function depositReceiptHtml({ name, roomLabel, deposit, method }) {
   return `<p>Hi ${name || "there"},</p>
 <p>Great news — we've received and confirmed ${amount} as the deposit for <strong>${roomLabel}</strong>${method ? ` (${method})` : ""}. <strong>The room is yours.</strong></p>
 <p><strong>Next step:</strong> log in to your portal with your email and password to finish onboarding — sign your agreement, upload your ID, and get your move-in details.</p>
-<p style="margin:24px 0"><a href="https://lazybee.sg/portal/login" style="background:#c9a96a;color:#000;padding:14px 28px;border-radius:999px;text-decoration:none;font-weight:600">Log in to the portal</a></p>
+<p style="margin:24px 0"><a href="${PORTAL_URL}/portal/login" style="background:#c9a96a;color:#000;padding:14px 28px;border-radius:999px;text-decoration:none;font-weight:600">Log in to the portal</a></p>
 <p style="color:#888;font-size:13px">Keep this email as your deposit receipt. See you soon — Hyve.</p>`;
 }
 

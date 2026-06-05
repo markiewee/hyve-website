@@ -10,6 +10,7 @@ import { STEPS, STEP_LABELS } from "../../hooks/useOnboarding";
 import { useAuth } from "../../hooks/useAuth";
 import { notifyMember } from "../../lib/notify";
 import { confirm } from "../../lib/confirm";
+import { PORTAL_HOST } from "../../lib/portal";
 
 function DepositProofImage({ url }) {
   const [signedUrl, setSignedUrl] = useState(null);
@@ -1235,7 +1236,7 @@ export default function AdminOnboardingDetailPage() {
                   size="sm"
                   variant="outline"
                   onClick={() => {
-                    navigator.clipboard.writeText(`Username: ${onboarding.tenant_profiles.username}\nLogin: lazybee.sg/portal/login`);
+                    navigator.clipboard.writeText(`Username: ${onboarding.tenant_profiles.username}\nLogin: ${PORTAL_HOST}/portal/login`);
                     setMessage({ type: "success", text: "Credentials copied to clipboard." });
                   }}
                 >
@@ -1263,7 +1264,7 @@ export default function AdminOnboardingDetailPage() {
                       `You can now pay rent, report issues, and view your documents all in one place.`,
                       ``,
                       `🔐 *Login*`,
-                      `lazybee.sg/portal/login`,
+                      `${PORTAL_HOST}/portal/login`,
                       `Username: ${username}`,
                       ``,
                       `Let me know if you need your password reset!`,
