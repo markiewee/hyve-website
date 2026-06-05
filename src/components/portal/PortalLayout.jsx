@@ -36,6 +36,7 @@ function useNavLinks(role) {
         section: "Today",
         children: [
           { label: "Leads", to: "/portal/admin/leads", icon: "track_changes" },
+          { label: "Viewings", to: "/portal/admin/viewings", icon: "calendar_month" },
           { label: "Inbox", to: "/portal/admin/inbox", icon: "inbox" },
           { label: t("nav.announcements"), to: "/portal/admin/announcements", icon: "campaign" },
         ],
