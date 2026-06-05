@@ -37,9 +37,11 @@ const OCCUPANCY_FILTERS = [
 ];
 
 function nullSort(a, b, dir = "asc") {
+  // Nulls always go to the bottom regardless of sort direction
+  // (vacant rooms / no move-out date / no onboarding stage shouldn't outrank real data)
   if (a == null && b == null) return 0;
-  if (a == null) return dir === "asc" ? 1 : -1;
-  if (b == null) return dir === "asc" ? -1 : 1;
+  if (a == null) return 1;
+  if (b == null) return -1;
   if (a < b) return dir === "asc" ? -1 : 1;
   if (a > b) return dir === "asc" ? 1 : -1;
   return 0;

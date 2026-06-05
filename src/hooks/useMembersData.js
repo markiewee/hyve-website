@@ -12,7 +12,7 @@ export function useMembersData(propertyFilter = "ALL") {
       .select(`
         id, name,
         rooms(
-          id, name, unit_code,
+          id, name, unit_code, room_type,
           tenant_profiles(
             id, user_id, role, moved_in_at, moved_out_at, is_active,
             is_primary, archived_at, monthly_rent, lease_end,
@@ -40,7 +40,9 @@ export function useMembersData(propertyFilter = "ALL") {
     const pick1 = (x) => (Array.isArray(x) ? x[0] ?? null : x ?? null);
 
     const enriched = (properties ?? []).map((p) => {
-      const rooms = (p.rooms ?? []).map((r) => {
+      // Lettable bedrooms only — skip common areas / kitchens / yards / toilets
+      const lettable = (p.rooms ?? []).filter((r) => r.room_type != null);
+      const rooms = lettable.map((r) => {
         // Filter: active and not archived (skips tenants past their 30-day grace)
         const live = (r.tenant_profiles ?? [])
           .filter((tp) => tp.is_active && !tp.archived_at)
