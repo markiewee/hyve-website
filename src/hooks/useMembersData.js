@@ -35,12 +35,20 @@ export function useMembersData(propertyFilter = "ALL") {
       return;
     }
 
+    // tenant_details + onboarding_progress are children of tenant_profiles,
+    // so Supabase embeds them as ARRAYS. Normalise to single objects.
+    const pick1 = (x) => (Array.isArray(x) ? x[0] ?? null : x ?? null);
+
     const enriched = (properties ?? []).map((p) => {
       const rooms = (p.rooms ?? []).map((r) => {
         // Filter: active and not archived (skips tenants past their 30-day grace)
-        const live = (r.tenant_profiles ?? []).filter(
-          (tp) => tp.is_active && !tp.archived_at,
-        );
+        const live = (r.tenant_profiles ?? [])
+          .filter((tp) => tp.is_active && !tp.archived_at)
+          .map((tp) => ({
+            ...tp,
+            tenant_details: pick1(tp.tenant_details),
+            onboarding_progress: pick1(tp.onboarding_progress),
+          }));
         // Primary tenant first (the rent-paying one); fall back to first live tenant
         const primary = live.find((tp) => tp.is_primary) ?? live[0] ?? null;
         // Roommates: registered +1s (is_primary = false), e.g. couples/partners
