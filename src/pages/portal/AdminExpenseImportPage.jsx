@@ -936,7 +936,7 @@ export default function AdminExpenseImportPage() {
           Accounting
         </p>
         <h1 className="font-['Hanken_Grotesk'] text-2xl font-bold text-foreground">
-          Expense Reconciliation
+          Month Reports
         </h1>
         <p className="font-['Inter'] text-sm text-foreground-variant mt-1">
           Fetch debit transactions from Aspire, tag to properties and categories, then generate P&L reports.

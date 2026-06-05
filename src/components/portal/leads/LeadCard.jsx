@@ -194,6 +194,27 @@ export function LeadCard({ lead, onClick, onArchive }) {
           {lead.last_message_excerpt}
         </div>
       ) : null}
+      {(() => {
+        // Quick-glance prospect criteria so Mark can match against inventory
+        // without opening the drawer: budget · location · room type · move-in.
+        const it = lead.intent || {};
+        const chips = [];
+        if (it.budget_max) chips.push(`💰 $${Number(it.budget_max).toLocaleString("en-SG")}`);
+        if (Array.isArray(it.properties) && it.properties.length) chips.push(`📍 ${it.properties.join("/")}`);
+        if (Array.isArray(it.room_types) && it.room_types.length)
+          chips.push(it.room_types.map((rt) => rt.charAt(0).toUpperCase() + rt.slice(1)).join("/"));
+        if (it.move_in && shortDate(it.move_in)) chips.push(`📥 ${shortDate(it.move_in)}`);
+        if (it.tenant_type) chips.push(it.tenant_type.charAt(0).toUpperCase() + it.tenant_type.slice(1));
+        return chips.length ? (
+          <div className="flex flex-wrap gap-1 mb-2">
+            {chips.map((c, i) => (
+              <span key={i} className="text-[10px] px-1.5 py-0.5 rounded bg-surface-container text-foreground-variant whitespace-nowrap">
+                {c}
+              </span>
+            ))}
+          </div>
+        ) : null;
+      })()}
       {lead.matched_room_codes?.length > 0 && (
         <div className="text-[11px] text-foreground-variant mb-1">
           {lead.matched_room_codes.join(", ")}

@@ -21,7 +21,7 @@ export default function AdminLocksPage() {
       // Properties with their rooms (sorted) and tenant assigned per room
       const { data: properties, error: pErr } = await supabase
         .from("properties")
-        .select("id, code, name, rooms(id, unit_code, name, tenant_profiles!tenant_profiles_room_id_fkey(id, role, is_active, tenant_details(full_name)))")
+        .select("id, code, name, rooms(id, unit_code, name, room_type, tenant_profiles!tenant_profiles_room_id_fkey(id, role, is_active, tenant_details(full_name)))")
         .order("code");
       if (pErr) throw pErr;
 
@@ -42,7 +42,12 @@ export default function AdminLocksPage() {
 
       const merged = (properties || []).map((p) => {
         const g = guideByProperty[p.id] || { id: null, mainDoor: "", roomCodes: {} };
-        const sortedRooms = (p.rooms || []).slice().sort((a, b) => (a.unit_code || "").localeCompare(b.unit_code || ""));
+        // Only lettable bedrooms have door locks — drop common areas, kitchens,
+        // yards and shared toilets (room_type null).
+        const sortedRooms = (p.rooms || [])
+          .filter((r) => r.room_type != null)
+          .slice()
+          .sort((a, b) => (a.unit_code || "").localeCompare(b.unit_code || ""));
         return {
           property: p,
           guideId: g.id,

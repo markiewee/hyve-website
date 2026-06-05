@@ -145,12 +145,46 @@ export function useLeads({ includeArchived = false } = {}) {
     }
   }, []);
 
+  const addLead = useCallback(async (lead) => {
+    setError(null);
+    const nowIso = new Date().toISOString();
+    const payload = {
+      status: "new",
+      source: "manual",
+      date_initiated: nowIso,
+      last_message_at: nowIso,
+      ...lead,
+    };
+    delete payload.id;
+
+    const { data, error: insertError } = await supabase
+      .from("leads")
+      .insert(payload)
+      .select("*")
+      .single();
+
+    if (insertError) {
+      console.error("Error adding lead:", insertError);
+      setError(insertError.message);
+      throw insertError;
+    }
+    // Realtime usually delivers the INSERT too, but apply locally so the card
+    // appears instantly even if the socket lags.
+    if (data) {
+      setLeads((current) =>
+        current.some((l) => l.id === data.id) ? current : [data, ...current]
+      );
+    }
+    return data;
+  }, []);
+
   return {
     leads,
     loading,
     error,
     updateStatus,
     updateLead,
+    addLead,
     refresh: fetchLeads,
   };
 }

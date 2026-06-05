@@ -4,6 +4,7 @@ import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from 
 import { useLeads } from "@/hooks/useLeads";
 import { LeadColumn } from "@/components/portal/leads/LeadColumn";
 import { LeadDrawer } from "@/components/portal/leads/LeadDrawer";
+import { AddLeadModal } from "@/components/portal/leads/AddLeadModal";
 import { LeadFunnelPanel } from "@/components/portal/leads/LeadFunnelPanel";
 import { Button } from "@/components/ui/button";
 
@@ -23,11 +24,12 @@ const ARCHIVED_STATUSES = ["signed", "closed_won", "lost", "closed_lost"];
 
 export default function AdminLeadsPage() {
   const [showArchived, setShowArchived] = useState(false);
-  const { leads, loading, error, updateStatus, updateLead } = useLeads({
+  const { leads, loading, error, updateStatus, updateLead, addLead } = useLeads({
     includeArchived: showArchived,
   });
   const [selected, setSelected] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
 
   // Require 8px movement before drag starts — otherwise a click never reaches the card.
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
@@ -99,9 +101,12 @@ export default function AdminLeadsPage() {
             {loading ? "Loading…" : `${leads.length} active prospect${leads.length === 1 ? "" : "s"}`}
           </p>
         </div>
-        <Button variant="outline" onClick={() => setShowArchived((v) => !v)}>
-          {showArchived ? "Hide archived" : "Show archived"}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button onClick={() => setAddOpen(true)}>+ Add lead</Button>
+          <Button variant="outline" onClick={() => setShowArchived((v) => !v)}>
+            {showArchived ? "Hide archived" : "Show archived"}
+          </Button>
+        </div>
       </div>
 
       <LeadFunnelPanel />
@@ -136,6 +141,12 @@ export default function AdminLeadsPage() {
         open={drawerOpen}
         onOpenChange={setDrawerOpen}
         onSave={(draft) => updateLead(draft.id, draft)}
+      />
+
+      <AddLeadModal
+        open={addOpen}
+        onOpenChange={setAddOpen}
+        onCreate={addLead}
       />
     </div>
   );

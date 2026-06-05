@@ -50,10 +50,9 @@ function useNavLinks(role) {
       {
         section: "Money",
         children: [
-          { label: "Billing", to: "/portal/admin/billing", icon: "receipt_long" },
-          { label: t("nav.expenses"), to: "/portal/admin/expenses", icon: "account_balance" },
-          { label: "Reconcile", to: "/portal/admin/expenses/import", icon: "account_balance_wallet" },
-          { label: t("nav.financials"), to: "/portal/admin/financials", icon: "bar_chart" },
+          { label: "Rent", to: "/portal/admin/rent", icon: "receipt_long" },
+          { label: "Invoices", to: "/portal/admin/invoices", icon: "request_quote" },
+          { label: "Month Reports", to: "/portal/admin/expenses/import", icon: "account_balance_wallet" },
         ],
       },
       {

@@ -63,6 +63,12 @@ export default function AdminRentPage() {
   const [generateResult, setGenerateResult] = useState(null);
   const [actionLoading, setActionLoading] = useState(null);
   const [paymentForm, setPaymentForm] = useState(null); // { id, paid_amount, paid_at, payment_method }
+  // Month filter for the rent table — defaults to the current month so the
+  // list isn't an ever-growing pile of every month ever generated.
+  const [tableMonth, setTableMonth] = useState(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  });
 
   // Ad-hoc charges state
   const [members, setMembers] = useState([]);
@@ -271,30 +277,22 @@ export default function AdminRentPage() {
   }, [fetchPayments, fetchMembers, fetchCharges]);
 
   async function handleGenerateThisMonth() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const monthStr = `${year}-${month}-01`;
+    // Guard against double-fire — the confirm dialog isn't a hard input lock, so
+    // rapid clicks could each pass the "already exists" check before any insert
+    // lands and pile up duplicate rows. Bail if a run is already in flight.
+    if (generating) return;
+
+    // Always operate on the month the table is currently showing, so "regenerate"
+    // is unambiguous about which month it refreshes.
+    const [fy, fm] = tableMonth.split("-");
+    const monthStr = `${fy}-${fm}-01`;
     const dueDateStr = monthStr;
 
-    // Check if rent records already exist for this month before confirming
-    const { data: existingCheck } = await supabase
-      .from("rent_payments")
-      .select("id")
-      .eq("month", monthStr)
-      .limit(1);
-
-    if (existingCheck && existingCheck.length > 0) {
-      if (!await confirm({
-        title: `Rent records exist for ${formatMonth(monthStr)}`,
-        description: "Continue and generate records for any remaining tenants?",
-      })) return;
-    } else {
-      if (!await confirm({
-        title: `Generate rent for ${formatMonth(monthStr)}?`,
-        description: "Creates rent records for all active tenants.",
-      })) return;
-    }
+    if (!await confirm({
+      title: `Generate / regenerate rent for ${formatMonth(monthStr)}?`,
+      description:
+        "Refreshes unpaid rent records for all active tenants. Paid, partial and overdue records are left untouched — only PENDING rows are cleared and recreated, so re-running never piles up duplicates.",
+    })) return;
 
     setGenerating(true);
     setGenerateResult(null);
@@ -319,6 +317,22 @@ export default function AdminRentPage() {
       return;
     }
 
+    // Idempotent regenerate: wipe this month's PENDING rows first (these carry no
+    // payment, so they're safe to recreate). PAID / PARTIAL / OVERDUE rows stay.
+    const { error: wipeError } = await supabase
+      .from("rent_payments")
+      .delete()
+      .eq("month", monthStr)
+      .eq("status", "PENDING");
+
+    if (wipeError) {
+      console.error("Error clearing pending rent rows:", wipeError);
+      setGenerateResult({ error: "Failed to clear existing pending records." });
+      setGenerating(false);
+      return;
+    }
+
+    // Re-read remaining rows (PAID/PARTIAL/OVERDUE) so we skip those tenants.
     const { data: existing, error: existingError } = await supabase
       .from("rent_payments")
       .select("tenant_profile_id")
@@ -534,6 +548,9 @@ export default function AdminRentPage() {
     setChargeActionLoading(null);
   }
 
+  // Rent table is scoped to the selected month so it doesn't show every month ever.
+  const monthRows = rentPayments.filter((p) => (p.month || "").startsWith(tableMonth));
+
   const pendingCount = rentPayments.filter((p) => p.status === "PENDING").length;
   const overdueCount = rentPayments.filter((p) => p.status === "OVERDUE").length;
   const paidCount = rentPayments.filter((p) => p.status === "PAID").length;
@@ -597,9 +614,9 @@ export default function AdminRentPage() {
       {/* Generate button */}
       <div className="bg-surface rounded-2xl p-6 border border-border mb-8 flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="flex-1">
-          <p className="font-['Inter'] font-bold text-foreground text-sm">Generate Monthly Rent</p>
+          <p className="font-['Inter'] font-bold text-foreground text-sm">Generate / Regenerate Rent</p>
           <p className="font-['Inter'] text-foreground-variant text-xs mt-0.5">
-            Create rent records for all active tenants for the current month.
+            Refreshes unpaid rent records for <span className="font-semibold text-foreground">{formatMonth(`${tableMonth}-01`)}</span> (the month selected below). Paid records are untouched, and re-running never creates duplicates.
           </p>
         </div>
         <div className="flex items-center gap-4">
@@ -614,7 +631,7 @@ export default function AdminRentPage() {
             className="px-6 py-3 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
           >
             <span className="material-symbols-outlined text-[18px]">receipt_long</span>
-            {generating ? "Generating…" : "Generate This Month"}
+            {generating ? "Generating…" : "Generate / Regenerate"}
           </button>
         </div>
       </div>
@@ -622,10 +639,16 @@ export default function AdminRentPage() {
       {/* Rent Payment Table */}
       <div className="bg-surface rounded-2xl border border-border overflow-hidden relative">
         <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-surface to-transparent z-10 sm:hidden rounded-r-2xl"></div>
-        <div className="px-8 py-6 border-b border-border">
+        <div className="px-8 py-6 border-b border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <h2 className="font-display font-bold text-lg text-foreground">
-            All Rent Payments
+            Rent Payments — {formatMonth(`${tableMonth}-01`)}
           </h2>
+          <input
+            type="month"
+            value={tableMonth}
+            onChange={(e) => setTableMonth(e.target.value)}
+            className="px-3 py-2 rounded-lg border border-border bg-surface text-foreground text-sm font-['Inter'] focus:outline-none focus:ring-2 focus:ring-accent"
+          />
         </div>
 
         {loading ? (
@@ -639,9 +662,11 @@ export default function AdminRentPage() {
               </div>
             ))}
           </div>
-        ) : rentPayments.length === 0 ? (
+        ) : monthRows.length === 0 ? (
           <div className="px-8 py-12 text-center">
-            <p className="text-foreground-variant font-['Inter'] text-sm">No rent payment records yet.</p>
+            <p className="text-foreground-variant font-['Inter'] text-sm">
+              No rent records for {formatMonth(`${tableMonth}-01`)}. Click “Generate / Regenerate” above to create them.
+            </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -660,7 +685,7 @@ export default function AdminRentPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/10">
-                {rentPayments.map((p) => {
+                {monthRows.map((p) => {
                   const tp = p.tenant_profiles;
                   const unitCode = tp?.rooms?.unit_code ?? "—";
                   const tenantName = tp?.tenant_details?.full_name || tp?.username || "—";

@@ -33,9 +33,7 @@ import AdminOnboardingDetailPage from './pages/portal/AdminOnboardingDetailPage'
 import AdminAnnouncementsPage from './pages/portal/AdminAnnouncementsPage';
 import AdminRentPage from './pages/portal/AdminRentPage';
 import AdminInvestorsPage from './pages/portal/AdminInvestorsPage';
-import AdminExpensesPage from './pages/portal/AdminExpensesPage';
 import AdminExpenseImportPage from './pages/portal/AdminExpenseImportPage';
-import AdminFinancialsPage from './pages/portal/AdminFinancialsPage';
 import AdminDocumentsPage from './pages/portal/AdminDocumentsPage';
 import AdminLocksPage from './pages/portal/AdminLocksPage';
 import AdminViewingsPage from './pages/portal/AdminViewingsPage';
@@ -57,7 +55,6 @@ import AdminMembersPage from './pages/portal/AdminMembersPage';
 import AdminPastTenantsPage from './pages/portal/AdminPastTenantsPage';
 import AdminInboxPage from './pages/portal/AdminInboxPage';
 import AdminLeadsPage from './pages/portal/AdminLeadsPage';
-import AdminBillingPage from './pages/portal/AdminBillingPage';
 import { ConfirmHost } from './lib/confirm';
 
 function AppContent() {
@@ -290,14 +287,6 @@ function AppContent() {
             }
           />
           <Route
-            path="/portal/admin/expenses"
-            element={
-              <AuthGuard requiredRole="ADMIN">
-                <AdminExpensesPage />
-              </AuthGuard>
-            }
-          />
-          <Route
             path="/portal/admin/expenses/import"
             element={
               <AuthGuard requiredRole="ADMIN">
@@ -305,14 +294,11 @@ function AppContent() {
               </AuthGuard>
             }
           />
-          <Route
-            path="/portal/admin/financials"
-            element={
-              <AuthGuard requiredRole="ADMIN">
-                <AdminFinancialsPage />
-              </AuthGuard>
-            }
-          />
+          {/* Legacy money routes (Expense Tracking, P&L, Money hub) retired —
+              redirect any old links to the live money pages. */}
+          <Route path="/portal/admin/expenses" element={<Navigate to="/portal/admin/expenses/import" replace />} />
+          <Route path="/portal/admin/financials" element={<Navigate to="/portal/admin/rent" replace />} />
+          <Route path="/portal/admin/billing" element={<Navigate to="/portal/admin/rent" replace />} />
           <Route
             path="/portal/admin/documents"
             element={
@@ -359,14 +345,6 @@ function AppContent() {
             element={
               <AuthGuard requiredRole="ADMIN">
                 <AdminLeadsPage />
-              </AuthGuard>
-            }
-          />
-          <Route
-            path="/portal/admin/billing"
-            element={
-              <AuthGuard requiredRole="ADMIN">
-                <AdminBillingPage />
               </AuthGuard>
             }
           />
