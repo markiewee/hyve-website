@@ -88,16 +88,18 @@ export default function AdminDashboardPage() {
         // Only count lettable bedrooms (room_type set) — exclude common areas,
         // kitchens, yards and shared toilets (room_type null).
         supabase.from("rooms").select("id", { count: "exact", head: true }).not("room_type", "is", null),
-        // Active Members = currently in residence only:
+        // Active Members = currently in-residence tenants/captains only:
         //   is_active=true AND archived_at IS NULL
+        //   AND role != ADMIN  (staff accounts aren't "members")
         //   AND moved_in_at <= now
         //   AND (moved_out_at IS NULL OR moved_out_at > now)
-        // Excludes future incoming, GRACE-window movers, archived past tenants.
+        // Excludes future incoming, GRACE-window movers, archived, and staff.
         supabase
           .from("tenant_profiles")
           .select("id", { count: "exact", head: true })
           .eq("is_active", true)
           .is("archived_at", null)
+          .neq("role", "ADMIN")
           .lte("moved_in_at", nowIso)
           .or(`moved_out_at.is.null,moved_out_at.gt.${nowIso}`),
         supabase
