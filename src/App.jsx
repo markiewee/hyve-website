@@ -54,6 +54,7 @@ import PropertyGuidePage from './pages/portal/PropertyGuidePage';
 import InvoiceDetailPage from "./pages/portal/InvoiceDetailPage";
 import AdminInvoicesPage from "./pages/portal/AdminInvoicesPage";
 import AdminMembersPage from './pages/portal/AdminMembersPage';
+import AdminPastTenantsPage from './pages/portal/AdminPastTenantsPage';
 import AdminInboxPage from './pages/portal/AdminInboxPage';
 import AdminLeadsPage from './pages/portal/AdminLeadsPage';
 import AdminBillingPage from './pages/portal/AdminBillingPage';
@@ -326,6 +327,14 @@ function AppContent() {
             element={
               <AuthGuard requiredRole="ADMIN">
                 <AdminMembersPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/past-tenants"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminPastTenantsPage />
               </AuthGuard>
             }
           />

@@ -83,14 +83,23 @@ export default function AdminDashboardPage() {
         Date.now() - ONLINE_THRESHOLD_MINUTES * 60 * 1000
       ).toISOString();
 
+      const nowIso = new Date().toISOString();
       const [rooms, tenants, tickets, devices, allDevices] = await Promise.all([
         // Only count lettable bedrooms (room_type set) — exclude common areas,
         // kitchens, yards and shared toilets (room_type null).
         supabase.from("rooms").select("id", { count: "exact", head: true }).not("room_type", "is", null),
+        // Active Members = currently in residence only:
+        //   is_active=true AND archived_at IS NULL
+        //   AND moved_in_at <= now
+        //   AND (moved_out_at IS NULL OR moved_out_at > now)
+        // Excludes future incoming, GRACE-window movers, archived past tenants.
         supabase
           .from("tenant_profiles")
           .select("id", { count: "exact", head: true })
-          .eq("is_active", true),
+          .eq("is_active", true)
+          .is("archived_at", null)
+          .lte("moved_in_at", nowIso)
+          .or(`moved_out_at.is.null,moved_out_at.gt.${nowIso}`),
         supabase
           .from("maintenance_tickets")
           .select("id", { count: "exact", head: true })
