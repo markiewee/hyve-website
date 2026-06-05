@@ -725,9 +725,13 @@ export default function StaffResourcePage() {
             p.rooms.forEach(r => {
               const roomTenants = tenantsByRoom[r.id] || [];
               r.tenant_profiles = roomTenants;
+              // Single source of truth: rooms.next_available / available_until are
+              // DERIVED server-side from tenant_profiles (fn_recompute_room_availability,
+              // trigger + nightly cron) so the staff portal and the public booking site
+              // read the IDENTICAL availability. Do NOT recompute it here — just read the
+              // DB columns. We still compute the upcoming_bookings list locally because
+              // staff has tenant access and the public site does not.
               const avail = computeRoomAvailability(r, roomTenants, today);
-              r.next_available = avail.next_available;
-              r.available_until = avail.available_until;
               r.upcoming_bookings = avail.upcoming_bookings;
             });
           }
