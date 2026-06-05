@@ -327,6 +327,9 @@ export default function AdminOnboardingPage() {
   }, []);
 
   const [lifecycleFilter, setLifecycleFilter] = useState("ALL");
+  const [search, setSearch] = useState("");
+  const [propertyFilter, setPropertyFilter] = useState("ALL");
+  const [sortBy, setSortBy] = useState("created_newest");
 
   const isInProgress = (r) => ["ONBOARDING", "IN_PROGRESS"].includes(r.status);
   const isRegistrationStep = (r) => REGISTRATION_STEPS.includes(r.current_step);
@@ -337,12 +340,59 @@ export default function AdminOnboardingPage() {
   const activeCount = rows.filter((r) => r.status === "ACTIVE").length;
   const archivedCount = rows.filter((r) => r.status === "ARCHIVED" || r.status === "MOVED_OUT").length;
 
-  const filteredRows = lifecycleFilter === "ALL" ? rows.filter(r => r.status !== "ARCHIVED" && r.status !== "MOVED_OUT")
+  const lifecycleRows = lifecycleFilter === "ALL" ? rows.filter(r => r.status !== "ARCHIVED" && r.status !== "MOVED_OUT")
     : lifecycleFilter === "REGISTRATION" ? rows.filter(r => isInProgress(r) && isRegistrationStep(r))
     : lifecycleFilter === "ONBOARDING" ? rows.filter(r => isInProgress(r) && isOnboardingStep(r))
     : lifecycleFilter === "ACTIVE" ? rows.filter(r => r.status === "ACTIVE")
     : lifecycleFilter === "ARCHIVED" ? rows.filter(r => ["ARCHIVED", "MOVED_OUT", "END_OF_TENANCY"].includes(r.status))
     : rows;
+
+  // Helpers for sort/filter
+  const rowName = (r) => (r.tenant_profiles?.tenant_details?.full_name || r.tenant_profiles?.username || "").toLowerCase();
+  const rowUnit = (r) => r.tenant_profiles?.rooms?.unit_code || "";
+  const rowProperty = (r) => (rowUnit(r).split("-")[0] || "").toUpperCase();
+  // Nulls always sort to the bottom regardless of direction.
+  const nullSort = (a, b, dir = "asc") => {
+    if (a == null && b == null) return 0;
+    if (a == null) return 1;
+    if (b == null) return -1;
+    if (a < b) return dir === "asc" ? -1 : 1;
+    if (a > b) return dir === "asc" ? 1 : -1;
+    return 0;
+  };
+
+  const SORTERS = {
+    created_newest: (a, b) => nullSort(a.created_at, b.created_at, "desc"),
+    created_oldest: (a, b) => nullSort(a.created_at, b.created_at, "asc"),
+    name_asc: (a, b) => rowName(a).localeCompare(rowName(b)),
+    name_desc: (a, b) => rowName(b).localeCompare(rowName(a)),
+    unit_asc: (a, b) => rowUnit(a).localeCompare(rowUnit(b)),
+    move_in_newest: (a, b) => nullSort(a.tenancy_start_date, b.tenancy_start_date, "desc"),
+    move_in_oldest: (a, b) => nullSort(a.tenancy_start_date, b.tenancy_start_date, "asc"),
+    move_out_soonest: (a, b) => nullSort(a.tenancy_end_date, b.tenancy_end_date, "asc"),
+    step: (a, b) => nullSort(STEP_ORDER.indexOf(a.current_step), STEP_ORDER.indexOf(b.current_step), "asc"),
+    status: (a, b) => (a.status || "").localeCompare(b.status || ""),
+  };
+
+  const q = search.trim().toLowerCase();
+  const filteredRows = lifecycleRows
+    .filter((r) => propertyFilter === "ALL" || rowProperty(r) === propertyFilter)
+    .filter((r) => !q || rowName(r).includes(q) || rowUnit(r).toLowerCase().includes(q))
+    .slice()
+    .sort(SORTERS[sortBy] || SORTERS.created_newest);
+
+  const SORT_OPTIONS = [
+    { value: "created_newest", label: "Date added (newest)" },
+    { value: "created_oldest", label: "Date added (oldest)" },
+    { value: "move_in_newest", label: "Move-in (newest)" },
+    { value: "move_in_oldest", label: "Move-in (oldest)" },
+    { value: "move_out_soonest", label: "Move-out (soonest)" },
+    { value: "name_asc", label: "Name (A–Z)" },
+    { value: "name_desc", label: "Name (Z–A)" },
+    { value: "unit_asc", label: "Unit (A–Z)" },
+    { value: "step", label: "Onboarding stage" },
+    { value: "status", label: "Status" },
+  ];
 
   return (
     <PortalLayout>
@@ -780,6 +830,50 @@ export default function AdminOnboardingPage() {
             )}
           </button>
         ))}
+      </div>
+
+      {/* Sort + filter controls */}
+      <div className="mb-4 flex flex-wrap items-center gap-3">
+        <div className="relative flex-1 min-w-[180px] max-w-xs">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-foreground-variant">search</span>
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search name or unit…"
+            className="w-full bg-surface border border-border rounded-xl pl-9 pr-3 py-2 text-sm font-['Inter'] text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Property</span>
+          <select
+            value={propertyFilter}
+            onChange={(e) => setPropertyFilter(e.target.value)}
+            className="bg-surface border border-border rounded-xl px-3 py-2 text-sm font-['Inter'] text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+          >
+            <option value="ALL">All</option>
+            <option value="CP">CP — Chiltern Park</option>
+            <option value="IH">IH — Ivory Heights</option>
+            <option value="TG">TG — Thomson Grove</option>
+          </select>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Sort</span>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="bg-surface border border-border rounded-xl px-3 py-2 text-sm font-['Inter'] text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+          >
+            {SORT_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
+        </div>
+        {!loading && (
+          <span className="font-['Inter'] text-xs text-foreground-variant ml-auto">
+            {filteredRows.length} shown
+          </span>
+        )}
       </div>
 
       {/* Active filter indicator */}

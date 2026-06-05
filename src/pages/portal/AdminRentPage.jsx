@@ -62,7 +62,6 @@ export default function AdminRentPage() {
   const [generating, setGenerating] = useState(false);
   const [generateResult, setGenerateResult] = useState(null);
   const [actionLoading, setActionLoading] = useState(null);
-  const [paymentForm, setPaymentForm] = useState(null); // { id, paid_amount, paid_at, payment_method }
   // Month filter for the rent table — defaults to the current month so the
   // list isn't an ever-growing pile of every month ever generated.
   const [tableMonth, setTableMonth] = useState(() => {
@@ -238,7 +237,55 @@ export default function AdminRentPage() {
     setSelectedTxn(null);
   }
 
+  // Match a selected Aspire transaction to an ad-hoc charge. This is the ONLY
+  // way a charge becomes PAID — no manual "mark paid" — so a charge is never
+  // settled unless real money is seen landing in the bank.
+  async function handleMatchCharge(charge) {
+    if (!selectedTxn) return;
+    const { error } = await supabase
+      .from("member_charges")
+      .update({ status: "PAID", paid_at: selectedTxn.transaction_date })
+      .eq("id", charge.id);
+    if (error) { console.error("Charge match error:", error); return; }
+    setCharges(prev => prev.map(c =>
+      c.id === charge.id ? { ...c, status: "PAID", paid_at: selectedTxn.transaction_date } : c
+    ));
+    setMatchedPairs(prev => [...prev, {
+      rentPaymentId: `charge-${charge.id}`,
+      kind: "charge",
+      chargeId: charge.id,
+      transactionRef: selectedTxn.reference,
+      tenantName: `${charge.description}`,
+      unitCode: charge.tenant_profiles?.rooms?.unit_code || "—",
+      rentAmount: charge.amount,
+      txnAmount: selectedTxn.amount,
+      txnDate: selectedTxn.transaction_date,
+      txnDescription: selectedTxn.description,
+      isLate: false,
+      daysLate: 0,
+      lateFee: 0,
+    }]);
+    setAspireTransactions(prev => prev.filter(t => t.reference !== selectedTxn.reference));
+    setSelectedTxn(null);
+  }
+
   async function handleUnmatch(pair) {
+    if (pair.kind === "charge") {
+      const { error } = await supabase
+        .from("member_charges")
+        .update({ status: "PENDING", paid_at: null })
+        .eq("id", pair.chargeId);
+      if (error) { console.error("Charge unmatch error:", error); return; }
+      setCharges(prev => prev.map(c =>
+        c.id === pair.chargeId ? { ...c, status: "PENDING", paid_at: null } : c
+      ));
+      setAspireTransactions(prev => [...prev, {
+        transaction_date: pair.txnDate, description: pair.txnDescription,
+        amount: pair.txnAmount, reference: pair.transactionRef, transaction_type: "INCOME",
+      }]);
+      setMatchedPairs(prev => prev.filter(mp => mp.rentPaymentId !== pair.rentPaymentId));
+      return;
+    }
     const { error } = await supabase
       .from("rent_payments")
       .update({ status: "PENDING", paid_at: null, paid_amount: null, payment_reference: null, payment_method: null })
@@ -412,68 +459,6 @@ export default function AdminRentPage() {
     });
     setGenerating(false);
     fetchPayments();
-  }
-
-  function openPaymentForm(payment) {
-    setPaymentForm({
-      id: payment.id,
-      paid_amount: String(payment.rent_amount),
-      paid_at: new Date().toISOString().split("T")[0],
-      payment_method: "PAYNOW",
-    });
-  }
-
-  async function handleConfirmPayment(payment) {
-    if (!paymentForm) return;
-    setActionLoading(payment.id);
-
-    const paidAmount = Number(paymentForm.paid_amount);
-    const paidAt = new Date(paymentForm.paid_at);
-    const dueDate = payment.due_date ? new Date(payment.due_date) : null;
-    const isLate = dueDate ? paidAt > dueDate : false;
-    const daysLate = isLate && dueDate ? daysBetween(dueDate, paidAt) : 0;
-    // Late fee per contract: 5% after 5 days, additional 5% after 30 days
-    const outstanding = Number(payment.rent_amount);
-    const lateFee = !isLate ? 0 : daysLate > 30 ? Math.round(outstanding * 0.10 * 100) / 100 : Math.round(outstanding * 0.05 * 100) / 100;
-    const isPartial = paidAmount < Number(payment.rent_amount);
-
-    const { error } = await supabase
-      .from("rent_payments")
-      .update({
-        status: isPartial ? "PARTIAL" : "PAID",
-        paid_at: paidAt.toISOString(),
-        paid_amount: paidAmount,
-        payment_method: paymentForm.payment_method,
-        is_late: isLate,
-        late_fee: lateFee,
-      })
-      .eq("id", payment.id);
-
-    if (error) {
-      console.error("Error recording payment:", error);
-    } else {
-      setRentPayments((prev) =>
-        prev.map((p) =>
-          p.id === payment.id
-            ? {
-                ...p,
-                status: isPartial ? "PARTIAL" : "PAID",
-                paid_at: paidAt.toISOString(),
-                paid_amount: paidAmount,
-                payment_method: paymentForm.payment_method,
-                is_late: isLate,
-                late_fee: lateFee,
-              }
-            : p
-        )
-      );
-      if (!isPartial) {
-        fireRentPaidEmail(payment.tenant_profile_id, payment.month, paidAmount);
-      }
-      setPaymentForm(null);
-    }
-
-    setActionLoading(null);
   }
 
   async function handleAddLateFee(payment) {
@@ -690,11 +675,9 @@ export default function AdminRentPage() {
                   const unitCode = tp?.rooms?.unit_code ?? "—";
                   const tenantName = tp?.tenant_details?.full_name || tp?.username || "—";
                   const lateFee = p.late_fee ?? 0;
-                  const showForm = paymentForm?.id === p.id;
                   const total = Number(p.rent_amount) + Number(lateFee);
                   const badgeClass = STATUS_BADGE[p.status] ?? STATUS_BADGE.PENDING;
                   const isActionLoading = actionLoading === p.id;
-                  const canMarkPaid = p.status === "PENDING" || p.status === "OVERDUE";
                   const canAddLateFee =
                     (p.status === "PENDING" || p.status === "OVERDUE") &&
                     p.due_date &&
@@ -743,15 +726,6 @@ export default function AdminRentPage() {
                       </td>
                       <td className="px-4 py-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          {canMarkPaid && !showForm && (
-                            <button
-                              onClick={() => openPaymentForm(p)}
-                              disabled={isActionLoading}
-                              className="text-xs px-3 py-1.5 rounded-full bg-accent text-white hover:opacity-90 disabled:opacity-50 transition-all font-['Inter'] font-bold whitespace-nowrap"
-                            >
-                              {isActionLoading ? "…" : "Mark Paid"}
-                            </button>
-                          )}
                           {canAddLateFee && (
                             <button
                               onClick={() => handleAddLateFee(p)}
@@ -761,62 +735,17 @@ export default function AdminRentPage() {
                               {isActionLoading ? "…" : "Late Fee"}
                             </button>
                           )}
+                          {(p.status === "PENDING" || p.status === "OVERDUE") && (
+                            <span
+                              className="text-[10px] text-foreground-variant italic whitespace-nowrap"
+                              title="Rent is marked paid only by matching a real bank transfer in the Reconcile panel below."
+                            >
+                              reconcile to mark paid
+                            </span>
+                          )}
                         </div>
                       </td>
                     </tr>
-                    {showForm && (
-                      <tr className="bg-emerald-500/10">
-                        <td colSpan={9} className="px-8 py-4">
-                          <div className="flex flex-wrap items-end gap-4">
-                            <div>
-                              <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-foreground-variant mb-1">Amount Received</label>
-                              <input
-                                type="number"
-                                step="0.01"
-                                value={paymentForm.paid_amount}
-                                onChange={(e) => setPaymentForm(f => ({ ...f, paid_amount: e.target.value }))}
-                                className="w-32 px-3 py-2 rounded-lg border border-border bg-surface text-foreground text-sm font-['Inter'] font-semibold"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-foreground-variant mb-1">Date Received</label>
-                              <input
-                                type="date"
-                                value={paymentForm.paid_at}
-                                onChange={(e) => setPaymentForm(f => ({ ...f, paid_at: e.target.value }))}
-                                className="px-3 py-2 rounded-lg border border-border bg-surface text-foreground text-sm font-['Inter']"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-foreground-variant mb-1">Method</label>
-                              <select
-                                value={paymentForm.payment_method}
-                                onChange={(e) => setPaymentForm(f => ({ ...f, payment_method: e.target.value }))}
-                                className="px-3 py-2 rounded-lg border border-border bg-surface text-foreground text-sm font-['Inter']"
-                              >
-                                <option value="PAYNOW">PayNow</option>
-                                <option value="BANK_TRANSFER">Bank Transfer</option>
-                                <option value="CASH">Cash</option>
-                                <option value="OTHER">Other</option>
-                              </select>
-                            </div>
-                            <button
-                              onClick={() => handleConfirmPayment(p)}
-                              disabled={isActionLoading}
-                              className="px-4 py-2 rounded-full bg-accent text-white text-sm font-['Inter'] font-bold hover:opacity-90 disabled:opacity-50"
-                            >
-                              {isActionLoading ? "Saving…" : "Confirm Payment"}
-                            </button>
-                            <button
-                              onClick={() => setPaymentForm(null)}
-                              className="px-4 py-2 rounded-lg border border-border text-sm font-['Inter'] font-semibold text-foreground-variant hover:bg-white/5"
-                            >
-                              Cancel
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    )}
                     </React.Fragment>
                   );
                 })}
@@ -902,10 +831,10 @@ export default function AdminRentPage() {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-white/10">
-          {/* LEFT: Unpaid Rent */}
+          {/* LEFT: Unpaid Rent + Charges */}
           <div className="p-6">
             <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-4">
-              Unpaid Rent ({rentPayments.filter(p => p.status === "PENDING" || p.status === "OVERDUE").length})
+              Unpaid Rent &amp; Charges ({rentPayments.filter(p => p.status === "PENDING" || p.status === "OVERDUE").length + charges.filter(c => c.status === "PENDING").length})
             </p>
             <div className="space-y-2 max-h-[400px] overflow-y-auto">
               {rentPayments
@@ -930,8 +859,29 @@ export default function AdminRentPage() {
                     </button>
                   );
                 })}
-              {rentPayments.filter(p => p.status === "PENDING" || p.status === "OVERDUE").length === 0 && (
-                <p className="text-center text-foreground-variant font-['Inter'] text-sm py-8">All rent paid!</p>
+              {charges
+                .filter(c => c.status === "PENDING")
+                .map(c => {
+                  const unitCode = c.tenant_profiles?.rooms?.unit_code ?? "—";
+                  return (
+                    <button key={`charge-${c.id}`} onClick={() => selectedTxn ? handleMatchCharge(c) : null} disabled={!selectedTxn}
+                      className={`w-full text-left p-4 rounded-xl border transition-all flex items-center gap-3 ${
+                        selectedTxn ? "border-accent hover:bg-accent/5 cursor-pointer" : "border-border opacity-60 cursor-default"
+                      }`}>
+                      <span className="font-['Inter'] text-xs font-bold text-accent bg-surface-container px-2 py-1 rounded shrink-0">{unitCode}</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-['Inter'] text-sm font-semibold text-foreground truncate">{c.description}</p>
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-purple-500/15 text-purple-300">Charge · {c.category?.replace(/_/g, " ")}</span>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="font-display font-bold text-sm tabular-nums text-foreground">{formatSGD(c.amount)}</p>
+                      </div>
+                    </button>
+                  );
+                })}
+              {rentPayments.filter(p => p.status === "PENDING" || p.status === "OVERDUE").length === 0 &&
+               charges.filter(c => c.status === "PENDING").length === 0 && (
+                <p className="text-center text-foreground-variant font-['Inter'] text-sm py-8">All rent &amp; charges paid!</p>
               )}
             </div>
           </div>
@@ -1159,13 +1109,12 @@ export default function AdminRentPage() {
                       </td>
                       <td className="px-4 py-4 text-right">
                         {c.status === "PENDING" && (
-                          <button
-                            onClick={() => handleMarkChargePaid(c.id)}
-                            disabled={isLoading}
-                            className="text-xs px-3 py-1.5 rounded-full bg-accent text-white hover:opacity-90 disabled:opacity-50 transition-all font-['Inter'] font-bold whitespace-nowrap"
+                          <span
+                            className="text-[10px] text-foreground-variant italic whitespace-nowrap"
+                            title="Charges are marked paid only by matching a real bank transfer in the Reconcile panel above."
                           >
-                            {isLoading ? "..." : "Mark Paid"}
-                          </button>
+                            reconcile to mark paid
+                          </span>
                         )}
                       </td>
                     </tr>
