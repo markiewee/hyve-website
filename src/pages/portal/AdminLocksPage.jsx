@@ -21,7 +21,7 @@ export default function AdminLocksPage() {
       // Properties with their rooms (sorted) and tenant assigned per room
       const { data: properties, error: pErr } = await supabase
         .from("properties")
-        .select("id, code, name, rooms(id, unit_code, name, room_type, tenant_profiles!tenant_profiles_room_id_fkey(id, role, is_active, tenant_details(full_name)))")
+        .select("id, code, name, rooms(id, unit_code, name, room_type, tenant_profiles!tenant_profiles_room_id_fkey(id, role, is_active, moved_in_at, moved_out_at, tenant_details(full_name)))")
         .order("code");
       if (pErr) throw pErr;
 
@@ -32,13 +32,19 @@ export default function AdminLocksPage() {
         .eq("section", "access_codes");
       if (gErr) throw gErr;
 
-      const guideByProperty = Object.fromEntries(
-        (guides || []).map((g) => {
-          let parsed = { main_door: "", rooms: {} };
-          try { parsed = JSON.parse(g.content); } catch {}
-          return [g.property_id, { id: g.id, mainDoor: parsed.main_door || "", roomCodes: parsed.rooms || {} }];
-        })
-      );
+      // A property can (wrongly) have more than one access_codes guide row. Pick
+      // the richest one (most room codes) so an empty/partial duplicate never
+      // shadows the real codes.
+      const guideByProperty = {};
+      for (const g of guides || []) {
+        let parsed = { main_door: "", rooms: {} };
+        try { parsed = JSON.parse(g.content); } catch {}
+        const entry = { id: g.id, mainDoor: parsed.main_door || "", roomCodes: parsed.rooms || {} };
+        const prev = guideByProperty[g.property_id];
+        if (!prev || Object.keys(entry.roomCodes).length > Object.keys(prev.roomCodes).length) {
+          guideByProperty[g.property_id] = entry;
+        }
+      }
 
       const merged = (properties || []).map((p) => {
         const g = guideByProperty[p.id] || { id: null, mainDoor: "", roomCodes: {} };
@@ -142,8 +148,21 @@ export default function AdminLocksPage() {
   }
 
   function tenantNameForRoom(room) {
-    const tp = (room.tenant_profiles || []).find((t) => t.is_active && t.role === "TENANT");
-    return tp?.tenant_details?.full_name || tp?.tenant_details?.[0]?.full_name || null;
+    const actives = (room.tenant_profiles || []).filter((t) => t.is_active && t.role === "TENANT");
+    if (actives.length === 0) return null;
+    // When a room is mid-handover (outgoing + incoming both flagged active),
+    // show whoever is actually resident TODAY — move-in on/before today and not
+    // yet moved out — so the lock card reflects the current occupant, not the
+    // incoming one.
+    const today = new Date().toISOString().slice(0, 10);
+    const current = actives.find((t) => {
+      const start = t.moved_in_at ? String(t.moved_in_at).slice(0, 10) : null;
+      const end = t.moved_out_at ? String(t.moved_out_at).slice(0, 10) : null;
+      return (!start || start <= today) && (!end || end > today);
+    });
+    const pick = current || actives[0];
+    const d = pick?.tenant_details;
+    return (Array.isArray(d) ? d[0]?.full_name : d?.full_name) || null;
   }
 
   return (
