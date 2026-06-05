@@ -346,7 +346,7 @@ export default function AdminRentPage() {
 
     const { data: profiles, error: profilesError } = await supabase
       .from("tenant_profiles")
-      .select("id, monthly_rent, late_fee_per_day, room_id, onboarding_progress(tenancy_start_date, tenancy_end_date)")
+      .select("id, monthly_rent, late_fee_per_day, room_id, moved_in_at, moved_out_at, onboarding_progress(tenancy_start_date, tenancy_end_date)")
       .eq("is_active", true)
       .not("monthly_rent", "is", null)
       .gt("monthly_rent", 0);
@@ -393,33 +393,43 @@ export default function AdminRentPage() {
     }
 
     const existingSet = new Set((existing ?? []).map((r) => r.tenant_profile_id));
+    const currentMonth = monthStr.substring(0, 7); // "2026-06"
+
+    // Effective tenancy start/end: prefer the onboarding dates, but FALL BACK to
+    // tenant_profiles.moved_in_at / moved_out_at. Many tenants only have the
+    // move dates set (onboarding_progress is null), so reading only the
+    // onboarding date wrongly treated future move-ins as already-resident and
+    // billed them a full month. Both date sources must be consulted.
+    const effStart = (p) => {
+      const s = p.onboarding_progress?.tenancy_start_date || (p.moved_in_at ? String(p.moved_in_at).substring(0, 10) : null);
+      return s || null;
+    };
+    const effEnd = (p) => {
+      const e = p.onboarding_progress?.tenancy_end_date || (p.moved_out_at ? String(p.moved_out_at).substring(0, 10) : null);
+      return e || null;
+    };
 
     const toInsert = profiles
       .filter((p) => {
         if (existingSet.has(p.id)) return false;
-        // Skip tenants whose tenancy hasn't started yet
-        const startDate = p.onboarding_progress?.tenancy_start_date;
-        if (startDate) {
-          const startMonth = startDate.substring(0, 7); // "2026-06"
-          const currentMonth = monthStr.substring(0, 7); // "2026-04"
-          if (startMonth > currentMonth) return false;
-        }
+        const start = effStart(p);
+        // Skip tenants whose tenancy hasn't started yet (starts a later month)
+        if (start && start.substring(0, 7) > currentMonth) return false;
+        const end = effEnd(p);
+        // Skip tenants who already moved out before this month
+        if (end && end.substring(0, 7) < currentMonth) return false;
         return true;
       })
       .map((p) => {
         // Prorate rent if tenant starts mid-month
         let rentAmount = Number(p.monthly_rent);
-        const startDate = p.onboarding_progress?.tenancy_start_date;
-        if (startDate) {
-          const startMonth = startDate.substring(0, 7);
-          const currentMonth = monthStr.substring(0, 7);
-          if (startMonth === currentMonth) {
-            const startDay = parseInt(startDate.substring(8, 10), 10);
-            const monthDate = new Date(monthStr);
-            const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
-            const daysOccupied = daysInMonth - startDay + 1;
-            rentAmount = Math.round((rentAmount * daysOccupied / daysInMonth) * 100) / 100;
-          }
+        const start = effStart(p);
+        if (start && start.substring(0, 7) === currentMonth) {
+          const startDay = parseInt(start.substring(8, 10), 10);
+          const monthDate = new Date(monthStr);
+          const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
+          const daysOccupied = daysInMonth - startDay + 1;
+          rentAmount = Math.round((rentAmount * daysOccupied / daysInMonth) * 100) / 100;
         }
         return {
           tenant_profile_id: p.id,
