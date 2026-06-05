@@ -56,7 +56,7 @@ export default function ResetPasswordPage() {
         <div className="absolute inset-0 opacity-40 mix-blend-overlay">
           <img
             className="w-full h-full object-cover"
-            src="https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=1200&q=80"
+            src="/photos/cp-hero.jpg"
             alt=""
           />
         </div>

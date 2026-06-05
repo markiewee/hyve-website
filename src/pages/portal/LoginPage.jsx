@@ -66,8 +66,8 @@ export default function LoginPage() {
         <div className="absolute inset-0 opacity-70">
           <img
             className="w-full h-full object-cover"
-            src="https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=1200&q=80"
-            alt="Modern architecture"
+            src="/photos/cp-hero.jpg"
+            alt="Lazybee co-living"
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20" />

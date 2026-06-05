@@ -4,7 +4,7 @@ import ReturnsEstimator from './marketing/ReturnsEstimator';
 import { lodgingBusinessSchema, orgSchema } from '../lib/seo';
 import { BOOKING_URL } from '../lib/booking';
 import { track, EVENTS } from '../lib/analytics';
-import heroImg from '../assets/hero_coliving_interior.jpg';
+const heroImg = '/photos/tg-hero.jpg';
 
 const cpImg = '/photos/cp-hero.jpg';
 const tgImg = '/photos/tg-hero.jpg';
