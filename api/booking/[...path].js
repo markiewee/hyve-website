@@ -24,12 +24,9 @@ import {
   generateCancelToken,
   isValidSgtIso,
   cancelUrlFor,
-  snippet,
 } from "../../src/lib/bookingHelpers.js";
 import {
   getAvailableSlots,
-  isSlotStillFree,
-  createEvent,
   cancelEvent,
   listBookingCalendarState,
 } from "../../src/lib/googleCalendar.js";
@@ -45,6 +42,44 @@ const supabase = createClient(
 );
 
 const SLOT_MINUTES = 30;
+
+// ── Manual viewing windows (no Google Calendar) ───────────────────────
+// Viewing windows are Saturdays 10:00–14:00 SGT, set manually — we no longer
+// read Google Calendar to decide which windows are open (that was the cause
+// of the recurring 503s). Every Saturday is open by default; a row in the
+// optional `viewing_window_overrides` table (date, status='closed') closes a
+// specific date. The read is defensive: if the table is absent, the default
+// (every Saturday open) still applies, so this can never hard-fail a load.
+const VIEWING_HORIZON_DAYS = 28;
+
+async function getClosedWindowDates(startIso, endIso) {
+  try {
+    const { data, error } = await supabase
+      .from("viewing_window_overrides")
+      .select("date, status")
+      .gte("date", startIso.slice(0, 10))
+      .lte("date", endIso.slice(0, 10));
+    if (error) return new Set();
+    return new Set((data || []).filter((r) => r.status === "closed").map((r) => r.date));
+  } catch {
+    return new Set();
+  }
+}
+
+// Synthesise an "open window" marker for every Saturday window in range that
+// isn't manually closed. Shape matches what buildWindowsResponse and
+// validateBookingAttempt expect from the old GCal events:
+// { start, end, anchorProperty }. anchorProperty stays null (open to any
+// property) — the cross-property clustering rules still apply on top.
+function openWindowMarkers(now, horizonDays, closedDates) {
+  return listUpcomingWindows(now, horizonDays)
+    .filter((w) => w.key === "sat-morning" && !closedDates.has(w.dateIso))
+    .map((w) => ({
+      start: new Date(w.startMs).toISOString(),
+      end: new Date(w.endMs).toISOString(),
+      anchorProperty: null,
+    }));
+}
 
 // ── shared helpers ────────────────────────────────────────────────────
 
@@ -155,20 +190,15 @@ async function handleWindows(req, res) {
     return res.status(400).json({ error: `unknown property '${property}'` });
   }
 
-  const horizonDays = 7;
+  const horizonDays = VIEWING_HORIZON_DAYS;
   const now = new Date();
   const horizonEnd = new Date(now.getTime() + horizonDays * 24 * 60 * 60 * 1000);
 
-  let gcalEvents = [];
-  let blockers = [];
-  try {
-    const state = await listBookingCalendarState(now.toISOString(), horizonEnd.toISOString());
-    gcalEvents = state.windows;
-    blockers = state.blockers;
-  } catch (err) {
-    console.error("[booking/windows] gcal failed:", err);
-    return res.status(503).json({ error: "calendar service unavailable" });
-  }
+  // No Google Calendar: Saturday windows are open by default, minus any
+  // dates manually closed via viewing_window_overrides. blockers stay empty.
+  const closedDates = await getClosedWindowDates(now.toISOString(), horizonEnd.toISOString());
+  const gcalEvents = openWindowMarkers(now, horizonDays, closedDates);
+  const blockers = [];
 
   const { data: bookings, error: bookErr } = await supabase
     .from("property_viewings")
@@ -569,21 +599,8 @@ async function handleCreate(req, res) {
     return res.status(409).json({ error: "Slot just got booked, please pick another." });
   }
 
-  // Race-guard: Google freebusy (kept from V2 for legacy paths). When the
-  // request comes through the V3 form, the cluster validator below is the
-  // primary gate.
-  let stillFree = true;
-  try {
-    stillFree = await isSlotStillFree(slotStart, slotEnd);
-  } catch (err) {
-    console.error("[booking/create] freebusy check failed:", err);
-    return res.status(503).json({
-      error: "Calendar service unavailable, please try again in a moment.",
-    });
-  }
-  if (!stillFree) {
-    return res.status(409).json({ error: "Slot just got booked, please pick another." });
-  }
+  // (Google freebusy race-guard removed — the DB race-guard above is the
+  // single source of truth now that windows are manual, not calendar-driven.)
 
   // ── V3 cluster validation ─────────────────────────────────────────
   // Only enforced when the prospect submits via the V3 form (rules_version='v1').
@@ -597,7 +614,7 @@ async function handleCreate(req, res) {
 
   if (rulesVersion === "v1") {
     const slotStartMs = new Date(slotStart).getTime();
-    const upcomingWindows = listUpcomingWindows(new Date(), 7);
+    const upcomingWindows = listUpcomingWindows(new Date(), VIEWING_HORIZON_DAYS);
     const window = upcomingWindows.find(
       (w) => slotStartMs >= w.startMs && slotStartMs < w.endMs
     );
@@ -605,28 +622,22 @@ async function handleCreate(req, res) {
       return res.status(409).json({ error: "slot is not in any V3 viewing window" });
     }
 
-    // Fetch GCal event for this window (if any) AND the blockers that
-    // overlap it. Single events.list call returns both partitions.
-    let gcalEvent = null;
-    let windowBlockers = [];
-    try {
-      const state = await listBookingCalendarState(
-        new Date(window.startMs - 60_000).toISOString(),
-        new Date(window.endMs + 60_000).toISOString()
-      );
-      gcalEvent =
-        state.windows.find(
-          (e) => Math.abs(new Date(e.start).getTime() - window.startMs) <= 5 * 60_000
-        ) || null;
-      windowBlockers = state.blockers.filter((b) => {
-        const bStart = new Date(b.start).getTime();
-        const bEnd   = new Date(b.end).getTime();
-        return bStart < window.endMs && bEnd > window.startMs;
-      });
-    } catch (err) {
-      console.error("[booking/create] gcal lookup failed:", err);
-      return res.status(503).json({ error: "calendar service unavailable" });
-    }
+    // No Google: the window is open if it's a Saturday window not manually
+    // closed. Synthesise the marker validateBookingAttempt expects. No
+    // blockers (those came from arbitrary GCal events, which we no longer read).
+    const closedDates = await getClosedWindowDates(
+      new Date(window.startMs).toISOString(),
+      new Date(window.endMs).toISOString()
+    );
+    const gcalEvent =
+      window.key === "sat-morning" && !closedDates.has(window.dateIso)
+        ? {
+            start: new Date(window.startMs).toISOString(),
+            end: new Date(window.endMs).toISOString(),
+            anchorProperty: null,
+          }
+        : null;
+    const windowBlockers = [];
 
     // Fetch all bookings in this window (excluding cancelled)
     const { data: windowBookings, error: wbErr } = await supabase
@@ -744,38 +755,8 @@ async function handleCreate(req, res) {
     console.error("[booking/create] lead upsert non-fatal error:", err);
   }
 
-  // Google Cal event (non-fatal)
-  let gcalEventId = null;
-  try {
-    const summary = `Lazybee Viewing — ${name} @ ${propertyCode}${roomName ? "-" + roomName : ""}`;
-    const description = [
-      `Prospect: ${name}`,
-      email ? `Email: ${email}` : null,
-      phone ? `Phone: ${phone}` : null,
-      `Property: ${property.name} (${propertyCode})`,
-      roomName ? `Room: ${roomName}` : "Room: any available",
-      `Source: ${source}`,
-      notes ? `Notes: ${snippet(notes, 500)}` : null,
-      "",
-      `Cancel: ${cancelUrlFor(cancelToken)}`,
-    ].filter(Boolean).join("\n");
-    const ev = await createEvent({
-      summary,
-      description,
-      start: slotStart,
-      end: slotEnd,
-      attendees: email ? [email] : [],
-    });
-    gcalEventId = ev?.id || null;
-    if (gcalEventId) {
-      await supabase
-        .from("property_viewings")
-        .update({ gcal_event_id: gcalEventId })
-        .eq("id", viewingId);
-    }
-  } catch (err) {
-    console.error("[booking/create] gcal createEvent failed:", err);
-  }
+  // No Google Calendar event — viewings are tracked in property_viewings only.
+  // The booking is confirmed purely by the email below.
 
   Promise.allSettled([
     fireNotify("viewing-confirmation", viewingId),

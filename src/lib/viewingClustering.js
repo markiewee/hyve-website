@@ -13,7 +13,7 @@ const TZ_OFFSET_MS = 8 * 60 * 60 * 1000; // SGT — no DST
 // Window definitions: day-of-week (Sun=0, Fri=5, Sat=6), key, SGT start/end hours
 const WINDOW_DEFS = [
   { dow: 5, key: "fri-evening",   startH: 19, endH: 22 },
-  { dow: 6, key: "sat-morning",   startH: 10, endH: 13 },
+  { dow: 6, key: "sat-morning",   startH: 10, endH: 14 },
   { dow: 0, key: "sun-afternoon", startH: 16, endH: 18 },
 ];
 
