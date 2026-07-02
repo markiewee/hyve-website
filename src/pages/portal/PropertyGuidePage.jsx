@@ -229,10 +229,58 @@ function HouseRulesCard({ propertyId }) {
   );
 }
 
+const ACCESS_CARD_ITEMS = [
+  { label: "Passport-size photo" },
+  { label: "Tenancy agreement", note: "You already have this in your portal.", link: "/portal/documents" },
+  { label: "Stamping certificate" },
+  { label: "Passport" },
+  { label: "Valid visa or work pass for Singapore" },
+  { label: "Letter of acknowledgement from owner", note: "We provide this one. Just ask us." },
+];
+
+function AccessCardCard() {
+  return (
+    <div className="bg-surface border border-border rounded-2xl p-6">
+      <div className="flex items-start gap-4">
+        <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center shrink-0">
+          <span className="material-symbols-outlined text-accent text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>badge</span>
+        </div>
+        <div className="min-w-0 flex-1">
+          <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-foreground mb-1">Access Card Application</h3>
+          <p className="font-['Inter'] text-sm text-foreground-variant mb-4">
+            To apply for your unit access card, you'll need these 6 documents:
+          </p>
+          <ol className="space-y-3">
+            {ACCESS_CARD_ITEMS.map((item, i) => (
+              <li key={i} className="flex items-start gap-3">
+                <span className="w-5 h-5 rounded-full bg-accent/15 text-accent text-[11px] font-bold font-['Inter'] flex items-center justify-center shrink-0 mt-0.5">
+                  {i + 1}
+                </span>
+                <div>
+                  <p className="font-['Inter'] text-sm font-semibold text-foreground">{item.label}</p>
+                  {item.note && (
+                    <p className="font-['Inter'] text-xs text-foreground-variant mt-0.5">
+                      {item.note}{" "}
+                      {item.link && (
+                        <Link to={item.link} className="text-accent hover:underline">View in Documents</Link>
+                      )}
+                    </p>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function PropertyGuidePage() {
   const { profile } = useAuth();
   const propertyId = profile?.rooms?.property_id ?? profile?.property_id;
   const propertyName = profile?.properties?.name ?? "Lazybee";
+  const isIvoryHeights = profile?.properties?.code === "IH";
   const { guides, loading, getSection } = usePropertyGuides(propertyId);
 
   const wifi = getSection("wifi");
@@ -266,6 +314,7 @@ export default function PropertyGuidePage() {
             {propertyInfo && <GuideCard guide={propertyInfo} />}
             <HouseCaptainCard propertyId={propertyId} />
             {buildingGuide && <GuideCard guide={buildingGuide} />}
+            {isIvoryHeights && <AccessCardCard />}
             {nearby && <GuideCard guide={nearby} />}
             <HouseRulesCard propertyId={propertyId} />
             {faq && <FAQCard guide={faq} />}
