@@ -38,6 +38,14 @@ export default function AuthGuard({ children, requiredRole }) {
     return children;
   }
 
+  // Landlord routing: landlords only see the read-only /portal/landlord roster
+  if (profile.role === "LANDLORD") {
+    if (!location.pathname.startsWith("/portal/landlord")) {
+      return <Navigate to="/portal/landlord" replace />;
+    }
+    return children;
+  }
+
   // Redirect tenants who haven't completed onboarding
   const rawOnboarding = profile.onboarding_progress;
   const onboarding = Array.isArray(rawOnboarding) ? rawOnboarding[0] : rawOnboarding;

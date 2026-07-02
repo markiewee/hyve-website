@@ -20,6 +20,7 @@ import LoginPage from './pages/portal/LoginPage';
 import ResetPasswordPage from './pages/portal/ResetPasswordPage';
 import SignupPage from './pages/portal/SignupPage';
 import DashboardPage from './pages/portal/DashboardPage';
+import LandlordPage from './pages/portal/LandlordPage';
 import BillingPage from './pages/portal/BillingPage';
 import IssuesPage from './pages/portal/IssuesPage';
 import NewIssuePage from './pages/portal/NewIssuePage';
@@ -103,6 +104,14 @@ function AppContent() {
             element={
               <AuthGuard>
                 <DashboardPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/landlord"
+            element={
+              <AuthGuard>
+                <LandlordPage />
               </AuthGuard>
             }
           />
