@@ -90,7 +90,22 @@ export function useMembersData(propertyFilter = "ALL") {
     setData({ properties: enriched, loading: false });
   }, [propertyFilter]);
 
-  useEffect(() => { fetchData(); }, [fetchData]);
+  useEffect(() => {
+    fetchData();
+
+    // Realtime — keep the roster, occupancy and open-ticket counts live.
+    // Refetch on any change to the tables this view is derived from.
+    const channel = supabase
+      .channel("members_data_changes")
+      .on("postgres_changes", { event: "*", schema: "public", table: "tenant_profiles" }, () => fetchData())
+      .on("postgres_changes", { event: "*", schema: "public", table: "rooms" }, () => fetchData())
+      .on("postgres_changes", { event: "*", schema: "public", table: "maintenance_tickets" }, () => fetchData())
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [fetchData]);
 
   return { ...data, refetch: fetchData };
 }

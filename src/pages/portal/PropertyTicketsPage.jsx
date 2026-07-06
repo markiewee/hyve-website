@@ -79,6 +79,14 @@ export default function PropertyTicketsPage() {
       };
     }
 
+    // Re-arm the outbound partner sync. The enqueue trigger only fires when
+    // last_sync_source = 'local', but the worker stamps it 'outbound_to_partner'
+    // after the create syncs — so without this, status changes are never sent to
+    // Millia. Only re-arm on status changes (not internal flag toggles).
+    if (updates.status) {
+      updates.last_sync_source = "local";
+    }
+
     const { error } = await supabase
       .from("maintenance_tickets")
       .update(updates)

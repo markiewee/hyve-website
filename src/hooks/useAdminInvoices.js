@@ -25,6 +25,17 @@ export function useAdminInvoices({ propertyId, month, status } = {}) {
 
   useEffect(() => {
     fetchInvoices();
+
+    // Realtime — keep the invoice queue live (mark-paid / void / new invoices
+    // from other admins or webhooks show up without a manual refresh).
+    const channel = supabase
+      .channel("admin_invoices_changes")
+      .on("postgres_changes", { event: "*", schema: "public", table: "invoices" }, () => fetchInvoices())
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [fetchInvoices]);
 
   async function markAsPaid(invoiceId, paymentAmount, paymentRef) {
