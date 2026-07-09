@@ -11,6 +11,17 @@ function fmtDate(d) {
   return dt.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 }
 
+// "EMPLOYMENT_PASS" -> "Employment Pass", "NRIC" -> "NRIC"
+function prettyLabel(s) {
+  if (!s) return "";
+  if (s === "NRIC") return "NRIC";
+  return s
+    .toLowerCase()
+    .split("_")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
 export default function LandlordPage() {
   const { user, profile, loading: authLoading, signOut } = useAuth();
   const [rows, setRows] = useState([]);
@@ -69,7 +80,7 @@ export default function LandlordPage() {
         <div className="mb-8">
           <h1 className="font-display text-3xl font-bold text-foreground tracking-tight">{propertyName}</h1>
           <p className="text-foreground-variant font-['Inter'] mt-1">
-            Who's in each unit — move-in and move-out dates.
+            Who's in each unit, with passport and immigration pass details.
           </p>
         </div>
 
@@ -86,11 +97,11 @@ export default function LandlordPage() {
             <div className="mb-4 text-sm font-['Inter'] text-foreground-variant">
               {occupied} {occupied === 1 ? "resident" : "residents"}
             </div>
-            <div className="overflow-hidden rounded-2xl border border-border bg-surface">
-              <table className="w-full text-left">
+            <div className="overflow-x-auto rounded-2xl border border-border bg-surface">
+              <table className="w-full min-w-[920px] text-left">
                 <thead>
                   <tr className="border-b border-border bg-surface-container">
-                    {["Unit", "Resident", "Move-in", "Move-out", ""].map((h) => (
+                    {["Unit", "Resident", "Nationality", "Passport / ID", "Immigration Pass", "Move-in", "Move-out", ""].map((h) => (
                       <th
                         key={h}
                         className="px-5 py-3 text-[11px] font-['Inter'] font-bold uppercase tracking-widest text-foreground-variant"
@@ -107,6 +118,35 @@ export default function LandlordPage() {
                         {r.unit_code}
                       </td>
                       <td className="px-5 py-4 font-['Inter'] text-foreground">{r.full_name}</td>
+                      <td className="px-5 py-4 font-['Inter'] text-foreground-variant whitespace-nowrap">
+                        {r.nationality || "—"}
+                      </td>
+                      <td className="px-5 py-4 font-['Inter'] whitespace-nowrap">
+                        {r.id_number ? (
+                          <div>
+                            <div className="font-semibold text-foreground">{r.id_number}</div>
+                            <div className="text-[11px] text-foreground-variant">
+                              {prettyLabel(r.id_type)}
+                              {r.id_expiry ? ` · exp ${fmtDate(r.id_expiry)}` : ""}
+                            </div>
+                          </div>
+                        ) : (
+                          <span className="text-foreground-variant">—</span>
+                        )}
+                      </td>
+                      <td className="px-5 py-4 font-['Inter'] whitespace-nowrap">
+                        {r.pass_number ? (
+                          <div>
+                            <div className="font-semibold text-foreground">{r.pass_number}</div>
+                            <div className="text-[11px] text-foreground-variant">
+                              {prettyLabel(r.pass_type)}
+                              {r.pass_expiry ? ` · exp ${fmtDate(r.pass_expiry)}` : ""}
+                            </div>
+                          </div>
+                        ) : (
+                          <span className="text-foreground-variant">—</span>
+                        )}
+                      </td>
                       <td className="px-5 py-4 font-['Inter'] text-foreground-variant whitespace-nowrap">
                         {fmtDate(r.move_in)}
                       </td>
