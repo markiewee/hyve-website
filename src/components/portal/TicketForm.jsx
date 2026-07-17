@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { supabase } from "../../lib/supabase";
+import { notifyTicketStatusChange } from "../../lib/notify";
 
 const CATEGORIES = ["AC", "PLUMBING", "ELECTRICAL", "FURNITURE", "CLEANING", "OTHER"];
 const SHARED_LOCATIONS = ["Kitchen", "Living Room", "Bathroom (Shared)", "Corridor", "Laundry Area", "Other"];
@@ -163,6 +164,10 @@ export default function TicketForm({ preselectedCategory = null }) {
         uploaded.map((u) => ({ ticket_id: ticket.id, url: u.url, storage_path: u.path }))
       );
       if (rowError) console.error("Photo row insert failed:", rowError);
+
+      // Email the submitter a "we've received your request" confirmation.
+      // Fire-and-forget — notify swallows its own errors, never blocks filing.
+      notifyTicketStatusChange(ticket, "OPEN", null);
 
       navigate("/portal/issues");
     } catch (err) {

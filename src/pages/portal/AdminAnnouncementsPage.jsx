@@ -3,6 +3,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { confirm } from "../../lib/confirm";
+import { notifyMember } from "../../lib/notify";
 
 const PRIORITY_BADGE = {
   INFO: "bg-blue-500/15 text-blue-300",
@@ -130,9 +131,31 @@ export default function AdminAnnouncementsPage() {
       return;
     }
 
-    // TODO: Notify all active members about the new announcement.
-    // Loop through active tenant_profiles and call:
-    //   notifyMember(tenantId, "ANNOUNCEMENT", { title: data.title, content: data.content, priority: data.priority });
+    // Email active members about the new announcement (non-blocking).
+    // Scope to the announcement's property, or every property if global.
+    try {
+      let recipientQuery = supabase
+        .from("tenant_profiles")
+        .select("id")
+        .eq("is_active", true)
+        .in("role", ["TENANT", "HOUSE_CAPTAIN"]);
+      if (payload.property_id) {
+        recipientQuery = recipientQuery.eq("property_id", payload.property_id);
+      }
+      const { data: recipients, error: recipientError } = await recipientQuery;
+      if (recipientError) throw recipientError;
+      await Promise.all(
+        (recipients ?? []).map((r) =>
+          notifyMember(r.id, "ANNOUNCEMENT", {
+            title: data.title,
+            content: data.content,
+            priority: data.priority,
+          })
+        )
+      );
+    } catch (notifyErr) {
+      console.error("Announcement notify failed (non-blocking):", notifyErr);
+    }
 
     setAnnouncements((prev) => [data, ...prev]);
     setForm({ title: "", content: "", priority: "INFO", property_id: "", expires_at: "" });

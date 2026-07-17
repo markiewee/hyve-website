@@ -152,6 +152,8 @@ async function sendEmail(to: string, subject: string, html: string) {
       from: "Lazybee Co-living <hello@lazybee.sg>",
       reply_to: "hello@lazybee.sg",
       to: [to],
+      // Silent copy of every outbound notification to the ops inbox.
+      bcc: ["admin@lazybee.sg"],
       subject,
       html,
     }),
