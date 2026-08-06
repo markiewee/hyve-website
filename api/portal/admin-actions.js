@@ -23,6 +23,124 @@ async function verifyAdmin(req) {
   return authData.user;
 }
 
+// ── Landlord: signed doc URL ────────────────────────────────────
+// The owner never has direct RLS access to tenant_documents or the storage
+// bucket; this action is the only download path, so it re-checks ownership
+// and doc type before signing. Uses landlord auth, not the admin gate.
+const OWNER_VISIBLE_TYPES = ["ID_DOCUMENT", "PASSPORT"];
+
+async function landlordProperty(req) {
+  const authHeader = req.headers.authorization ?? "";
+  const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
+  if (!token) return null;
+  const { data: authData, error } = await supabase.auth.getUser(token);
+  if (error || !authData?.user) return null;
+  const { data: profile } = await supabase
+    .from("tenant_profiles")
+    .select("property_id, role")
+    .eq("user_id", authData.user.id)
+    .eq("is_active", true)
+    .eq("role", "LANDLORD")
+    .single();
+  if (!profile) return null;
+  return profile.property_id;
+}
+
+async function handleLandlordDocUrl(req, res) {
+  const propertyId = await landlordProperty(req);
+  if (!propertyId) return res.status(403).json({ error: "Not authorized" });
+
+  const { doc_id } = req.body || {};
+  if (!doc_id) return res.status(400).json({ error: "doc_id required" });
+
+  const { data: doc, error: docErr } = await supabase
+    .from("tenant_documents")
+    .select("id, doc_type, file_url, tenant_profiles!inner(property_id)")
+    .eq("id", doc_id)
+    .single();
+
+  if (docErr || !doc) return res.status(404).json({ error: "Document not found" });
+  if (doc.tenant_profiles?.property_id !== propertyId) return res.status(403).json({ error: "Not authorized" });
+  if (!OWNER_VISIBLE_TYPES.includes(doc.doc_type)) return res.status(403).json({ error: "Not a shareable document" });
+
+  let path = doc.file_url || "";
+  if (path.includes("/tenant-documents/")) path = path.split("/tenant-documents/")[1].split("?")[0];
+  else if (path.startsWith("tenant-documents/")) path = path.slice("tenant-documents/".length);
+  if (!path) return res.status(422).json({ error: "Document has no file" });
+
+  const { data: signed, error: signErr } = await supabase.storage
+    .from("tenant-documents")
+    .createSignedUrl(path, 3600);
+
+  if (signErr || !signed?.signedUrl) return res.status(500).json({ error: "Could not generate download link" });
+  return res.status(200).json({ url: signed.signedUrl });
+}
+
+// ── Landlord: passwordless sign-in link ─────────────────────────
+// Unauthenticated by design (it's the owner's way IN). Only mints a link if
+// the email belongs to an active LANDLORD profile, and always answers
+// {ok:true} so callers can't probe which emails have accounts. The link is
+// emailed via the notify-tenant edge function (Resend), never returned.
+const SITE_BASE = process.env.SITE_BASE_URL || "https://www.lazybee.sg";
+
+async function handleOwnerLinkRequest(req, res) {
+  const okPayload = { ok: true };
+  const email = (req.body?.email || "").trim().toLowerCase();
+  if (!email || !email.includes("@")) return res.status(200).json(okPayload);
+
+  const { data: rows, error: rpcErr } = await supabase.rpc(
+    "find_user_for_password_reset",
+    { p_email: email }
+  );
+  if (rpcErr) {
+    console.error("owner_link find_user RPC failed:", rpcErr);
+    return res.status(200).json(okPayload);
+  }
+  const match = Array.isArray(rows) ? rows[0] : rows;
+  if (!match?.user_id) return res.status(200).json(okPayload);
+
+  const { data: profile } = await supabase
+    .from("tenant_profiles")
+    .select("id, role")
+    .eq("id", match.tenant_profile_id)
+    .eq("role", "LANDLORD")
+    .maybeSingle();
+  if (!profile) return res.status(200).json(okPayload);
+
+  const { data: linkData, error: linkErr } = await supabase.auth.admin.generateLink({
+    type: "magiclink",
+    email,
+    options: { redirectTo: `${SITE_BASE}/portal/landlord` },
+  });
+  const actionLink = linkData?.properties?.action_link;
+  if (linkErr || !actionLink) {
+    console.error("owner_link generateLink failed:", linkErr);
+    return res.status(200).json(okPayload);
+  }
+
+  try {
+    const r = await fetch(
+      `${process.env.VITE_IOT_SUPABASE_URL}/functions/v1/notify-tenant`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.IOT_SUPABASE_SERVICE_ROLE_KEY}`,
+        },
+        body: JSON.stringify({
+          event_type: "OWNER_LOGIN_LINK",
+          tenant_profile_id: profile.id,
+          details: { action_link: actionLink },
+        }),
+      }
+    );
+    if (!r.ok) console.error("owner_link notify failed:", r.status, await r.text());
+  } catch (err) {
+    console.error("owner_link notify failed:", err);
+  }
+  return res.status(200).json(okPayload);
+}
+
 // ── Reset Password ──────────────────────────────────────────────
 async function handleResetPassword(req, res) {
   const { user_id, new_password } = req.body || {};
@@ -169,6 +287,10 @@ export default async function handler(req, res) {
       .status(410)
       .json({ error: "notify is now handled by Supabase edge functions" });
   }
+
+  // Landlord actions use their own auth (LANDLORD role / none), not the admin gate.
+  if (action === "landlord_doc_url") return handleLandlordDocUrl(req, res);
+  if (action === "owner_link_request") return handleOwnerLinkRequest(req, res);
 
   const admin = await verifyAdmin(req);
   if (!admin) return res.status(403).json({ error: "Admin role required" });

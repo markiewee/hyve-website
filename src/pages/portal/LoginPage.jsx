@@ -18,6 +18,30 @@ export default function LoginPage() {
   const [resetError, setResetError] = useState(null);
   const [resetSubmitting, setResetSubmitting] = useState(false);
 
+  // Property-owner passwordless flow: email in, magic link out.
+  const [ownerMode, setOwnerMode] = useState(false);
+  const [ownerEmail, setOwnerEmail] = useState("");
+  const [ownerSent, setOwnerSent] = useState(false);
+  const [ownerSubmitting, setOwnerSubmitting] = useState(false);
+
+  async function handleOwnerLink(e) {
+    e.preventDefault();
+    if (!ownerEmail.trim()) return;
+    setOwnerSubmitting(true);
+    try {
+      await fetch("/api/portal/admin-actions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "owner_link_request", email: ownerEmail.trim() }),
+      });
+    } catch {
+      // Deliberately silent: response is identical whether or not the account exists.
+    } finally {
+      setOwnerSent(true);
+      setOwnerSubmitting(false);
+    }
+  }
+
   async function handleForgotPassword() {
     setResetSent(false);
     setResetError(null);
@@ -144,6 +168,66 @@ export default function LoginPage() {
             </p>
           </div>
 
+          {ownerMode ? (
+            <form onSubmit={handleOwnerLink} className="space-y-6">
+              <div>
+                <label
+                  className="block text-xs font-['Inter'] font-semibold text-foreground-variant uppercase tracking-widest mb-2 ml-1"
+                  htmlFor="ownerEmail"
+                >
+                  Owner email
+                </label>
+                <div className="relative group">
+                  <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-foreground-variant group-focus-within:text-accent transition-colors">
+                    mail
+                  </span>
+                  <input
+                    className="w-full pl-12 pr-4 py-4 bg-surface-container border border-border rounded-xl font-['Inter'] text-foreground focus:ring-2 focus:ring-accent outline-none transition-all placeholder:text-foreground-variant/50"
+                    id="ownerEmail"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    value={ownerEmail}
+                    onChange={(e) => setOwnerEmail(e.target.value)}
+                    placeholder="you@example.com"
+                  />
+                </div>
+                <p className="text-xs font-['Inter'] text-foreground-variant mt-2 ml-1">
+                  No password needed. We'll email you a secure sign-in link.
+                </p>
+              </div>
+
+              {ownerSent && (
+                <div className="p-4 bg-accent/10 border border-accent/25 rounded-xl">
+                  <p className="text-accent text-sm font-['Inter'] font-medium">
+                    If that email belongs to a property owner account, a sign-in
+                    link is on its way. Check your inbox (valid for 24 hours).
+                  </p>
+                </div>
+              )}
+
+              <button
+                className="w-full py-5 bg-accent text-white rounded-xl font-display font-bold text-lg hover:bg-accent/90 transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
+                type="submit"
+                disabled={ownerSubmitting}
+              >
+                {ownerSubmitting ? "Sending..." : "Email me a sign-in link"}
+                {!ownerSubmitting && (
+                  <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">
+                    mail
+                  </span>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setOwnerMode(false)}
+                className="w-full text-center text-xs font-['Inter'] font-medium text-accent hover:underline transition-colors"
+              >
+                Back to member sign in
+              </button>
+            </form>
+          ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
               <div className="p-4 bg-red-500/10 border border-red-500/25 rounded-xl flex items-start gap-3">
@@ -236,7 +320,16 @@ export default function LoginPage() {
                 </span>
               )}
             </button>
+
+            <button
+              type="button"
+              onClick={() => setOwnerMode(true)}
+              className="w-full text-center text-xs font-['Inter'] font-medium text-accent hover:underline transition-colors"
+            >
+              Property owner? Sign in with an email link
+            </button>
           </form>
+          )}
 
           <div className="mt-12 pt-8 border-t border-border flex justify-center gap-8">
             <div className="flex items-center gap-2 opacity-40">

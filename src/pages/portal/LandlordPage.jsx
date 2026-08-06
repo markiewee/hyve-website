@@ -35,6 +35,8 @@ export default function LandlordPage() {
   const [docsByKey, setDocsByKey] = useState({});
   const [busyDoc, setBusyDoc] = useState(null);
   const [docError, setDocError] = useState(null);
+  // { doc, url, isPdf } while a document is open in the viewer modal.
+  const [viewer, setViewer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -62,24 +64,32 @@ export default function LandlordPage() {
     };
   }, []);
 
-  async function downloadDoc(doc) {
+  async function signedDocUrl(doc) {
+    const { data: { session } } = await supabase.auth.getSession();
+    const resp = await fetch("/api/portal/admin-actions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session?.access_token || ""}`,
+      },
+      body: JSON.stringify({ action: "landlord_doc_url", doc_id: doc.doc_id }),
+    });
+    const j = await resp.json();
+    if (!resp.ok || !j.url) throw new Error(j.error || "Could not open document");
+    return j.url;
+  }
+
+  // Opens the document in-page. The signed URL's path (before the query
+  // string) tells us whether it's a PDF or an image.
+  async function viewDoc(doc) {
     setDocError(null);
     setBusyDoc(doc.doc_id);
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      const resp = await fetch("/api/portal/landlord-doc-url", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session?.access_token || ""}`,
-        },
-        body: JSON.stringify({ doc_id: doc.doc_id }),
-      });
-      const j = await resp.json();
-      if (resp.ok && j.url) window.open(j.url, "_blank", "noopener,noreferrer");
-      else setDocError(j.error || "Could not open document");
-    } catch {
-      setDocError("Could not open document");
+      const url = await signedDocUrl(doc);
+      const isPdf = url.split("?")[0].toLowerCase().endsWith(".pdf");
+      setViewer({ doc, url, isPdf });
+    } catch (e) {
+      setDocError(e.message || "Could not open document");
     } finally {
       setBusyDoc(null);
     }
@@ -213,11 +223,11 @@ export default function LandlordPage() {
                               {docs.map((d) => (
                                 <button
                                   key={d.doc_id}
-                                  onClick={() => downloadDoc(d)}
+                                  onClick={() => viewDoc(d)}
                                   disabled={busyDoc === d.doc_id}
                                   className="inline-flex items-center gap-1.5 text-[12px] font-['Inter'] font-semibold text-accent border border-accent/30 rounded-full px-3 py-1 hover:bg-accent/10 transition-colors disabled:opacity-50"
                                 >
-                                  <span className="material-symbols-outlined text-[16px]">download</span>
+                                  <span className="material-symbols-outlined text-[16px]">visibility</span>
                                   {busyDoc === d.doc_id ? "…" : docLabel(d)}
                                 </button>
                               ))}
@@ -240,6 +250,59 @@ export default function LandlordPage() {
           </>
         )}
       </main>
+
+      {/* Document viewer */}
+      {viewer && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 sm:p-8"
+          onClick={() => setViewer(null)}
+        >
+          <div
+            className="bg-surface rounded-2xl border border-border w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-5 py-3 border-b border-border">
+              <div className="font-['Inter'] text-sm font-semibold text-foreground">
+                {docLabel(viewer.doc)} · {viewer.doc.full_name}
+              </div>
+              <div className="flex items-center gap-2">
+                <a
+                  href={viewer.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[12px] font-['Inter'] font-semibold text-accent border border-accent/30 rounded-full px-3 py-1 hover:bg-accent/10 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[16px]">download</span>
+                  Download
+                </a>
+                <button
+                  onClick={() => setViewer(null)}
+                  className="material-symbols-outlined text-foreground-variant hover:text-foreground transition-colors"
+                >
+                  close
+                </button>
+              </div>
+            </div>
+            <div className="flex-1 min-h-[60vh] bg-black/20">
+              {viewer.isPdf ? (
+                <iframe
+                  title="Document"
+                  src={viewer.url}
+                  className="w-full h-full min-h-[60vh]"
+                />
+              ) : (
+                <div className="w-full h-full min-h-[60vh] flex items-center justify-center p-4">
+                  <img
+                    src={viewer.url}
+                    alt="Document"
+                    className="max-w-full max-h-[75vh] object-contain rounded-lg"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
