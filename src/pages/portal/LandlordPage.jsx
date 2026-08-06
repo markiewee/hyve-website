@@ -22,25 +22,68 @@ function prettyLabel(s) {
     .join(" ");
 }
 
+// Short label for the download button, e.g. "PASSPORT" -> "Passport".
+function docLabel(d) {
+  if (d.doc_type === "PASSPORT") return "Passport";
+  if (d.doc_type === "ID_DOCUMENT") return "ID";
+  return prettyLabel(d.doc_type);
+}
+
 export default function LandlordPage() {
   const { user, profile, loading: authLoading, signOut } = useAuth();
   const [rows, setRows] = useState([]);
+  const [docsByKey, setDocsByKey] = useState({});
+  const [busyDoc, setBusyDoc] = useState(null);
+  const [docError, setDocError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     let active = true;
     (async () => {
-      const { data, error } = await supabase.rpc("get_landlord_roster");
+      const [roster, docs] = await Promise.all([
+        supabase.rpc("get_landlord_roster"),
+        supabase.rpc("get_landlord_documents"),
+      ]);
       if (!active) return;
-      if (error) setError(error.message);
-      else setRows(data || []);
+      if (roster.error) setError(roster.error.message);
+      else setRows(roster.data || []);
+      // Group identity docs by unit + resident so each roster row can find its own.
+      const byKey = {};
+      for (const d of docs.data || []) {
+        const key = `${d.unit_code}|${d.full_name}`;
+        (byKey[key] = byKey[key] || []).push(d);
+      }
+      setDocsByKey(byKey);
       setLoading(false);
     })();
     return () => {
       active = false;
     };
   }, []);
+
+  async function downloadDoc(doc) {
+    setDocError(null);
+    setBusyDoc(doc.doc_id);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const resp = await fetch("/api/portal/landlord-doc-url", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.access_token || ""}`,
+        },
+        body: JSON.stringify({ doc_id: doc.doc_id }),
+      });
+      const j = await resp.json();
+      if (resp.ok && j.url) window.open(j.url, "_blank", "noopener,noreferrer");
+      else setDocError(j.error || "Could not open document");
+    } catch {
+      setDocError("Could not open document");
+    } finally {
+      setBusyDoc(null);
+    }
+  }
 
   if (authLoading) {
     return (
@@ -80,9 +123,15 @@ export default function LandlordPage() {
         <div className="mb-8">
           <h1 className="font-display text-3xl font-bold text-foreground tracking-tight">{propertyName}</h1>
           <p className="text-foreground-variant font-['Inter'] mt-1">
-            Who's in each unit, with passport and immigration pass details.
+            Who's in each unit, with passport and immigration pass details. Download each resident's ID and passport.
           </p>
         </div>
+
+        {docError && (
+          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/25 rounded-xl text-red-300 text-sm font-['Inter']">
+            {docError}
+          </div>
+        )}
 
         {loading ? (
           <div className="text-foreground-variant text-sm py-16 text-center">Loading residents…</div>
@@ -98,10 +147,10 @@ export default function LandlordPage() {
               {occupied} {occupied === 1 ? "resident" : "residents"}
             </div>
             <div className="overflow-x-auto rounded-2xl border border-border bg-surface">
-              <table className="w-full min-w-[920px] text-left">
+              <table className="w-full min-w-[1040px] text-left">
                 <thead>
                   <tr className="border-b border-border bg-surface-container">
-                    {["Unit", "Resident", "Nationality", "Passport / ID", "Immigration Pass", "Move-in", "Move-out", ""].map((h) => (
+                    {["Unit", "Resident", "Nationality", "Passport / ID", "Immigration Pass", "Move-in", "Move-out", "Documents", ""].map((h) => (
                       <th
                         key={h}
                         className="px-5 py-3 text-[11px] font-['Inter'] font-bold uppercase tracking-widest text-foreground-variant"
@@ -152,6 +201,29 @@ export default function LandlordPage() {
                       </td>
                       <td className="px-5 py-4 font-['Inter'] text-foreground-variant whitespace-nowrap">
                         {fmtDate(r.move_out)}
+                      </td>
+                      <td className="px-5 py-4 whitespace-nowrap">
+                        {(() => {
+                          const docs = docsByKey[`${r.unit_code}|${r.full_name}`] || [];
+                          if (docs.length === 0) {
+                            return <span className="text-[12px] text-foreground-variant italic">Pending</span>;
+                          }
+                          return (
+                            <div className="flex flex-wrap gap-2">
+                              {docs.map((d) => (
+                                <button
+                                  key={d.doc_id}
+                                  onClick={() => downloadDoc(d)}
+                                  disabled={busyDoc === d.doc_id}
+                                  className="inline-flex items-center gap-1.5 text-[12px] font-['Inter'] font-semibold text-accent border border-accent/30 rounded-full px-3 py-1 hover:bg-accent/10 transition-colors disabled:opacity-50"
+                                >
+                                  <span className="material-symbols-outlined text-[16px]">download</span>
+                                  {busyDoc === d.doc_id ? "…" : docLabel(d)}
+                                </button>
+                              ))}
+                            </div>
+                          );
+                        })()}
                       </td>
                       <td className="px-5 py-4">
                         {r.status === "Upcoming" && (
