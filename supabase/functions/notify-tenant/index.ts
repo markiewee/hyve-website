@@ -623,6 +623,42 @@ async function buildEmail(
       };
     }
 
+    case "OWNER_LOGIN_LINK": {
+      return {
+        subject: "Your Lazybee owner portal sign-in link",
+        html: generic({
+          badge: "Owner Portal",
+          headline: "Sign in to your owner portal",
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            "Here is your secure sign-in link for the Lazybee owner portal. It signs you in directly, no password needed.",
+            `The link is valid for 24 hours and can be used once. Need a new one? Go to the <a href="${PORTAL_BASE}/portal/login" style="color:#006b5f">portal sign-in page</a>, choose "Property owner? Sign in with an email link", and a fresh link will be sent to you.`,
+          ],
+          cta: { label: "View Portal", url: details.action_link },
+          ctaCaption: "Signs you in directly",
+        }),
+      };
+    }
+
+    case "OWNER_WELCOME": {
+      const propertyName = details.property_name || "your property";
+      return {
+        subject: `Your owner portal for ${propertyName} is ready`,
+        html: generic({
+          badge: "Owner Portal",
+          headline: "Your owner portal is ready",
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            `We've set up a private owner portal for <strong>${escape(propertyName)}</strong>. It shows who is staying in your unit, with passport / ID and immigration pass details and move-in / move-out dates, and lets you view and download each resident's ID and passport.`,
+            "The button below signs you in directly, no password needed.",
+            `Any time you want back in, go to the <a href="${PORTAL_BASE}/portal/login" style="color:#006b5f">portal sign-in page</a>, choose "Property owner? Sign in with an email link", enter this email address, and a fresh link will be sent to you.`,
+          ],
+          cta: { label: "View Portal", url: details.action_link },
+          ctaCaption: "Signs you in directly",
+        }),
+      };
+    }
+
     default:
       return null;
   }

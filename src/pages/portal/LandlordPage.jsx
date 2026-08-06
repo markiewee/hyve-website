@@ -22,25 +22,78 @@ function prettyLabel(s) {
     .join(" ");
 }
 
+// Short label for the download button, e.g. "PASSPORT" -> "Passport".
+function docLabel(d) {
+  if (d.doc_type === "PASSPORT") return "Passport";
+  if (d.doc_type === "ID_DOCUMENT") return "ID";
+  return prettyLabel(d.doc_type);
+}
+
 export default function LandlordPage() {
   const { user, profile, loading: authLoading, signOut } = useAuth();
   const [rows, setRows] = useState([]);
+  const [docsByKey, setDocsByKey] = useState({});
+  const [busyDoc, setBusyDoc] = useState(null);
+  const [docError, setDocError] = useState(null);
+  // { doc, url, isPdf } while a document is open in the viewer modal.
+  const [viewer, setViewer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     let active = true;
     (async () => {
-      const { data, error } = await supabase.rpc("get_landlord_roster");
+      const [roster, docs] = await Promise.all([
+        supabase.rpc("get_landlord_roster"),
+        supabase.rpc("get_landlord_documents"),
+      ]);
       if (!active) return;
-      if (error) setError(error.message);
-      else setRows(data || []);
+      if (roster.error) setError(roster.error.message);
+      else setRows(roster.data || []);
+      // Group identity docs by unit + resident so each roster row can find its own.
+      const byKey = {};
+      for (const d of docs.data || []) {
+        const key = `${d.unit_code}|${d.full_name}`;
+        (byKey[key] = byKey[key] || []).push(d);
+      }
+      setDocsByKey(byKey);
       setLoading(false);
     })();
     return () => {
       active = false;
     };
   }, []);
+
+  async function signedDocUrl(doc) {
+    const { data: { session } } = await supabase.auth.getSession();
+    const resp = await fetch("/api/portal/admin-actions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session?.access_token || ""}`,
+      },
+      body: JSON.stringify({ action: "landlord_doc_url", doc_id: doc.doc_id }),
+    });
+    const j = await resp.json();
+    if (!resp.ok || !j.url) throw new Error(j.error || "Could not open document");
+    return j.url;
+  }
+
+  // Opens the document in-page. The signed URL's path (before the query
+  // string) tells us whether it's a PDF or an image.
+  async function viewDoc(doc) {
+    setDocError(null);
+    setBusyDoc(doc.doc_id);
+    try {
+      const url = await signedDocUrl(doc);
+      const isPdf = url.split("?")[0].toLowerCase().endsWith(".pdf");
+      setViewer({ doc, url, isPdf });
+    } catch (e) {
+      setDocError(e.message || "Could not open document");
+    } finally {
+      setBusyDoc(null);
+    }
+  }
 
   if (authLoading) {
     return (
@@ -80,9 +133,15 @@ export default function LandlordPage() {
         <div className="mb-8">
           <h1 className="font-display text-3xl font-bold text-foreground tracking-tight">{propertyName}</h1>
           <p className="text-foreground-variant font-['Inter'] mt-1">
-            Who's in each unit, with passport and immigration pass details.
+            Who's in each unit, with passport and immigration pass details. Download each resident's ID and passport.
           </p>
         </div>
+
+        {docError && (
+          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/25 rounded-xl text-red-300 text-sm font-['Inter']">
+            {docError}
+          </div>
+        )}
 
         {loading ? (
           <div className="text-foreground-variant text-sm py-16 text-center">Loading residents…</div>
@@ -98,10 +157,10 @@ export default function LandlordPage() {
               {occupied} {occupied === 1 ? "resident" : "residents"}
             </div>
             <div className="overflow-x-auto rounded-2xl border border-border bg-surface">
-              <table className="w-full min-w-[920px] text-left">
+              <table className="w-full min-w-[1040px] text-left">
                 <thead>
                   <tr className="border-b border-border bg-surface-container">
-                    {["Unit", "Resident", "Nationality", "Passport / ID", "Immigration Pass", "Move-in", "Move-out", ""].map((h) => (
+                    {["Unit", "Resident", "Nationality", "Passport / ID", "Immigration Pass", "Move-in", "Move-out", "Documents", ""].map((h) => (
                       <th
                         key={h}
                         className="px-5 py-3 text-[11px] font-['Inter'] font-bold uppercase tracking-widest text-foreground-variant"
@@ -153,6 +212,29 @@ export default function LandlordPage() {
                       <td className="px-5 py-4 font-['Inter'] text-foreground-variant whitespace-nowrap">
                         {fmtDate(r.move_out)}
                       </td>
+                      <td className="px-5 py-4 whitespace-nowrap">
+                        {(() => {
+                          const docs = docsByKey[`${r.unit_code}|${r.full_name}`] || [];
+                          if (docs.length === 0) {
+                            return <span className="text-[12px] text-foreground-variant italic">Pending</span>;
+                          }
+                          return (
+                            <div className="flex flex-wrap gap-2">
+                              {docs.map((d) => (
+                                <button
+                                  key={d.doc_id}
+                                  onClick={() => viewDoc(d)}
+                                  disabled={busyDoc === d.doc_id}
+                                  className="inline-flex items-center gap-1.5 text-[12px] font-['Inter'] font-semibold text-accent border border-accent/30 rounded-full px-3 py-1 hover:bg-accent/10 transition-colors disabled:opacity-50"
+                                >
+                                  <span className="material-symbols-outlined text-[16px]">visibility</span>
+                                  {busyDoc === d.doc_id ? "…" : docLabel(d)}
+                                </button>
+                              ))}
+                            </div>
+                          );
+                        })()}
+                      </td>
                       <td className="px-5 py-4">
                         {r.status === "Upcoming" && (
                           <span className="text-[11px] font-['Inter'] font-bold uppercase tracking-wider text-amber-600 bg-amber-500/10 rounded-full px-2.5 py-1">
@@ -168,6 +250,59 @@ export default function LandlordPage() {
           </>
         )}
       </main>
+
+      {/* Document viewer */}
+      {viewer && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 sm:p-8"
+          onClick={() => setViewer(null)}
+        >
+          <div
+            className="bg-surface rounded-2xl border border-border w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-5 py-3 border-b border-border">
+              <div className="font-['Inter'] text-sm font-semibold text-foreground">
+                {docLabel(viewer.doc)} · {viewer.doc.full_name}
+              </div>
+              <div className="flex items-center gap-2">
+                <a
+                  href={viewer.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[12px] font-['Inter'] font-semibold text-accent border border-accent/30 rounded-full px-3 py-1 hover:bg-accent/10 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[16px]">download</span>
+                  Download
+                </a>
+                <button
+                  onClick={() => setViewer(null)}
+                  className="material-symbols-outlined text-foreground-variant hover:text-foreground transition-colors"
+                >
+                  close
+                </button>
+              </div>
+            </div>
+            <div className="flex-1 min-h-[60vh] bg-black/20">
+              {viewer.isPdf ? (
+                <iframe
+                  title="Document"
+                  src={viewer.url}
+                  className="w-full h-full min-h-[60vh]"
+                />
+              ) : (
+                <div className="w-full h-full min-h-[60vh] flex items-center justify-center p-4">
+                  <img
+                    src={viewer.url}
+                    alt="Document"
+                    className="max-w-full max-h-[75vh] object-contain rounded-lg"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
