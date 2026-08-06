@@ -107,6 +107,35 @@ export default function LandlordPage() {
 
   const propertyName = profile.properties?.name || "Your Property";
   const occupied = rows.length;
+  const current = rows.filter((r) => r.status !== "Upcoming").length;
+  const upcoming = occupied - current;
+  const nextMoveOut = rows
+    .map((r) => r.move_out)
+    .filter((d) => d && new Date(d) >= new Date())
+    .sort((a, b) => new Date(a) - new Date(b))[0];
+
+  // Shared renderer for the per-resident document chips (table + mobile cards).
+  function docChips(r) {
+    const docs = docsByKey[`${r.unit_code}|${r.full_name}`] || [];
+    if (docs.length === 0) {
+      return <span className="text-[12px] text-foreground-variant italic">Pending</span>;
+    }
+    return (
+      <div className="flex flex-wrap gap-2">
+        {docs.map((d) => (
+          <button
+            key={d.doc_id}
+            onClick={() => viewDoc(d)}
+            disabled={busyDoc === d.doc_id}
+            className="inline-flex items-center gap-1.5 text-[12px] font-['Inter'] font-semibold text-accent border border-accent/30 rounded-full px-3 py-1 hover:bg-accent/10 transition-colors disabled:opacity-50"
+          >
+            <span className="material-symbols-outlined text-[16px]">visibility</span>
+            {busyDoc === d.doc_id ? "…" : docLabel(d)}
+          </button>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -133,7 +162,7 @@ export default function LandlordPage() {
         <div className="mb-8">
           <h1 className="font-display text-3xl font-bold text-foreground tracking-tight">{propertyName}</h1>
           <p className="text-foreground-variant font-['Inter'] mt-1">
-            Who's in each unit, with passport and immigration pass details. Download each resident's ID and passport.
+            Who's in each unit, with passport and immigration pass details. View or download each resident's ID and passport.
           </p>
         </div>
 
@@ -153,10 +182,90 @@ export default function LandlordPage() {
           <div className="text-foreground-variant text-sm py-16 text-center">No residents on record.</div>
         ) : (
           <>
-            <div className="mb-4 text-sm font-['Inter'] text-foreground-variant">
-              {occupied} {occupied === 1 ? "resident" : "residents"}
+            <div className="mb-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="rounded-xl border border-border bg-surface px-4 py-3">
+                <div className="text-2xl font-display font-bold text-foreground">{current}</div>
+                <div className="text-[11px] font-['Inter'] font-bold uppercase tracking-widest text-foreground-variant mt-0.5">
+                  Current residents
+                </div>
+              </div>
+              <div className="rounded-xl border border-border bg-surface px-4 py-3">
+                <div className="text-2xl font-display font-bold text-foreground">{upcoming}</div>
+                <div className="text-[11px] font-['Inter'] font-bold uppercase tracking-widest text-foreground-variant mt-0.5">
+                  Upcoming move-ins
+                </div>
+              </div>
+              <div className="rounded-xl border border-border bg-surface px-4 py-3 col-span-2 sm:col-span-1">
+                <div className="text-2xl font-display font-bold text-foreground">{fmtDate(nextMoveOut)}</div>
+                <div className="text-[11px] font-['Inter'] font-bold uppercase tracking-widest text-foreground-variant mt-0.5">
+                  Next move-out
+                </div>
+              </div>
             </div>
-            <div className="overflow-x-auto rounded-2xl border border-border bg-surface">
+
+            {/* Mobile: stacked resident cards */}
+            <div className="md:hidden space-y-4">
+              {rows.map((r, i) => (
+                <div key={i} className="rounded-2xl border border-border bg-surface p-5">
+                  <div className="flex items-start justify-between gap-3 mb-3">
+                    <div>
+                      <div className="font-['Inter'] font-bold text-foreground">{r.full_name}</div>
+                      <div className="text-[12px] font-['Inter'] text-foreground-variant mt-0.5">
+                        {r.unit_code}
+                        {r.nationality ? ` · ${r.nationality}` : ""}
+                      </div>
+                    </div>
+                    {r.status === "Upcoming" && (
+                      <span className="shrink-0 text-[11px] font-['Inter'] font-bold uppercase tracking-wider text-amber-600 bg-amber-500/10 rounded-full px-2.5 py-1">
+                        Upcoming
+                      </span>
+                    )}
+                  </div>
+                  <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm font-['Inter'] mb-4">
+                    <div>
+                      <dt className="text-[11px] font-bold uppercase tracking-widest text-foreground-variant">Passport / ID</dt>
+                      <dd className="text-foreground mt-0.5">
+                        {r.id_number || "—"}
+                        {r.id_number && (
+                          <span className="block text-[11px] text-foreground-variant">
+                            {prettyLabel(r.id_type)}
+                            {r.id_expiry ? ` · exp ${fmtDate(r.id_expiry)}` : ""}
+                          </span>
+                        )}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-[11px] font-bold uppercase tracking-widest text-foreground-variant">Immigration Pass</dt>
+                      <dd className="text-foreground mt-0.5">
+                        {r.pass_number || "—"}
+                        {r.pass_number && (
+                          <span className="block text-[11px] text-foreground-variant">
+                            {prettyLabel(r.pass_type)}
+                            {r.pass_expiry ? ` · exp ${fmtDate(r.pass_expiry)}` : ""}
+                          </span>
+                        )}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-[11px] font-bold uppercase tracking-widest text-foreground-variant">Move-in</dt>
+                      <dd className="text-foreground mt-0.5">{fmtDate(r.move_in)}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-[11px] font-bold uppercase tracking-widest text-foreground-variant">Move-out</dt>
+                      <dd className="text-foreground mt-0.5">{fmtDate(r.move_out)}</dd>
+                    </div>
+                  </dl>
+                  <div>
+                    <div className="text-[11px] font-['Inter'] font-bold uppercase tracking-widest text-foreground-variant mb-1.5">
+                      Documents
+                    </div>
+                    {docChips(r)}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="hidden md:block overflow-x-auto rounded-2xl border border-border bg-surface">
               <table className="w-full min-w-[1040px] text-left">
                 <thead>
                   <tr className="border-b border-border bg-surface-container">
@@ -212,29 +321,7 @@ export default function LandlordPage() {
                       <td className="px-5 py-4 font-['Inter'] text-foreground-variant whitespace-nowrap">
                         {fmtDate(r.move_out)}
                       </td>
-                      <td className="px-5 py-4 whitespace-nowrap">
-                        {(() => {
-                          const docs = docsByKey[`${r.unit_code}|${r.full_name}`] || [];
-                          if (docs.length === 0) {
-                            return <span className="text-[12px] text-foreground-variant italic">Pending</span>;
-                          }
-                          return (
-                            <div className="flex flex-wrap gap-2">
-                              {docs.map((d) => (
-                                <button
-                                  key={d.doc_id}
-                                  onClick={() => viewDoc(d)}
-                                  disabled={busyDoc === d.doc_id}
-                                  className="inline-flex items-center gap-1.5 text-[12px] font-['Inter'] font-semibold text-accent border border-accent/30 rounded-full px-3 py-1 hover:bg-accent/10 transition-colors disabled:opacity-50"
-                                >
-                                  <span className="material-symbols-outlined text-[16px]">visibility</span>
-                                  {busyDoc === d.doc_id ? "…" : docLabel(d)}
-                                </button>
-                              ))}
-                            </div>
-                          );
-                        })()}
-                      </td>
+                      <td className="px-5 py-4 whitespace-nowrap">{docChips(r)}</td>
                       <td className="px-5 py-4">
                         {r.status === "Upcoming" && (
                           <span className="text-[11px] font-['Inter'] font-bold uppercase tracking-wider text-amber-600 bg-amber-500/10 rounded-full px-2.5 py-1">
