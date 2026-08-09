@@ -148,3 +148,50 @@ export function diffAgainstLive(expected, live) {
 function round2(n) {
   return Math.round(n * 100) / 100;
 }
+
+/**
+ * Merge a building profile with a room profile into what a platform receives.
+ *
+ * The rule: NULL inherits from the building, an empty string is a deliberate
+ * blank. Without that distinction there is no way to switch an inherited value
+ * off, which is the usual trap in inheritance models. So a room that genuinely
+ * has no description sets "", and one that has not been written yet leaves it
+ * null and shows the building's.
+ *
+ * `fields` merges key by key rather than wholesale, so a room overriding one
+ * field does not silently drop the building's address, house rules and MRT.
+ *
+ * @param {object|null} propertyProfile scope='PROPERTY'
+ * @param {object|null} roomProfile     scope='ROOM'
+ */
+export function mergeProfiles(propertyProfile, roomProfile) {
+  const p = propertyProfile ?? {};
+  const r = roomProfile ?? {};
+
+  const pick = (key) => (r[key] === null || r[key] === undefined ? p[key] ?? null : r[key]);
+
+  // Photos: a room with its own set uses them; a room with none shows the
+  // building's, because an empty gallery is worse than a generic one.
+  const roomPhotos = Array.isArray(r.photos) ? r.photos : [];
+  const propPhotos = Array.isArray(p.photos) ? p.photos : [];
+
+  return {
+    title: pick("title"),
+    description: pick("description"),
+    hero_photo: pick("hero_photo"),
+    photos: roomPhotos.length > 0 ? roomPhotos : propPhotos,
+    // A room is only publishable once BOTH levels have been reviewed: a
+    // building with a placeholder title poisons all of its rooms.
+    needs_review: Boolean(p.needs_review) || Boolean(r.needs_review),
+    fields: { ...(p.fields ?? {}), ...(r.fields ?? {}) },
+  };
+}
+
+/** Which level each field actually came from, for showing "inherited" in the UI. */
+export function fieldOrigin(propertyProfile, roomProfile, key) {
+  const r = roomProfile ?? {};
+  if (r[key] !== null && r[key] !== undefined) return "room";
+  const p = propertyProfile ?? {};
+  if (p[key] !== null && p[key] !== undefined) return "property";
+  return "none";
+}
