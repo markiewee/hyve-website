@@ -509,3 +509,197 @@
   .lzb *{transition:none!important;animation:none!important}
   .lzb .rv{opacity:1;transform:none}
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE HIVE, the Lazybee journal
+   From design-preview/hive.html, with the two blocking defects in that
+   prototype fixed rather than ported.
+
+   1. Banner contrast. The prototype paints the banner --green in both
+      themes but lets its text follow --ink, which flips to a near black
+      in tobacco. Measured there: 1.18:1 on the headline, 1.58:1 on the
+      label, 1.18:1 on the post count, against a 4.5:1 floor. Every
+      colour inside .hivebanner below is pinned to the light end and is
+      identical in both themes: 11.84:1 on the headline, 9.58:1 on the
+      blurb, 7.08:1 on the labels, 6.23:1 on the numbers.
+
+   2. Sideways scroll. The prototype's topbar nav is flex-wrap:nowrap,
+      which holds document.scrollWidth at 450px and scrolls the body
+      sideways at 320, 375 and 390. .hivehead wraps instead, and the
+      owner-page rule that hides nav links below 1000px is deliberately
+      not inherited here: on a blog those links are a crawl path.
+
+   Accessibility floor, applied inside .hive: nothing below 12px, 44px
+   minimum on anything tappable, AA on body text in both themes.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* --faint at 12.5px was 4.23:1 on the alabaster ground, just under AA.
+   Nudged darker here so the datelines and captions clear it. */
+.lzb.hive[data-theme="alabaster"]{--faint:#6E6455}
+.lzb.hive[data-theme="tobacco"]{--faint:#AD9782}
+
+.lzb.hive .label{font-size:12px}
+.lzb.hive .navlinks{font-size:12px}
+.lzb.hive .modebtn{font-size:12px;padding:9px 13px;min-height:44px}
+
+/* ── header ── */
+.lzb .hivehead{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 20px;
+  padding:14px clamp(16px,4vw,58px);border-bottom:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.lzb .hivehead .brandlock{min-height:44px}
+.lzb .hivehead .brandlock svg{width:28px}
+.lzb .hivehead .brandlock .wd{font-size:17px;letter-spacing:.30em}
+.lzb .hivehead .navlinks{flex-wrap:wrap;gap:4px 18px;row-gap:0}
+.lzb .hivehead .navlinks a{display:inline-flex;align-items:center;min-height:44px}
+
+/* ── banner ── */
+.lzb .hivebanner{position:relative;overflow:hidden;background:var(--green);color:#EDE6DA;
+  padding:clamp(44px,7vw,104px) 0 clamp(38px,5vw,80px);border-bottom:1px solid var(--line)}
+.lzb .hivebanner .cells{position:absolute;inset:0;opacity:.20;pointer-events:none}
+.lzb .hivebanner .cells svg{width:100%;height:100%;display:block}
+.lzb .hivebanner .cells polygon{fill:none;stroke:#EDE6DA;stroke-width:1}
+.lzb .hivebanner .bin{position:relative}
+.lzb .hivebanner .label{color:#9DBBAA}
+.lzb .hivebanner .bannerlink{color:#EDE6DA}
+.lzb .hivebanner .display{font-size:clamp(44px,9vw,132px);margin-top:12px;color:#EDE6DA}
+.lzb .hivebanner .blurb{margin-top:20px;max-width:60ch;font-size:17px;line-height:1.7;color:#C7D4CB}
+.lzb .hivebanner .bmeta{display:flex;flex-wrap:wrap;gap:12px 34px;margin-top:var(--s6);padding-top:var(--s5);
+  border-top:1px solid rgba(237,230,218,.22);font-family:var(--mono);font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;color:#9DBBAA}
+.lzb .hivebanner .bmeta b{color:#C6A467;font-weight:700}
+.lzb .hivebanner :focus-visible{outline-color:#C6A467}
+
+/* ── listing ── */
+.lzb .hivemain{padding-top:var(--s8);padding-bottom:var(--s10)}
+.lzb .lead-post{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);border:1px solid var(--line);
+  text-decoration:none;color:inherit;transition:border-color .25s}
+.lzb .lead-post:hover{border-color:var(--accent)}
+.lzb .lead-post .im{overflow:hidden;min-height:340px}
+.lzb .lead-post .im img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.lzb .lead-post:hover .im img{transform:scale(1.04)}
+.lzb .lead-post .bd{padding:clamp(22px,3vw,46px);display:flex;flex-direction:column;justify-content:center}
+.lzb .lead-post .leadtitle{font-size:clamp(28px,3.4vw,44px);margin-top:14px}
+.lzb .lead-post .leadbody{margin-top:16px}
+.lzb .lead-post .leadmeta{margin-top:22px}
+
+.lzb.hive .filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--s7);padding-bottom:var(--s5);
+  border-bottom:1px solid var(--line)}
+.lzb.hive .chip{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 16px;
+  text-decoration:none;transition:border-color .25s,color .25s}
+.lzb.hive .chip:hover{border-color:var(--accent);color:var(--ink)}
+.lzb.hive .chip .cnt{font-size:12px;color:var(--faint)}
+.lzb.hive .chip.on .cnt{color:var(--accent-text)}
+
+.lzb.hive .list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s7) var(--s5);margin-top:var(--s7)}
+.lzb.hive .item{display:block;text-decoration:none;color:inherit}
+.lzb.hive .item:hover .h{color:var(--accent-text)}
+.lzb.hive .item .im{overflow:hidden;border:1px solid var(--line);aspect-ratio:3/2}
+.lzb.hive .item .im img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+.lzb.hive .item:hover .im img{transform:scale(1.05)}
+.lzb.hive .item .cardtag{margin-top:14px}
+.lzb.hive .item .h{font-family:var(--head);font-weight:400;font-size:clamp(21px,1.9vw,26px);line-height:1.18;
+  margin-top:10px;transition:color .25s}
+.lzb.hive .item .carddek{margin-top:10px}
+.lzb.hive .item .meta{display:flex;gap:14px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+@media(max-width:1000px){.lzb.hive .list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.lzb.hive .list{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:900px){.lzb .lead-post{grid-template-columns:minmax(0,1fr)}.lzb .lead-post .im{min-height:220px}}
+
+.lzb .empty-note{padding:var(--s8) 0;text-align:center}
+.lzb .empty-note .small{margin-top:8px}
+.lzb .backline{margin-top:var(--s7)}
+.lzb .backline a{color:var(--accent-text);text-decoration:underline;text-underline-offset:3px}
+
+/* ── pagination: real links, never a load-more button ── */
+.lzb .pager{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:var(--s8);padding-top:var(--s5);
+  border-top:1px solid var(--line)}
+.lzb .pgnums{display:flex;flex-wrap:wrap;align-items:center;gap:6px;list-style:none;margin:0;padding:0}
+.lzb .pgnums li{display:flex;align-items:center;gap:6px}
+.lzb .pg{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:0 14px;
+  border:1px solid var(--line);border-radius:var(--r-pill);text-decoration:none;color:var(--muted);
+  font-family:var(--mono);font-size:13px;transition:border-color .25s,color .25s}
+.lzb .pg:hover{border-color:var(--accent);color:var(--ink)}
+.lzb .pg.on{color:var(--accent-text);border-color:color-mix(in srgb,var(--accent) 55%,transparent)}
+.lzb .pager .gap{color:var(--faint);font-family:var(--mono);font-size:13px}
+
+/* ── the article itself ── */
+.lzb .post-page{padding-top:var(--s7);padding-bottom:var(--s8);max-width:820px}
+.lzb .crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.lzb .crumbs a{color:var(--faint);text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+.lzb .crumbs a:hover{color:var(--accent-text)}
+.lzb .post-head{margin-top:var(--s5)}
+.lzb .posttitle{max-width:22ch}
+.lzb .standfirst{margin-top:var(--s5);font-size:19px;max-width:60ch}
+.lzb .byline{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:var(--s5);padding-top:var(--s4);
+  border-top:1px solid var(--line)}
+.lzb .posthero{margin-top:var(--s6);aspect-ratio:16/9}
+.lzb .posthero img{width:100%;height:100%;object-fit:cover}
+
+.lzb .prose{margin-top:var(--s7);font-size:17.5px;line-height:1.78;color:var(--muted)}
+.lzb .prose > * + *{margin-top:var(--s5)}
+.lzb .prose h2{font-family:var(--head);font-weight:400;font-size:clamp(26px,3vw,34px);line-height:1.15;
+  color:var(--ink);margin-top:var(--s8)}
+.lzb .prose h3{font-family:var(--head);font-weight:400;font-size:23px;color:var(--ink);margin-top:var(--s7)}
+.lzb .prose h4{font-family:var(--grot);font-weight:700;font-size:17px;color:var(--ink);margin-top:var(--s6)}
+.lzb .prose strong{color:var(--ink);font-weight:500}
+.lzb .prose a{color:var(--accent-text);text-decoration:underline;text-underline-offset:3px}
+.lzb .prose ul,.lzb .prose ol{padding-left:22px}
+.lzb .prose li + li{margin-top:10px}
+.lzb .prose blockquote{border-left:2px solid var(--accent);padding:4px 0 4px 20px;color:var(--ink);
+  font-family:var(--head);font-size:23px;line-height:1.4}
+.lzb .prose blockquote p{margin:0}
+.lzb .prose hr{border:0;border-top:1px solid var(--line);margin:var(--s7) 0}
+.lzb .prose figure{margin:0}
+.lzb .prose figure img{width:100%;border:1px solid var(--line)}
+.lzb .prose figcaption{margin-top:10px;font-size:13px;color:var(--faint)}
+.lzb .prose pre{background:var(--surface);border:1px solid var(--line);padding:18px;overflow-x:auto;
+  font-family:var(--mono);font-size:13.5px;line-height:1.6}
+.lzb .prose code{font-family:var(--mono);font-size:.92em;color:var(--ink)}
+/* wide content scrolls inside its own box, never the page */
+.lzb .prose .tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.lzb .prose table.tbl{min-width:460px;font-size:15px}
+
+.lzb .post-foot{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--line)}
+.lzb .taglist{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.lzb .nextprev{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s4);margin-top:var(--s6)}
+.lzb .np{display:flex;flex-direction:column;gap:8px;min-height:44px;padding:18px 20px;border:1px solid var(--line);
+  text-decoration:none;color:inherit;transition:border-color .25s}
+.lzb .np:hover{border-color:var(--accent)}
+.lzb .np.right{text-align:right}
+.lzb .np .t{font-family:var(--head);font-size:20px;line-height:1.22}
+@media(max-width:640px){.lzb .nextprev{grid-template-columns:minmax(0,1fr)}.lzb .np.right{text-align:left}}
+
+.lzb .relatedbox{padding-top:var(--s8);padding-bottom:var(--s8);border-top:1px solid var(--line)}
+.lzb .postcta .ctarow{padding-top:clamp(32px,4vw,58px);padding-bottom:clamp(32px,4vw,58px);display:flex;
+  flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center}
+.lzb .postcta .ctalabel{color:var(--band-ink)}
+/* The band is deep green in alabaster and brass in tobacco, so a brass button on
+   it disappears in one of the two. Both buttons are drawn from --band-ink, which
+   is defined as the colour that reads on --band: 11.84:1 and 5.57:1. */
+.lzb .postcta .btn-accent{background:var(--band-ink);border-color:var(--band-ink);color:var(--band)}
+.lzb .postcta .ctahead{color:var(--band-ink);margin-top:10px;max-width:30ch}
+.lzb .postcta .ctabtns{display:flex;flex-wrap:wrap;gap:12px}
+.lzb .postcta .ctaghost{color:var(--band-ink);border-color:color-mix(in srgb,var(--band-ink) 40%,transparent)}
+.lzb .postcta :focus-visible{outline-color:var(--band-num)}
+
+@media(max-width:520px){
+  .lzb .hivebanner .bmeta{gap:10px 22px}
+  .lzb .post-page{padding-top:var(--s6)}
+  .lzb .prose{font-size:17px}
+  .lzb .standfirst{font-size:17.5px}
+}
+
+/* Tap targets. Every link a thumb is meant to hit clears 44px inside .hive,
+   including the ones that are inline text in a sentence: the footer legal row,
+   the banner backlink and the "back to everything" line. Making an inline link
+   a 44px inline-flex box grows the line it sits on and nothing else. */
+.lzb.hive .lzbfooter .brandlock{min-height:44px}
+.lzb.hive .lzbfooter .label a,
+.lzb.hive .backline a,
+.lzb.hive .hivebanner .bannerlink{display:inline-flex;align-items:center;min-height:44px}
+.lzb.hive .hivebanner .label{display:flex;align-items:center;flex-wrap:wrap;gap:0 6px}
+/* The header links carry `transition:.25s`, which transitions outline along with
+   everything else. Stated as longhands so the ring is the same brass 2px as every
+   other control on the page from the first frame rather than fading in. */
+.lzb.hive .hivehead .navlinks a:focus-visible{outline-style:solid;outline-width:2px;outline-color:var(--accent);outline-offset:3px}
+.lzb.hive .hivehead .navlinks a{transition:opacity .25s,color .25s}

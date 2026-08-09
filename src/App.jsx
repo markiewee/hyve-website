@@ -13,6 +13,9 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import CookiePolicy from './components/CookiePolicy';
 import StaffResourcePage from './components/StaffResourcePage';
+import HiveIndexPage from './pages/hive/HiveIndexPage';
+import HiveArticlePage from './pages/hive/HiveArticlePage';
+import HiveTopicPage from './pages/hive/HiveTopicPage';
 
 // Auth
 import { AuthProvider } from './hooks/useAuth';
@@ -67,7 +70,10 @@ function AppContent() {
   // The site chrome is dark terracotta, so bolting it on would put a dark bar top
   // and bottom of a light page. Its footer carries the legal links across.
   const isOwnerHome = location.pathname === '/';
-  const bareChrome = isPortal || isViewing || isOwnerHome;
+  // The Hive is themed alabaster/tobacco like the owner homepage and ships the
+  // same chrome, so the dark terracotta site Navbar and Footer stay off it too.
+  const isHive = location.pathname === '/hive' || location.pathname.startsWith('/hive/');
+  const bareChrome = isPortal || isViewing || isOwnerHome || isHive;
 
   // Presentation only. Stamps the Lazybee token scope on <html> for portal
   // routes so body-level Radix overlays (dialog, popover, select, toast)
@@ -86,8 +92,17 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/locations" element={<Navigate to="/" replace />} />
-          <Route path="/blog" element={<Navigate to="/" replace />} />
-          <Route path="/blog/:slug" element={<Navigate to="/" replace />} />
+          {/* The old /blog never shipped content. The Hive replaces it, so the two
+              legacy paths hand their link equity to the new archive rather than
+              bouncing to the homepage. */}
+          <Route path="/blog" element={<Navigate to="/hive" replace />} />
+          <Route path="/blog/:slug" element={<Navigate to="/hive" replace />} />
+          {/* The Hive. Ordered static segments first so /hive/page/2 and
+              /hive/topic/rules can never be read as an article slug. */}
+          <Route path="/hive" element={<HiveIndexPage />} />
+          <Route path="/hive/page/:page" element={<HiveIndexPage />} />
+          <Route path="/hive/topic/:tag" element={<HiveTopicPage />} />
+          <Route path="/hive/:slug" element={<HiveArticlePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faqs" element={<FAQsPage />} />
           <Route path="/about" element={<Navigate to="/" replace />} />
