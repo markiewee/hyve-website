@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" data-theme="tobacco">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee Admin &middot; sample</title>
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Hanken+Grotesk:wght@400;500;700&family=Italiana&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lazybee.css">
+<style>
+  .shell{display:grid;grid-template-columns:210px minmax(0,1fr);min-height:calc(100vh - 58px)}
+  .main{padding:clamp(22px,2.6vw,38px) clamp(18px,2.6vw,38px) 80px}
+  .head{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:flex-end}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--s5)}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:var(--s5)}
+  .kpis > div{background:var(--bg);padding:18px 20px}
+  .tblwrap{border:1px solid var(--line);margin-top:var(--s5);overflow-x:auto}
+  .drawer{border:1px solid var(--line);background:var(--surface);padding:22px;margin-top:var(--s6)}
+  @media(max-width:900px){
+    .shell{grid-template-columns:1fr}
+    .sidenav{display:flex;overflow:auto;border-right:0;border-bottom:1px solid var(--line);padding:0}
+    .sidenav a{white-space:nowrap;border-left:0;border-bottom:2px solid transparent}
+    .sidenav a[aria-current]{border-left:0;border-bottom-color:var(--accent)}
+    .kpis{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brandlock" href="design.html">
+    <svg viewBox="13.43 21.63 73.13 57.45"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd">LAZYBEE</span>
+  </a>
+  <nav class="navlinks">
+    <span class="label" style="letter-spacing:.16em">Admin</span>
+    <button class="btn btn-ghost btn-sm" id="mode" type="button">Light</button>
+  </nav>
+</div>
+
+<div class="shell">
+  <nav class="sidenav" aria-label="Admin">
+    <a href="#">Overview</a>
+    <a href="#" aria-current="page">Rooms</a>
+    <a href="#">Viewings</a>
+    <a href="#">Listings</a>
+    <a href="#">Members</a>
+    <a href="#">Locks</a>
+    <a href="#">Claims</a>
+  </nav>
+
+  <main class="main">
+    <div class="head">
+      <div>
+        <div class="label">hyve-iot &middot; live</div>
+        <h1 class="h1" style="font-size:clamp(24px,2.6vw,34px);margin-top:8px;font-family:var(--grot);font-weight:700;letter-spacing:-.015em">Rooms</h1>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost btn-sm">Export</button>
+        <button class="btn btn-accent btn-sm">Add room</button>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="stat"><div class="n">19</div><div class="l">Lettable rooms</div></div>
+      <div class="stat"><div class="n">18</div><div class="l">Occupied</div></div>
+      <div class="stat"><div class="n">1</div><div class="l">Open today</div></div>
+      <div class="stat"><div class="n">S$24,180</div><div class="l">Monthly roll</div></div>
+    </div>
+
+    <div class="filters">
+      <span class="chip on">All properties</span>
+      <span class="chip">Chiltern Park</span>
+      <span class="chip">Ivory Heights</span>
+      <span class="chip">Thomson Grove</span>
+      <span class="chip">Open in 90 days</span>
+    </div>
+
+    <div class="tblwrap">
+      <table class="tbl" id="tbl">
+        <thead><tr>
+          <th>Room</th><th>Property</th><th>Type</th><th>Tenant</th><th>Status</th>
+          <th style="text-align:right">Rent</th><th style="text-align:right">Next available</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="drawer">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:flex-start">
+        <div>
+          <div class="label">CP-MR &middot; Chiltern Park</div>
+          <div class="place" style="font-size:26px;margin-top:6px">Master room</div>
+          <p class="small" style="margin-top:8px;max-width:52ch">Open today with nothing booked behind it.
+          This is the one to sell, and the sell-priority rule says market it now rather than the rooms freeing in 2027.</p>
+        </div>
+        <span class="badge badge-warn">Open now</span>
+      </div>
+      <div class="grid g4" style="margin-top:22px">
+        <div class="stat"><div class="n">S$2,200</div><div class="l">Asking</div></div>
+        <div class="stat"><div class="n">6</div><div class="l">Months min</div></div>
+        <div class="stat"><div class="n">2</div><div class="l">Max occupancy</div></div>
+        <div class="stat"><div class="n">8</div><div class="l">Channels live</div></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:22px;flex-wrap:wrap">
+        <button class="btn btn-sm">Push to channels</button>
+        <button class="btn btn-ghost btn-sm">Edit listing</button>
+        <button class="btn btn-ghost btn-sm">Book a viewing</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+const TODAY=new Date('2026-08-09');
+const ROOMS=[
+ ['CP-MR','Chiltern Park','Master','Vacant',2200,'2026-08-09'],
+ ['CP-PR1','Chiltern Park','Premium','Vacant',1500,'2026-08-12'],
+ ['CP-PR2','Chiltern Park','Premium','Occupied',1380,'2026-12-01'],
+ ['CP-PR3','Chiltern Park','Premium','Occupied',1600,'2026-12-20'],
+ ['CP-PR4','Chiltern Park','Premium','Occupied',1290,'2027-01-01'],
+ ['CP-STD1','Chiltern Park','Standard','Occupied',600,'2027-04-30'],
+ ['IH-PR1','Ivory Heights','Premium','Occupied',1500,'2026-09-19'],
+ ['IH-PR2','Ivory Heights','Premium','Edward Lo',1200,'2027-03-01'],
+ ['IH-STD1','Ivory Heights','Standard','Occupied',1000,'2026-10-01'],
+ ['IH-STD2','Ivory Heights','Standard','Occupied',1000,'2026-12-07'],
+ ['TG-MR','Thomson Grove','Master','Rhea',2200,'2027-04-01'],
+ ['TG-PR1','Thomson Grove','Premium','Occupied',1400,'2027-10-01'],
+];
+const sgd=n=>'S$'+n.toLocaleString('en-SG');
+const days=d=>Math.round((new Date(d)-TODAY)/86400000);
+document.querySelector('#tbl tbody').innerHTML=ROOMS.map(r=>{
+  const dd=days(r[5]);
+  const badge = dd<=0 ? '<span class="badge badge-warn">Open now</span>'
+              : dd<=30 ? '<span class="badge badge-warn">Opens in '+dd+'d</span>'
+              : '<span class="badge badge-ok">Occupied</span>';
+  return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+badge+'</td>'+
+    '<td class="num" style="text-align:right">'+sgd(r[4])+'</td>'+
+    '<td class="num" style="text-align:right">'+r[5]+'</td></tr>';
+}).join('');
+document.getElementById('mode').addEventListener('click',e=>{
+  const dark=document.documentElement.dataset.theme==='tobacco';
+  document.documentElement.dataset.theme=dark?'alabaster':'tobacco';
+  e.target.textContent=dark?'Dark':'Light';
+});
+</script>
+</body>
+</html>

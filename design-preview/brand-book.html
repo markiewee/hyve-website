@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en" data-theme="alabaster" data-face="italiana">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee Brand Guidelines</title>
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Italiana&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Inter+Tight:wght@200;300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* One accent across the whole system: BRASS #B08D4F.
+   Light grounds also carry a darkened tint of the same hue for anything that has to be read as text. */
+:root[data-theme="nightjar"]{
+  --bg:#08150F; --surface:#0F2118; --line:#1A3226; --ink:#EDE6DA; --muted:#8FA898;
+  --accent:#B08D4F; --accentText:#C6A467; --onAccent:#08150F;
+}
+:root[data-theme="tobacco"]{
+  --bg:#241811; --surface:#31231A; --line:#453224; --ink:#E8DACA; --muted:#B39B82;
+  --accent:#B08D4F; --accentText:#C6A467; --onAccent:#241812;
+}
+:root[data-theme="alabaster"]{
+  --bg:#F6F2EA; --surface:#EFE9DE; --line:#DED5C6; --ink:#241C16; --muted:#6B6154;
+  --accent:#B08D4F; --accentText:#8A6733; --onAccent:#241C16;
+}
+:root[data-face="italiana"]{ --display:'Italiana',serif; --dtrack:.34em; --dweight:400; }
+:root[data-face="cormorant"]{ --display:'Cormorant Garamond',serif; --dtrack:.30em; --dweight:300; }
+:root[data-face="bodoni"]{ --display:'Bodoni Moda',serif; --dtrack:.24em; --dweight:400; }
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter Tight',system-ui,sans-serif;font-weight:300;
+  -webkit-font-smoothing:antialiased;transition:background .5s,color .5s}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(22px,4vw,60px)}
+.mono{font-family:'JetBrains Mono',monospace}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
+.serif{font-family:'Cormorant Garamond',serif;font-weight:300}
+.lede{max-width:62ch;font-size:16px;line-height:1.75;color:var(--muted)}
+.lede b{color:var(--ink);font-weight:400}
+.lede + .lede{margin-top:16px}
+
+/* controls */
+.ctrl{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:space-between;align-items:center;
+  gap:20px;padding:13px clamp(22px,4vw,60px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.ctrl .grp{display:flex;gap:7px;align-items:center}
+.ctrl button{background:none;border:1px solid var(--line);color:var(--muted);cursor:pointer;
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  padding:7px 11px;border-radius:2px;transition:.25s}
+.ctrl button:hover{color:var(--ink)}
+.ctrl button[aria-pressed="true"]{border-color:var(--accent);color:var(--accentText)}
+
+/* cover */
+.cover{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:0;padding:120px 0 70px}
+.logo svg{display:block;width:clamp(120px,15vw,190px);height:auto;fill:currentColor}
+.word{display:block;font-family:var(--display);font-weight:var(--dweight);letter-spacing:var(--dtrack);
+  font-size:clamp(30px,5vw,54px);margin-top:clamp(22px,3vw,34px);line-height:1}
+.place{display:block;font-size:clamp(9px,1vw,11px);letter-spacing:.46em;text-transform:uppercase;color:var(--accentText);margin-top:15px}
+.covertitle{margin-top:clamp(56px,9vw,110px);font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(26px,3.4vw,42px);line-height:1.2}
+.covermeta{margin-top:20px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--muted)}
+
+/* sections */
+section{padding:clamp(64px,8vw,130px) 0;border-top:1px solid var(--line)}
+.num{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--accentText)}
+h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(30px,4.4vw,58px);
+  line-height:1.05;margin:16px 0 22px;max-width:20ch}
+h3{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:23px;margin-bottom:9px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4vw,70px);align-items:start}
+.panel{border:1px solid var(--line);background:var(--surface);padding:clamp(22px,3vw,38px)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:30px}
+.cap{margin-top:13px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--muted)}
+
+/* colour */
+.swatches{display:grid;grid-template-columns:repeat(7,1fr);margin-top:34px;border:1px solid var(--line)}
+.sw{aspect-ratio:1/1.25;display:flex;flex-direction:column;justify-content:flex-end;padding:14px;
+  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.09em;line-height:1.7}
+.ratio{display:flex;height:46px;margin-top:26px;border:1px solid var(--line)}
+.ratio div{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em}
+.contrast{margin-top:26px;border-top:1px solid var(--line)}
+.crow{display:grid;grid-template-columns:1fr auto auto;gap:16px;padding:11px 0;border-bottom:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);align-items:center}
+.pass{color:var(--accentText)}
+.fail{opacity:.5}
+
+/* type specimens */
+.spec{border-bottom:1px solid var(--line);padding:26px 0}
+.spec .sample{font-family:var(--display);font-weight:var(--dweight);letter-spacing:var(--dtrack);font-size:clamp(26px,4vw,46px);line-height:1.1}
+.scale div{border-bottom:1px solid var(--line);padding:14px 0;display:flex;align-items:baseline;justify-content:space-between;gap:20px}
+.scale span.meta{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:var(--muted);white-space:nowrap}
+
+/* misuse */
+.dont{position:relative;border:1px solid var(--line);background:var(--surface);padding:26px 18px 16px;text-align:center}
+.dont svg{width:74px;height:auto;fill:currentColor}
+.dont::after{content:'';position:absolute;inset:0;background:
+  linear-gradient(to top left, transparent calc(50% - .6px), color-mix(in srgb,var(--accent) 70%,transparent) 50%, transparent calc(50% + .6px));
+  pointer-events:none}
+.do{border:1px solid var(--accent);background:var(--surface);padding:26px 18px 16px;text-align:center}
+.do svg{width:74px;height:auto;fill:currentColor}
+
+/* voice */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+.vs > div{border:1px solid var(--line);padding:18px 20px;background:var(--surface)}
+.vs .lab{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:9px}
+.vs .yes .lab{color:var(--accentText)}
+.vs .no .lab{color:var(--muted)}
+.vs p{font-size:15px;line-height:1.6}
+
+/* clear space diagram */
+.clearbox{position:relative;display:inline-block;padding:0}
+.assets{border-top:1px solid var(--line);margin-top:26px}
+.arow{display:grid;grid-template-columns:1fr auto;gap:20px;padding:12px 0;border-bottom:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+.arow b{color:var(--ink);font-weight:400}
+footer{padding:60px 0 90px;border-top:1px solid var(--line);text-align:center}
+@media(max-width:860px){.two,.vs,.grid3,.grid2{grid-template-columns:1fr}.swatches{grid-template-columns:repeat(3,1fr)}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="ctrl">
+  <div class="grp">
+    <span class="tag" style="margin-right:4px">Palette</span>
+    <button data-theme-btn="alabaster" aria-pressed="true">Alabaster &middot; light</button>
+    <button data-theme-btn="tobacco" aria-pressed="false">Tobacco &middot; dark</button>
+    <button data-theme-btn="nightjar" aria-pressed="false">Nightjar &middot; regal green</button>
+  </div>
+  <div class="grp">
+    <span class="tag" style="margin-right:4px">Wordmark</span>
+    <button data-face-btn="italiana" aria-pressed="true">Italiana</button>
+    <button data-face-btn="cormorant" aria-pressed="false">Cormorant</button>
+    <button data-face-btn="bodoni" aria-pressed="false">Bodoni</button>
+  </div>
+</div>
+
+<main class="wrap">
+
+<div class="cover">
+  <div class="logo" id="coverlogo"></div>
+  <span class="word">LAZYBEE</span>
+  <span class="place">Singapore</span>
+  <div class="covertitle">Brand guidelines</div>
+  <div class="covermeta">Version 1.0 &middot; August 2026 &middot; Makery Pte Ltd</div>
+</div>
+
+<section>
+  <div class="num">01</div>
+  <h2>What this brand is for</h2>
+  <div class="two">
+    <div>
+      <p class="lede">Lazybee leases apartments from private owners, furnishes them, fills them, and runs them.
+      The owner does nothing and is paid on the first of the month whether the rooms are full or empty.
+      Tenants get a room in a properly run home instead of a stranger's spare bedroom.</p>
+      <p class="lede">Two audiences, one promise, and the promise is <b>relief</b>. Not luxury for its own sake.
+      The restraint in this identity is doing a job: it is what a serious counterparty looks like when they are
+      about to sign a three year lease with you.</p>
+    </div>
+    <div class="panel">
+      <h3>The one line</h3>
+      <p class="lede" style="font-size:20px;color:var(--ink);line-height:1.5">Be a lazy landlord.</p>
+      <p class="lede" style="margin-top:20px">Everything else in the copy system is downstream of that.
+      Plain verbs, concrete numbers, no adjectives doing work that a fact could do.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="num">02</div>
+  <h2>The mark</h2>
+  <div class="two">
+    <div>
+      <p class="lede">A seven-pointed star, drawn as a heraldic mullet with concave edges. One point falls straight down.</p>
+      <p class="lede">The seven points are not decoration. Read them as a bee seen from above and they are, in order from the
+      bottom: <b>the stinger</b>, then a pair of <b>legs</b>, then the long pair of <b>wings</b>, then a pair of <b>antennae</b>.
+      Nobody has to see that for the mark to work, and everybody can see it once told, which is the correct order for a symbol.</p>
+      <p class="lede">Drawn as a single closed path with no strokes, so it survives any scale, any colour and any printing method.</p>
+    </div>
+    <div id="construct"></div>
+  </div>
+
+  <div class="grid3">
+    <div class="panel" style="text-align:center"><div id="m1"></div><div class="cap">PRIMARY</div></div>
+    <div class="panel" style="text-align:center"><div id="m2"></div><div class="cap">SQUARE CROP, FOR ICONS</div></div>
+    <div class="panel" style="text-align:center"><div id="m3"></div><div class="cap">ACCENT</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="num">03</div>
+  <h2>Clear space and minimum size</h2>
+  <div class="two">
+    <div>
+      <p class="lede"><b>Clear space equals the height of one point,</b> measured from the centre to the tip of the stinger.
+      Nothing enters that boundary: no type, no rule, no image edge, no other logo.</p>
+      <p class="lede"><b>Minimum sizes.</b> 24px on screen for the mark alone, 120px wide for the full vertical lockup,
+      15mm wide in print. Below 24px the short legs and antennae start rounding away and the mark goes lopsided,
+      so use the square icon crop and nothing smaller.</p>
+    </div>
+    <div class="panel" style="text-align:center" id="clearspace"></div>
+  </div>
+</section>
+
+<section>
+  <div class="num">04</div>
+  <h2>Lockups</h2>
+  <div class="grid3" id="lockups"></div>
+  <p class="lede" style="margin-top:26px">The vertical lockup is primary and is the only one that carries the place name.
+  The horizontal exists for the site header and any narrow band. The mark stands alone anywhere it is already obvious who is speaking.</p>
+</section>
+
+<section>
+  <div class="num">05</div>
+  <h2>What not to do</h2>
+  <div class="grid3" id="misuse"></div>
+</section>
+
+<section>
+  <div class="num">06</div>
+  <h2>Colour</h2>
+  <p class="lede">Currently showing <b id="palname">Nightjar</b>. Switch it at the top of the page and the whole document follows,
+  which is the fastest way to decide.</p>
+  <div class="swatches" id="swatches"></div>
+
+  <div class="two" style="margin-top:44px">
+    <div>
+      <h3>How much of each</h3>
+      <p class="lede">Ground dominates, ink carries the reading, accent is rationed. If a page has more than three accent
+      elements on screen at once, one of them is wrong.</p>
+      <div class="ratio" id="ratio"></div>
+      <p class="lede" style="margin-top:18px">The accent appears on: the primary button, the place name in the lockup,
+      and the current item in a navigation. That is the whole list.</p>
+    </div>
+    <div>
+      <h3>Contrast, measured</h3>
+      <p class="lede">Real WCAG ratios for this palette, computed on load rather than assumed.</p>
+      <div class="contrast" id="contrast"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="num">07</div>
+  <h2>Typography</h2>
+  <div class="spec">
+    <div class="sample">LAZYBEE</div>
+    <div class="cap" id="facemeta"></div>
+  </div>
+  <div class="spec">
+    <div class="serif" style="font-size:clamp(26px,3.6vw,44px);line-height:1.15">Hand over the keys. Keep the income.</div>
+    <div class="cap">CORMORANT GARAMOND LIGHT &middot; HEADLINES AND PULL QUOTES</div>
+  </div>
+  <div class="spec">
+    <p style="font-size:16px;line-height:1.75;max-width:60ch;color:var(--muted)">We lease your unit for thirty six months, furnish it,
+    fill it and run it. The same amount lands on the first whether it is full or empty. No agents, no viewings, no plumber at two in the morning.</p>
+    <div class="cap">INTER TIGHT LIGHT &middot; BODY</div>
+  </div>
+  <div class="spec">
+    <div class="mono" style="font-size:26px;letter-spacing:-.02em">S$3,564 &nbsp; 36 &nbsp; 100%</div>
+    <div class="cap">JETBRAINS MONO &middot; ALL NUMBERS, LABELS AND SMALL CAPS</div>
+  </div>
+
+  <div class="two" style="margin-top:40px">
+    <div>
+      <h3>Rules</h3>
+      <p class="lede"><b>Wide tracking belongs to the wordmark and to small uppercase labels only.</b> Body copy is set normally.
+      Letterspaced sentences read as a perfume advertisement.</p>
+      <p class="lede"><b>Money is always monospaced,</b> with tabular figures, so a number reads as a readout rather than a claim.</p>
+      <p class="lede"><b>Sentence case everywhere except labels.</b> Title Case On Headings makes the brand sound like a brochure.</p>
+    </div>
+    <div class="scale" id="scale"></div>
+  </div>
+</section>
+
+<section>
+  <div class="num">08</div>
+  <h2>Voice</h2>
+  <p class="lede">The typography carries the luxury. The words stay plain. Every sentence should survive being read aloud
+  to a sceptical landlord who has been called by four agents this week.</p>
+  <div id="voice" style="margin-top:30px"></div>
+</section>
+
+<section>
+  <div class="num">09</div>
+  <h2>Photography</h2>
+  <div class="two">
+    <div>
+      <p class="lede"><b>Real rooms, daylight, no wide angle.</b> A distorted lens says property listing, and a property listing
+      is the thing we are trying not to be.</p>
+      <p class="lede"><b>Evidence of people, rarely people.</b> A made bed, a used mug, shoes at the door. Occupancy without models.</p>
+      <p class="lede"><b>Never an empty staged lobby,</b> never a stock family, never a rendered interior. If it did not happen
+      in one of our three homes, it does not go on the site.</p>
+    </div>
+    <div class="grid2" style="margin-top:0">
+      <div><img src="photos/tg-hero.jpg" alt="" style="width:100%;height:190px;object-fit:cover;filter:saturate(.9)"><div class="cap">THOMSON GROVE</div></div>
+      <div><img src="photos/cp-hero.jpg" alt="" style="width:100%;height:190px;object-fit:cover;filter:saturate(.9)"><div class="cap">CHILTERN PARK</div></div>
+      <div><img src="photos/ih-hero.jpg" alt="" style="width:100%;height:190px;object-fit:cover;filter:saturate(.9)"><div class="cap">IVORY HEIGHTS</div></div>
+      <div><img src="photos/tg-lounge.jpg" alt="" style="width:100%;height:190px;object-fit:cover;filter:saturate(.9)"><div class="cap">SHARED SPACE</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="num">10</div>
+  <h2>Layout and motion</h2>
+  <div class="two">
+    <div>
+      <h3>Space is the material</h3>
+      <p class="lede">Spacing runs on a four point scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 130.
+      Section padding never goes below 64 on desktop. When a layout feels cheap, the answer is almost always more space, not more ornament.</p>
+      <p class="lede">One hairline rule at a time, always in <span class="mono" style="font-size:12px">--line</span>. No shadows, no gradients
+      behind text, no rounded corners above 2px except on app tiles.</p>
+    </div>
+    <div>
+      <h3>Motion is slow and few</h3>
+      <p class="lede">Entrances rise 14 to 18 pixels and fade over 650 to 800 milliseconds on an ease-out curve.
+      Stagger in 60 millisecond steps. Nothing bounces, nothing spins, nothing loops except live data.</p>
+      <p class="lede">Every animation ships behind <span class="mono" style="font-size:12px">prefers-reduced-motion</span>.
+      That is not a nicety, it is part of the quality floor along with visible keyboard focus and a page that works at 320 pixels wide.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="num">11</div>
+  <h2>Assets</h2>
+  <div class="assets" id="assets"></div>
+  <p class="lede" style="margin-top:24px">All in <span class="mono" style="font-size:12px">design-preview/assets/</span> and copied to
+  <span class="mono" style="font-size:12px">~/Desktop/lazybee-logo/</span>. The mono files use
+  <span class="mono" style="font-size:12px">currentColor</span> and take the colour of whatever contains them, which is how
+  this document recolours the mark when you switch palette.</p>
+</section>
+
+</main>
+
+<footer class="wrap">
+  <div class="logo" id="footlogo" style="display:flex;justify-content:center"></div>
+  <div class="covermeta" style="margin-top:22px">Lazybee &middot; Makery Pte Ltd &middot; Singapore</div>
+</footer>
+
+<script>
+const VB='13.43 21.63 73.13 57.45';
+const D='M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z';
+const SQ='11.44 14.79 77.13 77.13';
+const mark=(w,vb,extra)=>'<svg viewBox="'+(vb||VB)+'" style="width:'+w+'px;height:auto;fill:currentColor" role="img" aria-label="Lazybee">'+
+  '<path d="'+D+'"/>'+(extra||'')+'</svg>';
+
+document.getElementById('coverlogo').innerHTML = mark(190);
+document.getElementById('footlogo').innerHTML  = mark(56);
+document.getElementById('m1').innerHTML = mark(112);
+document.getElementById('m2').innerHTML = mark(112,SQ);
+document.getElementById('m3').innerHTML = '<div style="color:var(--accent)">'+mark(112)+'</div>';
+
+/* construction diagram */
+(()=>{
+  const R=32, CX=50, CY=48, LEN=[0.94,0.78,1.14,0.88,0.88,1.14,0.78], ROT=90;
+  const P=(a,r)=>[CX+r*Math.cos(a*Math.PI/180), CY+r*Math.sin(a*Math.PI/180)];
+  let spokes='', dots='';
+  for(let i=0;i<7;i++){
+    const a=ROT+i*360/7, p=P(a,R*LEN[i]);
+    spokes+='<line x1="'+CX+'" y1="'+CY+'" x2="'+p[0].toFixed(2)+'" y2="'+p[1].toFixed(2)+'"/>';
+    dots+='<circle cx="'+p[0].toFixed(2)+'" cy="'+p[1].toFixed(2)+'" r="1.05"/>';
+  }
+  const labels=[['stinger',0],['leg',1],['wing',2],['antenna',3]].map(([t,i])=>{
+    const a=ROT+i*360/7, p=P(a,R*LEN[i]+7.5);
+    return '<text x="'+p[0].toFixed(1)+'" y="'+p[1].toFixed(1)+'" text-anchor="middle">'+t+'</text>';
+  }).join('');
+  document.getElementById('construct').innerHTML =
+   '<div class="panel" style="text-align:center">'+
+   '<svg viewBox="4 12 92 78" style="width:100%;max-width:400px;height:auto">'+
+     '<g fill="none" stroke="currentColor" opacity=".18" stroke-width=".5">'+
+       '<circle cx="50" cy="48" r="'+(R*1.14)+'"/><circle cx="50" cy="48" r="'+(R*0.35)+'"/>'+
+     '</g>'+
+     '<g fill="none" stroke="currentColor" opacity=".22" stroke-width=".5">'+spokes+'</g>'+
+     '<path d="'+D+'" fill="currentColor" opacity=".92"/>'+
+     '<g fill="var(--accent)">'+dots+'</g>'+
+     '<g font-family="JetBrains Mono, monospace" font-size="3.1" letter-spacing=".28" fill="var(--accentText)" opacity=".95">'+labels+'</g>'+
+   '</svg>'+
+   '<div class="cap">OUTER 1.14R &middot; INNER 0.35R &middot; EDGE CURVE 0.72 &middot; MIRROR SYMMETRIC</div></div>';
+})();
+
+/* clear space */
+document.getElementById('clearspace').innerHTML =
+  '<div style="display:inline-block;position:relative;padding:36px">'+
+  '<div style="position:absolute;inset:0;border:1px dashed var(--accent);opacity:.5"></div>'+
+  mark(130)+
+  '<div style="position:absolute;left:6px;top:50%;transform:translateY(-50%);font-family:JetBrains Mono,monospace;font-size:9px;color:var(--accentText)">x</div>'+
+  '</div><div class="cap">x = HEIGHT OF ONE POINT. NOTHING ENTERS THE DASHED BOX.</div>';
+
+/* lockups */
+document.getElementById('lockups').innerHTML =
+  '<div class="panel" style="text-align:center">'+mark(84)+
+    '<div style="font-family:var(--display);font-weight:var(--dweight);letter-spacing:var(--dtrack);font-size:21px;margin-top:16px">LAZYBEE</div>'+
+    '<div style="font-size:8px;letter-spacing:.44em;text-transform:uppercase;color:var(--accentText);margin-top:9px">Singapore</div>'+
+    '<div class="cap">VERTICAL &middot; PRIMARY</div></div>'+
+  '<div class="panel" style="display:flex;flex-direction:column;justify-content:center">'+
+    '<div style="display:flex;align-items:center;gap:12px;justify-content:center">'+mark(34)+
+    '<span style="font-family:var(--display);font-weight:var(--dweight);letter-spacing:var(--dtrack);font-size:19px">LAZYBEE</span></div>'+
+    '<div class="cap" style="text-align:center">HORIZONTAL &middot; HEADERS</div></div>'+
+  '<div class="panel" style="text-align:center;display:flex;flex-direction:column;justify-content:center">'+
+    mark(64,SQ)+'<div class="cap">MARK ALONE &middot; ICONS AND STAMPS</div></div>';
+
+/* misuse */
+document.getElementById('misuse').innerHTML = [
+  ['<div style="transform:scaleX(1.4)">'+mark(74)+'</div>','NEVER STRETCH IT'],
+  ['<div style="transform:rotate(24deg)">'+mark(74)+'</div>','NEVER ROTATE IT'],
+  ['<div style="color:#E0457B">'+mark(74)+'</div>','NEVER RECOLOUR OFF PALETTE'],
+  ['<div style="filter:drop-shadow(0 6px 7px rgba(0,0,0,.85))">'+mark(74)+'</div>','NEVER ADD SHADOW OR GLOW'],
+  ['<div style="opacity:.34">'+mark(74)+'</div>','NEVER SET IT BELOW FULL OPACITY'],
+  ['<div style="display:flex;align-items:center;gap:2px">'+mark(40)+
+   '<span style="font-family:var(--display);letter-spacing:var(--dtrack);font-size:15px">LAZYBEE</span></div>','NEVER CROWD THE CLEAR SPACE'],
+].map(v=>'<div class="dont">'+v[0]+'<div class="cap">'+v[1]+'</div></div>').join('');
+
+/* colour */
+const NAMES={nightjar:'Nightjar, the regal green',tobacco:'Tobacco',alabaster:'Alabaster'};
+const SW=[['--bg','GROUND'],['--surface','SURFACE'],['--line','LINE'],['--ink','INK'],['--muted','MUTED'],['--accent','BRASS'],['--accentText','BRASS, TEXT TINT']];
+function hexOf(v){
+  const c=getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  if(c.startsWith('#')) return c.toUpperCase();
+  const m=c.match(/\d+/g); if(!m) return c;
+  return '#'+m.slice(0,3).map(n=>(+n).toString(16).padStart(2,'0')).join('').toUpperCase();
+}
+function lum(hex){
+  const n=hex.replace('#','');
+  const v=[0,2,4].map(i=>parseInt(n.substr(i,2),16)/255)
+    .map(c=>c<=.03928?c/12.92:Math.pow((c+.055)/1.055,2.4));
+  return .2126*v[0]+.7152*v[1]+.0722*v[2];
+}
+const ratio=(a,b)=>{const l1=lum(a),l2=lum(b),hi=Math.max(l1,l2),lo=Math.min(l1,l2);return (hi+.05)/(lo+.05);};
+function paint(){
+  document.getElementById('palname').textContent = NAMES[document.documentElement.dataset.theme];
+  document.getElementById('swatches').innerHTML = SW.map(s=>{
+    const hex=hexOf(s[0]);
+    const on = ratio(hex,'#FFFFFF') > ratio(hex,'#000000') ? '#FFFFFF' : '#000000';
+    return '<div class="sw" style="background:'+hex+';color:'+on+'"><span>'+hex+'</span><span style="opacity:.7">'+s[1]+'</span></div>';
+  }).join('');
+  const bg=hexOf('--bg'), acc=hexOf('--accent');
+  document.getElementById('ratio').innerHTML =
+    '<div style="flex:70;background:'+bg+';color:'+hexOf('--muted')+'">GROUND 70</div>'+
+    '<div style="flex:22;background:'+hexOf('--surface')+';color:'+hexOf('--muted')+'">SURFACE 22</div>'+
+    '<div style="flex:6;background:'+hexOf('--ink')+';color:'+bg+'">INK 6</div>'+
+    '<div style="flex:2;background:'+acc+';color:'+hexOf('--onAccent')+'">2</div>';
+  const pairs=[['Ink on ground',hexOf('--ink'),bg],['Muted on ground',hexOf('--muted'),bg],
+               ['Brass on ground, graphic',acc,bg],['Brass text tint on ground',hexOf('--accentText'),bg],['Ground on brass',hexOf('--onAccent'),acc],
+               ['Ink on surface',hexOf('--ink'),hexOf('--surface')]];
+  document.getElementById('contrast').innerHTML = pairs.map(p=>{
+    const r=ratio(p[1],p[2]), ok=r>=4.5, okLarge=r>=3;
+    return '<div class="crow"><span>'+p[0]+'</span><span class="'+(ok?'pass':okLarge?'pass':'fail')+'">'+
+      (ok?'AA body':okLarge?'AA large only':'decorative only')+'</span><span>'+r.toFixed(2)+':1</span></div>';
+  }).join('');
+}
+
+/* type scale */
+const SCALE=[['Display','clamp(30px,5vw,54px)','var(--display)','wordmark only'],
+  ['H1','clamp(30px,4.4vw,58px)',"'Cormorant Garamond',serif",'one per page'],
+  ['H2','23px',"'Cormorant Garamond',serif",'section heads'],
+  ['Body','16px / 1.75',"'Inter Tight',sans-serif",'max 62 characters'],
+  ['Small','13px / 1.6',"'Inter Tight',sans-serif",'captions and notes'],
+  ['Label','10px / .28em',"'JetBrains Mono',monospace",'uppercase only']];
+document.getElementById('scale').innerHTML = SCALE.map(s=>
+  '<div><span style="font-family:'+s[2]+';font-size:min('+s[1].split('/')[0]+',30px)">'+s[0]+'</span>'+
+  '<span class="meta">'+s[1]+' &middot; '+s[3]+'</span></div>').join('');
+
+/* voice */
+const VOICE=[
+  ['We pay you on the first, full or empty.','Enjoy peace of mind with our curated, hassle-free rental solution.'],
+  ['Thirty six months. One signature.','Long-term partnership opportunities tailored to your portfolio.'],
+  ['If your unit does not qualify we will say so.','Our team will assess your property’s suitability.'],
+  ['S$3,564 a month.','Attractive, market-leading returns.'],
+];
+document.getElementById('voice').innerHTML = VOICE.map(v=>
+  '<div class="vs"><div class="yes"><div class="lab">We write</div><p>'+v[0]+'</p></div>'+
+  '<div class="no"><div class="lab">Never</div><p style="color:var(--muted)">'+v[1]+'</p></div></div>').join('');
+
+/* assets */
+const ASSETS=[['lazybee-logo.svg','primary mark, tight crop'],['lazybee-logo-ink.svg','for light grounds'],
+ ['lazybee-logo-brass.svg','all accent'],['lazybee-logo-mono.svg','currentColor'],
+ ['lazybee-icon.svg','square crop for icons'],['lazybee-icon-ink.svg','square crop, light grounds'],
+ ['lazybee-icon-mono.svg','square crop, currentColor'],['favicon.svg','browser tab'],
+ ['apple-touch-icon.svg','home screen and dock'],['lazybee-icon-brass-tile.svg','alternate app icon']];
+document.getElementById('assets').innerHTML = ASSETS.map(a=>
+  '<div class="arow"><span><b>'+a[0]+'</b></span><span>'+a[1]+'</span></div>').join('');
+
+/* controls */
+function facemeta(){
+  const f=document.documentElement.dataset.face;
+  const M={italiana:'ITALIANA &middot; TRACKING 0.34EM &middot; SINGLE WEIGHT',
+           cormorant:'CORMORANT GARAMOND LIGHT &middot; TRACKING 0.30EM',
+           bodoni:'BODONI MODA REGULAR &middot; TRACKING 0.24EM'};
+  document.getElementById('facemeta').innerHTML = M[f];
+}
+document.querySelectorAll('[data-theme-btn]').forEach(b=>b.addEventListener('click',()=>{
+  document.documentElement.dataset.theme=b.dataset.themeBtn;
+  document.querySelectorAll('[data-theme-btn]').forEach(o=>o.setAttribute('aria-pressed',o===b));
+  paint();
+}));
+document.querySelectorAll('[data-face-btn]').forEach(b=>b.addEventListener('click',()=>{
+  document.documentElement.dataset.face=b.dataset.faceBtn;
+  document.querySelectorAll('[data-face-btn]').forEach(o=>o.setAttribute('aria-pressed',o===b));
+  facemeta();
+}));
+paint(); facemeta();
+</script>
+</body>
+</html>

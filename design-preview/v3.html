@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en" data-theme="alabaster">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee &middot; Be a lazy landlord</title>
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Hanken+Grotesk:wght@400;500;700&family=Italiana&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="island.js"></script>
+<style>
+:root[data-theme="alabaster"]{
+  --bg:#F6F2EA; --surface:#EFE9DE; --line:#DED5C6; --ink:#241C16; --muted:#6B6154;
+  --accent:#B08D4F; --accentText:#8A6733; --onAccent:#241C16;
+  --band:#0E2E20; --bandInk:#EDE6DA; --bandNum:#C6A467; --bandMut:#7FA692;
+  --btnBg:#241C16; --btnInk:#F6F2EA;
+  --combLand:#E4DCCB; --combRoom:#0E2E20; --combOpen:#B08D4F;
+}
+:root[data-theme="tobacco"]{
+  --bg:#241811; --surface:#31231A; --line:#453224; --ink:#E8DACA; --muted:#B39B82;
+  --accent:#B08D4F; --accentText:#C6A467; --onAccent:#241812;
+  --band:#B08D4F; --bandInk:#241812; --bandNum:#241812; --bandMut:#5A431E;
+  --btnBg:transparent; --btnInk:#E8DACA;
+  --combLand:#3A2A1E; --combRoom:#E8DACA; --combOpen:#B08D4F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter Tight',system-ui,sans-serif;font-weight:300;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .45s,color .45s}
+.wrap{max-width:1220px;margin:0 auto;padding:0 clamp(20px,4vw,58px)}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted)}
+.grot{font-family:'Hanken Grotesk',system-ui,sans-serif}
+.serif{font-family:'Cormorant Garamond',serif;font-weight:300}
+.mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
+
+/* ── header, transparent over the photo then solid ── */
+header{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;
+  padding:15px clamp(20px,4vw,58px);transition:background .35s,border-color .35s,color .35s;
+  border-bottom:1px solid transparent;color:#F2EDE3}
+header.solid{background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);
+  border-bottom-color:var(--line);color:var(--ink)}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit}
+.brand svg{width:22px;height:auto;fill:currentColor}
+.brand .wd{font-family:'Italiana',serif;letter-spacing:.30em;font-size:15px}
+header nav{display:flex;align-items:center;gap:20px;font-family:'JetBrains Mono',monospace;font-size:10px;
+  letter-spacing:.22em;text-transform:uppercase}
+header nav a{text-decoration:none;color:inherit;opacity:.72;transition:.25s}
+header nav a:hover{opacity:1}
+#mode{background:none;border:1px solid currentColor;color:inherit;cursor:pointer;padding:6px 10px;border-radius:99px;
+  font:inherit;letter-spacing:.18em;opacity:.72;transition:.25s}
+#mode:hover{opacity:1}
+
+/* ══ HERO: the booking site's language ══ */
+.hero{position:relative;height:100svh;min-height:600px;overflow:hidden;background:#0C0F0F}
+.hero .frame{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease}
+.hero .frame.on{opacity:1}
+.hero .frame img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);
+  animation:drift 18s ease-out forwards}
+@keyframes drift{to{transform:scale(1)}}
+.hero .scrim{position:absolute;inset:0;background:
+  radial-gradient(74% 58% at 50% 44%,rgba(6,9,8,.62) 0%,rgba(6,9,8,.18) 62%,transparent 78%),
+  linear-gradient(180deg,rgba(6,9,8,.72) 0%,rgba(6,9,8,.34) 26%,rgba(6,9,8,.42) 58%,rgba(6,9,8,.90) 100%)}
+.hero .mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;color:#F7F3EA;padding:0 20px}
+.eyeb{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.34em;text-transform:uppercase;
+  color:#E3D3AE;margin-bottom:20px;text-shadow:0 1px 14px rgba(0,0,0,.55)}
+.hero h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(50px,9vw,124px);
+  line-height:.92;letter-spacing:-.015em;text-shadow:0 2px 40px rgba(0,0,0,.35)}
+.hero h1 em{font-style:italic}
+.hero .sub{margin-top:20px;max-width:44ch;font-size:clamp(14.5px,1.3vw,17.5px);line-height:1.6;color:#EDE5D6;text-shadow:0 1px 20px rgba(0,0,0,.6)}
+
+/* glass instrument, the booking search bar with our job */
+.glass{position:relative;margin-top:34px;display:flex;align-items:stretch;gap:0;flex-wrap:nowrap;
+  background:rgba(10,13,12,.46);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(18px) saturate(1.1);
+  box-shadow:0 18px 50px rgba(0,0,0,.32);
+  border-radius:999px;padding:7px 7px 7px 8px;max-width:min(720px,94vw)}
+.gf{padding:9px 18px;text-align:left;border-right:1px solid rgba(255,255,255,.18);min-width:0;flex:1 1 0}
+.gf:last-of-type{border-right:0}
+.gf .l{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;color:#C9BCA4}
+.gf input{width:100%;background:none;border:0;outline:none;color:#F7F3EA;font-family:'JetBrains Mono',monospace;
+  font-size:15px;letter-spacing:.04em;padding:4px 0 0}
+.gf input::placeholder{color:rgba(247,243,234,.4)}
+.gf .v{margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:15px;color:#F7F3EA}
+.gf input[type=range]{-webkit-appearance:none;appearance:none;height:16px;padding:0;margin-top:6px;cursor:grab}
+.gf input[type=range]::-webkit-slider-runnable-track{height:1px;background:rgba(255,255,255,.3)}
+.gf input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;height:11px;margin-top:-5px;
+  border-radius:50%;background:#B08D4F}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--accent);color:#1E1408;border:0;cursor:pointer;
+  border-radius:999px;padding:0 28px;margin-left:auto;white-space:nowrap;flex:0 0 auto;
+  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  transition:transform .18s cubic-bezier(.2,.8,.3,1),filter .25s}
+.pill:hover{transform:translateY(-1px);filter:brightness(1.07)}
+
+/* glass chips, bottom left, straight from the booking site */
+.chips{position:absolute;left:clamp(16px,3vw,40px);bottom:clamp(18px,3vw,38px);display:flex;
+  background:rgba(10,13,12,.48);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(14px);border-radius:4px}
+.chips div{padding:11px 17px;border-right:1px solid rgba(255,255,255,.14);color:#F7F3EA}
+.chips div:last-child{border-right:0}
+.chips .n{font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:17px;letter-spacing:-.01em}
+.chips .l{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:#C4B79E;margin-top:3px}
+/* which home you are looking at, bottom right */
+.place{position:absolute;right:clamp(16px,3vw,40px);bottom:clamp(20px,3vw,40px);text-align:right;color:#F7F3EA}
+.place .nm{font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.01em;text-shadow:0 1px 16px rgba(0,0,0,.6)}
+.place .ar{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.22em;text-transform:uppercase;
+  color:#C4B79E;margin-top:4px}
+.dots{display:flex;gap:5px;justify-content:flex-end;margin-top:10px}
+.dots i{width:22px;height:2px;background:rgba(255,255,255,.3);transition:background .4s}
+.dots i.on{background:#B08D4F}
+
+/* ══ PAPER: the landlord page's language ══ */
+section{padding:clamp(58px,7vw,110px) 0}
+.rule{border-top:1px solid var(--line)}
+h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(30px,4.6vw,58px);line-height:1.04;max-width:18ch}
+.lede{margin-top:20px;max-width:56ch;font-size:16px;line-height:1.7;color:var(--muted)}
+.lede b{color:var(--ink);font-weight:400}
+
+.result{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border:1px solid var(--line);background:var(--surface)}
+.result > div{padding:clamp(24px,3vw,40px)}
+.result .left{border-right:1px solid var(--line)}
+.money{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:clamp(38px,5.4vw,62px);
+  line-height:.94;letter-spacing:-.035em;font-variant-numeric:tabular-nums;margin-top:14px}
+.against{margin-top:13px;font-size:13.5px;line-height:1.6;color:var(--muted);max-width:34ch}
+.against b{color:var(--ink);font-weight:400}
+.rows{margin-top:6px}
+.row{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)}
+.row b{color:var(--ink);font-weight:500}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--btnBg);color:var(--btnInk);border:1px solid var(--btnBg);
+  text-decoration:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-weight:500;font-size:10.5px;
+  letter-spacing:.18em;text-transform:uppercase;padding:15px 24px;border-radius:999px;
+  transition:transform .18s cubic-bezier(.2,.8,.3,1)}
+:root[data-theme="tobacco"] .btn{border-color:var(--ink)}
+.btn:hover{transform:translateY(-2px)}
+.fine{margin-top:16px;font-size:11.5px;line-height:1.55;color:var(--muted);opacity:.82;max-width:42ch}
+
+.band{background:var(--band);color:var(--bandInk)}
+.band .inner{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;padding:clamp(30px,4vw,56px) 0}
+.band .n{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:clamp(30px,3.6vw,46px);
+  letter-spacing:-.03em;color:var(--bandNum);font-variant-numeric:tabular-nums}
+.band .l{margin-top:9px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--bandMut)}
+
+.combsec{display:grid;grid-template-columns:minmax(0,38fr) minmax(0,62fr);gap:clamp(26px,4vw,60px);align-items:center}
+svg.comb{width:100%;height:auto;display:block;overflow:visible}
+.combKey{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:18px;
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.combKey i{display:inline-block;width:9px;height:10px;margin-right:7px;vertical-align:-1px;
+  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+
+.deal{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);margin-top:44px;border:1px solid var(--line)}
+.deal > div{background:var(--bg);padding:26px 24px 30px}
+.deal h3{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:24px;margin:12px 0 10px}
+.deal p{font-size:13.5px;line-height:1.62;color:var(--muted)}
+
+/* homes, full bleed like the booking site */
+.homes{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line)}
+.hcard{position:relative;height:clamp(320px,42vw,460px);overflow:hidden}
+.hcard img{width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.2,.8,.3,1)}
+.hcard:hover img{transform:scale(1.05)}
+.hcard .sc{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,10,10,.05) 40%,rgba(8,10,10,.78))}
+.hcard .txt{position:absolute;left:0;right:0;bottom:0;padding:22px 22px 24px;color:#F7F3EA}
+.hcard .nm{font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:26px;letter-spacing:-.015em}
+.hcard .mt{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:#C4B79E;margin-bottom:7px}
+.hcard .bars{display:flex;gap:3px;margin-top:13px}
+.hcard .bars i{height:3px;flex:1;background:rgba(255,255,255,.28)}
+.hcard .bars i.on{background:#B08D4F}
+
+.steps{margin-top:40px;border-top:1px solid var(--line)}
+.step{display:grid;grid-template-columns:70px 1fr 1.15fr;gap:22px;padding:26px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.step .n{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--accentText)}
+.step h3{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:24px}
+.step p{font-size:14px;line-height:1.62;color:var(--muted)}
+
+.chipsrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:34px}
+.chiptag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:8px 14px}
+.chiptag.on{color:var(--accentText);border-color:color-mix(in srgb,var(--accent) 55%,transparent)}
+
+.qs{margin-top:38px;border-top:1px solid var(--line);max-width:900px}
+.q{border-bottom:1px solid var(--line)}
+.q button{width:100%;background:none;border:0;color:var(--ink);cursor:pointer;text-align:left;
+  font-family:'Cormorant Garamond',serif;font-weight:400;font-size:21px;padding:21px 44px 21px 0;position:relative}
+.q button::after{content:'+';position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--accentText);transition:transform .3s}
+.q.open button::after{transform:translateY(-50%) rotate(45deg)}
+.q .a{max-height:0;overflow:hidden;transition:max-height .38s cubic-bezier(.3,.9,.3,1)}
+.q .a p{padding:0 60px 22px 0;font-size:14.5px;line-height:1.68;color:var(--muted);max-width:62ch}
+
+.ask{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,4vw,66px);align-items:start}
+.tin{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);color:var(--ink);
+  font-family:'JetBrains Mono',monospace;font-size:17px;padding:4px 0 9px;outline:none;transition:border-color .3s}
+.tin:focus{border-color:var(--accent)}
+.f + .f{margin-top:22px}
+.f label{display:block;margin-bottom:8px}
+footer{border-top:1px solid var(--line);padding:36px 0 46px;display:flex;flex-wrap:wrap;gap:16px 40px;
+  justify-content:space-between;align-items:center}
+
+.rv{opacity:0;transform:translateY(16px);transition:opacity .8s cubic-bezier(.2,.7,.3,1),transform .8s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media(max-width:1000px){
+  .result{grid-template-columns:1fr}.result .left{border-right:0;border-bottom:1px solid var(--line)}
+  .combsec{grid-template-columns:1fr}.deal{grid-template-columns:1fr 1fr}
+  .homes{grid-template-columns:1fr}.step{grid-template-columns:44px 1fr}.step p{grid-column:2}
+  .ask{grid-template-columns:1fr}header nav a{display:none}
+  .glass{border-radius:14px;flex-direction:column;flex-wrap:wrap}
+  .gf{border-right:0;border-bottom:1px solid rgba(255,255,255,.15);width:100%}
+  .pill{margin:8px 0 0;width:100%;justify-content:center;padding:15px 0}
+  .place{display:none}
+}
+@media(max-width:600px){.deal{grid-template-columns:1fr}.band .inner{grid-template-columns:1fr;gap:22px}.chips .l{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header id="hd">
+  <a class="brand" href="#">
+    <svg viewBox="13.43 21.63 73.13 57.45" aria-label="Lazybee"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd">LAZYBEE</span>
+  </a>
+  <nav>
+    <a href="#hive">The hive</a><a href="#deal">The deal</a><a href="#homes">Our homes</a>
+    <button id="mode" type="button">Dark</button>
+  </nav>
+</header>
+
+<main>
+<div class="hero" id="hero">
+  <div id="frames"></div>
+  <div class="scrim"></div>
+  <div class="mid">
+    <div class="eyeb">For landlords in Singapore</div>
+    <h1>Be a <em>lazy</em> landlord.</h1>
+    <p class="sub">We lease your unit for thirty six months, furnish it, fill it and run it.
+      The same amount lands on the first whether it is full or empty.</p>
+
+    <form class="glass" id="glass" onsubmit="return false">
+      <div class="gf"><div class="l">Postal code</div>
+        <input id="postal" type="text" inputmode="numeric" maxlength="6" placeholder="569933" aria-label="Postal code"></div>
+      <div class="gf"><div class="l">Floor area</div>
+        <div class="v" id="sqftv">900 sqft</div>
+        <input id="sqft" type="range" min="400" max="2600" step="50" value="900" aria-label="Floor area"></div>
+      <div class="gf"><div class="l">Bathrooms</div>
+        <div class="v" id="bathv">2</div>
+        <input id="baths" type="range" min="1" max="5" step="1" value="2" aria-label="Bathrooms"></div>
+      <button class="pill" id="go" type="button">Get my number</button>
+    </form>
+  </div>
+
+  <div class="chips">
+    <div><div class="n">100%</div><div class="l">Occupancy</div></div>
+    <div><div class="n">19</div><div class="l">Rooms run</div></div>
+    <div><div class="n">36 mo</div><div class="l">Guaranteed</div></div>
+  </div>
+  <div class="place">
+    <div class="nm" id="placeName">Thomson Grove</div>
+    <div class="ar" id="placeArea">Yio Chu Kang Road</div>
+    <div class="dots" id="dots"></div>
+  </div>
+</div>
+
+<section class="wrap" id="valuation">
+  <h2 class="rv">What your unit is worth to us.</h2>
+  <p class="lede rv">Move the sliders above and this updates. It is indicative, drawn from market rates in your
+  district, and the real number comes after we walk the unit.</p>
+  <div class="result rv" style="margin-top:38px">
+    <div class="left">
+      <div class="tag">We pay you, every month</div>
+      <div class="money" id="money">S$3,564</div>
+      <div class="against" id="against"><b>10% over</b> the S$3,240 open-market rent for a unit this size. Guaranteed, 36 months.</div>
+      <div style="margin-top:26px">
+        <a class="btn" href="#ask">Get my offer <span aria-hidden="true">&rarr;</span></a>
+        <p class="fine">Goes straight to Mark. No newsletter, no agent calling you six times.</p>
+      </div>
+    </div>
+    <div>
+      <div class="tag">How we get there</div>
+      <div class="rows" id="rows"></div>
+    </div>
+  </div>
+</section>
+
+<div class="band">
+  <div class="wrap inner">
+    <div class="rv"><div class="n">100%</div><div class="l">Trailing occupancy</div></div>
+    <div class="rv"><div class="n">19</div><div class="l">Rooms under management</div></div>
+    <div class="rv"><div class="n">36</div><div class="l">Months, guaranteed</div></div>
+  </div>
+</div>
+
+<section class="wrap" id="hive">
+  <div class="combsec">
+    <div>
+      <h2 class="rv">Singapore, one cell at a time.</h2>
+      <p class="lede rv">Every hexagon is a room we run, drawn where it actually stands. Three homes so far, nineteen rooms,
+      and the island around them is everything still to build.</p>
+      <div class="combKey rv">
+        <span><i style="background:var(--combRoom)"></i>Occupied</span>
+        <span><i style="background:var(--combOpen)"></i>Open now</span>
+      </div>
+    </div>
+    <div class="rv"><svg class="comb" id="comb" viewBox="0 0 960 580" role="img"
+      aria-label="Singapore drawn as a honeycomb with the Lazybee homes at their real locations."></svg></div>
+  </div>
+</section>
+
+<section class="homes" id="homes"></section>
+
+<section class="wrap" id="deal">
+  <h2 class="rv">Four things, then you can forget about it.</h2>
+  <p class="lede rv">A lease, not a management contract. The difference is who carries the empty month, and the answer is us.</p>
+  <div class="deal">
+    <div class="rv"><span class="tag">The money</span><h3>Guaranteed</h3>
+      <p>The same amount lands on the first, full or empty. A void month is our problem.</p></div>
+    <div class="rv"><span class="tag">The term</span><h3>36 months</h3>
+      <p>One signature, three years of contracted income. No re-letting, no commission at renewal.</p></div>
+    <div class="rv"><span class="tag">The fit-out</span><h3>On us</h3>
+      <p>We furnish it to one standard. You pay nothing towards it, and it comes back as we found it.</p></div>
+    <div class="rv"><span class="tag">The work</span><h3>Ours</h3>
+      <p>Viewings, contracts, cleaning, repairs, the late payer. You will not hear about any of it.</p></div>
+  </div>
+</section>
+
+<section class="wrap rule">
+  <h2 class="rv">Your rooms go on sale in twenty places you have never heard of.</h2>
+  <p class="lede rv">A room in Serangoon gets taken from Chengdu, Bangalore or Berlin, weeks before the tenant lands.
+  We list, price and sync every room from one system. An agent puts your unit on two portals and waits.</p>
+  <div class="chipsrow rv" id="chips"></div>
+</section>
+
+<section class="wrap rule">
+  <h2 class="rv">From postal code to first payment.</h2>
+  <div class="steps" id="steps"></div>
+</section>
+
+<section class="wrap rule">
+  <h2 class="rv">The things landlords actually ask.</h2>
+  <div class="qs" id="faq"></div>
+</section>
+
+<section class="wrap rule" id="ask">
+  <div class="ask">
+    <div>
+      <h2 class="rv" style="max-width:14ch">Get a number for your unit.</h2>
+      <p class="lede rv">Three fields. We come back within a week with a real figure, and we will tell you plainly if your unit is not a fit.</p>
+    </div>
+    <form class="rv" id="leadform">
+      <div class="f"><label class="tag" for="f-postal">Postal code</label>
+        <input class="tin" id="f-postal" type="text" inputmode="numeric" maxlength="6" placeholder="569933" required></div>
+      <div class="f"><label class="tag" for="f-size">Size and bathrooms</label>
+        <input class="tin" id="f-size" type="text" placeholder="900 sqft, 2 bathrooms" required></div>
+      <div class="f"><label class="tag" for="f-contact">WhatsApp or email</label>
+        <input class="tin" id="f-contact" type="text" placeholder="+65 9123 4567" required></div>
+      <button class="btn" type="submit" style="margin-top:26px">Send it <span aria-hidden="true">&rarr;</span></button>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <a class="brand" href="#" style="color:var(--ink)">
+    <svg viewBox="13.43 21.63 73.13 57.45"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd">LAZYBEE</span>
+  </a>
+  <p class="tag">Makery Pte Ltd &middot; Singapore &middot; <a href="https://book.lazybee.sg" style="color:var(--accentText)">Looking for a room?</a></p>
+</footer>
+
+<script>
+const TODAY=new Date('2026-08-09');
+const HOMES=[
+ {key:'TG',name:'Thomson Grove',area:'Yio Chu Kang Road',photo:'photos/tg-hero.jpg',ll:[103.836,1.3820],rooms:[
+  ['TG-MR','2027-04-01'],['TG-PR1','2027-10-01'],['TG-PR2','2027-05-01'],['TG-PR3','2028-05-01'],
+  ['TG-STD1','2027-09-14'],['TG-STD2','2027-09-14']]},
+ {key:'CP',name:'Chiltern Park',area:'Serangoon Avenue 3',photo:'photos/cp-hero.jpg',ll:[103.872,1.3595],rooms:[
+  ['CP-MR','2026-08-09'],['CP-PR1','2026-08-12'],['CP-PR2','2026-12-01'],['CP-PR3','2026-12-20'],
+  ['CP-PR4','2027-01-01'],['CP-STD1','2027-04-30']]},
+ {key:'IH',name:'Ivory Heights',area:'Jurong East Street 13',photo:'photos/ih-hero.jpg',ll:[103.742,1.3390],rooms:[
+  ['IH-PR1','2026-09-19'],['IH-PR2','2027-03-01'],['IH-PR3','2027-04-30'],['IH-STD1','2026-10-01'],
+  ['IH-STD2','2026-12-07'],['IH-STD3','2027-07-01'],['IH-STD4','2027-05-16']]},
+];
+HOMES.forEach(h=>h._open=h.rooms.filter(r=>new Date(r[1])<=TODAY).length);
+const $=id=>document.getElementById(id);
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* hero carousel, the booking site's move */
+$('frames').innerHTML=HOMES.map((h,i)=>
+  '<div class="frame'+(i?'':' on')+'"><img src="'+h.photo+'" alt=""></div>').join('');
+$('dots').innerHTML=HOMES.map((h,i)=>'<i class="'+(i?'':'on')+'"></i>').join('');
+let slide=0;
+function go(n){
+  slide=n%HOMES.length;
+  document.querySelectorAll('.frame').forEach((f,i)=>f.classList.toggle('on',i===slide));
+  document.querySelectorAll('.dots i').forEach((d,i)=>d.classList.toggle('on',i===slide));
+  $('placeName').textContent=HOMES[slide].name;
+  $('placeArea').textContent=HOMES[slide].area;
+}
+if(!reduced) setInterval(()=>go(slide+1),6500);
+
+/* header goes solid once past the hero */
+const hd=$('hd');
+new IntersectionObserver(([e])=>hd.classList.toggle('solid',!e.isIntersecting),{threshold:.06}).observe($('hero'));
+
+/* ── the comb ── */
+const ISLAND=window.ISLAND;
+const bb=ISLAND.reduce((a,p)=>({x0:Math.min(a.x0,p[0]),x1:Math.max(a.x1,p[0]),y0:Math.min(a.y0,p[1]),y1:Math.max(a.y1,p[1])}),
+ {x0:9e9,x1:-9e9,y0:9e9,y1:-9e9});
+const VW=960,PAD=6,K=(VW-PAD*2)/(bb.x1-bb.x0),VH=(bb.y1-bb.y0)*K+PAD*2;
+const svg=$('comb'); svg.setAttribute('viewBox','0 0 '+VW+' '+VH.toFixed(0));
+const proj=(lng,lat)=>[PAD+(lng-bb.x0)*K,PAD+(bb.y1-lat)*K];
+const POLY=ISLAND.map(p=>proj(p[0],p[1]));
+const R=11.6,SQ3=Math.sqrt(3);
+const px=(q,r)=>[SQ3*R*(q+r/2),1.5*R*r];
+const toAxial=(x,y)=>{const q=(x*SQ3/3-y/3)/R,r=(y*2/3)/R;let cx=q,cz=r,cy=-cx-cz;
+ let rx=Math.round(cx),ry=Math.round(cy),rz=Math.round(cz);
+ const dx=Math.abs(rx-cx),dy=Math.abs(ry-cy),dz=Math.abs(rz-cz);
+ if(dx>dy&&dx>dz)rx=-ry-rz;else if(dy>dz)ry=-rx-rz;else rz=-rx-ry;return [rx,rz];};
+const hexPts=(cx,cy,rr=R)=>{const p=[];for(let i=0;i<6;i++){const a=(90+60*i)*Math.PI/180;
+ p.push((cx+rr*Math.cos(a)).toFixed(2)+','+(cy-rr*Math.sin(a)).toFixed(2));}return p.join(' ');};
+const inside=(x,y)=>{let h=false;for(let i=0,j=POLY.length-1;i<POLY.length;j=i++){
+ const [xi,yi]=POLY[i],[xj,yj]=POLY[j];
+ if((yi>y)!==(yj>y)&&x<(xj-xi)*(y-yi)/(yj-yi)+xi)h=!h;}return h;};
+const RING=[[1,0],[0,1],[-1,1],[-1,0],[0,-1],[1,-1]],RING2=[[1,1],[2,-1],[-1,2],[-2,1],[1,-2],[-1,-1]];
+const NS='http://www.w3.org/2000/svg';
+const el=(n,a={})=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+HOMES.forEach(h=>{const p=proj(h.ll[0],h.ll[1]);h.axial=toAxial(p[0],p[1]);});
+const claimed=new Set();
+HOMES.forEach(h=>{claimed.add(h.axial.join(','));
+ [...RING,...RING2].slice(0,h.rooms.length).forEach(d=>claimed.add((h.axial[0]+d[0])+','+(h.axial[1]+d[1])));});
+const landCells=[],roomCells=[],coreCells=[],labels=[];
+const latg=el('g');
+for(let r=-8;r<=Math.ceil(VH/(1.5*R))+4;r++)for(let q=-30;q<=70;q++){
+ const [x,y]=px(q,r);
+ if(x<-4||x>VW+4||y<-4||y>VH+4)continue;
+ if(!inside(x,y)||claimed.has(q+','+r))continue;
+ const p=el('polygon',{points:hexPts(x,y),fill:'none','stroke-width':'0.9'});
+ latg.appendChild(p);landCells.push(p);
+}
+svg.appendChild(latg);
+HOMES.forEach(h=>{
+ const g=el('g'),[cx,cy]=px(h.axial[0],h.axial[1]);
+ const core=el('polygon',{points:hexPts(cx,cy),fill:'none','stroke-width':'1'});
+ g.appendChild(core);coreCells.push(core);
+ [...RING,...RING2].slice(0,h.rooms.length).forEach((d,i)=>{
+  const [x,y]=px(h.axial[0]+d[0],h.axial[1]+d[1]);
+  const occ=new Date(h.rooms[i][1])>TODAY;
+  const p=el('polygon',{points:hexPts(x,y),'stroke-width':'1','data-state':occ?'occ':'open'});
+  const t=el('title');t.textContent=h.rooms[i][0]+(occ?' occupied':' open now');
+  p.appendChild(t);g.appendChild(p);roomCells.push(p);
+ });
+ const lab=el('text',{x:cx,y:cy+3.2,'text-anchor':'middle','font-family':'JetBrains Mono, monospace',
+  'font-size':'9','font-weight':'700'});
+ lab.textContent=h.key;g.appendChild(lab);labels.push(lab);
+ svg.appendChild(g);
+});
+function paintComb(){
+ const land=cssv('--combLand'),room=cssv('--combRoom'),open=cssv('--combOpen'),line=cssv('--line'),muted=cssv('--muted');
+ landCells.forEach(p=>p.setAttribute('stroke',land));
+ coreCells.forEach(p=>p.setAttribute('stroke',line));
+ roomCells.forEach(p=>{const occ=p.getAttribute('data-state')==='occ';
+  p.setAttribute('fill',occ?room:open);p.setAttribute('stroke',occ?room:open);});
+ labels.forEach(t=>t.setAttribute('fill',muted));
+}
+paintComb();
+
+/* ── numbers ── */
+const SECTOR={'01':'D01','02':'D01','03':'D01','04':'D01','05':'D01','06':'D01','07':'D02','08':'D02','14':'D03','15':'D03','16':'D03','09':'D04','10':'D04','11':'D05','12':'D05','13':'D05','17':'D06','18':'D07','19':'D07','20':'D08','21':'D08','22':'D09','23':'D09','24':'D10','25':'D10','26':'D10','27':'D10','28':'D11','29':'D11','30':'D11','31':'D12','32':'D12','33':'D12','34':'D13','35':'D13','36':'D13','37':'D13','38':'D14','39':'D14','40':'D14','41':'D14','42':'D15','43':'D15','44':'D15','45':'D15','46':'D16','47':'D16','48':'D16','49':'D17','50':'D17','81':'D17','51':'D18','52':'D18','53':'D19','54':'D19','55':'D19','82':'D19','56':'D20','57':'D20','58':'D21','59':'D21','60':'D22','61':'D22','62':'D22','63':'D22','64':'D22','65':'D23','66':'D23','67':'D23','68':'D23','69':'D24','70':'D24','71':'D24','72':'D25','73':'D25','77':'D26','78':'D26','75':'D27','76':'D27','79':'D28','80':'D28'};
+const DI={D01:['Raffles Place'],D02:['Tanjong Pagar'],D03:['Tiong Bahru'],D04:['Harbourfront'],D05:['West Coast'],
+D06:['Clarke Quay'],D07:['Bugis'],D08:['Farrer Park'],D09:['River Valley'],D10:['Holland'],D11:['Novena'],
+D12:['Toa Payoh'],D13:['Potong Pasir'],D14:['Paya Lebar'],D15:['Katong'],D16:['Bedok'],D17:['Loyang'],
+D18:['Tampines'],D19:['Serangoon'],D20:['Bishan'],D21:['Upper Bukit Timah'],D22:['Jurong'],D23:['Bukit Batok'],
+D24:['Tengah'],D25:['Woodlands'],D26:['Upper Thomson'],D27:['Yishun'],D28:['Yio Chu Kang']};
+const CCR=new Set(['D01','D02','D06','D07','D09','D10','D11']),RCR=new Set(['D03','D04','D05','D08','D12','D13','D14','D15','D20']);
+const PSF={CCR:5.2,RCR:4.3,OCR:3.6},TIER={CCR:'prime central',RCR:'city fringe',OCR:'suburban'};
+const PREMIUM=.10, sgd=n=>'S$'+Math.round(n).toLocaleString('en-SG');
+let state={psf:4.0,sqft:900,baths:2,district:null},raf=null,cur=3564,target=3564;
+
+function snap(){cancelAnimationFrame(raf);cur=target;$('money').textContent=sgd(cur);}
+function tween(to){
+ target=to;$('money').textContent=sgd(cur);
+ if(reduced||document.hidden){snap();return;}
+ cancelAnimationFrame(raf);const from=cur,t0=performance.now();
+ const step=t=>{const k=Math.min((t-t0)/650,1),e=1-Math.pow(1-k,3);
+  cur=from+(to-from)*e;$('money').textContent=sgd(cur);
+  if(k<1)raf=requestAnimationFrame(step);else cur=to;};
+ raf=requestAnimationFrame(step);
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Math.abs(cur-target)>.5)snap();});
+
+function render(){
+ const rooms=state.baths+1,ens=Math.max(state.baths-1,0);
+ $('sqftv').textContent=state.sqft.toLocaleString('en-SG')+' sqft';
+ $('bathv').textContent=state.baths;
+ const market=state.psf*state.sqft,pays=market*(1+PREMIUM);
+ $('against').innerHTML='<b>10% over</b> the '+sgd(market)+' open-market rent for '+
+  (state.district?DI[state.district][0]:'a unit this size')+'. Guaranteed, 36 months.';
+ $('rows').innerHTML=[
+  ['District', state.district?state.district+' · '+DI[state.district][0]:'not set yet'],
+  ['Market rate', 'S$'+state.psf.toFixed(1)+' psf'],
+  ['Open-market rent', sgd(market)],
+  ['Lets as', rooms+' rooms'+(ens?', '+ens+' ensuite':'')],
+  ['Our premium', '+'+Math.round(PREMIUM*100)+'%'],
+  ['Term', '36 months'],
+ ].map(r=>'<div class="row"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>').join('');
+ tween(pays);
+}
+$('postal').addEventListener('input',e=>{
+ const v=e.target.value.replace(/\D/g,'').slice(0,6);e.target.value=v;
+ const d=v.length>=2?SECTOR[v.slice(0,2)]:null;
+ if(d){const t=CCR.has(d)?'CCR':RCR.has(d)?'RCR':'OCR';state.district=d;state.psf=PSF[t];}
+ else{state.district=null;state.psf=4.0;}
+ render();
+});
+$('sqft').addEventListener('input',e=>{state.sqft=+e.target.value;render();});
+$('baths').addEventListener('input',e=>{state.baths=+e.target.value;render();});
+$('go').addEventListener('click',()=>$('valuation').scrollIntoView({behavior:'smooth'}));
+
+/* content */
+$('homes').innerHTML=HOMES.map(h=>{
+ const filled=h.rooms.length-h._open;
+ return '<article class="hcard"><img src="'+h.photo+'" alt="'+h.name+'" loading="lazy"><div class="sc"></div>'+
+  '<div class="txt"><div class="mt">'+h.area+'</div><div class="nm">'+h.name+'</div>'+
+  '<div style="font-size:12.5px;color:#D6CDBC;margin-top:6px">'+h.rooms.length+' rooms, '+filled+' filled'+
+  (h._open?', '+h._open+' open now':'')+'</div>'+
+  '<div class="bars">'+h.rooms.map((r,i)=>'<i class="'+(i<filled?'on':'')+'"></i>').join('')+'</div></div></article>';
+}).join('');
+
+const CHANNELS=[['Airbnb',1],['Booking.com',1],['Agoda',1],['Roomies',1],['Carousell',1],['PropertyGuru',1],['99.co',1],
+ ['Coliving.com',1],['Amber',0],['uhomes',0],['Lecheng',0],['Awehome',0],['Funliving',0],['Casita',0],
+ ['WelcomeStay',0],['51ROOM',0],['ColivingSG',0],['UL',0],['Xiaohongshu',1],['Instagram',1]];
+$('chips').innerHTML=CHANNELS.map(c=>'<span class="chiptag'+(c[1]?' on':'')+'">'+c[0]+'</span>').join('');
+
+const STEPS=[
+ ['Send the postal code','You give us three facts. We come back within a week with a real number, or we tell you plainly that your unit is not a fit.'],
+ ['We walk the unit','Half an hour. We measure, photograph, and list exactly what needs doing before anyone can live in it.'],
+ ['One lease, 36 months','You sign with Makery Pte Ltd, not with a stranger. Deposit paid up front, terms in plain English.'],
+ ['We furnish and fill it','Fit-out at our cost, rooms listed across every channel, tenants screened. First payment lands on the first of the following month.']];
+$('steps').innerHTML=STEPS.map((s,i)=>'<div class="step rv"><div class="n">0'+(i+1)+'</div><h3>'+s[0]+'</h3><p>'+s[1]+'</p></div>').join('');
+
+const FAQ=[
+ ['What if you cannot fill it?','Then we pay you anyway. That is the whole difference between a lease and a management fee. We carry the empty month, and we price the offer knowing that.'],
+ ['What happens to my furniture?','Store it or leave it, your call. We fit out at our own cost to one standard, and at the end of the term the unit comes back the way we found it.'],
+ ['Who fixes things?','We do, up to a limit we agree in writing before you sign. Structural work and the landlord obligations in your MCST stay with you.'],
+ ['Can I sell the unit mid-lease?','Yes. The lease travels with the unit. A place with three years of contracted income attached is easier to sell, not harder.'],
+ ['Is my unit even eligible?','Private condos and apartments, within the occupancy and minimum-stay rules. We check before we quote, and if the answer is no we will say so.']];
+$('faq').innerHTML=FAQ.map(f=>'<div class="q rv"><button type="button" aria-expanded="false">'+f[0]+'</button><div class="a"><p>'+f[1]+'</p></div></div>').join('');
+$('faq').addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ const q=b.parentElement,a=q.querySelector('.a'),was=q.classList.contains('open');
+ $('faq').querySelectorAll('.q').forEach(o=>{o.classList.remove('open');o.querySelector('.a').style.maxHeight=null;
+  o.querySelector('button').setAttribute('aria-expanded','false');});
+ if(!was){q.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';b.setAttribute('aria-expanded','true');}
+});
+$('leadform').addEventListener('submit',e=>{e.preventDefault();
+ alert('Prototype. In the real build this writes a row into leads in hyve-iot and pings Mark on Telegram.');});
+
+$('mode').addEventListener('click',()=>{
+ const dark=document.documentElement.dataset.theme==='tobacco';
+ document.documentElement.dataset.theme=dark?'alabaster':'tobacco';
+ $('mode').textContent=dark?'Dark':'Light';
+ paintComb();
+});
+
+if(!reduced){
+ const io=new IntersectionObserver(es=>es.forEach(en=>{
+  if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}}),{rootMargin:'0px 0px -10% 0px'});
+ document.querySelectorAll('.rv').forEach((n,i)=>{n.style.transitionDelay=(i%4*60)+'ms';io.observe(n);});
+}else document.querySelectorAll('.rv').forEach(n=>n.classList.add('in'));
+render();
+</script>
+</body>
+</html>
