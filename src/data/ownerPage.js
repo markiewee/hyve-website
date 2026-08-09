@@ -41,13 +41,6 @@ export const TRIAL_KEEPS = [
 ];
 
 /* ── how it runs ──────────────────────────────────────────────────── */
-export const STEPS = [
-  ['Send three facts', 'Postal code, floor area, bedrooms. We come back within a week with a floor and a split, or we tell you plainly that your unit is not a fit. Nothing to pay and nothing to sign.'],
-  ['We walk the unit', 'Thirty minutes. We measure, photograph, and write down exactly what has to happen before anyone can live in it. That condition report is yours to keep whether or not you go ahead with us.'],
-  ['We spend first', 'Furnishing at our cost, photography at our cost, every cell live across the channels inside a week. Your floor starts on the first of the following month. You are still not locked into anything.'],
-  ['Ninety days of watching it run', 'Your owner login goes live the same day the rooms do. Every booking, every rate, every payout, as it happens. This is the part owners tell us they did not expect to enjoy.'],
-  ['Then decide', 'Carry on, and the floor and share run on. Or walk, at no cost, with nothing clawed back and our furniture out at our expense.'],
-];
 
 /* ── the owner portal mock ────────────────────────────────────────── */
 export const PORTAL_TABS = [

@@ -18,7 +18,7 @@ import ReachSection from './owners/ReachSection';
 import FaqSection from './owners/FaqSection';
 import AskSection from './owners/AskSection';
 import {
-  GreenBand, AlignmentSection, CompareSection, TrialSection, HowItRunsSection,
+  GreenBand, AlignmentSection, CompareSection, TrialSection,
   ComplianceSection, HomesStrip, HiveSection,
 } from './owners/StaticSections';
 
@@ -105,7 +105,6 @@ export default function HomePage() {
         <AlignmentSection />
         <CompareSection />
         <TrialSection />
-        <HowItRunsSection />
         <PortalSection />
         <ReachSection />
         <ComplianceSection />
