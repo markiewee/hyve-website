@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { buildPayload, listPriceFor, mergeProfiles, fieldOrigin } from "../../lib/listingCanonical";
+import { driftOf, rowStatus, sortRows } from "../../lib/listingDrift";
 
 const MECHANISMS = [
   { value: "browser", label: "Computer use" },
@@ -162,27 +163,21 @@ export default function AdminListingsPage() {
  */
 function AvailabilityTab({ onError }) {
   const [rows, setRows] = useState(null);
+  const [workers, setWorkers] = useState([]);
 
   useEffect(() => {
     let live = true;
-    supabase
-      .from("v_roomies_listing_state")
-      .select("*")
-      .then(({ data, error }) => {
-        if (!live) return;
-        if (error) return onError(error.message);
-        // days_out null (occupied with no agreed end date) sorts last: those are
-        // the least actionable rooms, not the most.
-        setRows(
-          (data ?? []).sort((a, b) => {
-            const x = a.desired?.days_out,
-              y = b.desired?.days_out;
-            if (x == null) return 1;
-            if (y == null) return -1;
-            return x - y;
-          })
-        );
-      });
+    (async () => {
+      const [listings, health] = await Promise.all([
+        supabase.from("v_roomies_listing_state").select("*"),
+        supabase.from("v_channel_worker_health").select("*").eq("channel_slug", "roomies"),
+      ]);
+      if (!live) return;
+      const err = listings.error ?? health.error;
+      if (err) return onError(err.message);
+      setRows(sortRows(listings.data ?? []));
+      setWorkers(health.data ?? []);
+    })();
     return () => {
       live = false;
     };
@@ -190,8 +185,9 @@ function AvailabilityTab({ onError }) {
 
   if (!rows) return <div className="h-64 bg-white/5 animate-pulse rounded-2xl" />;
 
-  const todo = rows.filter((r) => Boolean(r.desired?.on) !== Boolean(r.is_live));
+  const todo = rows.filter((r) => rowStatus(r) === "drift");
   const shouldBeOn = rows.filter((r) => r.desired?.on).length;
+  const unchecked = rows.filter((r) => !r.observed_state).length;
 
   return (
     <div className="space-y-6">
@@ -202,6 +198,7 @@ function AvailabilityTab({ onError }) {
           room opens within 90 days and comes down again past 100, so it cannot flip back
           and forth on the boundary.
         </p>
+        <WorkerHealth workers={workers} unchecked={unchecked} total={rows.length} />
         {todo.length > 0 && (
           <p className="text-sm font-semibold text-accent mt-3">
             {todo.length} {todo.length === 1 ? "listing needs" : "listings need"} changing.
@@ -214,38 +211,46 @@ function AvailabilityTab({ onError }) {
           <table className="w-full text-sm font-['Inter']">
             <thead className="bg-surface-container text-foreground-variant">
               <tr>
-                {["Reference", "Price", "Now", "Should be", "Headline", "Why"].map((h) => (
-                  <th key={h} className="text-left font-semibold px-4 py-3 whitespace-nowrap">
-                    {h}
-                  </th>
-                ))}
+                {["Reference", "Price", "Should be", "Actually is", "Headline", "Status"].map(
+                  (h) => (
+                    <th key={h} className="text-left font-semibold px-4 py-3 whitespace-nowrap">
+                      {h}
+                    </th>
+                  )
+                )}
               </tr>
             </thead>
             <tbody>
               {rows.map((r) => {
-                const on = Boolean(r.desired?.on);
-                const drift = on !== Boolean(r.is_live);
+                const status = rowStatus(r);
+                const drift = driftOf(r.desired, r.observed_state);
                 return (
                   <tr
                     key={r.room_id}
-                    className={`border-t border-border ${drift ? "bg-accent/5" : ""}`}
+                    className={`border-t border-border ${status === "match" ? "" : "bg-accent/5"}`}
                   >
                     <td className="px-4 py-3 font-mono text-foreground whitespace-nowrap">
                       {r.lazybee_ref}
                     </td>
                     <td className="px-4 py-3 text-foreground-variant whitespace-nowrap">
-                      {r.price_monthly ? `$${r.price_monthly}` : "—"}
+                      {r.price_monthly ? `$${r.price_monthly}` : "not set"}
                     </td>
                     <td className="px-4 py-3">
-                      <State on={r.is_live} />
+                      <State on={r.desired?.on} emphasise={status === "drift"} />
                     </td>
-                    <td className="px-4 py-3">
-                      <State on={on} emphasise={drift} />
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      {r.observed_state ? (
+                        <State on={r.observed_state.on} />
+                      ) : (
+                        <span className="text-foreground-variant text-xs">never checked</span>
+                      )}
                     </td>
                     <td className="px-4 py-3 text-foreground whitespace-nowrap">
-                      {r.desired?.headline ?? "—"}
+                      {r.desired?.headline ?? "no headline"}
                     </td>
-                    <td className="px-4 py-3 text-foreground-variant">{r.desired?.reason}</td>
+                    <td className="px-4 py-3 text-foreground-variant">
+                      {statusLine(status, r, drift)}
+                    </td>
                   </tr>
                 );
               })}
@@ -255,10 +260,49 @@ function AvailabilityTab({ onError }) {
       </div>
 
       <p className="text-xs text-foreground-variant font-['Inter']">
-        Derived from the room calendar, not hand-set. Nothing on this screen writes to
-        Roomies.
+        Derived from the room calendar, not hand-set. "Actually is" comes from a worker
+        reading the listing back, not from what we intended to set. Nothing on this screen
+        writes to Roomies.
       </p>
     </div>
+  );
+}
+
+function statusLine(status, row, drift) {
+  if (status === "disputed")
+    return "Stored date and calendar disagree, so nothing will act on this room.";
+  if (status === "frozen") return row.frozen_reason;
+  if (status === "error") return row.last_error;
+  if (status === "drift") return `Differs on ${drift.fields.join(" and ")}.`;
+  if (status === "unknown") return "No worker has looked at this listing yet.";
+  return row.desired?.reason ?? "Matches.";
+}
+
+/**
+ * A worker that is asleep, crashed or unplugged leaves exactly the same data as
+ * one with nothing to do. Without this strip, a dead mini and a clean board look
+ * identical, so it gets its own line rather than a column that can be skimmed past.
+ */
+function WorkerHealth({ workers, unchecked, total }) {
+  if (!workers.length) {
+    return (
+      <p className="mt-3 text-sm font-semibold text-accent font-['Inter']">
+        No worker has ever checked in for Roomies. All {total} rows below are unverified,
+        which is not the same as clean.
+      </p>
+    );
+  }
+  return (
+    <ul className="mt-3 space-y-1 text-xs font-['Inter']">
+      {workers.map((w) => (
+        <li key={w.worker_id} className={w.is_stale ? "text-accent font-semibold" : "text-foreground-variant"}>
+          {w.worker_id}: last seen {new Date(w.last_seen_at).toLocaleString()}
+          {w.is_stale ? " (stale, over an hour ago)" : ""}
+          {w.channel_enabled ? "" : ". Channel is disabled, so nothing will be pushed."}
+          {unchecked > 0 ? ` ${unchecked} of ${total} listings never checked.` : ""}
+        </li>
+      ))}
+    </ul>
   );
 }
 
