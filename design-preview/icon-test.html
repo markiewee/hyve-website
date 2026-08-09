@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee: the icon at real size</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Italiana&family=Inter+Tight:wght@300;400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0D1210;color:#EDE6DA;font-family:'Inter Tight',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:0 34px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#7E8A82}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:44px;margin:12px 0 10px}
+h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:28px;margin-bottom:4px}
+.lede{max-width:68ch;font-size:15px;line-height:1.7;color:#8B978E}
+.lede b{color:#EDE6DA;font-weight:400}
+header{padding:52px 0 6px}
+section{padding:48px 0;border-top:1px solid #1C2724}
+
+.grid{display:grid;grid-template-columns:120px repeat(4,1fr);gap:14px;align-items:center;margin-top:26px}
+.mh{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;color:#B08D4F;text-align:center}
+.rh{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;color:#B08D4F;line-height:1.5}
+.px{border:1px solid #1C2724;background:#111815;padding:12px;text-align:center}
+.px canvas{image-rendering:pixelated;display:block;margin:0 auto;background:#0D1210}
+.px .cap{margin-top:9px;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.12em;color:#6E7A73}
+
+.actual{display:flex;gap:30px;align-items:flex-end;flex-wrap:wrap;margin-top:24px}
+.actual .one{text-align:center}
+.actual canvas{display:block;margin:0 auto}
+.actual .cap{margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:#6E7A73}
+
+.ctx{display:flex;gap:26px;flex-wrap:wrap;margin-top:26px;align-items:flex-start}
+.tabbar{background:#1D2724;border-radius:9px 9px 0 0;padding:9px 40px 9px 11px;display:inline-flex;align-items:center;gap:9px;
+  font-size:12.5px;color:#C6D0C8;position:relative}
+.tabbar.lightui{background:#E6E4E0;color:#3A3A38}
+.dock{background:rgba(255,255,255,.10);backdrop-filter:blur(8px);border-radius:20px;padding:11px 14px;display:inline-flex;gap:13px;align-items:flex-end}
+.dock .app{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ios{display:grid;grid-template-columns:repeat(4,60px);gap:18px;padding:20px;border-radius:22px;
+  background:linear-gradient(160deg,#2C3A34,#151E1B)}
+.ios .app{width:60px;height:60px;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ios .lbl{font-size:9px;color:#C6D0C8;text-align:center;margin-top:5px}
+.verdict{border:1px solid #B08D4F;background:#141B17;padding:24px 26px;margin-top:26px}
+.verdict h3{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:24px;margin-bottom:8px}
+@media(max-width:900px){.grid{grid-template-columns:80px repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="tag">Lazybee &middot; the icon at real size</div>
+  <h1>What actually survives 16 pixels.</h1>
+  <p class="lede">Everything below is rendered to a real canvas at the real pixel size, then blown up with smoothing turned off,
+  so you are looking at the actual pixels a browser would draw rather than a shrunk vector. That is the only honest way to judge this.
+  The mark is the <b>EVEN</b> star, the symmetrical one.</p>
+</header>
+
+<section class="wrap">
+  <div class="tag">01 &middot; the real question</div>
+  <h2>Does the dot come with it?</h2>
+  <p class="lede">In a square icon the lockup has to fit dot and star into the same box, so the star loses a third of its height.
+  Drop the dot and the star gets the whole square. Compare the two rows.</p>
+  <div class="grid" id="dotgrid"></div>
+</section>
+
+<section class="wrap">
+  <div class="tag">02 &middot; weight</div>
+  <h2>How thick it has to be</h2>
+  <p class="lede">Star only, no dot, at three weights. Light is the poster mark. Watch what the needles do at 16.</p>
+  <div class="grid" id="weightgrid"></div>
+  <div class="actual" id="actual"></div>
+</section>
+
+<section class="wrap">
+  <div class="tag">03 &middot; in the wild</div>
+  <h2>Where it will actually be seen</h2>
+  <div class="ctx" id="ctx"></div>
+</section>
+
+<section class="wrap" style="padding-bottom:90px">
+  <div class="tag">04 &middot; verdict</div>
+  <div class="verdict" id="verdict"></div>
+</section>
+
+<script>
+/* ── geometry ─────────────────────────────────────────────── */
+function star(cx,cy,R,rv,rot,radii,taper){
+  const n=7, step=360/n, rad=i=>R*radii[i%n], tap=i=>R*taper[i%n];
+  const P=(a,r)=>[ (cx+r*Math.cos(a*Math.PI/180)).toFixed(3), (cy+r*Math.sin(a*Math.PI/180)).toFixed(3) ];
+  let d='';
+  for(let i=0;i<n;i++){
+    const a0=rot+i*step, av=rot+(i+.5)*step, a1=rot+(i+1)*step;
+    const A=P(a0,rad(i)), B=P(a1,rad(i+1)), V=P(av,rv), c1=P(a0,tap(i)), c2=P(a1,tap(i+1));
+    if(!i) d+='M'+A[0]+','+A[1];
+    d+='Q'+c1[0]+','+c1[1]+' '+V[0]+','+V[1]+'Q'+c2[0]+','+c2[1]+' '+B[0]+','+B[1];
+  }
+  return d+'Z';
+}
+const EVEN=[1,1,1,1,1,1,1];
+const W={ light:{rv:5.5,taper:Array(7).fill(0.32)},
+          medium:{rv:8.5,taper:Array(7).fill(0.26)},
+          heavy:{rv:12.5,taper:Array(7).fill(0.19)} };
+
+/* star only: tips sit on radius 34 from (50,50), so the shape is exactly square. */
+function svgStar(wk,ink,bg,pad){
+  const p = pad===undefined?2:pad;
+  const vb = (16-p)+' '+(16-p)+' '+(68+p*2)+' '+(68+p*2);
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+vb+'">'+
+    (bg?'<rect x="'+(16-p)+'" y="'+(16-p)+'" width="'+(68+p*2)+'" height="'+(68+p*2)+'" fill="'+bg+'"/>':'')+
+    '<path fill="'+ink+'" d="'+star(50,50,34,W[wk].rv,90,EVEN,W[wk].taper)+'"/></svg>';
+}
+/* full lockup mark: dot above the star, so the box is taller than it is wide */
+function svgFull(wk,ink,brass,bg){
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="8 -1.5 84 84">'+
+    (bg?'<rect x="8" y="-1.5" width="84" height="84" fill="'+bg+'"/>':'')+
+    '<path fill="'+ink+'" d="'+star(50,50,34,W[wk].rv,90,EVEN,W[wk].taper)+'"/>'+
+    '<circle cx="50" cy="9.5" r="8.4" fill="'+brass+'"/></svg>';
+}
+
+/* ── render an svg string to a canvas at exactly n device pixels, then magnify ── */
+function draw(svgStr,n,zoom,into){
+  const img=new Image();
+  img.onload=()=>{
+    const a=document.createElement('canvas'); a.width=n; a.height=n;
+    a.getContext('2d').drawImage(img,0,0,n,n);
+    const b=into; b.width=n*zoom; b.height=n*zoom;
+    const cx=b.getContext('2d'); cx.imageSmoothingEnabled=false;
+    cx.drawImage(a,0,0,n*zoom,n*zoom);
+  };
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svgStr);
+}
+function tile(svgStr,n,zoom,cap){
+  const d=document.createElement('div'); d.className='px';
+  const c=document.createElement('canvas'); d.appendChild(c);
+  const p=document.createElement('div'); p.className='cap'; p.textContent=cap; d.appendChild(p);
+  draw(svgStr,n,zoom,c);
+  return d;
+}
+const SIZES=[16,20,24,32];
+const INK='#EDE6DA', BRASS='#B08D4F';
+
+/* row 1: dot or no dot, medium weight */
+(()=>{
+  const g=document.getElementById('dotgrid');
+  g.appendChild(Object.assign(document.createElement('div'),{className:'rh',textContent:''}));
+  SIZES.forEach(s=>g.appendChild(Object.assign(document.createElement('div'),{className:'mh',textContent:s+' PX'})));
+  [['WITH DOT',svgFull('medium',INK,BRASS)],['STAR ONLY',svgStar('medium',INK,null)]].forEach(r=>{
+    g.appendChild(Object.assign(document.createElement('div'),{className:'rh',textContent:r[0]}));
+    SIZES.forEach(s=>g.appendChild(tile(r[1],s,Math.round(180/s),s+' px, shown '+Math.round(180/s)+'x')));
+  });
+})();
+
+/* row 2: weight sweep, star only */
+(()=>{
+  const g=document.getElementById('weightgrid');
+  g.appendChild(Object.assign(document.createElement('div'),{className:'rh',textContent:''}));
+  SIZES.forEach(s=>g.appendChild(Object.assign(document.createElement('div'),{className:'mh',textContent:s+' PX'})));
+  ['light','medium','heavy'].forEach(wk=>{
+    g.appendChild(Object.assign(document.createElement('div'),{className:'rh',textContent:wk.toUpperCase()}));
+    SIZES.forEach(s=>g.appendChild(tile(svgStar(wk,INK,null),s,Math.round(180/s),wk+' '+s)));
+  });
+})();
+
+/* actual size, no magnification, on both grounds */
+(()=>{
+  const a=document.getElementById('actual');
+  [['heavy','#0D1210',INK],['heavy','#F6F2EA','#241C16'],['medium','#0D1210',INK],['medium','#F6F2EA','#241C16']].forEach(v=>{
+    [16,24,32].forEach(s=>{
+      const d=document.createElement('div'); d.className='one';
+      d.style.background=v[1]; d.style.padding='10px'; d.style.border='1px solid #1C2724';
+      const c=document.createElement('canvas'); c.style.width=s+'px'; c.style.height=s+'px'; d.appendChild(c);
+      const p=document.createElement('div'); p.className='cap'; p.textContent=v[0].toUpperCase()+' '+s; d.appendChild(p);
+      draw(svgStar(v[0],v[2],null),s,1,c);
+      a.appendChild(d);
+    });
+  });
+})();
+
+/* contexts */
+(()=>{
+  const c=document.getElementById('ctx');
+  const ico=(wk,size,ink)=>'<img src="data:image/svg+xml;charset=utf-8,'+
+    encodeURIComponent(svgStar(wk,ink,null))+'" width="'+size+'" height="'+size+'" alt="">';
+  const app=(bg,wk,ink)=>'<div class="app" style="background:'+bg+'">'+ico(wk,size34,ink)+'</div>';
+  const size34=34;
+  c.innerHTML =
+    '<div><div class="tag" style="margin-bottom:10px">Browser tab, dark</div>'+
+      '<div class="tabbar">'+ico('heavy',16,INK)+'Lazybee &middot; be a lazy landlord</div></div>'+
+    '<div><div class="tag" style="margin-bottom:10px">Browser tab, light</div>'+
+      '<div class="tabbar lightui">'+ico('heavy',16,'#241C16')+'Lazybee &middot; be a lazy landlord</div></div>'+
+    '<div><div class="tag" style="margin-bottom:10px">Dock</div>'+
+      '<div class="dock">'+
+        '<div class="app" style="background:#0D1210">'+ico('medium',34,INK)+'</div>'+
+        '<div class="app" style="background:#B08D4F">'+ico('medium',34,'#0D1210')+'</div>'+
+        '<div class="app" style="background:#F6F2EA">'+ico('medium',34,'#241C16')+'</div>'+
+      '</div></div>'+
+    '<div><div class="tag" style="margin-bottom:10px">Home screen</div>'+
+      '<div class="ios">'+
+        ['#0D1210','#B08D4F','#F6F2EA','#182320'].map((bg,i)=>
+          '<div><div class="app" style="background:'+bg+'">'+
+          ico('medium',38,(bg==='#F6F2EA'||bg==='#B08D4F')?'#241C16':INK)+
+          '</div><div class="lbl">Lazybee</div></div>').join('')+
+      '</div></div>';
+})();
+
+document.getElementById('verdict').innerHTML =
+  '<h3>What I would ship</h3><p class="lede">'+
+  '<b>Drop the dot from the icon.</b> It belongs to the lockup, not to a 16 pixel square. Keeping it costs the star a third of its height '+
+  'and at 16px the gap between dot and star is under one pixel, so they smear into each other and you get a smudge with a hat. '+
+  'Star only, and the shape is exactly square, which means it fills the box perfectly with no wasted margin.<br><br>'+
+  '<b>Two cuts, and heavy is not one of them.</b> I expected heavy to win at 16 and the pixels say otherwise: it fills in and '+
+  'goes to a solid blob with stubs. Light goes to grey mush. <b>Medium</b> is the only one that still shows seven separate points at 16. '+
+  'So: light is the master above 48px, medium is the icon cut at 32 and below, heavy is deleted.<br><br>'+
+  '<b>The brass moves to the tile, not the mark.</b> On the app icon, put the star in bone on a night tile, or in night on a brass tile. '+
+  'That keeps the two brand colours without needing the dot to carry them.</p>';
+</script>
+</body>
+</html>

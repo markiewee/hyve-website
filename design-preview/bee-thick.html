@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee: bee weighting, new mass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Italiana&family=Inter+Tight:wght@300;400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0D1210;color:#EDE6DA;font-family:'Inter Tight',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1300px;margin:0 auto;padding:0 34px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#7E8A82}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:44px;margin:12px 0 10px}
+h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:28px;margin-bottom:4px}
+.lede{max-width:68ch;font-size:15px;line-height:1.7;color:#8B978E}
+.lede b{color:#EDE6DA;font-weight:400}
+header{padding:52px 0 6px}
+section{padding:46px 0;border-top:1px solid #1C2724}
+.matrix{display:grid;grid-template-columns:104px repeat(4,1fr);gap:13px;margin-top:24px;align-items:center}
+.mh{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;color:#B08D4F;text-align:center}
+.rh{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;color:#B08D4F;line-height:1.6}
+.rh span{color:#5F6B64;letter-spacing:.06em}
+.box{border:1px solid #1C2724;background:#111815;padding:18px 10px 11px;text-align:center}
+.box.pick{border-color:#B08D4F}
+.box.lightbg{background:#F6F2EA;border-color:#E2DACC;color:#241C16}
+.box .cap{margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.11em;color:#5F6B64}
+.box.lightbg .cap{color:#8C8073}
+.row4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px}
+.stack{display:flex;gap:14px;align-items:flex-end;justify-content:center;min-height:66px}
+canvas.pix{image-rendering:pixelated;display:block;background:#0D1210}
+.wm{display:block;line-height:1;margin-top:14px}
+.wm .word{display:block;font-family:'Italiana',serif;letter-spacing:.34em;font-size:20px}
+.wm .sub{display:block;font-family:'Inter Tight',sans-serif;letter-spacing:.44em;text-transform:uppercase;font-size:7px;margin-top:8px}
+.verdict{border:1px solid #B08D4F;background:#141B17;padding:24px 26px;margin-top:26px}
+.verdict h3{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:23px;margin-bottom:8px}
+@media(max-width:1050px){.matrix{grid-template-columns:80px repeat(2,1fr)}.row4{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="tag">Lazybee &middot; bee weighting at the new mass</div>
+  <h1>The two you pointed at, thickened.</h1>
+  <p class="lede">Those two were drawn on the old thin construction. Here they are rebuilt with the mullet body:
+  <b>inner vertices at 35 percent</b> and the curve dial from the last page, where 1.00 is dead straight and lower bows the edges inward.
+  Point stays down so there is a notch at the top for the brass dot. Each point's control scales with its own length,
+  so a short leg and a long wing taper the same way.</p>
+</header>
+
+<section class="wrap">
+  <div class="tag">01 &middot; weighting against curve</div>
+  <h2>Four weightings, four curves, one mass</h2>
+  <div class="matrix" id="matrix"></div>
+</section>
+
+<section class="wrap">
+  <div class="tag">02 &middot; true size</div>
+  <h2>96, 64, 32, 16, and the pixel grid</h2>
+  <div class="row4" id="sizes"></div>
+  <div class="row4" id="pix" style="margin-top:16px"></div>
+</section>
+
+<section class="wrap">
+  <div class="tag">03 &middot; in place</div>
+  <h2>Lockups</h2>
+  <div class="row4" id="locks"></div>
+</section>
+
+<section class="wrap" style="padding-bottom:90px">
+  <div class="tag">04 &middot; verdict</div>
+  <div class="verdict" id="verdict"></div>
+</section>
+
+<script>
+/* rot 90 puts a point straight down, leaving a notch at the top for the dot.
+   Order clockwise from there: stinger, leg, wing, antenna, antenna, wing, leg.
+   Control radius scales with each point's own length so the taper reads the same on long and short points. */
+function seven(cx,cy,R,mass,curve,len){
+  const n=7, step=360/n, rot=90, ri=R*mass;
+  const P=(a,r)=>[ (cx+r*Math.cos(a*Math.PI/180)).toFixed(3), (cy+r*Math.sin(a*Math.PI/180)).toFixed(3) ];
+  let d='';
+  for(let i=0;i<n;i++){
+    const a0=rot+i*step, av=rot+(i+.5)*step, a1=rot+(i+1)*step;
+    const r0=R*len[i%n], r1=R*len[(i+1)%n];
+    const A=P(a0,r0), B=P(a1,r1), V=P(av,ri), c1=P(a0,r0*curve), c2=P(a1,r1*curve);
+    if(!i) d+='M'+A[0]+','+A[1];
+    d+='Q'+c1[0]+','+c1[1]+' '+V[0]+','+V[1];
+    d+='Q'+c2[0]+','+c2[1]+' '+B[0]+','+B[1];
+  }
+  return d+'Z';
+}
+const CX=50, CY=48, R=32, MASS=0.35, VB='6 -2 88 90';
+const SETS=[
+  {id:'EVEN',   len:[1,1,1,1,1,1,1],                          note:'no weighting'},
+  {id:'BARELY', len:[1.00,0.94,1.08,0.96,0.96,1.08,0.94],     note:'wings +8%'},
+  {id:'HALF',   len:[0.94,0.78,1.14,0.88,0.88,1.14,0.78],     note:'halfway to the bee'},
+  {id:'BEE',    len:[0.88,0.60,1.20,0.80,0.80,1.20,0.60],     note:'full bee'},
+];
+const CURVES=[
+  {c:1.00,label:'STRAIGHT'},{c:0.86,label:'SOFT'},{c:0.72,label:'CURVED'},{c:0.58,label:'DEEP'}
+];
+function svg(set,curve,ink,brass,bg,dot){
+  let s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+VB+'">';
+  if (bg) s+='<rect x="6" y="-2" width="88" height="90" fill="'+bg+'"/>';
+  s+='<path fill="'+ink+'" d="'+seven(CX,CY,R,MASS,curve,set.len)+'"/>';
+  if (dot!==false) s+='<circle cx="'+CX+'" cy="8.5" r="8.2" fill="'+brass+'"/>';
+  return s+'</svg>';
+}
+const uri=s=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);
+const BONE='#EDE6DA', NIGHT='#0D1210', ESP='#241C16', ALA='#F6F2EA', BRASS='#B08D4F', HONEY='#B8873B';
+function raster(svgStr,n,zoom){
+  const c=document.createElement('canvas'); c.className='pix';
+  const img=new Image();
+  img.onload=()=>{
+    const a=document.createElement('canvas'); a.width=n; a.height=n;
+    a.getContext('2d').drawImage(img,0,0,n,n);
+    c.width=n*zoom; c.height=n*zoom;
+    const x=c.getContext('2d'); x.imageSmoothingEnabled=false;
+    x.drawImage(a,0,0,n*zoom,n*zoom);
+  };
+  img.src=uri(svgStr);
+  return c;
+}
+
+(()=>{
+  let h='<div></div>'+CURVES.map(c=>'<div class="mh">'+c.label+' &middot; '+c.c.toFixed(2)+'</div>').join('');
+  SETS.forEach(s=>{
+    h+='<div class="rh">'+s.id+'<br><span>'+s.note+'</span></div>';
+    CURVES.forEach(c=>{
+      const pick = (s.id==='HALF'&&c.c===0.72);
+      h+='<div class="box'+(pick?' pick':'')+'">'+
+         '<img src="'+uri(svg(s,c.c,BONE,BRASS))+'" width="92" height="92" alt="">'+
+         '<div class="cap">'+s.id+' / '+c.c.toFixed(2)+'</div></div>';
+    });
+  });
+  document.getElementById('matrix').innerHTML=h;
+})();
+
+const SHORT=[SETS[1],SETS[2]];
+document.getElementById('sizes').innerHTML = SHORT.flatMap(s=>[0.86,0.72].map(c=>
+  '<div class="box"><div class="stack">'+
+  [96,64,32,16].map(n=>'<img src="'+uri(svg(s,c,BONE,BRASS))+'" width="'+n+'" height="'+n+'" alt="">').join('')+
+  '</div><div class="cap">'+s.id+' / '+c.toFixed(2)+' &middot; 96 64 32 16</div></div>')).join('');
+
+(()=>{
+  const el=document.getElementById('pix');
+  SHORT.forEach(s=>[0.86,0.72].forEach(c=>{
+    const b=document.createElement('div'); b.className='box';
+    const st=document.createElement('div'); st.className='stack';
+    st.appendChild(raster(svg(s,c,BONE,BRASS),32,5));
+    st.appendChild(raster(svg(s,c,BONE,BRASS),16,5));
+    b.appendChild(st);
+    const cap=document.createElement('div'); cap.className='cap'; cap.textContent=s.id+' / '+c.toFixed(2)+' · 32 and 16, 5x';
+    b.appendChild(cap); el.appendChild(b);
+  }));
+})();
+
+document.getElementById('locks').innerHTML = [
+  [SETS[1],0.72,false],[SETS[1],0.72,true],[SETS[2],0.72,false],[SETS[2],0.72,true]
+].map(v=>{
+  const light=v[2];
+  return '<div class="box'+(light?' lightbg':'')+'">'+
+    '<img src="'+uri(svg(v[0],v[1],light?ESP:BONE,light?HONEY:BRASS))+'" width="96" height="96" alt="">'+
+    '<span class="wm"><span class="word">LAZYBEE</span>'+
+    '<span class="sub" style="color:'+(light?HONEY:BRASS)+'">SINGAPORE</span></span>'+
+    '<div class="cap">'+v[0].id+' / '+v[1].toFixed(2)+'</div></div>';
+}).join('');
+
+document.getElementById('verdict').innerHTML =
+  '<h3>Read</h3><p class="lede">'+
+  'The mass fixes what was wrong with these. On the old thin construction the weighting only showed up as thin needles of different lengths; '+
+  'with a 35 percent body the long wings now carry real area, so the bee reading arrives without anyone drawing a bee.<br><br>'+
+  '<b>HALF at 0.72</b> is the pick, boxed in brass. BARELY is so close to even that the weighting stops paying for itself. '+
+  'BEE at this mass tips over: the wings get so much area that the whole thing goes horizontal and stops reading as a star.<br><br>'+
+  'Honest caveat on the small sizes. Uneven point lengths cost you at 16px, because the short legs and antennae round down to nothing '+
+  'while the long wings survive, so it goes slightly lopsided. The even star does not have that problem. '+
+  'If the icon matters more than the story, take EVEN. If the story matters more, take HALF and accept a dedicated 16px cut.</p>';
+</script>
+</body>
+</html>

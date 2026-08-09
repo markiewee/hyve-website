@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee: star and dot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Italiana&family=Inter+Tight:wght@300;400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0D1210;color:#EDE6DA;font-family:'Inter Tight',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:0 34px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#7E8A82}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:48px;margin:12px 0 10px}
+h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:30px;margin-bottom:6px}
+.lede{max-width:66ch;font-size:15px;line-height:1.7;color:#8B978E}
+header{padding:56px 0 6px}
+section{padding:52px 0;border-top:1px solid #1C2724}
+
+.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-top:32px}
+.cell{border:1px solid #1C2724;background:#111815;padding:20px 10px 14px;text-align:center}
+.cell .cap{margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#6E7A73}
+.rowlabel{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#B08D4F;margin:34px 0 -10px}
+
+.lockups{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:30px}
+.lock{border:1px solid #1C2724;background:#111815;padding:36px 18px 22px;text-align:center}
+.lock.lightbg{background:#F6F2EA;border-color:#E2DACC;color:#241C16}
+.wm{display:block;line-height:1;margin-top:14px}
+.wm .word{display:block;font-family:'Italiana',serif;letter-spacing:.34em;font-size:21px}
+.wm .sub{display:block;font-family:'Inter Tight',sans-serif;letter-spacing:.44em;text-transform:uppercase;font-size:7.5px;margin-top:9px}
+.sizes{display:flex;gap:22px;align-items:center;justify-content:center;margin-top:22px;padding-top:16px;border-top:1px solid #1C2724}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}.lockups{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="tag">Lazybee &middot; star and dot &middot; round three</div>
+  <h1>No bee. Just the star and the dot.</h1>
+  <p class="lede">Two shapes: <b style="color:#EDE6DA">A</b>, the even seven-point star, and <b style="color:#EDE6DA">C</b>, the same seven points
+  weighted to a bee's proportions but with the body, head and bands stripped out. Each with the dot at three sizes,
+  in two positions. Nestled sits the dot in the notch between the two upper points, so the star reads as a body and the dot as a head
+  without ever drawing one. Above floats it clear.</p>
+</header>
+
+<section class="wrap">
+  <div class="rowlabel">A &middot; even star &middot; nestled</div>
+  <div class="grid" id="gA1"></div>
+  <div class="rowlabel">A &middot; even star &middot; above</div>
+  <div class="grid" id="gA2"></div>
+  <div class="rowlabel">C &middot; bee-weighted star &middot; nestled</div>
+  <div class="grid" id="gC1"></div>
+  <div class="rowlabel">C &middot; bee-weighted star &middot; above</div>
+  <div class="grid" id="gC2"></div>
+</section>
+
+<section class="wrap" style="padding-bottom:90px">
+  <div class="tag">Lockups</div>
+  <h2 style="margin-top:10px">The four most likely, in place</h2>
+  <div class="lockups" id="locks"></div>
+  <div class="sizes" id="small" style="margin-top:34px"></div>
+  <p class="lede" style="margin-top:20px">Bottom row is the same four at 44, 22 and 16 pixels. A dot survives shrinking better than anything else in a logo,
+  which is the quiet argument for putting one there at all.</p>
+</section>
+
+<script>
+function star(cx,cy,R,rv,n,rot,radii,widths){
+  const step=360/n, rad=i=>R*(radii?radii[i%n]:1), wid=i=>(widths?widths[i%n]:1);
+  const P=(a,r)=>[ (cx+r*Math.cos(a*Math.PI/180)).toFixed(2), (cy+r*Math.sin(a*Math.PI/180)).toFixed(2) ];
+  let d='';
+  for(let i=0;i<n;i++){
+    const a0=rot+i*step, av=rot+(i+.5)*step, a1=rot+(i+1)*step;
+    const tipA=P(a0,rad(i)), tipB=P(a1,rad(i+1)), val=P(av,rv);
+    const c1=P(a0,R*0.34*wid(i)), c2=P(a1,R*0.34*wid(i+1));
+    if(!i) d+='M'+tipA[0]+','+tipA[1];
+    d+='Q'+c1[0]+','+c1[1]+' '+val[0]+','+val[1];
+    d+='Q'+c2[0]+','+c2[1]+' '+tipB[0]+','+tipB[1];
+  }
+  return d+'Z';
+}
+/* both stars share a centre so the dot maths is identical */
+const CX=50, CY=59, RR=37;
+const A = star(CX,CY,RR,5.4,7,90);
+const C = star(CX,CY,RR,5.0,7,90,
+  [0.92,0.56,1.06,0.74,0.74,1.06,0.56],
+  [0.85,0.70,1.55,0.55,0.55,1.55,0.70]);
+
+const DOTS = {sm:5.2, md:7.4, lg:10.2};
+const POS  = {nestled:35, above:11};
+
+function mark(shape,dotKey,posKey,size,ink,accent){
+  const d = shape==='A'?A:C;
+  const r = DOTS[dotKey], cy = POS[posKey];
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" aria-hidden="true">'+
+    '<path d="'+d+'" fill="'+ink+'"/>'+
+    '<circle cx="'+CX+'" cy="'+cy+'" r="'+r+'" fill="'+(accent||ink)+'"/></svg>';
+}
+
+const INK='#EDE6DA', BRASS='#B08D4F';
+function row(shape,posKey){
+  let h='';
+  for (const dk of ['sm','md','lg'])
+    h += '<div class="cell">'+mark(shape,dk,posKey,86,INK)+
+         '<div class="cap">'+dk.toUpperCase()+' &middot; ONE COLOUR</div></div>';
+  for (const dk of ['sm','md','lg'])
+    h += '<div class="cell">'+mark(shape,dk,posKey,86,INK,BRASS)+
+         '<div class="cap">'+dk.toUpperCase()+' &middot; BRASS DOT</div></div>';
+  return h;
+}
+gA1.innerHTML=row('A','nestled'); gA2.innerHTML=row('A','above');
+gC1.innerHTML=row('C','nestled'); gC2.innerHTML=row('C','above');
+
+const PICKS=[['A','lg','nestled','A large, nestled'],['A','md','above','A medium, above'],
+             ['C','lg','nestled','C large, nestled'],['C','md','above','C medium, above']];
+locks.innerHTML = PICKS.map((p,i)=>{
+  const light = i%2===1;
+  const ink = light?'#241C16':INK, acc = light?'#B8873B':BRASS, sub = light?'#8C8073':BRASS;
+  return '<div class="lock'+(light?' lightbg':'')+'">'+mark(p[0],p[1],p[2],92,ink,acc)+
+    '<span class="wm"><span class="word">LAZYBEE</span>'+
+    '<span class="sub" style="color:'+sub+'">SINGAPORE</span></span>'+
+    '<div class="cap" style="margin-top:16px;font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.14em;color:'+(light?'#8C8073':'#6E7A73')+'">'+p[3]+'</div></div>';
+}).join('');
+
+small.innerHTML = PICKS.map(p=>
+  '<div style="text-align:center">'+mark(p[0],p[1],p[2],44,INK,BRASS)+mark(p[0],p[1],p[2],22,INK,BRASS)+
+  mark(p[0],p[1],p[2],16,INK,BRASS)+'<div class="cap">'+p[3]+'</div></div>').join('');
+</script>
+</body>
+</html>

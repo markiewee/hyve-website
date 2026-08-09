@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee: where the green goes</title>
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Italiana&family=Inter+Tight:wght@300;400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ala:#F6F2EA; --ala-s:#EFE9DE; --ala-l:#DED5C6;
+  --tob:#241811; --tob-s:#31231A; --tob-l:#453224; --tob-ink:#E8DACA; --tob-mut:#B39B82;
+  --green:#0E2E20;        /* regal green, the structural one */
+  --green-deep:#08150F;   /* deepest, for full bleed */
+  --green-ink:#14352A;    /* green as text on light */
+  --green-soft:#5E8873;   /* muted green for secondary text on green */
+  --brass:#B08D4F; --brass-text:#8A6733; --brass-lift:#C6A467;
+  --ink:#241C16; --muted:#6B6154; --bone:#EDE6DA;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#12100D;color:#E6E1D6;font-family:'Inter Tight',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1280px;margin:0 auto;padding:0 34px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#8C8578}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:44px;margin:12px 0 10px}
+h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:28px;margin-bottom:6px}
+.lede{max-width:68ch;font-size:15px;line-height:1.72;color:#9A9285}
+.lede b{color:#E6E1D6;font-weight:400}
+header{padding:52px 0 6px}
+section{padding:44px 0;border-top:1px solid #26221C}
+
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+.mock{border:1px solid #26221C;overflow:hidden}
+.mocklabel{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;color:#8C8578;padding:9px 12px;background:#191713}
+
+/* mock internals */
+.m-nav{display:flex;align-items:center;justify-content:space-between;padding:13px 20px;font-size:11px}
+.m-nav .lg{display:flex;align-items:center;gap:8px}
+.m-nav svg{width:19px;height:auto}
+.m-nav .wd{font-family:'Italiana',serif;letter-spacing:.30em;font-size:13px}
+.m-hero{padding:30px 22px 34px}
+.m-eye{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.26em;text-transform:uppercase}
+.m-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:31px;line-height:1.05;margin:11px 0 12px}
+.m-p{font-size:12.5px;line-height:1.6;max-width:38ch}
+.m-cta{display:inline-block;margin-top:17px;font-family:'JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:.18em;text-transform:uppercase;padding:11px 18px}
+.m-band{padding:24px 22px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.m-num{font-family:'JetBrains Mono',monospace;font-size:26px;letter-spacing:-.02em}
+.m-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;padding:0}
+.m-cards > div{padding:16px 15px}
+.m-cards h4{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:16px;margin-bottom:5px}
+.m-cards p{font-size:11px;line-height:1.55}
+.m-foot{padding:18px 22px;display:flex;justify-content:space-between;align-items:center;font-size:10px;flex-wrap:wrap;gap:8px}
+
+.swatchrow{display:flex;flex-wrap:wrap;gap:0;margin-top:22px;border:1px solid #26221C}
+.swatchrow div{flex:1;min-width:110px;height:84px;display:flex;align-items:flex-end;padding:10px;
+  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em}
+.verdict{border:1px solid var(--brass);background:#181611;padding:24px 26px;margin-top:24px}
+.verdict h3{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:23px;margin-bottom:8px;color:#E6E1D6}
+@media(max-width:900px){.pair{grid-template-columns:1fr}.m-cards{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="tag">Lazybee &middot; placing the regal green</div>
+  <h1>Give the green a job, not a slot.</h1>
+  <p class="lede">The reason the green has nowhere to live is that we were treating it as a third palette competing with the other two.
+  It works better as a <b>structural colour that appears inside both</b>. Three jobs it could hold, each shown in Alabaster and Tobacco
+  so you are comparing like with like. The brass and the wordmark never change.</p>
+  <div class="swatchrow">
+    <div style="background:var(--green-deep);color:#7E9A8B">#08150F &nbsp;DEEP</div>
+    <div style="background:var(--green);color:#8FB3A1">#0E2E20 &nbsp;GREEN</div>
+    <div style="background:var(--green-ink);color:#A8C7B8">#14352A &nbsp;GREEN INK</div>
+    <div style="background:var(--green-soft);color:#0E2E20">#5E8873 &nbsp;SOFT</div>
+    <div style="background:var(--brass);color:#241812">#B08D4F &nbsp;BRASS</div>
+  </div>
+</header>
+
+<section class="wrap">
+  <div class="tag">Option A</div>
+  <h2>Green is the ink</h2>
+  <p class="lede">Body and headline type go deep green instead of near-black. Grounds stay Alabaster and Tobacco.
+  It is the quietest of the three and it changes the whole temperature of a page, the way a dark green ink changes a letterhead.</p>
+  <div class="pair" id="A"></div>
+</section>
+
+<section class="wrap">
+  <div class="tag">Option B</div>
+  <h2>Green is the band</h2>
+  <p class="lede">The page stays Alabaster or Tobacco, and one full-bleed green section carries the moment that matters:
+  the proof numbers, the closing ask, the footer. Green becomes punctuation rather than atmosphere.</p>
+  <div class="pair" id="B"></div>
+</section>
+
+<section class="wrap">
+  <div class="tag">Option C</div>
+  <h2>Green is the interface</h2>
+  <p class="lede">Buttons, links, focus rings, active states, cards. Brass retreats to the wordmark and the place name only.
+  Green does all the work where a person is being asked to act.</p>
+  <div class="pair" id="C"></div>
+</section>
+
+<section class="wrap" style="padding-bottom:90px">
+  <div class="verdict" id="verdict"></div>
+</section>
+
+<script>
+const D='M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z';
+const mark = c => '<svg viewBox="13.43 21.63 73.13 57.45" style="fill:'+c+'"><path d="'+D+'"/></svg>';
+
+/* t = tokens for one mock */
+function site(t){
+  return '<div class="mock">'+
+  '<div class="mocklabel">'+t.label+'</div>'+
+  '<div style="background:'+t.bg+';color:'+t.ink+'">'+
+    '<div class="m-nav" style="border-bottom:1px solid '+t.line+'">'+
+      '<div class="lg">'+mark(t.logo)+'<span class="wd">LAZYBEE</span></div>'+
+      '<span style="font-family:JetBrains Mono,monospace;font-size:8px;letter-spacing:.2em;color:'+t.muted+'">THE DEAL &middot; OUR HOMES</span>'+
+    '</div>'+
+    '<div class="m-hero">'+
+      '<div class="m-eye" style="color:'+t.eye+'">For landlords in Singapore</div>'+
+      '<div class="m-h">Be a lazy landlord.</div>'+
+      '<div class="m-p" style="color:'+t.muted+'">We lease your unit for thirty six months, furnish it, fill it and run it. '+
+        'The same amount lands on the first whether it is full or empty.</div>'+
+      '<span class="m-cta" style="background:'+t.btnBg+';color:'+t.btnInk+'">Get my offer</span>'+
+    '</div>'+
+    '<div class="m-band" style="background:'+t.bandBg+';color:'+t.bandInk+'">'+
+      '<div><div class="m-num" style="color:'+t.bandNum+'">S$3,564</div>'+
+        '<div style="font-family:JetBrains Mono,monospace;font-size:8px;letter-spacing:.2em;margin-top:5px;color:'+t.bandMut+'">PAID ON THE FIRST</div></div>'+
+      '<div><div class="m-num" style="color:'+t.bandNum+'">36</div>'+
+        '<div style="font-family:JetBrains Mono,monospace;font-size:8px;letter-spacing:.2em;margin-top:5px;color:'+t.bandMut+'">MONTHS GUARANTEED</div></div>'+
+      '<div><div class="m-num" style="color:'+t.bandNum+'">100%</div>'+
+        '<div style="font-family:JetBrains Mono,monospace;font-size:8px;letter-spacing:.2em;margin-top:5px;color:'+t.bandMut+'">TRAILING OCCUPANCY</div></div>'+
+    '</div>'+
+    '<div class="m-cards" style="background:'+t.line+'">'+
+      ['Guaranteed|A void month is our problem, not yours.',
+       'Furnished|We fit it out at our cost, to one standard.',
+       'Run by us|Viewings, repairs, late payers. All ours.'].map(c=>{
+        const [h,p]=c.split('|');
+        return '<div style="background:'+t.cardBg+';color:'+t.cardInk+'"><h4>'+h+'</h4>'+
+               '<p style="color:'+t.cardMut+'">'+p+'</p></div>';
+      }).join('')+
+    '</div>'+
+    '<div class="m-foot" style="background:'+t.footBg+';color:'+t.footInk+'">'+
+      '<span style="font-family:Italiana,serif;letter-spacing:.28em;font-size:12px">LAZYBEE</span>'+
+      '<span style="font-family:JetBrains Mono,monospace;font-size:8px;letter-spacing:.2em;color:'+t.footMut+'">SINGAPORE</span>'+
+    '</div>'+
+  '</div></div>';
+}
+
+const G='#0E2E20', GD='#08150F', GI='#14352A', GS='#5E8873', BR='#B08D4F', BRT='#8A6733', BRL='#C6A467';
+const ALA='#F6F2EA', ALAS='#EFE9DE', ALAL='#DED5C6', BONE='#EDE6DA';
+const TOB='#241811', TOBS='#31231A', TOBL='#453224', TOBI='#E8DACA', TOBM='#B39B82';
+
+/* A: green as ink */
+document.getElementById('A').innerHTML =
+ site({label:'ALABASTER + GREEN INK', bg:ALA, line:ALAL, ink:GI, muted:'#5C7166', logo:GI, eye:BRT,
+   btnBg:GI, btnInk:ALA, bandBg:ALAS, bandInk:GI, bandNum:GI, bandMut:'#6B7F73',
+   cardBg:ALA, cardInk:GI, cardMut:'#5C7166', footBg:ALAS, footInk:GI, footMut:BRT}) +
+ site({label:'TOBACCO + GREEN INK IS NOT AVAILABLE, SO GREEN GOES TO THE SURFACES', bg:TOB, line:TOBL, ink:TOBI, muted:TOBM, logo:TOBI, eye:BRL,
+   btnBg:G, btnInk:BONE, bandBg:G, bandInk:BONE, bandNum:BONE, bandMut:GS,
+   cardBg:TOBS, cardInk:TOBI, cardMut:TOBM, footBg:GD, footInk:BONE, footMut:GS});
+
+/* B: green as the band */
+document.getElementById('B').innerHTML =
+ site({label:'ALABASTER + GREEN BAND', bg:ALA, line:ALAL, ink:'#241C16', muted:'#6B6154', logo:'#241C16', eye:BRT,
+   btnBg:'#241C16', btnInk:ALA, bandBg:G, bandInk:BONE, bandNum:BRL, bandMut:GS,
+   cardBg:ALA, cardInk:'#241C16', cardMut:'#6B6154', footBg:GD, footInk:BONE, footMut:GS}) +
+ site({label:'TOBACCO + GREEN BAND', bg:TOB, line:TOBL, ink:TOBI, muted:TOBM, logo:TOBI, eye:BRL,
+   btnBg:BR, btnInk:'#241812', bandBg:G, bandInk:BONE, bandNum:BRL, bandMut:GS,
+   cardBg:TOBS, cardInk:TOBI, cardMut:TOBM, footBg:GD, footInk:BONE, footMut:GS});
+
+/* C: green as the interface */
+document.getElementById('C').innerHTML =
+ site({label:'ALABASTER + GREEN INTERFACE', bg:ALA, line:ALAL, ink:'#241C16', muted:'#6B6154', logo:'#241C16', eye:BRT,
+   btnBg:G, btnInk:BONE, bandBg:ALAS, bandInk:'#241C16', bandNum:G, bandMut:'#6B6154',
+   cardBg:ALA, cardInk:G, cardMut:'#6B6154', footBg:ALAS, footInk:'#241C16', footMut:BRT}) +
+ site({label:'TOBACCO + GREEN INTERFACE', bg:TOB, line:TOBL, ink:TOBI, muted:TOBM, logo:TOBI, eye:BRL,
+   btnBg:GS, btnInk:GD, bandBg:TOBS, bandInk:TOBI, bandNum:GS, bandMut:TOBM,
+   cardBg:TOBS, cardInk:TOBI, cardMut:TOBM, footBg:TOBS, footInk:TOBI, footMut:BRL});
+
+/* contrast helper, so the recommendation is not just taste */
+function lum(hex){const n=hex.replace('#','');
+  const v=[0,2,4].map(i=>parseInt(n.substr(i,2),16)/255).map(c=>c<=.03928?c/12.92:Math.pow((c+.055)/1.055,2.4));
+  return .2126*v[0]+.7152*v[1]+.0722*v[2];}
+const cr=(a,b)=>{const l1=lum(a),l2=lum(b),hi=Math.max(l1,l2),lo=Math.min(l1,l2);return ((hi+.05)/(lo+.05)).toFixed(2);};
+
+document.getElementById('verdict').innerHTML =
+ '<h3>What I would do</h3><p class="lede">'+
+ '<b>B, the band.</b> It is the only one of the three where the green stays special. Green ink everywhere (A) is lovely for about a minute '+
+ 'and then it is just the text colour, and you have spent your best asset on something nobody notices. '+
+ 'Green as the interface (C) works, but it puts brass out of a job and the two of them start fighting for the same attention.<br><br>'+
+ 'B gives the green the two places on a page a person actually remembers: the proof numbers and the footer they land on at the end. '+
+ 'It also solves your original problem, because the green now appears in <b>both</b> Alabaster and Tobacco rather than being a third choice.<br><br>'+
+ 'The numbers behind it. Bone on green '+cr('#EDE6DA','#0E2E20')+':1, brass lift on green '+cr('#C6A467','#0E2E20')+':1, '+
+ 'soft green on deep green '+cr('#5E8873','#08150F')+':1. All clear AA, so the band can carry real copy and not just a slogan.</p>';
+</script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en" data-theme="alabaster">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Hive &middot; Lazybee</title>
+<meta name="description" content="What we learn running nineteen rooms in Singapore. Numbers, rules, operations, and what things actually cost.">
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Hanken+Grotesk:wght@400;500;700&family=Italiana&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lazybee.css">
+<style>
+  .masthead{padding-top:clamp(46px,6vw,88px);padding-bottom:clamp(30px,4vw,54px)}
+  .lead-post{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);border:1px solid var(--line);
+    text-decoration:none;color:inherit;transition:border-color .25s}
+  .lead-post:hover{border-color:var(--accent)}
+  .lead-post .im{overflow:hidden;min-height:340px}
+  .lead-post .im img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+  .lead-post:hover .im img{transform:scale(1.04)}
+  .lead-post .bd{padding:clamp(24px,3vw,46px);display:flex;flex-direction:column;justify-content:center}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--s7);padding-bottom:var(--s5);
+    border-bottom:1px solid var(--line)}
+  .chip[aria-pressed]{cursor:pointer;background:none}
+  .list{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s7) var(--s5);margin-top:var(--s7)}
+  .item{display:block;text-decoration:none;color:inherit}
+  .item:hover .h{color:var(--accent-text)}
+  .item .im{overflow:hidden;border:1px solid var(--line);aspect-ratio:3/2}
+  .item .im img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+  .item:hover .im img{transform:scale(1.05)}
+  .item .h{font-family:var(--head);font-weight:400;font-size:clamp(21px,1.9vw,26px);line-height:1.18;
+    margin-top:10px;transition:color .25s}
+  .item .meta{display:flex;gap:14px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+  .item[hidden]{display:none}
+  @media(max-width:1000px){.list{grid-template-columns:1fr 1fr}}
+  @media(max-width:640px){.list{grid-template-columns:1fr}}
+
+  /* a blog needs to look like a place, not a page of links */
+  .banner{position:relative;overflow:hidden;background:var(--green);color:var(--band-ink);
+    padding:clamp(52px,7vw,104px) 0 clamp(44px,5vw,80px);border-bottom:1px solid var(--line)}
+  .banner .cells{position:absolute;inset:0;opacity:.20;pointer-events:none}
+  .banner .cells svg{width:100%;height:100%;display:block}
+  .banner .bin{position:relative}
+  .banner .display{font-size:clamp(52px,9vw,132px);margin-top:14px;color:var(--band-ink)}
+  .banner .blurb{margin-top:20px;max-width:60ch;font-size:17px;line-height:1.7;color:#C7D4CB}
+  .bmeta{display:flex;flex-wrap:wrap;gap:12px 34px;margin-top:var(--s6);padding-top:var(--s5);
+    border-top:1px solid rgba(237,230,218,.20);font-family:var(--mono);font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--band-mut)}
+  .bmeta b{color:var(--band-num);font-weight:700}
+  .empty-note{padding:var(--s8) 0;text-align:center}
+  @media(max-width:900px){
+    .lead-post{grid-template-columns:1fr}.lead-post .im{min-height:220px}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brandlock" href="owners.html" style="gap:13px">
+    <svg viewBox="13.43 21.63 73.13 57.45" style="width:30px"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd" style="font-size:18px">LAZYBEE</span>
+  </a>
+  <nav class="navlinks">
+    <a href="owners.html">For owners</a><a href="book.html">Find a room</a><a href="hive.html" aria-current="page">The Hive</a>
+    <button class="btn btn-ghost btn-sm" id="mode" type="button">Dark</button>
+  </nav>
+</div>
+
+<header class="banner">
+  <div class="cells" id="cells" aria-hidden="true"></div>
+  <div class="wrap bin">
+    <div class="label" style="color:var(--band-mut)">The Lazybee journal</div>
+    <h1 class="display">The Hive</h1>
+    <p class="blurb">Everything we learn running the comb, written down. What a Singapore unit actually earns once the
+    void is counted, what the URA rules mean on a Tuesday rather than in a circular, what breaks in year two and what
+    it costs. No lead magnets, no gated PDFs, no request-a-demo.</p>
+    <div class="bmeta">
+      <span><b id="nPosts">8</b> pieces</span>
+      <span><b>5</b> subjects</span>
+      <span><b>Monthly</b> at most</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" style="padding-top:var(--s8);padding-bottom:var(--s10)">
+  <a class="lead-post rv" href="#" id="lead"></a>
+
+  <div class="filters" role="group" aria-label="Filter by subject">
+    <button class="chip on" aria-pressed="true" data-tag="All">All</button>
+    <button class="chip" aria-pressed="false" data-tag="Numbers">Numbers</button>
+    <button class="chip" aria-pressed="false" data-tag="Rules">Rules</button>
+    <button class="chip" aria-pressed="false" data-tag="Operations">Operations</button>
+    <button class="chip" aria-pressed="false" data-tag="Tenants">Tenants</button>
+    <button class="chip" aria-pressed="false" data-tag="Building">Building</button>
+  </div>
+
+  <div class="list" id="list"></div>
+  <div class="empty-note" id="none" hidden>
+    <div class="h3">Nothing under that tag yet</div>
+    <p class="small" style="margin-top:8px">We only write it up once we have actually done it. Try another subject.</p>
+  </div>
+
+  <div class="band" style="margin-top:var(--s9)">
+    <div class="wrap" style="padding-top:clamp(34px,4vw,58px);padding-bottom:clamp(34px,4vw,58px);
+      display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center">
+      <div>
+        <div class="l" style="margin-top:0">One email a month</div>
+        <div class="h2" style="color:var(--band-ink);margin-top:10px;max-width:26ch">
+          What we learned, what it cost, what we would do differently.</div>
+      </div>
+      <form style="display:flex;gap:10px;align-items:center;flex-wrap:wrap" onsubmit="event.preventDefault();
+        alert('Prototype. In the real build this writes to the subscribers table in hyve-iot.')">
+        <input class="input" type="email" placeholder="you@example.com" required aria-label="Email"
+          style="min-width:250px;color:var(--band-ink);border-color:color-mix(in srgb,var(--band-ink) 34%,transparent)">
+        <button class="btn btn-accent" type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<footer class="wrap" style="border-top:1px solid var(--line);padding:34px 0 60px;display:flex;
+  justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center">
+  <a class="brandlock" href="owners.html">
+    <svg viewBox="13.43 21.63 73.13 57.45"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd">LAZYBEE</span>
+  </a>
+  <span class="label">Makery Pte Ltd &middot; Singapore</span>
+</footer>
+
+<script>
+const POSTS=[
+ {tag:'Numbers',date:'4 Aug 2026',read:'9 min',im:'photos/cp/Common-1.jpg',lead:true,
+  t:'What a Singapore condo actually earns',
+  d:'We took the headline rent on a three bedder in D19 and subtracted every real cost across a full year: the turnover void, the agent at renewal, the repaint, the aircon service, the month the water heater died. The gap between the number on the listing and the number in the bank came to about a month and a half of rent. Here is the whole arithmetic, with our own invoices.'},
+ {tag:'Rules',date:'28 Jul 2026',read:'6 min',im:'photos/tg-lounge.jpg',
+  t:'The three month rule, in practice',
+  d:'URA sets three months as the minimum stay on a private home. What that means for how you write the agreement, what happens when a tenant needs to leave in month two, and the one thing owners do that gets them a letter.'},
+ {tag:'Operations',date:'19 Jul 2026',read:'7 min',im:'photos/ih/PR1.jpg',
+  t:'What breaks, and what it costs',
+  d:'Two years of maintenance logs across nineteen cells. Water heaters go first and they always go on a weekend. Aircon servicing is the only thing worth doing on a fixed schedule. Repainting on turnover pays for itself in one tenancy.'},
+ {tag:'Numbers',date:'11 Jul 2026',read:'5 min',im:'photos/cp/PR3.jpg',
+  t:'Why we stopped quoting a rent per room',
+  d:'A room is not a product, it is a bundle: the bed, the bill, the cleaner, the housemates and how far it is to the MRT. When we priced the bundle instead of the square footage, the same rooms let faster and the enquiries got better.'},
+ {tag:'Tenants',date:'2 Jul 2026',read:'8 min',im:'photos/ih/PR2.jpg',
+  t:'Stamping a lease for someone with no bank account yet',
+  d:'Half our tenants land in Singapore with an offer letter and nothing else. IRAS still wants the agreement stamped within fourteen days. We do it for them. Here is the exact sequence, and what it costs.'},
+ {tag:'Building',date:'21 Jun 2026',read:'11 min',im:'photos/tg/MBR.jpg',
+  t:'We rebuilt availability on one query',
+  d:'For a year the booking site read a stored column and the calendar read a derived function, and three rooms out of nineteen quietly disagreed. What that cost us in confused prospects, and why one source of truth is worth a weekend.'},
+ {tag:'Operations',date:'9 Jun 2026',read:'4 min',im:'photos/cp/STD1.jpg',
+  t:'The Thursday clean',
+  d:'One cleaner, one morning, every week, same window. Not because the flat needs it that often, but because a fixed time is the only version housemates do not argue about.'},
+ {tag:'Rules',date:'30 May 2026',read:'6 min',im:'photos/ih/PR3.jpg',
+  t:'Occupancy caps, and the extra body problem',
+  d:'The cap is not advice. Writing it into the agreement, rather than mentioning it at viewing, is the difference between a conversation and an enforcement notice.'},
+];
+
+const el=id=>document.getElementById(id);
+const L=POSTS.find(p=>p.lead)||POSTS[0];
+el('lead').innerHTML=
+ '<div class="im"><img src="'+L.im+'" alt=""></div>'+
+ '<div class="bd"><div class="label">Latest &middot; '+L.tag+'</div>'+
+ '<h2 class="h1" style="font-size:clamp(28px,3.4vw,44px);margin-top:14px">'+L.t+'</h2>'+
+ '<p class="body" style="margin-top:16px">'+L.d+'</p>'+
+ '<div class="label" style="margin-top:22px">'+L.date+' &middot; '+L.read+' read</div></div>';
+
+const rest=POSTS.filter(p=>p!==L);
+el('list').innerHTML=rest.map(p=>
+ '<a class="item" href="#" data-tag="'+p.tag+'">'+
+   '<div class="im"><img src="'+p.im+'" alt="" loading="lazy"></div>'+
+   '<div class="label" style="margin-top:14px">'+p.tag+'</div>'+
+   '<div class="h">'+p.t+'</div>'+
+   '<p class="small" style="margin-top:10px">'+p.d+'</p>'+
+   '<div class="meta"><span class="fine">'+p.date+'</span><span class="fine">'+p.read+' read</span></div>'+
+ '</a>').join('');
+el('nPosts').textContent=POSTS.length;
+
+/* a quiet comb behind the banner, so the blog reads as part of the hive */
+(function(){
+ const R=17,SQ3=Math.sqrt(3),W=1600,H=460,NS='http://www.w3.org/2000/svg';
+ const svg=document.createElementNS(NS,'svg');
+ svg.setAttribute('viewBox','0 0 '+W+' '+H); svg.setAttribute('preserveAspectRatio','xMidYMid slice');
+ for(let r=-1;r<=Math.ceil(H/(1.5*R))+1;r++)for(let q=-2;q<=Math.ceil(W/(SQ3*R))+2;q++){
+  const x=SQ3*R*(q+r/2),y=1.5*R*r;
+  if(x<-R||x>W+R)continue;
+  let d='';
+  for(let i=0;i<6;i++){const a=(90+60*i)*Math.PI/180;
+   d+=(i?' ':'')+(x+R*0.92*Math.cos(a)).toFixed(1)+','+(y-R*0.92*Math.sin(a)).toFixed(1);}
+  const pg=document.createElementNS(NS,'polygon');
+  pg.setAttribute('points',d); pg.setAttribute('fill','none');
+  pg.setAttribute('stroke','#EDE6DA'); pg.setAttribute('stroke-width','1');
+  svg.appendChild(pg);
+ }
+ el('cells').appendChild(svg);
+})();
+
+document.querySelector('.filters').addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ document.querySelectorAll('.filters button').forEach(x=>{
+   const on=x===b; x.setAttribute('aria-pressed',String(on)); x.classList.toggle('on',on);});
+ const tag=b.dataset.tag;
+ let shown=0;
+ document.querySelectorAll('.item').forEach(it=>{
+   const ok=tag==='All'||it.dataset.tag===tag;
+   it.hidden=!ok; if(ok)shown++;});
+ el('none').hidden=shown>0;
+});
+
+/* Reveal on scroll, but anything already on screen at load is shown immediately.
+   IntersectionObserver callbacks are throttled in background tabs, and an element
+   above the fold must never depend on a scroll that may never happen. */
+(function(){
+ const nodes=[...document.querySelectorAll('.rv')];
+ if(matchMedia('(prefers-reduced-motion: reduce)').matches){nodes.forEach(n=>n.classList.add('in'));return;}
+ const vh=innerHeight||800, pending=[];
+ nodes.forEach((n,i)=>{
+  if(n.getBoundingClientRect().top < vh*0.92){n.classList.add('in');}
+  else{n.style.transitionDelay=(i%4*60)+'ms';pending.push(n);}
+ });
+ const io=new IntersectionObserver(es=>es.forEach(en=>{
+  if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}}),{rootMargin:'0px 0px -8% 0px'});
+ pending.forEach(n=>io.observe(n));
+})();
+
+el('mode').addEventListener('click',e=>{
+ const dark=document.documentElement.dataset.theme==='tobacco';
+ document.documentElement.dataset.theme=dark?'alabaster':'tobacco';
+ e.target.textContent=dark?'Dark':'Light';
+});
+</script>
+</body>
+</html>

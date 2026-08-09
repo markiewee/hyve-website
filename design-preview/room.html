@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en" data-theme="alabaster">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee &middot; Room</title>
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Hanken+Grotesk:wght@400;500;700&family=Italiana&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lazybee.css">
+<script src="rooms.js"></script>
+<style>
+  .gallery{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:3px;background:var(--line);
+    border-bottom:1px solid var(--line);height:clamp(300px,52vh,580px)}
+  .gallery > *{min-height:0;min-width:0}
+  .gallery .main{position:relative;height:100%;overflow:hidden;background:var(--surface)}
+  .gallery .main img{width:100%;height:100%;object-fit:cover;display:block}
+  .gallery .side{display:grid;grid-template-rows:1fr 1fr;gap:3px;height:100%}
+  .gallery .side button{border:0;padding:0;cursor:pointer;overflow:hidden;background:var(--surface);position:relative;
+    min-height:0;display:block}
+  .gallery .side img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s var(--ease)}
+  .gallery .side button:hover img{transform:scale(1.05)}
+  .gallery .more{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:rgba(10,13,12,.52);color:#F7F3EA;font-family:var(--mono);font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase}
+  .strip{display:flex;gap:8px;overflow-x:auto;padding:14px 0}
+  .strip button{flex:0 0 auto;width:88px;height:64px;border:1px solid var(--line);padding:0;cursor:pointer;
+    background-size:cover;background-position:center;opacity:.6;transition:.2s}
+  .strip button[aria-current]{opacity:1;border-color:var(--accent);border-width:2px}
+  .layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:clamp(28px,4vw,72px);align-items:start}
+  .booking{border:1px solid var(--line);background:var(--surface);padding:clamp(20px,2.4vw,30px);position:sticky;top:88px}
+  .specs{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);
+    margin-top:var(--s5)}
+  .specs > div{background:var(--bg);padding:15px 18px}
+  .specs .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+  .specs .v{font-family:var(--mono);font-size:15px;margin-top:6px}
+  .amen{display:grid;grid-template-columns:1fr 1fr;gap:12px 26px;margin-top:var(--s5)}
+  .amen div{display:flex;gap:10px;align-items:baseline;font-size:14.5px;color:var(--muted)}
+  .amen i{width:5px;height:5px;background:var(--accent);flex:0 0 auto;transform:translateY(-2px)}
+  .others{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5);margin-top:var(--s6)}
+  .oc{text-decoration:none;color:inherit}
+  .oc .im{aspect-ratio:4/3;overflow:hidden;border:1px solid var(--line)}
+  .oc .im img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+  .oc:hover .im img{transform:scale(1.05)}
+  @media(max-width:1000px){
+    .layout{grid-template-columns:1fr}.booking{position:static}
+    .gallery{grid-template-columns:1fr;grid-template-rows:1fr 150px;height:clamp(360px,60vh,540px)}
+    .gallery .side{grid-template-columns:1fr 1fr;grid-template-rows:none}
+    .others{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brandlock" href="book.html" style="gap:13px">
+    <svg viewBox="13.43 21.63 73.13 57.45" style="width:30px"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd" style="font-size:18px">LAZYBEE</span>
+  </a>
+  <nav class="navlinks">
+    <a href="book.html">All rooms</a><a href="hive.html">The Hive</a><a href="owners.html">For owners</a>
+    <button class="btn btn-ghost btn-sm" id="mode" type="button">Dark</button>
+  </nav>
+</div>
+
+<main id="main"></main>
+
+<footer class="wrap" style="border-top:1px solid var(--line);padding:34px 0 60px;display:flex;
+  justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center">
+  <a class="brandlock" href="book.html">
+    <svg viewBox="13.43 21.63 73.13 57.45"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd">LAZYBEE</span>
+  </a>
+  <span class="label">Makery Pte Ltd &middot; Singapore</span>
+</footer>
+
+<script>
+const TODAY=new Date('2026-08-09');
+const $=id=>document.getElementById(id);
+const HOMES=window.HOMES, ROOMS=window.ROOMS;
+const HERO={CP:'photos/cp-hero.jpg',IH:'photos/ih-hero.jpg',TG:'photos/tg-hero.jpg'};
+const sgd=n=>'S$'+n.toLocaleString('en-SG');
+const days=d=>Math.round((new Date(d)-TODAY)/86400000);
+const nice=d=>new Date(d).toLocaleDateString('en-SG',{day:'numeric',month:'long',year:'numeric'});
+
+const code=(new URLSearchParams(location.search).get('code')||'CP-MR').toUpperCase();
+const r=ROOMS.find(x=>x.code===code);
+
+if(!r){
+  $('main').innerHTML='<div class="wrap sec"><div class="empty"><div class="h3">That room is not on the board</div>'+
+    '<p class="small" style="margin-top:8px">It may have been let, or the link may be old.</p>'+
+    '<a class="btn btn-ghost btn-sm" href="book.html" style="margin-top:16px">See every room</a></div></div>';
+}else{
+  const h=HOMES.find(x=>x.code===r.home);
+  const open=days(r.next)<=0;
+  const ph=r.photos.length?r.photos:[HERO[r.home]];
+  document.title='Lazybee · '+r.type+' at '+h.name;
+  const others=ROOMS.filter(x=>x.home===r.home&&x.code!==r.code).slice(0,3);
+
+  $('main').innerHTML=
+  '<div class="gallery">'+
+    '<div class="main"><img id="shot" src="'+ph[0]+'" alt="'+r.type+' at '+h.name+'"></div>'+
+    '<div class="side">'+
+      '<button type="button" data-i="1"><img src="'+(ph[1]||ph[0])+'" alt=""></button>'+
+      '<button type="button" data-i="2"><img src="'+(ph[2]||ph[0])+'" alt="">'+
+        (ph.length>3?'<span class="more">+'+(ph.length-3)+' more</span>':'')+'</button>'+
+    '</div>'+
+  '</div>'+
+
+  '<div class="wrap" style="padding-top:var(--s5)">'+
+    (ph.length>1?'<div class="strip" id="strip">'+ph.map((p,i)=>
+      '<button type="button" data-i="'+i+'"'+(i===0?' aria-current="true"':'')+
+      ' style="background-image:url('+p+')" aria-label="Photo '+(i+1)+'"></button>').join('')+'</div>':'')+
+  '</div>'+
+
+  '<div class="wrap sec" style="padding-top:var(--s6)">'+
+   '<div class="layout">'+
+    '<div>'+
+      '<div class="label">'+h.full+' &middot; '+r.code+'</div>'+
+      '<h1 class="h1" style="margin-top:12px">'+r.type+' in '+(h.mrt?h.mrt.station:h.name)+'.</h1>'+
+      '<p class="body" style="margin-top:18px">'+
+        'A '+r.sqm+' square metre '+r.type.toLowerCase()+' with a '+(r.bed||'bed').toLowerCase()+', '+
+        (r.ensuite?'its own bathroom':'a shared bathroom')+' and aircon, in a '+
+        ROOMS.filter(x=>x.home===r.home).length+' room home '+
+        (h.mrt?h.mrt.walking_minutes+' minutes on foot from '+h.mrt.station+' MRT':'')+'. '+
+        'Utilities, wifi and the weekly common area clean are already in the rent, and there is no agent commission '+
+        'because there is no agent.</p>'+
+
+      '<div class="specs">'+[
+        ['Rent',sgd(r.price)+' a month'],
+        ['Deposit','One month'],
+        ['Size',r.sqm+' sqm'],
+        ['Bed',r.bed||'not set'],
+        ['Sleeps',r.occ+(r.occ>1?' people':' person')],
+        ['Bathroom',r.ensuite?'Ensuite, yours':'Shared with the house'],
+        ['Minimum stay',r.min+' months'],
+        ['Available',open?'Now':'From '+nice(r.next)],
+      ].map(s=>'<div><div class="k">'+s[0]+'</div><div class="v">'+s[1]+'</div></div>').join('')+'</div>'+
+
+      '<h2 class="h2" style="margin-top:var(--s8)">In the room</h2>'+
+      '<div class="amen">'+r.am.map(a=>'<div><i></i><span>'+a+'</span></div>').join('')+
+        '<div><i></i><span>Air conditioning</span></div>'+
+        '<div><i></i><span>Weekly clean of the common areas</span></div>'+
+        '<div><i></i><span>All utilities and wifi</span></div>'+'</div>'+
+
+      '<h2 class="h2" style="margin-top:var(--s8)">The house</h2>'+
+      '<p class="body" style="margin-top:14px">'+h.full+', '+h.address+'. '+
+        (h.mrt?h.mrt.station+' MRT on the '+h.mrt.line+', about '+h.mrt.walking_minutes+' minutes on foot. ':'')+
+        'One of the housemates is the house captain, which means somebody who actually lives there is the person '+
+        'you knock on when the wifi dies, rather than a hotline.</p>'+
+      '<div class="rows" style="margin-top:var(--s5);max-width:460px">'+
+        '<div class="row"><span>Rooms in the house</span><b>'+ROOMS.filter(x=>x.home===r.home).length+'</b></div>'+
+        '<div class="row"><span>Common area clean</span><b>Weekly, fixed morning</b></div>'+
+        '<div class="row"><span>Cats</span><b>Allowed, ask us first</b></div>'+
+        '<div class="row"><span>Agent fee</span><b>None</b></div>'+
+      '</div>'+
+    '</div>'+
+
+    '<aside class="booking">'+
+      '<span class="badge '+(open?'badge-warn':'badge-mut')+'">'+(open?'Available now':'From '+nice(r.next))+'</span>'+
+      '<div class="num" style="font-size:34px;font-weight:700;letter-spacing:-.03em;margin-top:14px">'+sgd(r.price)+
+        '<span class="label" style="letter-spacing:.2em;margin-left:8px">per month</span></div>'+
+      '<p class="fine" style="margin-top:10px">Everything in. Utilities, wifi and the weekly clean are not extra.</p>'+
+      '<div class="rows" style="margin-top:var(--s5)">'+
+        '<div class="row"><span>Rent</span><b>'+sgd(r.price)+'</b></div>'+
+        '<div class="row"><span>Deposit, refundable</span><b>'+sgd(r.price)+'</b></div>'+
+        '<div class="row"><span>Agent commission</span><b>S$0</b></div>'+
+        '<div class="row"><span>To move in</span><b>'+sgd(r.price*2)+'</b></div>'+
+      '</div>'+
+      '<div style="display:flex;flex-direction:column;gap:10px;margin-top:var(--s5)">'+
+        '<button class="btn btn-accent" type="button" id="reserve">Reserve this room</button>'+
+        '<button class="btn btn-ghost" type="button" id="viewing">Book a viewing</button>'+
+        '<a class="btn btn-ghost" href="https://wa.me/6580695410" target="_blank" rel="noopener">Ask a question</a>'+
+      '</div>'+
+      '<p class="fine" style="margin-top:14px">Reserving holds the room while we get the agreement to you. '+
+        'Viewings need two working days of notice, because a house captain has to open the unit.</p>'+
+    '</aside>'+
+   '</div>'+
+
+   (others.length?'<h2 class="h2" style="margin-top:var(--s9)">Also in '+h.name+'</h2>'+
+    '<div class="others">'+others.map(o=>{
+      const oo=days(o.next)<=0;
+      return '<a class="oc" href="room.html?code='+o.code+'">'+
+       '<div class="im"><img src="'+(o.photos[0]||HERO[o.home])+'" alt="" loading="lazy"></div>'+
+       '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-top:12px">'+
+         '<div><div class="label">'+o.code+'</div>'+
+         '<div class="h3" style="margin-top:5px">'+o.type+'</div></div>'+
+         '<div class="num" style="font-weight:700;font-size:17px">'+sgd(o.price)+'</div></div>'+
+       '<div style="margin-top:10px"><span class="badge '+(oo?'badge-warn':'badge-mut')+'">'+
+         (oo?'Available now':'From '+new Date(o.next).toLocaleDateString('en-SG',{day:'numeric',month:'short'}))+
+         '</span></div></a>';
+    }).join('')+'</div>':'')+
+  '</div>';
+
+  let i=0;
+  function show(n){
+    i=(n+ph.length)%ph.length;
+    $('shot').src=ph[i];
+    document.querySelectorAll('#strip button').forEach((b,k)=>
+      k===i?b.setAttribute('aria-current','true'):b.removeAttribute('aria-current'));
+  }
+  document.querySelector('.gallery .side').addEventListener('click',e=>{
+    const b=e.target.closest('button');if(b)show(+b.dataset.i);});
+  const strip=$('strip');
+  if(strip) strip.addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(+b.dataset.i);});
+  addEventListener('keydown',e=>{if(e.key==='ArrowRight')show(i+1);if(e.key==='ArrowLeft')show(i-1);});
+  $('reserve').addEventListener('click',()=>alert('Prototype. In the real build this opens the reservation flow and writes a soft_reserve row into hyve-iot.'));
+  $('viewing').addEventListener('click',()=>alert('Prototype. In the real build this opens the viewing calendar, which only offers slots two working days out.'));
+}
+
+$('mode').addEventListener('click',e=>{
+ const dark=document.documentElement.dataset.theme==='tobacco';
+ document.documentElement.dataset.theme=dark?'alabaster':'tobacco';
+ e.target.textContent=dark?'Dark':'Light';
+});
+</script>
+</body>
+</html>

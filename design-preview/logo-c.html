@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee: C, thickened</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Italiana&family=Inter+Tight:wght@300;400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0D1210;color:#EDE6DA;font-family:'Inter Tight',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1300px;margin:0 auto;padding:0 34px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#7E8A82}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:48px;margin:12px 0 10px}
+h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:29px;margin-bottom:4px}
+.lede{max-width:66ch;font-size:15px;line-height:1.7;color:#8B978E}
+.lede b{color:#EDE6DA;font-weight:400}
+header{padding:54px 0 6px}
+section{padding:48px 0;border-top:1px solid #1C2724}
+.matrix{display:grid;grid-template-columns:96px repeat(3,1fr) 1fr;gap:12px;margin-top:26px;align-items:center}
+.mh{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#B08D4F;text-align:center}
+.rh{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#B08D4F;line-height:1.5}
+.cell{border:1px solid #1C2724;background:#111815;padding:16px 8px 10px;text-align:center}
+.cell.pick{border-color:#B08D4F}
+.cap{margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.13em;color:#6E7A73}
+.strip{display:flex;flex-wrap:wrap;gap:26px;align-items:flex-end;margin-top:26px}
+.tile{border:1px solid #1C2724;background:#111815;padding:20px 22px 14px;text-align:center}
+.tile.lightbg{background:#F6F2EA;border-color:#E2DACC}
+.wm{display:block;line-height:1;margin-top:12px}
+.wm .word{display:block;font-family:'Italiana',serif;letter-spacing:.34em;font-size:20px}
+.wm .sub{display:block;font-family:'Inter Tight',sans-serif;letter-spacing:.44em;text-transform:uppercase;font-size:7.5px;margin-top:9px}
+@media(max-width:1000px){.matrix{grid-template-columns:70px repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="tag">Lazybee &middot; direction C &middot; round four</div>
+  <h1>Fatter lines, and a body on the bottom point.</h1>
+  <p class="lede">Two dials, swept independently so you can see what each one is doing.
+  <b>Weight</b> thickens every point by pulling the taper controls inward and opening the valleys, which is what makes it hold at small size.
+  <b>Body</b> drags the downward point out into an abdomen, so the thing you already read as a stinger gets something to come out of.
+  Antennae, wings, legs and stinger all stay where they were.</p>
+</header>
+
+<section class="wrap">
+  <div class="tag">01 &middot; the sweep</div>
+  <h2>Weight against body</h2>
+  <div class="matrix" id="matrix"></div>
+</section>
+
+<section class="wrap">
+  <div class="tag">02 &middot; small sizes</div>
+  <h2>Where the old one died</h2>
+  <p class="lede">Previous C collapsed into a dash at 16px. Each weight shown at 44, 22 and 16 with the medium body.</p>
+  <div class="strip" id="small"></div>
+</section>
+
+<section class="wrap" style="padding-bottom:90px">
+  <div class="tag">03 &middot; in place</div>
+  <h2>Lockups</h2>
+  <div class="strip" id="locks"></div>
+</section>
+
+<script>
+/* seven-point star, per-point length and per-point taper */
+function star(cx,cy,R,rv,rot,radii,taper){
+  const n=7, step=360/n;
+  const rad=i=>R*radii[i%n], tap=i=>R*taper[i%n];
+  const P=(a,r)=>[ (cx+r*Math.cos(a*Math.PI/180)).toFixed(2), (cy+r*Math.sin(a*Math.PI/180)).toFixed(2) ];
+  let d='';
+  for(let i=0;i<n;i++){
+    const a0=rot+i*step, av=rot+(i+.5)*step, a1=rot+(i+1)*step;
+    const tipA=P(a0,rad(i)), tipB=P(a1,rad(i+1)), val=P(av,rv);
+    const c1=P(a0,tap(i)), c2=P(a1,tap(i+1));
+    if(!i) d+='M'+tipA[0]+','+tipA[1];
+    d+='Q'+c1[0]+','+c1[1]+' '+val[0]+','+val[1];
+    d+='Q'+c2[0]+','+c2[1]+' '+tipB[0]+','+tipB[1];
+  }
+  return d+'Z';
+}
+/* abdomen: a teardrop hanging from the middle, point down, merged into the star */
+function body(cx,cy,w,L){
+  return 'M'+cx+','+(cy+L)+
+    ' C'+(cx-w)+','+(cy+L*0.60)+' '+(cx-w)+','+(cy+4)+' '+cx+','+(cy-3)+
+    ' C'+(cx+w)+','+(cy+4)+' '+(cx+w)+','+(cy+L*0.60)+' '+cx+','+(cy+L)+' Z';
+}
+
+const CX=50, CY=50, R=34, ROT=90;
+/* order from the down point, clockwise: stinger, leg, wing, antenna, antenna, wing, leg.
+   wings lengthened so the abdomen cannot dominate the silhouette. */
+const LEN = [0.88, 0.60, 1.20, 0.80, 0.80, 1.20, 0.60];
+
+const WEIGHT = {
+  light:  {rv:5.5,  taper:[0.32,0.30,0.34,0.28,0.28,0.34,0.30], label:'LIGHT'},
+  medium: {rv:8.5,  taper:[0.24,0.23,0.30,0.19,0.19,0.30,0.23], label:'MEDIUM'},
+  heavy:  {rv:11.5, taper:[0.18,0.16,0.24,0.13,0.13,0.24,0.16], label:'HEAVY'},
+};
+const BODY = { none:{w:0,L:0,label:'NO BODY'}, slim:{w:9.5,L:R*0.72,label:'SLIM'},
+               full:{w:12,L:R*0.82,label:'FULL'}, drag:{w:13.5,L:R*0.94,label:'DRAGGED OUT'} };
+
+function mark(wk,bk,size,ink,accent,dot,bands){
+  const W=WEIGHT[wk], B=BODY[bk];
+  let s='<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 106" aria-hidden="true"><g fill="'+ink+'">';
+  s+='<path d="'+star(CX,CY,R,W.rv,ROT,LEN,W.taper)+'"/>';
+  if (B.w) s+='<path d="'+body(CX,CY,B.w,B.L)+'"/>';
+  s+='</g>';
+  if (bands && B.w>8) s+='<g stroke="#0D1210" stroke-width="'+(size>60?2.1:2.8)+'" stroke-linecap="round">'+
+    '<path d="M'+(CX-B.w*0.72)+','+(CY+B.L*0.34)+' H'+(CX+B.w*0.72)+
+    ' M'+(CX-B.w*0.55)+','+(CY+B.L*0.56)+' H'+(CX+B.w*0.55)+'"/></g>';
+  if (dot) s+='<circle cx="'+CX+'" cy="9.5" r="8.4" fill="'+(accent||ink)+'"/>';
+  return s+'</svg>';
+}
+
+const INK='#EDE6DA', BRASS='#B08D4F';
+let h='<div></div>'+['none','slim','full','drag'].map(b=>'<div class="mh">'+BODY[b].label+'</div>').join('');
+['light','medium','heavy'].forEach(w=>{
+  h+='<div class="rh">'+WEIGHT[w].label+'</div>';
+  ['none','slim','full','drag'].forEach(b=>{
+    const pick = (w==='medium'&&b==='full');
+    h+='<div class="cell'+(pick?' pick':'')+'">'+mark(w,b,104,INK,BRASS,true)+
+       '<div class="cap">'+(pick?'MY PICK':WEIGHT[w].label.split(' ')[0]+' / '+BODY[b].label)+'</div></div>';
+  });
+});
+document.getElementById('matrix').innerHTML=h;
+
+document.getElementById('small').innerHTML = ['light','medium','heavy'].map(w=>
+  '<div class="tile"><div style="display:flex;gap:20px;align-items:center;justify-content:center">'+
+  mark(w,'full',44,INK,BRASS,true)+mark(w,'full',22,INK,BRASS,true)+mark(w,'full',16,INK,BRASS,true)+
+  '</div><div class="cap">'+WEIGHT[w].label+'</div></div>').join('');
+
+const L=[['medium','full',false,false],['medium','full',false,true],['medium','drag',true,false],['heavy','full',true,false]];
+document.getElementById('locks').innerHTML = L.map((p,i)=>{
+  const light = i%2===1;
+  const ink = light?'#241C16':INK, acc = light?'#B8873B':BRASS, sub = light?'#8C8073':BRASS;
+  return '<div class="tile'+(light?' lightbg':'')+'" style="color:'+ink+'">'+
+    mark(p[0],p[1],104,ink,acc,true,p[3])+
+    '<span class="wm"><span class="word">LAZYBEE</span><span class="sub" style="color:'+sub+'">SINGAPORE</span></span>'+
+    '<div class="cap" style="color:'+(light?'#8C8073':'#6E7A73')+'">'+WEIGHT[p[0]].label.split(' ')[0]+' / '+BODY[p[1]].label+(p[3]?' / BANDS':'')+'</div></div>';
+}).join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="en" data-theme="alabaster">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee &middot; Rooms in Singapore</title>
+<meta name="description" content="Co-living rooms in three Singapore homes. See exactly which room opens in which month, book a viewing, and move in without an agent fee.">
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Hanken+Grotesk:wght@400;500;700&family=Italiana&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lazybee.css">
+<script src="book-data.js"></script>
+<style>
+/* ── page-local tokens ────────────────────────────────────────────── */
+[data-theme="alabaster"]{--taken:#E4DCCD;--taken-ink:#8A7F6E;--open:#0E2E20;--open-ink:#F1EADF;--soon:#B08D4F}
+[data-theme="tobacco"]{--taken:#3A2A1F;--taken-ink:#9C8A72;--open:#B08D4F;--open-ink:#241812;--soon:#C6A467}
+
+/* ── header ───────────────────────────────────────────────────────── */
+header{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;
+  gap:20px;padding:16px clamp(20px,4vw,58px);border-bottom:1px solid transparent;color:#F2EDE3;
+  transition:background .35s,border-color .35s,color .35s}
+header.solid{background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);
+  border-bottom-color:var(--line);color:var(--ink)}
+header .brandlock svg{width:30px;fill:var(--accent)}
+header .brandlock{display:flex;align-items:center;gap:13px;text-decoration:none}
+header .wd{font-family:var(--display);font-size:20px;letter-spacing:.20em}
+header nav{display:flex;align-items:center;gap:clamp(14px,2vw,28px)}
+header nav a,header nav button{font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;
+  text-decoration:none;color:inherit;background:none;border:0;cursor:pointer;opacity:.82}
+header nav a:hover,header nav button:hover{opacity:1}
+header .wa{border:1px solid currentColor;border-radius:var(--r-pill);padding:8px 15px;opacity:1}
+@media(max-width:840px){header nav .hide-sm{display:none}}
+
+/* ── hero ─────────────────────────────────────────────────────────── */
+.hero{position:relative;min-height:min(94svh,880px);display:flex;align-items:flex-end;overflow:hidden;background:#0C0F0F}
+.hero .shots{position:absolute;inset:0}
+.hero .shots img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
+  transition:opacity 1.5s var(--ease);transform:scale(1.04)}
+.hero .shots img.on{opacity:1}
+.hero .scrim{position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(6,9,8,.70) 0%,rgba(6,9,8,.20) 30%,rgba(6,9,8,.45) 62%,rgba(6,9,8,.92) 100%)}
+.hero .inner{position:relative;z-index:2;width:100%;padding:clamp(90px,12vh,150px) clamp(20px,4vw,58px) clamp(30px,5vh,54px)}
+.hero .eyeb{font-family:var(--mono);font-size:12.5px;letter-spacing:.28em;text-transform:uppercase;color:#E3D3AE;
+  text-shadow:0 1px 14px rgba(0,0,0,.6)}
+.hero h1{font-family:var(--head);font-weight:300;font-size:clamp(38px,6.4vw,90px);line-height:.98;letter-spacing:-.015em;
+  color:#F7F3EA;margin-top:18px;max-width:17ch;text-shadow:0 2px 40px rgba(0,0,0,.4)}
+.hero h1 em{font-style:normal;color:#DCC48C}
+.hero .lede{margin-top:20px;max-width:56ch;font-size:17px;line-height:1.66;color:#EDE5D6;
+  text-shadow:0 1px 18px rgba(0,0,0,.65)}
+
+/* the month picker sits in the hero: it is the page's primary control */
+.picker{margin-top:clamp(26px,4vh,42px);max-width:940px}
+.picker .cap{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#D9CBAF;
+  margin-bottom:11px}
+.months{display:flex;gap:7px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.months button{flex:0 0 auto;min-width:74px;min-height:56px;padding:9px 13px;border-radius:var(--r);cursor:pointer;
+  background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.22);color:#F2EDE3;
+  font-family:var(--mono);text-align:center;transition:background .25s,border-color .25s,transform .25s}
+.months button:hover{background:rgba(255,255,255,.17)}
+.months button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#241812}
+.months .mo{font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:500}
+.months .ct{font-size:12.5px;margin-top:4px;opacity:.85}
+.months button[aria-pressed="true"] .ct{opacity:1}
+.hero .place{position:absolute;right:clamp(20px,4vw,58px);top:clamp(88px,12vh,132px);z-index:2;text-align:right;color:#F7F3EA}
+.hero .place .nm{font-family:var(--grot);font-weight:700;font-size:19px;text-shadow:0 1px 16px rgba(0,0,0,.6)}
+.hero .place .ar{font-family:var(--mono);font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:#D3C7B2;margin-top:5px}
+@media(max-width:760px){.hero .place{display:none}}
+
+/* ── the ribbon: rooms against months ─────────────────────────────── */
+.ribbon-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:var(--r);
+  background:var(--raised)}
+.ribbon{min-width:760px;width:100%;border-collapse:collapse}
+.ribbon th,.ribbon td{padding:0;text-align:left}
+.ribbon thead th{position:sticky;top:0;z-index:3;background:var(--raised);border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  padding:12px 6px;text-align:center;font-weight:400}
+.ribbon thead th.rm{text-align:left;padding-left:16px;min-width:190px}
+.ribbon thead th.sel{color:var(--accent-text);font-weight:700}
+.ribbon tbody tr{border-bottom:1px solid var(--line)}
+.ribbon tbody tr:last-child{border-bottom:0}
+.ribbon tbody tr.homehead td{background:var(--surface);padding:9px 16px;
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.ribbon td.rm{padding:11px 16px;min-width:190px}
+.ribbon td.rm a{text-decoration:none;display:block}
+.ribbon td.rm .nm{font-family:var(--grot);font-weight:500;font-size:14.5px;color:var(--ink)}
+.ribbon td.rm .mt{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:3px}
+.ribbon td.cell{padding:6px 3px;text-align:center;vertical-align:middle}
+.ribbon td.cell .bar{height:28px;border-radius:2px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.06em}
+.bar.taken{background:var(--taken);color:var(--taken-ink)}
+.bar.open{background:var(--open);color:var(--open-ink)}
+.bar.first{background:var(--soon);color:#241812;font-weight:700}
+.ribbon td.cell.selcol{background:color-mix(in srgb,var(--accent) 13%,transparent)}
+.legend{display:flex;flex-wrap:wrap;gap:18px;margin-top:var(--s4)}
+.legend span{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.legend i{width:22px;height:11px;border-radius:2px;display:block}
+
+/* ── room cards ───────────────────────────────────────────────────── */
+.rooms{display:grid;gap:var(--s5);grid-template-columns:repeat(auto-fill,minmax(295px,1fr))}
+.rm-card{border:1px solid var(--line);border-radius:var(--r);background:var(--raised);overflow:hidden;
+  display:flex;flex-direction:column;transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.rm-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.rm-card .ph{position:relative;aspect-ratio:4/3;background:var(--surface);overflow:hidden}
+.rm-card .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.rm-card:hover .ph img{transform:scale(1.045)}
+.rm-card .tag{position:absolute;left:12px;top:12px;border-radius:var(--r-pill);padding:6px 12px;
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--accent);color:#241812;font-weight:700}
+.rm-card .tag.later{background:color-mix(in srgb,var(--ink) 82%,transparent);color:var(--bg)}
+.rm-card .bd{padding:var(--s5);display:flex;flex-direction:column;gap:11px;flex:1}
+.rm-card .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.rm-card .nm{font-family:var(--grot);font-weight:700;font-size:17px}
+.rm-card .pr{font-family:var(--mono);font-size:16px;color:var(--ink);white-space:nowrap}
+.rm-card .pr s{color:var(--faint);font-size:12.5px}
+.rm-card .where{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.rm-card .facts{display:flex;flex-wrap:wrap;gap:7px;margin-top:2px}
+.rm-card .facts span{font-family:var(--mono);font-size:12px;color:var(--muted);border:1px solid var(--line);
+  border-radius:var(--r-pill);padding:4px 10px}
+.rm-card .when{font-family:var(--mono);font-size:13px;color:var(--accent-text);margin-top:auto;padding-top:8px}
+.rm-card .acts{display:flex;gap:9px;padding:0 var(--s5) var(--s5)}
+.rm-card .acts .btn{flex:1;justify-content:center;min-height:46px;font-size:12.5px}
+
+/* ── filter bar ───────────────────────────────────────────────────── */
+.filters{position:sticky;top:62px;z-index:40;background:color-mix(in srgb,var(--bg) 94%,transparent);
+  backdrop-filter:blur(10px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:13px clamp(20px,4vw,58px)}
+.filters .in{max-width:1560px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.filters .grp{display:flex;gap:7px;flex-wrap:wrap}
+.fchip{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;padding:9px 14px;min-height:40px;
+  border:1px solid var(--line);border-radius:var(--r-pill);background:transparent;color:var(--muted);cursor:pointer;
+  transition:background .22s,color .22s,border-color .22s}
+.fchip:hover{color:var(--ink);border-color:var(--muted)}
+.fchip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.filters .count{margin-left:auto;font-family:var(--mono);font-size:13px;color:var(--muted)}
+@media(max-width:700px){.filters .count{margin-left:0;width:100%}}
+
+/* ── waitlist ─────────────────────────────────────────────────────── */
+.wait{border:1px solid var(--accent);border-radius:var(--r);background:var(--raised);padding:clamp(24px,4vw,42px)}
+.wait form{display:grid;gap:13px;grid-template-columns:1fr 1fr auto;margin-top:var(--s5)}
+.wait input,.wait select{width:100%;min-height:52px;padding:13px 15px;border:1px solid var(--line);border-radius:var(--r);
+  background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px}
+.wait input:focus,.wait select:focus{outline:2px solid var(--accent);outline-offset:1px}
+.wait .btn{min-height:52px;white-space:nowrap}
+@media(max-width:760px){.wait form{grid-template-columns:1fr}}
+.wait .ok{margin-top:var(--s5);border:1px solid var(--ok);border-radius:var(--r);padding:var(--s5);
+  background:color-mix(in srgb,var(--ok) 9%,transparent)}
+
+/* ── homes ────────────────────────────────────────────────────────── */
+.homes{display:grid;gap:var(--s5);grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.home{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--raised)}
+.home .ph{aspect-ratio:16/10;overflow:hidden;background:var(--surface)}
+.home .ph img{width:100%;height:100%;object-fit:cover}
+.home .bd{padding:var(--s5)}
+.home h3{font-family:var(--grot);font-weight:700;font-size:19px}
+.home .addr{font-size:14px;line-height:1.6;color:var(--muted);margin-top:8px}
+.home dl{margin-top:var(--s4);display:grid;gap:9px}
+.home dl div{display:flex;justify-content:space-between;gap:14px;font-family:var(--mono);font-size:12.5px;
+  border-top:1px solid var(--line);padding-top:9px}
+.home dl dt{color:var(--muted)}
+.home dl dd{text-align:right;color:var(--ink)}
+
+/* ── steps ────────────────────────────────────────────────────────── */
+.steps{display:grid;gap:var(--s5);grid-template-columns:repeat(auto-fit,minmax(230px,1fr));counter-reset:s}
+.step{border-top:2px solid var(--accent);padding-top:var(--s4);counter-increment:s}
+.step .n{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--accent-text)}
+.step .n::before{content:"0" counter(s) " / 04"}
+.step h4{font-family:var(--grot);font-weight:700;font-size:17px;margin-top:10px}
+.step p{font-size:15px;line-height:1.66;color:var(--muted);margin-top:9px}
+
+/* ── faq ──────────────────────────────────────────────────────────── */
+.faq{border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:var(--s5) 0;display:flex;justify-content:space-between;gap:20px;
+  font-family:var(--grot);font-weight:500;font-size:17px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--mono);color:var(--accent-text);font-size:20px;line-height:1}
+.faq details[open] summary::after{content:"\2212"}
+.faq .a{padding-bottom:var(--s5);max-width:70ch;font-size:16px;line-height:1.72;color:var(--muted)}
+
+/* ── reveal ───────────────────────────────────────────────────────────
+   Content is VISIBLE by default and the animation is opt-in: JS sets
+   data-rv="on" only once it knows it can finish the job. A previous version
+   of this pattern hid everything in CSS and relied on IntersectionObserver
+   to bring it back, which left whole sections permanently invisible when the
+   observer did not fire. On a page whose job is to let someone find a room,
+   no animation is far better than an invisible section. */
+.rv{opacity:1;transform:none}
+[data-rv="on"] .rv{opacity:0;transform:translateY(15px);
+  transition:opacity .8s var(--ease),transform .8s var(--ease)}
+[data-rv="on"] .rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  [data-rv="on"] .rv{opacity:1;transform:none;transition:none}
+  .hero .shots img{transition:none}
+  *{scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<header id="hd">
+  <a class="brandlock" href="#top">
+    <svg viewBox="13.43 21.63 73.13 57.45" aria-label="Lazybee"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd">LAZYBEE</span>
+  </a>
+  <nav>
+    <a href="#ribbon" class="hide-sm">What is open</a>
+    <a href="#browse" class="hide-sm">Rooms</a>
+    <a href="#homes" class="hide-sm">Homes</a>
+    <a href="hive.html" class="hide-sm">The Hive</a>
+    <button id="mode" type="button">Dark</button>
+    <a class="wa" id="waTop" href="#" target="_blank" rel="noopener">WhatsApp us</a>
+  </nav>
+</header>
+
+<span id="top"></span>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="shots" id="shots"></div>
+  <div class="scrim"></div>
+  <div class="place">
+    <div class="nm" id="phName">Thomson Grove</div>
+    <div class="ar" id="phArea">Upper Thomson</div>
+  </div>
+  <div class="inner">
+    <div class="eyeb">Co-living rooms &middot; Singapore</div>
+    <h1 id="heroHl">Rooms open up one at a time.<br><em>Here is when.</em></h1>
+    <p class="lede" id="heroLede"></p>
+
+    <div class="picker">
+      <div class="cap">When do you need to move in?</div>
+      <div class="months" id="months" role="group" aria-label="Choose a move-in month"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ THE RIBBON ═══ -->
+<section class="sec wrap-wide" id="ribbon">
+  <div class="rv">
+    <div class="label">The next twelve months</div>
+    <h2 class="h1" style="margin-top:14px">Every room, and the month it frees up.</h2>
+    <p class="body" style="margin-top:18px">Nineteen rooms across three homes. Most of them have someone living in
+    them right now, which is the honest picture of a small co-living operation rather than a hotel. Pick your month
+    above and this fills in. The gold cell is the month a room first becomes yours to take.</p>
+  </div>
+
+  <div class="ribbon-wrap rv" style="margin-top:var(--s6)">
+    <table class="ribbon" id="ribbonTable">
+      <thead><tr id="ribHead"></tr></thead>
+      <tbody id="ribBody"></tbody>
+    </table>
+  </div>
+  <div class="legend rv">
+    <span><i class="bar taken" style="background:var(--taken)"></i> Someone is living there</span>
+    <span><i class="bar first" style="background:var(--soon)"></i> First month it is free</span>
+    <span><i class="bar open" style="background:var(--open)"></i> Free</span>
+  </div>
+  <p class="fine rv" style="margin-top:var(--s4);color:var(--faint)">Live from our own system, not a brochure.
+  Dates move when a tenant gives notice or extends, so treat anything more than three months out as a plan rather
+  than a promise.</p>
+</section>
+
+<!-- ═══ FILTERS + ROOMS ═══ -->
+<div class="filters" id="filters">
+  <div class="in">
+    <div class="grp" id="fHomes"></div>
+    <div class="grp" id="fMisc"></div>
+    <div class="count" id="fCount"></div>
+  </div>
+</div>
+
+<section class="sec wrap-wide" id="browse">
+  <div class="rv">
+    <div class="label">The rooms</div>
+    <h2 class="h1" style="margin-top:14px" id="browseTitle">All nineteen rooms.</h2>
+    <p class="body" style="margin-top:18px" id="browseSub">Every room we run, with the real price and the real date.
+    Rooms already taken are still worth a look: they tell you what the house is like, and they are the ones that free
+    up next.</p>
+  </div>
+  <div class="rooms" id="roomGrid" style="margin-top:var(--s7)"></div>
+  <div id="noneWrap" style="margin-top:var(--s7);display:none">
+    <div class="note note-bad" style="max-width:62ch">Nothing matches that. Widen the filters, or leave your month
+    below and we will come to you when something opens.</div>
+  </div>
+</section>
+
+<!-- ═══ WAITLIST ═══ -->
+<section class="sec wrap" id="waitlist">
+  <div class="wait rv">
+    <div class="label">If nothing fits</div>
+    <h2 class="h2" style="margin-top:12px">Most months, the room you want is not free yet.</h2>
+    <p class="body" style="margin-top:16px;max-width:62ch">That is the truth of nineteen rooms. So tell us the month
+    you need and how to reach you, and you get first refusal when a room in that month opens. No deposit, no account,
+    nothing to cancel. We message you, once, when there is something real to show you.</p>
+
+    <form id="waitForm" novalidate>
+      <input type="text" id="wName" name="name" placeholder="Your name" autocomplete="name" required>
+      <input type="tel" id="wPhone" name="phone" placeholder="WhatsApp number" autocomplete="tel" required>
+      <select id="wMonth" name="month" aria-label="Move-in month"></select>
+      <input type="text" id="wBudget" name="budget" placeholder="Budget, if you have one" inputmode="numeric">
+      <select id="wHome" name="home" aria-label="Preferred home"></select>
+      <button class="btn btn-accent" type="submit">Put me on the list</button>
+    </form>
+    <p class="fine" id="waitErr" style="margin-top:12px;color:var(--bad);display:none"></p>
+    <p class="fine" style="margin-top:14px;color:var(--faint)">We use this to message you about rooms and nothing
+    else. Ask us to delete it any time and we will.</p>
+    <div class="ok" id="waitOk" style="display:none"></div>
+  </div>
+</section>
+
+<!-- ═══ WHAT IS IN THE RENT ═══ -->
+<section class="sec wrap" id="included">
+  <div class="rv">
+    <div class="label">What the rent covers</div>
+    <h2 class="h1" style="margin-top:14px">One number a month. No agent standing in the middle.</h2>
+  </div>
+  <div class="grid g3 rv" style="margin-top:var(--s7)" id="incl"></div>
+  <p class="fine rv" style="margin-top:var(--s5);color:var(--faint)">Utilities are shared across the house and billed
+  as used. We will show you the last few months for that specific home before you sign, so it is a number you have
+  seen rather than a number you are promised.</p>
+</section>
+
+<!-- ═══ HOMES ═══ -->
+<section class="sec wrap-wide" id="homes">
+  <div class="rv">
+    <div class="label">The homes</div>
+    <h2 class="h1" style="margin-top:14px">Three flats. We run all of them ourselves.</h2>
+    <p class="body" style="margin-top:18px">No franchise, no sublet chain. The same people furnish the room, answer
+    your message and fix the tap.</p>
+  </div>
+  <div class="homes rv" style="margin-top:var(--s7)" id="homeGrid"></div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="sec wrap" id="how">
+  <div class="rv">
+    <div class="label">How it works</div>
+    <h2 class="h1" style="margin-top:14px">Four steps, and you can stop at any of them.</h2>
+  </div>
+  <div class="steps rv" style="margin-top:var(--s7)">
+    <div class="step"><div class="n"></div><h4>You tell us a month</h4>
+      <p>Pick it above or send it on WhatsApp. We come back with the rooms that actually open then, including the ones
+      not on this page yet because notice only just landed.</p></div>
+    <div class="step"><div class="n"></div><h4>You see it</h4>
+      <p>In person with whoever runs that house, or on a video walk-through if you are not in Singapore. Viewings need
+      two working days of notice, because a real person has to open the door.</p></div>
+    <div class="step"><div class="n"></div><h4>You hold it</h4>
+      <p>One month deposit holds the room. No agent commission, because there is no agent. The tenancy agreement comes
+      to you to read before any money moves.</p></div>
+    <div class="step"><div class="n"></div><h4>You move in</h4>
+      <p>Furnished, cleaned, wifi already working, keys and door code sent the day before. Bring a suitcase.</p></div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="sec wrap" id="faq">
+  <div class="rv">
+    <div class="label">Questions</div>
+    <h2 class="h1" style="margin-top:14px">The things people actually ask.</h2>
+  </div>
+  <div class="faq rv" style="margin-top:var(--s6)" id="faqList"></div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="sec wrap" id="talk">
+  <div class="rv" style="text-align:center">
+    <h2 class="h1">Easier to just ask us.</h2>
+    <p class="body" style="margin:18px auto 0;max-width:56ch">Send the month you need and roughly what you want to
+    spend. You will get a straight answer about what is open, including when the answer is nothing yet.</p>
+    <div style="margin-top:var(--s6);display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a class="btn btn-accent" id="waMain" href="#" target="_blank" rel="noopener" style="min-height:52px">Message us on WhatsApp</a>
+      <a class="btn btn-ghost" href="#waitlist" style="min-height:52px">Leave your month instead</a>
+    </div>
+    <p class="fine" style="margin-top:var(--s5);color:var(--faint)">Singapore line, answered by the people who run
+    the houses.</p>
+  </div>
+</section>
+
+<footer class="wrap" style="border-top:1px solid var(--line);padding:36px 0 64px;display:flex;
+  justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center">
+  <span class="label">Lazybee &middot; Co-living in Singapore</span>
+  <span class="label"><a href="owners.html" class="link">Own a unit?</a></span>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   Booking page. Everything on this page is drawn from book-data.js,
+   which is generated straight out of hyve-iot. Nothing here is typed
+   in by hand, so the page cannot drift from the database.
+   ═══════════════════════════════════════════════════════════════ */
+const $=id=>document.getElementById(id);
+const ROOMS=window.ROOMS||[], HOMES=window.HOMES||[];
+const WA='6580695410';                      /* Hyve SG team line, not Mark's personal number */
+const WORDS=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve',
+             'thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+const word=n=>WORDS[n]||String(n);
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONL=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+/* ── dates ─────────────────────────────────────────────────────────
+   A room is free in a given month if its next_available date falls on
+   or before the END of that month. A null next_available means nobody
+   is in it, so it is free now. */
+const today=new Date(); today.setHours(0,0,0,0);
+const MONTHS=[...Array(12)].map((_,i)=>{
+  const d=new Date(today.getFullYear(),today.getMonth()+i,1);
+  return {y:d.getFullYear(),m:d.getMonth(),label:MON[d.getMonth()],long:MONL[d.getMonth()],
+          end:new Date(d.getFullYear(),d.getMonth()+1,0,23,59,59),
+          key:d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')};
+});
+const openFrom=r=>r.next ? new Date(r.next+'T00:00:00') : today;
+const freeInMonth=(r,mo)=>openFrom(r)<=mo.end;
+/* the first month in our window where the room is free */
+function firstFreeIdx(r){
+  for(let i=0;i<MONTHS.length;i++) if(freeInMonth(r,MONTHS[i])) return i;
+  return -1;
+}
+const fmtDate=d=>d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear();
+
+/* ── state ─────────────────────────────────────────────────────── */
+const state={month:null,home:'',ensuite:false,couple:false,budget:''};
+
+/* ── hero ──────────────────────────────────────────────────────── */
+const HERO_SHOTS=[
+  {src:'photos/tg-hero.jpg',name:'Thomson Grove',area:'Upper Thomson'},
+  {src:'photos/cp-hero.jpg',name:'Chiltern Park',area:'Serangoon'},
+  {src:'photos/ih-hero.jpg',name:'Ivory Heights',area:'Jurong East'},
+];
+$('shots').innerHTML=HERO_SHOTS.map((s,i)=>`<img src="${s.src}" alt="" class="${i===0?'on':''}">`).join('');
+let shotI=0;
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches && HERO_SHOTS.length>1){
+  setInterval(()=>{
+    const imgs=$('shots').querySelectorAll('img');
+    imgs[shotI].classList.remove('on');
+    shotI=(shotI+1)%HERO_SHOTS.length;
+    imgs[shotI].classList.add('on');
+    $('phName').textContent=HERO_SHOTS[shotI].name;
+    $('phArea').textContent=HERO_SHOTS[shotI].area;
+  },6000);
+}
+
+/* The lede states the true count rather than a marketing claim, so it can
+   never overstate what we have. Ninety days is the practical search window. */
+(function(){
+  const cutoff=new Date(today); cutoff.setDate(cutoff.getDate()+90);
+  const free=ROOMS.filter(r=>!r.next || openFrom(r)<=today);
+  /* "opening" excludes anything already free, so the two numbers never double count */
+  const opening=ROOMS.filter(r=>openFrom(r)>today && openFrom(r)<=cutoff);
+  const pool=[...free,...opening];
+  const lo=Math.min(...(pool.length?pool:ROOMS).map(r=>r.price));
+  const bits=[];
+  bits.push(free.length
+    ? `${word(free.length).replace(/^./,c=>c.toUpperCase())} ${free.length===1?'room is':'rooms are'} free today`
+    : 'Nothing is standing empty today');
+  bits.push(opening.length
+    ? `${word(opening.length)} more ${opening.length===1?'opens':'open'} in the next three months`
+    : 'nothing else opens for three months');
+  $('heroLede').textContent=bits.join(', ')+`. From S$${lo.toLocaleString()} a month, one month deposit, and no agent fee because there is no agent.`;
+})();
+
+/* ── month picker ──────────────────────────────────────────────── */
+function countForMonth(i){ return ROOMS.filter(r=>{
+  const f=firstFreeIdx(r); return f>-1 && f<=i;
+}).length; }
+$('months').innerHTML=MONTHS.map((mo,i)=>
+  `<button type="button" data-i="${i}" aria-pressed="false">
+     <span class="mo">${mo.label}${mo.m===0?" '"+String(mo.y).slice(2):''}</span>
+     <span class="ct">${countForMonth(i)} free</span>
+   </button>`).join('');
+$('months').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  const i=+b.dataset.i;
+  state.month = state.month===i ? null : i;    /* tapping the same month clears it */
+  syncMonth(); render();
+  if(state.month!==null) $('ribbon').scrollIntoView({behavior:'smooth',block:'start'});
+});
+function syncMonth(){
+  [...$('months').children].forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.i===state.month)));
+  $('wMonth').value = state.month===null ? '' : MONTHS[state.month].key;
+}
+
+/* ── the ribbon ────────────────────────────────────────────────── */
+function drawRibbon(){
+  $('ribHead').innerHTML='<th class="rm">Room</th>'+MONTHS.map((mo,i)=>
+    `<th class="${i===state.month?'sel':''}">${mo.label}</th>`).join('');
+  let html='';
+  HOMES.forEach(h=>{
+    const rs=ROOMS.filter(r=>r.home===h.code).sort((a,b)=>a.price-b.price);
+    if(!rs.length) return;
+    html+=`<tr class="homehead"><td colspan="${MONTHS.length+1}">${h.name} &middot; ${rs.length} rooms</td></tr>`;
+    rs.forEach(r=>{
+      const f=firstFreeIdx(r);
+      html+=`<tr><td class="rm"><a href="room.html?code=${r.code}">
+        <span class="nm">${roomLabel(r)}</span>
+        <span class="mt">S$${r.price.toLocaleString()} &middot; ${r.code}</span></a></td>`;
+      MONTHS.forEach((mo,i)=>{
+        const free=freeInMonth(r,mo);
+        const cls=!free?'taken':(i===f?'first':'open');
+        const txt=(i===f)?'free':'';
+        html+=`<td class="cell ${i===state.month?'selcol':''}"><div class="bar ${cls}">${txt}</div></td>`;
+      });
+      html+='</tr>';
+    });
+  });
+  $('ribBody').innerHTML=html;
+}
+const roomLabel=r=>(r.name||r.code).replace(/^(CP|IH|TG)\s+/,'');
+
+/* ── filters ───────────────────────────────────────────────────── */
+$('fHomes').innerHTML=`<button class="fchip" data-home="" aria-pressed="true">All homes</button>`+
+  HOMES.map(h=>`<button class="fchip" data-home="${h.code}" aria-pressed="false">${h.name.replace(/\s\d+$/,'')}</button>`).join('');
+$('fMisc').innerHTML=
+  `<button class="fchip" data-flag="ensuite" aria-pressed="false">Own bathroom</button>`+
+  `<button class="fchip" data-flag="couple" aria-pressed="false">Fits two</button>`+
+  `<button class="fchip" data-flag="budget" data-v="1200" aria-pressed="false">Under S$1,200</button>`;
+$('filters').addEventListener('click',e=>{
+  const b=e.target.closest('.fchip'); if(!b) return;
+  if(b.dataset.home!==undefined){
+    state.home=b.dataset.home;
+    [...$('fHomes').children].forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.home===state.home)));
+  }else{
+    const f=b.dataset.flag;
+    if(f==='budget'){ state.budget = state.budget ? '' : b.dataset.v; b.setAttribute('aria-pressed',String(!!state.budget)); }
+    else { state[f]=!state[f]; b.setAttribute('aria-pressed',String(state[f])); }
+  }
+  render();
+});
+
+function matches(r){
+  if(state.home && r.home!==state.home) return false;
+  if(state.ensuite && !r.ensuite) return false;
+  if(state.couple && (r.occ||1)<2) return false;
+  if(state.budget && r.price>+state.budget) return false;
+  if(state.month!==null){ const f=firstFreeIdx(r); if(f<0||f>state.month) return false; }
+  return true;
+}
+
+/* ── room cards ────────────────────────────────────────────────── */
+function card(r){
+  const from=openFrom(r);
+  const now=from<=today;
+  const f=firstFreeIdx(r);
+  const soon=f>-1&&f<=3;
+  const tag = now ? 'Free now' : (soon ? 'Opens '+MON[from.getMonth()] : 'Later');
+  const facts=[];
+  if(r.sqm) facts.push(r.sqm+' sqm');
+  if(r.bed) facts.push(r.bed.replace(/_/g,' '));
+  if(r.ensuite) facts.push('own bathroom');
+  if((r.occ||1)>=2) facts.push('fits two');
+  if(r.minStay) facts.push(r.minStay+' mth min');
+  const msg=encodeURIComponent(`Hi Lazybee, I am interested in ${roomLabel(r)} at ${r.homeName} (${r.code}), S$${r.price} a month. `+
+    (now?`It looks free now. `:`It opens ${fmtDate(from)}. `)+`Is it still available?`);
+  return `<article class="rm-card rv">
+    <div class="ph">
+      <img src="${(r.photos[0]||'').replace(/^\//,'')}" alt="${roomLabel(r)} at ${r.homeName}" loading="lazy">
+      <span class="tag ${now||soon?'':'later'}">${tag}</span>
+    </div>
+    <div class="bd">
+      <div class="top">
+        <div class="nm">${roomLabel(r)}</div>
+        <div class="pr">S$${r.price.toLocaleString()}<s>/mo</s></div>
+      </div>
+      <div class="where">${r.homeName.replace(/\s\d+$/,'')}</div>
+      <div class="facts">${facts.map(x=>`<span>${x}</span>`).join('')}</div>
+      <div class="when">${now?'Available now':'From '+fmtDate(from)}</div>
+    </div>
+    <div class="acts">
+      <a class="btn btn-ghost btn-sm" href="room.html?code=${r.code}">See the room</a>
+      <a class="btn btn-accent btn-sm" href="https://wa.me/${WA}?text=${msg}" target="_blank" rel="noopener">Ask about it</a>
+    </div>
+  </article>`;
+}
+
+function render(){
+  drawRibbon();
+  const list=ROOMS.filter(matches).sort((a,b)=>{
+    const fa=firstFreeIdx(a),fb=firstFreeIdx(b);
+    if(fa!==fb) return (fa<0?99:fa)-(fb<0?99:fb);   /* soonest first */
+    return a.price-b.price;
+  });
+  $('roomGrid').innerHTML=list.map(card).join('');
+  $('noneWrap').style.display=list.length?'none':'block';
+  $('fCount').textContent=list.length+' of '+ROOMS.length+' rooms'+
+    (state.month!==null?' free by '+MONTHS[state.month].long:'');
+  $('browseTitle').textContent = state.month===null
+    ? `All ${word(ROOMS.length)} rooms.`
+    : `${word(list.length).replace(/^./,c=>c.toUpperCase())} ${list.length===1?'room':'rooms'} by ${MONTHS[state.month].long}.`;
+  reveal();
+}
+
+/* ── included ──────────────────────────────────────────────────── */
+const INCL=[
+  ['Furnished','Bed, wardrobe, desk and chair already in the room. You do not buy furniture for a room you are renting.'],
+  ['Wifi','High speed, already connected on the day you arrive. No account to open, no installation appointment.'],
+  ['Weekly cleaning','A cleaner does the kitchen, living room and bathrooms every week. Your own room is yours.'],
+  ['Washer and dryer','In the flat. Two of the three homes have a dryer, which matters more than people expect here.'],
+  ['One month deposit','Not two, not three. Returned after you leave, less anything genuinely broken.'],
+  ['No agent fee','Singapore agents usually take half a month. There is no agent in this, so there is nothing to pay.'],
+];
+$('incl').innerHTML=INCL.map(([t,d])=>
+  `<div class="card card-pad"><div class="label">${t}</div>
+   <p style="margin-top:11px;font-size:15.5px;line-height:1.68;color:var(--muted)">${d}</p></div>`).join('');
+
+/* ── homes ─────────────────────────────────────────────────────── */
+const HERO_BY_CODE={CP:'photos/cp-hero.jpg',IH:'photos/ih-hero.jpg',TG:'photos/tg-hero.jpg'};
+$('homeGrid').innerHTML=HOMES.map(h=>{
+  const rs=ROOMS.filter(r=>r.home===h.code);
+  const lo=Math.min(...rs.map(r=>r.price)), hi=Math.max(...rs.map(r=>r.price));
+  const mrt=(h.mrt||[])[0];
+  const near=(h.nearby||[]).slice(0,2).map(n=>`${n.name} ${n.walking_minutes} min`).join(', ');
+  return `<article class="home rv">
+    <div class="ph"><img src="${HERO_BY_CODE[h.code]}" alt="${h.name}" loading="lazy"></div>
+    <div class="bd">
+      <h3>${h.name.replace(/\s\d+$/,'')}</h3>
+      <p class="addr">${h.address||''}</p>
+      <dl>
+        <div><dt>Rooms</dt><dd>${rs.length}</dd></div>
+        <div><dt>Rent</dt><dd>S$${lo.toLocaleString()} to S$${hi.toLocaleString()}</dd></div>
+        <div><dt>Bathrooms</dt><dd>${h.bathrooms||'-'} shared</dd></div>
+        ${mrt?`<div><dt>${mrt.station} MRT</dt><dd>${mrt.walking_minutes} min walk</dd></div>`:''}
+        ${near?`<div><dt>Nearby</dt><dd>${near}</dd></div>`:''}
+      </dl>
+    </div></article>`;
+}).join('');
+
+/* ── faq ───────────────────────────────────────────────────────
+   Grounded in the database rather than written from memory: the
+   minimum stay and deposit below are computed, so they cannot go
+   stale or contradict a room page. */
+(function(){
+  const stays=[...new Set(ROOMS.map(r=>r.minStay).filter(Boolean))].sort((a,b)=>a-b);
+  const deps=[...new Set(ROOMS.map(r=>r.deposit).filter(Boolean))];
+  const ens=ROOMS.filter(r=>r.ensuite).length;
+  const couples=ROOMS.filter(r=>(r.occ||1)>=2).length;
+  const stayTxt = stays.length===1
+    ? `${stays[0]} months on every room`
+    : `${stays[0]} months on ${ROOMS.filter(r=>r.minStay===stays[0]).length} of the rooms and ${stays[stays.length-1]} months on the rest`;
+  const Q=[
+    ['What is the minimum stay?',
+     `It is ${stayTxt}. Each room page states its own, and that is the one that counts. If you need something shorter, ask, because a room with a gap before the next tenant is sometimes worth doing on a short let.`],
+    ['How much deposit, and is there an agent fee?',
+     `${deps.length===1?`${deps[0]} month`:'One month'} deposit, and no agent fee at all. A Singapore agent typically takes half a month from the tenant. We do the viewing ourselves, so there is nobody to pay.`],
+    ['Can two of us share a room?',
+     `${couples} of the ${ROOMS.length} rooms are licensed for two people, and the rest are single occupancy. The room pages say which. Rent is the same for one or two in the rooms that allow it.`],
+    ['Do any rooms have their own bathroom?',
+     `${ens} of ${ROOMS.length}. The rest share, and the ratio per home is on the home cards above so you can judge it before you visit rather than after.`],
+    ['Can I view it this week?',
+     'Give us two working days. Somebody has to physically open the flat for you, and they have other jobs, so same day or next day is a promise we would break. If you are overseas we will do a video walk-through instead, usually faster.'],
+    ['Are pets allowed?',
+     'Cats, yes. Talk to us first so we can check with the house, because the other tenants get a say in it.'],
+    ['What if I need a month that is not listed?',
+     'Leave it on the list above. Rooms come back to us when someone gives notice, which we usually know about a month or two ahead of it showing up on this page.'],
+  ];
+  $('faqList').innerHTML=Q.map(([q,a])=>
+    `<details><summary>${q}</summary><div class="a">${a}</div></details>`).join('');
+})();
+
+/* ── waitlist ──────────────────────────────────────────────────── */
+$('wMonth').innerHTML='<option value="">Which month?</option>'+
+  MONTHS.map(mo=>`<option value="${mo.key}">${mo.long} ${mo.y}</option>`).join('');
+$('wHome').innerHTML='<option value="">Any home</option>'+
+  HOMES.map(h=>`<option value="${h.code}">${h.name.replace(/\s\d+$/,'')}</option>`).join('');
+
+$('waitForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=$('wName').value.trim(), phone=$('wPhone').value.trim(), mo=$('wMonth').value;
+  const err=$('waitErr');
+  /* A waitlist entry with no way to reach the person is worthless. That is the
+     exact failure that produced 45 uncontactable holds, so it is blocked here. */
+  if(!name || !phone){
+    err.textContent='We need a name and a number, otherwise there is no way to tell you when a room opens.';
+    err.style.display='block'; (!name?$('wName'):$('wPhone')).focus(); return;
+  }
+  err.style.display='none';
+  const lead={
+    source:'book.lazybee.sg', intent:'waitlist',
+    name, whatsapp:phone,
+    month_wanted:mo||null,
+    budget:$('wBudget').value.trim()||null,
+    home_pref:$('wHome').value||null,
+    filters_used:{home:state.home||null,ensuite:state.ensuite,couple:state.couple,budget:state.budget||null},
+    rooms_shown:ROOMS.filter(matches).map(r=>r.code),
+    captured_at:new Date().toISOString()
+  };
+  console.log('[waitlist lead]',lead);   /* prototype: real build posts this to /api/waitlist */
+  $('waitForm').style.display='none';
+  const when = mo ? MONTHS.find(m=>m.key===mo)?.long : 'that month';
+  $('waitOk').innerHTML=`<div class="label">On the list</div>
+    <p style="margin-top:11px;font-size:16px;line-height:1.7">Thanks ${name.split(' ')[0]}. You are down for
+    ${when}. If something opens sooner we will tell you about that too, and if nothing opens we will not
+    message you at all.</p>
+    <a class="btn btn-accent btn-sm" style="margin-top:16px" target="_blank" rel="noopener"
+       href="https://wa.me/${WA}?text=${encodeURIComponent(`Hi Lazybee, I just joined the waitlist for ${when}. My name is ${name}.`)}">
+       Send it on WhatsApp too</a>`;
+  $('waitOk').style.display='block';
+});
+
+/* ── whatsapp links ────────────────────────────────────────────── */
+function waHref(){
+  const m = state.month!==null ? MONTHS[state.month].long+' '+MONTHS[state.month].y : '';
+  return 'https://wa.me/'+WA+'?text='+encodeURIComponent(
+    'Hi Lazybee, I am looking for a room'+(m?' from '+m:'')+'. What do you have?');
+}
+['waTop','waMain'].forEach(id=>$(id).href=waHref());
+
+/* ── chrome ────────────────────────────────────────────────────── */
+addEventListener('scroll',()=>$('hd').classList.toggle('solid',scrollY>60),{passive:true});
+$('mode').addEventListener('click',e=>{
+  const dark=document.documentElement.dataset.theme==='tobacco';
+  document.documentElement.dataset.theme=dark?'alabaster':'tobacco';
+  e.target.textContent=dark?'Dark':'Light';
+});
+
+/* Reveal on scroll, with two safety nets.
+   1. Anything already on screen is shown immediately, because IntersectionObserver
+      is throttled in inactive tabs and an above-the-fold block must never wait on
+      a scroll that may never happen.
+   2. A watchdog. If anything sitting inside the viewport is still invisible five
+      seconds in, the animation is disarmed entirely and everything shows. Failing
+      to animate is a cosmetic loss; failing to render a room is a lost tenant. */
+const ANIMATE = 'IntersectionObserver' in window
+  && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(ANIMATE) document.documentElement.dataset.rv='on';
+
+let io=null;
+function reveal(){
+  if(!ANIMATE) return;
+  const nodes=[...document.querySelectorAll('.rv:not(.in)')];
+  const vh=innerHeight||800;
+  if(!io) io=new IntersectionObserver(es=>es.forEach(en=>{
+    if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}
+  }),{rootMargin:'0px 0px -8% 0px'});
+  nodes.forEach((n,i)=>{
+    if(n.getBoundingClientRect().top < vh*0.94) n.classList.add('in');
+    else{ n.style.transitionDelay=(i%4*60)+'ms'; io.observe(n); }
+  });
+}
+function disarmIfStuck(){
+  if(!ANIMATE) return;
+  const stuck=[...document.querySelectorAll('.rv:not(.in)')].some(n=>{
+    const r=n.getBoundingClientRect();
+    return r.top < (innerHeight||800) && r.bottom > 0;   /* in view but still hidden */
+  });
+  if(stuck) document.documentElement.removeAttribute('data-rv');
+}
+setTimeout(disarmIfStuck,5000);
+addEventListener('scroll',()=>{reveal();},{passive:true});
+
+/* ── go ────────────────────────────────────────────────────────── */
+syncMonth();
+render();
+</script>
+</body>
+</html>

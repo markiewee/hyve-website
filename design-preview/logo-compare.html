@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee: which C</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Italiana&family=Inter+Tight:wght@300;400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0D1210;color:#EDE6DA;font-family:'Inter Tight',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:0 34px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#7E8A82}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:46px;margin:12px 0 10px}
+.lede{max-width:66ch;font-size:15px;line-height:1.7;color:#8B978E}
+header{padding:54px 0 6px}
+section{padding:48px 0;border-top:1px solid #1C2724}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
+.lot{border:1px solid #1C2724;background:#111815;padding:30px 20px 20px;text-align:center}
+.stage{height:170px;display:flex;align-items:center;justify-content:center}
+.sizes{display:flex;gap:22px;align-items:center;justify-content:center;margin-top:20px;padding-top:16px;border-top:1px solid #1C2724}
+.name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#B08D4F;margin-top:16px}
+.note{margin-top:14px;text-align:left;font-size:12.5px;line-height:1.6;color:#8B978E}
+.light{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}
+.lb{background:#F6F2EA;border:1px solid #E2DACC;padding:30px 18px 18px;text-align:center;color:#241C16}
+.wm{display:block;line-height:1;margin-top:12px}
+.wm .word{display:block;font-family:'Italiana',serif;letter-spacing:.34em;font-size:19px}
+.wm .sub{display:block;font-family:'Inter Tight',sans-serif;letter-spacing:.44em;text-transform:uppercase;font-size:7px;margin-top:8px}
+@media(max-width:900px){.trio,.light{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="tag">Lazybee &middot; which C &middot; side by side</div>
+  <h1>All three Cs, same page.</h1>
+  <p class="lede">"The old C" could mean any of three, so here they are together instead of me picking for you.
+  Left is the original thin one you first liked. Middle is the long-bodied version I built before the last message.
+  Right is the one I rebalanced. Same seven points in all three, same dot, same wordmark. Point at one.</p>
+</header>
+
+<section class="wrap">
+  <div class="trio" id="trio"></div>
+  <div class="light" id="light"></div>
+</section>
+
+<script>
+function star(cx,cy,R,rv,rot,radii,taper){
+  const n=7, step=360/n, rad=i=>R*radii[i%n], tap=i=>R*taper[i%n];
+  const P=(a,r)=>[ (cx+r*Math.cos(a*Math.PI/180)).toFixed(2), (cy+r*Math.sin(a*Math.PI/180)).toFixed(2) ];
+  let d='';
+  for(let i=0;i<n;i++){
+    const a0=rot+i*step, av=rot+(i+.5)*step, a1=rot+(i+1)*step;
+    const A=P(a0,rad(i)), B=P(a1,rad(i+1)), V=P(av,rv), c1=P(a0,tap(i)), c2=P(a1,tap(i+1));
+    if(!i) d+='M'+A[0]+','+A[1];
+    d+='Q'+c1[0]+','+c1[1]+' '+V[0]+','+V[1]+'Q'+c2[0]+','+c2[1]+' '+B[0]+','+B[1];
+  }
+  return d+'Z';
+}
+function body(cx,cy,w,L){
+  return 'M'+cx+','+(cy+L)+' C'+(cx-w)+','+(cy+L*0.60)+' '+(cx-w)+','+(cy+4)+' '+cx+','+(cy-3)+
+         ' C'+(cx+w)+','+(cy+4)+' '+(cx+w)+','+(cy+L*0.60)+' '+cx+','+(cy+L)+' Z';
+}
+
+const V = [
+  { id:'C1', name:'C1 &middot; ORIGINAL, NO BODY',
+    cy:53, R:34, rv:5.0, len:[0.92,0.56,1.06,0.74,0.74,1.06,0.56],
+    taper:[0.34,0.34,0.34,0.34,0.34,0.34,0.34], bw:0, bl:0, dot:9.0,
+    note:'The one you first said looked good. Finest lines, most ornamental, reads as a star before it reads as a bee. Its problem is 16px, where the legs and antennae disappear.' },
+  { id:'C2', name:'C2 &middot; LONG BODY',
+    cy:53, R:34, rv:8.0, len:[1.02,0.56,1.06,0.76,0.76,1.06,0.56],
+    taper:[0.26,0.24,0.28,0.22,0.22,0.28,0.24], bw:9.0, bl:34*1.02, dot:9.0,
+    note:'Thicker lines, abdomen dragged well down. Most obviously an insect, but the long narrow body pulls the eye downward and starts to read as a rocket or a dagger.' },
+  { id:'C3', name:'C3 &middot; SHORT BODY, LONG WINGS',
+    cy:53, R:34, rv:8.5, len:[0.88,0.60,1.20,0.80,0.80,1.20,0.60],
+    taper:[0.24,0.23,0.30,0.19,0.19,0.30,0.23], bw:12, bl:34*0.82, dot:9.0,
+    note:'Same weight as C2 but the abdomen is shorter and wider and the wings are longer, so the silhouette stays horizontal. Holds best at small size. Least ornamental of the three.' },
+];
+
+function mark(v,size,ink,accent){
+  let s='<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" aria-hidden="true"><g fill="'+ink+'">';
+  s+='<path d="'+star(50,v.cy,v.R,v.rv,90,v.len,v.taper)+'"/>';
+  if (v.bw) s+='<path d="'+body(50,v.cy,v.bw,v.bl)+'"/>';
+  s+='</g><circle cx="50" cy="10" r="'+v.dot+'" fill="'+(accent||ink)+'"/></svg>';
+  return s;
+}
+const INK='#EDE6DA', BRASS='#B08D4F';
+trio.innerHTML = V.map(v=>
+  '<div class="lot"><div class="stage">'+mark(v,128,INK,BRASS)+'</div>'+
+  '<div class="sizes">'+mark(v,44,INK,BRASS)+mark(v,22,INK,BRASS)+mark(v,16,INK,BRASS)+'</div>'+
+  '<div class="name">'+v.name+'</div><div class="note">'+v.note+'</div></div>').join('');
+light.innerHTML = V.map(v=>
+  '<div class="lb">'+mark(v,104,'#241C16','#B8873B')+
+  '<span class="wm"><span class="word">LAZYBEE</span><span class="sub" style="color:#8C8073">SINGAPORE</span></span></div>').join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee: thicker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Italiana&family=Inter+Tight:wght@300;400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0D1210;color:#EDE6DA;font-family:'Inter Tight',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1300px;margin:0 auto;padding:0 34px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#7E8A82}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:44px;margin:12px 0 10px}
+h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:28px;margin-bottom:4px}
+.lede{max-width:68ch;font-size:15px;line-height:1.7;color:#8B978E}
+.lede b{color:#EDE6DA;font-weight:400}
+header{padding:52px 0 6px}
+section{padding:46px 0;border-top:1px solid #1C2724}
+
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:26px}
+.t{border:1px solid #1C2724;background:#111815;padding:22px 12px 14px;text-align:center}
+.t.pick{border-color:#B08D4F}
+.t .name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#B08D4F;margin-bottom:16px}
+.t .spec{margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.1em;color:#5F6B64}
+.appicon{width:104px;height:104px;border-radius:23px;display:flex;align-items:center;justify-content:center;margin:0 auto}
+
+.rowlabel{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#B08D4F;margin:30px 0 12px}
+.line{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;align-items:center}
+.line .box{border:1px solid #1C2724;background:#111815;padding:18px 10px 12px;text-align:center}
+.line .box.lightbg{background:#F6F2EA;border-color:#E2DACC}
+.line .box .cap{margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.1em;color:#5F6B64}
+.stack{display:flex;gap:16px;align-items:flex-end;justify-content:center;min-height:74px}
+canvas.pix{image-rendering:pixelated;display:block;margin:0 auto;background:#0D1210}
+.verdict{border:1px solid #B08D4F;background:#141B17;padding:24px 26px;margin-top:28px}
+.verdict h3{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:23px;margin-bottom:8px}
+@media(max-width:1000px){.tiles,.line{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="tag">Lazybee &middot; icon weight</div>
+  <h1>Thicker, judged at 128 and 64.</h1>
+  <p class="lede">Five weights of the same symmetrical seven-point star. Only two numbers change:
+  how far the sides splay from each tip, and how wide the middle is. Everything below is rendered at the true pixel size,
+  so 64 means 64 actual pixels, not a scaled drawing.</p>
+</header>
+
+<section class="wrap">
+  <div class="tag">01 &middot; app icon, 104px tile</div>
+  <h2>The way it will mostly be seen</h2>
+  <div class="tiles" id="tiles"></div>
+</section>
+
+<section class="wrap">
+  <div class="tag">02 &middot; true size</div>
+  <h2>128, 64, 32, 16, drawn at those exact pixel counts</h2>
+  <div class="rowlabel">Bone on night</div>
+  <div class="line" id="dark"></div>
+  <div class="rowlabel">Espresso on alabaster</div>
+  <div class="line" id="lightrow"></div>
+</section>
+
+<section class="wrap">
+  <div class="tag">03 &middot; the pixel grid</div>
+  <h2>32 and 16, magnified so you can count them</h2>
+  <div class="line" id="pix"></div>
+</section>
+
+<section class="wrap" style="padding-bottom:90px">
+  <div class="tag">04 &middot; verdict</div>
+  <div class="verdict" id="verdict"></div>
+</section>
+
+<script>
+function star(cx,cy,R,rv,rot,taper){
+  const n=7, step=360/n;
+  const P=(a,r)=>[ (cx+r*Math.cos(a*Math.PI/180)).toFixed(3), (cy+r*Math.sin(a*Math.PI/180)).toFixed(3) ];
+  let d='';
+  for(let i=0;i<n;i++){
+    const a0=rot+i*step, av=rot+(i+.5)*step, a1=rot+(i+1)*step;
+    const A=P(a0,R), B=P(a1,R), V=P(av,rv), c1=P(a0,R*taper), c2=P(a1,R*taper);
+    if(!i) d+='M'+A[0]+','+A[1];
+    d+='Q'+c1[0]+','+c1[1]+' '+V[0]+','+V[1]+'Q'+c2[0]+','+c2[1]+' '+B[0]+','+B[1];
+  }
+  return d+'Z';
+}
+const WEIGHTS=[
+  {id:'light',   rv:5.5,  taper:0.32,  label:'LIGHT',   note:'the poster mark'},
+  {id:'regular', rv:8.5,  taper:0.26,  label:'REGULAR', note:'previous icon cut'},
+  {id:'bold',    rv:12.0, taper:0.215, label:'BOLD',    note:'thicker needles'},
+  {id:'black',   rv:16.0, taper:0.17,  label:'BLACK',   note:'thicker again'},
+  {id:'ultra',   rv:20.5, taper:0.13,  label:'ULTRA',   note:'as fat as it goes before it is a blob'},
+];
+const PAD=3, X=16-PAD, S=68+PAD*2;
+function svgIcon(w,ink,bg){
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+X+' '+X+' '+S+' '+S+'">'+
+    (bg?'<rect x="'+X+'" y="'+X+'" width="'+S+'" height="'+S+'" fill="'+bg+'"/>':'')+
+    '<path fill="'+ink+'" d="'+star(50,50,34,w.rv,90,w.taper)+'"/></svg>';
+}
+const uri = s => 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);
+
+/* true-size raster, no smoothing tricks: draw the svg at exactly n px */
+function rasterCanvas(svgStr,n,zoom){
+  const c=document.createElement('canvas');
+  const img=new Image();
+  img.onload=()=>{
+    const a=document.createElement('canvas'); a.width=n; a.height=n;
+    a.getContext('2d').drawImage(img,0,0,n,n);
+    c.width=n*zoom; c.height=n*zoom;
+    const x=c.getContext('2d'); x.imageSmoothingEnabled=false;
+    x.drawImage(a,0,0,n*zoom,n*zoom);
+  };
+  img.src=uri(svgStr);
+  return c;
+}
+
+const BONE='#EDE6DA', NIGHT='#0D1210', ESPRESSO='#241C16', ALABASTER='#F6F2EA';
+
+/* 01 app icon tiles */
+document.getElementById('tiles').innerHTML = WEIGHTS.map(w=>
+  '<div class="t'+(w.id==='bold'?' pick':'')+'"><div class="name">'+w.label+'</div>'+
+  '<div class="appicon" style="background:'+NIGHT+';border:1px solid #1C2724">'+
+    '<img src="'+uri(svgIcon(w,BONE))+'" width="104" height="104" alt=""></div>'+
+  '<div class="spec">rv '+w.rv+' &middot; taper '+w.taper+'<br>'+w.note+'</div></div>').join('');
+
+/* 02 true size rows */
+function trueRow(el,ink,bg,boxClass){
+  el.innerHTML = WEIGHTS.map(w=>
+    '<div class="box '+boxClass+'"><div class="stack">'+
+    [128,64,32,16].map(n=>'<img src="'+uri(svgIcon(w,ink))+'" width="'+n+'" height="'+n+'" alt="">').join('')+
+    '</div><div class="cap">'+w.label+' &middot; 128 64 32 16</div></div>').join('');
+}
+trueRow(document.getElementById('dark'), BONE, NIGHT, '');
+trueRow(document.getElementById('lightrow'), ESPRESSO, ALABASTER, 'lightbg');
+
+/* 03 pixel grid */
+(()=>{
+  const el=document.getElementById('pix');
+  WEIGHTS.forEach(w=>{
+    const b=document.createElement('div'); b.className='box';
+    const s=document.createElement('div'); s.className='stack';
+    const c32=rasterCanvas(svgIcon(w,BONE),32,5); c32.className='pix';
+    const c16=rasterCanvas(svgIcon(w,BONE),16,5); c16.className='pix';
+    s.appendChild(c32); s.appendChild(c16); b.appendChild(s);
+    const cap=document.createElement('div'); cap.className='cap'; cap.textContent=w.label+' · 32 and 16, 5x';
+    b.appendChild(cap); el.appendChild(b);
+  });
+})();
+
+document.getElementById('verdict').innerHTML =
+  '<h3>What to ship</h3><p class="lede">'+
+  '<b>BOLD.</b> At 128 and 64 it is unmistakable and still unmistakably a star: seven distinct points with real mass behind them, '+
+  'and the valleys stay deep enough that you read points rather than lumps.<br><br>'+
+  'BLACK and ULTRA are past the turn. As the middle fattens, the points shorten relative to the mass and it stops being a star: '+
+  'BLACK is on the edge, ULTRA is a spiky disc. If you want maximum weight take BLACK, but that is the last stop before it reads as a sun or a virus.<br><br>'+
+  '<b>Two cuts stay.</b> LIGHT is the master for the lockup, the header and print, anything over 48px where the fine needles are the charm. '+
+  'BOLD is the icon, used at 48 and below and on every app tile. Same seven points, so nobody reads them as two logos.</p>';
+</script>
+</body>
+</html>

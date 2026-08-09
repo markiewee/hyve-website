@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en" data-theme="alabaster">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee &middot; Be a lazy landlord</title>
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Italiana&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="island.js"></script>
+<style>
+:root[data-theme="alabaster"]{
+  --bg:#F6F2EA; --surface:#EFE9DE; --line:#DED5C6; --ink:#241C16; --muted:#6B6154;
+  --accent:#B08D4F; --accentText:#8A6733; --onAccent:#241C16;
+  --band:#0E2E20; --bandInk:#EDE6DA; --bandNum:#C6A467; --bandMut:#7FA692;
+  --btnBg:#241C16; --btnInk:#F6F2EA;
+  --combLand:#E4DCCB; --combRoom:#0E2E20; --combOpen:#B08D4F; --combMine:#8A6733;
+}
+:root[data-theme="tobacco"]{
+  --bg:#241811; --surface:#31231A; --line:#453224; --ink:#E8DACA; --muted:#B39B82;
+  --accent:#B08D4F; --accentText:#C6A467; --onAccent:#241812;
+  --band:#B08D4F; --bandInk:#241812; --bandNum:#241812; --bandMut:#5A431E;
+  --btnBg:transparent; --btnInk:#E8DACA;
+  --combLand:#3A2A1E; --combRoom:#E8DACA; --combOpen:#B08D4F; --combMine:#C6A467;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter Tight',system-ui,sans-serif;font-weight:300;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .45s,color .45s}
+.wrap{max-width:1220px;margin:0 auto;padding:0 clamp(20px,4vw,58px)}
+.bleed{width:100%}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
+.serif{font-family:'Cormorant Garamond',serif;font-weight:300}
+
+/* header */
+header{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:15px clamp(20px,4vw,58px);background:color-mix(in srgb,var(--bg) 90%,transparent);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:11px}
+.brand svg{width:26px;height:auto;fill:currentColor}
+.brand .wd{font-family:'Italiana',serif;letter-spacing:.30em;font-size:16px}
+header nav{display:flex;align-items:center;gap:22px}
+header nav a{text-decoration:none;color:var(--muted);border-bottom:1px solid transparent;padding-bottom:2px;transition:.25s}
+header nav a:hover,header nav a:focus-visible{color:var(--ink);border-color:var(--accent)}
+#mode{background:none;border:1px solid var(--line);color:var(--muted);cursor:pointer;padding:7px 11px;border-radius:2px;
+  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;transition:.25s}
+#mode:hover{color:var(--ink);border-color:var(--accent)}
+
+/* hero */
+.hero{padding:clamp(46px,7vw,96px) 0 clamp(34px,4vw,56px)}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(46px,8.4vw,116px);
+  line-height:.94;letter-spacing:-.015em;max-width:11ch}
+h1 em{font-style:italic}
+.standfirst{margin-top:26px;max-width:46ch;font-size:clamp(16px,1.35vw,19px);line-height:1.62;color:var(--muted)}
+.standfirst b{color:var(--ink);font-weight:400}
+
+/* the instrument */
+.instrument{margin-top:clamp(36px,5vw,64px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  border:1px solid var(--line);background:var(--surface)}
+.inst-in{padding:clamp(22px,3vw,38px);border-right:1px solid var(--line)}
+.inst-out{padding:clamp(22px,3vw,38px);display:flex;flex-direction:column;justify-content:space-between}
+.f + .f{margin-top:22px}
+.flab{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:9px}
+.fval{font-family:'JetBrains Mono',monospace;font-size:13px;font-variant-numeric:tabular-nums}
+.tin{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);color:var(--ink);
+  font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.06em;padding:4px 0 9px;outline:none;transition:border-color .3s}
+.tin::placeholder{color:color-mix(in srgb,var(--muted) 55%,transparent)}
+.tin:focus{border-color:var(--accent)}
+.dist{margin-top:9px;min-height:36px;font-size:12.5px;line-height:1.55;color:var(--muted)}
+.dist b{color:var(--accentText);font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:500}
+.dist em{font-style:normal;color:var(--ink)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:20px;background:transparent;outline:none;cursor:grab;display:block}
+input[type=range]::-webkit-slider-runnable-track{height:1px;background:var(--line)}
+input[type=range]::-moz-range-track{height:1px;background:var(--line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;margin-top:-5.5px;border-radius:50%;
+  background:var(--accent);transition:box-shadow .25s;box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 30%,transparent)}
+input[type=range]:hover::-webkit-slider-thumb,input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 7px color-mix(in srgb,var(--accent) 22%,transparent)}
+input[type=range]::-moz-range-thumb{width:12px;height:12px;border:0;border-radius:50%;background:var(--accent)}
+.hint{margin-top:5px;font-size:12px;color:var(--muted);opacity:.85}
+.money{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:clamp(38px,5.4vw,62px);
+  line-height:.94;letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+.against{margin-top:13px;font-size:13.5px;line-height:1.6;color:var(--muted);max-width:34ch}
+.against b{color:var(--ink);font-weight:400}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--btnBg);color:var(--btnInk);
+  border:1px solid var(--btnBg);text-decoration:none;cursor:pointer;
+  font-family:'JetBrains Mono',monospace;font-weight:500;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  padding:15px 24px;border-radius:2px;transition:transform .18s cubic-bezier(.2,.8,.3,1),opacity .25s}
+:root[data-theme="tobacco"] .btn{border-color:var(--ink)}
+.btn:hover{transform:translateY(-2px)}
+.sub{display:inline-block;margin-top:11px;font-size:12.5px;color:var(--muted);text-decoration:none;
+  border-bottom:1px solid var(--line);padding-bottom:2px}
+.sub:hover{color:var(--ink);border-color:var(--accent)}
+.fine{margin-top:16px;font-size:11.5px;line-height:1.55;color:var(--muted);opacity:.8;max-width:42ch}
+
+/* the band */
+.band{background:var(--band);color:var(--bandInk);margin-top:clamp(48px,6vw,86px)}
+.band .inner{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;padding:clamp(30px,4vw,56px) 0}
+.band .n{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:clamp(30px,3.6vw,46px);
+  letter-spacing:-.03em;color:var(--bandNum);font-variant-numeric:tabular-nums}
+.band .l{margin-top:9px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--bandMut)}
+
+/* generic section */
+section{padding:clamp(58px,7vw,112px) 0}
+.rule{border-top:1px solid var(--line)}
+h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(30px,4.6vw,60px);line-height:1.04;max-width:18ch}
+.lede{margin-top:20px;max-width:56ch;font-size:16px;line-height:1.7;color:var(--muted)}
+.lede b{color:var(--ink);font-weight:400}
+
+/* comb */
+.combsec{display:grid;grid-template-columns:minmax(0,38fr) minmax(0,62fr);gap:clamp(26px,4vw,60px);align-items:center}
+svg.comb{width:100%;height:auto;display:block;overflow:visible}
+.combKey{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:18px;
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.combKey i{display:inline-block;width:9px;height:10px;margin-right:7px;vertical-align:-1px;
+  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+
+/* deal */
+.deal{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);margin-top:44px;border:1px solid var(--line)}
+.deal > div{background:var(--bg);padding:26px 24px 30px}
+.deal h3{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:24px;margin:12px 0 10px}
+.deal p{font-size:13.5px;line-height:1.62;color:var(--muted)}
+
+/* channels */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:34px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--muted);
+  border:1px solid var(--line);border-radius:2px;padding:9px 13px}
+.chip.on{color:var(--accentText);border-color:color-mix(in srgb,var(--accent) 55%,transparent)}
+
+/* steps */
+.steps{margin-top:40px;border-top:1px solid var(--line)}
+.step{display:grid;grid-template-columns:70px 1fr 1.15fr;gap:22px;padding:26px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.step .n{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--accentText)}
+.step h3{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:24px}
+.step p{font-size:14px;line-height:1.62;color:var(--muted)}
+
+/* homes */
+.homes{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px}
+.home img{width:100%;height:250px;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.8,.3,1)}
+.home:hover img{transform:scale(1.04)}
+.home .imgwrap{overflow:hidden;border:1px solid var(--line)}
+.home h3{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:23px;margin-top:14px}
+.home p{margin-top:6px;font-size:13px;color:var(--muted)}
+.bars{display:flex;gap:3px;margin-top:12px}
+.bars i{height:3px;flex:1;background:var(--line)}
+.bars i.on{background:var(--accent)}
+
+/* faq */
+.qs{margin-top:38px;border-top:1px solid var(--line);max-width:900px}
+.q{border-bottom:1px solid var(--line)}
+.q button{width:100%;background:none;border:0;color:var(--ink);cursor:pointer;text-align:left;
+  font-family:'Cormorant Garamond',serif;font-weight:400;font-size:21px;padding:21px 44px 21px 0;position:relative}
+.q button::after{content:'+';position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--accentText);transition:transform .3s}
+.q.open button::after{transform:translateY(-50%) rotate(45deg)}
+.q .a{max-height:0;overflow:hidden;transition:max-height .38s cubic-bezier(.3,.9,.3,1)}
+.q .a p{padding:0 60px 22px 0;font-size:14.5px;line-height:1.68;color:var(--muted);max-width:62ch}
+
+/* ask */
+.ask{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,4vw,66px);align-items:start}
+.form .f + .f{margin-top:22px}
+.form label{display:block;margin-bottom:8px}
+.form .btn{margin-top:26px}
+
+footer{border-top:1px solid var(--line);padding:36px 0 46px;display:flex;flex-wrap:wrap;
+  gap:16px 40px;justify-content:space-between;align-items:center}
+footer .brand svg{width:22px}
+
+.rv{opacity:0;transform:translateY(16px);transition:opacity .8s cubic-bezier(.2,.7,.3,1),transform .8s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media(max-width:1000px){
+  .instrument{grid-template-columns:1fr}
+  .inst-in{border-right:0;border-bottom:1px solid var(--line)}
+  .combsec{grid-template-columns:1fr}
+  .deal{grid-template-columns:1fr 1fr}
+  .homes{grid-template-columns:1fr}
+  .step{grid-template-columns:44px 1fr}
+  .step p{grid-column:2}
+  .ask{grid-template-columns:1fr}
+  header nav a{display:none}
+}
+@media(max-width:600px){.deal{grid-template-columns:1fr}.band .inner{grid-template-columns:1fr;gap:22px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="brand" href="#" style="text-decoration:none;color:inherit">
+    <svg viewBox="13.43 21.63 73.13 57.45" aria-label="Lazybee"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd">LAZYBEE</span>
+  </a>
+  <nav class="tag">
+    <a href="#hive">The hive</a>
+    <a href="#deal">The deal</a>
+    <a href="#homes">Our homes</a>
+    <a href="#ask">Get a number</a>
+    <button id="mode" type="button">Dark</button>
+  </nav>
+</header>
+
+<main>
+<div class="wrap hero">
+  <div class="tag rv">For landlords in Singapore</div>
+  <h1 class="rv" style="margin-top:20px">Be a <em>lazy</em> landlord.</h1>
+  <p class="standfirst rv">We lease your unit for thirty six months, furnish it, fill it and run it.
+    <b>The same amount lands on the first whether it is full or empty.</b>
+    No agents, no viewings, no plumber at two in the morning.</p>
+
+  <div class="instrument rv">
+    <div class="inst-in">
+      <div class="tag" style="margin-bottom:22px">Valuation</div>
+      <div class="f">
+        <div class="flab"><span class="tag">Postal code</span></div>
+        <input id="postal" class="tin" type="text" inputmode="numeric" maxlength="6" placeholder="569933" aria-label="Singapore postal code">
+        <div class="dist" id="district">Type a code and your unit joins the hive.</div>
+      </div>
+      <div class="f">
+        <div class="flab"><span class="tag">Floor area</span><span class="fval" id="sqftv">900 sqft</span></div>
+        <input id="sqft" type="range" min="400" max="2600" step="50" value="900" aria-label="Floor area">
+      </div>
+      <div class="f">
+        <div class="flab"><span class="tag">Bathrooms</span><span class="fval" id="bathv">2</span></div>
+        <input id="baths" type="range" min="1" max="5" step="1" value="2" aria-label="Bathrooms">
+        <div class="hint" id="roomhint">Lets as 3 rooms, 1 of them ensuite.</div>
+      </div>
+    </div>
+    <div class="inst-out">
+      <div>
+        <div class="tag">We pay you, every month</div>
+        <div class="money" id="money" style="margin-top:14px">S$3,564</div>
+        <div class="against" id="against"><b>10% over</b> the S$3,240 open-market rent for a unit this size. Guaranteed, 36 months.</div>
+      </div>
+      <div style="margin-top:30px">
+        <a class="btn" href="#ask">Get my offer <span aria-hidden="true">&rarr;</span></a>
+        <a class="sub" href="#ask">or WhatsApp us, 60 seconds</a>
+        <p class="fine">Indicative, from market rates in your district. The real number comes after we walk the unit, usually within a week.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="band">
+  <div class="wrap inner">
+    <div class="rv"><div class="n">100%</div><div class="l">Trailing occupancy</div></div>
+    <div class="rv"><div class="n">19</div><div class="l">Rooms under management</div></div>
+    <div class="rv"><div class="n">36</div><div class="l">Months, guaranteed</div></div>
+  </div>
+</div>
+
+<section class="wrap" id="hive">
+  <div class="combsec">
+    <div>
+      <h2 class="rv">Singapore, one cell at a time.</h2>
+      <p class="lede rv">Every hexagon is a room we run, drawn where it actually stands. Three homes so far, nineteen rooms,
+      and the island around them is everything still to build. Type your postal code above and your unit takes its place on the map.</p>
+      <div class="combKey rv">
+        <span><i style="background:var(--combRoom)"></i>Occupied</span>
+        <span><i style="background:var(--combOpen)"></i>Open now</span>
+        <span><i style="background:var(--combMine)"></i>Your unit</span>
+      </div>
+    </div>
+    <div class="rv"><svg class="comb" id="comb" viewBox="0 0 960 580" role="img"
+      aria-label="Singapore drawn as a honeycomb, with the Lazybee homes marked at their real locations."></svg></div>
+  </div>
+</section>
+
+<section class="wrap rule" id="deal">
+  <h2 class="rv">Four things, then you can forget about it.</h2>
+  <p class="lede rv">A lease, not a management contract. The difference is who carries the empty month, and the answer is us.</p>
+  <div class="deal">
+    <div class="rv"><span class="tag">The money</span><h3>Guaranteed</h3>
+      <p>The same amount lands on the first, full or empty. A void month is our problem. That is what makes this a lease and not a fee.</p></div>
+    <div class="rv"><span class="tag">The term</span><h3>36 months</h3>
+      <p>One signature, three years of contracted income. No re-letting, no agent commission at renewal, no gap between tenants.</p></div>
+    <div class="rv"><span class="tag">The fit-out</span><h3>On us</h3>
+      <p>We furnish it to one standard so every room shows the same. You pay nothing towards it, and it comes back as we found it.</p></div>
+    <div class="rv"><span class="tag">The work</span><h3>Ours</h3>
+      <p>Viewings, contracts, cleaning, repairs, the late payer, the burnt-out bulb. You will not hear about any of it.</p></div>
+  </div>
+</section>
+
+<section class="wrap rule">
+  <h2 class="rv">Your rooms go on sale in twenty places you have never heard of.</h2>
+  <p class="lede rv">A room in Serangoon gets taken from Chengdu, Bangalore or Berlin, weeks before the tenant lands.
+  We list, price and sync every room across every channel from one system, so the room is sold before it goes empty.
+  An agent puts your unit on two portals and waits.</p>
+  <div class="chips rv" id="chips"></div>
+</section>
+
+<section class="wrap rule">
+  <h2 class="rv">From postal code to first payment.</h2>
+  <div class="steps" id="steps"></div>
+</section>
+
+<section class="wrap rule" id="homes">
+  <h2 class="rv">Three homes, running right now.</h2>
+  <p class="lede rv">Live from our own system, not a brochure. If a room is open today, it says so.</p>
+  <div class="homes" id="homelist"></div>
+</section>
+
+<section class="wrap rule">
+  <h2 class="rv">The things landlords actually ask.</h2>
+  <div class="qs" id="faq"></div>
+</section>
+
+<section class="wrap rule" id="ask">
+  <div class="ask">
+    <div>
+      <h2 class="rv" style="max-width:14ch">Get a number for your unit.</h2>
+      <p class="lede rv">Three fields. We come back within a week with a real figure, and we will tell you plainly if your unit is not a fit.</p>
+    </div>
+    <form class="form rv" id="leadform">
+      <div class="f"><label class="tag" for="f-postal">Postal code</label>
+        <input class="tin" id="f-postal" type="text" inputmode="numeric" maxlength="6" placeholder="569933" required></div>
+      <div class="f"><label class="tag" for="f-size">Size and bathrooms</label>
+        <input class="tin" id="f-size" type="text" placeholder="900 sqft, 2 bathrooms" required></div>
+      <div class="f"><label class="tag" for="f-contact">WhatsApp or email</label>
+        <input class="tin" id="f-contact" type="text" placeholder="+65 9123 4567" required></div>
+      <button class="btn" type="submit">Send it <span aria-hidden="true">&rarr;</span></button>
+      <p class="fine">Goes straight to Mark. No newsletter, no drip campaign, no agent calling you six times.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <div class="brand">
+    <svg viewBox="13.43 21.63 73.13 57.45" style="fill:currentColor"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd">LAZYBEE</span>
+  </div>
+  <p class="tag">Makery Pte Ltd &middot; Singapore &middot; <a href="https://book.lazybee.sg" style="color:var(--accentText)">Looking for a room?</a></p>
+</footer>
+
+<script>
+/* ═══ the island as a comb ═══ */
+const ISLAND=window.ISLAND;
+const bb=ISLAND.reduce((a,p)=>({x0:Math.min(a.x0,p[0]),x1:Math.max(a.x1,p[0]),y0:Math.min(a.y0,p[1]),y1:Math.max(a.y1,p[1])}),
+  {x0:9e9,x1:-9e9,y0:9e9,y1:-9e9});
+const VW=960,PAD=6,K=(VW-PAD*2)/(bb.x1-bb.x0),VH=(bb.y1-bb.y0)*K+PAD*2;
+const svg=document.getElementById('comb');
+svg.setAttribute('viewBox','0 0 '+VW+' '+VH.toFixed(0));
+const proj=(lng,lat)=>[PAD+(lng-bb.x0)*K, PAD+(bb.y1-lat)*K];
+const POLY=ISLAND.map(p=>proj(p[0],p[1]));
+const R=11.6,SQ3=Math.sqrt(3);
+const px=(q,r)=>[SQ3*R*(q+r/2),1.5*R*r];
+const toAxial=(x,y)=>{const q=(x*SQ3/3-y/3)/R,r=(y*2/3)/R;let cx=q,cz=r,cy=-cx-cz;
+  let rx=Math.round(cx),ry=Math.round(cy),rz=Math.round(cz);
+  const dx=Math.abs(rx-cx),dy=Math.abs(ry-cy),dz=Math.abs(rz-cz);
+  if(dx>dy&&dx>dz)rx=-ry-rz;else if(dy>dz)ry=-rx-rz;else rz=-rx-ry;return [rx,rz];};
+const hexPts=(cx,cy,rr=R)=>{const p=[];for(let i=0;i<6;i++){const a=(90+60*i)*Math.PI/180;
+  p.push((cx+rr*Math.cos(a)).toFixed(2)+','+(cy-rr*Math.sin(a)).toFixed(2));}return p.join(' ');};
+const inside=(x,y)=>{let h=false;for(let i=0,j=POLY.length-1;i<POLY.length;j=i++){
+  const [xi,yi]=POLY[i],[xj,yj]=POLY[j];
+  if((yi>y)!==(yj>y)&&x<(xj-xi)*(y-yi)/(yj-yi)+xi)h=!h;}return h;};
+const RING=[[1,0],[0,1],[-1,1],[-1,0],[0,-1],[1,-1]],RING2=[[1,1],[2,-1],[-1,2],[-2,1],[1,-2],[-1,-1]];
+
+const TODAY=new Date('2026-08-09');
+const HOMES=[
+ {key:'CP',name:'Chiltern Park',area:'Serangoon Avenue 3',photo:'photos/cp-hero.jpg',ll:[103.872,1.3595],rooms:[
+  ['CP-MR','2026-08-09'],['CP-PR1','2026-08-12'],['CP-PR2','2026-12-01'],['CP-PR3','2026-12-20'],['CP-PR4','2027-01-01'],['CP-STD1','2027-04-30']]},
+ {key:'IH',name:'Ivory Heights',area:'Jurong East Street 13',photo:'photos/ih-hero.jpg',ll:[103.742,1.3390],rooms:[
+  ['IH-PR1','2026-09-19'],['IH-PR2','2027-03-01'],['IH-PR3','2027-04-30'],['IH-STD1','2026-10-01'],
+  ['IH-STD2','2026-12-07'],['IH-STD3','2027-07-01'],['IH-STD4','2027-05-16']]},
+ {key:'TG',name:'Thomson Grove',area:'Yio Chu Kang Road',photo:'photos/tg-hero.jpg',ll:[103.836,1.3820],rooms:[
+  ['TG-MR','2027-04-01'],['TG-PR1','2027-10-01'],['TG-PR2','2027-05-01'],['TG-PR3','2028-05-01'],
+  ['TG-STD1','2027-09-14'],['TG-STD2','2027-09-14']]},
+];
+const NS='http://www.w3.org/2000/svg';
+const el=(n,a={})=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+HOMES.forEach(h=>{const p=proj(h.ll[0],h.ll[1]);h.axial=toAxial(p[0],p[1]);});
+const claimed=new Set();
+HOMES.forEach(h=>{claimed.add(h.axial.join(','));
+  [...RING,...RING2].slice(0,h.rooms.length).forEach(d=>claimed.add((h.axial[0]+d[0])+','+(h.axial[1]+d[1])));});
+
+const latg=el('g'),landCells=[];
+for(let r=-8;r<=Math.ceil(VH/(1.5*R))+4;r++)for(let q=-30;q<=70;q++){
+  const [x,y]=px(q,r);
+  if(x<-4||x>VW+4||y<-4||y>VH+4)continue;
+  if(!inside(x,y))continue;
+  if(claimed.has(q+','+r))continue;
+  const p=el('polygon',{points:hexPts(x,y),fill:'none','stroke-width':'0.9'});
+  latg.appendChild(p);landCells.push(p);
+}
+svg.appendChild(latg);
+
+const roomCells=[],coreCells=[];
+HOMES.forEach(h=>{
+  const g=el('g'),[cx,cy]=px(h.axial[0],h.axial[1]);
+  const core=el('polygon',{points:hexPts(cx,cy),fill:'none','stroke-width':'1'});
+  g.appendChild(core);coreCells.push(core);
+  let open=0;
+  [...RING,...RING2].slice(0,h.rooms.length).forEach((d,i)=>{
+    const [x,y]=px(h.axial[0]+d[0],h.axial[1]+d[1]);
+    const occ=new Date(h.rooms[i][1])>TODAY; if(!occ)open++;
+    const p=el('polygon',{points:hexPts(x,y),'stroke-width':'1','data-state':occ?'occ':'open'});
+    const t=el('title');t.textContent=h.rooms[i][0]+(occ?' occupied':' open now');
+    p.appendChild(t);g.appendChild(p);roomCells.push(p);
+  });
+  const lab=el('text',{x:cx,y:cy+3.2,'text-anchor':'middle','font-family':'JetBrains Mono, monospace',
+    'font-size':'9','font-weight':'700','letter-spacing':'.08'});
+  lab.textContent=h.key;lab.setAttribute('class','combLabel');
+  g.appendChild(lab);
+  h._open=open;h._px=[cx,cy];
+  svg.appendChild(g);
+});
+const tie=el('path',{fill:'none','stroke-width':'1','stroke-dasharray':'3 5',opacity:0});svg.appendChild(tie);
+const mineG=el('g',{opacity:0});
+const mineCells=[...RING,...RING2].map(()=>el('polygon',{'stroke-width':'1.2',opacity:0}));
+const mineCore=el('polygon',{fill:'none','stroke-width':'1.2','stroke-dasharray':'2.5 3'});
+mineG.appendChild(mineCore);mineCells.forEach(p=>mineG.appendChild(p));
+svg.appendChild(mineG);
+
+function paintComb(){
+  const land=cssv('--combLand'),room=cssv('--combRoom'),open=cssv('--combOpen'),mine=cssv('--combMine'),
+        bg=cssv('--bg'),line=cssv('--line'),muted=cssv('--muted');
+  landCells.forEach(p=>p.setAttribute('stroke',land));
+  coreCells.forEach(p=>p.setAttribute('stroke',line));
+  roomCells.forEach(p=>{
+    const occ=p.getAttribute('data-state')==='occ';
+    p.setAttribute('fill',occ?room:bg);
+    p.setAttribute('stroke',occ?room:open);
+    if(!occ)p.setAttribute('fill',open);
+  });
+  svg.querySelectorAll('.combLabel').forEach(t=>t.setAttribute('fill',muted));
+  tie.setAttribute('stroke',mine);
+  mineCore.setAttribute('stroke',mine);
+  mineCells.forEach(p=>{p.setAttribute('stroke',mine);p.setAttribute('fill',mine);p.setAttribute('fill-opacity','.28');});
+}
+paintComb();
+
+/* ═══ numbers ═══ */
+const SECTOR={'01':'D01','02':'D01','03':'D01','04':'D01','05':'D01','06':'D01','07':'D02','08':'D02','14':'D03','15':'D03','16':'D03','09':'D04','10':'D04','11':'D05','12':'D05','13':'D05','17':'D06','18':'D07','19':'D07','20':'D08','21':'D08','22':'D09','23':'D09','24':'D10','25':'D10','26':'D10','27':'D10','28':'D11','29':'D11','30':'D11','31':'D12','32':'D12','33':'D12','34':'D13','35':'D13','36':'D13','37':'D13','38':'D14','39':'D14','40':'D14','41':'D14','42':'D15','43':'D15','44':'D15','45':'D15','46':'D16','47':'D16','48':'D16','49':'D17','50':'D17','81':'D17','51':'D18','52':'D18','53':'D19','54':'D19','55':'D19','82':'D19','56':'D20','57':'D20','58':'D21','59':'D21','60':'D22','61':'D22','62':'D22','63':'D22','64':'D22','65':'D23','66':'D23','67':'D23','68':'D23','69':'D24','70':'D24','71':'D24','72':'D25','73':'D25','77':'D26','78':'D26','75':'D27','76':'D27','79':'D28','80':'D28'};
+const DI={D01:['Raffles Place',103.851,1.284],D02:['Tanjong Pagar',103.845,1.276],D03:['Tiong Bahru',103.820,1.288],
+D04:['Harbourfront',103.822,1.266],D05:['West Coast',103.765,1.303],D06:['Clarke Quay',103.851,1.291],
+D07:['Bugis',103.858,1.301],D08:['Farrer Park',103.852,1.311],D09:['River Valley',103.836,1.300],
+D10:['Holland',103.807,1.318],D11:['Novena',103.840,1.320],D12:['Toa Payoh',103.848,1.334],
+D13:['Potong Pasir',103.876,1.334],D14:['Paya Lebar',103.892,1.318],D15:['Katong',103.905,1.305],
+D16:['Bedok',103.935,1.324],D17:['Loyang',103.975,1.355],D18:['Tampines',103.945,1.353],
+D19:['Serangoon',103.895,1.372],D20:['Bishan',103.845,1.365],D21:['Upper Bukit Timah',103.780,1.335],
+D22:['Jurong',103.720,1.335],D23:['Bukit Batok',103.750,1.375],D24:['Tengah',103.700,1.395],
+D25:['Woodlands',103.790,1.435],D26:['Upper Thomson',103.820,1.395],D27:['Yishun',103.830,1.428],
+D28:['Yio Chu Kang',103.870,1.400]};
+const CCR=new Set(['D01','D02','D06','D07','D09','D10','D11']),RCR=new Set(['D03','D04','D05','D08','D12','D13','D14','D15','D20']);
+const PSF={CCR:5.2,RCR:4.3,OCR:3.6},TIER={CCR:'prime central',RCR:'city fringe',OCR:'suburban'};
+const PREMIUM=.10, sgd=n=>'S$'+Math.round(n).toLocaleString('en-SG');
+const $=id=>document.getElementById(id);
+let state={psf:4.0,sqft:900,baths:2,district:null,shown:false},raf=null,cur=3564;
+
+function nearest(lng,lat){let b=null;HOMES.forEach(h=>{
+  const dx=(lng-h.ll[0])*111.30,dy=(lat-h.ll[1])*110.57,d=Math.hypot(dx,dy);
+  if(!b||d<b.d)b={d,home:h};});return b;}
+function placeMine(lng,lat){
+  const p=proj(lng,lat);let ax=toAxial(p[0],p[1]),guard=0;
+  while(claimed.has(ax.join(','))&&guard<6){ax=[ax[0]+2,ax[1]+1];guard++;}
+  const [cx,cy]=px(ax[0],ax[1]);
+  mineCore.setAttribute('points',hexPts(cx,cy));
+  [...RING,...RING2].forEach((d,i)=>{const [x,y]=px(ax[0]+d[0],ax[1]+d[1]);
+    mineCells[i].setAttribute('points',hexPts(x,y));});
+  const n=nearest(lng,lat);
+  tie.setAttribute('d','M'+cx+','+cy+' L'+n.home._px[0]+','+n.home._px[1]);
+  return n;
+}
+function petals(k){mineCells.forEach((p,i)=>p.setAttribute('opacity',i<k?1:0));}
+let moneyTarget=cur;
+function snapMoney(){cancelAnimationFrame(raf);cur=moneyTarget;$('money').textContent=sgd(cur);}
+function tweenMoney(to){
+  moneyTarget=to;
+  /* Write the value straight away. requestAnimationFrame is throttled to a crawl in a
+     background tab, so an animation-only path can leave this blank or stale. */
+  $('money').textContent=sgd(cur);
+  if(reduced||document.hidden){snapMoney();return;}
+  cancelAnimationFrame(raf);const from=cur,t0=performance.now();
+  const step=t=>{const k=Math.min((t-t0)/650,1),e=1-Math.pow(1-k,3);
+    cur=from+(to-from)*e;$('money').textContent=sgd(cur);
+    if(k<1)raf=requestAnimationFrame(step);else cur=to;};
+  raf=requestAnimationFrame(step);
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Math.abs(cur-moneyTarget)>0.5)snapMoney();});
+function render(){
+  const rooms=state.baths+1,ens=Math.max(state.baths-1,0);
+  $('sqftv').textContent=state.sqft.toLocaleString('en-SG')+' sqft';
+  $('bathv').textContent=state.baths;
+  $('roomhint').textContent='Lets as '+rooms+' rooms'+(ens?', '+ens+' of them ensuite':', all sharing one bathroom')+'.';
+  const market=state.psf*state.sqft,pays=market*(1+PREMIUM);
+  $('against').innerHTML='<b>10% over</b> the '+sgd(market)+' open-market rent for '+
+    (state.district?DI[state.district][0]:'a unit this size')+'. Guaranteed, 36 months.';
+  tweenMoney(pays);
+  if(state.district)petals(Math.min(rooms,12));
+}
+$('postal').addEventListener('input',e=>{
+  const v=e.target.value.replace(/\D/g,'').slice(0,6);e.target.value=v;
+  const d=v.length>=2?SECTOR[v.slice(0,2)]:null;
+  if(d){
+    const t=CCR.has(d)?'CCR':RCR.has(d)?'RCR':'OCR';
+    state.district=d;state.psf=PSF[t];
+    const [name,lng,lat]=DI[d];const n=placeMine(lng,lat);
+    $('district').innerHTML='<b>'+d+'</b> &middot; '+name+' &middot; '+TIER[t]+' &middot; S$'+PSF[t].toFixed(1)+'/sqft market<br>'+
+      (n.d<1.2?'Practically next door to <em>'+n.home.name+'</em>.'
+              :'<em>'+n.d.toFixed(1)+' km</em> from '+n.home.name+', our nearest home.');
+    if(!state.shown){state.shown=true;mineG.setAttribute('opacity',1);tie.setAttribute('opacity','.5');}
+  }else{
+    state.district=null;state.psf=4.0;
+    $('district').textContent=v.length>=2?'That is not a Singapore postal code yet. Keep going.'
+                                        :'Type a code and your unit joins the hive.';
+  }
+  render();
+});
+$('sqft').addEventListener('input',e=>{state.sqft=+e.target.value;render();});
+$('baths').addEventListener('input',e=>{state.baths=+e.target.value;render();});
+
+/* ═══ content ═══ */
+const CHANNELS=[['Airbnb',1],['Booking.com',1],['Agoda',1],['Roomies',1],['Carousell',1],['PropertyGuru',1],['99.co',1],
+ ['Coliving.com',1],['Amber',0],['uhomes',0],['Lecheng',0],['Awehome',0],['Funliving',0],['Casita',0],['WelcomeStay',0],
+ ['51ROOM',0],['ColivingSG',0],['UL',0],['Xiaohongshu',1],['Instagram',1]];
+$('chips').innerHTML=CHANNELS.map(c=>'<span class="chip'+(c[1]?' on':'')+'">'+c[0]+'</span>').join('');
+
+const STEPS=[
+ ['Send the postal code','You give us three facts. We come back within a week with a real number, or we tell you plainly that your unit is not a fit.'],
+ ['We walk the unit','Half an hour. We measure, photograph, and list exactly what needs doing before anyone can live in it.'],
+ ['One lease, 36 months','You sign with Makery Pte Ltd, not with a stranger. Deposit paid up front, terms in plain English.'],
+ ['We furnish and fill it','Fit-out at our cost, rooms listed across every channel, tenants screened. First payment lands on the first of the following month.']];
+$('steps').innerHTML=STEPS.map((s,i)=>'<div class="step rv"><div class="n">0'+(i+1)+'</div><h3>'+s[0]+'</h3><p>'+s[1]+'</p></div>').join('');
+
+$('homelist').innerHTML=HOMES.map(h=>{
+  const filled=h.rooms.length-h._open;
+  return '<article class="home rv"><div class="imgwrap"><img src="'+h.photo+'" alt="'+h.name+'" loading="lazy"></div>'+
+    '<span class="tag" style="display:block;margin-top:14px">'+h.area+'</span><h3>'+h.name+'</h3>'+
+    '<p>'+h.rooms.length+' rooms, '+filled+' filled'+(h._open?', '+h._open+' open now':'')+'</p>'+
+    '<div class="bars">'+h.rooms.map((r,i)=>'<i class="'+(i<filled?'on':'')+'"></i>').join('')+'</div></article>';
+}).join('');
+
+const FAQ=[
+ ['What if you cannot fill it?','Then we pay you anyway. That is the whole difference between a lease and a management fee. We carry the empty month, and we price the offer knowing that.'],
+ ['What happens to my furniture?','Store it or leave it, your call. We fit out at our own cost to one standard, and at the end of the term the unit comes back the way we found it.'],
+ ['Who fixes things?','We do, up to a limit we agree in writing before you sign. Structural work and the landlord obligations in your MCST stay with you, exactly as they would with any tenant.'],
+ ['Can I sell the unit mid-lease?','Yes. The lease travels with the unit. A place with three years of contracted income already attached is easier to sell, not harder.'],
+ ['Is my unit even eligible?','Private condos and apartments, within the occupancy and minimum-stay rules. We check that before we quote, and if the answer is no we will say so instead of wasting your week.']];
+$('faq').innerHTML=FAQ.map(f=>'<div class="q rv"><button type="button" aria-expanded="false">'+f[0]+'</button><div class="a"><p>'+f[1]+'</p></div></div>').join('');
+$('faq').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  const q=b.parentElement,a=q.querySelector('.a'),was=q.classList.contains('open');
+  $('faq').querySelectorAll('.q').forEach(o=>{o.classList.remove('open');o.querySelector('.a').style.maxHeight=null;
+    o.querySelector('button').setAttribute('aria-expanded','false');});
+  if(!was){q.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';b.setAttribute('aria-expanded','true');}
+});
+$('leadform').addEventListener('submit',e=>{e.preventDefault();
+  alert('Prototype. In the real build this writes a row into leads in hyve-iot and pings Mark on Telegram.');});
+
+/* ═══ mode ═══ */
+const mode=$('mode');
+mode.addEventListener('click',()=>{
+  const dark=document.documentElement.dataset.theme==='tobacco';
+  document.documentElement.dataset.theme=dark?'alabaster':'tobacco';
+  mode.textContent=dark?'Dark':'Light';
+  paintComb();
+});
+
+/* ═══ reveal ═══ */
+if(!reduced){
+  const io=new IntersectionObserver(es=>es.forEach(en=>{
+    if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}}),{rootMargin:'0px 0px -10% 0px'});
+  document.querySelectorAll('.rv').forEach((n,i)=>{n.style.transitionDelay=(i%4*60)+'ms';io.observe(n);});
+}else document.querySelectorAll('.rv').forEach(n=>n.classList.add('in'));
+render();
+</script>
+</body>
+</html>

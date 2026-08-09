@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee: symmetry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Italiana&family=Inter+Tight:wght@300;400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0D1210;color:#EDE6DA;font-family:'Inter Tight',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:0 34px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#7E8A82}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:46px;margin:12px 0 10px}
+h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:29px;margin-bottom:6px}
+.lede{max-width:68ch;font-size:15px;line-height:1.7;color:#8B978E}
+.lede b{color:#EDE6DA;font-weight:400}
+header{padding:54px 0 6px}
+section{padding:50px 0;border-top:1px solid #1C2724}
+.row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px}
+.cell{border:1px solid #1C2724;background:#111815;padding:26px 14px 14px;text-align:center}
+.cell.pick{border-color:#B08D4F}
+.cap{margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#6E7A73}
+.cap b{color:#B08D4F;font-weight:400}
+.sizes{display:flex;gap:16px;align-items:center;justify-content:center;margin-top:14px;padding-top:12px;border-top:1px solid #1C2724}
+.light{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+.lb{background:#F6F2EA;border:1px solid #E2DACC;padding:26px 14px 16px;text-align:center;color:#241C16}
+.lb .cap{color:#8C8073}
+.wm{display:block;line-height:1;margin-top:12px}
+.wm .word{display:block;font-family:'Italiana',serif;letter-spacing:.34em;font-size:17px}
+.wm .sub{display:block;font-family:'Inter Tight',sans-serif;letter-spacing:.44em;text-transform:uppercase;font-size:7px;margin-top:8px}
+@media(max-width:900px){.row,.light{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="tag">Lazybee &middot; symmetry</div>
+  <h1>How symmetrical do you want it?</h1>
+  <p class="lede">Worth being exact about what is and is not symmetrical here, because it changes what to fix.
+  The mark <b>already has perfect mirror symmetry left to right</b>: point 1 mirrors point 6, point 2 mirrors point 5,
+  point 3 mirrors point 4, and the stinger sits dead on the axis. Fold it down the middle and the halves land on each other.
+  What it does not have is <b>radial evenness</b>, because the seven points are different lengths.
+  And no seven-point star can ever be symmetrical top to bottom, since seven is odd. One point always has to sit alone.</p>
+  <p class="lede" style="margin-top:16px">So the real dial is how much the point lengths vary. Below, from fully even to the bee weighting you have been looking at.</p>
+</header>
+
+<section class="wrap">
+  <div class="tag">01 &middot; light weight</div>
+  <h2>Even, to bee</h2>
+  <div class="row" id="rowL"></div>
+  <div class="light" id="rowLightL"></div>
+</section>
+
+<section class="wrap" style="padding-bottom:90px">
+  <div class="tag">02 &middot; medium weight</div>
+  <h2>The same four, thicker</h2>
+  <div class="row" id="rowM"></div>
+</section>
+
+<script>
+function star(cx,cy,R,rv,rot,radii,taper){
+  const n=7, step=360/n, rad=i=>R*radii[i%n], tap=i=>R*taper[i%n];
+  const P=(a,r)=>[ (cx+r*Math.cos(a*Math.PI/180)).toFixed(3), (cy+r*Math.sin(a*Math.PI/180)).toFixed(3) ];
+  let d='';
+  for(let i=0;i<n;i++){
+    const a0=rot+i*step, av=rot+(i+.5)*step, a1=rot+(i+1)*step;
+    const A=P(a0,rad(i)), B=P(a1,rad(i+1)), V=P(av,rv), c1=P(a0,tap(i)), c2=P(a1,tap(i+1));
+    if(!i) d+='M'+A[0]+','+A[1];
+    d+='Q'+c1[0]+','+c1[1]+' '+V[0]+','+V[1]+'Q'+c2[0]+','+c2[1]+' '+B[0]+','+B[1];
+  }
+  return d+'Z';
+}
+/* order clockwise from the down point: stinger, leg, wing, antenna, antenna, wing, leg.
+   every set below is a palindrome around the vertical axis, so mirror symmetry is exact. */
+const SETS = [
+  {id:'S0', label:'EVEN', sub:'all seven equal', len:[1,1,1,1,1,1,1]},
+  {id:'S1', label:'BARELY', sub:'wings +8%',      len:[1.00,0.94,1.08,0.96,0.96,1.08,0.94]},
+  {id:'S2', label:'HALF',  sub:'halfway to the bee', len:[0.94,0.78,1.14,0.88,0.88,1.14,0.78]},
+  {id:'S3', label:'BEE',   sub:'what you have been seeing', len:[0.88,0.60,1.20,0.80,0.80,1.20,0.60]},
+];
+const W = {
+  light:  {rv:5.5, taper:[0.32,0.30,0.34,0.28,0.28,0.34,0.30]},
+  medium: {rv:8.5, taper:[0.24,0.23,0.30,0.19,0.19,0.30,0.23]},
+};
+const CX=50, CY=50, R=34;
+function mark(set,wk,size,ink,brass){
+  return '<svg width="'+size+'" height="'+size+'" viewBox="8 -1.5 84 84" aria-hidden="true">'+
+    '<path fill="'+ink+'" d="'+star(CX,CY,R,W[wk].rv,90,set.len,W[wk].taper)+'"/>'+
+    '<circle cx="50" cy="9.5" r="8.4" fill="'+brass+'"/></svg>';
+}
+const INK='#EDE6DA', BRASS='#B08D4F';
+const cell=(s,wk)=>'<div class="cell'+(s.id==='S2'?' pick':'')+'">'+mark(s,wk,104,INK,BRASS)+
+  '<div class="sizes">'+mark(s,wk,28,INK,BRASS)+mark(s,wk,16,INK,BRASS)+'</div>'+
+  '<div class="cap"><b>'+s.label+'</b> &middot; '+s.sub+'</div></div>';
+rowL.innerHTML = SETS.map(s=>cell(s,'light')).join('');
+rowM.innerHTML = SETS.map(s=>cell(s,'medium')).join('');
+rowLightL.innerHTML = SETS.map(s=>'<div class="lb">'+mark(s,'light',88,'#241C16','#B8873B')+
+  '<span class="wm"><span class="word">LAZYBEE</span><span class="sub" style="color:#8C8073">SINGAPORE</span></span></div>').join('');
+</script>
+</body>
+</html>

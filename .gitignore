@@ -10,3 +10,7 @@ dist/
 .env.fresh
 *.bak
 .secrets/
+.superpowers/
+
+# prototype scratch virtualenv, never ship
+design-preview/.venv-img/

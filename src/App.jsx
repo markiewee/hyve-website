@@ -62,10 +62,15 @@ function AppContent() {
   const location = useLocation();
   const isPortal = location.pathname.startsWith('/portal');
   const isViewing = false; // booking + viewing flows now live on book.lazybee.sg
+  // The owner homepage ships its own header and footer, themed alabaster/tobacco.
+  // The site chrome is dark terracotta, so bolting it on would put a dark bar top
+  // and bottom of a light page. Its footer carries the legal links across.
+  const isOwnerHome = location.pathname === '/';
+  const bareChrome = isPortal || isViewing || isOwnerHome;
 
   return (
       <div className="min-h-screen bg-background">
-        {!isPortal && !isViewing && <Navbar />}
+        {!bareChrome && <Navbar />}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/locations" element={<Navigate to="/" replace />} />
@@ -385,7 +390,7 @@ function AppContent() {
             </div>
           } />
         </Routes>
-        {!isPortal && !isViewing && <Footer />}
+        {!bareChrome && <Footer />}
       </div>
   );
 }

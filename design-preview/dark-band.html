@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee: the band in dark mode</title>
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Italiana&family=Inter+Tight:wght@300;400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#12100D;color:#E6E1D6;font-family:'Inter Tight',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1280px;margin:0 auto;padding:0 34px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#8C8578}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:44px;margin:12px 0 10px}
+h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:27px;margin-bottom:6px}
+.lede{max-width:68ch;font-size:15px;line-height:1.72;color:#9A9285}
+.lede b{color:#E6E1D6;font-weight:400}
+header{padding:52px 0 6px}
+section{padding:42px 0;border-top:1px solid #26221C}
+.settled{border:1px solid #2F4A3C;background:#101A15;padding:20px 22px;margin-top:22px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.settled .k{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;color:#5E8873}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}
+.mock{border:1px solid #26221C;overflow:hidden}
+.mocklabel{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;color:#8C8578;padding:9px 12px;background:#191713}
+.mock.pick{border-color:#B08D4F}
+.m-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 18px}
+.m-nav .lg{display:flex;align-items:center;gap:8px}
+.m-nav svg{width:18px;height:auto}
+.m-nav .wd{font-family:'Italiana',serif;letter-spacing:.30em;font-size:12px}
+.m-hero{padding:26px 18px 28px}
+.m-eye{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.26em;text-transform:uppercase}
+.m-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:27px;line-height:1.05;margin:10px 0 11px}
+.m-p{font-size:12px;line-height:1.6}
+.m-cta{display:inline-block;margin-top:15px;font-family:'JetBrains Mono',monospace;font-size:8.5px;
+  letter-spacing:.18em;text-transform:uppercase;padding:10px 16px}
+.m-band{padding:22px 18px;display:flex;gap:14px;justify-content:space-between;flex-wrap:wrap}
+.m-num{font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:-.02em}
+.m-lab{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.2em;margin-top:5px}
+.m-foot{padding:16px 18px;display:flex;justify-content:space-between;align-items:center;font-size:10px}
+.note{margin-top:12px;font-size:12.5px;line-height:1.6;color:#9A9285}
+.note b{color:#E6E1D6;font-weight:400}
+.verdict{border:1px solid #B08D4F;background:#181611;padding:24px 26px;margin-top:26px}
+.verdict h3{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:23px;margin-bottom:8px;color:#E6E1D6}
+@media(max-width:960px){.trio{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="tag">Lazybee &middot; the band, dark mode</div>
+  <h1>Green stays in the light.</h1>
+  <p class="lede">You are right about brown and green. Tobacco sits at roughly 25 degrees on the wheel and the regal green at 155,
+  which is close enough to a complement to vibrate and far enough from one to look accidental. The band still has a job in dark mode though,
+  so it needs a different filler. Three candidates, all built from colours already in the system.</p>
+  <div class="settled">
+    <span class="k">SETTLED</span>
+    <span style="font-size:13.5px;color:#C9D8CF">Alabaster keeps the green band. That one is done.</span>
+    <span style="display:inline-flex;gap:0;border:1px solid #2F4A3C">
+      <span style="background:#F6F2EA;width:54px;height:26px"></span>
+      <span style="background:#0E2E20;width:54px;height:26px"></span>
+      <span style="background:#08150F;width:54px;height:26px"></span>
+    </span>
+  </div>
+</header>
+
+<section class="wrap">
+  <div class="tag">Tobacco &middot; three ways to carry the proof numbers</div>
+  <h2>Same structure, no clash</h2>
+  <div class="trio" id="trio"></div>
+</section>
+
+<section class="wrap" style="padding-bottom:90px">
+  <div class="verdict" id="verdict"></div>
+</section>
+
+<script>
+const D='M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z';
+const mark=c=>'<svg viewBox="13.43 21.63 73.13 57.45" style="fill:'+c+'"><path d="'+D+'"/></svg>';
+
+const TOB='#241811', TOBS='#31231A', TOBL='#453224', TOBI='#E8DACA', TOBM='#B39B82';
+const DEEP='#150D07', BR='#B08D4F', BRL='#C6A467', BONE='#EDE6DA';
+
+function mock(o){
+  return '<div class="mock'+(o.pick?' pick':'')+'">'+
+  '<div class="mocklabel">'+o.label+'</div>'+
+  '<div style="background:'+TOB+';color:'+TOBI+'">'+
+    '<div class="m-nav" style="border-bottom:1px solid '+TOBL+'">'+
+      '<div class="lg">'+mark(TOBI)+'<span class="wd">LAZYBEE</span></div>'+
+      '<span style="font-family:JetBrains Mono,monospace;font-size:7.5px;letter-spacing:.2em;color:'+TOBM+'">THE DEAL</span></div>'+
+    '<div class="m-hero">'+
+      '<div class="m-eye" style="color:'+BRL+'">For landlords</div>'+
+      '<div class="m-h">Be a lazy landlord.</div>'+
+      '<div class="m-p" style="color:'+TOBM+'">We lease it, furnish it, fill it and run it. The same amount lands on the first.</div>'+
+      '<span class="m-cta" style="background:'+BR+';color:#241812">Get my offer</span></div>'+
+    o.band+
+    '<div class="m-foot" style="background:'+o.footBg+';color:'+o.footInk+';border-top:1px solid '+TOBL+'">'+
+      '<span style="font-family:Italiana,serif;letter-spacing:.28em;font-size:11px">LAZYBEE</span>'+
+      '<span style="font-family:JetBrains Mono,monospace;font-size:7.5px;letter-spacing:.2em;color:'+o.footMut+'">SINGAPORE</span></div>'+
+  '</div></div>'+
+  '<div class="note">'+o.note+'</div>';
+}
+function band(bg,num,lab,extra){
+  return '<div class="m-band" style="background:'+bg+';'+(extra||'')+'">'+
+    [['S$3,564','PAID ON THE FIRST'],['36','MONTHS GUARANTEED'],['100%','TRAILING OCCUPANCY']]
+    .map(v=>'<div><div class="m-num" style="color:'+num+'">'+v[0]+'</div>'+
+      '<div class="m-lab" style="color:'+lab+'">'+v[1]+'</div></div>').join('')+'</div>';
+}
+
+document.getElementById('trio').innerHTML =
+ mock({label:'A · DEEPER TOBACCO', pick:true,
+   band: band(DEEP, BRL, '#8A7460'),
+   footBg:DEEP, footInk:TOBI, footMut:BRL,
+   note:'<b>Tone on tone.</b> The band is simply a darker cut of the same brown, and the brass numbers do the lifting. '+
+        'Nothing new enters the palette, so nothing can clash. Quietest and most expensive-looking.'}) +
+ mock({label:'B · BRASS BAND',
+   band: band(BR, '#241812', '#4A3A1C'),
+   footBg:TOBS, footInk:TOBI, footMut:BRL,
+   note:'<b>Inverted.</b> The band goes brass with dark type. Loud, and it works, but brass is also the button colour, '+
+        'so the page ends up with two brass things competing and the button stops being the obvious thing to press.'}) +
+ mock({label:'C · NO BAND, RULES ONLY',
+   band: band(TOB, TOBI, TOBM, 'border-top:1px solid '+TOBL+';border-bottom:1px solid '+TOBL),
+   footBg:TOB, footInk:TOBI, footMut:BRL,
+   note:'<b>Structure by hairline.</b> No fill at all, just rules top and bottom. Most restrained, and on a dark ground it reads fine, '+
+        'but the numbers lose the emphasis the green gives them in light mode, so the two modes stop matching.'});
+
+function lum(hex){const n=hex.replace('#','');
+  const v=[0,2,4].map(i=>parseInt(n.substr(i,2),16)/255).map(c=>c<=.03928?c/12.92:Math.pow((c+.055)/1.055,2.4));
+  return .2126*v[0]+.7152*v[1]+.0722*v[2];}
+const cr=(a,b)=>{const l1=lum(a),l2=lum(b),hi=Math.max(l1,l2),lo=Math.min(l1,l2);return ((hi+.05)/(lo+.05)).toFixed(2);};
+
+document.getElementById('verdict').innerHTML =
+ '<h3>What I would do</h3><p class="lede">'+
+ '<b>A, the deeper tobacco.</b> It keeps the band doing exactly the job green does in light mode, which is what makes the two modes '+
+ 'feel like one brand rather than two designs. Nothing new enters the palette so nothing can clash, and the brass numbers get the emphasis '+
+ 'the green gives them on the light side.<br><br>'+
+ 'B is the tempting one and it is a trap: brass is already the button, so a brass band means two brass things on the same screen '+
+ 'and the reader no longer knows which one is the action.<br><br>'+
+ 'Numbers behind it: brass lift on deep tobacco '+cr('#C6A467','#150D07')+':1, bone on deep tobacco '+cr('#EDE6DA','#150D07')+':1, '+
+ 'and for the light side, brass lift on green '+cr('#C6A467','#0E2E20')+':1. All comfortably AA.<br><br>'+
+ 'So the rule becomes one line: <b>the band is green in light mode and deep tobacco in dark mode, and the numbers on it are always brass.</b></p>';
+</script>
+</body>
+</html>
