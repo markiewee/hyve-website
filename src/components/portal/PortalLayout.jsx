@@ -64,6 +64,7 @@ function useNavLinks(role, needsOutcome = 0) {
           // needs-outcome count: 43 past viewings currently have no answer,
           // and a queue nobody can navigate to cannot stop them ageing.
           { label: t("nav.viewings"), to: "/portal/admin/viewings", icon: "visibility", badge: needsOutcome },
+          { label: "Listings", to: "/portal/admin/listings", icon: "public" },
           { label: t("nav.tickets"), to: "/portal/admin/tickets", icon: "confirmation_number" },
           { label: "Locks", to: "/portal/admin/locks", icon: "lock" },
           { label: t("nav.devices"), to: "/portal/admin/devices", icon: "router" },
