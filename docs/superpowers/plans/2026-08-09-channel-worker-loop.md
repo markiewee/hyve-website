@@ -12,6 +12,68 @@
 
 ---
 
+## Status: Tasks 1 to 9 COMPLETE and applied to production (2026-08-09)
+
+Tasks 10 to 12 (the worker, discovery, the schedule) remain, blocked on a
+one-time Roomies login on the mini. Nothing has been written to Roomies.
+
+### Corrections found during execution
+
+Recorded because each one would otherwise be rediscovered the hard way, and two
+of them were failures that look like success, which is the exact class this
+project exists to eliminate.
+
+**1. Test assertions must RETURN ROWS, not raise notices.** The plan originally
+verified guards with `raise notice 'PASS'` inside a `do` block. The Supabase
+Management API does not surface `NOTICE`, so a passing test and a test that
+never ran are byte-identical: both return `[]`. Every assertion was rewritten to
+`select '<claim>' as assertion, (<condition>) as pass`. Negative tests capture
+`sqlerrm` into a temp table and assert on it.
+
+**2. `fn_claim_listing_work` compared against a column nothing populated.** It
+read `listing_placements.desired_state`, which no code writes. It would have
+returned zero rows forever and reported "nothing to do". Fixed by deriving
+desired state inline from `fn_listing_desired_state` on every claim; the stored
+column is now a record of what was acted on, never an input to a decision. This
+also removes a staleness class outright.
+
+**3. `last_drift` is a pre-existing jsonb column, NOT NULL, default `'{}'`.** The
+first cut assigned a boolean, then assumed nullable. It now stores which fields
+disagree plus both states, and `'{}'` when clean. Note `'{}'` means "checked, no
+drift" and is only distinguishable from "never checked" by `observed_at`. Do not
+read one without the other.
+
+**4. The view had to be dropped and recreated, not replaced.** `create or replace
+view` can only append columns at the end, and the new ones belong beside the
+state they describe. Done inside the migration transaction so no reader sees it
+missing.
+
+**5. `~/.claude/tools/roomies/` exists only on the mini,** not on the work Mac.
+Worker files are authored in `workers/roomies/` in this repo and `scp`ed across.
+
+### What was proven against production, in rolled-back transactions
+
+| Behaviour | Result |
+| --- | --- |
+| Claim then report round trip, 7 assertions | pass |
+| Desired state derived from the calendar (`Available from 12 Aug 2026` for CP-PR1) | pass |
+| Stale claim token refused after the first report | pass, raises |
+| ON to OFF **withheld** before approval | pass |
+| ON to OFF **released** after `fn_approve_listing_change` | pass |
+| Approval is single use, cleared on report | pass |
+| Status follows OBSERVED state, not intent | pass |
+| Disputed-availability room never claimed despite obvious drift | pass |
+| Placement with no `external_id` never claimed | pass |
+| Kill switch: disabled channel yields no work | pass |
+| Unregistered worker refused | pass |
+| Unlettable space (`CP-COMMON`) refused by `fn_link_placement` | pass |
+| Both views closed to `anon`, readable by `authenticated` | pass |
+| Disputed flag finds exactly IH-PR1, IH-STD2, TG-PR3 | pass |
+| `node --test src/lib/listingDrift.test.js` | 11 pass |
+| Production left clean, zero test rows | pass |
+
+---
+
 ## Ground truth verified before planning
 
 Do not re-derive these. They were checked against production on 2026-08-09.
