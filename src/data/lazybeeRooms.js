@@ -66,7 +66,7 @@ export const ROOMS = [
     "sqm": 45,
     "bed": "Queen bed",
     "occ": 2,
-    "min": 6,
+    "min": 3,
     "ensuite": true,
     "ac": true,
     "am": [
@@ -93,7 +93,7 @@ export const ROOMS = [
     "sqm": 9,
     "bed": "Super single",
     "occ": 1,
-    "min": 4,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -117,7 +117,7 @@ export const ROOMS = [
     "sqm": 9,
     "bed": "Super single",
     "occ": 1,
-    "min": 4,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -141,7 +141,7 @@ export const ROOMS = [
     "sqm": 20,
     "bed": "Super single",
     "occ": 2,
-    "min": 4,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -165,7 +165,7 @@ export const ROOMS = [
     "sqm": 17,
     "bed": "Queen bed",
     "occ": 1,
-    "min": 6,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -187,7 +187,7 @@ export const ROOMS = [
     "sqm": 4,
     "bed": "Super single",
     "occ": 1,
-    "min": 6,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -211,7 +211,7 @@ export const ROOMS = [
     "sqm": 20,
     "bed": "Queen bed",
     "occ": 2,
-    "min": 6,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -235,7 +235,7 @@ export const ROOMS = [
     "sqm": 20,
     "bed": "Queen bed",
     "occ": 1,
-    "min": 6,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -257,7 +257,7 @@ export const ROOMS = [
     "sqm": 20,
     "bed": "Super single",
     "occ": 1,
-    "min": 6,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -279,7 +279,7 @@ export const ROOMS = [
     "sqm": 30,
     "bed": "Super single",
     "occ": 1,
-    "min": 6,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -301,7 +301,7 @@ export const ROOMS = [
     "sqm": 30,
     "bed": "Super single",
     "occ": 1,
-    "min": 6,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -325,7 +325,7 @@ export const ROOMS = [
     "sqm": 30,
     "bed": "Super single",
     "occ": 1,
-    "min": 6,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -347,7 +347,7 @@ export const ROOMS = [
     "sqm": 30,
     "bed": "Super single",
     "occ": 1,
-    "min": 6,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -369,7 +369,7 @@ export const ROOMS = [
     "sqm": 35,
     "bed": "Queen bed",
     "occ": 2,
-    "min": 6,
+    "min": 3,
     "ensuite": true,
     "ac": true,
     "am": [
@@ -394,7 +394,7 @@ export const ROOMS = [
     "sqm": 20,
     "bed": "Queen bed",
     "occ": 2,
-    "min": 6,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -417,7 +417,7 @@ export const ROOMS = [
     "sqm": 20,
     "bed": "Queen bed",
     "occ": 1,
-    "min": 6,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -440,7 +440,7 @@ export const ROOMS = [
     "sqm": 17,
     "bed": "Super single",
     "occ": 1,
-    "min": 6,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -464,7 +464,7 @@ export const ROOMS = [
     "sqm": 5,
     "bed": "Single bed",
     "occ": 1,
-    "min": 6,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
@@ -486,7 +486,7 @@ export const ROOMS = [
     "sqm": 6,
     "bed": "Single bed",
     "occ": 1,
-    "min": 6,
+    "min": 3,
     "ensuite": false,
     "ac": true,
     "am": [
