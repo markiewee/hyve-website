@@ -33,7 +33,7 @@ const ContactPage = () => {
       <div className="max-w-3xl mx-auto px-6 md:px-8 py-12 md:py-20">
         <FadeIn className="text-center mb-14">
           <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-6">Get in touch</span>
-          <h1 className="font-display font-bold tracking-display text-5xl md:text-6xl leading-none mb-6">Let's talk.</h1>
+          <h1 className="font-display font-bold tracking-display text-5xl md:text-6xl leading-none mb-6">Talk to Lazybee.</h1>
           <p className="text-foreground-variant text-lg max-w-xl mx-auto leading-relaxed">
             Investors, partners, landlords — reach the founders directly. We reply the same day.
           </p>
