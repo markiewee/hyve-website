@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { BOOKING_URL } from '../../lib/booking';
 import { track, EVENTS } from '../../lib/analytics';
 import { scrollToId } from '../../lib/scrollToId';
@@ -12,11 +13,16 @@ export function BeeMark() {
   );
 }
 
+/* Nav labels say what the owner gets, not what we called the section internally.
+   "Free coffee" is deliberate: it is the actual offer at the bottom of the page,
+   and naming it is what makes a stranger click it. The Hive is a real route, not
+   an anchor, so it carries a `to` instead of a section id. */
 const NAV = [
-  ['The split', 'split'],
-  ['Compare', 'compare'],
+  ['Your split', 'split'],
+  ['Versus a lease', 'compare'],
   ['The comb', 'comb'],
-  ['Coffee', 'ask'],
+  ['The Hive', null, '/hive'],
+  ['Free coffee', 'ask'],
 ];
 
 /**
@@ -47,8 +53,10 @@ export function OwnerHeader({ heroRef, theme, onToggleTheme }) {
         <span className="wd">LAZYBEE</span>
       </a>
       <nav className="navlinks">
-        {NAV.map(([label, id]) => (
-          <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollToId(id); }}>{label}</a>
+        {NAV.map(([label, id, to]) => (
+          to
+            ? <Link key={label} to={to}>{label}</Link>
+            : <a key={label} href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollToId(id); }}>{label}</a>
         ))}
         <button className="modebtn" type="button" onClick={onToggleTheme}>
           {theme === 'tobacco' ? 'Light' : 'Dark'}

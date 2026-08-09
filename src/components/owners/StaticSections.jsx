@@ -1,5 +1,5 @@
 import { HOMES, ROOMS, HOME_HERO, roomsForHome, isLet } from '../../data/lazybeeRooms';
-import { COMPARE_HEADS, COMPARE_ROWS, ZEROS, TRIAL_KEEPS, STEPS, COMPLIANCE, POSTS } from '../../data/ownerPage';
+import { COMPARE_HEADS, COMPARE_ROWS, ZEROS, TRIAL_KEEPS, COMPLIANCE, POSTS } from '../../data/ownerPage';
 
 /** The green band: three numbers, one of them counted off the live room data. */
 export function GreenBand() {
@@ -114,22 +114,6 @@ export function TrialSection() {
   );
 }
 
-export function HowItRunsSection() {
-  return (
-    <section className="wrap sec rule" id="how">
-      <h2 className="h1 rv">From postal code to first statement.</h2>
-      <div className="steps">
-        {STEPS.map(([title, body], i) => (
-          <div className="step rv" key={title}>
-            <div className="n">0{i + 1}</div>
-            <h3>{title}</h3>
-            <p>{body}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 export function ComplianceSection() {
   return (
