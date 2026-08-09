@@ -32,6 +32,7 @@ import AdminDevicesPage from './pages/portal/AdminDevicesPage';
 import AdminOnboardingDetailPage from './pages/portal/AdminOnboardingDetailPage';
 import AdminAnnouncementsPage from './pages/portal/AdminAnnouncementsPage';
 import AdminRentPage from './pages/portal/AdminRentPage';
+import AdminListingsPage from "./pages/portal/AdminListingsPage";
 import AdminInvestorsPage from './pages/portal/AdminInvestorsPage';
 import AdminExpenseImportPage from './pages/portal/AdminExpenseImportPage';
 import AdminDocumentsPage from './pages/portal/AdminDocumentsPage';
@@ -269,6 +270,14 @@ function AppContent() {
             element={
               <AuthGuard requiredRole="ADMIN">
                 <AdminAnnouncementsPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/listings"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminListingsPage />
               </AuthGuard>
             }
           />
