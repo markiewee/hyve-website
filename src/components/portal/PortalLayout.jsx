@@ -3,9 +3,10 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useLanguage } from "../../i18n/LanguageContext";
 import PortalTour from "./PortalTour";
+import { useNeedsOutcomeCount } from "../../hooks/useNeedsOutcomeCount";
 import Wordmark from "../Wordmark";
 
-function useNavLinks(role) {
+function useNavLinks(role, needsOutcome = 0) {
   const { t } = useLanguage();
 
   return useMemo(() => {
@@ -29,7 +30,7 @@ function useNavLinks(role) {
       { label: t("nav.propertyOverview"), to: "/portal/property", icon: "apartment" },
       { label: t("nav.tickets"), to: "/portal/property/tickets", icon: "confirmation_number" },
       { label: t("nav.members"), to: "/portal/property/tenants", icon: "group" },
-      { label: "Viewings", to: "/portal/viewings", icon: "visibility" },
+      { label: "Viewings", to: "/portal/viewings", icon: "visibility", badge: needsOutcome },
       { label: t("nav.claims"), to: "/portal/captain/claims", icon: "request_quote" },
       { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
     ];
@@ -65,7 +66,7 @@ function useNavLinks(role) {
         {
           label: "Ops",
           children: [
-            { label: t("nav.viewings"), to: "/portal/admin/viewings", icon: "visibility" },
+            { label: t("nav.viewings"), to: "/portal/admin/viewings", icon: "visibility", badge: needsOutcome },
             { label: t("nav.tickets"), to: "/portal/admin/tickets", icon: "confirmation_number" },
             { label: t("nav.locks"), to: "/portal/admin/locks", icon: "lock" },
             { label: t("nav.devices"), to: "/portal/admin/devices", icon: "router" },
@@ -93,7 +94,7 @@ function useNavLinks(role) {
     if (role === "ADMIN") return ADMIN_RESIDENT_NAV;
     if (role === "HOUSE_CAPTAIN") return HOUSE_CAPTAIN_NAV;
     return TENANT_NAV;
-  }, [role, t]);
+  }, [role, t, needsOutcome]);
 }
 
 function NavLink({ link, location, onClick }) {
@@ -114,7 +115,15 @@ function NavLink({ link, location, onClick }) {
       >
         {link.icon}
       </span>
-      <span className="font-['Manrope']">{link.label}</span>
+      <span className="font-['Manrope'] flex-1">{link.label}</span>
+      {link.badge > 0 && (
+        <span
+          title={`${link.badge} past viewing${link.badge === 1 ? "" : "s"} with no outcome recorded`}
+          className="shrink-0 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-bold text-white"
+        >
+          {link.badge}
+        </span>
+      )}
     </Link>
   );
 }
@@ -125,6 +134,9 @@ function AdminDropdown({ link, location, onLinkClick }) {
     ? link.groups.flatMap((g) => g.children)
     : link.children || [];
   const isChildActive = allChildren.some((c) => location.pathname === c.to);
+  // A badge on a child inside a collapsed group is invisible, which defeats the
+  // point. Surface the total on the parent whenever it is shut.
+  const childBadgeTotal = allChildren.reduce((n, c) => n + (c.badge || 0), 0);
   const [open, setOpen] = useState(isChildActive);
 
   return (
@@ -139,6 +151,14 @@ function AdminDropdown({ link, location, onLinkClick }) {
       >
         <span className="material-symbols-outlined text-[20px] shrink-0">{link.icon}</span>
         <span className="font-['Manrope'] flex-1 text-left">{link.label}</span>
+        {!open && childBadgeTotal > 0 && (
+          <span
+            title={`${childBadgeTotal} past viewing${childBadgeTotal === 1 ? "" : "s"} with no outcome recorded`}
+            className="shrink-0 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-bold text-white"
+          >
+            {childBadgeTotal}
+          </span>
+        )}
         <span className="material-symbols-outlined text-[16px] transition-transform duration-200" style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}>
           expand_more
         </span>
@@ -344,7 +364,8 @@ function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
 export default function PortalLayout({ children }) {
   const { profile, signOut } = useAuth();
   const location = useLocation();
-  const navLinks = useNavLinks(profile?.role);
+  const needsOutcomeCount = useNeedsOutcomeCount(profile?.role);
+  const navLinks = useNavLinks(profile?.role, needsOutcomeCount);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showTour, setShowTour] = useState(false);
 
