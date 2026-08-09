@@ -147,3 +147,64 @@ test("a stale price on the platform is caught", () => {
 test("a field the channel does not expose is not treated as drift", () => {
   assert.deepEqual(diffAgainstLive({ price: 1380, bills_included: true }, { price: 1380 }), {});
 });
+
+/* ── building to room inheritance ─────────────────────────────────── */
+
+const bldg = {
+  title: "Chiltern Park 135",
+  description: "A quiet block by Lorong Chuan.",
+  hero_photo: "/photos/cp/building.jpg",
+  photos: ["/photos/cp/building.jpg", "/photos/cp/lounge.jpg"],
+  needs_review: false,
+  fields: { address: "135 Serangoon Ave 3", house_rules: ["no smoking"], currency: "SGD" },
+};
+
+test("a room with nothing of its own shows the building's content", async () => {
+  const { mergeProfiles } = await import("./listingCanonical.js");
+  const m = mergeProfiles(bldg, { title: null, description: null, photos: [] });
+  assert.equal(m.title, "Chiltern Park 135");
+  assert.deepEqual(m.photos, bldg.photos);
+  assert.equal(m.fields.address, "135 Serangoon Ave 3");
+});
+
+test("a room overrides the building where it has its own value", async () => {
+  const { mergeProfiles } = await import("./listingCanonical.js");
+  const m = mergeProfiles(bldg, { title: "Premium room by Lorong Chuan", photos: ["/a.jpg"] });
+  assert.equal(m.title, "Premium room by Lorong Chuan");
+  assert.deepEqual(m.photos, ["/a.jpg"]);
+});
+
+test("THE TRAP: empty string is a deliberate blank, not an inherit", async () => {
+  const { mergeProfiles } = await import("./listingCanonical.js");
+  const m = mergeProfiles(bldg, { description: "" });
+  assert.equal(m.description, "");
+  assert.notEqual(m.description, bldg.description);
+});
+
+test("overriding one field does not drop the building's other fields", async () => {
+  const { mergeProfiles } = await import("./listingCanonical.js");
+  const m = mergeProfiles(bldg, { fields: { currency: "USD" } });
+  assert.equal(m.fields.currency, "USD");
+  assert.equal(m.fields.address, "135 Serangoon Ave 3");   // not dropped
+  assert.deepEqual(m.fields.house_rules, ["no smoking"]);  // not dropped
+});
+
+test("an unreviewed building blocks every room under it", async () => {
+  const { mergeProfiles } = await import("./listingCanonical.js");
+  const m = mergeProfiles({ ...bldg, needs_review: true }, { needs_review: false });
+  assert.equal(m.needs_review, true);
+});
+
+test("merging with no building at all does not throw", async () => {
+  const { mergeProfiles } = await import("./listingCanonical.js");
+  const m = mergeProfiles(null, { title: "Solo room" });
+  assert.equal(m.title, "Solo room");
+  assert.deepEqual(m.photos, []);
+});
+
+test("fieldOrigin reports which level a value came from", async () => {
+  const { fieldOrigin } = await import("./listingCanonical.js");
+  assert.equal(fieldOrigin(bldg, { title: "Own" }, "title"), "room");
+  assert.equal(fieldOrigin(bldg, { title: null }, "title"), "property");
+  assert.equal(fieldOrigin({}, {}, "title"), "none");
+});

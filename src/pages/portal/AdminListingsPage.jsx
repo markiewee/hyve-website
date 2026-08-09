@@ -1,121 +1,87 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
-import { buildPayload, listPriceFor } from "../../lib/listingCanonical";
+import { buildPayload, listPriceFor, mergeProfiles, fieldOrigin } from "../../lib/listingCanonical";
+
+const MECHANISMS = [
+  { value: "browser", label: "Computer use" },
+  { value: "api", label: "API" },
+  { value: "feed", label: "Feed" },
+];
 
 /**
- * Edit a room's listing once, see exactly what every platform would receive.
+ * Listings, in two halves.
  *
- * The point of this screen is that it is the ONLY place a listing is edited.
- * The alternative, which is where we are today, is logging into twelve
- * platforms by hand, which means it does not happen, which means we quote one
- * price on lazybee.sg and a different one everywhere else.
+ * Platforms: set each one up once. Commission, how we talk to it, whether it
+ * is live, and a test you can actually fire.
  *
- * It deliberately shows blockers rather than hiding them. A room that cannot
- * be published should say why on the same screen where you would fix it.
+ * Content: nested building then room. Building holds what is true for everyone
+ * at that address; room holds what is specific. Editing the building once
+ * reaches every room under it, which is the whole point: the alternative is
+ * typing the same address and house rules nineteen times and watching them
+ * drift apart.
  */
 export default function AdminListingsPage() {
-  const [rooms, setRooms] = useState([]);
+  const [params, setParams] = useSearchParams();
+  const tab = params.get("tab") === "content" ? "content" : "platforms";
+  const setTab = (t) => {
+    const p = new URLSearchParams(params);
+    t === "platforms" ? p.delete("tab") : p.set("tab", t);
+    setParams(p, { replace: true });
+  };
+
   const [channels, setChannels] = useState([]);
-  const [selectedId, setSelectedId] = useState(null);
-  const [draft, setDraft] = useState(null);
+  const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
-  const [saved, setSaved] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
-    const [{ data: roomData, error: rErr }, { data: chanData, error: cErr }] = await Promise.all([
-      supabase
-        .from("rooms")
-        .select(
-          "id, unit_code, name, room_type, price_monthly, next_available, available_until, min_stay_months, properties(name, code), listing_profiles(id, title, description, hero_photo, photos, fields, needs_review)"
-        )
-        .not("room_type", "is", null)
-        .order("unit_code"),
+    const [{ data: chans, error: cErr }, { data: props, error: pErr }] = await Promise.all([
       supabase.from("listing_channels").select("*").order("name"),
+      supabase
+        .from("properties")
+        .select(
+          "id, name, code, rooms(id, unit_code, name, room_type, price_monthly, next_available, min_stay_months)"
+        )
+        .order("code"),
     ]);
-
-    if (rErr || cErr) setError((rErr || cErr).message);
-    else {
-      const withProfile = (roomData ?? []).map((r) => ({
-        ...r,
-        profile: Array.isArray(r.listing_profiles) ? r.listing_profiles[0] : r.listing_profiles,
-      }));
-      setRooms(withProfile);
-      setChannels(chanData ?? []);
-      setSelectedId((id) => id ?? withProfile[0]?.id ?? null);
+    if (cErr || pErr) {
+      setError((cErr || pErr).message);
+      setLoading(false);
+      return;
     }
+
+    const { data: profiles, error: prErr } = await supabase
+      .from("listing_profiles")
+      .select("id, scope, room_id, property_id, title, description, hero_photo, photos, fields, needs_review");
+    if (prErr) {
+      setError(prErr.message);
+      setLoading(false);
+      return;
+    }
+
+    const byRoom = new Map(profiles.filter((p) => p.room_id).map((p) => [p.room_id, p]));
+    const byProp = new Map(profiles.filter((p) => p.property_id).map((p) => [p.property_id, p]));
+
+    setChannels(chans ?? []);
+    setProperties(
+      (props ?? []).map((p) => ({
+        ...p,
+        profile: byProp.get(p.id) ?? null,
+        rooms: (p.rooms ?? [])
+          .filter((r) => r.room_type)
+          .sort((a, b) => a.unit_code.localeCompare(b.unit_code))
+          .map((r) => ({ ...r, profile: byRoom.get(r.id) ?? null })),
+      }))
+    );
     setLoading(false);
   }, []);
 
   useEffect(() => {
     load();
   }, [load]);
-
-  const selected = useMemo(() => rooms.find((r) => r.id === selectedId), [rooms, selectedId]);
-
-  // Reset the draft whenever the selected room changes, so an unsaved edit on
-  // one room can never be written onto another.
-  useEffect(() => {
-    if (!selected?.profile) return setDraft(null);
-    const p = selected.profile;
-    setDraft({
-      title: p.title ?? "",
-      description: p.description ?? "",
-      hero_photo: p.hero_photo ?? "",
-      needs_review: p.needs_review,
-    });
-    setSaved(false);
-  }, [selected]);
-
-  /** How many channels this room could publish to right now, and why not. */
-  const readiness = useCallback(
-    (room, over = null) => {
-      const profile = over ? { ...room.profile, ...over } : room.profile;
-      let ok = 0;
-      const reasons = new Set();
-      for (const c of channels) {
-        const res = buildPayload({ room, profile, channel: { ...c, config: c.config ?? {} } });
-        if (res.publishable) ok++;
-        else res.blockers.forEach((b) => reasons.add(b));
-      }
-      return { ok, total: channels.length, reasons: [...reasons] };
-    },
-    [channels]
-  );
-
-  async function saveProfile() {
-    if (!selected?.profile || !draft) return;
-    setSaving(true);
-    setError(null);
-    try {
-      const { error: err } = await supabase
-        .from("listing_profiles")
-        .update({
-          title: draft.title.trim() || null,
-          description: draft.description.trim() || null,
-          hero_photo: draft.hero_photo.trim() || null,
-          needs_review: draft.needs_review,
-        })
-        .eq("id", selected.profile.id);
-      if (err) throw err;
-      setSaved(true);
-      await load();
-    } catch (e) {
-      setError(e.message);
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  async function updateChannel(id, patch) {
-    setError(null);
-    const { error: err } = await supabase.from("listing_channels").update(patch).eq("id", id);
-    if (err) return setError(err.message);
-    setChannels((cs) => cs.map((c) => (c.id === id ? { ...c, ...patch } : c)));
-  }
 
   if (loading) {
     return (
@@ -125,11 +91,9 @@ export default function AdminListingsPage() {
     );
   }
 
-  const live = selected ? readiness(selected, draft) : null;
-
   return (
     <PortalLayout>
-      <div className="mb-8">
+      <div className="mb-6">
         <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">
           Growth
         </span>
@@ -137,7 +101,7 @@ export default function AdminListingsPage() {
           Listings
         </h1>
         <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
-          Edit once here. Every platform receives the same truth.
+          Set the platforms up once. Edit the content once. Everything else is replication.
         </p>
       </div>
 
@@ -147,230 +111,507 @@ export default function AdminListingsPage() {
         </p>
       )}
 
-      <div className="grid lg:grid-cols-[280px_1fr] gap-6">
-        {/* Rooms */}
-        <div className="space-y-1.5">
-          {rooms.map((r) => {
-            const s = readiness(r);
-            const active = r.id === selectedId;
-            return (
-              <button
-                key={r.id}
-                onClick={() => setSelectedId(r.id)}
-                className={`w-full text-left px-4 py-3 rounded-xl border transition-colors ${
-                  active
-                    ? "bg-accent text-white border-accent"
-                    : "bg-surface border-border text-foreground hover:bg-white/5"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="font-bold text-sm">{r.unit_code}</span>
-                  <span
-                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                      active
-                        ? "bg-white/20"
-                        : s.ok > 0
-                        ? "bg-emerald-500/15 text-emerald-300"
-                        : "bg-amber-500/15 text-amber-300"
-                    }`}
-                  >
-                    {s.ok}/{s.total}
-                  </span>
-                </div>
-                <p className={`text-xs mt-0.5 ${active ? "text-white/70" : "text-foreground-variant"}`}>
-                  {r.properties?.name}
-                </p>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Editor */}
-        {selected && draft ? (
-          <div className="space-y-6">
-            <div className="bg-surface rounded-2xl border border-border p-6">
-              <div className="flex flex-wrap items-start justify-between gap-3 mb-5">
-                <div>
-                  <h2 className="font-display text-xl font-extrabold text-foreground">
-                    {selected.unit_code}
-                  </h2>
-                  <p className="text-sm text-foreground-variant">
-                    {selected.properties?.name} · net SGD{" "}
-                    {Number(selected.price_monthly).toFixed(2)}/mo
-                    {selected.next_available ? ` · free from ${selected.next_available}` : ""}
-                  </p>
-                </div>
-                <span
-                  className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full ${
-                    live.ok > 0
-                      ? "bg-emerald-500/15 text-emerald-300"
-                      : "bg-amber-500/15 text-amber-300"
-                  }`}
-                >
-                  publishable to {live.ok} of {live.total}
-                </span>
-              </div>
-
-              <label className="block mb-4">
-                <span className="block text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-2">
-                  Listing title
-                </span>
-                <input
-                  value={draft.title}
-                  onChange={(e) => setDraft((d) => ({ ...d, title: e.target.value }))}
-                  className="w-full bg-surface-container border border-border rounded-lg px-4 py-2.5 text-foreground text-sm"
-                  placeholder="What a prospect sees first"
-                />
-                <span className="block text-xs text-foreground-variant mt-1">
-                  Internal name is &ldquo;{selected.name}&rdquo;, which must never reach a platform.
-                </span>
-              </label>
-
-              <label className="block mb-4">
-                <span className="block text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-2">
-                  Description
-                </span>
-                <textarea
-                  rows={5}
-                  value={draft.description}
-                  onChange={(e) => setDraft((d) => ({ ...d, description: e.target.value }))}
-                  className="w-full bg-surface-container border border-border rounded-lg px-4 py-2.5 text-foreground text-sm"
-                />
-                <span className="block text-xs text-foreground-variant mt-1">
-                  {draft.description.length} characters. Platforms with shorter caps are truncated
-                  on a sentence boundary, never mid-word.
-                </span>
-              </label>
-
-              <label className="block mb-5">
-                <span className="block text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-2">
-                  Hero photo
-                </span>
-                <input
-                  value={draft.hero_photo}
-                  onChange={(e) => setDraft((d) => ({ ...d, hero_photo: e.target.value }))}
-                  className="w-full bg-surface-container border border-border rounded-lg px-4 py-2.5 text-foreground text-sm font-mono"
-                />
-                <span className="block text-xs text-foreground-variant mt-1">
-                  Sent first to every platform. {(selected.profile?.photos ?? []).length} photos on
-                  file.
-                </span>
-              </label>
-
-              <label className="flex items-start gap-3 mb-5 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={!draft.needs_review}
-                  onChange={(e) => setDraft((d) => ({ ...d, needs_review: !e.target.checked }))}
-                  className="mt-1"
-                />
-                <span className="text-sm text-foreground">
-                  Reviewed and approved for publishing
-                  <span className="block text-xs text-foreground-variant">
-                    Titles were generated during backfill. Nothing publishes until this is ticked.
-                  </span>
-                </span>
-              </label>
-
-              {live.reasons.length > 0 && (
-                <div className="rounded-xl border border-amber-500/25 bg-amber-500/15 px-4 py-3 mb-5">
-                  <p className="text-xs font-bold text-amber-300 uppercase tracking-wider mb-1">
-                    Blocking publication
-                  </p>
-                  <ul className="text-sm text-amber-300 list-disc pl-5 space-y-0.5">
-                    {live.reasons.map((r) => (
-                      <li key={r}>{r}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={saveProfile}
-                  disabled={saving}
-                  className="px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-bold hover:bg-accent/90 disabled:opacity-50"
-                >
-                  {saving ? "Saving..." : "Save"}
-                </button>
-                {saved && <span className="text-sm text-emerald-300">Saved.</span>}
-              </div>
-            </div>
-
-            {/* What each channel would receive */}
-            <div className="bg-surface rounded-2xl border border-border p-6">
-              <h3 className="font-display text-lg font-extrabold text-foreground mb-1">
-                What each platform would receive
-              </h3>
-              <p className="text-sm text-foreground-variant mb-5">
-                List price is grossed up so that after commission we still net SGD{" "}
-                {Number(selected.price_monthly).toFixed(2)}. A blank commission means unknown, and
-                nothing publishes on an unknown.
-              </p>
-
-              <div className="space-y-2">
-                {channels.map((c) => {
-                  const listed = listPriceFor(selected.price_monthly, c);
-                  return (
-                    <div
-                      key={c.id}
-                      className="flex flex-wrap items-center gap-3 justify-between border border-border rounded-xl px-4 py-3"
-                    >
-                      <div className="min-w-[140px]">
-                        <p className="font-bold text-sm text-foreground">{c.name}</p>
-                        <p className="text-xs text-foreground-variant">
-                          {c.mechanism}
-                          {c.config?.region ? ` · ${c.config.region}` : ""}
-                        </p>
-                      </div>
-
-                      <label className="flex items-center gap-2 text-xs text-foreground-variant">
-                        commission
-                        <input
-                          type="number"
-                          step="0.5"
-                          min="0"
-                          max="99"
-                          defaultValue={c.commission_pct ?? ""}
-                          onBlur={(e) =>
-                            updateChannel(c.id, {
-                              commission_pct: e.target.value === "" ? null : Number(e.target.value),
-                            })
-                          }
-                          className="w-20 bg-surface-container border border-border rounded px-2 py-1 text-foreground text-sm"
-                          placeholder="?"
-                        />
-                        %
-                      </label>
-
-                      <span className="text-sm tabular-nums text-foreground min-w-[110px]">
-                        {listed === null ? (
-                          <span className="text-amber-300">not priceable</span>
-                        ) : (
-                          `lists at ${listed.toFixed(2)}`
-                        )}
-                      </span>
-
-                      <label className="flex items-center gap-2 text-xs text-foreground-variant cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={c.enabled}
-                          onChange={(e) => updateChannel(c.id, { enabled: e.target.checked })}
-                        />
-                        enabled
-                      </label>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="bg-surface rounded-2xl border border-border p-10 text-center text-foreground-variant">
-            This room has no listing profile yet.
-          </div>
-        )}
+      <div className="flex gap-2 mb-6">
+        {[
+          ["platforms", "Platforms"],
+          ["content", "Content"],
+        ].map(([key, label]) => (
+          <button
+            key={key}
+            onClick={() => setTab(key)}
+            className={`px-5 py-2.5 rounded-lg font-bold text-sm transition-colors ${
+              tab === key
+                ? "bg-accent text-white"
+                : "bg-surface text-foreground-variant border border-border hover:bg-white/5"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
       </div>
+
+      {tab === "platforms" ? (
+        <PlatformsTab channels={channels} setChannels={setChannels} onError={setError} />
+      ) : (
+        <ContentTab
+          properties={properties}
+          channels={channels}
+          reload={load}
+          onError={setError}
+        />
+      )}
     </PortalLayout>
   );
+}
+
+/* ───────────────────────────── Platforms ───────────────────────────── */
+
+function PlatformsTab({ channels, setChannels, onError }) {
+  const [testing, setTesting] = useState(null);
+
+  async function patch(id, p) {
+    onError(null);
+    const { error } = await supabase.from("listing_channels").update(p).eq("id", id);
+    if (error) return onError(error.message);
+    setChannels((cs) => cs.map((c) => (c.id === id ? { ...c, ...p } : c)));
+  }
+
+  async function test(channel) {
+    setTesting(channel.id);
+    onError(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("test-channel", {
+        body: { channel_id: channel.id },
+      });
+      if (error) throw error;
+      setChannels((cs) =>
+        cs.map((c) =>
+          c.id === channel.id
+            ? {
+                ...c,
+                test_status: data.status,
+                test_kind: data.kind,
+                test_result: data.result,
+                last_tested_at: new Date().toISOString(),
+              }
+            : c
+        )
+      );
+    } catch (e) {
+      onError(`Test failed to run: ${e.message}`);
+    } finally {
+      setTesting(null);
+    }
+  }
+
+  return (
+    <div className="space-y-3">
+      <p className="text-sm text-foreground-variant">
+        A test currently proves <strong>reachability only</strong>: the platform answered us. It
+        does not prove we are logged in, and it cannot prove a listing landed correctly until the
+        mapper and read-back exist. The result says which of those was actually checked.
+      </p>
+
+      {channels.map((c) => (
+        <div key={c.id} className="bg-surface rounded-2xl border border-border p-5">
+          <div className="flex flex-wrap items-center gap-4 justify-between">
+            <div className="min-w-[160px]">
+              <p className="font-bold text-foreground">{c.name}</p>
+              <p className="text-xs text-foreground-variant">
+                {c.config?.region ?? "region unknown"}
+              </p>
+            </div>
+
+            <label className="text-xs text-foreground-variant flex items-center gap-2">
+              link
+              <select
+                value={c.mechanism}
+                onChange={(e) => patch(c.id, { mechanism: e.target.value })}
+                className="bg-surface-container border border-border rounded px-2 py-1 text-foreground text-sm"
+              >
+                {MECHANISMS.map((m) => (
+                  <option key={m.value} value={m.value}>
+                    {m.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="text-xs text-foreground-variant flex items-center gap-2">
+              commission
+              <input
+                type="number"
+                step="0.5"
+                min="0"
+                max="99"
+                defaultValue={c.commission_pct ?? ""}
+                onBlur={(e) =>
+                  patch(c.id, {
+                    commission_pct: e.target.value === "" ? null : Number(e.target.value),
+                  })
+                }
+                className="w-20 bg-surface-container border border-border rounded px-2 py-1 text-foreground text-sm"
+                placeholder="?"
+              />
+              %
+            </label>
+
+            <label className="text-xs text-foreground-variant flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={c.enabled}
+                onChange={(e) => patch(c.id, { enabled: e.target.checked })}
+              />
+              enabled
+            </label>
+
+            <button
+              onClick={() => test(c)}
+              disabled={testing === c.id}
+              className="px-4 py-2 rounded-lg bg-surface-container text-foreground text-sm font-bold border border-border hover:bg-white/5 disabled:opacity-50"
+            >
+              {testing === c.id ? "Testing..." : "Test linkage"}
+            </button>
+          </div>
+
+          {c.test_status && (
+            <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+              <span
+                className={`px-2 py-1 rounded-full font-bold ${
+                  c.test_status === "PASS"
+                    ? "bg-emerald-500/15 text-emerald-300"
+                    : "bg-red-500/15 text-red-300"
+                }`}
+              >
+                {c.test_status} · {c.test_kind?.toLowerCase().replace("_", " ")}
+              </span>
+              <span className="text-foreground-variant">
+                {c.test_result?.http_status ? `HTTP ${c.test_result.http_status}` : ""}
+                {c.test_result?.ms ? ` · ${c.test_result.ms}ms` : ""}
+                {c.test_result?.error ? ` · ${c.test_result.error}` : ""}
+                {c.test_result?.note ? ` · ${c.test_result.note}` : ""}
+              </span>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ───────────────────────────── Content ───────────────────────────── */
+
+function ContentTab({ properties, channels, reload, onError }) {
+  const [openProp, setOpenProp] = useState(properties[0]?.id ?? null);
+  const [sel, setSel] = useState(
+    properties[0] ? { level: "property", id: properties[0].id } : null
+  );
+
+  const target = useMemo(() => {
+    if (!sel) return null;
+    if (sel.level === "property") {
+      const p = properties.find((x) => x.id === sel.id);
+      return p ? { level: "property", entity: p, profile: p.profile, parent: null } : null;
+    }
+    for (const p of properties) {
+      const r = p.rooms.find((x) => x.id === sel.id);
+      if (r) return { level: "room", entity: r, profile: r.profile, parent: p };
+    }
+    return null;
+  }, [sel, properties]);
+
+  return (
+    <div className="grid lg:grid-cols-[300px_1fr] gap-6">
+      <div className="space-y-2">
+        {properties.map((p) => (
+          <div key={p.id} className="bg-surface rounded-xl border border-border overflow-hidden">
+            <div className="flex">
+              <button
+                onClick={() => setSel({ level: "property", id: p.id })}
+                className={`flex-1 text-left px-4 py-3 ${
+                  sel?.level === "property" && sel.id === p.id
+                    ? "bg-accent text-white"
+                    : "text-foreground hover:bg-white/5"
+                }`}
+              >
+                <span className="font-bold text-sm">{p.name}</span>
+                <span className="block text-xs opacity-70">
+                  building level · {p.rooms.length} rooms
+                </span>
+              </button>
+              <button
+                onClick={() => setOpenProp((o) => (o === p.id ? null : p.id))}
+                className="px-3 text-foreground-variant hover:text-foreground"
+                aria-label="toggle rooms"
+              >
+                <span className="material-symbols-outlined text-[18px]">
+                  {openProp === p.id ? "expand_less" : "expand_more"}
+                </span>
+              </button>
+            </div>
+
+            {openProp === p.id && (
+              <div className="border-t border-border">
+                {p.rooms.map((r) => (
+                  <button
+                    key={r.id}
+                    onClick={() => setSel({ level: "room", id: r.id })}
+                    className={`w-full text-left pl-8 pr-4 py-2 text-sm border-b border-border last:border-b-0 ${
+                      sel?.level === "room" && sel.id === r.id
+                        ? "bg-accent text-white"
+                        : "text-foreground hover:bg-white/5"
+                    }`}
+                  >
+                    {r.unit_code}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {target ? (
+        <ProfileEditor
+          key={`${target.level}:${target.entity.id}`}
+          target={target}
+          channels={channels}
+          reload={reload}
+          onError={onError}
+        />
+      ) : (
+        <div className="bg-surface rounded-2xl border border-border p-10 text-center text-foreground-variant">
+          Pick a building or a room.
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ProfileEditor({ target, channels, reload, onError }) {
+  const { level, entity, profile, parent } = target;
+  const [draft, setDraft] = useState({
+    title: profile?.title ?? "",
+    description: profile?.description ?? "",
+    hero_photo: profile?.hero_photo ?? "",
+    needs_review: profile?.needs_review ?? true,
+  });
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  const parentProfile = parent?.profile ?? null;
+
+  // What this room would actually send, once the building is merged in.
+  const effective = useMemo(
+    () => (level === "room" ? mergeProfiles(parentProfile, { ...profile, ...nulled(draft) }) : null),
+    [level, parentProfile, profile, draft]
+  );
+
+  const readiness = useMemo(() => {
+    if (level !== "room" || !effective) return null;
+    let ok = 0;
+    const reasons = new Set();
+    for (const c of channels) {
+      const res = buildPayload({
+        room: entity,
+        profile: effective,
+        channel: { ...c, config: c.config ?? {} },
+      });
+      if (res.publishable) ok++;
+      else res.blockers.forEach((b) => reasons.add(b));
+    }
+    return { ok, total: channels.length, reasons: [...reasons] };
+  }, [level, effective, channels, entity]);
+
+  async function save() {
+    if (!profile) return onError("No listing profile exists for this yet.");
+    setSaving(true);
+    onError(null);
+    try {
+      const { error } = await supabase
+        .from("listing_profiles")
+        .update({
+          title: blankToNull(draft.title),
+          description: blankToNull(draft.description),
+          hero_photo: blankToNull(draft.hero_photo),
+          needs_review: draft.needs_review,
+        })
+        .eq("id", profile.id);
+      if (error) throw error;
+      setSaved(true);
+      await reload();
+    } catch (e) {
+      onError(e.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  const inherited = (key) =>
+    level === "room" && fieldOrigin(parentProfile, nulled(draft), key) === "property";
+
+  return (
+    <div className="space-y-6">
+      <div className="bg-surface rounded-2xl border border-border p-6">
+        <div className="flex flex-wrap items-start justify-between gap-3 mb-5">
+          <div>
+            <h2 className="font-display text-xl font-extrabold text-foreground">
+              {level === "property" ? entity.name : entity.unit_code}
+            </h2>
+            <p className="text-sm text-foreground-variant">
+              {level === "property"
+                ? `Building level. Applies to all ${entity.rooms.length} rooms unless a room overrides it.`
+                : `${parent?.name} · net SGD ${Number(entity.price_monthly).toFixed(2)}/mo`}
+            </p>
+          </div>
+          {readiness && (
+            <span
+              className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full ${
+                readiness.ok > 0
+                  ? "bg-emerald-500/15 text-emerald-300"
+                  : "bg-amber-500/15 text-amber-300"
+              }`}
+            >
+              publishable to {readiness.ok} of {readiness.total}
+            </span>
+          )}
+        </div>
+
+        <Field
+          label="Title"
+          hint={
+            level === "property"
+              ? "Shown as the building's name wherever a platform asks for one."
+              : `Leave blank to inherit the building's. Internal name is "${entity.name}".`
+          }
+          inherited={inherited("title")}
+          inheritedValue={parentProfile?.title}
+        >
+          <input
+            value={draft.title}
+            onChange={(e) => setDraft((d) => ({ ...d, title: e.target.value }))}
+            className="w-full bg-surface-container border border-border rounded-lg px-4 py-2.5 text-foreground text-sm"
+          />
+        </Field>
+
+        <Field
+          label="Description"
+          hint={`${draft.description.length} characters. Longer platforms get it whole, shorter ones are cut on a sentence boundary.`}
+          inherited={inherited("description")}
+          inheritedValue={parentProfile?.description}
+        >
+          <textarea
+            rows={5}
+            value={draft.description}
+            onChange={(e) => setDraft((d) => ({ ...d, description: e.target.value }))}
+            className="w-full bg-surface-container border border-border rounded-lg px-4 py-2.5 text-foreground text-sm"
+          />
+        </Field>
+
+        <Field
+          label="Hero photo"
+          hint={`Sent first. ${(profile?.photos ?? []).length} photos on this level.`}
+          inherited={inherited("hero_photo")}
+          inheritedValue={parentProfile?.hero_photo}
+        >
+          <input
+            value={draft.hero_photo}
+            onChange={(e) => setDraft((d) => ({ ...d, hero_photo: e.target.value }))}
+            className="w-full bg-surface-container border border-border rounded-lg px-4 py-2.5 text-foreground text-sm font-mono"
+          />
+        </Field>
+
+        <label className="flex items-start gap-3 mb-5 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={!draft.needs_review}
+            onChange={(e) => setDraft((d) => ({ ...d, needs_review: !e.target.checked }))}
+            className="mt-1"
+          />
+          <span className="text-sm text-foreground">
+            Reviewed and approved for publishing
+            <span className="block text-xs text-foreground-variant">
+              {level === "property"
+                ? "An unreviewed building blocks every room under it."
+                : "Both this room and its building must be approved before anything publishes."}
+            </span>
+          </span>
+        </label>
+
+        {readiness?.reasons.length > 0 && (
+          <div className="rounded-xl border border-amber-500/25 bg-amber-500/15 px-4 py-3 mb-5">
+            <p className="text-xs font-bold text-amber-300 uppercase tracking-wider mb-1">
+              Blocking publication
+            </p>
+            <ul className="text-sm text-amber-300 list-disc pl-5 space-y-0.5">
+              {readiness.reasons.map((r) => (
+                <li key={r}>{r}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={save}
+            disabled={saving}
+            className="px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-bold hover:bg-accent/90 disabled:opacity-50"
+          >
+            {saving ? "Saving..." : "Save"}
+          </button>
+          {saved && <span className="text-sm text-emerald-300">Saved.</span>}
+        </div>
+      </div>
+
+      {level === "room" && (
+        <div className="bg-surface rounded-2xl border border-border p-6">
+          <h3 className="font-display text-lg font-extrabold text-foreground mb-1">
+            What each platform would receive
+          </h3>
+          <p className="text-sm text-foreground-variant mb-4">
+            Grossed up so we still net SGD {Number(entity.price_monthly).toFixed(2)} after
+            commission.
+          </p>
+          <div className="space-y-1.5">
+            {channels.map((c) => {
+              const listed = listPriceFor(entity.price_monthly, c);
+              return (
+                <div
+                  key={c.id}
+                  className="flex items-center justify-between border border-border rounded-lg px-4 py-2 text-sm"
+                >
+                  <span className="text-foreground">{c.name}</span>
+                  <span className="tabular-nums text-foreground-variant">
+                    {listed === null ? (
+                      <span className="text-amber-300">commission not set</span>
+                    ) : (
+                      `SGD ${listed.toFixed(2)}`
+                    )}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Field({ label, hint, inherited, inheritedValue, children }) {
+  return (
+    <label className="block mb-4">
+      <span className="flex items-center gap-2 mb-2">
+        <span className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold">
+          {label}
+        </span>
+        {inherited && (
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-container text-foreground-variant">
+            inherited
+          </span>
+        )}
+      </span>
+      {children}
+      <span className="block text-xs text-foreground-variant mt-1">
+        {inherited && inheritedValue
+          ? `Currently showing the building's: "${String(inheritedValue).slice(0, 80)}"`
+          : hint}
+      </span>
+    </label>
+  );
+}
+
+/** Blank input means "inherit", so it becomes null before merging. */
+function nulled(draft) {
+  return {
+    title: blankToNull(draft.title),
+    description: blankToNull(draft.description),
+    hero_photo: blankToNull(draft.hero_photo),
+    needs_review: draft.needs_review,
+  };
+}
+
+function blankToNull(v) {
+  const s = String(v ?? "").trim();
+  return s === "" ? null : s;
 }
