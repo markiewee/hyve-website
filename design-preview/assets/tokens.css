@@ -1,0 +1,61 @@
+/* Lazybee design tokens, v1.0, 9 Aug 2026.
+   One accent across the system: BRASS #B08D4F.
+   Light grounds also carry a darkened tint of the same hue for anything read as text. */
+
+:root, [data-theme="alabaster"] {          /* website LIGHT mode */
+  --lb-bg:        #F6F2EA;
+  --lb-surface:   #EFE9DE;
+  --lb-line:      #DED5C6;
+  --lb-ink:       #241C16;
+  --lb-muted:     #6B6154;
+  --lb-accent:    #B08D4F;   /* graphic only, 2.78:1 on ground */
+  --lb-accent-text:#8A6733;  /* text tint, 4.62:1 on ground, AA */
+  --lb-on-accent: #241C16;
+}
+[data-theme="tobacco"] {                    /* website DARK mode */
+  --lb-bg:        #241811;
+  --lb-surface:   #31231A;
+  --lb-line:      #453224;
+  --lb-ink:       #E8DACA;
+  --lb-muted:     #B39B82;
+  --lb-accent:    #B08D4F;
+  --lb-accent-text:#C6A467;
+  --lb-on-accent: #241812;
+}
+[data-theme="nightjar"] {                   /* regal green, editorial and campaign use */
+  --lb-bg:        #08150F;
+  --lb-surface:   #0F2118;
+  --lb-line:      #1A3226;
+  --lb-ink:       #EDE6DA;
+  --lb-muted:     #8FA898;
+  --lb-accent:    #B08D4F;
+  --lb-accent-text:#C6A467;
+  --lb-on-accent: #08150F;
+}
+
+:root {
+  --lb-display: 'Italiana', serif;          /* wordmark only, tracking .34em */
+  --lb-head:    'Cormorant Garamond', serif;/* light 300 */
+  --lb-body:    'Inter Tight', system-ui, sans-serif;
+  --lb-mono:    'JetBrains Mono', monospace;/* all numbers and labels */
+  --lb-track-display: .34em;
+  --lb-track-label:   .28em;
+
+  --lb-s1:4px;  --lb-s2:8px;  --lb-s3:12px; --lb-s4:16px; --lb-s5:24px;
+  --lb-s6:32px; --lb-s7:48px; --lb-s8:64px; --lb-s9:96px; --lb-s10:130px;
+  --lb-radius: 2px;                          /* app tiles are the only exception */
+  --lb-ease: cubic-bezier(.2,.7,.3,1);
+  --lb-dur: 700ms;
+}
+
+/* ── The regal green. Structural, not a third palette. ────────────────
+   It appears INSIDE both Alabaster and Tobacco, as the full-bleed band
+   that carries the proof numbers, the closing ask and the footer.
+   Same values in light and dark, which is what makes it read as one brand. */
+:root {
+  --lb-green:      #0E2E20;  /* the band */
+  --lb-green-deep: #08150F;  /* footer, deepest ground */
+  --lb-green-ink:  #14352A;  /* green as type on a light ground */
+  --lb-green-soft: #5E8873;  /* secondary text on green, 4.9:1 on deep */
+}
+/* On a green band: bone for copy, brass lift for numbers. Both clear AA. */

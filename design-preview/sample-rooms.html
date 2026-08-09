@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" data-theme="alabaster">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee Rooms &middot; sample</title>
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Hanken+Grotesk:wght@400;500;700&family=Italiana&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lazybee.css">
+<style>
+  .hero{position:relative;height:66svh;min-height:440px;overflow:hidden;background:#0C0F0F}
+  .hero img{width:100%;height:100%;object-fit:cover}
+  .hero .scrim{position:absolute;inset:0;background:
+    radial-gradient(74% 60% at 50% 46%,rgba(6,9,8,.60),rgba(6,9,8,.16) 62%,transparent 78%),
+    linear-gradient(180deg,rgba(6,9,8,.72),rgba(6,9,8,.30) 30%,rgba(6,9,8,.86))}
+  .hero .mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;color:#F7F3EA;padding:0 20px}
+  .searchbar{display:flex;flex-wrap:nowrap;margin-top:28px;border-radius:var(--r-pill);padding:7px 7px 7px 8px;
+    max-width:min(700px,94vw)}
+  .searchbar .f{flex:1 1 0;min-width:0;padding:9px 18px;text-align:left;border-right:1px solid rgba(255,255,255,.18)}
+  .searchbar .f:last-of-type{border-right:0}
+  .searchbar .v{margin-top:4px;font-family:var(--mono);font-size:15px;color:#F7F3EA}
+  .chipsbar{position:absolute;left:clamp(16px,3vw,40px);bottom:clamp(18px,3vw,34px);display:flex;border-radius:var(--r)}
+  .chipsbar div{padding:11px 17px;border-right:1px solid rgba(255,255,255,.14)}
+  .chipsbar div:last-child{border-right:0}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+  .roomgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5);margin-top:var(--s6)}
+  .room .media{height:230px}
+  .room .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-top:14px}
+  .room .price{font-family:var(--mono);font-weight:700;font-size:20px;letter-spacing:-.02em}
+  @media(max-width:900px){.roomgrid{grid-template-columns:1fr 1fr}
+    .searchbar{flex-direction:column;border-radius:14px}.searchbar .f{border-right:0;border-bottom:1px solid rgba(255,255,255,.18)}}
+  @media(max-width:600px){.roomgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="topbar over" id="bar">
+  <a class="brandlock" href="design.html">
+    <svg viewBox="13.43 21.63 73.13 57.45"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd">LAZYBEE</span>
+  </a>
+  <nav class="navlinks">
+    <a href="#rooms" aria-current="page">Rooms</a><a href="#">Homes</a><a href="#">Contact</a>
+  </nav>
+</div>
+
+<div class="hero" id="hero">
+  <img src="photos/tg-hero.jpg" alt="">
+  <div class="scrim"></div>
+  <div class="mid">
+    <div class="label" style="color:#E3D3AE;letter-spacing:.34em">Co-living in Singapore</div>
+    <h1 class="display" style="font-size:clamp(42px,7.4vw,96px);margin-top:16px">Find your room.</h1>
+    <p class="body" style="color:#EDE5D6;margin-top:16px;max-width:42ch;text-align:center">
+      Nineteen rooms across three homes. Book from anywhere, move in when you land.</p>
+    <form class="searchbar glass" onsubmit="return false">
+      <div class="f"><div class="label">Move in</div><div class="v">Anytime</div></div>
+      <div class="f"><div class="label">Budget</div><div class="v">Any</div></div>
+      <div class="f"><div class="label">Home</div><div class="v">All three</div></div>
+      <button class="btn btn-accent" type="button">Search</button>
+    </form>
+  </div>
+  <div class="chipsbar glass">
+    <div><div class="num" style="font-weight:700;font-size:17px">19</div><div class="label" style="font-size:7.5px;margin-top:3px">Rooms</div></div>
+    <div><div class="num" style="font-weight:700;font-size:17px">S$600</div><div class="label" style="font-size:7.5px;margin-top:3px">From</div></div>
+    <div><div class="num" style="font-weight:700;font-size:17px">6 mo</div><div class="label" style="font-size:7.5px;margin-top:3px">Min stay</div></div>
+  </div>
+</div>
+
+<main class="wrap sec" id="rooms">
+  <div class="filters">
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      <span class="chip on">Available now</span>
+      <span class="chip">Ensuite</span>
+      <span class="chip">Under S$1,200</span>
+      <span class="chip">Chiltern Park</span>
+      <span class="chip">Ivory Heights</span>
+      <span class="chip">Thomson Grove</span>
+    </div>
+    <span class="label" id="count">2 rooms</span>
+  </div>
+
+  <div class="roomgrid" id="grid"></div>
+
+  <div class="band" style="margin-top:var(--s9)">
+    <div class="wrap grid g3" style="padding-top:44px;padding-bottom:44px">
+      <div><div class="n">2 days</div><div class="l">Lead time for a viewing</div></div>
+      <div><div class="n">0</div><div class="l">Agent fees, ever</div></div>
+      <div><div class="n">3</div><div class="l">Homes, all run by us</div></div>
+    </div>
+  </div>
+
+  <section class="sec">
+    <h2 class="h1">Not sure yet?</h2>
+    <p class="body" style="margin-top:16px">Pick a room and book a viewing, or send a message and a real person answers.
+    Viewings need two working days of notice because a captain has to open the unit.</p>
+    <div style="display:flex;gap:10px;margin-top:24px;flex-wrap:wrap">
+      <button class="btn">Book a viewing</button>
+      <button class="btn btn-ghost">WhatsApp us</button>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap" style="border-top:1px solid var(--line);padding:34px 0 60px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px">
+  <a class="brandlock" href="design.html"><svg viewBox="13.43 21.63 73.13 57.45"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg><span class="wd">LAZYBEE</span></a>
+  <span class="label">Makery Pte Ltd &middot; Singapore</span>
+</footer>
+
+<script>
+const ROOMS=[
+ {code:'CP-MR',home:'Chiltern Park',area:'Serangoon Avenue 3',photo:'photos/cp-hero.jpg',type:'Master, ensuite',
+  price:2200,free:'Available now',now:true,tags:['Ensuite','Queen bed','Aircon']},
+ {code:'CP-PR1',home:'Chiltern Park',area:'Serangoon Avenue 3',photo:'photos/tg-lounge.jpg',type:'Premium',
+  price:1500,free:'From 12 Aug',now:true,tags:['Window','Study desk','Aircon']},
+ {code:'IH-STD1',home:'Ivory Heights',area:'Jurong East Street 13',photo:'photos/ih-hero.jpg',type:'Standard',
+  price:1000,free:'From 1 Oct',now:false,tags:['Super single','WiFi','Study table']},
+];
+const sgd=n=>'S$'+n.toLocaleString('en-SG');
+document.getElementById('grid').innerHTML=ROOMS.map(r=>
+ '<article class="room"><div class="media" style="height:230px"><img src="'+r.photo+'" alt="'+r.home+'"></div>'+
+ '<div class="top"><div><div class="label">'+r.home+' &middot; '+r.code+'</div>'+
+ '<div class="h3" style="margin-top:6px">'+r.type+'</div></div>'+
+ '<div class="price">'+sgd(r.price)+'</div></div>'+
+ '<p class="small" style="margin-top:8px">'+r.area+'</p>'+
+ '<div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:12px">'+
+   r.tags.map(t=>'<span class="chip" style="font-size:10px;padding:6px 11px">'+t+'</span>').join('')+'</div>'+
+ '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px">'+
+   '<span class="badge '+(r.now?'badge-warn':'badge-mut')+'">'+r.free+'</span>'+
+   '<a class="link" href="#">See the room</a></div></article>').join('');
+document.getElementById('count').textContent=ROOMS.length+' rooms';
+
+new IntersectionObserver(([e])=>document.getElementById('bar').classList.toggle('over',e.isIntersecting),
+ {threshold:.08}).observe(document.getElementById('hero'));
+</script>
+</body>
+</html>

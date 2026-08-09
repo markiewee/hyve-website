@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en" data-theme="alabaster">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Headline test &middot; Lazybee</title>
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Hanken+Grotesk:wght@400;500;700&family=Italiana&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lazybee.css">
+<style>
+  .stage{position:relative;height:74svh;min-height:520px;overflow:hidden;background:#0C0F0F}
+  .stage img{width:100%;height:100%;object-fit:cover}
+  .stage .scrim{position:absolute;inset:0;background:
+    radial-gradient(74% 58% at 50% 46%,rgba(6,9,8,.62),rgba(6,9,8,.18) 62%,transparent 78%),
+    linear-gradient(180deg,rgba(6,9,8,.74),rgba(6,9,8,.32) 28%,rgba(6,9,8,.44) 58%,rgba(6,9,8,.90))}
+  .stage .mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;color:#F7F3EA;padding:0 24px}
+  .stage .eyeb{font-family:var(--mono);font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:#E3D3AE;
+    margin-bottom:20px;text-shadow:0 1px 14px rgba(0,0,0,.55)}
+  .stage h1{font-family:var(--head);font-weight:300;font-size:clamp(40px,7vw,104px);line-height:.95;
+    letter-spacing:-.015em;text-shadow:0 2px 40px rgba(0,0,0,.35);max-width:20ch}
+  .stage .sub{margin-top:20px;max-width:50ch;font-size:clamp(15px,1.15vw,18px);line-height:1.62;color:#EDE5D6;
+    text-shadow:0 1px 20px rgba(0,0,0,.6)}
+  .stage .n{position:absolute;left:clamp(16px,3vw,40px);top:clamp(16px,3vw,34px);
+    font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:#D3C7B2}
+  .picker{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  .opt{background:var(--bg);padding:22px 24px 26px;text-align:left;border:0;cursor:pointer;
+    border-top:3px solid transparent;transition:background .2s}
+  .opt:hover{background:var(--surface)}
+  .opt[aria-pressed="true"]{background:var(--surface);border-top-color:var(--accent)}
+  .opt .hl{font-family:var(--head);font-weight:400;font-size:23px;line-height:1.16;color:var(--ink);margin-top:10px}
+  .opt .why{font-size:13.5px;line-height:1.55;color:var(--muted);margin-top:10px}
+  .opt .angle{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-text)}
+  @media(max-width:1000px){.picker{grid-template-columns:1fr 1fr}}
+  @media(max-width:640px){.picker{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brandlock" href="design.html" style="gap:13px">
+    <svg viewBox="13.43 21.63 73.13 57.45" style="width:30px"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd" style="font-size:18px">LAZYBEE</span>
+  </a>
+  <nav class="navlinks">
+    <a href="owners.html">Owners page</a><a href="design.html">Design hub</a>
+    <button class="btn btn-ghost btn-sm" id="photo" type="button">Change photo</button>
+    <button class="btn btn-ghost btn-sm" id="mode" type="button">Dark</button>
+  </nav>
+</div>
+
+<div class="stage" id="stage">
+  <img id="bg" src="photos/cp-hero.jpg" alt="">
+  <div class="scrim"></div>
+  <div class="n" id="num">01 / 08</div>
+  <div class="mid">
+    <div class="eyeb" id="eyeb"></div>
+    <h1 id="hl"></h1>
+    <p class="sub" id="sub"></p>
+  </div>
+</div>
+
+<main class="wrap sec">
+  <div class="label">Headline test</div>
+  <h2 class="h1" style="margin-top:14px">Eight ways to open the same page.</h2>
+  <p class="body" style="margin-top:18px">Click one to see it on the photograph. Each is a different angle on the same
+  offer, and the note under each says which lever it is pulling, so the choice is about which owner you want to catch
+  rather than which sentence reads nicest. Mark chose <b>06</b> on 9 August and it is live on the owners page now. My own pick had been 04, for the record.</p>
+  <div class="picker" id="picker" style="margin-top:var(--s7)"></div>
+
+  <div class="note" style="margin-top:var(--s7)">Tell me the number and I will set it on the live page. If none of them
+  land, say which one is closest and what is wrong with it, and I will write another eight from there.</div>
+</main>
+
+<footer class="wrap" style="border-top:1px solid var(--line);padding:34px 0 60px;display:flex;
+  justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center">
+  <span class="label">Lazybee &middot; headline options</span>
+  <span class="label">August 2026</span>
+</footer>
+
+<script>
+const OPTIONS=[
+ {eyeb:'For unit owners in Singapore',
+  hl:'Take the upside.<br>We take the work.',
+  sub:'We furnish your unit, list it everywhere and run it room by room. You are paid a floor whether it is full or empty, plus half of everything above it.',
+  angle:'Current', why:'Clean and balanced. Its weakness is that it describes the deal rather than making anyone feel anything, so it works best on an owner who is already shopping.'},
+
+ {eyeb:'For unit owners in Singapore',
+  hl:'Your lease is<br>costing you a month<br>a year.',
+  sub:'The void, the agent at renewal, the repairs. We pay a floor instead, and split everything the unit makes above it.',
+  angle:'Loss aversion', why:'Opens on the loss they already suffer instead of a gain they have to believe in. Strongest hook of the eight, but it needs the chart right underneath or it reads as a scare.'},
+
+ {eyeb:'For unit owners in Singapore',
+  hl:'The safe deal is<br>the expensive one.',
+  sub:'A fixed lease is certain, and certainty is what you are paying for. We will show you exactly what that certainty costs, then offer you a floor so you keep it anyway.',
+  angle:'Reframe', why:'Contrarian, which buys attention from a sceptical owner. Risky because it argues with their existing belief in the first six words.'},
+
+ {eyeb:'For unit owners in Singapore',
+  hl:'Stop renting out<br>your unit.<br>Start running it.',
+  sub:'Room by room, listed everywhere, managed by us. A floor whether it is full or empty, and half of everything above.',
+  angle:'Identity', why:'My pick. Names the thing owners quietly resent, being passive, and offers a promotion rather than a product. Nothing in it can be argued with, so nobody bounces.'},
+
+ {eyeb:'For unit owners in Singapore',
+  hl:'We pay first.<br>You decide after.',
+  sub:'We furnish it, shoot it, list it and start paying your floor, all before anything binds you to us. Ninety days later you carry on or you walk.',
+  angle:'Costly signal', why:'Leads with the trial, which is the single biggest barrier remover on the page. Best choice if the traffic is cold and nobody has heard of us.'},
+
+ {eyeb:'For unit owners in Singapore',
+  hl:'Be a lazy<br><em>landlord</em>.',
+  sub:'We do the viewings, the contracts, the cleaning, the repairs and the late payer. You do nothing, and you still keep half the upside.',
+  angle:'Chosen', why:'CHOSEN by Mark, 9 Aug 2026, and now live on the owners page. The most on-brand and the most memorable line of the eight. It undersells the money on purpose, so the split chart directly underneath has to carry that weight.'},
+
+ {eyeb:'For unit owners in Singapore',
+  hl:'Nineteen rooms.<br>Zero owner<br>phone calls.',
+  sub:'Three homes in Singapore, run end to end by us. Your unit becomes the fourth, and you hear about it only when you open the app.',
+  angle:'Proof', why:'Leads with what we have actually done, which is the honest answer to "who are you". Weak on the money, so it needs the split immediately after.'},
+
+ {eyeb:'For unit owners in Singapore',
+  hl:'What is your unit<br>actually worth?',
+  sub:'Not the asking rent. The number after the empty month, the agent and the repairs. Put in a postal code and we will show you both, side by side.',
+  angle:'Curiosity', why:'Pulls straight into the calculator, so it should convert the most clicks. It is also the most generic, and any agent could run it.'},
+];
+
+const PHOTOS=['photos/cp-hero.jpg','photos/tg-hero.jpg','photos/ih-hero.jpg','photos/tg-lounge.jpg','photos/cp/MBR.jpg'];
+const $=id=>document.getElementById(id);
+let cur=5,ph=0;
+
+function show(i){
+  cur=i; const o=OPTIONS[i];
+  $('eyeb').textContent=o.eyeb;
+  $('hl').innerHTML=o.hl;
+  $('sub').textContent=o.sub;
+  $('num').textContent=String(i+1).padStart(2,'0')+' / '+String(OPTIONS.length).padStart(2,'0');
+  document.querySelectorAll('.opt').forEach((b,k)=>b.setAttribute('aria-pressed',String(k===i)));
+}
+$('picker').innerHTML=OPTIONS.map((o,i)=>
+ '<button class="opt" type="button" aria-pressed="false">'+
+   '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">'+
+     '<span class="angle">'+o.angle+'</span>'+
+     '<span class="label">'+String(i+1).padStart(2,'0')+'</span></div>'+
+   '<div class="hl">'+o.hl.replace(/<br>/g,' ')+'</div>'+
+   '<div class="why">'+o.why+'</div></button>').join('');
+$('picker').addEventListener('click',e=>{
+  const b=e.target.closest('.opt'); if(!b) return;
+  show([...document.querySelectorAll('.opt')].indexOf(b));
+  $('stage').scrollIntoView({behavior:'smooth',block:'start'});
+});
+$('photo').addEventListener('click',()=>{ph=(ph+1)%PHOTOS.length;$('bg').src=PHOTOS[ph];});
+$('mode').addEventListener('click',e=>{
+  const dark=document.documentElement.dataset.theme==='tobacco';
+  document.documentElement.dataset.theme=dark?'alabaster':'tobacco';
+  e.target.textContent=dark?'Dark':'Light';
+});
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight')show((cur+1)%OPTIONS.length);
+  if(e.key==='ArrowLeft')show((cur-1+OPTIONS.length)%OPTIONS.length);
+});
+show(cur);
+</script>
+</body>
+</html>

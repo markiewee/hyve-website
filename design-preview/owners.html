@@ -1,0 +1,1095 @@
+<!doctype html>
+<html lang="en" data-theme="alabaster">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee &middot; Be a lazy landlord</title>
+<meta name="description" content="Be a lazy landlord. We do the viewings, the contracts and the cleaning on your Singapore unit. You are paid a floor whether it is full or empty, and you still keep half the upside. Ninety days to decide, nothing to pay if you walk.">
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Hanken+Grotesk:wght@400;500;700&family=Italiana&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lazybee.css">
+<script>
+/* Hero A/B/C. Assigned once at random, then sticky per visitor so a reload does not
+   change the pitch mid-thought. Runs in <head> so nothing flashes. ?hero=a|b|c forces one. */
+(function(){
+  var K='lb_hero', V=['a','b','c'], q=null;
+  try{ q=new URLSearchParams(location.search).get('hero'); }catch(e){}
+  var v = (q && V.indexOf(q)>-1) ? q : null;
+  if(!v){ try{ v=localStorage.getItem(K); }catch(e){} }
+  if(!v || V.indexOf(v)<0){ v=V[Math.floor(Math.random()*V.length)]; }
+  try{ localStorage.setItem(K,v); }catch(e){}
+  document.documentElement.dataset.v=v;
+  window.HERO_VARIANT=v;
+})();
+</script>
+<script src="island.js"></script>
+<script src="rooms.js"></script>
+<script src="logos.js"></script>
+<style>
+[data-theme="alabaster"]{--comb-land:#E0D6C3;--comb-land-fill:#EFE9DE;--comb-occ:#0E2E20;--comb-open:#B08D4F;
+  --share:#0E2E20;--share-up:#B08D4F;--lease:#BCAF98}
+[data-theme="tobacco"]{--comb-land:#4A3626;--comb-land-fill:#2C1F17;--comb-occ:#E8DACA;--comb-open:#B08D4F;
+  --share:#B08D4F;--share-up:#E8DACA;--lease:#6E5942}
+
+header{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;
+  gap:20px;padding:16px clamp(20px,4vw,58px);border-bottom:1px solid transparent;color:#F2EDE3;
+  transition:background .35s,border-color .35s,color .35s}
+header.solid{background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);
+  border-bottom-color:var(--line);color:var(--ink)}
+/* bigger mark up top, as asked */
+header .brandlock svg{width:32px}
+header .brandlock .wd{font-size:19px;letter-spacing:.32em}
+#mode{background:none;border:1px solid currentColor;color:inherit;cursor:pointer;padding:6px 10px;
+  border-radius:var(--r-pill);font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;opacity:.72}
+#mode:hover{opacity:1}
+
+/* ── hero ── */
+.hero{position:relative;height:100svh;min-height:620px;overflow:hidden;background:#0C0F0F}
+.frame{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease}
+.frame.on{opacity:1}
+.frame img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:drift 18s ease-out forwards}
+@keyframes drift{to{transform:scale(1)}}
+.scrim{position:absolute;inset:0;background:
+  radial-gradient(74% 58% at 50% 44%,rgba(6,9,8,.62),rgba(6,9,8,.18) 62%,transparent 78%),
+  linear-gradient(180deg,rgba(6,9,8,.74),rgba(6,9,8,.32) 26%,rgba(6,9,8,.44) 58%,rgba(6,9,8,.92))}
+.mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;color:#F7F3EA;padding:96px 20px 0}
+.eyeb{font-family:var(--mono);font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:#E3D3AE;
+  margin-bottom:20px;text-shadow:0 1px 14px rgba(0,0,0,.55)}
+.hv{display:none}
+[data-v="a"] .hv.a,[data-v="b"] .hv.b,[data-v="c"] .hv.c{display:block}
+html:not([data-v]) .hv.a{display:block}
+.mid h1{font-family:var(--head);font-weight:300;font-size:clamp(44px,8.4vw,124px);line-height:.94;
+  letter-spacing:-.015em;text-shadow:0 2px 40px rgba(0,0,0,.35)}
+.mid .sub{margin-top:20px;max-width:50ch;font-size:clamp(14.5px,1.15vw,18px);line-height:1.62;color:#EDE5D6;
+  text-shadow:0 1px 20px rgba(0,0,0,.6)}
+.instrument{display:flex;flex-wrap:nowrap;align-items:stretch;margin-top:34px;border-radius:var(--r-pill);
+  padding:7px 7px 7px 8px;max-width:min(900px,95vw)}
+.gf{flex:1 1 0;min-width:0;padding:9px 16px;text-align:left;border-right:1px solid rgba(255,255,255,.18)}
+.gf:last-of-type{border-right:0}
+.gf input[type=text]{width:100%;background:none;border:0;outline:none;color:#F7F3EA;font-family:var(--mono);
+  font-size:15px;letter-spacing:.04em;padding:4px 0 0}
+.gf input[type=text]::placeholder{color:rgba(247,243,234,.4)}
+.gf .v{margin-top:5px;font-family:var(--mono);font-size:15px;color:#F7F3EA;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;letter-spacing:-.01em}
+.gf .range{height:16px;margin-top:5px}
+.gf .range::-webkit-slider-runnable-track{background:rgba(255,255,255,.3)}
+.trial{margin-top:22px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  color:#E4D7B8;text-shadow:0 1px 14px rgba(0,0,0,.6)}
+.where{position:absolute;right:clamp(16px,3vw,40px);bottom:clamp(20px,3vw,40px);text-align:right;color:#F7F3EA}
+.where .nm{font-family:var(--grot);font-weight:700;font-size:19px;text-shadow:0 1px 16px rgba(0,0,0,.6)}
+.where .ar{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#D3C7B2;margin-top:5px}
+.dots{display:flex;gap:5px;justify-content:flex-end;margin-top:11px}
+.dots i{width:22px;height:2px;background:rgba(255,255,255,.3);transition:background .4s}
+.dots i.on{background:var(--accent)}
+
+/* ── THE SPLIT ── */
+.split{display:grid;grid-template-columns:minmax(0,37fr) minmax(0,63fr);border:1px solid var(--line);
+  background:var(--surface);margin-top:var(--s7)}
+.split > div{padding:clamp(22px,2.8vw,38px)}
+.split .l{border-right:1px solid var(--line)}
+.versus{margin-top:var(--s6)}
+.versus .k{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+.versus .amt{font-family:var(--mono);font-weight:700;font-size:26px;letter-spacing:-.02em;margin-top:6px;
+  font-variant-numeric:tabular-nums}
+.floorline{margin-top:var(--s5);border-left:2px solid var(--accent);padding-left:14px}
+.chart{margin-top:var(--s5)}
+.cols{display:flex;gap:clamp(3px,.7vw,9px);align-items:flex-end;height:clamp(160px,20vw,250px)}
+.col{flex:1;display:flex;gap:2px;align-items:flex-end;height:100%}
+.col .b{flex:1;transition:height .6s var(--ease)}
+.col .lease{background:var(--lease)}
+.col .lease.void{background:repeating-linear-gradient(45deg,var(--lease) 0 2px,transparent 2px 5px);min-height:2px}
+.col .share{background:var(--share);display:flex;flex-direction:column;justify-content:flex-start}
+.col .share .up{background:var(--share-up);width:100%}
+.mlabels{display:flex;gap:clamp(3px,.7vw,9px);margin-top:9px}
+.mlabels span{flex:1;text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--faint)}
+.key{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:var(--s5);font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.key i{display:inline-block;width:10px;height:10px;margin-right:7px;vertical-align:-1px}
+.totals{display:flex;flex-wrap:wrap;gap:26px 44px;margin-top:var(--s5);padding-top:var(--s5);border-top:1px solid var(--line)}
+.totals .t .k{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+.totals .t .n{font-family:var(--mono);font-weight:700;font-size:29px;letter-spacing:-.03em;margin-top:6px;
+  font-variant-numeric:tabular-nums}
+
+/* ── comparison, sized up ── */
+.cmpwrap{overflow-x:auto;margin-top:var(--s6)}
+.cmp{width:100%;border-collapse:collapse;font-size:15.5px}
+.cmp th{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);
+  text-align:left;padding:16px;border-bottom:1px solid var(--line);font-weight:500;vertical-align:bottom}
+.cmp th.us{color:var(--accent-text)}
+.cmp td{padding:19px 16px;border-bottom:1px solid var(--line);color:var(--muted);vertical-align:top;line-height:1.5}
+.cmp td:first-child{color:var(--ink);font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+.cmp td.us{color:var(--ink);background:var(--surface)}
+@media(min-width:1800px){.cmp{font-size:17px}.cmp td{padding:22px 18px}.cmp td:first-child{font-size:13.5px}}
+
+.zeros{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);
+  margin-top:var(--s7)}
+.zeros > div{background:var(--bg);padding:28px 24px 30px}
+.zeros .z{font-family:var(--mono);font-weight:700;font-size:clamp(30px,3.4vw,46px);letter-spacing:-.04em;
+  color:var(--accent-text);margin-bottom:12px}
+@media(max-width:900px){.zeros{grid-template-columns:1fr 1fr}}
+
+.deal{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:var(--s6)}
+.deal > div{background:var(--bg);padding:26px 24px 30px}
+.deal h3{font-family:var(--head);font-weight:400;font-size:24px;margin:12px 0 10px}
+.deal p{font-size:14px;line-height:1.62;color:var(--muted)}
+
+.steps{margin-top:var(--s6);border-top:1px solid var(--line)}
+.step{display:grid;grid-template-columns:70px 1fr 1.15fr;gap:22px;padding:26px 0;border-bottom:1px solid var(--line);
+  align-items:baseline}
+.step .n{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--accent-text)}
+.step h3{font-family:var(--head);font-weight:400;font-size:25px}
+.step p{font-size:14.5px;line-height:1.62;color:var(--muted)}
+
+/* ══ THE COMB, interactive ══ */
+.combgrid{display:grid;grid-template-columns:minmax(0,60fr) minmax(0,40fr);gap:clamp(24px,3vw,52px);
+  align-items:start;margin-top:var(--s6)}
+svg.comb{width:100%;height:auto;display:block;overflow:visible}
+svg.comb .cell{cursor:pointer;transition:transform .2s var(--ease)}
+svg.comb .cell:hover{opacity:.78}
+svg.comb .cell:focus{outline:none}
+.cellcard{border:1px solid var(--line);background:var(--surface);position:sticky;top:88px}
+.cellcard .shot{position:relative;height:clamp(210px,20vw,290px);overflow:hidden;border-bottom:1px solid var(--line);
+  background:var(--raised)}
+.cellcard .shot img{width:100%;height:100%;object-fit:cover}
+.cellcard .shot .tag{position:absolute;left:14px;top:14px}
+.cellcard .shot .thumbs{position:absolute;right:12px;bottom:12px;display:flex;gap:5px}
+.cellcard .shot .thumbs button{width:34px;height:26px;border:1px solid rgba(255,255,255,.55);padding:0;cursor:pointer;
+  background-size:cover;background-position:center;opacity:.62;transition:.2s}
+.cellcard .shot .thumbs button[aria-current]{opacity:1;border-color:var(--accent);border-width:2px}
+.cellcard .in{padding:clamp(18px,2vw,26px)}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);
+  margin-top:var(--s4)}
+.specs > div{background:var(--bg);padding:12px 14px}
+.specs .k{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.specs .v{font-family:var(--mono);font-size:15.5px;margin-top:6px}
+.hint{display:flex;align-items:center;gap:9px;margin-top:var(--s4);font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+@media(max-width:1000px){.combgrid{grid-template-columns:1fr}.cellcard{position:static}}
+
+/* ── the owner portal, with working tabs ── */
+.portal{border:1px solid var(--line);background:var(--surface);margin-top:var(--s6)}
+.portal .bar{display:flex;align-items:center;gap:9px;padding:11px 16px;border-bottom:1px solid var(--line)}
+.portal .bar i{width:9px;height:9px;border-radius:50%;background:var(--line);display:block}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);cursor:pointer;
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:15px 20px;white-space:nowrap;
+  transition:.2s}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected="true"]{color:var(--accent-text);border-bottom-color:var(--accent);background:var(--bg)}
+.pane{padding:clamp(20px,2.6vw,32px);display:none}
+.pane.on{display:block}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.tiles > div{background:var(--bg);padding:18px 20px}
+.tiles .n{font-size:22px;white-space:nowrap}
+@media(max-width:700px){.tiles{grid-template-columns:1fr 1fr}}
+.docs .d{display:flex;gap:16px;justify-content:space-between;align-items:center;padding:15px 0;
+  border-bottom:1px solid var(--line)}
+.docs .d:last-child{border-bottom:0}
+.docs .t{font-size:14.5px}
+.log .e{display:grid;grid-template-columns:88px 1fr auto;gap:16px;padding:15px 0;border-bottom:1px solid var(--line);
+  align-items:start}
+.log .e:last-child{border-bottom:0}
+.log .dt{font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.04em;padding-top:2px}
+.log .t{font-size:14.5px}
+.gal{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s3)}
+.gal figure{border:1px solid var(--line);background:var(--bg)}
+.gal img{width:100%;height:clamp(110px,10vw,150px);object-fit:cover}
+.gal figcaption{padding:10px 12px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--faint)}
+@media(max-width:800px){.gal{grid-template-columns:1fr 1fr}.log .e{grid-template-columns:1fr}}
+
+/* ── channels ── */
+.wall{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);
+  margin-top:var(--s5)}
+.wall .t{background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;
+  text-align:center;min-height:118px;padding:20px 14px;color:var(--muted);transition:color .25s,background .25s}
+.wall .t:hover{color:var(--ink);background:var(--surface)}
+.wall .t svg{width:30px;height:30px;fill:currentColor;display:block}
+.wall .t .nm{font-family:var(--grot);font-weight:700;font-size:15px;letter-spacing:-.01em}
+.wall .t .wm{font-family:var(--grot);font-weight:700;font-size:19px;letter-spacing:-.02em;line-height:1.1}
+.wall .t.soon{opacity:.58}
+@media(max-width:900px){.wall{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.wall{grid-template-columns:repeat(2,1fr)}}
+
+/* ── The Hive ── */
+.posts{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5);margin-top:var(--s6)}
+.post{border:1px solid var(--line);text-decoration:none;color:inherit;display:block;transition:border-color .25s,transform .25s var(--ease)}
+.post:hover{border-color:var(--accent);transform:translateY(-3px)}
+.post .im{height:150px;overflow:hidden;border-bottom:1px solid var(--line)}
+.post .im img{width:100%;height:100%;object-fit:cover}
+.post .bd{padding:20px}
+.post h3{font-family:var(--head);font-weight:400;font-size:21px;margin-top:9px;line-height:1.2}
+.post p{font-size:13.5px;line-height:1.6;color:var(--muted);margin-top:9px}
+@media(max-width:900px){.posts{grid-template-columns:1fr}}
+
+.homes{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line)}
+
+.qs{margin-top:var(--s6);border-top:1px solid var(--line);max-width:900px}
+.q{border-bottom:1px solid var(--line)}
+.q button{width:100%;background:none;border:0;color:var(--ink);cursor:pointer;text-align:left;
+  font-family:var(--head);font-weight:400;font-size:22px;padding:21px 44px 21px 0;position:relative}
+.q button::after{content:'+';position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  font-family:var(--mono);font-size:17px;color:var(--accent-text);transition:transform .3s}
+.q.open button::after{transform:translateY(-50%) rotate(45deg)}
+.q .a{max-height:0;overflow:hidden;transition:max-height .38s var(--ease)}
+.q .a p{padding:0 60px 22px 0;font-size:15px;line-height:1.68;color:var(--muted);max-width:62ch}
+
+/* ── the ask, stripped back ── */
+.askbox{max-width:640px;margin:0 auto;text-align:center}
+.askbox .body{margin-left:auto;margin-right:auto}
+.whathappens{margin-top:var(--s7);border:1px solid var(--line);background:var(--surface);
+  padding:clamp(20px,2.4vw,30px);text-align:left}
+.wh{display:grid;gap:var(--s5);margin-top:var(--s5)}
+.wh > div{display:flex;gap:16px;align-items:flex-start}
+.wh .i{flex:0 0 auto;width:28px;height:28px;border:1px solid var(--accent);color:var(--accent-text);
+  display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;border-radius:50%}
+.wh b{font-weight:400;font-family:var(--head);font-size:20px;display:block}
+.wh p{font-size:14.5px;line-height:1.6;color:var(--muted);margin-top:5px}
+.report{border:1px solid var(--accent);background:var(--surface);padding:clamp(22px,2.6vw,34px);
+  text-align:left;margin-top:var(--s6)}
+.report .rr{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);
+  margin-top:var(--s5)}
+.report .rr > div{background:var(--bg);padding:14px 16px}
+.report .rr .k{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.report .rr .v{font-family:var(--mono);font-size:15.5px;margin-top:6px}
+.sign{margin-top:var(--s7);padding-top:var(--s5);border-top:1px solid var(--line);display:inline-block}
+.sig{font-family:var(--head);font-style:italic;font-weight:400;font-size:40px;line-height:1;color:var(--accent-text)}
+.sign .fine{margin-top:10px}
+.askform{display:flex;gap:0;align-items:stretch;border:1px solid var(--line);margin-top:var(--s6);
+  border-radius:var(--r-pill);padding:6px 6px 6px 10px;background:var(--surface)}
+.askform input{flex:1 1 0;min-width:0;background:none;border:0;outline:none;color:var(--ink);
+  font-family:var(--mono);font-size:15px;padding:0 14px}
+.askform input::placeholder{color:var(--faint)}
+.askform input + input{border-left:1px solid var(--line)}
+@media(max-width:640px){.askform{flex-direction:column;border-radius:14px;padding:6px}
+  .askform input{padding:14px}.askform input + input{border-left:0;border-top:1px solid var(--line)}
+  .askform .btn{margin-top:6px;width:100%}}
+
+footer{border-top:1px solid var(--line);padding:36px 0 46px;display:flex;flex-wrap:wrap;gap:16px 40px;
+  justify-content:space-between;align-items:center}
+
+@media(max-width:1000px){
+  .split{grid-template-columns:1fr}.split .l{border-right:0;border-bottom:1px solid var(--line)}
+  .deal{grid-template-columns:1fr}.homes{grid-template-columns:1fr}
+  .step{grid-template-columns:44px 1fr}.step p{grid-column:2}
+  header nav a{display:none}
+  .instrument{flex-direction:column;border-radius:14px}
+  .gf{border-right:0;border-bottom:1px solid rgba(255,255,255,.15);width:100%}
+  .instrument .btn{margin-top:8px;width:100%}
+  .where{display:none}
+}
+@media(max-width:600px){.mlabels span{font-size:11px}}
+</style>
+</head>
+<body>
+
+<header id="hd">
+  <a class="brandlock" href="#top">
+    <svg viewBox="13.43 21.63 73.13 57.45" aria-label="Lazybee"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd">LAZYBEE</span>
+  </a>
+  <nav class="navlinks">
+    <a href="#split">The split</a><a href="#compare">Compare</a><a href="#comb">The comb</a>
+    <a href="hive.html">The Hive</a><a href="#ask">Coffee</a>
+    <button id="mode" type="button">Dark</button>
+  </nav>
+</header>
+
+<main id="top">
+
+<div class="hero" id="hero">
+  <div id="frames"></div>
+  <div class="scrim"></div>
+  <div class="mid">
+    <div class="eyeb">For unit owners in Singapore</div>
+    <div class="hv a">
+      <h1>Be a lazy<br><em>landlord</em>.</h1>
+      <p class="sub">We do the viewings, the contracts, the cleaning. You do nothing,
+      and you still keep half the upside.</p>
+    </div>
+    <div class="hv b">
+      <h1>We pay first.<br>You decide after.</h1>
+      <p class="sub">We furnish it, shoot it, list it and start paying your floor, all before anything
+      binds you to us. Ninety days later you carry on or you walk.</p>
+    </div>
+    <div class="hv c">
+      <h1>What is your unit<br>actually worth?</h1>
+      <p class="sub">Not the asking rent. The number after the empty month, the agent and the repairs.
+      Put in a postal code and we will show you both, side by side.</p>
+    </div>
+
+    <form class="instrument glass" id="inst" onsubmit="return false">
+      <div class="gf"><div class="label">Postal code</div>
+        <input id="postal" type="text" inputmode="numeric" maxlength="6" placeholder="556114" aria-label="Postal code">
+      </div>
+      <div class="gf" style="flex:1.55 1 0"><div class="label">District</div>
+        <div class="v" id="districtv">Type a code</div></div>
+      <div class="gf"><div class="label">Floor area</div>
+        <div class="v" id="sqftv">900 sqft</div>
+        <input class="range" id="sqft" type="range" min="400" max="2600" step="50" value="900" aria-label="Floor area"></div>
+      <div class="gf"><div class="label">Bedrooms</div>
+        <div class="v" id="bedv">3</div>
+        <input class="range" id="beds" type="range" min="1" max="6" step="1" value="3" aria-label="Bedrooms"></div>
+      <button class="btn btn-accent" id="go" type="button">Show me the split</button>
+    </form>
+    <p class="trial">Ninety days to decide &middot; nothing to pay &middot; nothing to sign today</p>
+  </div>
+
+  <div class="where">
+    <div class="nm" id="whereName">Thomson Grove</div>
+    <div class="ar" id="whereArea">Upper Thomson</div>
+    <div class="dots" id="dots"></div>
+  </div>
+</div>
+
+<!-- ══ THE SPLIT ══ -->
+<section class="wrap sec" id="split">
+  <h2 class="h1 rv">A lease pays you a number. A year pays you what actually happened.</h2>
+  <p class="body rv" style="margin-top:18px">Move the sliders in the hero and this redraws. The left bar in every month is
+  what a fixed lease really puts in your account after the void, the agent and the repairs.
+  The right bar is what the same unit makes with us. <b>The dark part is your floor. The bright part is your share.</b></p>
+
+  <div class="split rv">
+    <div class="l">
+      <div class="label">A normal year with us</div>
+      <div class="num-xl" id="ourYear" style="margin-top:12px">S$42,340</div>
+      <p class="small" id="delta" style="margin-top:12px"></p>
+      <div class="versus">
+        <div class="k">Fixed lease, after the year happens</div>
+        <div class="amt" id="leaseYear">S$34,052</div>
+      </div>
+      <div class="floorline">
+        <div class="label">Your floor, even in our worst year</div>
+        <div class="amt" id="floorYear" style="margin-top:4px">S$35,770</div>
+        <p class="fine" style="margin-top:8px">Paid on the first, full or empty. If we let the rooms badly, we earn nothing and you still clear the lease.</p>
+      </div>
+      <div style="margin-top:var(--s6)">
+        <a class="btn btn-accent" href="#ask">Get this number for my unit <span aria-hidden="true">&rarr;</span></a>
+        <p class="fine" style="margin-top:12px;max-width:34ch">Two fields, then Marcus comes to you with the real
+        version of this chart, worked out on your actual unit.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="label">Twelve months, side by side</div>
+      <div class="chart">
+        <div class="cols" id="cols"></div>
+        <div class="mlabels" id="mlabels"></div>
+      </div>
+      <div class="key">
+        <span><i style="background:var(--lease)"></i>Fixed lease</span>
+        <span><i style="background:var(--share)"></i>Your floor</span>
+        <span><i style="background:var(--share-up)"></i>Your share of the upside</span>
+      </div>
+      <div class="totals">
+        <div class="t"><div class="k">Lease, twelve months</div><div class="n" id="t1">S$34,052</div></div>
+        <div class="t"><div class="k">Lazybee, twelve months</div><div class="n" id="t2" style="color:var(--accent-text)">S$42,340</div></div>
+        <div class="t"><div class="k">Difference</div><div class="n" id="t3">+S$8,288</div></div>
+      </div>
+      <div class="rows" id="rows" style="margin-top:var(--s5)"></div>
+      <p class="fine" style="margin-top:14px">Indicative, from median asking rents in your district and from how our own
+      nineteen cells actually perform. The real floor is agreed in writing after we walk the unit.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ THE COMB ══ -->
+<section class="wrap sec rule" id="comb">
+  <div class="label rv">The comb</div>
+  <h2 class="h1 rv" style="margin-top:14px">Every cell is a real room.</h2>
+  <p class="body rv" style="margin-top:18px">Nineteen cells so far, each one drawn where it actually stands on the island.
+  <b>Click any cell</b> and you get the room itself, straight from the same database that runs the booking site: the photographs,
+  the price, the size, the bed, what is in it and when it next opens. The pale cells are the rest of Singapore, which is the
+  part of the comb we have not built yet.</p>
+  <div class="key rv">
+    <span><i style="background:var(--comb-occ)"></i>Let</span>
+    <span><i style="background:var(--comb-open)"></i>Open now</span>
+    <span><i style="background:var(--comb-land-fill);border:1px solid var(--comb-land)"></i>Not ours yet</span>
+  </div>
+
+  <div class="combgrid">
+    <div class="rv"><svg class="comb" id="combsvg" viewBox="0 0 960 580" role="img"
+      aria-label="Singapore drawn as a honeycomb. Each filled cell is a Lazybee room at its real location."></svg>
+      <div class="hint"><span>&larr;</span> Click a filled cell to open the listing</div>
+    </div>
+    <aside class="cellcard rv" id="cellcard" aria-live="polite"></aside>
+  </div>
+</section>
+
+<div class="band">
+  <div class="wrap grid g3" style="padding-top:clamp(30px,4vw,56px);padding-bottom:clamp(30px,4vw,56px)">
+    <div class="rv"><div class="n">19</div><div class="l">Cells under management</div></div>
+    <div class="rv"><div class="n" id="letCount">17 / 19</div><div class="l">Let today</div></div>
+    <div class="rv"><div class="n">S$0</div><div class="l">Owner spend on fit-out</div></div>
+  </div>
+</div>
+
+<!-- ══ ALIGNMENT ══ -->
+<section class="wrap sec" id="why">
+  <h2 class="h1 rv">We are asking for the deal that is worse for us in a bad year.</h2>
+  <div class="grid g3" style="margin-top:var(--s6);gap:var(--s6)">
+    <p class="body rv">A fixed lease pays us to pay you as little as possible. We would quote low, hold your unit for three
+    years and keep everything above the number. Every owner who has signed one has the same quiet suspicion, and the
+    suspicion is usually correct.</p>
+    <p class="body rv">A share flips it. We earn nothing until your floor is paid and the running costs are covered.
+    Empty rooms come out of our side first. There is no version of this where we do well and you do not.</p>
+    <p class="body rv">That is the whole argument. Not that we are nicer, but that we have deliberately taken the structure
+    where the only way we make money in year two is to keep your unit full in year one.</p>
+  </div>
+</section>
+
+<!-- ══ COMPARE ══ -->
+<section class="wrap sec rule" id="compare">
+  <h2 class="h1 rv">Three ways to own the same unit.</h2>
+  <p class="body rv" style="margin-top:18px">The honest version, including the parts that are worse for us.</p>
+  <div class="cmpwrap rv">
+  <table class="cmp">
+    <thead><tr>
+      <th></th><th>Agent, then a fixed lease</th><th>Run it yourself, room by room</th><th class="us">Lazybee, floor plus share</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>What you earn</td><td>One number, fixed for the term</td><td>Everything, minus everything</td>
+        <td class="us">A floor, plus half of everything above it</td></tr>
+      <tr><td>Locked in for</td><td>Two or three years, from signature</td><td>Nothing, it is all on you</td>
+        <td class="us">Ninety days, then it is your call</td></tr>
+      <tr><td>Cost to find out</td><td>An agent's time, then a decision</td><td>Your evenings</td>
+        <td class="us">Nothing. We spend first, you decide after</td></tr>
+      <tr><td>The empty month</td><td>Yours, at every turnover</td><td>Yours</td>
+        <td class="us">Ours. The floor still lands on the first</td></tr>
+      <tr><td>Finding tenants</td><td>Two portals, then waiting</td><td>You, every single time</td>
+        <td class="us">Fourteen channels, most of them outside Singapore</td></tr>
+      <tr><td>Agent commission</td><td>Half a month, again at every renewal</td><td>None</td>
+        <td class="us">None, ever</td></tr>
+      <tr><td>Furniture and fit-out</td><td>Yours, or you let it bare and price it lower</td><td>Yours</td>
+        <td class="us">Ours, at our cost, to one standard</td></tr>
+      <tr><td>Who answers at 2am</td><td>You</td><td>You</td>
+        <td class="us">A house captain who lives in the building</td></tr>
+      <tr><td>Your hours a month</td><td>Two to four, spiking at turnover</td><td>Eight to fifteen</td>
+        <td class="us">None, unless you want them</td></tr>
+      <tr><td>What you can see</td><td>A bank transfer</td><td>Everything, because you are doing it</td>
+        <td class="us">Everything, live, in an owner portal</td></tr>
+      <tr><td>If a tenant stops paying</td><td>Your problem, and your lawyer</td><td>Your problem</td>
+        <td class="us">Ours. It does not touch your floor</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ══ THE TRIAL ══ -->
+<section class="wrap sec rule" id="trial">
+  <div class="label rv">No commitment</div>
+  <h2 class="h1 rv" style="margin-top:14px">Ninety days, then decide.</h2>
+  <p class="body rv" style="margin-top:18px">We spend our money before you spend yours. We furnish the unit, shoot it,
+  list it across every channel and start paying your floor, all before anything binds you to us. At day ninety you carry on
+  or you walk. <b>Walking costs you nothing.</b> We take our furniture back out at our own cost and leave the unit as we found it.</p>
+
+  <div class="zeros rv">
+    <div><div class="z">S$0</div><div class="label">To try it</div></div>
+    <div><div class="z">S$0</div><div class="label">Furnishing and photography</div></div>
+    <div><div class="z">S$0</div><div class="label">Agent commission, ever</div></div>
+    <div><div class="z">S$0</div><div class="label">To walk away at day ninety</div></div>
+  </div>
+
+  <div class="grid g2 rv" style="margin-top:var(--s7);gap:var(--s7)">
+    <div>
+      <h3 class="h2">What you keep either way</h3>
+      <div class="rows" style="margin-top:var(--s4)">
+        <div class="row"><span>Condition report and photo set</span><b>Yours, from day one</b></div>
+        <div class="row"><span>Every floor payment already made</span><b>Never clawed back</b></div>
+        <div class="row"><span>Our list of what the unit needs</span><b>Yours, even if you say no</b></div>
+        <div class="row"><span>The unit itself</span><b>Back as we found it</b></div>
+      </div>
+    </div>
+    <div>
+      <h3 class="h2">The one string attached</h3>
+      <p class="body" style="margin-top:var(--s4)">Anyone we house during the trial signs a real lease, because they are
+      real people moving their lives into your unit. So if you leave at day ninety you pick how that lands: take the
+      tenancies over as they stand, with the agreements and the deposits handed to you, or give us the time to see them out.</p>
+      <p class="body" style="margin-top:14px">That is the whole of the small print. We would rather put it on the page
+      than bury it in a clause you find in month four.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT RUNS ══ -->
+<section class="wrap sec rule" id="how">
+  <h2 class="h1 rv">From postal code to first statement.</h2>
+  <div class="steps" id="steps"></div>
+</section>
+
+<!-- ══ THE PORTAL ══ -->
+<section class="wrap sec rule" id="see">
+  <h2 class="h1 rv">You see exactly what we see.</h2>
+  <p class="body rv" style="margin-top:18px">A share only feels risky when it is a black box. So it is not one.
+  You get an owner login on the day you sign. Everything below is a real view from a real month, with tenant names and
+  identity numbers masked the way they are masked for us too.</p>
+
+  <div class="portal rv">
+    <div class="bar"><i></i><i></i><i></i><span class="label" style="margin-left:8px">owner.lazybee.sg &middot; Chiltern Park 135</span></div>
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-pane="p-stat">Statement</button>
+      <button role="tab" aria-selected="false" data-pane="p-docs">Tenant documents</button>
+      <button role="tab" aria-selected="false" data-pane="p-log">Maintenance log</button>
+      <button role="tab" aria-selected="false" data-pane="p-gal">Inspection photos</button>
+    </div>
+
+    <div class="pane on" id="p-stat">
+      <div class="tiles">
+        <div class="stat"><div class="n">S$8,570</div><div class="l">Gross, August</div></div>
+        <div class="stat"><div class="n">S$5,325</div><div class="l">Your payout</div></div>
+        <div class="stat"><div class="n">5 / 6</div><div class="l">Cells let</div></div>
+        <div class="stat"><div class="n">14 Aug</div><div class="l">Next transfer</div></div>
+      </div>
+      <div class="rows" id="statrows" style="margin-top:var(--s5)"></div>
+      <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:var(--s5)">
+        <span class="chip on">Download August as PDF</span><span class="chip">Export twelve months to CSV</span>
+      </div>
+    </div>
+
+    <div class="pane" id="p-docs">
+      <p class="small">Every document we hold on your unit, in one place. Identity numbers are partly masked under the PDPA,
+      and the full copy is released only if you are legally required to produce it.</p>
+      <div class="docs" id="docs" style="margin-top:var(--s5)"></div>
+      <div class="note" style="margin-top:var(--s5)">Nothing here is ever emailed around. Documents are viewed in the portal,
+      access is logged, and tenants can see that you looked.</div>
+    </div>
+
+    <div class="pane" id="p-log">
+      <p class="small">Every job on the unit, what it cost, who did it and whether the photos came back.
+      Anything over S$300 needs your tap before we spend it.</p>
+      <div class="log" id="log" style="margin-top:var(--s5)"></div>
+      <div class="rows" style="margin-top:var(--s5);max-width:420px">
+        <div class="row"><span>Maintenance, year to date</span><b>S$1,284</b></div>
+        <div class="row"><span>Charged to you</span><b>S$0</b></div>
+      </div>
+    </div>
+
+    <div class="pane" id="p-gal">
+      <p class="small">A photo set on move-in, on move-out, and every quarter in between. This is the record that settles
+      any argument about condition, and it is why the trial can end with the unit going back as we found it.</p>
+      <div class="gal" id="gal" style="margin-top:var(--s5)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ REACH ══ -->
+<section class="wrap sec rule" id="reach">
+  <h2 class="h1 rv">Your rooms go on sale in places you have never heard of.</h2>
+  <p class="body rv" style="margin-top:18px">A room in Serangoon gets taken from Chengdu, Bangalore or Berlin, weeks before
+  the tenant lands in Singapore. We list, price and sync every cell from one system, so a booking on any channel closes
+  the others in the same minute. An agent puts your unit on two portals and waits for a phone call.</p>
+  <div class="label rv" style="margin-top:var(--s6)">Live now</div>
+  <div class="wall rv" id="wallLive"></div>
+  <div class="label rv" style="margin-top:var(--s6)">Onboarded or in progress</div>
+  <div class="wall rv" id="wallSoon"></div>
+</section>
+
+<!-- ══ COMPLIANCE ══ -->
+<section class="wrap sec rule" id="legal">
+  <h2 class="h1 rv">The boring part, done properly.</h2>
+  <p class="body rv" style="margin-top:18px">Three things go wrong for owners who let room by room: the stay is too short,
+  the unit is over-occupied, and nobody can produce a document when it is asked for. We run all three as checklists, not as promises.</p>
+  <div class="deal rv">
+    <div><span class="label">Minimum stay</span><h3>Never short-let</h3>
+      <p>Every tenancy is written at three months or longer, inside the URA rule for private homes. No nightly stays, no exceptions, no letter from the authorities.</p></div>
+    <div><span class="label">Occupancy</span><h3>Inside the cap</h3>
+      <p>We let to the occupancy limit for your property type and write that limit into the agreement, so an extra body cannot quietly appear.</p></div>
+    <div><span class="label">Data</span><h3>PDPA, and GDPR</h3>
+      <p>Tenant identity documents are collected once, stored encrypted, masked in the portal, and deleted on schedule. Our tenants come from Europe too, so we hold to GDPR as well.</p></div>
+    <div><span class="label">Stamping</span><h3>IRAS, by us</h3>
+      <p>Every agreement is stamped, and we do the stamping for tenants who have no Singapore bank account yet. The certificate sits in your portal.</p></div>
+  </div>
+</section>
+
+<!-- ══ HOMES ══ -->
+<section class="homes" id="homes"></section>
+
+<!-- ══ THE HIVE ══ -->
+<section class="wrap sec" id="thehive">
+  <div class="label rv">The Hive</div>
+  <h2 class="h1 rv" style="margin-top:14px">What we write down.</h2>
+  <p class="body rv" style="margin-top:18px">Everything we learn running the comb goes into The Hive. What a Singapore unit
+  actually earns once the void is counted, what the URA rules mean on a Tuesday rather than in a circular, what breaks in
+  year two and what it costs to fix. No lead magnets and no gated PDFs.</p>
+  <div class="posts" id="posts"></div>
+  <div style="margin-top:var(--s6)"><a class="btn btn-ghost" href="hive.html">Read The Hive <span aria-hidden="true">&rarr;</span></a></div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section class="wrap sec rule" id="faq">
+  <h2 class="h1 rv">The things owners actually ask.</h2>
+  <div class="qs" id="qs"></div>
+</section>
+
+<!-- ══ ASK ══ -->
+<section class="wrap sec rule" id="ask">
+  <div class="askbox">
+    <div class="label rv">The next step is a coffee</div>
+    <h2 class="h1 rv" style="max-width:none;margin:16px auto 0">Marcus will come to you<br>and buy you a coffee.</h2>
+    <p class="body rv" style="margin:20px auto 0">Not a call. Not a deck. Tell me roughly where your unit is and I will
+    come to you, anywhere on the island, at whatever hour suits. I will buy the coffee, look at the photos on your phone,
+    and tell you what I think your unit would actually make.</p>
+    <p class="body rv" style="margin:14px auto 0">If it is not a fit I will say so before the cup is cold, and you will
+    have lost forty minutes and gained a flat white.</p>
+    <form class="askform rv" id="leadform">
+      <input id="f-postal" type="text" inputmode="numeric" maxlength="6" placeholder="Postal code" required aria-label="Postal code">
+      <input id="f-contact" type="text" placeholder="WhatsApp or email" required aria-label="WhatsApp or email">
+      <button class="btn btn-accent" type="submit">Book the coffee</button>
+    </form>
+
+    <div class="whathappens rv">
+      <div class="label" style="text-align:left">What happens when you press that</div>
+      <div class="wh">
+        <div><span class="i">1</span><div><b>Within a day</b><p>Marcus messages you on WhatsApp to pick a time and a
+          place. Your place, your office, the coffee shop downstairs, whichever is least effort for you.</p></div></div>
+        <div><span class="i">2</span><div><b>Forty minutes, in person</b><p>No slides and no laptop. He brings a printed
+          one page read on your unit, worked out from what you have entered here plus what the district is actually renting for.</p></div></div>
+        <div><span class="i">3</span><div><b>You keep the paper</b><p>Whether you go ahead or not. If your unit is not a
+          fit he will say so at the table rather than send you a polite email next week.</p></div></div>
+      </div>
+    </div>
+
+    <div class="sign rv">
+      <div class="sig">Marcus</div>
+      <div class="fine">Marcus &middot; Makery Pte Ltd &middot; the one who actually turns up</div>
+    </div>
+    <p class="fine rv" style="margin-top:var(--s5)">No newsletter. No sequence of five emails. No agent ringing you on a Sunday.</p>
+  </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <a class="brandlock" href="#top" style="color:var(--ink)">
+    <svg viewBox="13.43 21.63 73.13 57.45"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd">LAZYBEE</span>
+  </a>
+  <p class="label">Makery Pte Ltd &middot; Singapore &middot;
+    <a href="hive.html" class="accent" style="text-decoration:none">The Hive</a> &middot;
+    <a href="https://book.lazybee.sg" class="accent" style="text-decoration:none">Looking for a room instead?</a></p>
+</footer>
+
+<script>
+const TODAY=new Date('2026-08-09');
+const $=id=>document.getElementById(id);
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const sgd=n=>'S$'+Math.round(n).toLocaleString('en-SG');
+const HOMES=window.HOMES, ROOMS=window.ROOMS;
+const HERO={CP:'photos/cp-hero.jpg',IH:'photos/ih-hero.jpg',TG:'photos/tg-hero.jpg'};
+const byHome=c=>ROOMS.filter(r=>r.home===c);
+const isLet=r=>new Date(r.next)>TODAY;
+const openNow=ROOMS.filter(r=>!isLet(r));
+$('letCount').textContent=(ROOMS.length-openNow.length)+' / '+ROOMS.length;
+
+/* ── hero carousel ── */
+$('frames').innerHTML=HOMES.map((h,i)=>'<div class="frame'+(i?'':' on')+'"><img src="'+HERO[h.code]+'" alt=""></div>').join('');
+$('dots').innerHTML=HOMES.map((h,i)=>'<i class="'+(i?'':'on')+'"></i>').join('');
+let slide=0;
+function goSlide(n){
+  slide=n%HOMES.length;
+  document.querySelectorAll('.frame').forEach((f,i)=>f.classList.toggle('on',i===slide));
+  document.querySelectorAll('.dots i').forEach((d,i)=>d.classList.toggle('on',i===slide));
+  $('whereName').textContent=HOMES[slide].name;
+  $('whereArea').textContent=(HOMES[slide].mrt||{}).station||'';
+}
+goSlide(0);
+if(!reduced) setInterval(()=>goSlide(slide+1),6500);
+new IntersectionObserver(([e])=>$('hd').classList.toggle('solid',!e.isIntersecting),{threshold:.06}).observe($('hero'));
+
+/* ── the money model ─────────────────────────────────────────────────
+   Every constant is an assumption Mark has to confirm before this page
+   is allowed anywhere near a real owner.
+   ----------------------------------------------------------------- */
+const UPLIFT=1.70;   // gross room income against whole-unit rent. Our own three homes run 1.73
+const OPEX=0.26;     // furnishing amortised, utilities, wifi, cleaning, repairs, captain, management
+const FLOORPCT=0.92; // the floor, as a share of market rent, paid full or empty
+const SHARE=0.50;    // owner's cut of everything above the floor and the costs
+const VOIDMO=0.75, AGENTMO=0.5, REPAIRS=0.02;  // what a fixed lease quietly costs over a year
+const SEASON=[.96,1.00,1.03,1.01,.95,.90,1.04,1.09,1.03,.99,.95,.85];
+const VOID_MONTH=11, MONTHS=['J','F','M','A','M','J','J','A','S','O','N','D'];
+
+/* indicative asking rents, S$ per square foot per month, by district.
+   PLACEHOLDER: replace with a real feed before launch. */
+const PSF={D01:6.2,D02:6.0,D03:5.4,D04:5.3,D05:4.6,D06:5.9,D07:5.6,D08:5.2,D09:6.0,D10:5.5,
+ D11:5.3,D12:4.9,D13:4.7,D14:4.5,D15:4.9,D16:4.3,D17:3.9,D18:4.1,D19:4.4,D20:4.6,
+ D21:4.6,D22:4.3,D23:4.1,D24:3.7,D25:3.8,D26:4.0,D27:3.9,D28:4.0};
+const SECTOR={'01':'D01','02':'D01','03':'D01','04':'D01','05':'D01','06':'D01','07':'D02','08':'D02','14':'D03','15':'D03','16':'D03','09':'D04','10':'D04','11':'D05','12':'D05','13':'D05','17':'D06','18':'D07','19':'D07','20':'D08','21':'D08','22':'D09','23':'D09','24':'D10','25':'D10','26':'D10','27':'D10','28':'D11','29':'D11','30':'D11','31':'D12','32':'D12','33':'D12','34':'D13','35':'D13','36':'D13','37':'D13','38':'D14','39':'D14','40':'D14','41':'D14','42':'D15','43':'D15','44':'D15','45':'D15','46':'D16','47':'D16','48':'D16','49':'D17','50':'D17','81':'D17','51':'D18','52':'D18','53':'D19','54':'D19','55':'D19','82':'D19','56':'D20','57':'D20','58':'D21','59':'D21','60':'D22','61':'D22','62':'D22','63':'D22','64':'D22','65':'D23','66':'D23','67':'D23','68':'D23','69':'D24','70':'D24','71':'D24','72':'D25','73':'D25','77':'D26','78':'D26','75':'D27','76':'D27','79':'D28','80':'D28'};
+const DI={D01:'Raffles Place',D02:'Tanjong Pagar',D03:'Tiong Bahru',D04:'Harbourfront',D05:'West Coast',D06:'Clarke Quay',
+D07:'Bugis',D08:'Farrer Park',D09:'River Valley',D10:'Holland',D11:'Novena',D12:'Toa Payoh',D13:'Potong Pasir',
+D14:'Paya Lebar',D15:'Katong',D16:'Bedok',D17:'Loyang',D18:'Tampines',D19:'Serangoon',D20:'Bishan',
+D21:'Upper Bukit Timah',D22:'Jurong',D23:'Bukit Batok',D24:'Tengah',D25:'Woodlands',D26:'Upper Thomson',
+D27:'Yishun',D28:'Yio Chu Kang'};
+
+let state={psf:4.4,sqft:900,beds:3,district:'D19'};
+
+function model(){
+  const market=state.psf*state.sqft;
+  const floorMo=market*FLOORPCT, floorYear=floorMo*12;
+  const grossYear=market*UPLIFT*12;
+  const surplus=Math.max(0,grossYear-grossYear*OPEX-floorYear);
+  const leaseM=[],shareM=[],ss=SEASON.reduce((a,b)=>a+b,0);
+  for(let i=0;i<12;i++){
+    /* the void is three quarters of a month, so the turnover month pays a quarter */
+    let l = i===VOID_MONTH ? market*(1-VOIDMO) : market;
+    /* the agent's half month and the year's repairs come out of the first month */
+    if(i===0) l -= market*AGENTMO + market*12*REPAIRS;
+    leaseM.push(Math.max(l,0));
+    shareM.push({floor:floorMo, up:(surplus*SHARE)*(SEASON[i]/ss)});
+  }
+  return {market,floorMo,floorYear,grossYear,surplus,leaseM,shareM};
+}
+
+function render(){
+  $('sqftv').textContent=state.sqft.toLocaleString('en-SG')+' sqft';
+  $('bedv').textContent=state.beds;
+  $('districtv').textContent=state.district?state.district+' '+DI[state.district]:'Type a code';
+  const m=model();
+  const leaseTotal=m.leaseM.reduce((a,b)=>a+b,0);
+  const ourTotal=m.shareM.reduce((a,s)=>a+s.floor+s.up,0);
+  const pct=Math.round((ourTotal/leaseTotal-1)*100);
+
+  $('ourYear').textContent=sgd(ourTotal);
+  $('leaseYear').textContent=sgd(leaseTotal);
+  $('floorYear').textContent=sgd(m.floorYear);
+  $('t1').textContent=sgd(leaseTotal);
+  $('t2').textContent=sgd(ourTotal);
+  $('t3').textContent=(ourTotal>=leaseTotal?'+':'')+sgd(ourTotal-leaseTotal);
+  $('delta').innerHTML='Against '+sgd(leaseTotal)+' from a fixed lease on the same unit. That is <b>'+pct+
+    '% more</b>, on an asset you already own.';
+
+  const max=Math.max(...m.leaseM,...m.shareM.map(s=>s.floor+s.up))*1.06;
+  $('cols').innerHTML=m.leaseM.map((l,i)=>{
+    const s=m.shareM[i],tot=s.floor+s.up,upPct=tot>0?(s.up/tot*100):0;
+    return '<div class="col">'+
+      '<div class="b lease'+(i===VOID_MONTH?' void':'')+'" style="height:'+(l/max*100)+'%" title="Lease: '+sgd(l)+'"></div>'+
+      '<div class="b share" style="height:'+(tot/max*100)+'%" title="Lazybee: '+sgd(tot)+'">'+
+        '<div class="up" style="height:'+upPct+'%"></div></div></div>';
+  }).join('');
+  $('mlabels').innerHTML=MONTHS.map(x=>'<span>'+x+'</span>').join('');
+
+  $('rows').innerHTML=[
+    ['District',state.district+' '+DI[state.district]],
+    ['Asking rent, whole unit','S$'+state.psf.toFixed(1)+' psf, '+sgd(m.market)+' / mo'],
+    ['Lets as',state.beds+' cells'],
+    ['Gross room income',sgd(m.grossYear/12)+' / mo'],
+    ['Running costs, our side',Math.round(OPEX*100)+'% of gross'],
+    ['Your floor',sgd(m.floorMo)+' / mo'],
+    ['Your share above it',Math.round(SHARE*100)+'%'],
+  ].map(r=>'<div class="row"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>').join('');
+}
+$('postal').addEventListener('input',e=>{
+  const v=e.target.value.replace(/\D/g,'').slice(0,6);e.target.value=v;
+  const d=v.length>=2?SECTOR[v.slice(0,2)]:null;
+  if(d){state.district=d;state.psf=PSF[d];render();}
+});
+$('sqft').addEventListener('input',e=>{state.sqft=+e.target.value;render();});
+$('beds').addEventListener('input',e=>{state.beds=+e.target.value;render();});
+$('go').addEventListener('click',()=>$('split').scrollIntoView({behavior:'smooth'}));
+
+/* ══ THE COMB ══════════════════════════════════════════════════════ */
+const ISLAND=window.ISLAND;
+const bb=ISLAND.reduce((a,p)=>({x0:Math.min(a.x0,p[0]),x1:Math.max(a.x1,p[0]),y0:Math.min(a.y0,p[1]),y1:Math.max(a.y1,p[1])}),
+ {x0:9e9,x1:-9e9,y0:9e9,y1:-9e9});
+const PAD=8,SQ3=Math.sqrt(3),VW=960,R=13.4;      /* fatter cells, as asked */
+const K=(VW-PAD*2)/(bb.x1-bb.x0),VH=(bb.y1-bb.y0)*K+PAD*2;
+const NS='http://www.w3.org/2000/svg';
+const el=(n,a={})=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const svg=$('combsvg'); svg.setAttribute('viewBox','0 0 '+VW+' '+Math.round(VH));
+const proj=(lng,lat)=>[PAD+(lng-bb.x0)*K,PAD+(bb.y1-lat)*K];
+const POLY=ISLAND.map(p=>proj(p[0],p[1]));
+const px=(q,r)=>[SQ3*R*(q+r/2),1.5*R*r];
+const toAxial=(x,y)=>{const q=(x*SQ3/3-y/3)/R,r=(y*2/3)/R;let cx=q,cz=r,cy=-cx-cz;
+ let rx=Math.round(cx),ry=Math.round(cy),rz=Math.round(cz);
+ const dx=Math.abs(rx-cx),dy=Math.abs(ry-cy),dz=Math.abs(rz-cz);
+ if(dx>dy&&dx>dz)rx=-ry-rz;else if(dy>dz)ry=-rx-rz;else rz=-rx-ry;return [rx,rz];};
+const hexPts=(cx,cy,rr)=>{const p=[];for(let i=0;i<6;i++){const a=(90+60*i)*Math.PI/180;
+ p.push((cx+rr*Math.cos(a)).toFixed(2)+','+(cy-rr*Math.sin(a)).toFixed(2));}return p.join(' ');};
+const inside=(x,y)=>{let h=false;for(let i=0,j=POLY.length-1;i<POLY.length;j=i++){
+ const [xi,yi]=POLY[i],[xj,yj]=POLY[j];
+ if((yi>y)!==(yj>y)&&x<(xj-xi)*(y-yi)/(yj-yi)+xi)h=!h;}return h;};
+const RING=[[1,0],[0,1],[-1,1],[-1,0],[0,-1],[1,-1]],RING2=[[1,1],[2,-1],[-1,2],[-2,1],[1,-2],[-1,-1]];
+
+const axial={},claimed=new Set(),landCells=[],cellEls={},labelEls=[];
+HOMES.forEach(h=>{const p=proj(h.ll[0],h.ll[1]);axial[h.code]=toAxial(p[0],p[1]);});
+HOMES.forEach(h=>{const a=axial[h.code];claimed.add(a.join(','));
+ [...RING,...RING2].slice(0,byHome(h.code).length).forEach(d=>claimed.add((a[0]+d[0])+','+(a[1]+d[1])));});
+
+const latg=el('g');
+for(let r=-8;r<=Math.ceil(VH/(1.5*R))+4;r++)for(let q=-40;q<=90;q++){
+ const [x,y]=px(q,r);
+ if(x<-4||x>VW+4||y<-4||y>VH+4)continue;
+ if(!inside(x,y)||claimed.has(q+','+r))continue;
+ const p=el('polygon',{points:hexPts(x,y,R*0.94),'stroke-width':'1.3'});
+ latg.appendChild(p);landCells.push(p);
+}
+svg.appendChild(latg);
+
+HOMES.forEach(h=>{
+ const a=axial[h.code],rooms=byHome(h.code),g=el('g');
+ [...RING,...RING2].slice(0,rooms.length).forEach((d,i)=>{
+  const [x,y]=px(a[0]+d[0],a[1]+d[1]),rm=rooms[i];
+  const p=el('polygon',{points:hexPts(x,y,R*0.94),'stroke-width':'2','class':'cell',
+    'data-code':rm.code,'data-state':isLet(rm)?'let':'open',tabindex:'0',role:'button'});
+  const t=el('title');t.textContent=rm.code+', '+rm.type+', '+(isLet(rm)?'let':'open now');
+  p.appendChild(t);g.appendChild(p);cellEls[rm.code]=p;
+ });
+ const [cx,cy]=px(a[0],a[1]);
+ const core=el('polygon',{points:hexPts(cx,cy,R*0.94),fill:'none','stroke-width':'1.3','stroke-dasharray':'3 3'});
+ g.appendChild(core);landCells.push(core);
+ const lab=el('text',{x:cx,y:cy+R*0.3,'text-anchor':'middle','font-family':'JetBrains Mono, monospace',
+  'font-size':(R*0.72).toFixed(1),'font-weight':'700'});
+ lab.textContent=h.code;g.appendChild(lab);labelEls.push(lab);
+ svg.appendChild(g);
+});
+
+function paintComb(){
+ const land=cssv('--comb-land'),landFill=cssv('--comb-land-fill'),
+       occ=cssv('--comb-occ'),open=cssv('--comb-open'),muted=cssv('--muted');
+ landCells.forEach(p=>{p.setAttribute('stroke',land);
+  if(p.getAttribute('fill')!=='none')p.setAttribute('fill',landFill);});
+ Object.values(cellEls).forEach(p=>{
+  const sel=p.getAttribute('data-sel')==='1', c=p.getAttribute('data-state')==='let'?occ:open;
+  p.setAttribute('fill',c);p.setAttribute('stroke',sel?cssv('--ink'):c);
+  p.setAttribute('stroke-width',sel?'3.4':'2');});
+ labelEls.forEach(t=>t.setAttribute('fill',muted));
+}
+
+/* ── the listing preview ── */
+const money=n=>'S$'+n.toLocaleString('en-SG');
+const nice=d=>new Date(d).toLocaleDateString('en-SG',{day:'numeric',month:'short',year:'numeric'});
+let shot=0,current=null;
+function drawCard(){
+  const r=current,h=HOMES.find(x=>x.code===r.home),let_=isLet(r);
+  const ph=r.photos.length?r.photos:['/photos/'+r.home.toLowerCase()+'-hero.jpg'];
+  shot=Math.min(shot,ph.length-1);
+  $('cellcard').innerHTML=
+   '<div class="shot"><img src="'+ph[shot]+'" alt="'+r.code+'">'+
+     '<span class="badge '+(let_?'badge-ok':'badge-warn')+' tag" style="background:rgba(10,13,12,.55);backdrop-filter:blur(8px);color:'+(let_?'#9ED3B6':'#E3C489')+'">'+
+       (let_?'Let until '+nice(r.next):'Open now')+'</span>'+
+     (ph.length>1?'<div class="thumbs">'+ph.map((p,i)=>
+       '<button type="button" data-shot="'+i+'"'+(i===shot?' aria-current="true"':'')+
+       ' style="background-image:url('+p+')" aria-label="Photo '+(i+1)+'"></button>').join('')+'</div>':'')+
+   '</div>'+
+   '<div class="in">'+
+     '<div class="label">'+r.code+' &middot; '+h.name+'</div>'+
+     '<div class="place" style="font-size:26px;margin-top:6px">'+r.type+'</div>'+
+     '<div class="num" style="font-size:22px;font-weight:700;margin-top:10px">'+money(r.price)+
+       '<span class="label" style="letter-spacing:.2em;margin-left:8px">per month</span></div>'+
+     '<div class="specs">'+[
+       ['Size',r.sqm?r.sqm+' sqm':'not measured'],
+       ['Bed',r.bed||'not set'],
+       ['Sleeps',r.occ+(r.occ>1?' people':' person')],
+       ['Minimum stay',r.min+' months'],
+       ['Bathroom',r.ensuite?'Ensuite':'Shared'],
+       ['Next available',let_?nice(r.next):'Now'],
+     ].map(s=>'<div><div class="k">'+s[0]+'</div><div class="v">'+s[1]+'</div></div>').join('')+'</div>'+
+     (r.am.length?'<div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:var(--s4)">'+
+       r.am.map(a=>'<span class="chip" style="font-size:10.5px;padding:6px 11px">'+a+'</span>').join('')+'</div>':'')+
+     '<p class="fine" style="margin-top:var(--s4)">'+h.address+'. '+
+       (h.mrt?h.mrt.station+' MRT, '+h.mrt.walking_minutes+' minutes on foot.':'')+'</p>'+
+     '<div style="display:flex;gap:10px;margin-top:var(--s5);flex-wrap:wrap">'+
+       /* the live listing for THIS room, not the site root. Verified pattern: book.lazybee.sg/rooms/<unit_code> */
+       '<a class="btn btn-sm" href="https://book.lazybee.sg/rooms/'+encodeURIComponent(r.code)+'" target="_blank" rel="noopener">See it live</a>'+
+       '<a class="link" href="#ask" style="align-self:center">List a unit like this</a></div>'+
+   '</div>';
+}
+function select(code){
+  Object.values(cellEls).forEach(p=>p.setAttribute('data-sel','0'));
+  cellEls[code].setAttribute('data-sel','1');
+  current=ROOMS.find(r=>r.code===code); shot=0; drawCard(); paintComb();
+}
+svg.addEventListener('click',e=>{const c=e.target.closest('.cell');if(c)select(c.dataset.code);});
+svg.addEventListener('keydown',e=>{const c=e.target.closest('.cell');
+ if(c&&(e.key==='Enter'||e.key===' ')){e.preventDefault();select(c.dataset.code);}});
+$('cellcard').addEventListener('click',e=>{const b=e.target.closest('[data-shot]');
+ if(b){shot=+b.dataset.shot;drawCard();}});
+paintComb();
+select((openNow[0]||ROOMS[0]).code);
+
+/* ── the owner portal ── */
+$('statrows').innerHTML=byHome('CP').map(r=>
+ '<div class="row"><span>'+r.code+', '+r.type.toLowerCase()+(isLet(r)?'':', open, not billed')+'</span><b>'+
+ (isLet(r)?money(r.price):'S$0')+'</b></div>').join('')+
+ '<div class="row"><span>Running costs, itemised</span><b>-S$2,228</b></div>'+
+ '<div class="row"><span>Your floor</span><b>S$4,324</b></div>'+
+ '<div class="row"><span>Your share of the upside</span><b>S$1,001</b></div>';
+
+const DOCS=[
+ ['Licence agreement, CP-PR3','Signed 12 Jun 2026 &middot; PDF, 740 KB','ok','Current'],
+ ['IRAS stamp certificate, CP-PR3','Stamped 13 Jun 2026 &middot; we filed it','ok','Stamped'],
+ ['Identity document, tenant CP-PR3','Passport &middot; S••••827Z &middot; masked under PDPA','mut','Masked'],
+ ['Proof of employment, tenant CP-PR3','Letter of employment &middot; verified 10 Jun 2026','ok','Verified'],
+ ['Licence agreement, CP-PR2','Signed 2 Dec 2025 &middot; renewal due 1 Dec 2026','warn','Renewal due'],
+ ['Handover inventory, whole unit','48 items, photographed &middot; signed by both sides','ok','Signed'],
+ ['Fire safety and appliance certificates','Aircon, water heater, extinguisher &middot; next check Mar 2027','ok','In date']];
+$('docs').innerHTML=DOCS.map(d=>'<div class="d"><div><div class="t">'+d[0]+'</div>'+
+ '<div class="fine" style="margin-top:3px">'+d[1]+'</div></div>'+
+ '<div style="display:flex;gap:14px;align-items:center"><span class="badge badge-'+d[2]+'">'+d[3]+'</span>'+
+ '<a class="link" href="#">Open</a></div></div>').join('');
+
+const LOG=[
+ ['7 Aug 2026','Aircon servicing, all four units','Quarterly service by Kavi. Filters washed, gas topped in the master. 6 photos returned.','S$180','ok','Done'],
+ ['22 Jul 2026','Water heater replaced, shared bathroom','Old unit failed on the 20th, tenant had cold water for two days. Replaced with a Rheem 25L. Your approval logged 21 Jul.','S$420','ok','Done'],
+ ['14 Jul 2026','Washing machine drain blocked','Cleared on site, no parts. Cause was a tenant washing bedding with a loose cover.','S$60','ok','Done'],
+ ['2 Jul 2026','Repaint, CP-PR1 on turnover','Two coats, scuffs from the previous tenancy. Deducted from that deposit, not from you.','S$240','ok','Recovered'],
+ ['28 Jun 2026','Front door lock stiff','Lubricated, still stiff. Locksmith quoted S$310 for a replacement cylinder, waiting on your tap.','S$310','warn','Awaiting you']];
+$('log').innerHTML=LOG.map(l=>'<div class="e"><div class="dt">'+l[0]+'</div>'+
+ '<div><div class="t">'+l[1]+'</div><p class="fine" style="margin-top:4px;max-width:60ch">'+l[2]+'</p></div>'+
+ '<div style="text-align:right"><div class="num" style="font-size:13px">'+l[3]+'</div>'+
+ '<span class="badge badge-'+l[4]+'" style="margin-top:7px">'+l[5]+'</span></div></div>').join('');
+
+const GAL=[['photos/cp/MBR.jpg','Master, move-in, 12 Jun'],['photos/cp/Common-1.jpg','Living, quarterly, 1 Jul'],
+ ['photos/cp/PR3.jpg','CP-PR3, move-in, 12 Jun'],['photos/cp/PR1.jpg','CP-PR1, after repaint, 2 Jul'],
+ ['photos/cp/Common-2.jpg','Kitchen, quarterly, 1 Jul'],['photos/cp/PR2.jpg','CP-PR2, quarterly, 1 Jul'],
+ ['photos/cp/STD1.jpg','CP-STD1, move-in, 4 Mar'],['photos/cp/Common-3.jpg','Common, quarterly, 1 Jul']];
+$('gal').innerHTML=GAL.map(g=>'<figure><img src="'+g[0]+'" alt="'+g[1]+'" loading="lazy">'+
+ '<figcaption>'+g[1]+'</figcaption></figure>').join('');
+
+document.querySelector('.tabs').addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',String(x===b)));
+ document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id===b.dataset.pane));
+});
+
+/* ── channels ── */
+/* Real brand marks where simple-icons has one, a typeset wordmark where it does not.
+   The wordmark tiles are marked so it is obvious which logos still need dropping in. */
+const L=window.LOGOS||{};
+const LIVE=[['Airbnb','airbnb'],['Booking.com','bookingdotcom'],['Agoda',null],['PropertyGuru',null],['99.co',null],
+ ['Carousell',null],['Roomies',null],['Instagram','instagram'],['Xiaohongshu',null],['Facebook','facebook']];
+const SOON=[['Coliving.com',null],['uhomes',null],['Amber',null],['Casita',null],['StuRents',null]];
+function tile(name,key,soon){
+ const m=key&&L[key];
+ return '<div class="t'+(soon?' soon':'')+'" title="'+name+'">'+
+   (m?'<svg viewBox="'+m.vb+'" role="img" aria-label="'+name+'"><path d="'+m.d+'"/></svg><span class="nm">'+name+'</span>'
+     :'<span class="wm">'+name+'</span>')+'</div>';
+}
+$('wallLive').innerHTML=LIVE.map(c=>tile(c[0],c[1],false)).join('');
+$('wallSoon').innerHTML=SOON.map(c=>tile(c[0],c[1],true)).join('');
+
+/* ── steps, homes, posts, faq ── */
+const STEPS=[
+ ['Send three facts','Postal code, floor area, bedrooms. We come back within a week with a floor and a split, or we tell you plainly that your unit is not a fit. Nothing to pay and nothing to sign.'],
+ ['We walk the unit','Thirty minutes. We measure, photograph, and write down exactly what has to happen before anyone can live in it. That condition report is yours to keep whether or not you go ahead with us.'],
+ ['We spend first','Furnishing at our cost, photography at our cost, every cell live across the channels inside a week. Your floor starts on the first of the following month. You are still not locked into anything.'],
+ ['Ninety days of watching it run','Your owner login goes live the same day the rooms do. Every booking, every rate, every payout, as it happens. This is the part owners tell us they did not expect to enjoy.'],
+ ['Then decide','Carry on, and the floor and share run on. Or walk, at no cost, with nothing clawed back and our furniture out at our expense.']];
+$('steps').innerHTML=STEPS.map((s,i)=>'<div class="step rv"><div class="n">0'+(i+1)+'</div><h3>'+s[0]+'</h3><p>'+s[1]+'</p></div>').join('');
+
+$('homes').innerHTML=HOMES.map(h=>{
+ const rs=byHome(h.code),filled=rs.filter(isLet).length,op=rs.length-filled;
+ return '<article class="photocard"><img src="'+HERO[h.code]+'" alt="'+h.name+'" loading="lazy"><div class="scrim"></div>'+
+  '<div class="cap"><div class="label" style="color:#D3C7B2">'+(h.mrt?h.mrt.station:'')+'</div>'+
+  '<div class="place" style="margin-top:6px">'+h.name+'</div>'+
+  '<div style="font-size:12.5px;color:#D6CDBC;margin-top:6px">'+rs.length+' cells, '+filled+' let'+
+  (op?', '+op+' open now':'')+'</div>'+
+  '<div class="bars" style="margin-top:13px">'+rs.map((r,i)=>'<i class="'+(i<filled?'on':'')+'"></i>').join('')+
+  '</div></div></article>';
+}).join('');
+
+const POSTS=[
+ ['photos/cp/Common-1.jpg','Numbers','What a Singapore condo actually earns',
+  'We took the headline rent on a three bedder in D19 and subtracted every real cost for a year. The gap between the number on the listing and the number in the bank is about a month and a half.'],
+ ['photos/tg-lounge.jpg','Rules','The three month rule, in practice',
+  'URA says three months minimum on a private home. Here is what that means for how you write the agreement, what happens when a tenant leaves early, and the one mistake that gets owners a letter.'],
+ ['photos/ih/PR1.jpg','Operations','What breaks, and what it costs',
+  'Two years of maintenance logs across nineteen cells. Water heaters go first, aircon servicing is the only thing worth doing on a schedule, and repainting on turnover pays for itself.']];
+$('posts').innerHTML=POSTS.map(p=>'<a class="post rv" href="hive.html"><div class="im"><img src="'+p[0]+'" alt="" loading="lazy"></div>'+
+ '<div class="bd"><div class="label">'+p[1]+'</div><h3>'+p[2]+'</h3><p>'+p[3]+'</p></div></a>').join('');
+
+const FAQ=[
+ ['What is the catch with the ninety days?','That we spend real money on your unit before you owe us anything, and we are betting you will not want to unwind it once you have watched it run. That is the bet, and it is on our side of the table. The only string is the tenancies: anyone we house signs a real lease, so at day ninety you either take those over as they stand or give us the time to see them out.'],
+ ['What if the rooms sit empty?','Then you are paid the floor and we are paid nothing. The floor is the first call on the money, ahead of our costs and well ahead of our margin. That is the point of the structure, and it is why we will not quote a floor before we have seen the unit.'],
+ ['So the floor is just a lease with extra steps?','In a bad year, yes, and deliberately so. The difference shows up in a normal year, when a lease would have kept the whole upside on our side of the table and this does not.'],
+ ['Who pays for the furniture?','We do, at our cost, to one standard across every home. You put in nothing. At the end of the term the unit comes back the way we found it, or better, with the condition written down and photographed on day one.'],
+ ['Can I actually see what is happening?','Yes, from the day you sign, and you can see most of it on this page already. Every booking, every rate, every payout line, the tenant documents, the maintenance log and the inspection photos. Not a quarterly PDF.'],
+ ['What if I want the unit back?','There is a notice period and it is in the agreement before you sign. We will not hold your asset hostage. What we ask is enough notice to see out the tenancies already signed, because those are real people with leases.'],
+ ['Is my unit even eligible?','Private condominiums and apartments, let at three months or longer, within the occupancy cap. HDB flats do not work for this model and we will say so rather than waste your afternoon.'],
+ ['Who deals with a tenant who stops paying?','We do, and it does not touch your floor. You will read about it in the arrears log if you want to. You will not be asked to do anything about it.']];
+$('qs').innerHTML=FAQ.map(f=>'<div class="q rv"><button type="button" aria-expanded="false">'+f[0]+'</button><div class="a"><p>'+f[1]+'</p></div></div>').join('');
+$('qs').addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ const q=b.parentElement,a=q.querySelector('.a'),was=q.classList.contains('open');
+ $('qs').querySelectorAll('.q').forEach(o=>{o.classList.remove('open');o.querySelector('.a').style.maxHeight=null;
+  o.querySelector('button').setAttribute('aria-expanded','false');});
+ if(!was){q.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';b.setAttribute('aria-expanded','true');}
+});
+/* Everything the owner worked out on this page is captured with the enquiry, so Marcus
+   walks into the coffee already knowing the unit instead of asking from scratch. */
+$('leadform').addEventListener('submit',e=>{
+ e.preventDefault();
+ const m=model();
+ const leaseTotal=m.leaseM.reduce((a,b)=>a+b,0);
+ const ourTotal=m.shareM.reduce((a,s)=>a+s.floor+s.up,0);
+ const lead={
+   source:'owners.lazybee.sg',
+   hero_variant:window.HERO_VARIANT,
+   hero_headline:({a:'Be a lazy landlord',b:'We pay first. You decide after.',c:'What is your unit actually worth?'})[window.HERO_VARIANT],
+   postal_code:$('f-postal').value,
+   contact:$('f-contact').value,
+   district:state.district, district_name:DI[state.district],
+   floor_area_sqft:state.sqft, bedrooms:state.beds,
+   psf_used:state.psf,
+   market_rent_monthly:Math.round(m.market),
+   floor_offered_monthly:Math.round(m.floorMo),
+   modelled_owner_year:Math.round(ourTotal),
+   modelled_lease_year:Math.round(leaseTotal),
+   uplift_pct:Math.round((ourTotal/leaseTotal-1)*100),
+   assumptions:{uplift:UPLIFT,opex:OPEX,floor_pct:FLOORPCT,share:SHARE},
+   captured_at:new Date().toISOString()
+ };
+ console.log('[lead] would INSERT into hyve-iot.leads:',lead);
+ const f=$('leadform'); f.style.display='none';
+ document.querySelector('.whathappens').insertAdjacentHTML('beforebegin',
+  '<div class="report rv in">'+
+   '<div class="label">Saved. This is what Marcus brings to the table.</div>'+
+   '<h3 class="h2" style="margin-top:12px">Your unit, '+(DI[state.district]||'')+'</h3>'+
+   '<p class="small" style="margin-top:10px">Everything you worked out on this page is attached to your enquiry, '+
+     'so the first thing he says is not "tell me about your unit".</p>'+
+   '<div class="rr">'+[
+     ['Postal code',lead.postal_code||'not given'],
+     ['District',lead.district+' '+lead.district_name],
+     ['Size and layout',lead.floor_area_sqft.toLocaleString('en-SG')+' sqft, '+lead.bedrooms+' bedrooms'],
+     ['District asking rent','S$'+lead.psf_used.toFixed(1)+' psf, '+sgd(lead.market_rent_monthly)+' / mo'],
+     ['Floor we would start from',sgd(lead.floor_offered_monthly)+' / mo'],
+     ['Modelled against a lease','+'+lead.uplift_pct+'%, '+sgd(lead.modelled_owner_year-lead.modelled_lease_year)+' a year'],
+   ].map(r=>'<div><div class="k">'+r[0]+'</div><div class="v">'+r[1]+'</div></div>').join('')+'</div>'+
+   '<p class="fine" style="margin-top:var(--s5)">Prototype. In the real build this row lands in leads in hyve-iot, '+
+     'pings Marcus on Telegram, and renders the one page PDF he prints on the way. '+
+     'Hero variant <b>'+lead.hero_variant.toUpperCase()+'</b> is saved with it, which is how we find out '+
+     'which opening line actually produces coffees.</p>'+
+  '</div>');
+ document.querySelector('.report').scrollIntoView({behavior:'smooth',block:'center'});
+});
+
+$('mode').addEventListener('click',()=>{
+ const dark=document.documentElement.dataset.theme==='tobacco';
+ document.documentElement.dataset.theme=dark?'alabaster':'tobacco';
+ $('mode').textContent=dark?'Dark':'Light';
+ paintComb();
+});
+
+/* Reveal on scroll, but anything already on screen at load is shown immediately.
+   IntersectionObserver callbacks are throttled in background tabs, and an element
+   above the fold must never depend on a scroll that may never happen. */
+(function(){
+ const nodes=[...document.querySelectorAll('.rv')];
+ if(matchMedia('(prefers-reduced-motion: reduce)').matches){nodes.forEach(n=>n.classList.add('in'));return;}
+ const vh=innerHeight||800, pending=[];
+ nodes.forEach((n,i)=>{
+  if(n.getBoundingClientRect().top < vh*0.92){n.classList.add('in');}
+  else{n.style.transitionDelay=(i%4*60)+'ms';pending.push(n);}
+ });
+ const io=new IntersectionObserver(es=>es.forEach(en=>{
+  if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}}),{rootMargin:'0px 0px -8% 0px'});
+ pending.forEach(n=>io.observe(n));
+})();
+/* so the split test can be read in PostHog rather than guessed at */
+try{ if(window.posthog&&posthog.capture) posthog.capture('hero_variant_shown',{variant:window.HERO_VARIANT}); }catch(e){}
+render();
+</script>
+</body>
+</html>

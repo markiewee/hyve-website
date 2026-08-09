@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee: seven points, curved</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Italiana&family=Inter+Tight:wght@300;400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0D1210;color:#EDE6DA;font-family:'Inter Tight',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1300px;margin:0 auto;padding:0 34px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#7E8A82}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:44px;margin:12px 0 10px}
+h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:28px;margin-bottom:4px}
+.lede{max-width:68ch;font-size:15px;line-height:1.7;color:#8B978E}
+.lede b{color:#EDE6DA;font-weight:400}
+header{padding:52px 0 6px}
+section{padding:46px 0;border-top:1px solid #1C2724}
+.row5{display:grid;grid-template-columns:repeat(5,1fr);gap:15px;margin-top:24px}
+.row4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px}
+.matrix{display:grid;grid-template-columns:96px repeat(5,1fr);gap:12px;margin-top:24px;align-items:center}
+.mh,.rh{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;color:#B08D4F;text-align:center}
+.rh{text-align:left;line-height:1.5}
+.box{border:1px solid #1C2724;background:#111815;padding:20px 10px 12px;text-align:center}
+.box.pick{border-color:#B08D4F}
+.box.lightbg{background:#F6F2EA;border-color:#E2DACC;color:#241C16}
+.box .cap{margin-top:11px;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.12em;color:#5F6B64}
+.box.lightbg .cap{color:#8C8073}
+.box .cap b{color:#B08D4F;font-weight:400}
+.stack{display:flex;gap:14px;align-items:center;justify-content:center;min-height:68px}
+canvas.pix{image-rendering:pixelated;display:block;background:#0D1210}
+.appicon{width:100px;height:100px;border-radius:22px;display:flex;align-items:center;justify-content:center;margin:0 auto}
+.wm{display:block;line-height:1;margin-top:15px}
+.wm .word{display:block;font-family:'Italiana',serif;letter-spacing:.34em;font-size:21px}
+.wm .sub{display:block;font-family:'Inter Tight',sans-serif;letter-spacing:.44em;text-transform:uppercase;font-size:7.5px;margin-top:9px}
+.verdict{border:1px solid #B08D4F;background:#141B17;padding:24px 26px;margin-top:26px}
+.verdict h3{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:23px;margin-bottom:8px}
+@media(max-width:1050px){.row5,.row4{grid-template-columns:1fr 1fr}.matrix{grid-template-columns:70px repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="tag">Lazybee &middot; seven points, mullet mass, curved edges</div>
+  <h1>The reference's body, your curves.</h1>
+  <p class="lede">Your reference is a heraldic <b>mullet of seven points</b>: point straight up, straight edges,
+  inner vertices at about <b>35 percent</b> of the outer radius, which is where the mass comes from.
+  Curvature turns out to be a single number in the same construction. At <b>1.00</b> the edges are dead straight and you get the reference exactly.
+  Pull it down and the same shape grows concave sides, all the way to the needle star you have been looking at. Everything below keeps the
+  mullet proportions and only moves that one dial.</p>
+</header>
+
+<section class="wrap">
+  <div class="tag">01 &middot; the curve dial</div>
+  <h2>Straight to needle, mass held constant</h2>
+  <div class="row5" id="curve"></div>
+</section>
+
+<section class="wrap">
+  <div class="tag">02 &middot; curve against mass</div>
+  <h2>In case you want it fatter or leaner too</h2>
+  <div class="matrix" id="matrix"></div>
+</section>
+
+<section class="wrap">
+  <div class="tag">03 &middot; true size</div>
+  <h2>128, 64, 32, 16 at those exact pixel counts</h2>
+  <div class="row5" id="sizes"></div>
+  <h2 style="margin-top:32px">32 and 16, magnified so you can count them</h2>
+  <div class="row5" id="pix"></div>
+</section>
+
+<section class="wrap">
+  <div class="tag">04 &middot; the brass</div>
+  <h2>A point-up star has no notch for the dot</h2>
+  <div class="row4" id="brass"></div>
+</section>
+
+<section class="wrap" style="padding-bottom:90px">
+  <div class="tag">05 &middot; verdict</div>
+  <div class="verdict" id="verdict"></div>
+</section>
+
+<script>
+/* Seven points, tip up. `ratio` sets the inner vertices (mass), `curve` sets edge shape.
+   curve = 1.00 puts each control point exactly on its tip, which draws a straight edge.
+   Lower values pull the control toward the centre, bowing the edge inward. */
+function seven(cx,cy,R,ratio,curve){
+  const n=7, step=360/n, rot=-90, ri=R*ratio;
+  const P=(a,r)=>[ (cx+r*Math.cos(a*Math.PI/180)).toFixed(3), (cy+r*Math.sin(a*Math.PI/180)).toFixed(3) ];
+  let d='';
+  for(let i=0;i<n;i++){
+    const a0=rot+i*step, av=rot+(i+.5)*step, a1=rot+(i+1)*step;
+    const A=P(a0,R), B=P(a1,R), V=P(av,ri), c1=P(a0,R*curve), c2=P(a1,R*curve);
+    if(!i) d+='M'+A[0]+','+A[1];
+    d+='Q'+c1[0]+','+c1[1]+' '+V[0]+','+V[1];
+    d+='Q'+c2[0]+','+c2[1]+' '+B[0]+','+B[1];
+  }
+  return d+'Z';
+}
+const CX=50, CY=48.3, R=34, VB='16 14 68 68';
+function svg(ratio,curve,ink,bg,opts){
+  opts=opts||{};
+  let s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+VB+'">';
+  if (bg) s+='<rect x="16" y="14" width="68" height="68" fill="'+bg+'"/>';
+  s+='<path fill="'+ink+'" d="'+seven(CX,CY,R,ratio,curve)+'"/>';
+  if (opts.boss) s+='<circle cx="'+CX+'" cy="'+CY+'" r="'+opts.boss+'" fill="'+opts.bossColor+'"/>';
+  return s+'</svg>';
+}
+const uri=s=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);
+const BONE='#EDE6DA', NIGHT='#0D1210', ESP='#241C16', ALA='#F6F2EA', BRASS='#B08D4F', HONEY='#B8873B';
+function raster(svgStr,n,zoom){
+  const c=document.createElement('canvas'); c.className='pix';
+  const img=new Image();
+  img.onload=()=>{
+    const a=document.createElement('canvas'); a.width=n; a.height=n;
+    a.getContext('2d').drawImage(img,0,0,n,n);
+    c.width=n*zoom; c.height=n*zoom;
+    const x=c.getContext('2d'); x.imageSmoothingEnabled=false;
+    x.drawImage(a,0,0,n*zoom,n*zoom);
+  };
+  img.src=uri(svgStr);
+  return c;
+}
+
+const CURVES=[
+  {c:1.00, label:'STRAIGHT', note:'your reference exactly'},
+  {c:0.86, label:'SOFT',     note:'edges just breathe'},
+  {c:0.72, label:'CURVED',   note:'clearly concave, still heavy'},
+  {c:0.58, label:'DEEP',     note:'sabre points'},
+  {c:0.42, label:'NEEDLE',   note:'where we were'},
+];
+const RATIO=0.35;
+
+document.getElementById('curve').innerHTML = CURVES.map(v=>
+  '<div class="box'+(v.c===0.72?' pick':'')+'">'+
+  '<div class="appicon" style="background:'+NIGHT+';border:1px solid #1C2724">'+
+  '<img src="'+uri(svg(RATIO,v.c,BONE))+'" width="92" height="92" alt=""></div>'+
+  '<div class="cap">'+(v.c===0.72?'<b>MY PICK</b><br>':'')+v.label+' &middot; '+v.c.toFixed(2)+'<br>'+v.note+'</div></div>').join('');
+
+(()=>{
+  const RATIOS=[0.28,0.35,0.44];
+  let h='<div></div>'+CURVES.map(v=>'<div class="mh">'+v.label+'</div>').join('');
+  RATIOS.forEach(r=>{
+    h+='<div class="rh">MASS '+Math.round(r*100)+'%</div>';
+    CURVES.forEach(v=>{
+      h+='<div class="box'+(r===0.35&&v.c===0.72?' pick':'')+'">'+
+         '<img src="'+uri(svg(r,v.c,BONE))+'" width="76" height="76" alt="">'+
+         '<div class="cap">'+Math.round(r*100)+' / '+v.c.toFixed(2)+'</div></div>';
+    });
+  });
+  document.getElementById('matrix').innerHTML=h;
+})();
+
+document.getElementById('sizes').innerHTML = CURVES.map(v=>
+  '<div class="box"><div class="stack">'+
+  [128,64,32,16].map(n=>'<img src="'+uri(svg(RATIO,v.c,BONE))+'" width="'+n+'" height="'+n+'" alt="">').join('')+
+  '</div><div class="cap">'+v.label+' &middot; 128 64 32 16</div></div>').join('');
+
+(()=>{
+  const el=document.getElementById('pix');
+  CURVES.forEach(v=>{
+    const b=document.createElement('div'); b.className='box';
+    const s=document.createElement('div'); s.className='stack';
+    s.appendChild(raster(svg(RATIO,v.c,BONE),32,5));
+    s.appendChild(raster(svg(RATIO,v.c,BONE),16,5));
+    b.appendChild(s);
+    const c=document.createElement('div'); c.className='cap'; c.textContent=v.label+' · 32 and 16, 5x';
+    b.appendChild(c); el.appendChild(b);
+  });
+})();
+
+document.getElementById('brass').innerHTML = [
+  ['BRASS IN THE WORDMARK ONLY', svg(RATIO,0.72,BONE), false],
+  ['WHOLE STAR IN BRASS', svg(RATIO,0.72,BRASS), false],
+  ['NIGHT STAR, BRASS TILE', svg(RATIO,0.72,NIGHT,BRASS), false],
+  ['ESPRESSO ON ALABASTER', svg(RATIO,0.72,ESP), true],
+].map(v=>'<div class="box'+(v[2]?' lightbg':'')+'">'+
+  '<img src="'+uri(v[1])+'" width="92" height="92" alt="">'+
+  '<span class="wm"><span class="word">LAZYBEE</span>'+
+  '<span class="sub" style="color:'+(v[2]?HONEY:BRASS)+'">SINGAPORE</span></span>'+
+  '<div class="cap">'+v[0]+'</div></div>').join('');
+
+document.getElementById('verdict').innerHTML =
+  '<h3>What to ship</h3><p class="lede">'+
+  '<b>Mass 35 percent, curve 0.72, point up.</b> It keeps the weight and the confident silhouette of your reference, '+
+  'but the edges bow inward, which is what stops it looking like a clip-art sheriff badge and makes it feel drawn.<br><br>'+
+  'The pixel rows show the honest tradeoff. STRAIGHT is the crispest at 16 because straight edges land on the pixel grid cleanly. '+
+  'CURVED gives up very little of that and gains all of the elegance. DEEP and NEEDLE are where it starts going grey and losing points again.<br><br>'+
+  '<b>The brass leaves the mark.</b> A point straight up means there is no notch to nest the dot into, and putting it at the centre reads as a rivet. '+
+  'Single colour star, brass carried by SINGAPORE in the wordmark, and a brass tile as the alternate app icon.</p>';
+</script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en" data-theme="alabaster">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee Design System</title>
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Hanken+Grotesk:wght@400;500;700&family=Italiana&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lazybee.css">
+<style>
+  .doc{display:grid;grid-template-columns:210px minmax(0,1fr);gap:0;align-items:start}
+  .toc{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 80px);overflow:auto}
+  .spec{padding:clamp(30px,4vw,56px) 0;border-top:1px solid var(--line)}
+  .demo{border:1px solid var(--line);background:var(--surface);padding:clamp(20px,2.6vw,34px);margin-top:var(--s5)}
+  .demo.dark{background:var(--green);color:#EDE6DA}
+  .code{margin-top:var(--s3);font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.02em}
+  .swatchgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));border:1px solid var(--line)}
+  .sw{aspect-ratio:1/1.1;display:flex;flex-direction:column;justify-content:flex-end;padding:12px;
+    font-family:var(--mono);font-size:9px;letter-spacing:.08em;line-height:1.7}
+  .row2{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .onphoto{position:relative;height:230px;overflow:hidden;border:1px solid var(--line)}
+  .onphoto img{width:100%;height:100%;object-fit:cover}
+  .onphoto .over{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:14px}
+  @media(max-width:900px){.doc{grid-template-columns:1fr}.toc{display:none}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brandlock" href="design.html">
+    <svg viewBox="13.43 21.63 73.13 57.45"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd">LAZYBEE</span>
+  </a>
+  <nav class="navlinks">
+    <a href="brand-book.html">Brand</a>
+    <a href="system.html" aria-current="page">System</a>
+    <a href="design.html">Samples</a>
+    <button class="btn btn-ghost btn-sm" id="mode" type="button">Dark</button>
+  </nav>
+</div>
+
+<div class="wrap" style="padding-top:var(--s8);padding-bottom:var(--s5)">
+  <div class="label">Lazybee &middot; design system &middot; v1.0</div>
+  <h1 class="h1" style="margin-top:14px">Components, and the rules for using them.</h1>
+  <p class="body" style="margin-top:18px">The brand book covers the mark, the palette and the voice.
+  This covers everything a person clicks. One stylesheet, <b>assets/lazybee.css</b>, drives marketing, booking,
+  the tenant portal and admin, so a change here changes every surface at once.</p>
+</div>
+
+<div class="wrap doc">
+  <nav class="toc sidenav" aria-label="Sections">
+    <a href="#found">Foundations</a>
+    <a href="#type">Type</a>
+    <a href="#btn">Buttons</a>
+    <a href="#form">Forms</a>
+    <a href="#surf">Surfaces</a>
+    <a href="#data">Data</a>
+    <a href="#nav">Navigation</a>
+    <a href="#state">States</a>
+    <a href="#rules">Surface rules</a>
+  </nav>
+
+  <main style="padding-left:0">
+
+  <section class="spec" id="found" style="border-top:0">
+    <div class="label">01</div><h2 class="h2" style="margin-top:10px">Foundations</h2>
+    <p class="body" style="margin-top:14px">Every value is a custom property. Switching <span class="code">data-theme</span>
+    on the root swaps the whole system. The green is identical in both themes because it is structural, not decorative.</p>
+    <div class="swatchgrid" style="margin-top:var(--s5)" id="swatches"></div>
+    <div class="demo">
+      <div class="label">Spacing scale</div>
+      <div class="row2" style="margin-top:14px" id="spacing"></div>
+      <div class="code">--s1 4 &middot; --s2 8 &middot; --s3 12 &middot; --s4 16 &middot; --s5 24 &middot; --s6 32 &middot; --s7 48 &middot; --s8 64 &middot; --s9 96 &middot; --s10 130</div>
+    </div>
+  </section>
+
+  <section class="spec" id="type">
+    <div class="label">02</div><h2 class="h2" style="margin-top:10px">Type</h2>
+    <p class="body" style="margin-top:14px">Four faces, each with one job. Mixing them is how the brand stays legible
+    across a landing page and a rent table without either looking wrong.</p>
+    <div class="demo">
+      <div class="wordmark" style="font-size:30px">LAZYBEE</div><div class="code">.wordmark &middot; Italiana &middot; the mark only, never a heading</div>
+      <div class="display" style="margin-top:26px">Be a <em>lazy</em> landlord.</div><div class="code">.display &middot; Cormorant 300 &middot; one per page, statements only</div>
+      <div class="h1" style="margin-top:26px">Four things, then you can forget about it.</div><div class="code">.h1 &middot; section heads</div>
+      <div class="place" style="margin-top:26px">Thomson Grove</div><div class="code">.place &middot; Hanken Grotesk 700 &middot; place names and interface</div>
+      <p class="body" style="margin-top:22px">Body copy is Inter Tight Light at 16 over 1.7, capped at 62 characters.
+      Anything wider gets hard to track back to the left edge.</p><div class="code">.body</div>
+      <div class="num-xl" style="margin-top:22px">S$3,564</div><div class="code">.num-xl &middot; JetBrains Mono &middot; every number, always tabular</div>
+      <div class="label" style="margin-top:22px">Paid on the first</div><div class="code">.label &middot; mono, .26em tracking, uppercase</div>
+    </div>
+  </section>
+
+  <section class="spec" id="btn">
+    <div class="label">03</div><h2 class="h2" style="margin-top:10px">Buttons</h2>
+    <p class="body" style="margin-top:14px">One primary per view. In light mode the primary is ink; in dark mode it drops to an
+    outline so brass stays the only brass on screen. Everything is a pill, which is the one shape borrowed from the booking site.</p>
+    <div class="demo">
+      <div class="row2">
+        <button class="btn">Get my offer</button>
+        <button class="btn btn-accent">Search</button>
+        <button class="btn btn-ghost">Cancel</button>
+        <button class="btn btn-sm btn-ghost">Small</button>
+        <button class="btn" disabled>Disabled</button>
+        <a class="link" href="#btn">A quiet link</a>
+      </div>
+      <div class="code">.btn &middot; .btn-accent &middot; .btn-ghost &middot; .btn-sm &middot; [disabled] &middot; .link</div>
+    </div>
+  </section>
+
+  <section class="spec" id="form">
+    <div class="label">04</div><h2 class="h2" style="margin-top:10px">Forms</h2>
+    <p class="body" style="margin-top:14px">Inputs are underlines, not boxes. It keeps a long form from looking like a tax return,
+    and it means a field and a table row share the same hairline.</p>
+    <div class="demo">
+      <div class="grid g2">
+        <div>
+          <div class="field"><label class="label" for="d1">Postal code</label>
+            <input class="input" id="d1" placeholder="569933"></div>
+          <div class="field"><label class="label" for="d2">Email</label>
+            <input class="input" id="d2" value="not-an-email" aria-invalid="true">
+            <div class="error">Needs an @ and a domain.</div></div>
+        </div>
+        <div>
+          <div class="field">
+            <div class="fieldrow"><span class="label">Floor area</span><span class="num" style="font-size:13px">900 sqft</span></div>
+            <input class="range" type="range" min="400" max="2600" value="900">
+            <div class="help">Drag to change. The figure updates as you go.</div>
+          </div>
+          <div class="field"><label class="label" for="d3">Notes</label>
+            <textarea class="input" id="d3" rows="2" placeholder="Anything we should know"></textarea></div>
+        </div>
+      </div>
+      <div class="code">.field &middot; .input &middot; .range &middot; .fieldrow &middot; .help &middot; .error &middot; aria-invalid</div>
+    </div>
+  </section>
+
+  <section class="spec" id="surf">
+    <div class="label">05</div><h2 class="h2" style="margin-top:10px">Surfaces</h2>
+    <div class="demo">
+      <div class="grid g3">
+        <div class="card card-pad"><div class="label">Card</div>
+          <div class="h3" style="margin-top:8px">Chiltern Park</div>
+          <p class="small" style="margin-top:6px">6 rooms, 5 filled, 1 open now</p>
+          <div class="bars" style="margin-top:12px"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
+        <div class="photocard"><img src="photos/tg-hero.jpg" alt=""><div class="scrim"></div>
+          <div class="cap"><div class="label" style="color:#C4B79E">Yio Chu Kang Road</div>
+            <div class="place" style="font-size:24px;margin-top:5px">Thomson Grove</div></div></div>
+        <div class="note">A note sits on a hairline of accent and carries one useful sentence, never a paragraph.</div>
+      </div>
+      <div class="code">.card &middot; .photocard &middot; .note &middot; .media</div>
+    </div>
+    <div class="demo" style="background:var(--bg)">
+      <div class="label">Glass is only ever allowed over photography</div>
+      <div class="onphoto" style="margin-top:14px">
+        <img src="photos/cp-hero.jpg" alt="">
+        <div class="over">
+          <div class="glass" style="border-radius:var(--r-pill);padding:12px 22px">
+            <div class="label">Postal code</div><div class="num" style="font-size:15px;margin-top:3px">569933</div>
+          </div>
+          <button class="btn btn-accent">Get my number</button>
+        </div>
+      </div>
+      <div class="code">.glass &middot; on flat ground use .card or a hairline instead</div>
+    </div>
+  </section>
+
+  <section class="spec" id="data">
+    <div class="label">06</div><h2 class="h2" style="margin-top:10px">Data</h2>
+    <p class="body" style="margin-top:14px">Numbers are always mono and always tabular, so a column of rent figures lines up
+    on the decimal without anyone thinking about it.</p>
+    <div class="band" style="margin-top:var(--s5)">
+      <div class="wrap grid g3" style="padding-top:38px;padding-bottom:38px">
+        <div><div class="n">100%</div><div class="l">Trailing occupancy</div></div>
+        <div><div class="n">19</div><div class="l">Rooms under management</div></div>
+        <div><div class="n">36</div><div class="l">Months, guaranteed</div></div>
+      </div>
+    </div>
+    <div class="code">.band &middot; green in light mode, brass in dark, numbers always brass or ink</div>
+    <div class="demo">
+      <table class="tbl">
+        <thead><tr><th>Room</th><th>Tenant</th><th>Status</th><th style="text-align:right">Rent</th><th style="text-align:right">Next free</th></tr></thead>
+        <tbody>
+          <tr><td>CP-MR</td><td>Vacant</td><td><span class="badge badge-warn">Open now</span></td><td class="num" style="text-align:right">S$2,200</td><td class="num" style="text-align:right">today</td></tr>
+          <tr><td>CP-PR1</td><td>Vacant</td><td><span class="badge badge-warn">12 Aug</span></td><td class="num" style="text-align:right">S$1,500</td><td class="num" style="text-align:right">2026-08-12</td></tr>
+          <tr><td>IH-PR2</td><td>Edward Lo</td><td><span class="badge badge-ok">Occupied</span></td><td class="num" style="text-align:right">S$1,200</td><td class="num" style="text-align:right">2027-03-01</td></tr>
+          <tr><td>TG-MR</td><td>Rhea</td><td><span class="badge badge-ok">Occupied</span></td><td class="num" style="text-align:right">S$2,200</td><td class="num" style="text-align:right">2027-04-01</td></tr>
+        </tbody>
+      </table>
+      <div class="code">table.tbl &middot; .badge-ok / .badge-warn / .badge-bad / .badge-mut &middot; .chip</div>
+      <div class="row2" style="margin-top:18px">
+        <span class="chip on">Airbnb</span><span class="chip on">Booking.com</span><span class="chip">Amber</span><span class="chip">uhomes</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="spec" id="nav">
+    <div class="label">07</div><h2 class="h2" style="margin-top:10px">Navigation</h2>
+    <div class="demo" style="padding:0">
+      <div class="topbar" style="position:static">
+        <a class="brandlock" href="#nav">
+          <svg viewBox="13.43 21.63 73.13 57.45"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+          <span class="wd">LAZYBEE</span></a>
+        <nav class="navlinks"><a href="#nav" aria-current="page">Rooms</a><a href="#nav">Homes</a><a href="#nav">Contact</a></nav>
+      </div>
+      <div style="display:grid;grid-template-columns:190px 1fr">
+        <nav class="sidenav">
+          <a href="#nav" aria-current="page">Dashboard</a><a href="#nav">Rent</a><a href="#nav">Documents</a>
+          <a href="#nav">Issues</a><a href="#nav">Guide</a><a href="#nav">Settings</a>
+        </nav>
+        <div style="padding:26px"><p class="small">Top bar for public surfaces, side nav for the portal.
+        The current item is the only one that gets accent colour, everywhere.</p></div>
+      </div>
+    </div>
+    <div class="code">.topbar &middot; .topbar.over for transparent-over-photo &middot; .sidenav &middot; aria-current="page"</div>
+  </section>
+
+  <section class="spec" id="state">
+    <div class="label">08</div><h2 class="h2" style="margin-top:10px">States</h2>
+    <p class="body" style="margin-top:14px">Empty is an invitation, not an apology. Errors say what happened and what to do,
+    in the interface's voice, and never apologise.</p>
+    <div class="demo">
+      <div class="grid g3">
+        <div class="empty"><div class="h3">No issues open</div>
+          <p class="small" style="margin-top:6px">Nothing is broken right now. Report something and it lands with the house captain.</p>
+          <button class="btn btn-ghost btn-sm" style="margin-top:16px">Report an issue</button></div>
+        <div class="note note-bad">Rent for August has not cleared. Send the reference LB-2608-114 with your transfer and it clears same day.</div>
+        <div>
+          <div class="skeleton" style="height:16px;width:60%"></div>
+          <div class="skeleton" style="height:16px;width:85%;margin-top:10px"></div>
+          <div class="skeleton" style="height:16px;width:45%;margin-top:10px"></div>
+          <div class="code">.skeleton, for loading</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="spec" id="rules">
+    <div class="label">09</div><h2 class="h2" style="margin-top:10px">Which language, where</h2>
+    <p class="body" style="margin-top:14px">The one rule that keeps four surfaces feeling like one company.</p>
+    <div class="demo" style="padding:0">
+      <table class="tbl">
+        <thead><tr><th>Surface</th><th>Ground</th><th>Hero</th><th>Headlines</th><th>Photography</th></tr></thead>
+        <tbody>
+          <tr><td>Marketing</td><td>Alabaster</td><td>Full-bleed photo, glass instrument</td><td>Cormorant</td><td>Leads the page</td></tr>
+          <tr><td>Booking</td><td>Alabaster or Tobacco</td><td>Full-bleed photo carousel</td><td>Grotesk for places</td><td>Leads the page</td></tr>
+          <tr><td>Tenant portal</td><td>Alabaster</td><td>None, straight to content</td><td>Cormorant, small</td><td>Only the room card</td></tr>
+          <tr><td>Admin</td><td>Alabaster or Tobacco</td><td>None</td><td>Grotesk, small</td><td>Thumbnails only</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="body" style="margin-top:22px"><b>Glass only over photography.</b> <b>One primary button per view.</b>
+    <b>One accent, brass, and never a third thing in gold.</b> <b>Green appears as a band, never as a text colour on dark.</b>
+    <b>Numbers are mono, always.</b> Everything else is negotiable.</p>
+  </section>
+
+  </main>
+</div>
+
+<footer class="wrap" style="border-top:1px solid var(--line);padding:34px 0 60px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px">
+  <span class="label">Lazybee design system v1.0</span>
+  <span class="label"><a href="design.html" class="link">All samples</a></span>
+</footer>
+
+<script>
+const SW=[['--bg','GROUND'],['--surface','SURFACE'],['--line','LINE'],['--ink','INK'],['--muted','MUTED'],
+          ['--accent','BRASS'],['--accent-text','BRASS TEXT'],['--green','GREEN'],['--green-deep','GREEN DEEP']];
+function hexOf(v){const c=getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  if(c.startsWith('#'))return c.toUpperCase();
+  const m=c.match(/\d+/g);return m?'#'+m.slice(0,3).map(n=>(+n).toString(16).padStart(2,'0')).join('').toUpperCase():c;}
+function lum(h){const n=h.replace('#','');
+  const v=[0,2,4].map(i=>parseInt(n.substr(i,2),16)/255).map(c=>c<=.03928?c/12.92:Math.pow((c+.055)/1.055,2.4));
+  return .2126*v[0]+.7152*v[1]+.0722*v[2];}
+function paint(){
+  document.getElementById('swatches').innerHTML=SW.map(s=>{
+    const hex=hexOf(s[0]); const on=lum(hex)>.4?'#000':'#fff';
+    return '<div class="sw" style="background:'+hex+';color:'+on+'"><span>'+hex+'</span><span style="opacity:.7">'+s[1]+'</span></div>';
+  }).join('');
+}
+document.getElementById('spacing').innerHTML=[4,8,12,16,24,32,48,64,96].map(n=>
+  '<div style="text-align:center"><div style="width:'+n+'px;height:26px;background:var(--accent)"></div>'+
+  '<div class="fine" style="margin-top:6px">'+n+'</div></div>').join('');
+document.getElementById('mode').addEventListener('click',e=>{
+  const dark=document.documentElement.dataset.theme==='tobacco';
+  document.documentElement.dataset.theme=dark?'alabaster':'tobacco';
+  e.target.textContent=dark?'Dark':'Light'; paint();
+});
+paint();
+</script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en" data-theme="alabaster">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee Design</title>
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Hanken+Grotesk:wght@400;500;700&family=Italiana&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lazybee.css">
+<style>
+  .hub{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5);margin-top:var(--s6)}
+  .item{border:1px solid var(--line);text-decoration:none;color:inherit;display:block;transition:border-color .25s,transform .25s var(--ease)}
+  .item:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .item .thumb{height:170px;background:var(--surface);position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+  .item .thumb img{width:100%;height:100%;object-fit:cover}
+  .item .b{padding:20px}
+  .item .st{margin-top:10px}
+  .lead{max-width:64ch}
+  @media(max-width:900px){.hub{grid-template-columns:1fr 1fr}}
+  @media(max-width:600px){.hub{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brandlock" href="design.html">
+    <svg viewBox="13.43 21.63 73.13 57.45"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd">LAZYBEE</span>
+  </a>
+  <nav class="navlinks">
+    <a href="brand-book.html">Brand</a><a href="system.html">System</a><a href="design.html" aria-current="page">Samples</a>
+    <button class="btn btn-ghost btn-sm" id="mode" type="button">Dark</button>
+  </nav>
+</div>
+
+<main class="wrap sec">
+  <div class="label">Lazybee &middot; design &middot; v1.0 &middot; August 2026</div>
+  <h1 class="h1" style="margin-top:16px">One system, every surface.</h1>
+  <p class="body lead" style="margin-top:18px">Everything below runs off a single stylesheet,
+  <b>assets/lazybee.css</b>. Change a token there and marketing, booking, the tenant portal and admin all move together.
+  Every page has a light and dark mode, and each one is a real page, not a picture of one.</p>
+
+  <h2 class="h2" style="margin-top:var(--s8)">Documents</h2>
+  <div class="hub">
+    <a class="item" href="brand-book.html">
+      <div class="thumb" style="display:flex;align-items:center;justify-content:center;background:var(--green)">
+        <svg viewBox="13.43 21.63 73.13 57.45" style="width:74px;fill:#EDE6DA"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+      </div>
+      <div class="b"><div class="label">01</div><div class="h3 st">Brand guidelines</div>
+        <p class="small" style="margin-top:8px">The mark, its geometry, clear space, palettes, type, voice, photography. Live palette switcher.</p></div>
+    </a>
+    <a class="item" href="system.html">
+      <div class="thumb" style="display:flex;align-items:center;justify-content:center;gap:10px;background:var(--surface)">
+        <span class="btn btn-sm">Button</span><span class="chip on">Chip</span><span class="badge badge-ok">Live</span>
+      </div>
+      <div class="b"><div class="label">02</div><div class="h3 st">Design system</div>
+        <p class="small" style="margin-top:8px">Every component, its class, and the rules for where each visual language applies.</p></div>
+    </a>
+    <a class="item" href="assets/tokens.css">
+      <div class="thumb" style="display:flex;align-items:center;justify-content:center;background:var(--bg)">
+        <span class="num" style="font-size:15px;color:var(--faint)">--lb-accent: #B08D4F</span>
+      </div>
+      <div class="b"><div class="label">03</div><div class="h3 st">Tokens</div>
+        <p class="small" style="margin-top:8px">tokens.css and tokens.json, plus the SVG and raster logo set, ready to drop into the build.</p></div>
+    </a>
+  </div>
+
+  <h2 class="h2" style="margin-top:var(--s9)">Sample pages</h2>
+  <p class="body" style="margin-top:12px">One per surface. Each carries the same information it would carry in production,
+  with real room data from hyve-iot rather than lorem.</p>
+  <div class="hub">
+    <a class="item" href="owners.html">
+      <div class="thumb"><img src="photos/cp-hero.jpg" alt=""></div>
+      <div class="b"><div class="label">Main page &middot; owners</div><div class="h3 st">Take the upside</div>
+        <p class="small" style="margin-top:8px">The profit-share pitch. The Split instrument, the alignment argument, the three-way comparison, reach, the portal and compliance.</p>
+        <span class="badge badge-ok" style="margin-top:12px">Current</span></div>
+    </a>
+    <a class="item" href="v3.html">
+      <div class="thumb"><img src="photos/tg-lounge.jpg" alt=""></div>
+      <div class="b"><div class="label">Marketing, superseded</div><div class="h3 st">Be a lazy landlord</div>
+        <p class="small" style="margin-top:8px">The fixed 36 month master-lease pitch. Kept because the lease model is still what the three live homes run on.</p></div>
+    </a>
+    <a class="item" href="book.html">
+      <div class="thumb"><img src="photos/tg-hero.jpg" alt=""></div>
+      <div class="b"><div class="label">Guest site</div><div class="h3 st">Move in, not house hunt</div>
+        <p class="small" style="margin-top:8px">book.lazybee.sg. All 19 real rooms, working filters, the three homes, and what is in the rent.</p>
+        <span class="badge badge-ok" style="margin-top:12px">Live data</span></div>
+    </a>
+    <a class="item" href="room.html?code=CP-MR">
+      <div class="thumb"><img src="photos/cp/MBR.jpg" alt=""></div>
+      <div class="b"><div class="label">Guest site</div><div class="h3 st">Room detail</div>
+        <p class="small" style="margin-top:8px">Gallery, real specs, what is in the room, the house, and the booking panel. Driven by ?code=.</p></div>
+    </a>
+    <a class="item" href="headlines.html">
+      <div class="thumb" style="background:var(--green);display:flex;align-items:center;justify-content:center;padding:20px">
+        <span class="h3" style="color:#EDE6DA;text-align:center;font-size:19px">Stop renting out your unit.<br>Start running it.</span>
+      </div>
+      <div class="b"><div class="label">Decision needed</div><div class="h3 st">Headline test</div>
+        <p class="small" style="margin-top:8px">Eight openers on the real photograph, each with the lever it pulls. Pick a number.</p>
+        <span class="badge badge-warn" style="margin-top:12px">Your call</span></div>
+    </a>
+    <a class="item" href="hive.html">
+      <div class="thumb"><img src="photos/cp/Common-1.jpg" alt=""></div>
+      <div class="b"><div class="label">Blog</div><div class="h3 st">The Hive</div>
+        <p class="small" style="margin-top:8px">The Lazybee journal. Lead post, tag filters, subscribe band.</p></div>
+    </a>
+    <a class="item" href="sample-rooms.html">
+      <div class="thumb" style="background:var(--surface)"></div>
+      <div class="b"><div class="label">Superseded</div><div class="h3 st">Booking, first pass</div>
+        <p class="small" style="margin-top:8px">The earlier booking sample on invented data. Replaced by the guest site above.</p></div>
+    </a>
+    <a class="item" href="sample-portal.html">
+      <div class="thumb"><img src="photos/ih-hero.jpg" alt=""></div>
+      <div class="b"><div class="label">Tenant portal</div><div class="h3 st">Dashboard</div>
+        <p class="small" style="margin-top:8px">Rent due with the payment reference, tenancy stats, the room, documents, issues and an empty state.</p></div>
+    </a>
+    <a class="item" href="sample-admin.html">
+      <div class="thumb" style="background:#241811;display:flex;align-items:flex-end;padding:14px">
+        <div style="width:100%">
+          <div style="height:8px;background:#453224;margin-bottom:6px"></div>
+          <div style="height:8px;background:#453224;width:80%;margin-bottom:6px"></div>
+          <div style="height:8px;background:#B08D4F;width:45%"></div>
+        </div>
+      </div>
+      <div class="b"><div class="label">Admin</div><div class="h3 st">Rooms table</div>
+        <p class="small" style="margin-top:8px">Dark by default. KPIs, filters, a dense table with status badges, and a detail drawer.</p></div>
+    </a>
+    <a class="item" href="v2.html">
+      <div class="thumb" style="background:var(--surface);display:flex;align-items:center;justify-content:center">
+        <span class="h2" style="font-size:26px">Be a <em>lazy</em> landlord.</span>
+      </div>
+      <div class="b"><div class="label">Marketing, alternate</div><div class="h3 st">Paper-first</div>
+        <p class="small" style="margin-top:8px">The same page without the photo hero. Quieter, more editorial. Kept for comparison.</p></div>
+    </a>
+    <a class="item" href="index.html">
+      <div class="thumb" style="background:#16120D;display:flex;align-items:center;justify-content:center">
+        <span class="label" style="color:#E9A13B">Superseded</span>
+      </div>
+      <div class="b"><div class="label">Archive</div><div class="h3 st">First direction</div>
+        <p class="small" style="margin-top:8px">Honey on near-black, before the brand work. Kept so the change is visible.</p></div>
+    </a>
+  </div>
+
+  <h2 class="h2" style="margin-top:var(--s9)">What is decided</h2>
+  <div class="grid g2" style="margin-top:var(--s5)">
+    <div class="rows">
+      <div class="row"><span>Mark</span><b>Seven-point mullet, point down</b></div>
+      <div class="row"><span>Wordmark</span><b>Italiana, .34em</b></div>
+      <div class="row"><span>Statements</span><b>Cormorant Garamond 300</b></div>
+      <div class="row"><span>Places and UI</span><b>Hanken Grotesk 700</b></div>
+      <div class="row"><span>Numbers</span><b>JetBrains Mono, tabular</b></div>
+    </div>
+    <div class="rows">
+      <div class="row"><span>Light mode</span><b>Alabaster</b></div>
+      <div class="row"><span>Dark mode</span><b>Tobacco</b></div>
+      <div class="row"><span>Accent</span><b>Brass #B08D4F</b></div>
+      <div class="row"><span>Band</span><b>Green in light, brass in dark</b></div>
+      <div class="row"><span>Glass</span><b>Over photography only</b></div>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:var(--s7)">
+    Nothing here has touched the production app. Everything lives in design-preview and is served locally.
+    The next step is a plan, a PRD and a PR before any of it goes near src.
+  </div>
+</main>
+
+<footer class="wrap" style="border-top:1px solid var(--line);padding:34px 0 60px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px">
+  <span class="label">Lazybee &middot; Makery Pte Ltd</span>
+  <span class="label">v1.0 &middot; August 2026</span>
+</footer>
+
+<script>
+document.getElementById('mode').addEventListener('click',e=>{
+  const dark=document.documentElement.dataset.theme==='tobacco';
+  document.documentElement.dataset.theme=dark?'alabaster':'tobacco';
+  e.target.textContent=dark?'Dark':'Light';
+});
+</script>
+</body>
+</html>

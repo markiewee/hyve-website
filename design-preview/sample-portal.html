@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en" data-theme="alabaster">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazybee Portal &middot; sample</title>
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Hanken+Grotesk:wght@400;500;700&family=Italiana&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lazybee.css">
+<style>
+  .shell{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:calc(100vh - 58px)}
+  .main{padding:clamp(24px,3vw,44px) clamp(20px,3vw,44px) 80px}
+  .head{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-end}
+  .duecard{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);border:1px solid var(--line)}
+  .duecard > div{padding:clamp(20px,2.4vw,32px)}
+  .duecard .r{border-left:1px solid var(--line);background:var(--surface)}
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  .tiles > div{background:var(--bg);padding:20px}
+  .roomcard{display:grid;grid-template-columns:180px minmax(0,1fr);border:1px solid var(--line)}
+  .roomcard img{height:100%;min-height:150px;object-fit:cover}
+  .list .it{display:flex;gap:16px;justify-content:space-between;align-items:center;
+    padding:15px 0;border-bottom:1px solid var(--line)}
+  @media(max-width:900px){
+    .shell{grid-template-columns:1fr}.sidenav{display:flex;overflow:auto;border-right:0;border-bottom:1px solid var(--line);padding:0}
+    .sidenav a{white-space:nowrap;border-left:0;border-bottom:2px solid transparent}
+    .sidenav a[aria-current]{border-left:0;border-bottom-color:var(--accent)}
+    .duecard,.roomcard{grid-template-columns:1fr}.duecard .r{border-left:0;border-top:1px solid var(--line)}
+    .tiles{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brandlock" href="design.html">
+    <svg viewBox="13.43 21.63 73.13 57.45"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd">LAZYBEE</span>
+  </a>
+  <nav class="navlinks">
+    <span class="label" style="letter-spacing:.16em">Edward Lo &middot; IH-PR2</span>
+    <button class="btn btn-ghost btn-sm" id="mode" type="button">Dark</button>
+  </nav>
+</div>
+
+<div class="shell">
+  <nav class="sidenav" aria-label="Portal">
+    <a href="#" aria-current="page">Dashboard</a>
+    <a href="#">Rent</a>
+    <a href="#">Documents</a>
+    <a href="#">Issues</a>
+    <a href="#">House guide</a>
+    <a href="#">Settings</a>
+  </nav>
+
+  <main class="main">
+    <div class="head">
+      <div>
+        <div class="label">Ivory Heights &middot; Jurong East Street 13</div>
+        <h1 class="h1" style="font-size:clamp(26px,3vw,40px);margin-top:10px">Good evening, Edward.</h1>
+      </div>
+      <div class="row2" style="display:flex;gap:10px">
+        <button class="btn btn-ghost btn-sm">Report an issue</button>
+        <button class="btn btn-sm">Pay rent</button>
+      </div>
+    </div>
+
+    <div class="duecard" style="margin-top:var(--s6)">
+      <div>
+        <div class="label">Due on the first</div>
+        <div class="num-xl" style="margin-top:12px">S$1,200</div>
+        <p class="small" style="margin-top:12px">S$1,300 gross, less your S$100 house captain discount.
+        Paid by bank transfer to Makery Pte Ltd.</p>
+        <div class="row2" style="display:flex;gap:10px;margin-top:22px">
+          <button class="btn btn-sm">Pay now</button>
+          <a class="link" href="#">See the breakdown</a>
+        </div>
+      </div>
+      <div class="r">
+        <div class="label">Reference, use this exactly</div>
+        <div class="num" style="font-size:22px;margin-top:10px">LB-2608-114</div>
+        <div class="rows" style="margin-top:20px">
+          <div class="row"><span>Period</span><b>Aug 2026</b></div>
+          <div class="row"><span>Status</span><b><span class="badge badge-warn">Awaiting transfer</span></b></div>
+          <div class="row"><span>Late fee starts</span><b>8 Aug</b></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tiles" style="margin-top:var(--s6)">
+      <div class="stat"><div class="n">14</div><div class="l">Months in</div></div>
+      <div class="stat"><div class="n">1 Mar 27</div><div class="l">Agreement ends</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">Open issues</div></div>
+      <div class="stat"><div class="n">3</div><div class="l">Documents</div></div>
+    </div>
+
+    <h2 class="h2" style="margin-top:var(--s8)">Your room</h2>
+    <div class="roomcard" style="margin-top:var(--s4)">
+      <img src="photos/ih-hero.jpg" alt="Ivory Heights">
+      <div style="padding:22px">
+        <div class="label">IH-PR2 &middot; premium, ensuite</div>
+        <div class="place" style="font-size:24px;margin-top:6px">Ivory Heights</div>
+        <p class="small" style="margin-top:8px">#08-33, Blk 122 Jurong East St 13. Seven rooms, six housemates,
+        one kitchen that is cleaned on Thursdays.</p>
+        <div class="row2" style="display:flex;gap:8px;margin-top:16px">
+          <span class="chip on">Ensuite</span><span class="chip">Aircon</span><span class="chip">Fully furnished</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-top:var(--s8);gap:var(--s6)">
+      <div>
+        <h2 class="h2">Documents</h2>
+        <div class="list" style="margin-top:var(--s4);border-top:1px solid var(--line)">
+          <div class="it"><div><div style="font-size:14.5px">Licence agreement</div>
+            <div class="fine" style="margin-top:3px">Signed 4 Jan 2026 &middot; PDF, 680 KB</div></div>
+            <a class="link" href="#">Open</a></div>
+          <div class="it"><div><div style="font-size:14.5px">Stamp certificate</div>
+            <div class="fine" style="margin-top:3px">IRAS &middot; stamped on your behalf</div></div>
+            <a class="link" href="#">Open</a></div>
+          <div class="it"><div><div style="font-size:14.5px">House rules</div>
+            <div class="fine" style="margin-top:3px">Updated 2 Jun 2026</div></div>
+            <a class="link" href="#">Open</a></div>
+        </div>
+      </div>
+      <div>
+        <h2 class="h2">Issues</h2>
+        <div class="empty" style="margin-top:var(--s4)">
+          <div class="h3">Nothing open</div>
+          <p class="small" style="margin-top:6px">Report something and it lands with your house captain the same minute.</p>
+          <button class="btn btn-ghost btn-sm" style="margin-top:16px">Report an issue</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:var(--s7)">
+      Thursday clean is between 10am and 1pm. Leave the kitchen counter clear and the cleaner does the rest.
+    </div>
+  </main>
+</div>
+
+<script>
+document.getElementById('mode').addEventListener('click',e=>{
+  const dark=document.documentElement.dataset.theme==='tobacco';
+  document.documentElement.dataset.theme=dark?'alabaster':'tobacco';
+  e.target.textContent=dark?'Dark':'Light';
+});
+</script>
+</body>
+</html>
