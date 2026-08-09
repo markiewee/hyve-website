@@ -1,25 +1,77 @@
+# lazybee.sg
+#
+# Everything public is open to everyone, including the AI crawlers. Being read by
+# them is the point: they are the search surface we care about, and none of them
+# are blocked below.
+#
+# The only closed door is /portal/, which is the authenticated tenant, captain,
+# landlord and admin area. There is nothing behind it a crawler can reach anyway,
+# and the pages it would see are served a noindex shell.
+
 User-agent: *
 Allow: /
+Disallow: /portal/
 
+# Search
+User-agent: Googlebot
+Allow: /
+Disallow: /portal/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /portal/
+
+# AI training and AI answer crawlers, allowed deliberately
 User-agent: GPTBot
 Allow: /
+Disallow: /portal/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /portal/
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /portal/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /portal/
 
 User-agent: Claude-Web
 Allow: /
+Disallow: /portal/
 
 User-agent: anthropic-ai
 Allow: /
+Disallow: /portal/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /portal/
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /portal/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /portal/
+
+User-agent: Applebot
+Allow: /
+Disallow: /portal/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /portal/
+
+User-agent: Amazonbot
+Allow: /
+Disallow: /portal/
+
+User-agent: meta-externalagent
+Allow: /
+Disallow: /portal/
 
 Sitemap: https://www.lazybee.sg/sitemap.xml

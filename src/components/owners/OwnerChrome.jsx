@@ -80,9 +80,14 @@ export function OwnerFooter() {
         >
           Looking for a room instead?
         </a>{' '}
+        {/* Every other indexable page hangs off this footer. The homepage is the
+            only page a crawler is guaranteed to reach, so if a route is not linked
+            from here it is an orphan no matter what the sitemap says. */}
+        · <a href="/faqs" style={{ textDecoration: 'none' }}>FAQs</a>{' '}
+        · <a href="/contact" style={{ textDecoration: 'none' }}>Contact</a>{' '}
         · <a href="/privacy-policy" style={{ textDecoration: 'none' }}>Privacy</a>{' '}
         · <a href="/terms-of-service" style={{ textDecoration: 'none' }}>Terms</a>{' '}
-        · <a href="/contact" style={{ textDecoration: 'none' }}>Contact</a>
+        · <a href="/cookie-policy" style={{ textDecoration: 'none' }}>Cookies</a>
       </p>
     </footer>
   );
