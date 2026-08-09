@@ -928,8 +928,10 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
  * Recording an outcome always stamps completed_at, which is the field that
  * makes viewing-to-signed conversion computable. Choosing "Attended" then asks
  * what actually happened, and that answer updates the linked lead.
+ *
+ * Exported so NeedsOutcomeTab.render.test.jsx can mount it without the page.
  */
-function NeedsOutcomeTab({ viewings, refetch }) {
+export function NeedsOutcomeTab({ viewings, refetch }) {
   const [busyId, setBusyId] = useState(null);
   const [askingId, setAskingId] = useState(null);
   const [error, setError] = useState(null);
