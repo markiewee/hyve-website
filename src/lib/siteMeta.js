@@ -15,6 +15,7 @@
 // live from hyve-iot), addresses from the same file. Nothing is invented, and there
 // are deliberately no ratings or review counts because we do not have real ones.
 
+import { HIVE_ROUTES, HIVE_ROUTE_META } from './hiveRoutes.js';
 import { HOMES } from '../data/lazybeeRooms.js';
 import { FAQ as OWNER_FAQ } from '../data/ownerPage.js';
 import {
@@ -155,7 +156,13 @@ export const ROUTE_META = {
   },
 };
 
-export const PRERENDER_ROUTES = Object.keys(ROUTE_META);
+/* The Hive owns its own routes, because they are derived from the markdown files
+   on disk rather than declared by hand. Spreading them in here means adding an
+   article automatically adds it to the prerender and to the sitemap, with no
+   second list to keep in step. */
+export const ALL_ROUTE_META = { ...ROUTE_META, ...HIVE_ROUTE_META };
+
+export const PRERENDER_ROUTES = [...Object.keys(ROUTE_META), ...HIVE_ROUTES];
 
 /** Absolute canonical for a route. Always self-referencing, never the homepage. */
 export function canonicalFor(route) {

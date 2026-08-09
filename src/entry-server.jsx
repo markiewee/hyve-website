@@ -23,6 +23,7 @@ import { renderToString } from 'react-dom/server';
 // react-router 7 moved StaticRouter into the framework-agnostic `react-router`
 // package. `react-router-dom/server` no longer exists.
 import { StaticRouter } from 'react-router';
+import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 import { LanguageProvider } from './i18n/LanguageContext';
@@ -34,10 +35,13 @@ import ContactPage from './components/ContactPage';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import CookiePolicy from './components/CookiePolicy';
+import HiveIndexPage from './pages/hive/HiveIndexPage';
+import HiveArticlePage from './pages/hive/HiveArticlePage';
+import HiveTopicPage from './pages/hive/HiveTopicPage';
 
-export { ROUTE_META, PRERENDER_ROUTES, canonicalFor, BASE_URL, SITE_NAME, DEFAULT_OG_IMAGE, DEFAULT_DESCRIPTION } from './lib/siteMeta.js';
+export { ROUTE_META, ALL_ROUTE_META, PRERENDER_ROUTES, canonicalFor, BASE_URL, SITE_NAME, DEFAULT_OG_IMAGE, DEFAULT_DESCRIPTION } from './lib/siteMeta.js';
 
-const PAGES = {
+const STATIC_PAGES = {
   '/': HomePage,
   '/faqs': FAQsPage,
   '/contact': ContactPage,
@@ -46,6 +50,12 @@ const PAGES = {
   '/cookie-policy': CookiePolicy,
 };
 
+/** True for anything under the Hive, which is matched by pattern rather than looked up. */
+const isHiveRoute = (url) => url === '/hive' || url.startsWith('/hive/');
+
+/** A route is renderable if it is one of the flat pages or anywhere in the Hive. */
+const isKnownRoute = (url) => Boolean(STATIC_PAGES[url]) || isHiveRoute(url);
+
 /**
  * Render one route to an HTML string.
  *
@@ -53,11 +63,10 @@ const PAGES = {
  * @returns {{ html: string, helmetApplied: boolean }}
  */
 export function render(url) {
-  const Page = PAGES[url];
-  if (!Page) throw new Error(`entry-server: no page registered for ${url}`);
+  if (!isKnownRoute(url)) throw new Error(`entry-server: no page registered for ${url}`);
 
-  // Same condition as AppContent: the owner homepage carries its own chrome.
-  const bareChrome = url === '/';
+  // Same condition as AppContent: the owner homepage and the Hive carry their own chrome.
+  const bareChrome = url === '/' || isHiveRoute(url);
 
   // Helmet is wired up so the <SEO> components inside the pages do not throw for
   // want of a provider. Whether it actually emits anything is reported, not
@@ -70,7 +79,20 @@ export function render(url) {
         <StaticRouter location={url}>
           <div className="min-h-screen bg-background">
             {!bareChrome && <Navbar />}
-            <Page />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/faqs" element={<FAQsPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/cookie-policy" element={<CookiePolicy />} />
+              {/* Static segments first, so /hive/page/2 and /hive/topic/rules can
+                  never be swallowed by the article slug pattern. Mirrors App.jsx. */}
+              <Route path="/hive" element={<HiveIndexPage />} />
+              <Route path="/hive/page/:page" element={<HiveIndexPage />} />
+              <Route path="/hive/topic/:tag" element={<HiveTopicPage />} />
+              <Route path="/hive/:slug" element={<HiveArticlePage />} />
+            </Routes>
             {!bareChrome && <Footer />}
           </div>
         </StaticRouter>
