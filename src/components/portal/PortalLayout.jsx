@@ -97,23 +97,24 @@ function NavLink({ link, location, onClick }) {
     <Link
       to={link.to}
       onClick={onClick}
-      className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 ${
+      aria-current={isActive ? "page" : undefined}
+      className={`group flex items-center gap-3 border-l-2 px-4 py-2.5 text-[13px] tracking-[0.06em] transition-colors duration-200 ${
         isActive
-          ? "bg-surface-container text-accent font-bold rounded-l-full translate-x-0"
-          : "text-foreground-variant hover:bg-white/5 hover:text-foreground hover:translate-x-1"
+          ? "border-accent bg-surface-container text-accent font-medium"
+          : "border-transparent text-foreground-variant hover:bg-surface-container/60 hover:text-foreground"
       }`}
     >
       <span
-        className="material-symbols-outlined text-[20px] shrink-0"
-        style={isActive ? { fontVariationSettings: "'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24" } : {}}
+        className="material-symbols-outlined text-[19px] shrink-0"
+        style={isActive ? { fontVariationSettings: "'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24" } : {}}
       >
         {link.icon}
       </span>
-      <span className="font-['Inter'] flex-1">{link.label}</span>
+      <span className="flex-1">{link.label}</span>
       {link.badge > 0 && (
         <span
           title={`${link.badge} past viewing${link.badge === 1 ? "" : "s"} with no outcome recorded`}
-          className="shrink-0 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-bold text-white"
+          className="shrink-0 rounded-full bg-amber-500 px-2 py-0.5 font-mono text-[10px] font-bold text-white tabular-nums"
         >
           {link.badge}
         </span>
@@ -175,24 +176,23 @@ function AdminDropdown({ link, location, onLinkClick }) {
 function LanguageToggle() {
   const { lang, setLanguage } = useLanguage();
   return (
-    <div className="flex items-center gap-1 px-4 py-2">
+    <div className="flex items-center gap-2 px-4 py-2">
       <button
         onClick={() => setLanguage("en")}
-        className={`px-2 py-1 text-xs font-['Inter'] font-bold rounded transition-colors ${
+        className={`font-mono px-2 py-1 text-xs tracking-[0.14em] border transition-colors ${
           lang === "en"
-            ? "bg-accent text-white"
-            : "text-foreground-variant hover:text-accent"
+            ? "border-accent text-accent"
+            : "border-transparent text-foreground-variant hover:text-accent"
         }`}
       >
         EN
       </button>
-      <span className="text-foreground-variant">|</span>
       <button
         onClick={() => setLanguage("zh")}
-        className={`px-2 py-1 text-xs font-['Inter'] font-bold rounded transition-colors ${
+        className={`font-mono px-2 py-1 text-xs tracking-[0.14em] border transition-colors ${
           lang === "zh"
-            ? "bg-accent text-white"
-            : "text-foreground-variant hover:text-accent"
+            ? "border-accent text-accent"
+            : "border-transparent text-foreground-variant hover:text-accent"
         }`}
       >
         中文
@@ -211,21 +211,21 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
   const firstName = displayName.split(" ")[0];
 
   return (
-    <aside className="h-screen w-64 fixed left-0 top-0 bg-surface flex flex-col py-8 pl-4 z-40 border-r border-border">
+    <aside className="h-screen w-64 fixed left-0 top-0 bg-surface flex flex-col py-8 z-40 border-r border-border">
       {/* Logo + user profile */}
-      <div className="mb-10 px-4">
+      <div className="mb-8 px-6">
         <div className="mb-8">
-          <Wordmark size="md" />
+          <Wordmark size="md" variant="lazybee" />
         </div>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-accent/15 flex items-center justify-center text-accent font-bold text-sm shrink-0">
+          <div className="w-10 h-10 rounded-full border border-accent/40 bg-accent/10 flex items-center justify-center font-mono text-accent text-xs tracking-[0.08em] shrink-0">
             {firstName.slice(0, 2).toUpperCase()}
           </div>
           <div className="min-w-0">
-            <p className="font-['Inter'] font-bold text-foreground text-sm truncate">
+            <p className="text-foreground text-sm truncate">
               {t("nav.welcome", { name: firstName })}
             </p>
-            <p className="font-['Inter'] text-foreground-variant text-xs truncate">
+            <p className="font-mono text-foreground-variant text-xs tracking-[0.08em] truncate mt-0.5">
               {unitCode ? `${unitCode} · ` : ""}{propertyName}
             </p>
           </div>
@@ -233,12 +233,12 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
       </div>
 
       {/* Nav links */}
-      <nav className="flex-1 space-y-1 overflow-y-auto scrollbar-hide pr-0">
+      <nav className="flex-1 space-y-0.5 overflow-y-auto scrollbar-hide border-t border-border pt-4">
         {navLinks.map((link) => {
           if (link.section) {
             return (
               <div key={link.section} className="pt-3 first:pt-0">
-                <div className="px-4 pb-1 text-[10px] font-bold uppercase tracking-widest text-foreground-variant/70 font-['Inter']">
+                <div className="px-6 pb-1.5 pt-1 font-mono text-[11px] uppercase tracking-[0.22em] text-foreground-variant">
                   {link.section}
                 </div>
                 {link.children.map((c) => (
@@ -264,32 +264,32 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
       </nav>
 
       {/* CTA + footer */}
-      <div className="mt-auto pr-4 space-y-4 pt-4">
-        <div className="space-y-1">
+      <div className="mt-auto space-y-3 border-t border-border pt-4">
+        <div className="space-y-0.5">
           <LanguageToggle />
           {onStartTour && (
             <button
               onClick={() => { localStorage.removeItem("lazybee_tour_done"); onStartTour(); }}
-              className="w-full flex items-center gap-3 px-4 py-2 text-foreground-variant hover:text-accent text-sm transition-colors"
+              className="w-full flex items-center gap-3 px-6 py-2 text-foreground-variant hover:text-accent text-[13px] transition-colors"
             >
               <span className="material-symbols-outlined text-[18px]">tour</span>
-              <span className="font-['Inter']">{t("nav.takeTour")}</span>
+              <span>{t("nav.takeTour")}</span>
             </button>
           )}
           <Link
             to="/portal/help"
             onClick={onLinkClick}
-            className="flex items-center gap-3 px-4 py-2 text-foreground-variant hover:text-accent text-sm transition-colors"
+            className="flex items-center gap-3 px-6 py-2 text-foreground-variant hover:text-accent text-[13px] transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">help</span>
-            <span className="font-['Inter']">{t("nav.help")}</span>
+            <span>{t("nav.help")}</span>
           </Link>
           <button
             onClick={signOut}
-            className="w-full flex items-center gap-3 px-4 py-2 text-foreground-variant hover:text-red-400 text-sm transition-colors"
+            className="w-full flex items-center gap-3 px-6 py-2 text-foreground-variant hover:text-red-400 text-[13px] transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">logout</span>
-            <span className="font-['Inter']">{t("nav.logout")}</span>
+            <span>{t("nav.logout")}</span>
           </button>
         </div>
       </div>
@@ -316,14 +316,15 @@ function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
   const isDropdownChildActive = dropdownChildren.some((c) => location.pathname === c.to);
 
   return (
-    <div className="md:hidden fixed bottom-0 w-full bg-surface border-t border-border px-6 py-3 flex justify-between items-center z-50">
+    <div className="md:hidden fixed bottom-0 w-full bg-surface border-t border-border px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] flex justify-between items-stretch z-50">
       {visibleLinks.map((link) => {
         const isActive = location.pathname === link.to;
         return (
           <Link
             key={link.to}
             to={link.to}
-            className={`flex flex-col items-center gap-1 ${isActive ? "text-accent" : "text-foreground-variant"}`}
+            aria-current={isActive ? "page" : undefined}
+            className={`flex min-w-0 flex-1 flex-col items-center gap-1 px-1 py-1 ${isActive ? "text-accent" : "text-foreground-variant"}`}
           >
             <span
               className="material-symbols-outlined text-[22px]"
@@ -331,14 +332,14 @@ function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
             >
               {link.icon}
             </span>
-            <span className="text-[10px] font-['Inter'] font-medium">{link.label}</span>
+            <span className="w-full truncate text-center text-[12px] leading-tight">{link.label}</span>
           </Link>
         );
       })}
       {dropdownLink && (
         <button
           onClick={onOpenSidebar}
-          className={`flex flex-col items-center gap-1 ${isDropdownChildActive ? "text-accent" : "text-foreground-variant"}`}
+          className={`flex min-w-0 flex-1 flex-col items-center gap-1 px-1 py-1 ${isDropdownChildActive ? "text-accent" : "text-foreground-variant"}`}
         >
           <span
             className="material-symbols-outlined text-[22px]"
@@ -346,7 +347,7 @@ function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
           >
             {dropdownLink.icon}
           </span>
-          <span className="text-[10px] font-['Inter'] font-medium">{dropdownLink.label}</span>
+          <span className="w-full truncate text-center text-[12px] leading-tight">{dropdownLink.label}</span>
         </button>
       )}
     </div>
@@ -387,7 +388,7 @@ export default function PortalLayout({ children }) {
 
       {/* Mobile: hamburger button */}
       <button
-        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-surface rounded-xl border border-border flex items-center justify-center text-accent"
+        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-surface border border-border flex items-center justify-center text-accent shadow-sm"
         onClick={() => setSidebarOpen(true)}
         aria-label="Open menu"
       >
@@ -398,7 +399,7 @@ export default function PortalLayout({ children }) {
       {sidebarOpen && (
         <>
           <div
-            className="md:hidden fixed inset-0 bg-black/30 z-40"
+            className="md:hidden fixed inset-0 bg-[#241C16]/45 z-40"
             onClick={() => setSidebarOpen(false)}
           />
           <div className="md:hidden fixed inset-y-0 left-0 z-50 w-64">
@@ -416,7 +417,9 @@ export default function PortalLayout({ children }) {
 
       {/* Main content */}
       <main className="md:ml-64 min-h-screen">
-        <div className="px-6 py-8 lg:px-12 lg:py-10 pb-24 md:pb-10 max-w-7xl mx-auto">
+        {/* pt-16 on mobile clears the fixed hamburger, which otherwise sits on
+            top of the first line of every page. */}
+        <div className="px-6 pt-16 pb-28 md:pt-8 md:pb-10 lg:px-12 lg:py-10 max-w-7xl mx-auto">
           {children}
         </div>
       </main>

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import './App.css';
@@ -62,6 +63,17 @@ function AppContent() {
   const location = useLocation();
   const isPortal = location.pathname.startsWith('/portal');
   const isViewing = false; // booking + viewing flows now live on book.lazybee.sg
+
+  // Presentation only. Stamps the Lazybee token scope on <html> for portal
+  // routes so body-level Radix overlays (dialog, popover, select, toast)
+  // inherit it too, and so marketing routes keep the existing palette.
+  // See the html[data-surface="portal"] block in App.css.
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isPortal) root.setAttribute('data-surface', 'portal');
+    else root.removeAttribute('data-surface');
+    return () => root.removeAttribute('data-surface');
+  }, [isPortal]);
 
   return (
       <div className="min-h-screen bg-background">

@@ -315,7 +315,7 @@ function OnboardingContent() {
                 Welcome, {profile.full_name.split(" ")[0]}
               </p>
             )}
-            <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
+            <h1 className="font-display text-[34px] leading-[1.05] text-foreground">
               Welcome to Lazybee
             </h1>
             <p className="font-['Inter'] text-foreground-variant font-medium mt-1">

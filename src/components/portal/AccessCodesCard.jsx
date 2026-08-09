@@ -40,7 +40,7 @@ export default function AccessCodesCard({ profile }) {
 
   return (
     <section className="md:col-span-12 bg-surface rounded-xl p-8 border border-border">
-      <h3 className="font-display font-bold text-xl mb-6 flex items-center gap-2 text-foreground">
+      <h3 className="font-display text-2xl mb-6 flex items-center gap-2 text-foreground">
         <span className="material-symbols-outlined text-accent text-[22px]">lock</span>
         Unit Access Codes
       </h3>

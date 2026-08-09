@@ -404,7 +404,7 @@ export function OnboardingLifecycle({ embedded = false }) {
       <div className={`flex flex-col sm:flex-row sm:items-end gap-4 ${embedded ? "justify-end mb-4" : "justify-between mb-10"}`}>
         {!embedded && (
         <div>
-          <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Admin</span>
+          <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-accent mb-3">Admin</span>
           <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">
             Members
           </h1>

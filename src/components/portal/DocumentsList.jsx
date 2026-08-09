@@ -51,7 +51,7 @@ export default function DocumentsList({ documents }) {
   if (!documents || documents.length === 0) {
     return (
       <div>
-        <h3 className="font-display font-bold text-xl mb-4 flex items-center gap-2 text-foreground">
+        <h3 className="font-display text-2xl mb-4 flex items-center gap-2 text-foreground">
           <span className="material-symbols-outlined text-accent text-[22px]">folder_open</span>
           Documents
         </h3>
@@ -62,7 +62,7 @@ export default function DocumentsList({ documents }) {
 
   return (
     <div>
-      <h3 className="font-display font-bold text-xl mb-4 flex items-center gap-2 text-foreground">
+      <h3 className="font-display text-2xl mb-4 flex items-center gap-2 text-foreground">
         <span className="material-symbols-outlined text-accent text-[22px]">folder_open</span>
         Documents
       </h3>

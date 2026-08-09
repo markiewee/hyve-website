@@ -70,8 +70,8 @@ export default function AdminInvoicesPage() {
   return (
     <PortalLayout>
       <div className="mb-6">
-        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-3">Admin</span>
-        <h2 className="font-display text-2xl font-extrabold text-foreground tracking-tight mb-1">
+        <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-accent mb-3">Admin</span>
+        <h2 className="font-display text-[28px] leading-[1.1] text-foreground mb-1">
           Invoice Management
         </h2>
         <p className="text-foreground-variant font-['Inter'] font-medium">
@@ -199,7 +199,7 @@ export default function AdminInvoicesPage() {
       {payModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-surface border border-border rounded-2xl p-6 w-full max-w-md">
-            <h3 className="font-display font-bold text-lg text-foreground mb-4">
+            <h3 className="font-display text-xl text-foreground mb-4">
               Mark as Paid — {payModal.invoice_code}
             </h3>
             <div className="space-y-3">

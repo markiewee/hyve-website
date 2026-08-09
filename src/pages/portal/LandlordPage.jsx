@@ -127,7 +127,7 @@ export default function LandlordPage() {
             key={d.doc_id}
             onClick={() => viewDoc(d)}
             disabled={busyDoc === d.doc_id}
-            className="inline-flex items-center gap-1.5 text-[12px] font-['Inter'] font-semibold text-accent border border-accent/30 rounded-full px-3 py-1 hover:bg-accent/10 transition-colors disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 font-mono text-[12px] text-accent border border-accent/40 rounded-full px-3 py-1 hover:bg-accent/10 transition-colors disabled:opacity-50"
           >
             <span className="material-symbols-outlined text-[16px]">visibility</span>
             {busyDoc === d.doc_id ? "…" : docLabel(d)}
@@ -143,14 +143,14 @@ export default function LandlordPage() {
       <header className="border-b border-border bg-surface">
         <div className="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Wordmark size="md" />
-            <span className="hidden sm:inline text-xs font-['Inter'] font-bold uppercase tracking-widest text-accent border border-accent/30 rounded-full px-3 py-1">
+            <Wordmark size="md" variant="lazybee" />
+            <span className="hidden sm:inline font-mono text-[11px] uppercase tracking-[0.2em] text-accent border border-accent/40 rounded-full px-3 py-1">
               Landlord View
             </span>
           </div>
           <button
             onClick={signOut}
-            className="flex items-center gap-2 text-sm font-['Inter'] font-medium text-foreground-variant hover:text-accent transition-colors"
+            className="flex items-center gap-2 text-sm text-foreground-variant hover:text-accent transition-colors"
           >
             <span className="material-symbols-outlined text-[20px]">logout</span>
             <span className="hidden sm:inline">Sign out</span>
@@ -160,14 +160,14 @@ export default function LandlordPage() {
 
       <main className="max-w-5xl mx-auto px-6 py-10">
         <div className="mb-8">
-          <h1 className="font-display text-3xl font-bold text-foreground tracking-tight">{propertyName}</h1>
-          <p className="text-foreground-variant font-['Inter'] mt-1">
+          <h1 className="font-display text-[34px] leading-[1.05] text-foreground">{propertyName}</h1>
+          <p className="text-foreground-variant mt-2 max-w-[62ch]">
             Who's in each unit, with passport and immigration pass details. View or download each resident's ID and passport.
           </p>
         </div>
 
         {docError && (
-          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/25 rounded-xl text-red-300 text-sm font-['Inter']">
+          <div className="mb-6 p-4 bg-red-500/10 border-l-2 border-red-500 text-red-300 text-sm">
             {docError}
           </div>
         )}
@@ -175,7 +175,7 @@ export default function LandlordPage() {
         {loading ? (
           <div className="text-foreground-variant text-sm py-16 text-center">Loading residents…</div>
         ) : error ? (
-          <div className="p-4 bg-red-500/10 border border-red-500/25 rounded-xl text-red-300 text-sm font-['Inter']">
+          <div className="p-4 bg-red-500/10 border-l-2 border-red-500 text-red-300 text-sm">
             Couldn't load residents: {error}
           </div>
         ) : rows.length === 0 ? (
@@ -183,21 +183,21 @@ export default function LandlordPage() {
         ) : (
           <>
             <div className="mb-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
-              <div className="rounded-xl border border-border bg-surface px-4 py-3">
-                <div className="text-2xl font-display font-bold text-foreground">{current}</div>
-                <div className="text-[11px] font-['Inter'] font-bold uppercase tracking-widest text-foreground-variant mt-0.5">
+              <div className="border border-border bg-surface px-4 py-3">
+                <div className="text-2xl font-mono font-bold tabular-nums tracking-tight text-foreground">{current}</div>
+                <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-foreground-variant mt-1">
                   Current residents
                 </div>
               </div>
-              <div className="rounded-xl border border-border bg-surface px-4 py-3">
-                <div className="text-2xl font-display font-bold text-foreground">{upcoming}</div>
-                <div className="text-[11px] font-['Inter'] font-bold uppercase tracking-widest text-foreground-variant mt-0.5">
+              <div className="border border-border bg-surface px-4 py-3">
+                <div className="text-2xl font-mono font-bold tabular-nums tracking-tight text-foreground">{upcoming}</div>
+                <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-foreground-variant mt-1">
                   Upcoming move-ins
                 </div>
               </div>
-              <div className="rounded-xl border border-border bg-surface px-4 py-3 col-span-2 sm:col-span-1">
-                <div className="text-2xl font-display font-bold text-foreground">{fmtDate(nextMoveOut)}</div>
-                <div className="text-[11px] font-['Inter'] font-bold uppercase tracking-widest text-foreground-variant mt-0.5">
+              <div className="border border-border bg-surface px-4 py-3 col-span-2 sm:col-span-1">
+                <div className="text-2xl font-mono font-bold tabular-nums tracking-tight text-foreground">{fmtDate(nextMoveOut)}</div>
+                <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-foreground-variant mt-1">
                   Next move-out
                 </div>
               </div>
@@ -206,24 +206,24 @@ export default function LandlordPage() {
             {/* Mobile: stacked resident cards */}
             <div className="md:hidden space-y-4">
               {rows.map((r, i) => (
-                <div key={i} className="rounded-2xl border border-border bg-surface p-5">
+                <div key={i} className="border border-border bg-surface p-5">
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div>
-                      <div className="font-['Inter'] font-bold text-foreground">{r.full_name}</div>
-                      <div className="text-[12px] font-['Inter'] text-foreground-variant mt-0.5">
+                      <div className="text-foreground font-medium">{r.full_name}</div>
+                      <div className="font-mono text-[12px] text-foreground-variant mt-1">
                         {r.unit_code}
                         {r.nationality ? ` · ${r.nationality}` : ""}
                       </div>
                     </div>
                     {r.status === "Upcoming" && (
-                      <span className="shrink-0 text-[11px] font-['Inter'] font-bold uppercase tracking-wider text-amber-600 bg-amber-500/10 rounded-full px-2.5 py-1">
+                      <span className="shrink-0 font-mono text-[11px] uppercase tracking-[0.14em] text-amber-600 bg-amber-500/10 border border-amber-500/30 rounded-full px-2.5 py-1">
                         Upcoming
                       </span>
                     )}
                   </div>
-                  <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm font-['Inter'] mb-4">
+                  <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mb-4">
                     <div>
-                      <dt className="text-[11px] font-bold uppercase tracking-widest text-foreground-variant">Passport / ID</dt>
+                      <dt className="font-mono text-[11px] uppercase tracking-[0.2em] text-foreground-variant">Passport / ID</dt>
                       <dd className="text-foreground mt-0.5">
                         {r.id_number || "—"}
                         {r.id_number && (
@@ -235,7 +235,7 @@ export default function LandlordPage() {
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-[11px] font-bold uppercase tracking-widest text-foreground-variant">Immigration Pass</dt>
+                      <dt className="font-mono text-[11px] uppercase tracking-[0.2em] text-foreground-variant">Immigration Pass</dt>
                       <dd className="text-foreground mt-0.5">
                         {r.pass_number || "—"}
                         {r.pass_number && (
@@ -247,16 +247,16 @@ export default function LandlordPage() {
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-[11px] font-bold uppercase tracking-widest text-foreground-variant">Move-in</dt>
+                      <dt className="font-mono text-[11px] uppercase tracking-[0.2em] text-foreground-variant">Move-in</dt>
                       <dd className="text-foreground mt-0.5">{fmtDate(r.move_in)}</dd>
                     </div>
                     <div>
-                      <dt className="text-[11px] font-bold uppercase tracking-widest text-foreground-variant">Move-out</dt>
+                      <dt className="font-mono text-[11px] uppercase tracking-[0.2em] text-foreground-variant">Move-out</dt>
                       <dd className="text-foreground mt-0.5">{fmtDate(r.move_out)}</dd>
                     </div>
                   </dl>
                   <div>
-                    <div className="text-[11px] font-['Inter'] font-bold uppercase tracking-widest text-foreground-variant mb-1.5">
+                    <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-foreground-variant mb-2">
                       Documents
                     </div>
                     {docChips(r)}
@@ -265,14 +265,14 @@ export default function LandlordPage() {
               ))}
             </div>
 
-            <div className="hidden md:block overflow-x-auto rounded-2xl border border-border bg-surface">
+            <div className="hidden md:block overflow-x-auto border border-border bg-surface">
               <table className="w-full min-w-[1040px] text-left">
                 <thead>
                   <tr className="border-b border-border bg-surface-container">
                     {["Unit", "Resident", "Nationality", "Passport / ID", "Immigration Pass", "Move-in", "Move-out", "Documents", ""].map((h) => (
                       <th
                         key={h}
-                        className="px-5 py-3 text-[11px] font-['Inter'] font-bold uppercase tracking-widest text-foreground-variant"
+                        className="px-5 py-3 font-mono text-[11px] uppercase tracking-[0.2em] text-foreground-variant"
                       >
                         {h}
                       </th>
@@ -282,17 +282,17 @@ export default function LandlordPage() {
                 <tbody>
                   {rows.map((r, i) => (
                     <tr key={i} className="border-b border-border last:border-0">
-                      <td className="px-5 py-4 font-['Inter'] font-semibold text-foreground whitespace-nowrap">
+                      <td className="px-5 py-4 font-mono text-[13px] text-foreground whitespace-nowrap">
                         {r.unit_code}
                       </td>
-                      <td className="px-5 py-4 font-['Inter'] text-foreground">{r.full_name}</td>
-                      <td className="px-5 py-4 font-['Inter'] text-foreground-variant whitespace-nowrap">
+                      <td className="px-5 py-4 text-foreground">{r.full_name}</td>
+                      <td className="px-5 py-4 font-mono text-[13px] text-foreground-variant whitespace-nowrap">
                         {r.nationality || "—"}
                       </td>
-                      <td className="px-5 py-4 font-['Inter'] whitespace-nowrap">
+                      <td className="px-5 py-4 whitespace-nowrap">
                         {r.id_number ? (
                           <div>
-                            <div className="font-semibold text-foreground">{r.id_number}</div>
+                            <div className="font-mono text-foreground tabular-nums">{r.id_number}</div>
                             <div className="text-[11px] text-foreground-variant">
                               {prettyLabel(r.id_type)}
                               {r.id_expiry ? ` · exp ${fmtDate(r.id_expiry)}` : ""}
@@ -302,10 +302,10 @@ export default function LandlordPage() {
                           <span className="text-foreground-variant">—</span>
                         )}
                       </td>
-                      <td className="px-5 py-4 font-['Inter'] whitespace-nowrap">
+                      <td className="px-5 py-4 whitespace-nowrap">
                         {r.pass_number ? (
                           <div>
-                            <div className="font-semibold text-foreground">{r.pass_number}</div>
+                            <div className="font-mono text-foreground tabular-nums">{r.pass_number}</div>
                             <div className="text-[11px] text-foreground-variant">
                               {prettyLabel(r.pass_type)}
                               {r.pass_expiry ? ` · exp ${fmtDate(r.pass_expiry)}` : ""}
@@ -315,16 +315,16 @@ export default function LandlordPage() {
                           <span className="text-foreground-variant">—</span>
                         )}
                       </td>
-                      <td className="px-5 py-4 font-['Inter'] text-foreground-variant whitespace-nowrap">
+                      <td className="px-5 py-4 font-mono text-[13px] text-foreground-variant whitespace-nowrap">
                         {fmtDate(r.move_in)}
                       </td>
-                      <td className="px-5 py-4 font-['Inter'] text-foreground-variant whitespace-nowrap">
+                      <td className="px-5 py-4 font-mono text-[13px] text-foreground-variant whitespace-nowrap">
                         {fmtDate(r.move_out)}
                       </td>
                       <td className="px-5 py-4 whitespace-nowrap">{docChips(r)}</td>
                       <td className="px-5 py-4">
                         {r.status === "Upcoming" && (
-                          <span className="text-[11px] font-['Inter'] font-bold uppercase tracking-wider text-amber-600 bg-amber-500/10 rounded-full px-2.5 py-1">
+                          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-amber-600 bg-amber-500/10 border border-amber-500/30 rounded-full px-2.5 py-1">
                             Upcoming
                           </span>
                         )}

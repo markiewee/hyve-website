@@ -96,7 +96,7 @@ export default function AdminLeadsPage() {
     <div className="p-4 max-w-[1800px] mx-auto">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">Leads</h1>
+          <h1 className="font-display text-[34px] leading-[1.05] text-foreground">Leads</h1>
           <p className="text-sm text-foreground-variant">
             {loading ? "Loading…" : `${leads.length} active prospect${leads.length === 1 ? "" : "s"}`}
           </p>

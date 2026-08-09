@@ -230,7 +230,7 @@ export default function InvestorSignupPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-5 bg-accent text-white rounded-xl font-display font-bold text-lg hover:bg-accent transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-5 bg-accent text-white rounded-xl font-display text-xl hover:bg-accent transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {submitting ? (
                 <>

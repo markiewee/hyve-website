@@ -557,8 +557,8 @@ export default function AdminRentPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Money</span>
-        <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
+        <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-accent mb-3">Money</span>
+        <h1 className="font-display text-[34px] leading-[1.05] text-foreground">
           Rent Management
         </h1>
         <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
@@ -635,7 +635,7 @@ export default function AdminRentPage() {
       <div className="bg-surface rounded-2xl border border-border overflow-hidden relative">
         <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-surface to-transparent z-10 sm:hidden rounded-r-2xl"></div>
         <div className="px-8 py-6 border-b border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <h2 className="font-display font-bold text-lg text-foreground">
+          <h2 className="font-display text-xl text-foreground">
             Rent Payments — {formatMonth(`${tableMonth}-01`)}
           </h2>
           <input
@@ -768,7 +768,7 @@ export default function AdminRentPage() {
       <div className="bg-surface rounded-2xl border border-border overflow-hidden mt-8">
         <div className="px-8 py-6 border-b border-border flex flex-col sm:flex-row sm:items-center gap-4">
           <div className="flex-1">
-            <h2 className="font-display font-bold text-lg text-foreground">Reconcile with Aspire</h2>
+            <h2 className="font-display text-xl text-foreground">Reconcile with Aspire</h2>
             <p className="font-['Inter'] text-foreground-variant text-xs mt-0.5">Match incoming bank transfers to tenant rent records.</p>
           </div>
           <div className="flex items-center gap-3 flex-wrap">
@@ -971,7 +971,7 @@ export default function AdminRentPage() {
       {/* Add Charge Section */}
       <div className="bg-surface rounded-2xl border border-border overflow-hidden mt-8">
         <div className="px-8 py-6 border-b border-border">
-          <h2 className="font-display font-bold text-lg text-foreground">
+          <h2 className="font-display text-xl text-foreground">
             Add One-Off Charge
           </h2>
           <p className="font-['Inter'] text-foreground-variant text-xs mt-0.5">
@@ -1055,7 +1055,7 @@ export default function AdminRentPage() {
       {/* All Charges Table */}
       <div className="bg-surface rounded-2xl border border-border overflow-hidden mt-8">
         <div className="px-8 py-6 border-b border-border">
-          <h2 className="font-display font-bold text-lg text-foreground">
+          <h2 className="font-display text-xl text-foreground">
             All Ad-hoc Charges
           </h2>
         </div>

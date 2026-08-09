@@ -142,8 +142,8 @@ export default function MemberSettingsPage() {
   return (
     <PortalLayout>
       <header className="mb-8">
-        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Account</span>
-        <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
+        <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-accent mb-3">Account</span>
+        <h1 className="font-display text-[34px] leading-[1.05] text-foreground">
           Settings
         </h1>
         <p className="text-foreground-variant font-['Inter'] mt-1">
@@ -154,7 +154,7 @@ export default function MemberSettingsPage() {
       <div className="space-y-6 max-w-2xl">
         {/* Personal Details */}
         <section className="bg-surface rounded-xl p-6 border border-border">
-          <h2 className="font-display font-bold text-lg mb-4 flex items-center gap-2 text-foreground">
+          <h2 className="font-display text-xl mb-4 flex items-center gap-2 text-foreground">
             <span className="material-symbols-outlined text-accent text-[20px]">person</span>
             Personal Details
           </h2>
@@ -224,7 +224,7 @@ export default function MemberSettingsPage() {
 
         {/* Email */}
         <section className="bg-surface rounded-xl p-6 border border-border">
-          <h2 className="font-display font-bold text-lg mb-4 flex items-center gap-2 text-foreground">
+          <h2 className="font-display text-xl mb-4 flex items-center gap-2 text-foreground">
             <span className="material-symbols-outlined text-accent text-[20px]">mail</span>
             Email Address
           </h2>
@@ -261,7 +261,7 @@ export default function MemberSettingsPage() {
 
         {/* Password */}
         <section className="bg-surface rounded-xl p-6 border border-border">
-          <h2 className="font-display font-bold text-lg mb-4 flex items-center gap-2 text-foreground">
+          <h2 className="font-display text-xl mb-4 flex items-center gap-2 text-foreground">
             <span className="material-symbols-outlined text-accent text-[20px]">lock</span>
             Change Password
           </h2>

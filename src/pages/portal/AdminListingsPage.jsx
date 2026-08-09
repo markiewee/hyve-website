@@ -96,10 +96,10 @@ export default function AdminListingsPage() {
   return (
     <PortalLayout>
       <div className="mb-6">
-        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">
+        <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-accent mb-3">
           Growth
         </span>
-        <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
+        <h1 className="font-display text-[34px] leading-[1.05] text-foreground">
           Listings
         </h1>
         <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
