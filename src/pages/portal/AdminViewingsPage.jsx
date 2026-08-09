@@ -5,6 +5,12 @@ import PortalLayout from "../../components/portal/PortalLayout";
 import { PROPERTY_META, PROPERTY_CODES, getPropertyByCode } from "../book/_propertyMeta";
 import { blockSlot, cancelViewingAdmin } from "../book/_bookApi";
 import { confirm } from "../../lib/confirm";
+import {
+  selectNeedsOutcome,
+  outcomeUpdate,
+  leadStatusForResult,
+  ATTENDED_RESULTS,
+} from "../../lib/viewingOutcomes";
 
 /* ───────────────────────────── helpers ───────────────────────────── */
 
@@ -1017,11 +1023,165 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
   );
 }
 
+/* ─────────────────────── Needs-outcome tab ─────────────────────── */
+
+/**
+ * Every viewing whose time has passed but which nobody has closed out.
+ * Recording an outcome always stamps completed_at, which is the field that
+ * makes viewing-to-signed conversion computable. Choosing "Attended" then asks
+ * what actually happened, and that answer updates the linked lead.
+ *
+ * Exported so NeedsOutcomeTab.render.test.jsx can mount it without the page.
+ */
+export function NeedsOutcomeTab({ viewings, refetch }) {
+  const [busyId, setBusyId] = useState(null);
+  const [askingId, setAskingId] = useState(null);
+  const [error, setError] = useState(null);
+
+  const pending = useMemo(() => selectNeedsOutcome(viewings, Date.now()), [viewings]);
+
+  async function record(viewing, outcome, result = null) {
+    setBusyId(viewing.id);
+    setError(null);
+    try {
+      const { error: upErr } = await supabase
+        .from("property_viewings")
+        .update(outcomeUpdate(outcome))
+        .eq("id", viewing.id);
+      if (upErr) throw upErr;
+
+      // Feed the answer back to the lead, when there is one linked. A failure
+      // here must not strand the viewing, which is already correctly closed.
+      const leadStatus = result ? leadStatusForResult(result) : null;
+      if (leadStatus) {
+        const { error: leadErr } = await supabase
+          .from("leads")
+          .update({ status: leadStatus, status_changed_at: new Date().toISOString() })
+          .eq("viewing_id", viewing.id);
+        if (leadErr) console.error("[viewing-outcome] lead update failed:", leadErr.message);
+      }
+
+      setAskingId(null);
+      await refetch();
+    } catch (e) {
+      setError(e.message || "Could not save that outcome.");
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  if (!pending.length) {
+    return (
+      <div className="bg-surface rounded-xl border border-border p-10 text-center">
+        <span className="material-symbols-outlined text-emerald-300 text-4xl">task_alt</span>
+        <p className="mt-2 font-bold text-foreground">Every past viewing is closed out.</p>
+        <p className="text-sm text-foreground-variant mt-1">
+          Nothing is ageing. Conversion numbers are trustworthy.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      <div className="rounded-xl border border-amber-500/25 bg-amber-500/15 px-4 py-3">
+        <p className="text-sm text-amber-300">
+          <strong>{pending.length}</strong>{" "}
+          {pending.length === 1 ? "viewing has" : "viewings have"} been and gone with nobody saying
+          what happened. Until these are answered, viewing-to-signed conversion cannot be measured.
+        </p>
+      </div>
+
+      {error && <p className="text-sm text-red-300">{error}</p>}
+
+      {pending.map((v) => {
+        const when = v.slot_start || v.viewing_date;
+        const daysAgo = when
+          ? Math.floor((Date.now() - new Date(v.slot_start || `${v.viewing_date}T23:59:59+08:00`).getTime()) / 86400000)
+          : null;
+        const busy = busyId === v.id;
+        const asking = askingId === v.id;
+
+        return (
+          <div key={v.id} className="bg-surface rounded-xl border border-border p-4">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="font-bold text-foreground">{v.prospect_name || "Unnamed prospect"}</p>
+                <p className="text-sm text-foreground-variant mt-0.5">
+                  {v.properties?.name || "Unknown property"}
+                  {v.rooms?.unit_code ? ` · ${v.rooms.unit_code}` : ""}
+                  {when ? ` · ${new Date(v.slot_start || when).toLocaleDateString("en-SG", { day: "numeric", month: "short" })}` : ""}
+                  {daysAgo !== null && daysAgo > 0 ? ` · ${daysAgo} day${daysAgo === 1 ? "" : "s"} ago` : ""}
+                </p>
+              </div>
+              {daysAgo !== null && daysAgo >= 7 && (
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full bg-red-500/15 text-red-300">
+                  {daysAgo} days overdue
+                </span>
+              )}
+            </div>
+
+            {!asking ? (
+              <div className="mt-3 flex flex-wrap gap-2">
+                <button
+                  disabled={busy}
+                  onClick={() => setAskingId(v.id)}
+                  className="px-4 py-2 rounded-lg bg-accent text-white text-sm font-bold hover:bg-accent/90 disabled:opacity-50"
+                >
+                  Attended
+                </button>
+                <button
+                  disabled={busy}
+                  onClick={() => record(v, "no_show")}
+                  className="px-4 py-2 rounded-lg bg-surface-container text-foreground text-sm font-bold border border-border hover:bg-white/5 disabled:opacity-50"
+                >
+                  No show
+                </button>
+                <button
+                  disabled={busy}
+                  onClick={() => record(v, "cancelled")}
+                  className="px-4 py-2 rounded-lg bg-surface-container text-foreground text-sm font-bold border border-border hover:bg-white/5 disabled:opacity-50"
+                >
+                  Cancelled
+                </button>
+              </div>
+            ) : (
+              <div className="mt-3">
+                <p className="text-sm font-bold text-foreground mb-2">They came. What happened?</p>
+                <div className="flex flex-wrap gap-2">
+                  {ATTENDED_RESULTS.map((r) => (
+                    <button
+                      key={r.value}
+                      disabled={busy}
+                      onClick={() => record(v, "attended", r.value)}
+                      className="px-4 py-2 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/25 text-sm font-bold hover:bg-amber-500/25 disabled:opacity-50"
+                    >
+                      {r.label}
+                    </button>
+                  ))}
+                  <button
+                    disabled={busy}
+                    onClick={() => setAskingId(null)}
+                    className="px-3 py-2 rounded-lg text-foreground-variant text-sm font-bold hover:text-foreground disabled:opacity-50"
+                  >
+                    Back
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 /* ───────────────────────────── Page shell ───────────────────────────── */
 
 export default function AdminViewingsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const tab = searchParams.get("tab") === "leads" ? "leads" : "calendar";
+  const tabParam = searchParams.get("tab");
+  const tab = tabParam === "leads" ? "leads" : tabParam === "outcomes" ? "outcomes" : "calendar";
   const setTab = (next) => {
     const sp = new URLSearchParams(searchParams);
     if (next === "calendar") sp.delete("tab");
@@ -1037,7 +1197,7 @@ export default function AdminViewingsPage() {
     const { data: vData } = await supabase
       .from("property_viewings")
       .select(
-        "id, prospect_name, prospect_email, prospect_whatsapp, slot_start, slot_end, viewing_date, viewing_time, status, source, notes, properties(id, name, code), rooms(id, name, unit_code), captain:tenant_profiles!captain_id(id, full_name, phone)"
+        "id, prospect_name, prospect_email, prospect_whatsapp, slot_start, slot_end, viewing_date, viewing_time, status, completed_at, source, notes, properties(id, name, code), rooms(id, name, unit_code), captain:tenant_profiles!captain_id(id, full_name, phone)"
       )
       .order("slot_start", { ascending: true, nullsFirst: false })
       .limit(500);
@@ -1054,6 +1214,8 @@ export default function AdminViewingsPage() {
     navigator.clipboard.writeText(url);
     setShowCopyMenu(false);
   }
+
+  const needsOutcomeCount = selectNeedsOutcome(viewings, Date.now()).length;
 
   const upcomingCount = viewings.filter((v) => {
     const s = v.slot_start ? new Date(v.slot_start).getTime() : 0;
@@ -1099,6 +1261,13 @@ export default function AdminViewingsPage() {
         >
           Calendar
         </TabButton>
+        <TabButton
+          active={tab === "outcomes"}
+          onClick={() => setTab("outcomes")}
+          count={needsOutcomeCount}
+        >
+          Needs outcome
+        </TabButton>
         <TabButton active={tab === "leads"} onClick={() => setTab("leads")}>
           Leads
         </TabButton>
@@ -1112,6 +1281,8 @@ export default function AdminViewingsPage() {
         </div>
       ) : tab === "calendar" ? (
         <CalendarTab viewings={viewings} refetch={fetchAll} />
+      ) : tab === "outcomes" ? (
+        <NeedsOutcomeTab viewings={viewings} refetch={fetchAll} />
       ) : (
         <LeadsTab />
       )}
