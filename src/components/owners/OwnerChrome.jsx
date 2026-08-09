@@ -21,7 +21,8 @@ const NAV = [
   ['Your split', 'split'],
   ['Versus a lease', 'compare'],
   ['The comb', 'comb'],
-  ['The Hive', null, '/hive'],
+  /* The Hive goes back in the moment the /hive route ships. Linking to a
+     route that does not exist is worse than not linking to it. */
   ['Free coffee', 'ask'],
 ];
 
