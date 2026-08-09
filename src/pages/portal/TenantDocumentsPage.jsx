@@ -126,19 +126,19 @@ export default function TenantDocumentsPage() {
 
   return (
     <PortalLayout>
-      <header className="mb-8">
-        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Documents</span>
-        <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
+      <header className="mb-8 border-b border-border pb-6">
+        <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-accent mb-3">Documents</span>
+        <h1 className="font-display text-[34px] leading-[1.05] text-foreground">
           My Documents
         </h1>
-        <p className="text-foreground-variant font-['Inter'] mt-1">
+        <p className="text-foreground-variant mt-2 max-w-[62ch]">
           View your agreements and documents.
         </p>
       </header>
 
       {/* Documents List */}
-      <section className="bg-surface rounded-xl p-6 border border-border">
-        <h2 className="font-display font-bold text-lg mb-4 flex items-center gap-2 text-foreground">
+      <section className="bg-surface p-6 border border-border">
+        <h2 className="font-display text-xl mb-4 flex items-center gap-2 text-foreground">
           <span className="material-symbols-outlined text-accent text-[20px]">folder_open</span>
           All Documents
         </h2>
@@ -146,20 +146,20 @@ export default function TenantDocumentsPage() {
         {loading ? (
           <div className="space-y-3">
             {[1, 2, 3].map(i => (
-              <div key={i} className="h-14 bg-surface-container animate-pulse rounded-xl" />
+              <div key={i} className="h-14 bg-surface-container animate-pulse" />
             ))}
           </div>
         ) : documents.length === 0 ? (
-          <div className="text-center py-12">
+          <div className="text-center py-14 border border-dashed border-border">
             <span className="material-symbols-outlined text-4xl text-foreground-variant mb-3 block">description</span>
-            <p className="text-sm text-foreground-variant font-['Inter']">No documents yet.</p>
+            <p className="text-sm text-foreground-variant">No documents yet.</p>
           </div>
         ) : (
           <div className="divide-y divide-white/10">
             {documents.map((doc) => (
               <div key={doc.id} className="flex items-center justify-between py-4">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 border border-border bg-surface-container flex items-center justify-center shrink-0">
                     <span className="material-symbols-outlined text-accent text-[20px]">
                       {doc.doc_type === "LICENCE_AGREEMENT" ? "gavel"
                         : doc.doc_type === "STAMPING" ? "verified"
@@ -169,23 +169,23 @@ export default function TenantDocumentsPage() {
                     </span>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-['Inter'] font-semibold text-foreground truncate">
+                    <p className="text-sm font-medium text-foreground truncate">
                       {doc.title || DOC_TYPE_LABELS[doc.doc_type] || doc.doc_type}
                     </p>
-                    <p className="text-xs text-foreground-variant font-['Inter']">
+                    <p className="font-mono text-xs text-foreground-variant mt-0.5">
                       {DOC_TYPE_LABELS[doc.doc_type] || doc.doc_type}
                       {doc.created_at && ` — ${new Date(doc.created_at).toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" })}`}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 shrink-0 ml-4">
-                  <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-['Inter'] font-bold uppercase tracking-wider ${STATUS_STYLE[doc.status] || STATUS_STYLE.PENDING}`}>
+                  <span className={`inline-flex items-center px-2.5 py-1 rounded-full font-mono text-[11px] uppercase tracking-[0.14em] ${STATUS_STYLE[doc.status] || STATUS_STYLE.PENDING}`}>
                     {doc.status}
                   </span>
                   {doc.file_url && (
                     <button
                       onClick={() => handleViewDocument(doc)}
-                      className="inline-flex items-center gap-1 text-xs font-['Inter'] font-bold text-accent hover:underline"
+                      className="inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-[0.12em] text-accent hover:underline"
                     >
                       <span className="material-symbols-outlined text-[16px]">open_in_new</span>
                       View

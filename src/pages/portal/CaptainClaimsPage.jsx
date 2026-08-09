@@ -24,7 +24,7 @@ export default function CaptainClaimsPage() {
     <PortalLayout>
       <div className="max-w-3xl mx-auto p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">My Claims</h1>
+          <h1 className="font-display text-[34px] leading-[1.05] text-foreground">My Claims</h1>
           <Link
             to="/portal/captain/claims/new"
             className="rounded bg-accent text-white px-4 py-2 text-sm font-medium"

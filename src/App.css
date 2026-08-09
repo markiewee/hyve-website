@@ -63,12 +63,19 @@
   --color-surface: var(--surface);
   --color-surface-container: var(--surface-container);
   --color-foreground-variant: var(--foreground-variant);
-  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
-  --font-sans: 'Inter', system-ui, sans-serif;
+  /* Indirected through vars so a surface (e.g. the portal) can swap typefaces
+     without every `font-display` / `font-sans` call site changing. */
+  --font-display: var(--ui-display);
+  --font-sans: var(--ui-sans);
+  --font-mono: var(--ui-mono);
 }
 
 :root {
   --radius: 0.75rem;
+
+  --ui-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --ui-sans: 'Inter', system-ui, sans-serif;
+  --ui-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* ── Booking 2.0 dark / terracotta palette (now the default) ── */
   --background: #0c0f0f;
@@ -120,6 +127,279 @@
   --chart-3: #5b8a72;
   --chart-4: #6b7280;
   --chart-5: #8a5a44;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   LAZYBEE DESIGN SYSTEM, PORTAL SURFACES
+   Source of truth: design-preview/assets/lazybee.css (alabaster / tobacco).
+   Reference layouts: design-preview/sample-portal.html, sample-admin.html.
+
+   Scoped to html[data-surface="portal"], which App.jsx stamps on the root
+   element while the route is under /portal. Two reasons it lives on <html>
+   and not on a wrapper div:
+     1. Radix (dialog, popover, select, tooltip, toast) renders into
+        document.body, outside any React wrapper. Root scoping means those
+        overlays inherit the same custom properties.
+     2. The marketing pages keep the existing dark palette untouched, so
+        this reskin cannot regress them.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+html[data-surface="portal"] {
+  color-scheme: light;
+
+  /* Raw Lazybee palette, alabaster (light). Names match lazybee.css. */
+  --lb-bg: #F6F2EA;
+  --lb-surface: #EFE9DE;
+  --lb-raised: #FFFCF6;
+  --lb-line: #DED5C6;
+  --lb-ink: #241C16;
+  --lb-muted: #5C5247;      /* 6.8:1 on --lb-bg */
+  --lb-faint: #7C7263;      /* decorative only, 4.3:1 */
+  --lb-brass: #B08D4F;      /* fills, borders. Pair with --lb-on-brass. */
+  --lb-brass-text: #8A6733; /* brass as text, 4.6:1 on --lb-bg */
+  --lb-on-brass: #241C16;
+  --lb-btn-bg: #241C16;
+  --lb-btn-ink: #F6F2EA;
+  --lb-green: #0E2E20;
+  --lb-ok: #2F6B4F;
+  --lb-warn: #8A6733;
+  --lb-bad: #8C3A2B;
+  --lb-info: #2C5A7A;
+  --lb-shadow: 0 12px 34px rgba(36, 28, 22, .09);
+
+  /* Typefaces. Display and headings are the Cormorant serif, UI chrome is
+     Hanken Grotesk, running text is Inter Tight, numbers and labels mono. */
+  --ui-display: 'Cormorant Garamond', Georgia, serif;
+  --ui-grot: 'Hanken Grotesk', system-ui, sans-serif;
+  --ui-sans: 'Inter Tight', system-ui, sans-serif;
+  --ui-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Lazybee is a 2px-radius system. Sharp corners are load bearing here. */
+  --radius: 2px;
+
+  /* ── app tokens remapped onto the palette ── */
+  --background: var(--lb-bg);
+  --surface: var(--lb-raised);          /* cards, sidebar: raised paper */
+  --surface-container: var(--lb-surface); /* inputs, rows, active nav: recessed */
+  --foreground: var(--lb-ink);
+  --foreground-variant: var(--lb-muted);
+  --accent: var(--lb-brass);
+  --accent-foreground: var(--lb-on-brass);
+
+  --card: var(--lb-raised);
+  --card-foreground: var(--lb-ink);
+  --popover: var(--lb-raised);
+  --popover-foreground: var(--lb-ink);
+  --primary: var(--lb-btn-bg);
+  --primary-foreground: var(--lb-btn-ink);
+  --secondary: var(--lb-surface);
+  --secondary-foreground: var(--lb-ink);
+  --muted: var(--lb-surface);
+  --muted-foreground: var(--lb-muted);
+  --destructive: var(--lb-bad);
+  --border: var(--lb-line);
+  --input: var(--lb-line);
+  --ring: var(--lb-brass);
+
+  --sidebar: var(--lb-raised);
+  --sidebar-foreground: var(--lb-ink);
+  --sidebar-primary: var(--lb-brass);
+  --sidebar-primary-foreground: var(--lb-on-brass);
+  --sidebar-accent: var(--lb-surface);
+  --sidebar-accent-foreground: var(--lb-ink);
+  --sidebar-border: var(--lb-line);
+  --sidebar-ring: var(--lb-brass);
+
+  --chart-1: #B08D4F;
+  --chart-2: #0E2E20;
+  --chart-3: #5E8873;
+  --chart-4: #8C3A2B;
+  --chart-5: #5C5247;
+
+  --honey-50: #FBF7EF;
+  --honey-100: #F3EADA;
+  --honey-200: #E7D6B7;
+  --honey-300: #D8BE8F;
+  --honey-400: #C6A467;
+  --honey-500: #B08D4F;
+  --honey-600: #9A7940;
+  --honey-700: #8A6733;
+  --honey-800: #6B4F27;
+  --honey-900: #4A361B;
+}
+
+/* Tobacco (dark). Not wired to a toggle yet, no UI ships one. Defined so the
+   system is complete and a future toggle is a one-attribute change. */
+html[data-surface="portal"][data-theme="tobacco"] {
+  color-scheme: dark;
+  --lb-bg: #241811;
+  --lb-surface: #31231A;
+  --lb-raised: #3A2A1F;
+  --lb-line: #453224;
+  --lb-ink: #E8DACA;
+  --lb-muted: #C0AA92;
+  --lb-faint: #A08A72;
+  --lb-brass-text: #C6A467;
+  --lb-on-brass: #241812;
+  --lb-btn-bg: #3A2A1F;
+  --lb-btn-ink: #E8DACA;
+  --lb-ok: #7BAE90;
+  --lb-warn: #C6A467;
+  --lb-bad: #D08C7C;
+  --lb-info: #8FB4CE;
+  --lb-shadow: 0 12px 34px rgba(0, 0, 0, .34);
+  --surface: var(--lb-surface);
+  --surface-container: var(--lb-raised);
+}
+
+html[data-surface="portal"] body {
+  font-family: var(--ui-sans);
+  background: var(--lb-bg);
+  color: var(--lb-ink);
+}
+
+/* Headings are the serif, at the weights Cormorant actually ships. The call
+   sites all say font-bold / font-extrabold, which Cormorant has no business
+   rendering, so the weight is pinned here rather than edited in 135 places. */
+html[data-surface="portal"] h1:not(.font-mono):not(.font-sans),
+html[data-surface="portal"] h2:not(.font-mono):not(.font-sans),
+html[data-surface="portal"] h3:not(.font-mono):not(.font-sans),
+html[data-surface="portal"] .font-display:not(.font-mono):not(.font-sans) {
+  font-family: var(--ui-display);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+/* Headings that opt into the mono label voice keep mono metrics. */
+html[data-surface="portal"] h1.font-mono,
+html[data-surface="portal"] h2.font-mono,
+html[data-surface="portal"] h3.font-mono {
+  font-family: var(--ui-mono);
+  font-weight: 500;
+}
+/* Optical weight scale. Cormorant thins out at small sizes, so the smaller
+   the heading the heavier it is set. Only applies to headings that have not
+   opted into another family. */
+html[data-surface="portal"] h1:not(.font-mono):not(.font-sans) { font-weight: 400; line-height: 1.06; }
+html[data-surface="portal"] h2:not(.font-mono):not(.font-sans) { font-weight: 500; line-height: 1.18; }
+html[data-surface="portal"] h3:not(.font-mono):not(.font-sans) { font-weight: 600; line-height: 1.25; }
+
+/* Visible keyboard focus everywhere in the portal. */
+html[data-surface="portal"] :focus-visible {
+  outline: 2px solid var(--lb-brass);
+  outline-offset: 2px;
+}
+
+/* ───────────────────────────────────────────────────────────────────────
+   COMPATIBILITY SHIM
+
+   The portal is ~28,500 lines across 90 files written against the old dark
+   terracotta palette. Roughly 1,400 hardcoded colour utilities in it assume
+   a dark ground: bg-white/5 as a hover wash, text-emerald-300 as "good".
+   On alabaster those are invisible or fail contrast outright.
+
+   Rather than hand-edit 90 files, the handful of idioms that actually recur
+   are re-pointed at Lazybee tokens here. Rules are deliberately unlayered so
+   they win over Tailwind's utilities without !important.
+
+   This is a migration aid, not the destination. As pages are reworked they
+   should move to the semantic tokens (bg-surface, text-foreground-variant,
+   text-accent) and the matching lines below can be deleted.
+   ─────────────────────────────────────────────────────────────────────── */
+
+/* Brass reads as text only in its darker cut. bg-accent keeps the raw brass. */
+html[data-surface="portal"] .text-accent,
+html[data-surface="portal"] .hover\:text-accent:hover,
+html[data-surface="portal"] .group:hover .group-hover\:text-accent,
+html[data-surface="portal"] .group:focus-within .group-focus-within\:text-accent {
+  color: var(--lb-brass-text);
+}
+
+/* White on brass is 2.4:1. The label has to be ink. */
+html[data-surface="portal"] .bg-accent.text-white,
+html[data-surface="portal"] .bg-accent\/90.text-white,
+html[data-surface="portal"] .hover\:bg-accent.text-white:hover {
+  color: var(--lb-on-brass);
+}
+
+/* White washes were the dark theme's elevation trick. On paper they vanish.
+   The :not() guards spare glass panels sitting over photography, where a
+   white wash is still correct and the label is still white. */
+html[data-surface="portal"] .bg-white\/5:not([class*="backdrop-blur"]):not([class*="text-white"]),
+html[data-surface="portal"] .bg-white\/10:not([class*="backdrop-blur"]):not([class*="text-white"]),
+html[data-surface="portal"] .bg-white\/15:not([class*="backdrop-blur"]):not([class*="text-white"]) {
+  background-color: var(--lb-surface);
+}
+html[data-surface="portal"] .hover\:bg-white\/5:not([class*="backdrop-blur"]):hover,
+html[data-surface="portal"] .hover\:bg-white\/10:not([class*="backdrop-blur"]):hover {
+  background-color: var(--lb-surface);
+}
+html[data-surface="portal"] .border-white\/10:not([class*="backdrop-blur"]):not([class*="text-white"]),
+html[data-surface="portal"] .divide-white\/10 > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--lb-line);
+}
+
+/* Status colours. The -300 and -400 tints were tuned for a near-black ground
+   and sit at 1.5:1 to 2:1 on alabaster. Re-point at the Lazybee semantics. */
+html[data-surface="portal"] .text-emerald-300,
+html[data-surface="portal"] .text-emerald-400,
+html[data-surface="portal"] .text-green-300 { color: var(--lb-ok); }
+html[data-surface="portal"] .text-red-300,
+html[data-surface="portal"] .text-red-400 { color: var(--lb-bad); }
+html[data-surface="portal"] .text-amber-300,
+html[data-surface="portal"] .text-amber-400,
+html[data-surface="portal"] .text-amber-200,
+html[data-surface="portal"] .text-yellow-300 { color: var(--lb-warn); }
+html[data-surface="portal"] .text-blue-300,
+html[data-surface="portal"] .text-blue-400 { color: var(--lb-info); }
+html[data-surface="portal"] .text-purple-300,
+html[data-surface="portal"] .text-pink-300 { color: var(--lb-muted); }
+html[data-surface="portal"] .hover\:text-red-400:hover { color: var(--lb-bad); }
+
+/* Solid status fills carry white labels, which is 2.5:1 on a 500 tint.
+   Darken the fill so the label holds up. Tinted fills (/10, /15) are
+   untouched: they read as a wash on paper and are doing their job. */
+html[data-surface="portal"] .bg-emerald-500,
+html[data-surface="portal"] .bg-emerald-600,
+html[data-surface="portal"] .bg-green-500,
+html[data-surface="portal"] .bg-green-600 { background-color: var(--lb-ok); }
+html[data-surface="portal"] .bg-red-500,
+html[data-surface="portal"] .bg-red-600,
+html[data-surface="portal"] .bg-red-700 { background-color: var(--lb-bad); }
+html[data-surface="portal"] .bg-amber-500,
+html[data-surface="portal"] .bg-amber-400,
+html[data-surface="portal"] .bg-yellow-500 { background-color: var(--lb-warn); }
+html[data-surface="portal"] .bg-blue-500,
+html[data-surface="portal"] .bg-blue-600 { background-color: var(--lb-info); }
+
+/* Placeholders were half-opacity muted, about 2.4:1. Use the faint token. */
+html[data-surface="portal"] .placeholder\:text-foreground-variant\/50::placeholder,
+html[data-surface="portal"] ::placeholder { color: var(--lb-faint); opacity: 1; }
+
+/* Accessibility floor: nothing renders under 12px. 260 uses of text-[10px]
+   and 19 of text-[9px] predate that rule. */
+html[data-surface="portal"] .text-\[8px\],
+html[data-surface="portal"] .text-\[9px\],
+html[data-surface="portal"] .text-\[10px\],
+html[data-surface="portal"] .text-\[11px\] { font-size: 12px; line-height: 1.45; }
+
+/* The 2px radius, applied to the hand-rolled utilities the way --radius is
+   applied to the shadcn primitives. rounded-full is left alone: avatars,
+   pills and dots still need to be round. */
+html[data-surface="portal"] .rounded-md,
+html[data-surface="portal"] .rounded-lg,
+html[data-surface="portal"] .rounded-xl,
+html[data-surface="portal"] .rounded-2xl,
+html[data-surface="portal"] .rounded-3xl { border-radius: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-surface="portal"] *,
+  html[data-surface="portal"] *::before,
+  html[data-surface="portal"] *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 

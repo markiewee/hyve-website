@@ -80,7 +80,7 @@ export default function ResetPasswordPage() {
           <div className="lg:hidden mb-8">
             <Wordmark size="md" />
           </div>
-          <h2 className="font-display text-3xl font-bold text-foreground tracking-tight mb-3">
+          <h2 className="font-display text-[34px] leading-[1.05] text-foreground mb-3">
             Reset password
           </h2>
           <p className="text-foreground-variant font-['Inter'] font-medium mb-10">
@@ -154,7 +154,7 @@ export default function ResetPasswordPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full py-5 bg-accent text-white rounded-xl font-display font-bold text-lg hover:bg-accent/90 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full py-5 bg-accent text-white rounded-xl font-display text-xl hover:bg-accent/90 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {submitting ? "Updating..." : "Update password"}
               </button>

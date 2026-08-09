@@ -29,7 +29,7 @@ function WiFiCard({ guide }) {
           <span className="material-symbols-outlined text-accent text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>wifi</span>
         </div>
         <div>
-          <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-foreground mb-3">WiFi</h3>
+          <h3 className="font-mono text-[12px] uppercase tracking-[0.18em] text-foreground mb-3">WiFi</h3>
           <div className="space-y-2">
             <div>
               <span className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Network</span>
@@ -62,7 +62,7 @@ function FAQCard({ guide }) {
         <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center shrink-0">
           <span className="material-symbols-outlined text-accent text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>help</span>
         </div>
-        <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-foreground pt-2">FAQ</h3>
+        <h3 className="font-mono text-[12px] uppercase tracking-[0.18em] text-foreground pt-2">FAQ</h3>
       </div>
       <div className="space-y-1 ml-14">
         {faqs.map((faq, idx) => (
@@ -90,10 +90,10 @@ function SimpleMarkdown({ text }) {
     <div className="space-y-1.5">
       {lines.map((line, i) => {
         if (line.startsWith("## ")) {
-          return <h4 key={i} className="font-['Hanken_Grotesk'] font-bold text-foreground text-sm mt-2 mb-1">{line.slice(3)}</h4>;
+          return <h4 key={i} className="font-mono text-[12px] uppercase tracking-[0.18em] text-foreground mt-3 mb-1">{line.slice(3)}</h4>;
         }
         if (line.startsWith("# ")) {
-          return <h3 key={i} className="font-['Hanken_Grotesk'] font-bold text-foreground text-base mt-2 mb-1">{line.slice(2)}</h3>;
+          return <h3 key={i} className="font-display text-lg text-foreground mt-4 mb-1">{line.slice(2)}</h3>;
         }
         if (line.trim() === "") return <div key={i} className="h-1" />;
         // Bold: **text**
@@ -120,7 +120,7 @@ function GuideCard({ guide }) {
           <span className="material-symbols-outlined text-accent text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>{guide.icon}</span>
         </div>
         <div className="min-w-0">
-          <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-foreground mb-2">{guide.title}</h3>
+          <h3 className="font-mono text-[12px] uppercase tracking-[0.18em] text-foreground mb-2">{guide.title}</h3>
           <SimpleMarkdown text={guide.content} />
         </div>
       </div>
@@ -157,7 +157,7 @@ function HouseCaptainCard({ propertyId }) {
           <span className="material-symbols-outlined text-accent text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>person</span>
         </div>
         <div>
-          <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-foreground mb-1">House Captain</h3>
+          <h3 className="font-mono text-[12px] uppercase tracking-[0.18em] text-foreground mb-1">House Captain</h3>
           <p className="font-['Inter'] text-sm font-semibold text-foreground">{name}</p>
           {phone && (
             <a href={`https://wa.me/${phone.replace(/[^0-9]/g, "")}`} className="font-['Inter'] text-sm text-accent hover:underline">{phone}</a>
@@ -211,7 +211,7 @@ function HouseRulesCard({ propertyId }) {
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-foreground">House Rules</h3>
+            <h3 className="font-mono text-[12px] uppercase tracking-[0.18em] text-foreground">House Rules</h3>
             <button onClick={() => setExpanded(!expanded)} className="text-accent font-['Inter'] text-xs font-semibold hover:underline">
               {expanded ? "Collapse" : "View All"}
             </button>
@@ -246,7 +246,7 @@ function AccessCardCard() {
           <span className="material-symbols-outlined text-accent text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>badge</span>
         </div>
         <div className="min-w-0 flex-1">
-          <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-foreground mb-1">Access Card Application</h3>
+          <h3 className="font-mono text-[12px] uppercase tracking-[0.18em] text-foreground mb-1">Access Card Application</h3>
           <p className="font-['Inter'] text-sm text-foreground-variant mb-4">
             To apply for your unit access card, you'll need these 6 documents:
           </p>
@@ -293,7 +293,7 @@ export default function PropertyGuidePage() {
     <PortalLayout>
       <div className="max-w-4xl">
         <div className="mb-8">
-          <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Your home</span>
+          <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-accent mb-3">Your home</span>
           <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">
             My Property
           </h1>
@@ -325,7 +325,7 @@ export default function PropertyGuidePage() {
                   <span className="material-symbols-outlined text-accent text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>support</span>
                 </div>
                 <div>
-                  <h3 className="font-['Hanken_Grotesk'] text-sm font-bold text-foreground mb-1">Contact Lazybee</h3>
+                  <h3 className="font-mono text-[12px] uppercase tracking-[0.18em] text-foreground mb-1">Contact Lazybee</h3>
                   <p className="font-['Inter'] text-xs text-foreground-variant mb-2">Checked the FAQ and submitted a ticket first?</p>
                   <a
                     href="https://wa.me/6580695410"

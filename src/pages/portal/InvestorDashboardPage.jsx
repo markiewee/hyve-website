@@ -65,7 +65,7 @@ export default function InvestorDashboardPage() {
       {/* Page header */}
       <section className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="max-w-2xl">
-          <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Investor</span>
+          <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-accent mb-3">Investor</span>
           <h2 className="font-['Hanken_Grotesk'] text-4xl font-extrabold text-foreground tracking-tight mb-2">
             Portfolio Overview
           </h2>

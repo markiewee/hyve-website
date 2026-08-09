@@ -157,8 +157,8 @@ export default function HelpPage() {
   return (
     <PortalLayout>
       <div className="mb-10">
-        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">{isZh ? "支持" : "Support"}</span>
-        <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
+        <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-accent mb-3">{isZh ? "支持" : "Support"}</span>
+        <h1 className="font-display text-[34px] leading-[1.05] text-foreground">
           {isZh ? "帮助中心" : "Help Centre"}
         </h1>
         <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
@@ -275,7 +275,7 @@ export default function HelpPage() {
       {/* Contact footer */}
       <div className="mt-10 bg-accent/5 rounded-2xl p-8 text-center">
         <span className="material-symbols-outlined text-[32px] text-accent mb-3 block">contact_support</span>
-        <h3 className="font-display font-bold text-lg text-foreground mb-2">
+        <h3 className="font-display text-xl text-foreground mb-2">
           {isZh ? "还有问题？" : "Still need help?"}
         </h3>
         <p className="font-['Inter'] text-sm text-foreground mb-4">
@@ -288,7 +288,7 @@ export default function HelpPage() {
             href="https://wa.me/6580695410"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 transition-all"
+            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-full font-mono text-xs uppercase tracking-[0.16em] hover:opacity-90 transition-opacity"
           >
             <span className="material-symbols-outlined text-[18px]">chat</span>
             WhatsApp +65 8069 5410
