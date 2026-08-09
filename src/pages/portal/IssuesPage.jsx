@@ -13,19 +13,19 @@ export default function IssuesPage() {
   return (
     <PortalLayout>
       {/* Page header */}
-      <div className="flex items-center justify-between mb-10">
+      <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border pb-6 mb-8">
         <div>
-          <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Maintenance</span>
-          <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">
+          <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-accent mb-3">Maintenance</span>
+          <h1 className="font-display text-[34px] leading-[1.05] text-foreground">
             My Issues
           </h1>
-          <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
+          <p className="text-foreground-variant mt-2 max-w-[62ch]">
             Track and manage your reported maintenance requests.
           </p>
         </div>
         <Link
           to="/portal/issues/new"
-          className="bg-accent text-white px-6 py-3 rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2"
+          className="bg-primary text-primary-foreground px-6 py-3 rounded-full font-mono text-xs uppercase tracking-[0.16em] whitespace-nowrap hover:opacity-90 transition-opacity flex shrink-0 items-center gap-2"
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
           Report Issue
@@ -37,7 +37,7 @@ export default function IssuesPage() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-surface rounded-2xl p-6 border border-border space-y-3"
+              className="bg-surface p-6 border border-border space-y-3"
             >
               <div className="flex gap-3">
                 <div className="h-5 w-20 bg-white/5 animate-pulse rounded-full" />
@@ -49,19 +49,19 @@ export default function IssuesPage() {
           ))}
         </div>
       ) : tickets.length === 0 ? (
-        <div className="bg-surface rounded-2xl p-12 border border-border flex flex-col items-center text-center">
-          <div className="w-16 h-16 bg-accent/15 rounded-2xl flex items-center justify-center mb-4">
+        <div className="border border-dashed border-border p-12 flex flex-col items-center text-center">
+          <div className="w-14 h-14 border border-accent/40 bg-accent/10 flex items-center justify-center mb-5">
             <span className="material-symbols-outlined text-accent text-[32px]">build_circle</span>
           </div>
-          <h3 className="font-['Hanken_Grotesk'] font-bold text-foreground text-lg mb-2">
+          <h3 className="font-display text-2xl text-foreground mb-2">
             No issues reported
           </h3>
-          <p className="text-foreground-variant font-['Inter'] text-sm mb-6">
+          <p className="text-foreground-variant text-sm mb-6 max-w-[46ch]">
             Everything looking good? If something needs attention, let us know.
           </p>
           <Link
             to="/portal/issues/new"
-            className="bg-accent text-white px-6 py-3 rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2"
+            className="bg-primary text-primary-foreground px-6 py-3 rounded-full font-mono text-xs uppercase tracking-[0.16em] whitespace-nowrap hover:opacity-90 transition-opacity flex shrink-0 items-center gap-2"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Report your first issue

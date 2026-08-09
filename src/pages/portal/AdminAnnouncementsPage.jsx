@@ -169,8 +169,8 @@ export default function AdminAnnouncementsPage() {
       {/* Page header */}
       <div className="mb-10 flex items-start justify-between gap-4">
         <div>
-          <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Property</span>
-          <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
+          <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-accent mb-3">Property</span>
+          <h1 className="font-display text-[34px] leading-[1.05] text-foreground">
             Announcements
           </h1>
           <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
@@ -199,7 +199,7 @@ export default function AdminAnnouncementsPage() {
           {/* New announcement form */}
           {showForm && (
             <div className="bg-surface rounded-2xl p-8 border border-border">
-              <h2 className="font-display font-bold text-lg text-foreground mb-6 flex items-center gap-2">
+              <h2 className="font-display text-xl text-foreground mb-6 flex items-center gap-2">
                 <span className="material-symbols-outlined text-accent text-[20px]">campaign</span>
                 Post Announcement
               </h2>

@@ -140,7 +140,7 @@ export default function NewIssuePage() {
   return (
     <PortalLayout>
       <div className="mb-10">
-        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Maintenance</span>
+        <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-accent mb-3">Maintenance</span>
         <h1 className="font-['Hanken_Grotesk'] text-3xl font-extrabold text-foreground tracking-tight">
           {phase === "report" ? "Report an Issue" : "Need Help?"}
         </h1>

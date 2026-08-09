@@ -481,8 +481,8 @@ export default function AdminInvestorsPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Admin</span>
-        <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
+        <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-accent mb-3">Admin</span>
+        <h1 className="font-display text-[34px] leading-[1.05] text-foreground">
           Investors
         </h1>
         <p className="text-foreground-variant font-body font-medium mt-1">
@@ -781,7 +781,7 @@ export default function AdminInvestorsPage() {
 
       {/* ─── Monthly Distributions Section ─────────────────────────────────────── */}
       <div className="mt-12 mb-10">
-        <h2 className="font-display text-2xl font-extrabold text-foreground tracking-tight mb-1">
+        <h2 className="font-display text-[28px] leading-[1.1] text-foreground mb-1">
           Monthly Distributions
         </h2>
         <p className="text-foreground-variant font-body font-medium">

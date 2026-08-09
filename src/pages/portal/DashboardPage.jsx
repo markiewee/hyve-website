@@ -86,8 +86,8 @@ export default function DashboardPage() {
     <PortalLayout>
       {/* Editorial header */}
       <header className="mb-10 max-w-6xl">
-        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Your home</span>
-        <h2 className="font-display text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight mb-3">
+        <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-accent mb-3">Your home</span>
+        <h2 className="font-display text-4xl lg:text-[52px] leading-[1.06] text-foreground mb-3">
           {t("dashboard.heroTitle", { property: "" })}{" "}
           <span className="text-accent">{propertyName}</span>
         </h2>
@@ -105,7 +105,7 @@ export default function DashboardPage() {
       {/* Outstanding Invoices */}
       {!invoicesLoading && invoiceList.filter(inv => inv.status !== "PAID" && inv.status !== "VOID").length > 0 && (
         <div className="mb-8 max-w-6xl">
-          <h3 className="font-display font-bold text-xl mb-4 flex items-center gap-2 text-foreground">
+          <h3 className="font-display text-2xl mb-4 flex items-center gap-2 text-foreground">
             <span className="material-symbols-outlined text-accent text-[22px]">receipt_long</span>
             Outstanding Invoices
           </h3>
@@ -131,7 +131,7 @@ export default function DashboardPage() {
                     <span className="font-['Inter'] font-bold text-sm text-foreground">
                       ${Number(inv.total_due).toFixed(2)}
                     </span>
-                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${statusColor}`}>
+                    <span className={`px-2.5 py-1 rounded-full font-mono text-[11px] uppercase tracking-[0.12em] ${statusColor}`}>
                       {inv.status}
                     </span>
                     <span className="material-symbols-outlined text-accent text-[18px]">arrow_forward</span>
@@ -155,7 +155,7 @@ export default function DashboardPage() {
         <section className="md:col-span-12 bg-surface rounded-xl p-8 border border-border relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full -mr-16 -mt-16 pointer-events-none" />
           <div className="relative z-10">
-            <h3 className="font-display font-bold text-xl mb-6 flex items-center gap-2 text-foreground">
+            <h3 className="font-display text-2xl mb-6 flex items-center gap-2 text-foreground">
               <span className="material-symbols-outlined text-accent text-[22px]">account_balance_wallet</span>
               {t("dashboard.billingOverview")}
             </h3>
@@ -163,7 +163,7 @@ export default function DashboardPage() {
               {/* Monthly Rent */}
               <div className="bg-accent/5 rounded-xl p-5 border-b-2 border-accent">
                 <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-accent font-bold mb-1">{t("dashboard.monthlyRent")}</p>
-                <p className="font-display text-2xl font-black text-foreground">
+                <p className="font-mono text-2xl font-bold tabular-nums tracking-tight text-foreground">
                   {(profile?.monthly_rent || profile?.rooms?.rent_amount)
                     ? `$${Number(profile.monthly_rent || profile.rooms?.rent_amount).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`
                     : "—"}
@@ -173,7 +173,7 @@ export default function DashboardPage() {
               {/* Outstanding Charges */}
               <div className={`rounded-xl p-5 border-b-2 ${totalCharges > 0 ? "bg-amber-500/10 border-amber-500/50" : "bg-surface-container border-border"}`}>
                 <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-1">{t("dashboard.otherCharges")}</p>
-                <p className={`font-display text-2xl font-black ${totalCharges > 0 ? "text-amber-300" : "text-foreground"}`}>
+                <p className={`font-mono text-2xl font-bold tabular-nums tracking-tight ${totalCharges > 0 ? "text-amber-300" : "text-foreground"}`}>
                   ${totalCharges.toLocaleString("en-SG", { minimumFractionDigits: 2 })}
                 </p>
                 <p className="text-xs text-foreground-variant mt-1">
@@ -183,7 +183,7 @@ export default function DashboardPage() {
               {/* Total Due */}
               <div className={`rounded-xl p-5 border-b-2 ${totalCharges > 0 ? "bg-red-500/10 border-red-500/50" : "bg-surface-container border-accent/30"}`}>
                 <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-1">{t("dashboard.totalDue")}</p>
-                <p className="font-display text-2xl font-black text-foreground">
+                <p className="font-mono text-2xl font-bold tabular-nums tracking-tight text-foreground">
                   ${((Number(profile?.monthly_rent || 0) + totalCharges)).toLocaleString("en-SG", { minimumFractionDigits: 2 })}
                 </p>
                 <p className="text-xs text-foreground-variant mt-1">{t("dashboard.rentCharges")}</p>
@@ -191,7 +191,7 @@ export default function DashboardPage() {
             </div>
             <Link
               to="/portal/billing"
-              className="bg-accent text-white px-8 py-4 rounded-full font-['Inter'] font-bold text-base hover:opacity-90 transition-all inline-flex items-center gap-2"
+              className="bg-primary text-primary-foreground px-7 py-3.5 rounded-full font-mono text-xs uppercase tracking-[0.16em] hover:opacity-90 transition-opacity inline-flex items-center gap-2"
             >
               {t("dashboard.viewBilling")}
               <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
@@ -204,7 +204,7 @@ export default function DashboardPage() {
         {/* AC Usage chart + allowance — col-span-7 */}
         <section className="md:col-span-7 bg-surface rounded-xl p-8 border border-border">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="font-display font-bold text-xl flex items-center gap-2 text-foreground">
+            <h3 className="font-display text-2xl flex items-center gap-2 text-foreground">
               <span className="material-symbols-outlined text-accent text-[22px]">ac_unit</span>
               {t("dashboard.acUsage")}
             </h3>
@@ -276,7 +276,7 @@ export default function DashboardPage() {
             {usageLoading ? (
               <SkeletonLine className="h-7 w-16" />
             ) : (
-              <p className="font-display text-3xl font-black text-foreground">
+              <p className="font-mono text-3xl font-bold tabular-nums tracking-tight text-foreground">
                 {todayHours.toFixed(1)}
                 <span className="text-base font-['Inter'] font-normal text-foreground-variant ml-1">h</span>
               </p>
@@ -291,7 +291,7 @@ export default function DashboardPage() {
             {usageLoading ? (
               <SkeletonLine className="h-7 w-16" />
             ) : (
-              <p className={`font-display text-3xl font-black ${projected > getFreeHours() ? "text-red-400" : "text-foreground"}`}>
+              <p className={`font-mono text-3xl font-bold tabular-nums tracking-tight ${projected > getFreeHours() ? "text-red-400" : "text-foreground"}`}>
                 {projected.toFixed(0)}
                 <span className="text-base font-['Inter'] font-normal text-foreground-variant ml-1">h</span>
               </p>
@@ -307,7 +307,7 @@ export default function DashboardPage() {
               <SkeletonLine className="h-7 w-10" />
             ) : (
               <div className="flex items-end justify-between">
-                <p className="font-display text-3xl font-black text-foreground">
+                <p className="font-mono text-3xl font-bold tabular-nums tracking-tight text-foreground">
                   {openTickets ?? 0}
                 </p>
                 <Link

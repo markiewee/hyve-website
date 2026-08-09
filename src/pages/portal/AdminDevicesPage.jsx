@@ -69,8 +69,8 @@ export default function AdminDevicesPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Operations</span>
-        <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
+        <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-accent mb-3">Operations</span>
+        <h1 className="font-display text-[34px] leading-[1.05] text-foreground">
           IoT Devices & Energy
         </h1>
         <p className="text-foreground-variant font-body font-medium mt-1">
