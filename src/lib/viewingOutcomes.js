@@ -59,8 +59,9 @@ export function needsOutcome(v, nowMs = Date.now()) {
   if (!v) return false;
   if (v.completed_at) return false;
 
-  // The polling flow writes upper-case statuses (CONFIRMED / CANCELLED) while
-  // the booking flow writes lower-case. Normalise before comparing.
+  // The status CHECK constraint only permits lower case, but several call
+  // sites in the app compare against "CANCELLED" as well, so normalise rather
+  // than trust the case we are handed.
   const status = String(v.status ?? "").toLowerCase();
   if (RESOLVED.has(status)) return false;
 
