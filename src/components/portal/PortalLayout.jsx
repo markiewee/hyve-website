@@ -121,15 +121,16 @@ function NavLink({ link, location, onClick }) {
   );
 }
 
+// NOTE (9 Aug 2026): currently unreachable. Every nav entry with children now
+// also carries `section:`, and the renderer matches that branch first, so this
+// collapsible variant never runs. Left in place rather than deleted because it
+// is the fallback for any future non-sectioned group. If none appears, delete it.
 function AdminDropdown({ link, location, onLinkClick }) {
   // Supports two shapes: legacy `children: [...]` flat list, OR `groups: [{label, children}]` grouped.
   const allChildren = link.groups
     ? link.groups.flatMap((g) => g.children)
     : link.children || [];
   const isChildActive = allChildren.some((c) => location.pathname === c.to);
-  // A badge on a child inside a collapsed group is invisible, which defeats the
-  // point. Surface the total on the parent whenever it is shut.
-  const childBadgeTotal = allChildren.reduce((n, c) => n + (c.badge || 0), 0);
   const [open, setOpen] = useState(isChildActive);
 
   return (
@@ -144,14 +145,6 @@ function AdminDropdown({ link, location, onLinkClick }) {
       >
         <span className="material-symbols-outlined text-[20px] shrink-0">{link.icon}</span>
         <span className="font-['Inter'] flex-1 text-left">{link.label}</span>
-        {!open && childBadgeTotal > 0 && (
-          <span
-            title={`${childBadgeTotal} past viewing${childBadgeTotal === 1 ? "" : "s"} with no outcome recorded`}
-            className="shrink-0 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-bold text-white"
-          >
-            {childBadgeTotal}
-          </span>
-        )}
         <span className="material-symbols-outlined text-[16px] transition-transform duration-200" style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}>
           expand_more
         </span>
