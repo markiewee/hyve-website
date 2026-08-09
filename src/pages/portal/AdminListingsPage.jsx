@@ -24,7 +24,8 @@ const MECHANISMS = [
  */
 export default function AdminListingsPage() {
   const [params, setParams] = useSearchParams();
-  const tab = params.get("tab") === "content" ? "content" : "platforms";
+  const raw = params.get("tab");
+  const tab = raw === "content" || raw === "availability" ? raw : "platforms";
   const setTab = (t) => {
     const p = new URLSearchParams(params);
     t === "platforms" ? p.delete("tab") : p.set("tab", t);
@@ -115,6 +116,7 @@ export default function AdminListingsPage() {
         {[
           ["platforms", "Platforms"],
           ["content", "Content"],
+          ["availability", "Availability"],
         ].map(([key, label]) => (
           <button
             key={key}
@@ -130,9 +132,10 @@ export default function AdminListingsPage() {
         ))}
       </div>
 
-      {tab === "platforms" ? (
+      {tab === "platforms" && (
         <PlatformsTab channels={channels} setChannels={setChannels} onError={setError} />
-      ) : (
+      )}
+      {tab === "content" && (
         <ContentTab
           properties={properties}
           channels={channels}
@@ -140,7 +143,140 @@ export default function AdminListingsPage() {
           onError={setError}
         />
       )}
+      {tab === "availability" && <AvailabilityTab onError={setError} />}
     </PortalLayout>
+  );
+}
+
+/* ─────────────────────────── Availability ─────────────────────────── */
+
+/**
+ * Roomies has no availability field. A listing is live or it is not, and the
+ * only place a date can go is the headline. So this screen answers one
+ * question per room: should the listing be up, and what should it say.
+ *
+ * Everything here is derived in the database from room_calendar. Nothing on
+ * this screen is hand-set, and nothing here pushes to Roomies: it is a work
+ * list, and the changes are made by hand until the list has been right for a
+ * while.
+ */
+function AvailabilityTab({ onError }) {
+  const [rows, setRows] = useState(null);
+
+  useEffect(() => {
+    let live = true;
+    supabase
+      .from("v_roomies_listing_state")
+      .select("*")
+      .then(({ data, error }) => {
+        if (!live) return;
+        if (error) return onError(error.message);
+        // days_out null (occupied with no agreed end date) sorts last: those are
+        // the least actionable rooms, not the most.
+        setRows(
+          (data ?? []).sort((a, b) => {
+            const x = a.desired?.days_out,
+              y = b.desired?.days_out;
+            if (x == null) return 1;
+            if (y == null) return -1;
+            return x - y;
+          })
+        );
+      });
+    return () => {
+      live = false;
+    };
+  }, [onError]);
+
+  if (!rows) return <div className="h-64 bg-white/5 animate-pulse rounded-2xl" />;
+
+  const todo = rows.filter((r) => Boolean(r.desired?.on) !== Boolean(r.is_live));
+  const shouldBeOn = rows.filter((r) => r.desired?.on).length;
+
+  return (
+    <div className="space-y-6">
+      <div className="bg-surface border border-border rounded-2xl p-6">
+        <h2 className="font-display text-xl font-bold text-foreground">Roomies</h2>
+        <p className="text-sm text-foreground-variant font-['Inter'] mt-1">
+          {shouldBeOn} of {rows.length} listings should be live. A listing goes up when its
+          room opens within 90 days and comes down again past 100, so it cannot flip back
+          and forth on the boundary.
+        </p>
+        {todo.length > 0 && (
+          <p className="text-sm font-semibold text-accent mt-3">
+            {todo.length} {todo.length === 1 ? "listing needs" : "listings need"} changing.
+          </p>
+        )}
+      </div>
+
+      <div className="bg-surface border border-border rounded-2xl overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm font-['Inter']">
+            <thead className="bg-surface-container text-foreground-variant">
+              <tr>
+                {["Reference", "Price", "Now", "Should be", "Headline", "Why"].map((h) => (
+                  <th key={h} className="text-left font-semibold px-4 py-3 whitespace-nowrap">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r) => {
+                const on = Boolean(r.desired?.on);
+                const drift = on !== Boolean(r.is_live);
+                return (
+                  <tr
+                    key={r.room_id}
+                    className={`border-t border-border ${drift ? "bg-accent/5" : ""}`}
+                  >
+                    <td className="px-4 py-3 font-mono text-foreground whitespace-nowrap">
+                      {r.lazybee_ref}
+                    </td>
+                    <td className="px-4 py-3 text-foreground-variant whitespace-nowrap">
+                      {r.price_monthly ? `$${r.price_monthly}` : "—"}
+                    </td>
+                    <td className="px-4 py-3">
+                      <State on={r.is_live} />
+                    </td>
+                    <td className="px-4 py-3">
+                      <State on={on} emphasise={drift} />
+                    </td>
+                    <td className="px-4 py-3 text-foreground whitespace-nowrap">
+                      {r.desired?.headline ?? "—"}
+                    </td>
+                    <td className="px-4 py-3 text-foreground-variant">{r.desired?.reason}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p className="text-xs text-foreground-variant font-['Inter']">
+        Derived from the room calendar, not hand-set. Nothing on this screen writes to
+        Roomies.
+      </p>
+    </div>
+  );
+}
+
+function State({ on, emphasise }) {
+  return (
+    <span
+      className={`inline-block px-2 py-0.5 rounded text-xs font-bold ${
+        on
+          ? emphasise
+            ? "bg-accent text-white"
+            : "bg-emerald-500/15 text-emerald-300"
+          : emphasise
+            ? "bg-accent text-white"
+            : "bg-white/5 text-foreground-variant"
+      }`}
+    >
+      {on ? "Live" : "Off"}
+    </span>
   );
 }
 
