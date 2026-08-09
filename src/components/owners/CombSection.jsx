@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { HOMES, ROOMS, HOME_HERO, roomsForHome, isLet } from '../../data/lazybeeRooms';
 import { ISLAND } from '../../data/singaporeIsland';
 import { buildComb } from '../../lib/comb';
-import { BOOKING_URL } from '../../lib/booking';
+import { bookingUrl } from '../../lib/booking';
 import { track, EVENTS } from '../../lib/analytics';
 import { scrollToId } from '../../lib/scrollToId';
 
@@ -80,7 +80,10 @@ function CellCard({ room, shot, onShot }) {
         <div style={{ display: 'flex', gap: 10, marginTop: 'var(--s5)', flexWrap: 'wrap' }}>
           <a
             className="btn btn-sm"
-            href={BOOKING_URL}
+            /* the live listing for THIS room, not the site root. An owner clicking a
+               specific cell and landing on a generic index is the whole point missed.
+               Verified route shape: book.lazybee.sg/rooms/<unit_code> */
+            href={bookingUrl(`/rooms/${encodeURIComponent(room.code)}`)}
             target="_blank"
             rel="noopener"
             onClick={() => track(EVENTS.BROWSE_ROOMS_CLICK, { source: 'comb_cell', room: room.code })}
