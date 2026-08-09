@@ -410,6 +410,32 @@ async function buildEmail(
       };
     }
 
+    // The reference is the whole point of this email. Verification matches a
+    // bank credit on payment_ref and nothing else, because amounts are neither
+    // unique across tenants nor stable (they prorate). If the tenant never
+    // sees their ref, every payment lands unattributed and a human has to
+    // guess. So the ref is the most prominent thing here, not a footnote.
+    case "RENT_DUE": {
+      const { month: dueMonth, amount: dueAmount, due_date, payment_ref, prorated_note } = details;
+      return {
+        subject: `Rent for ${dueMonth} — SGD ${escape(String(dueAmount))}`,
+        html: generic({
+          badge: "Rent Due",
+          headline: `Your rent for ${escape(String(dueMonth))}.`,
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            `<strong>SGD ${escape(String(dueAmount))}</strong> is due by <strong>${escape(String(due_date))}</strong>.`,
+            prorated_note ? escape(String(prorated_note)) : "",
+            payment_ref
+              ? `Please put <strong>${escape(String(payment_ref))}</strong> in the reference field when you transfer. That code is how the payment is matched to you automatically, and without it we have to chase you to confirm it arrived.`
+              : "",
+          ].filter(Boolean),
+          cta: { label: "View Billing", url: `${PORTAL_BASE}/portal/billing` },
+          ctaCaption: payment_ref ? `Reference: ${payment_ref}` : undefined,
+        }),
+      };
+    }
+
     case "RENT_PAID": {
       const { month: paidMonth, amount: paidAmount } = details;
       return {

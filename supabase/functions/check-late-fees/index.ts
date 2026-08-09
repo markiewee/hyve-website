@@ -1,3 +1,16 @@
+// check-late-fees — the arrears ladder, repointed onto rent_payments.
+//
+// What this replaces. The previous version read `invoices`, which has had one
+// row in its entire life, while the business writes `rent_payments`, which has
+// 104. So this cron ran faithfully every night since May and stacked late fees
+// onto a single orphan invoice, while every real arrear went unchased.
+//
+// Starting position, decided by Mark on 9 August 2026: the ladder starts clean
+// from August. It does not backfill. There are 17 outstanding rows worth about
+// S$15,846 going back to February, several already settled or waived privately
+// off-system, and 16 of them are past the 30-day cap anyway. Chasing those
+// automatically would send wrong numbers to real tenants.
+
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const supabase = createClient(
@@ -7,6 +20,14 @@ const supabase = createClient(
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+
+/** Nothing before this month is ever chased automatically. See the note above. */
+const LADDER_STARTS = "2026-08-01";
+
+/** Automated chasing stops here; past this it is a conversation, not an email. */
+const CAP_DAYS = 30;
+
+const LATE_FEE_RATE = 0.05;
 
 async function notify(
   tenant_profile_id: string,
@@ -28,153 +49,159 @@ async function notify(
 }
 
 function monthLabel(dateStr: string): string {
-  const d = new Date(dateStr);
-  return d.toLocaleString("en-SG", { month: "long", year: "numeric" });
+  return new Date(dateStr).toLocaleString("en-SG", { month: "long", year: "numeric" });
+}
+
+function round2(n: number): number {
+  return Math.round(n * 100) / 100;
 }
 
 Deno.serve(async (_req) => {
   try {
     const now = new Date();
-    const today = now.toISOString().substring(0, 10);
+    const today = now.toLocaleDateString("en-CA", { timeZone: "Asia/Singapore" });
     const results: string[] = [];
 
-    const { data: overdue } = await supabase
-      .from("invoices")
+    const { data: overdue, error } = await supabase
+      .from("rent_payments")
       .select(
-        "id, invoice_code, tenant_profile_id, total_due, total_paid, due_date, month, last_reminder_days_overdue, invoice_line_items(category)"
+        "id, tenant_profile_id, month, rent_amount, late_fee, late_fee_count, paid_amount, due_date, status, last_reminder_days_overdue, payment_ref, tenant_profiles(late_fee_waived)"
       )
-      .in("status", ["ISSUED", "PARTIALLY_PAID"])
+      .in("status", ["PENDING", "SUBMITTED", "OVERDUE", "PARTIAL"])
+      .gte("month", LADDER_STARTS)
       .lt("due_date", today);
 
+    if (error) throw new Error(`rent_payments: ${error.message}`);
+
     if (!overdue || overdue.length === 0) {
-      return new Response(JSON.stringify({ results: ["No overdue invoices"] }), {
-        status: 200,
-      });
+      return json({ results: ["No overdue rent"] });
     }
 
-    for (const inv of overdue) {
-      const dueDate = new Date(inv.due_date);
-      const daysOverdue = Math.floor(
-        (now.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24)
-      );
-
-      // Cap automated reminders at 30 days
-      if (daysOverdue > 30) {
-        results.push(`${inv.invoice_code}: ${daysOverdue} days overdue — capped, manual handling required`);
+    for (const rp of overdue) {
+      const tp = Array.isArray(rp.tenant_profiles) ? rp.tenant_profiles[0] : rp.tenant_profiles;
+      if (tp?.late_fee_waived) {
+        results.push(`${rp.payment_ref}: waived, skipped`);
         continue;
       }
 
-      const lastDays = Number(inv.last_reminder_days_overdue ?? 0);
-      const existingLateFees = (inv.invoice_line_items ?? []).filter(
-        (li: { category: string }) => li.category === "LATE_FEE"
-      ).length;
-      const outstanding = Number(inv.total_due) - Number(inv.total_paid);
-      const month_label = inv.month ? monthLabel(inv.month) : "this month";
+      const daysOverdue = Math.floor(
+        (new Date(`${today}T00:00:00+08:00`).getTime() -
+          new Date(`${rp.due_date}T00:00:00+08:00`).getTime()) /
+          86400000
+      );
 
-      const baseDetails = {
-        invoice_id: inv.id,
-        invoice_code: inv.invoice_code,
+      if (daysOverdue > CAP_DAYS) {
+        results.push(`${rp.payment_ref}: ${daysOverdue} days, past the cap, manual handling`);
+        continue;
+      }
+
+      const lastDays = Number(rp.last_reminder_days_overdue ?? 0);
+      const feeCount = Number(rp.late_fee_count ?? 0);
+      const currentFee = Number(rp.late_fee ?? 0);
+      const outstanding = round2(
+        Number(rp.rent_amount) + currentFee - Number(rp.paid_amount ?? 0)
+      );
+
+      if (outstanding <= 0) {
+        results.push(`${rp.payment_ref}: nothing outstanding, skipped`);
+        continue;
+      }
+
+      const base = {
+        month: monthLabel(rp.month),
         amount: outstanding.toFixed(2),
         days_overdue: daysOverdue,
-        month_label,
+        payment_ref: rp.payment_ref,
       };
 
-      let actionTaken = false;
+      let acted = false;
+      const patch: Record<string, unknown> = {};
 
-      // ─── Day 30 (29+ overdue): FINAL NOTICE + second 5% late fee ───
+      // ── 29+ days: final notice, second 5% ──────────────────────────────
       if (daysOverdue >= 29 && lastDays < 29) {
         let secondFee = 0;
-        if (existingLateFees < 2) {
-          secondFee = Math.round(outstanding * 0.05 * 100) / 100;
-          await supabase.from("invoice_line_items").insert({
-            invoice_id: inv.id,
-            category: "LATE_FEE",
-            description: `Late fee (30+ days overdue) — 5% of $${outstanding.toFixed(2)}`,
-            amount: secondFee,
-            billing_type: "POST",
-          });
-          const newTotal = Number(inv.total_due) + secondFee;
-          await supabase
-            .from("invoices")
-            .update({
-              subtotal: newTotal,
-              total_due: newTotal,
-              updated_at: new Date().toISOString(),
-            })
-            .eq("id", inv.id);
+        if (feeCount < 2) {
+          secondFee = round2(outstanding * LATE_FEE_RATE);
+          patch.late_fee = round2(currentFee + secondFee);
+          patch.late_fee_count = feeCount + 1;
+          patch.late_fee_applied_at = now.toISOString();
         }
-        await notify(inv.tenant_profile_id, "INVOICE_FINAL_NOTICE", {
-          ...baseDetails,
+        await notify(rp.tenant_profile_id, "RENT_OVERDUE", {
+          ...base,
           late_fee: secondFee.toFixed(2),
+          final_notice: true,
         });
-        results.push(`${inv.invoice_code}: FINAL NOTICE sent (${daysOverdue} days overdue, second fee $${secondFee})`);
-        actionTaken = true;
+        results.push(`${rp.payment_ref}: FINAL NOTICE, second fee $${secondFee}`);
+        acted = true;
       }
-      // ─── Day 6+ (5+ overdue), every 2 days from day 7 overdue: REMINDER ───
+      // ── 7+ days, every other day: reminder ─────────────────────────────
       else if (daysOverdue >= 7 && (daysOverdue - 7) % 2 === 0 && lastDays < daysOverdue) {
-        await notify(inv.tenant_profile_id, "INVOICE_OVERDUE_REMINDER", baseDetails);
-        results.push(`${inv.invoice_code}: reminder sent (${daysOverdue} days overdue)`);
-        actionTaken = true;
-      }
-      // ─── Day 6 (5 overdue): apply first 5% late fee + send "fee applied" ───
-      else if (daysOverdue >= 5 && existingLateFees < 1) {
-        const firstFee = Math.round(outstanding * 0.05 * 100) / 100;
-        await supabase.from("invoice_line_items").insert({
-          invoice_id: inv.id,
-          category: "LATE_FEE",
-          description: `Late fee (5+ days overdue) — 5% of $${outstanding.toFixed(2)}`,
-          amount: firstFee,
-          billing_type: "POST",
+        await notify(rp.tenant_profile_id, "RENT_OVERDUE", {
+          ...base,
+          late_fee: currentFee.toFixed(2),
         });
-        const newTotal = Number(inv.total_due) + firstFee;
-        await supabase
-          .from("invoices")
-          .update({
-            subtotal: newTotal,
-            total_due: newTotal,
-            updated_at: new Date().toISOString(),
-          })
-          .eq("id", inv.id);
-
-        await notify(inv.tenant_profile_id, "INVOICE_OVERDUE", {
-          ...baseDetails,
+        results.push(`${rp.payment_ref}: reminder (${daysOverdue} days)`);
+        acted = true;
+      }
+      // ── 5+ days: first 5% fee ──────────────────────────────────────────
+      else if (daysOverdue >= 5 && feeCount < 1) {
+        const firstFee = round2(outstanding * LATE_FEE_RATE);
+        patch.late_fee = round2(currentFee + firstFee);
+        patch.late_fee_count = 1;
+        patch.late_fee_applied_at = now.toISOString();
+        await notify(rp.tenant_profile_id, "RENT_OVERDUE", {
+          ...base,
           late_fee: firstFee.toFixed(2),
         });
-        results.push(`${inv.invoice_code}: late fee $${firstFee} applied + email sent (${daysOverdue} days overdue)`);
-        actionTaken = true;
+        results.push(`${rp.payment_ref}: late fee $${firstFee} applied (${daysOverdue} days)`);
+        acted = true;
       }
-      // ─── Day 5 (4 overdue): warn that fee will be applied tomorrow ───
+      // ── 4 days: the fee lands tomorrow ─────────────────────────────────
       else if (daysOverdue === 4 && lastDays < 4) {
-        const estimatedFee = Math.round(outstanding * 0.05 * 100) / 100;
-        await notify(inv.tenant_profile_id, "INVOICE_LATE_FEE_WARNING", {
-          ...baseDetails,
-          estimated_late_fee: estimatedFee.toFixed(2),
+        await notify(rp.tenant_profile_id, "RENT_OVERDUE", {
+          ...base,
+          late_fee: round2(outstanding * LATE_FEE_RATE).toFixed(2),
+          warning_only: true,
         });
-        results.push(`${inv.invoice_code}: late fee warning sent (${daysOverdue} days overdue)`);
-        actionTaken = true;
+        results.push(`${rp.payment_ref}: late fee warning (${daysOverdue} days)`);
+        acted = true;
       }
-      // ─── Day 4 (3 overdue): friendly "you're late" notice ───
+      // ── 3 days: friendly nudge, no fee ─────────────────────────────────
       else if (daysOverdue === 3 && lastDays < 3) {
-        await notify(inv.tenant_profile_id, "INVOICE_LATE_NOTICE", baseDetails);
-        results.push(`${inv.invoice_code}: friendly late notice sent (${daysOverdue} days overdue)`);
-        actionTaken = true;
+        await notify(rp.tenant_profile_id, "RENT_OVERDUE", { ...base, late_fee: null });
+        results.push(`${rp.payment_ref}: friendly notice (${daysOverdue} days)`);
+        acted = true;
       }
 
-      if (actionTaken) {
-        await supabase
-          .from("invoices")
-          .update({
-            last_reminder_at: now.toISOString(),
-            last_reminder_days_overdue: daysOverdue,
-          })
-          .eq("id", inv.id);
+      if (acted) {
+        patch.last_reminder_at = now.toISOString();
+        patch.last_reminder_days_overdue = daysOverdue;
+        patch.is_late = true;
+        // Deliberately NOT touching status: OVERDUE is a display state, and
+        // moving a SUBMITTED row backwards would hide a tenant's proof.
+        if (rp.status === "PENDING") patch.status = "OVERDUE";
+
+        const { error: upErr } = await supabase
+          .from("rent_payments")
+          .update(patch)
+          .eq("id", rp.id);
+        if (upErr) {
+          console.error(`[check-late-fees] ${rp.payment_ref}: ${upErr.message}`);
+          results.push(`${rp.payment_ref}: UPDATE FAILED, ${upErr.message}`);
+        }
       }
     }
 
-    return new Response(JSON.stringify({ results }), { status: 200 });
+    return json({ results });
   } catch (err) {
-    return new Response(JSON.stringify({ error: (err as Error).message }), {
-      status: 500,
-    });
+    console.error("[check-late-fees]", err);
+    return json({ error: (err as Error).message }, 500);
   }
 });
+
+function json(body: unknown, status = 200) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { "Content-Type": "application/json" },
+  });
+}
