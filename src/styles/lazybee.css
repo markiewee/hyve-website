@@ -202,7 +202,11 @@
 
 /* ── navigation ───────────────────────────────────────────────────── */
 .lzb .brandlock{display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit}
-.lzb .brandlock svg{width:22px;height:auto;fill:currentColor}
+/* The bee is always brass. It is the one part of the identity that should not
+   follow the surface it sits on, so the mark reads the same over a dark
+   photograph and over the cream header. The wordmark still inherits, because
+   brass on cream at 15px would sit under the contrast floor for text. */
+.lzb .brandlock svg{width:22px;height:auto;fill:var(--accent)}
 .lzb .brandlock .wd{font-family:var(--display);letter-spacing:.30em;font-size:15px}
 .lzb .navlinks{display:flex;align-items:center;gap:22px;font-family:var(--mono);font-size:11.5px;
   letter-spacing:.18em;text-transform:uppercase}
