@@ -240,15 +240,32 @@ the entire class. That is a separate change and it needs its own approval.
 
 ## 9. Auth and isolation
 
-Each worker gets its own credential, never a shared service key. The three
-functions are `security definer` and each begins by checking the caller's
-`worker_id` is registered in `channel_workers` for the channel it named. A worker
-therefore cannot read or write another channel's placements even if it asks.
-
-Consequences that matter in practice: a stolen Mac mini costs you one revoked
-worker row, not the database. A buggy new connector cannot corrupt a working one.
-And every write is attributable to a named worker in `listing_push_log`, so "who
+Every function is `security definer` and each begins by checking the caller's
+`worker_id` is registered in `channel_workers` for the channel it named. Within
+the contract, a worker cannot reach another channel's placements even if it asks,
+and every write is attributable to a named worker in `listing_push_log`, so "who
 turned that listing off" always has an answer.
+
+**Credential, decided 2026-08-09: the Roomies worker uses the service role key.**
+Mark's call, on the grounds that the mini stays in his house. The honest cost is
+not theft, it is blast radius: the service role bypasses RLS, so a bug in a
+worker can reach any table in the database rather than only the four functions
+above. `security_invoker` on the views does not protect against this client.
+
+Two rules follow, and they apply to every future worker:
+
+1. **The key lives in a `600` env file, never in a plist, never in the repo.** On
+   the mini that is `~/.chudlife/secrets.env`. That machine runs FileVault off
+   with auto-login on by design, so treat anything on its disk as readable by
+   anything running as `mark`.
+2. **Keep the registration check even where it is redundant.** It costs nothing
+   under a service key, and it means tightening the credential later is a change
+   to authentication alone and to no other line of code.
+
+**Upgrade trigger: the second worker.** One machine holding one key is a
+defensible shortcut. Two workers sharing one key is a shared secret with no
+revocation story, and that is the point to move to a per-worker signed JWT
+carrying a `worker_id` claim, which the functions are already shaped to check.
 
 ## 10. Adding a channel
 

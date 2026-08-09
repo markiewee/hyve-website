@@ -29,22 +29,37 @@ Do not re-derive these. They were checked against production on 2026-08-09.
 | Portal test command | `node --test src/lib/<name>.test.js`. ESM, `node:test` + `node:assert/strict`. There is no `npm test` script. |
 | Mini runtime | `~/.claude/tools/roomies/.venv` (Playwright 1.62), profile `~/.claude/browser-profiles/roomies` |
 
-## Open decision that blocks Task 10: what credential the worker uses
+## Worker credential: DECIDED, service role key
 
-Spec section 9 says each worker gets its own credential, never a shared service
-key. Supabase does not make that free, and this plan will not pretend otherwise.
-Decide before Task 10, because the answer changes two lines of `worker.py` and
-nothing else.
+**Mark, 2026-08-09: option B, the service role key.** The mini lives in his house
+and is not going anywhere. Options A (a signed JWT carrying a `worker_id` claim)
+and C (a dedicated Postgres role) were the alternatives; both are recorded here
+because the upgrade path matters more than the choice.
 
-| Option | What it is | Trade-off |
-| --- | --- | --- |
-| **A. Signed JWT with a `worker_id` claim (recommended)** | Mint a long-lived JWT with the project JWT secret carrying `role: authenticated` and a custom `worker_id`. Each function additionally checks the claim matches the `p_worker_id` argument. | Genuinely per-worker and revocable by rotating one claim. Costs about 20 lines: a mint script and one `current_setting('request.jwt.claims')` check per function. |
-| **B. Service role key** | The mini holds the project service key. | One line of work, and the mini can then do anything to any table in the database. A stolen mini is a stolen database. The registration check becomes decoration. |
-| **C. Dedicated Postgres role + PostgREST** | A real database role with grants only on the four functions. | The most correct, and the most setup. Worth it at three or four workers, overkill at one. |
+**What this costs, stated plainly so nobody rediscovers it in six months.** The
+service role bypasses RLS completely. That is not primarily a theft risk, it is a
+blast-radius risk: a bug in a Playwright script can reach `tenancies`,
+`rent_payments` or `tenant_documents`, not just the four contract functions. It
+also means `security_invoker` on the views, added on 2026-08-09 to close exactly
+this kind of hole, protects nothing from this client. Worth knowing before
+writing the first careless `update`.
 
-Recommendation is A. Until it is chosen, `ROOMIES_WORKER_KEY` in Task 10 and
-Task 11 has no correct value, and those tasks cannot be run. Every task before
-Task 10 is unaffected.
+Two mitigations, neither of which needs a decision and both of which are in the
+tasks below:
+
+1. **The key never goes in the plist.** It lives in `~/.chudlife/secrets.env`,
+   mode `600`, sourced at run time, matching how
+   `com.markwee.chudlife.telegram-router` already does it on that machine. Note
+   the mini runs with FileVault off and auto-login on by design, so a key on that
+   disk is readable by anything running as `mark`.
+2. **The registration check in every function stays.** It is redundant under a
+   service key and costs nothing. It means moving to option A later is a change
+   to how the worker authenticates and to nothing else.
+
+Recorded as an upgrade trigger rather than a nag: **revisit when a second worker
+exists**, because at two workers the key stops being "the mini's key" and starts
+being a shared secret, which is the point where option A actually pays for
+itself.
 
 ## Non-Goals
 
