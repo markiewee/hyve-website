@@ -7,7 +7,13 @@
     { "source": "/view/:path*", "destination": "https://book.lazybee.sg", "statusCode": 301 }
   ],
   "rewrites": [
-    { "source": "/((?!api/|pitchv1).*)", "destination": "/index.html" }
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/faqs", "destination": "/faqs/index.html" },
+    { "source": "/contact", "destination": "/contact/index.html" },
+    { "source": "/privacy-policy", "destination": "/privacy-policy/index.html" },
+    { "source": "/terms-of-service", "destination": "/terms-of-service/index.html" },
+    { "source": "/cookie-policy", "destination": "/cookie-policy/index.html" },
+    { "source": "/((?!api/|pitchv1).*)", "destination": "/app.html" }
   ],
   "headers": [
     {

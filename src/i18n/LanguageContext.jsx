@@ -6,8 +6,16 @@ const translations = { en, zh };
 const LanguageContext = createContext();
 
 function detectLanguage() {
-  const saved = localStorage.getItem("lazybee_lang");
-  if (saved) return saved;
+  // The prerender step renders these pages in Node, where there is no localStorage
+  // and no navigator. English is the right default there: it is what the static
+  // HTML a crawler reads should be in, and the browser corrects it on first paint.
+  if (typeof window === "undefined") return "en";
+  try {
+    const saved = window.localStorage.getItem("lazybee_lang");
+    if (saved) return saved;
+  } catch {
+    // private mode, or storage disabled
+  }
   // Auto-detect from browser
   const browserLang = navigator.language || navigator.userLanguage || "";
   if (browserLang.startsWith("zh")) return "zh";
@@ -19,7 +27,11 @@ export function LanguageProvider({ children }) {
 
   function setLanguage(l) {
     setLang(l);
-    localStorage.setItem("lazybee_lang", l);
+    try {
+      window.localStorage.setItem("lazybee_lang", l);
+    } catch {
+      // not worth breaking the page over
+    }
   }
 
   function t(key, params = {}) {

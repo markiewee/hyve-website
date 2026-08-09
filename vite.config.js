@@ -11,4 +11,11 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  ssr: {
+    // The prerender build (npm run build:ssr) runs the marketing pages through
+    // react-dom/server in Node. These packages ship CommonJS only, so Node cannot
+    // import their named exports from an ESM bundle. Bundling them instead of
+    // externalising them lets Rollup handle the interop.
+    noExternal: ['react-helmet-async', 'framer-motion', 'posthog-js'],
+  },
 })
