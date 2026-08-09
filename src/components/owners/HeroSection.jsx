@@ -45,9 +45,13 @@ export default function HeroSection({ heroRef, variant, copy, estimator, distric
             <img
               src={HOME_HERO[h.code]}
               alt=""
-              /* the first frame is the largest paint on the page, so it is never lazy */
-              loading={i === 0 ? 'eager' : 'lazy'}
-              fetchPriority={i === 0 ? 'high' : 'auto'}
+              /* Every frame loads eagerly. These are stacked on top of each other and
+                 the carousel swaps them on a six second timer, so a lazy frame is
+                 still downloading when it is shown and the hero goes black. The first
+                 one is the largest paint on the page and keeps priority; the other two
+                 have six seconds of head start, which is ample. */
+              loading="eager"
+              fetchPriority={i === 0 ? 'high' : 'low'}
             />
           </div>
         ))}
