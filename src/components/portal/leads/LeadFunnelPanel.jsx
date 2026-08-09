@@ -63,19 +63,19 @@ export function LeadFunnelPanel() {
   const sankey = useMemo(() => buildSankeyData(filtered), [filtered]);
 
   return (
-    <div className="mb-4 border border-slate-200 rounded-lg bg-white">
+    <div className="mb-4 border border-border rounded-lg bg-surface">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-slate-100">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border">
         <div className="flex items-center gap-2">
-          <h2 className="text-sm font-semibold text-slate-700">Lead funnel</h2>
-          <span className="text-xs text-slate-500">({kpis.total})</span>
+          <h2 className="text-sm font-semibold text-foreground">Lead funnel</h2>
+          <span className="text-xs text-foreground-variant">({kpis.total})</span>
           {loading ? (
-            <span className="text-[11px] text-slate-400">loading…</span>
+            <span className="text-[11px] text-foreground-variant">loading…</span>
           ) : null}
         </div>
         <div className="flex items-center gap-3">
           <div
-            className="inline-flex bg-slate-100 rounded-md p-0.5"
+            className="inline-flex bg-surface-container rounded-md p-0.5"
             role="radiogroup"
             aria-label="Timeframe"
           >
@@ -87,8 +87,8 @@ export function LeadFunnelPanel() {
                 onClick={() => setTimeframe(t.value)}
                 className={`px-2.5 py-1 text-xs rounded transition-colors ${
                   timeframe === t.value
-                    ? "bg-white shadow text-slate-900"
-                    : "text-slate-500 hover:text-slate-700"
+                    ? "bg-white/5 text-foreground"
+                    : "text-foreground-variant hover:text-foreground"
                 }`}
               >
                 {t.label}
@@ -97,7 +97,7 @@ export function LeadFunnelPanel() {
           </div>
           <button
             onClick={() => setCollapsed((v) => !v)}
-            className="p-1 rounded hover:bg-slate-100 text-slate-500"
+            className="p-1 rounded hover:bg-white/5 text-foreground-variant"
             aria-label={collapsed ? "Expand funnel" : "Collapse funnel"}
           >
             {collapsed ? <ChevronDown size={16} /> : <ChevronUp size={16} />}

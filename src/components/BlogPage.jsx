@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { blogPosts } from '../data/sampleData';
 import SEO from './SEO';
+import { breadcrumbSchema } from '../lib/seo';
 
 const BlogPage = () => {
   const [posts, setPosts] = useState([]);
@@ -52,21 +53,21 @@ const BlogPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#FAF6EC] pt-24 pb-32">
+      <main className="bg-background text-foreground pt-24 md:pt-28 min-h-screen pb-32">
         <div className="max-w-screen-2xl mx-auto px-6 md:px-8">
           <div className="animate-pulse">
-            <div className="h-[400px] bg-slate-200 rounded-[2.5rem] mb-20"></div>
+            <div className="h-[400px] bg-surface rounded-[2.5rem] mb-20"></div>
             <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
               {Array.from({ length: 4 }).map((_, i) => (
                 <div key={i} className="md:col-span-4">
-                  <div className="aspect-square bg-slate-200 rounded-3xl mb-6"></div>
-                  <div className="h-6 bg-slate-200 rounded w-2/3"></div>
+                  <div className="aspect-square bg-surface rounded-3xl mb-6"></div>
+                  <div className="h-6 bg-surface rounded w-2/3"></div>
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </div>
+      </main>
     );
   }
 
@@ -75,33 +76,35 @@ const BlogPage = () => {
   const remainingPosts = filteredPosts.slice(2);
 
   return (
-    <div className="min-h-screen bg-[#FAF6EC] pt-24 pb-32">
+    <main className="bg-background text-foreground pt-24 md:pt-28 min-h-screen pb-32">
       <SEO
-        title="Blog — Co-living Stories & Tips"
-        description="Read about co-living in Singapore: tips, stories, neighborhood guides, and lifestyle content from the Lazybee community."
+        title="Co-living Blog"
+        description="Tips and guides on co-living, renting and moving in Singapore — from Lazybee."
         canonical="/blog"
+        schema={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }])}
       />
+
       {/* Hero */}
       <header className="max-w-screen-2xl mx-auto px-6 md:px-8 mb-20">
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-[#F2D88A] min-h-[400px] md:min-h-[500px] flex items-center">
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-surface-container min-h-[400px] md:min-h-[500px] flex items-center border border-border">
           <div className="absolute inset-0 z-0">
-            <div className="w-full h-full bg-gradient-to-r from-[#FAF6EC] via-[#FAF6EC]/80 to-transparent"></div>
+            <div className="w-full h-full bg-gradient-to-r from-background via-background/80 to-transparent"></div>
           </div>
           {/* Decorative elements */}
-          <div className="absolute right-12 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-6 z-0 opacity-20">
-            <div className="w-48 h-48 rounded-full border-[3px] border-[#A87813]"></div>
-            <div className="w-32 h-32 rounded-full bg-[#D9A441]/40 -mt-20 ml-24"></div>
-            <div className="w-24 h-24 rounded-2xl border-[3px] border-[#D9A441] rotate-12 -mt-10 ml-4"></div>
+          <div className="absolute right-12 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-6 z-0 opacity-10">
+            <div className="w-48 h-48 rounded-full border-[3px] border-accent"></div>
+            <div className="w-32 h-32 rounded-full bg-accent/30 -mt-20 ml-24"></div>
+            <div className="w-24 h-24 rounded-2xl border-[3px] border-accent rotate-12 -mt-10 ml-4"></div>
           </div>
-          <div className="absolute -right-8 -bottom-8 w-64 h-64 bg-[#D9A441]/20 rounded-full blur-3xl z-0"></div>
+          <div className="absolute -right-8 -bottom-8 w-64 h-64 bg-accent/10 rounded-full blur-3xl z-0"></div>
           <div className="relative z-10 max-w-3xl px-8 md:px-20">
-            <span className="inline-block py-1 px-4 rounded-full bg-[#D9A441] text-[#1F2937] font-['Inter'] font-semibold text-xs tracking-wider mb-6">
-              JOURNAL
+            <span className="inline-block py-1 px-4 rounded-full bg-accent text-background font-display font-semibold text-xs tracking-display mb-6 uppercase">
+              Journal
             </span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-['Plus_Jakarta_Sans'] font-extrabold tracking-tighter text-[#1F2937] leading-[0.9] mb-8">
-              Stories from the <span className="text-[#A87813] italic">Sanctuary</span>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-display text-foreground leading-[0.9] mb-8">
+              Stories from the <span className="text-accent italic">Sanctuary</span>
             </h1>
-            <p className="text-xl text-[#1F2937] font-['Manrope'] max-w-xl leading-relaxed">
+            <p className="text-xl text-foreground-variant max-w-xl leading-relaxed">
               Insights into coliving, community building, and the vibrant events shaping our global network.
             </p>
           </div>
@@ -110,26 +113,26 @@ const BlogPage = () => {
 
       {/* Categories & Search */}
       <section className="max-w-screen-2xl mx-auto px-6 md:px-8 mb-12">
-        <div className="flex flex-wrap items-center justify-between gap-6 border-b border-[rgba(187,202,198,0.15)] pb-8">
+        <div className="flex flex-wrap items-center justify-between gap-6 border-b border-border pb-8">
           <div className="flex gap-3 flex-wrap">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 rounded-xl font-['Inter'] text-sm font-semibold transition-all ${
+                className={`px-6 py-2 rounded-xl font-display text-sm font-semibold transition-all ${
                   selectedCategory === category
-                    ? 'bg-[#A87813] text-white'
-                    : 'bg-[#FAF0CC] text-[#6B7280] hover:bg-[#FAF0CC]'
+                    ? 'bg-accent text-background'
+                    : 'bg-surface text-foreground-variant hover:bg-surface-container hover:text-foreground border border-border'
                 }`}
               >
                 {category === 'all' ? 'All Stories' : category}
               </button>
             ))}
           </div>
-          <div className="flex items-center bg-white rounded-xl px-4 py-2 border border-[rgba(187,202,198,0.15)] w-full md:w-80">
-            <span className="material-symbols-outlined text-[#6B7280] mr-2">search</span>
+          <div className="flex items-center bg-surface rounded-xl px-4 py-2 border border-border w-full md:w-80">
+            <span className="material-symbols-outlined text-foreground-variant mr-2">search</span>
             <input
-              className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm font-['Manrope'] w-full"
+              className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm text-foreground placeholder:text-foreground-variant w-full"
               placeholder="Search articles..."
               type="text"
               value={searchTerm}
@@ -143,14 +146,14 @@ const BlogPage = () => {
       <section className="max-w-screen-2xl mx-auto px-6 md:px-8">
         {filteredPosts.length === 0 ? (
           <div className="text-center py-20">
-            <span className="material-symbols-outlined text-6xl text-slate-300 mb-4 block">article</span>
-            <h3 className="text-xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] mb-2">
+            <span className="material-symbols-outlined text-6xl text-foreground-variant mb-4 block">article</span>
+            <h3 className="text-xl font-display font-bold text-foreground mb-2">
               No articles found
             </h3>
-            <p className="text-[#1F2937] mb-4">Try adjusting your search or filters.</p>
+            <p className="text-foreground-variant mb-4">Try adjusting your search or filters.</p>
             <button
               onClick={() => { setSearchTerm(''); setSelectedCategory('all'); }}
-              className="bg-[#A87813] text-white px-6 py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold hover:opacity-90 transition-all"
+              className="bg-accent text-background px-6 py-3 rounded-full font-display font-bold hover:opacity-90 transition-all"
             >
               Clear All Filters
             </button>
@@ -161,7 +164,7 @@ const BlogPage = () => {
             {featuredPost && (
               <article className="md:col-span-8 group cursor-pointer">
                 <Link to={`/blog/${featuredPost.slug}`}>
-                  <div className="relative overflow-hidden rounded-3xl bg-white transition-all mb-6">
+                  <div className="relative overflow-hidden rounded-3xl bg-surface border border-border hover:border-accent transition-colors mb-6">
                     <img
                       className="w-full aspect-[16/9] object-cover group-hover:scale-105 transition-transform duration-700"
                       src={featuredPost.featuredImage}
@@ -170,20 +173,20 @@ const BlogPage = () => {
                       onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-blog.jpg'; }}
                     />
                     <div className="absolute top-6 left-6">
-                      <span className="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-['Inter'] font-bold text-[#A87813] shadow-sm uppercase tracking-widest">
+                      <span className="bg-background/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-display font-bold text-accent uppercase tracking-display">
                         {featuredPost.category}
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 mb-4 text-[#6B7280] text-xs font-['Inter'] font-semibold uppercase tracking-widest">
+                  <div className="flex items-center gap-4 mb-4 text-foreground-variant text-xs font-display font-semibold uppercase tracking-display">
                     <span>{formatDate(featuredPost.publishedAt)}</span>
-                    <span className="w-1 h-1 rounded-full bg-[#E8E0CE]"></span>
+                    <span className="w-1 h-1 rounded-full bg-border"></span>
                     <span>{featuredPost.readTime} MIN READ</span>
                   </div>
-                  <h2 className="text-3xl md:text-4xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] group-hover:text-[#A87813] transition-colors leading-tight mb-4">
+                  <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground group-hover:text-accent transition-colors leading-tight mb-4">
                     {featuredPost.title}
                   </h2>
-                  <p className="text-lg text-[#1F2937] font-['Manrope'] leading-relaxed max-w-2xl">
+                  <p className="text-lg text-foreground-variant leading-relaxed max-w-2xl">
                     {featuredPost.excerpt}
                   </p>
                 </Link>
@@ -194,7 +197,7 @@ const BlogPage = () => {
             {sidebarPost && (
               <article className="md:col-span-4 group cursor-pointer">
                 <Link to={`/blog/${sidebarPost.slug}`}>
-                  <div className="relative overflow-hidden rounded-3xl bg-white mb-6">
+                  <div className="relative overflow-hidden rounded-3xl bg-surface border border-border hover:border-accent transition-colors mb-6">
                     <img
                       className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-700"
                       src={sidebarPost.featuredImage}
@@ -203,17 +206,17 @@ const BlogPage = () => {
                       onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-blog.jpg'; }}
                     />
                     <div className="absolute top-4 left-4">
-                      <span className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-['Inter'] font-bold text-[#A87813] shadow-sm uppercase tracking-widest">
+                      <span className="bg-background/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-display font-bold text-accent uppercase tracking-display">
                         {sidebarPost.category}
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 mb-3 text-[#6B7280] text-[10px] font-['Inter'] font-semibold uppercase tracking-widest">
+                  <div className="flex items-center gap-3 mb-3 text-foreground-variant text-sm font-display font-semibold uppercase tracking-display">
                     <span>{formatDate(sidebarPost.publishedAt)}</span>
-                    <span className="w-1 h-1 rounded-full bg-[#E8E0CE]"></span>
+                    <span className="w-1 h-1 rounded-full bg-border"></span>
                     <span>{sidebarPost.readTime} MIN READ</span>
                   </div>
-                  <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] group-hover:text-[#A87813] transition-colors leading-snug">
+                  <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-accent transition-colors leading-snug">
                     {sidebarPost.title}
                   </h3>
                 </Link>
@@ -224,7 +227,7 @@ const BlogPage = () => {
             {remainingPosts.map((post) => (
               <article key={post.id} className="md:col-span-4 group cursor-pointer">
                 <Link to={`/blog/${post.slug}`}>
-                  <div className="relative overflow-hidden rounded-3xl bg-white mb-6">
+                  <div className="relative overflow-hidden rounded-3xl bg-surface border border-border hover:border-accent transition-colors mb-6">
                     <img
                       className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-700"
                       src={post.featuredImage}
@@ -233,17 +236,17 @@ const BlogPage = () => {
                       onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-blog.jpg'; }}
                     />
                     <div className="absolute top-4 left-4">
-                      <span className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-['Inter'] font-bold text-[#A87813] shadow-sm uppercase tracking-widest">
+                      <span className="bg-background/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-display font-bold text-accent uppercase tracking-display">
                         {post.category}
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 mb-3 text-[#6B7280] text-[10px] font-['Inter'] font-semibold uppercase tracking-widest">
+                  <div className="flex items-center gap-3 mb-3 text-foreground-variant text-sm font-display font-semibold uppercase tracking-display">
                     <span>{formatDate(post.publishedAt)}</span>
-                    <span className="w-1 h-1 rounded-full bg-[#E8E0CE]"></span>
+                    <span className="w-1 h-1 rounded-full bg-border"></span>
                     <span>{post.readTime} MIN READ</span>
                   </div>
-                  <h3 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937] group-hover:text-[#A87813] transition-colors leading-snug">
+                  <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-accent transition-colors leading-snug">
                     {post.title}
                   </h3>
                 </Link>
@@ -251,24 +254,24 @@ const BlogPage = () => {
             ))}
 
             {/* Newsletter CTA */}
-            <aside className="md:col-span-4 flex flex-col justify-center bg-[#A87813] text-white rounded-[2.5rem] p-10 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#D9A441]/20 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+            <aside className="md:col-span-4 flex flex-col justify-center bg-accent text-background rounded-[2.5rem] p-10 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-background/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
               <span
                 className="material-symbols-outlined text-4xl mb-6"
                 style={{ fontVariationSettings: "'FILL' 1" }}
               >
                 format_quote
               </span>
-              <h4 className="text-2xl font-['Plus_Jakarta_Sans'] font-bold leading-tight mb-8">
+              <h4 className="text-2xl font-display font-bold leading-tight mb-8">
                 &ldquo;Design is not just what it looks like; it&apos;s how it fosters connection.&rdquo;
               </h4>
-              <div className="border-t border-white/20 pt-8 mt-4">
-                <p className="text-sm font-['Inter'] font-bold tracking-widest uppercase mb-4">
+              <div className="border-t border-background/20 pt-8 mt-4">
+                <p className="text-sm font-display font-bold tracking-display uppercase mb-4">
                   JOIN OUR COMMUNITY
                 </p>
                 <button
                   onClick={() => window.open('https://t.me/lazybee_sg', '_blank', 'noopener,noreferrer')}
-                  className="w-full bg-white text-[#A87813] rounded-xl px-4 py-3 font-['Plus_Jakarta_Sans'] font-bold hover:bg-slate-50 transition-colors"
+                  className="w-full bg-background text-accent rounded-xl px-4 py-3 font-display font-bold hover:opacity-90 transition-colors"
                 >
                   Join Telegram
                 </button>
@@ -277,7 +280,7 @@ const BlogPage = () => {
           </div>
         )}
       </section>
-    </div>
+    </main>
   );
 };
 

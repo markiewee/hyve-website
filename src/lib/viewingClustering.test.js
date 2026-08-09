@@ -422,3 +422,44 @@ test("buildWindowsResponse filters blockers to those overlapping each window", (
   assert.ok(fri.slots.some((s) => s.state === SLOT_STATE.BLOCKED_CONFLICT));
   assert.ok(sat.slots.every((s) => s.state !== SLOT_STATE.BLOCKED_CONFLICT));
 });
+
+// Regression: 30-min booking starting at a non-aligned 15-min boundary used to
+// leak grid slots that overlapped its second half (Shri K · 30 May · 12:00).
+// Sharlyn's 11:45–12:15 IH viewing should make BOTH the 11:45 and 12:00 grid
+// slots BOOKED, and validateBookingAttempt should reject 12:00 as slot-taken.
+test("30-min booking at 19:45 blocks both 19:45 AND 20:00 grid slots", () => {
+  const bookings = [{
+    slot_start: "2026-05-15T19:45:00+08:00",
+    slot_end:   "2026-05-15T20:15:00+08:00",
+    property_code: "IH",
+    status: "confirmed",
+  }];
+  const r = resolveSlots({
+    propertyOfInterest: "IH",
+    window: friWindow(),
+    gcalEvent: openGcal,
+    bookings,
+  });
+  const at1945 = r.slots.find((s) => s.start === SLOT_AT("19:45"));
+  const at2000 = r.slots.find((s) => s.start === SLOT_AT("20:00"));
+  assert.equal(at1945.state, SLOT_STATE.BOOKED);
+  assert.equal(at2000.state, SLOT_STATE.BOOKED, "20:00 sits inside the 19:45–20:15 booking and must be BOOKED");
+});
+
+test("validateBookingAttempt rejects a 30-min-overlapping slot with slot-taken", () => {
+  const bookings = [{
+    slot_start: "2026-05-15T19:45:00+08:00",
+    slot_end:   "2026-05-15T20:15:00+08:00",
+    property_code: "IH",
+    status: "confirmed",
+  }];
+  const result = validateBookingAttempt({
+    propertyOfInterest: "IH",
+    slotStartIso: "2026-05-15T20:00:00+08:00", // mid-overlap
+    window: friWindow(),
+    gcalEvent: openGcal,
+    bookings,
+  });
+  assert.ok(result, "expected a rejection");
+  assert.equal(result.code, "slot-taken");
+});

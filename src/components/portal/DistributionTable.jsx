@@ -21,8 +21,8 @@ function formatSGD(amount) {
 }
 
 const STATUS_BADGE = {
-  PAID: "bg-green-100 text-green-700",
-  PENDING: "bg-yellow-100 text-yellow-700",
+  PAID: "bg-emerald-500/15 text-emerald-300",
+  PENDING: "bg-amber-500/15 text-amber-300",
 };
 
 function DistributionRows({ items, showCumulative }) {

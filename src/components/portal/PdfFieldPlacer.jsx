@@ -10,13 +10,13 @@ const RENDER_WIDTH = 612;
 const FIELD_TYPES = [
   { key: "TENANT_NAME", label: "Member Name", color: "#3b82f6" },
   { key: "ID_NUMBER", label: "ID Number", color: "#8b5cf6" },
-  { key: "PHONE", label: "Phone", color: "#D9A441" },
-  { key: "ROOM_CODE", label: "Room", color: "#D9A441" },
+  { key: "PHONE", label: "Phone", color: "#c47a35" },
+  { key: "ROOM_CODE", label: "Room", color: "#c47a35" },
   { key: "PROPERTY_NAME", label: "Property", color: "#f59e0b" },
   { key: "PROPERTY_ADDRESS", label: "Address", color: "#ef4444" },
   { key: "MONTHLY_RENT", label: "Rent", color: "#ec4899" },
   { key: "DEPOSIT_AMOUNT", label: "Deposit", color: "#f97316" },
-  { key: "LICENCE_PERIOD", label: "Licence Period", color: "#D9A441" },
+  { key: "LICENCE_PERIOD", label: "Licence Period", color: "#c47a35" },
   { key: "START_DATE", label: "Start Date", color: "#6366f1" },
   { key: "END_DATE", label: "End Date", color: "#a855f7" },
   { key: "REF_NUMBER", label: "Ref Number", color: "#78716c" },
@@ -25,7 +25,7 @@ const FIELD_TYPES = [
 
 const SIG_TYPES = [
   { key: "tenant", label: "Member Signature", color: "#3b82f6" },
-  { key: "admin", label: "Licensor Signature", color: "#A87813" },
+  { key: "admin", label: "Licensor Signature", color: "#c47a35" },
 ];
 
 function clamp(val, min, max) { return Math.max(min, Math.min(max, val)); }
@@ -151,14 +151,14 @@ export default function PdfFieldPlacer({ pdfUrl, fields = [], signatures = {}, o
   const resolveP = (p) => (p === "last" && numPages) ? numPages : (typeof p === "number" ? p : 1);
   const visibleSigs = SIG_TYPES.filter(s => resolveP(signatures[s.key]?.page ?? "last") === viewPage);
 
-  if (error) return <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">{error}</div>;
+  if (error) return <div className="rounded-lg border border-red-500/25 bg-red-500/10 p-4 text-sm text-red-300">{error}</div>;
 
   return (
     <div className="space-y-3">
       {/* Toolbar: add fields */}
       <div className="space-y-2">
-        <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold">
-          Add Data Fields <span className="normal-case tracking-normal text-[#E8E0CE]">— click to place on page {viewPage}</span>
+        <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold">
+          Add Data Fields <span className="normal-case tracking-normal text-foreground-variant">— click to place on page {viewPage}</span>
         </p>
         <div className="flex flex-wrap gap-1.5">
           {availableFields.map(f => (
@@ -168,7 +168,7 @@ export default function PdfFieldPlacer({ pdfUrl, fields = [], signatures = {}, o
               + {f.label}
             </button>
           ))}
-          {availableFields.length === 0 && <span className="text-[10px] text-[#E8E0CE]">All fields placed</span>}
+          {availableFields.length === 0 && <span className="text-[10px] text-foreground-variant">All fields placed</span>}
         </div>
       </div>
 
@@ -184,7 +184,7 @@ export default function PdfFieldPlacer({ pdfUrl, fields = [], signatures = {}, o
       )}
 
       {/* PDF + overlays */}
-      <div className="relative border border-border rounded-lg overflow-hidden bg-gray-100 inline-block" style={{ width: RENDER_WIDTH }}>
+      <div className="relative border border-border rounded-lg overflow-hidden bg-surface-container inline-block" style={{ width: RENDER_WIDTH }}>
         {loading && <div className="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground z-10">Loading PDF...</div>}
 
         <Document
@@ -227,7 +227,7 @@ export default function PdfFieldPlacer({ pdfUrl, fields = [], signatures = {}, o
           {fields.map((f, i) => (
             <div key={f.key}>
               {f.label}: pg{f.page} x={f.x} y={f.y} w={f.width}
-              <button onClick={() => removeField(i)} className="ml-2 text-red-400 hover:text-red-600">remove</button>
+              <button onClick={() => removeField(i)} className="ml-2 text-red-400 hover:text-red-300">remove</button>
             </div>
           ))}
         </div>

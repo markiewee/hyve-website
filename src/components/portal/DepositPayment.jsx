@@ -60,10 +60,17 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
       const timestamp = Date.now();
       const path = `tenants/${profile.id}/deposit-proof-${timestamp}.jpg`;
 
+      // Android galleries often give an empty file.type. supabase-js takes the
+      // multipart content-type from the Blob's own .type (ignoring the option),
+      // so re-wrap into a typed File so the proof renders inline.
+      const typedProof =
+        proofFile.type && proofFile.type.startsWith("image/")
+          ? proofFile
+          : new File([proofFile], proofFile.name || `deposit-proof.jpg`, { type: "image/jpeg" });
       setUploading(true);
       const { error: uploadError } = await supabase.storage
         .from("tenant-documents")
-        .upload(path, proofFile, { upsert: true });
+        .upload(path, typedProof, { upsert: true });
       setUploading(false);
 
       if (uploadError) throw uploadError;
@@ -125,10 +132,10 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
   // Verified state
   if (onboarding?.deposit_verified) {
     return (
-      <div className="rounded-md border border-green-200 bg-green-50 p-6 text-center">
-        <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-green-100 flex items-center justify-center">
+      <div className="rounded-md border border-emerald-500/25 bg-emerald-500/10 p-6 text-center">
+        <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-emerald-500/15 flex items-center justify-center">
           <svg
-            className="w-6 h-6 text-green-600"
+            className="w-6 h-6 text-emerald-300"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -141,8 +148,8 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
             />
           </svg>
         </div>
-        <p className="text-sm font-medium text-green-800">Deposit Verified</p>
-        <p className="text-xs text-green-700 mt-1">
+        <p className="text-sm font-medium text-emerald-300">Deposit Verified</p>
+        <p className="text-xs text-emerald-300 mt-1">
           Your security deposit has been received and verified.
         </p>
       </div>
@@ -155,10 +162,10 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
     onboarding?.deposit_proof_url
   ) {
     return (
-      <div className="rounded-md border border-amber-200 bg-amber-50 p-6 text-center">
-        <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-amber-100 flex items-center justify-center">
+      <div className="rounded-md border border-amber-500/25 bg-amber-500/10 p-6 text-center">
+        <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-amber-500/15 flex items-center justify-center">
           <svg
-            className="w-6 h-6 text-amber-600"
+            className="w-6 h-6 text-amber-300"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -171,10 +178,10 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
             />
           </svg>
         </div>
-        <p className="text-sm font-medium text-amber-800">
+        <p className="text-sm font-medium text-amber-300">
           Pending Verification
         </p>
-        <p className="text-xs text-amber-700 mt-1">
+        <p className="text-xs text-amber-300 mt-1">
           Your bank transfer proof has been submitted. Admin will verify within
           24 hours.
         </p>
@@ -197,7 +204,7 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
           <CardHeader className="pb-3">
             <CardTitle className="text-sm">
               Bank Transfer{" "}
-              <span className="text-green-600 font-normal">(Free)</span>
+              <span className="text-emerald-400 font-normal">(Free)</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -256,7 +263,7 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
           <CardHeader className="pb-3">
             <CardTitle className="text-sm">
               Pay via Stripe{" "}
-              <span className="text-blue-600 font-normal">(Instant)</span>
+              <span className="text-blue-400 font-normal">(Instant)</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -292,7 +299,7 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
         </Card>
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-400">{error}</p>}
     </div>
   );
 }

@@ -27,10 +27,10 @@ function daysBetween(dateA, dateB) {
 }
 
 const STATUS_BADGE = {
-  PENDING: "bg-gray-100 text-gray-600",
-  PAID: "bg-green-100 text-green-700",
-  OVERDUE: "bg-red-100 text-red-700",
-  PARTIAL: "bg-yellow-100 text-yellow-700",
+  PENDING: "bg-surface-container text-foreground-variant",
+  PAID: "bg-emerald-500/15 text-emerald-300",
+  OVERDUE: "bg-red-500/15 text-red-300",
+  PARTIAL: "bg-amber-500/15 text-amber-300",
 };
 
 export default function RentPaymentCard({ payment, lateFeePerDay = 5 }) {
@@ -64,13 +64,13 @@ export default function RentPaymentCard({ payment, lateFeePerDay = 5 }) {
   }
 
   const statusIcon = status === "PAID" ? "check_circle" : status === "OVERDUE" ? "error" : "schedule";
-  const iconColor = status === "PAID" ? "text-green-500" : status === "OVERDUE" ? "text-red-500" : "text-[#A87813]";
+  const iconColor = status === "PAID" ? "text-emerald-400" : status === "OVERDUE" ? "text-red-400" : "text-accent";
 
   return (
     <div className="flex items-center gap-4 px-6 py-5">
       {/* Icon */}
       <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-        status === "PAID" ? "bg-green-50" : status === "OVERDUE" ? "bg-red-50" : "bg-[#F2D88A]"
+        status === "PAID" ? "bg-emerald-500/15" : status === "OVERDUE" ? "bg-red-500/15" : "bg-accent/15"
       }`}>
         <span className={`material-symbols-outlined text-[20px] ${iconColor}`} style={{ fontVariationSettings: "'FILL' 1" }}>
           {statusIcon}
@@ -79,22 +79,22 @@ export default function RentPaymentCard({ payment, lateFeePerDay = 5 }) {
 
       {/* Details */}
       <div className="min-w-0 flex-1">
-        <p className="font-['Manrope'] font-bold text-sm text-[#1F2937]">{formatMonth(month)}</p>
-        <p className="font-['Inter'] text-xs text-[#6B7280] mt-0.5">
+        <p className="font-['Inter'] font-bold text-sm text-foreground">{formatMonth(month)}</p>
+        <p className="font-['Inter'] text-xs text-foreground-variant mt-0.5">
           {status === "PAID" && (
             <>
               Paid {formatDate(paid_at)}
               {is_late ? (
-                <span className="text-red-500 ml-1">· {daysLate}d late</span>
+                <span className="text-red-400 ml-1">· {daysLate}d late</span>
               ) : (
-                <span className="text-green-600 ml-1">· On time</span>
+                <span className="text-emerald-400 ml-1">· On time</span>
               )}
             </>
           )}
           {status === "OVERDUE" && due_date && (
             <>
               Due {formatDate(due_date)}
-              {daysOverdue > 0 && <span className="text-red-500 ml-1">· {daysOverdue}d overdue</span>}
+              {daysOverdue > 0 && <span className="text-red-400 ml-1">· {daysOverdue}d overdue</span>}
             </>
           )}
           {status === "PENDING" && due_date && <>Due {formatDate(due_date)}</>}
@@ -104,9 +104,9 @@ export default function RentPaymentCard({ payment, lateFeePerDay = 5 }) {
 
       {/* Amount */}
       <div className="text-right shrink-0">
-        <p className="font-['Plus_Jakarta_Sans'] font-bold text-[#1F2937]">{formatSGD(rent_amount)}</p>
+        <p className="font-display font-bold text-foreground">{formatSGD(rent_amount)}</p>
         {(late_fee > 0 || calculatedLateFee > 0) && (
-          <p className="font-['Inter'] text-[10px] text-red-500">+{formatSGD(calculatedLateFee || late_fee)} late fee</p>
+          <p className="font-['Inter'] text-[10px] text-red-400">+{formatSGD(calculatedLateFee || late_fee)} late fee</p>
         )}
       </div>
 

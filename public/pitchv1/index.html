@@ -623,8 +623,9 @@
   }
   .showcase-photo {
     width: 50%;
-    background-size: cover;
-    background-position: center;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
   .showcase-content {
     width: 50%;
@@ -1281,7 +1282,7 @@
 
   <!-- SLIDE 9 — THOMSON GROVE -->
   <section class="slide showcase">
-    <div class="showcase-photo" style="background-image: url('assets/tg.jpg');"></div>
+    <img class="showcase-photo" src="assets/tg.jpg" alt="Thomson Grove" loading="eager" />
     <div class="showcase-content">
       <div class="wordmark slide-wordmark">lazybee<span class="dot">.</span></div>
       <div class="label">Property 01</div>
@@ -1302,7 +1303,7 @@
 
   <!-- SLIDE 9 — IVORY HEIGHTS -->
   <section class="slide showcase">
-    <div class="showcase-photo" style="background-image: url('assets/ih.jpg');"></div>
+    <img class="showcase-photo" src="assets/ih.jpg" alt="Ivory Heights" loading="eager" />
     <div class="showcase-content">
       <div class="wordmark slide-wordmark">lazybee<span class="dot">.</span></div>
       <div class="label">Property 02</div>
@@ -1323,7 +1324,7 @@
 
   <!-- SLIDE 10 — CHILTERN PARK -->
   <section class="slide showcase">
-    <div class="showcase-photo" style="background-image: url('assets/cp.jpg');"></div>
+    <img class="showcase-photo" src="assets/cp.jpg" alt="Chiltern Park" loading="eager" />
     <div class="showcase-content">
       <div class="wordmark slide-wordmark">lazybee<span class="dot">.</span></div>
       <div class="label">Property 03</div>

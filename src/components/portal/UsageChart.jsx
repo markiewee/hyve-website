@@ -36,15 +36,15 @@ export default function UsageChart({
     <div>
       {/* View toggle */}
       <div className="flex justify-center mb-4">
-        <div className="inline-flex bg-gray-100 rounded-lg p-0.5">
+        <div className="inline-flex bg-surface-container rounded-lg p-0.5">
           {VIEWS.map((v) => (
             <button
               key={v}
               onClick={() => setView(v)}
               className={`px-4 py-1.5 rounded-md text-xs font-medium transition-colors ${
                 view === v
-                  ? "bg-black text-white shadow-sm"
-                  : "text-gray-500 hover:text-gray-700"
+                  ? "bg-accent text-white"
+                  : "text-foreground-variant hover:text-foreground"
               }`}
             >
               {VIEW_LABELS[v]}
@@ -73,20 +73,20 @@ export default function UsageChart({
         >
           <XAxis
             dataKey="label"
-            tick={{ fontSize: 10, fill: "#9ca3af" }}
+            tick={{ fontSize: 10, fill: "#c4c7c7" }}
             tickLine={false}
             axisLine={false}
             interval={view === "day" ? 2 : 0}
           />
           <YAxis
-            tick={{ fontSize: 11, fill: "#9ca3af" }}
+            tick={{ fontSize: 11, fill: "#c4c7c7" }}
             tickLine={false}
             axisLine={false}
             unit="h"
           />
           <Tooltip
             formatter={(value) => [`${value}h`, "AC Runtime"]}
-            contentStyle={{ fontSize: 12, borderRadius: 8 }}
+            contentStyle={{ fontSize: 12, borderRadius: 8, backgroundColor: "#1e2020", border: "1px solid #2a2d2d", color: "#e2e2e2" }}
           />
           {ref && (
             <ReferenceLine
@@ -114,7 +114,7 @@ export default function UsageChart({
       <div className="flex items-center justify-center gap-4 mt-3">
         <button
           onClick={goBack}
-          className="text-gray-400 hover:text-gray-700 text-lg px-2"
+          className="text-foreground-variant hover:text-foreground text-lg px-2"
         >
           &lt;
         </button>
@@ -126,8 +126,8 @@ export default function UsageChart({
           disabled={!canGoForward}
           className={`text-lg px-2 ${
             canGoForward
-              ? "text-gray-400 hover:text-gray-700"
-              : "text-gray-200 cursor-not-allowed"
+              ? "text-foreground-variant hover:text-foreground"
+              : "text-foreground-variant/40 cursor-not-allowed"
           }`}
         >
           &gt;

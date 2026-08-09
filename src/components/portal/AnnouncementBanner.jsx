@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 
 const PRIORITY_BG = {
-  INFO: "#A87813",
+  INFO: "#c47a35",
   WARNING: "#d97706",
   URGENT: "#ba1a1a",
 };
@@ -85,7 +85,7 @@ export default function AnnouncementBanner({ propertyId }) {
             color: "white",
             fontSize: "14px",
             fontWeight: 500,
-            fontFamily: "'Manrope', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             animation: "marquee 25s linear infinite",
             paddingLeft: "100%",
             paddingRight: "2rem",

@@ -318,11 +318,11 @@ export default function IdScanForm({ onboarding, advanceStep }) {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Residency — auto-detected from nationality, or ask if not set */}
       {nationality ? (
-        <div className="rounded-lg border border-[#A87813]/20 bg-[#A87813]/5 p-3 flex items-center gap-3">
-          <span className="material-symbols-outlined text-[#A87813] text-[20px]">{isForeigner ? "flight" : "home"}</span>
+        <div className="rounded-lg border border-accent/25 bg-accent/10 p-3 flex items-center gap-3">
+          <span className="material-symbols-outlined text-accent text-[20px]">{isForeigner ? "flight" : "home"}</span>
           <div>
-            <p className="text-sm font-semibold text-[#1F2937]">{nationality}</p>
-            <p className="text-xs text-[#6B7280]">
+            <p className="text-sm font-semibold text-foreground">{nationality}</p>
+            <p className="text-xs text-foreground-variant">
               {isForeigner ? "Passport + work pass required" : "NRIC required"}
             </p>
           </div>
@@ -342,8 +342,8 @@ export default function IdScanForm({ onboarding, advanceStep }) {
                 }}
                 className={`py-3 px-4 rounded-xl text-sm font-semibold border-2 transition-all ${
                   residency === value
-                    ? "bg-[#A87813] text-white border-[#A87813]"
-                    : "bg-background text-foreground border-border hover:border-[#A87813]/40"
+                    ? "bg-accent text-white border-accent"
+                    : "bg-background text-foreground border-border hover:border-accent/40"
                 }`}
               >
                 {label}
@@ -368,8 +368,8 @@ export default function IdScanForm({ onboarding, advanceStep }) {
         </div>
       )}
       {isForeigner && (
-        <div className="rounded-lg border border-blue-200 bg-blue-50 p-3">
-          <p className="text-xs font-semibold text-blue-800">
+        <div className="rounded-lg border border-blue-500/25 bg-blue-500/10 p-3">
+          <p className="text-xs font-semibold text-blue-300">
             As a foreigner, you need to upload <strong>both</strong> your passport and your work pass.
           </p>
         </div>
@@ -401,7 +401,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
             <img
               src={frontPreview}
               alt="ID front"
-              className="h-16 w-24 object-cover rounded border"
+              className="h-16 w-24 object-cover rounded border border-border"
             />
           )}
         </div>
@@ -433,7 +433,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
               <img
                 src={backPreview}
                 alt="ID back"
-                className="h-16 w-24 object-cover rounded border"
+                className="h-16 w-24 object-cover rounded border border-border"
               />
             )}
           </div>
@@ -458,7 +458,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
         {needsExpiry ? (
           <div className="space-y-1.5">
             <Label htmlFor="id_expiry">
-              Expiry Date <span className="text-red-500">*</span>
+              Expiry Date <span className="text-red-400">*</span>
             </Label>
             <Input
               id="id_expiry"
@@ -485,11 +485,11 @@ export default function IdScanForm({ onboarding, advanceStep }) {
 
       {/* Expiry warning banner */}
       {expiryWarning === "expired" && (
-        <div className="rounded-xl border-2 border-red-500 bg-red-50 p-4 flex items-start gap-3">
-          <span className="material-symbols-outlined text-red-600 text-[24px] shrink-0 mt-0.5">error</span>
+        <div className="rounded-xl border-2 border-red-500/40 bg-red-500/10 p-4 flex items-start gap-3">
+          <span className="material-symbols-outlined text-red-400 text-[24px] shrink-0 mt-0.5">error</span>
           <div>
-            <p className="text-sm font-bold text-red-800">Document Expired</p>
-            <p className="text-xs text-red-700 mt-1">
+            <p className="text-sm font-bold text-red-300">Document Expired</p>
+            <p className="text-xs text-red-300 mt-1">
               Your {idType.replace(/_/g, " ")} has expired. You cannot proceed with an expired document.
               Please provide a valid document or contact your employer for renewal.
             </p>
@@ -497,11 +497,11 @@ export default function IdScanForm({ onboarding, advanceStep }) {
         </div>
       )}
       {expiryWarning === "expiring_soon" && (
-        <div className="rounded-xl border-2 border-amber-400 bg-amber-50 p-4 flex items-start gap-3">
-          <span className="material-symbols-outlined text-amber-600 text-[24px] shrink-0 mt-0.5">warning</span>
+        <div className="rounded-xl border-2 border-amber-500/40 bg-amber-500/10 p-4 flex items-start gap-3">
+          <span className="material-symbols-outlined text-amber-400 text-[24px] shrink-0 mt-0.5">warning</span>
           <div>
-            <p className="text-sm font-bold text-amber-800">Document Expiring Soon</p>
-            <p className="text-xs text-amber-700 mt-1">
+            <p className="text-sm font-bold text-amber-300">Document Expiring Soon</p>
+            <p className="text-xs text-amber-300 mt-1">
               Your {idType.replace(/_/g, " ")} expires on{" "}
               {new Date(form.id_expiry).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" })}.
               Please ensure you renew it before expiry. The management team will be notified.
@@ -540,46 +540,46 @@ export default function IdScanForm({ onboarding, advanceStep }) {
               </Button>
               <input ref={passInputRef} type="file" accept="image/*" className="hidden"
                 onChange={(e) => { const f = e.target.files?.[0]; if (f) { setPassFile(f); setPassPreview(URL.createObjectURL(f)); } }} />
-              {passPreview && <img src={passPreview} alt="Pass" className="h-16 w-24 object-cover rounded border" />}
+              {passPreview && <img src={passPreview} alt="Pass" className="h-16 w-24 object-cover rounded border border-border" />}
             </div>
           </div>
 
           {/* Pass number + expiry */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <Label htmlFor="pass_number">Pass Number <span className="text-red-500">*</span></Label>
+              <Label htmlFor="pass_number">Pass Number <span className="text-red-400">*</span></Label>
               <Input id="pass_number" value={passNumber} onChange={(e) => setPassNumber(e.target.value)}
                 placeholder="e.g. WP1234567" required />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="pass_expiry">Pass Expiry Date <span className="text-red-500">*</span></Label>
+              <Label htmlFor="pass_expiry">Pass Expiry Date <span className="text-red-400">*</span></Label>
               <Input id="pass_expiry" type="date" value={passExpiry} onChange={(e) => setPassExpiry(e.target.value)} required />
             </div>
           </div>
 
           {/* Pass expiry warnings */}
           {passExpiryWarning === "expired" && (
-            <div className="rounded-xl border-2 border-red-500 bg-red-50 p-4 flex items-start gap-3">
-              <span className="material-symbols-outlined text-red-600 text-[24px] shrink-0 mt-0.5">error</span>
+            <div className="rounded-xl border-2 border-red-500/40 bg-red-500/10 p-4 flex items-start gap-3">
+              <span className="material-symbols-outlined text-red-400 text-[24px] shrink-0 mt-0.5">error</span>
               <div>
-                <p className="text-sm font-bold text-red-800">Pass Expired</p>
-                <p className="text-xs text-red-700 mt-1">Your {passType.replace(/_/g, " ")} has expired. You cannot proceed with an expired pass. Please contact your employer for renewal.</p>
+                <p className="text-sm font-bold text-red-300">Pass Expired</p>
+                <p className="text-xs text-red-300 mt-1">Your {passType.replace(/_/g, " ")} has expired. You cannot proceed with an expired pass. Please contact your employer for renewal.</p>
               </div>
             </div>
           )}
           {passExpiryWarning === "expiring_soon" && (
-            <div className="rounded-xl border-2 border-amber-400 bg-amber-50 p-4 flex items-start gap-3">
-              <span className="material-symbols-outlined text-amber-600 text-[24px] shrink-0 mt-0.5">warning</span>
+            <div className="rounded-xl border-2 border-amber-500/40 bg-amber-500/10 p-4 flex items-start gap-3">
+              <span className="material-symbols-outlined text-amber-400 text-[24px] shrink-0 mt-0.5">warning</span>
               <div>
-                <p className="text-sm font-bold text-amber-800">Pass Expiring Soon</p>
-                <p className="text-xs text-amber-700 mt-1">Your {passType.replace(/_/g, " ")} expires on {new Date(passExpiry).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" })}. Please ensure you renew it. Management will be notified.</p>
+                <p className="text-sm font-bold text-amber-300">Pass Expiring Soon</p>
+                <p className="text-xs text-amber-300 mt-1">Your {passType.replace(/_/g, " ")} expires on {new Date(passExpiry).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" })}. Please ensure you renew it. Management will be notified.</p>
               </div>
             </div>
           )}
         </div>
       )}
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-400">{error}</p>}
 
       <Button
         type="submit"

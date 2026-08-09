@@ -24,10 +24,10 @@ export default function CaptainClaimsPage() {
     <PortalLayout>
       <div className="max-w-3xl mx-auto p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold">My Claims</h1>
+          <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">My Claims</h1>
           <Link
             to="/portal/captain/claims/new"
-            className="rounded bg-blue-600 text-white px-4 py-2 text-sm font-medium"
+            className="rounded bg-accent text-white px-4 py-2 text-sm font-medium"
           >
             + Submit new claim
           </Link>
@@ -41,8 +41,8 @@ export default function CaptainClaimsPage() {
               onClick={() => setFilterKey(f.key)}
               className={`rounded-full px-3 py-1 text-xs font-medium ${
                 filterKey === f.key
-                  ? "bg-gray-900 text-white"
-                  : "bg-gray-100 text-gray-700"
+                  ? "bg-accent text-white"
+                  : "bg-surface-container text-foreground-variant"
               }`}
             >
               {f.label}
@@ -51,9 +51,9 @@ export default function CaptainClaimsPage() {
         </div>
 
         {loading ? (
-          <div className="text-sm text-gray-500">Loading…</div>
+          <div className="text-sm text-foreground-variant">Loading…</div>
         ) : claims.length === 0 ? (
-          <div className="rounded-lg border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500">
+          <div className="rounded-lg border border-dashed border-border p-8 text-center text-sm text-foreground-variant">
             No claims yet. Submit your first one.
           </div>
         ) : (
@@ -68,7 +68,7 @@ export default function CaptainClaimsPage() {
                     <Link
                       to="/portal/captain/claims/new"
                       state={{ prefill: claim }}
-                      className="rounded border border-gray-300 px-3 py-1 text-xs font-medium"
+                      className="rounded border border-border px-3 py-1 text-xs font-medium"
                     >
                       Re-submit
                     </Link>

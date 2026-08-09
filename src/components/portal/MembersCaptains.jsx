@@ -33,11 +33,11 @@ export default function MembersCaptains({ properties, loading, onViewClaims }) {
     return () => { cancelled = true; };
   }, [properties]);
 
-  if (loading) return <div className="text-sm text-gray-500">Loading…</div>;
+  if (loading) return <div className="text-sm text-foreground-variant">Loading…</div>;
 
   const captains = properties.filter((p) => p.captain);
   if (captains.length === 0) {
-    return <div className="text-sm text-gray-500">No captains assigned yet.</div>;
+    return <div className="text-sm text-foreground-variant">No captains assigned yet.</div>;
   }
 
   return (
@@ -45,14 +45,14 @@ export default function MembersCaptains({ properties, loading, onViewClaims }) {
       {captains.map((p) => {
         const sum = summaries[p.id] ?? { count: 0, totalSgd: 0 };
         return (
-          <div key={p.id} className="rounded-lg border border-gray-200 bg-white p-4">
+          <div key={p.id} className="rounded-lg border border-border bg-surface p-4">
             <div className="flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-medium">{p.name} captain</span>
                   <CaptainBadge size="sm" />
                 </div>
-                <div className="text-xs text-gray-500 mt-1">
+                <div className="text-xs text-foreground-variant mt-1">
                   This month: {sum.count} claim{sum.count === 1 ? "" : "s"}
                   {sum.count > 0 && <> · S${sum.totalSgd.toFixed(2)}</>}
                 </div>
@@ -60,7 +60,7 @@ export default function MembersCaptains({ properties, loading, onViewClaims }) {
               <button
                 type="button"
                 onClick={() => onViewClaims(p.captain.user_id)}
-                className="rounded border border-gray-300 px-3 py-1 text-sm"
+                className="rounded border border-border px-3 py-1 text-sm"
               >
                 View claims
               </button>

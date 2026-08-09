@@ -21,7 +21,7 @@ function ReviewActions({ claim, onReview, onMarkPaid }) {
         <button
           type="button"
           onClick={() => setShowComment((s) => !s)}
-          className="text-xs text-gray-600 underline self-start"
+          className="text-xs text-foreground-variant underline self-start"
         >
           {showComment ? "Hide comment" : "Add comment"}
         </button>
@@ -31,14 +31,14 @@ function ReviewActions({ claim, onReview, onMarkPaid }) {
             onChange={(e) => setComment(e.target.value)}
             rows={2}
             placeholder="Optional comment to captain"
-            className="w-full rounded border border-gray-300 p-2 text-sm"
+            className="w-full rounded border border-border p-2 text-sm bg-surface-container text-foreground"
           />
         )}
         <div className="flex justify-end gap-2">
           <button
             type="button"
             onClick={() => onReview(claim.id, { status: "REJECTED", comment })}
-            className="rounded border border-red-300 text-red-700 px-3 py-1 text-sm"
+            className="rounded border border-red-500/25 text-red-300 px-3 py-1 text-sm"
           >
             Reject
           </button>
@@ -61,7 +61,7 @@ function ReviewActions({ claim, onReview, onMarkPaid }) {
           value={paymentRef}
           onChange={(e) => setPaymentRef(e.target.value)}
           placeholder="PayNow ref / note"
-          className="flex-1 rounded border border-gray-300 px-2 py-1 text-sm"
+          className="flex-1 rounded border border-border px-2 py-1 text-sm bg-surface-container text-foreground"
         />
         <button
           type="button"
@@ -99,8 +99,8 @@ export default function MembersClaimsQueue({ propertyFilter, captainFilter }) {
             onClick={() => setStatusKey(f.key)}
             className={`rounded-full px-3 py-1 text-xs font-medium ${
               statusKey === f.key
-                ? "bg-gray-900 text-white"
-                : "bg-gray-100 text-gray-700"
+                ? "bg-accent text-background"
+                : "bg-surface-container text-foreground-variant"
             }`}
           >
             {f.label}
@@ -108,9 +108,9 @@ export default function MembersClaimsQueue({ propertyFilter, captainFilter }) {
         ))}
       </div>
       {loading ? (
-        <div className="text-sm text-gray-500">Loading…</div>
+        <div className="text-sm text-foreground-variant">Loading…</div>
       ) : claims.length === 0 ? (
-        <div className="text-sm text-gray-500">No claims match.</div>
+        <div className="text-sm text-foreground-variant">No claims match.</div>
       ) : (
         <div className="space-y-3">
           {claims.map((claim) => (

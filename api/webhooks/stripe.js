@@ -4,10 +4,42 @@ import { createClient } from "@supabase/supabase-js";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
+// Portal base URL. Defaults to the current live host (no-op until portal.lazybee.sg
+// DNS is live — then set PORTAL_BASE_URL=https://portal.lazybee.sg).
+const PORTAL_URL = process.env.PORTAL_BASE_URL || "https://lazybee.sg";
+
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
   process.env.IOT_SUPABASE_SERVICE_ROLE_KEY
 );
+
+async function sendEmail(to, subject, html) {
+  if (!process.env.RESEND_API_KEY) return;
+  try {
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: "Lazybee Co-living <hello@lazybee.sg>",
+        reply_to: "hello@lazybee.sg",
+        to: Array.isArray(to) ? to : [to],
+        subject,
+        html,
+      }),
+    });
+  } catch (e) {
+    console.error("[stripe webhook] sendEmail failed:", e);
+  }
+}
+
+function depositReceiptHtml({ name, roomLabel, deposit }) {
+  const amount = deposit != null ? `$${Number(deposit).toLocaleString()}` : "your deposit";
+  return `<p>Hi ${name || "there"},</p>
+<p>Great news — we've received and confirmed ${amount} as the deposit for <strong>${roomLabel}</strong> (card payment). <strong>The room is yours.</strong></p>
+<p><strong>Next step:</strong> log in to your portal with your email and password to finish onboarding — sign your agreement, upload your ID, and get your move-in details.</p>
+<p style="margin:24px 0"><a href="${PORTAL_URL}/portal/login" style="background:#c9a96a;color:#000;padding:14px 28px;border-radius:999px;text-decoration:none;font-weight:600">Log in to the portal</a></p>
+<p style="color:#888;font-size:13px">Keep this email as your deposit receipt. See you soon — Hyve.</p>`;
+}
 
 // Disable Vercel's built-in body parser so we can read the raw body for
 // Stripe signature verification.
@@ -118,7 +150,60 @@ export default async function handler(req, res) {
       }
     }
 
-    if (session.metadata?.type !== "invoice") {
+    if (session.metadata?.type === "reserve_deposit") {
+      // Soft-reserve deposit → first paid deposit wins the room.
+      const token = session.metadata.soft_reserve_token;
+      const roomId = session.metadata.room_id;
+      if (token && roomId) {
+        // Already won by someone else?
+        const { data: alreadyWon } = await supabase
+          .from("soft_reserves").select("id").eq("room_id", roomId).eq("status", "won").maybeSingle();
+        if (alreadyWon) {
+          // This payer lost the race → refund and mark lost.
+          try {
+            if (session.payment_intent) await stripe.refunds.create({ payment_intent: session.payment_intent });
+          } catch (e) { console.error("[reserve_deposit] refund failed:", e); }
+          await supabase.from("soft_reserves")
+            .update({ status: "lost", updated_at: new Date().toISOString() })
+            .eq("token", token);
+        } else {
+          // Winner: mark won, knock out siblings on the same room.
+          await supabase.from("soft_reserves")
+            .update({ status: "won", updated_at: new Date().toISOString() })
+            .eq("token", token);
+          await supabase.from("soft_reserves")
+            .update({ status: "lost", updated_at: new Date().toISOString() })
+            .eq("room_id", roomId)
+            .neq("token", token)
+            .in("status", ["reserved", "account_created", "deposit_pending"]);
+
+          // Advance onboarding + email the guest their deposit receipt.
+          const { data: sr } = await supabase
+            .from("soft_reserves")
+            .select("prospect_name, prospect_email, tenant_profile_id")
+            .eq("token", token)
+            .maybeSingle();
+          if (sr?.tenant_profile_id) {
+            await supabase.from("onboarding_progress")
+              .update({ deposit_completed_at: new Date().toISOString(), deposit_verified: true, deposit_method: "STRIPE", current_step: "HOUSE_RULES" })
+              .eq("tenant_profile_id", sr.tenant_profile_id);
+          }
+          if (sr?.prospect_email) {
+            const { data: room } = await supabase
+              .from("rooms").select("name, unit_code, price_monthly, deposit_months").eq("id", roomId).maybeSingle();
+            const roomLabel = room?.name || room?.unit_code || "your room";
+            const deposit = room ? Number(room.price_monthly) * (Number(room.deposit_months) || 1) : null;
+            await sendEmail(
+              sr.prospect_email,
+              `Deposit confirmed — you've secured ${roomLabel}`,
+              depositReceiptHtml({ name: sr.prospect_name, roomLabel, deposit })
+            );
+          }
+        }
+      }
+    }
+
+    if (session.metadata?.type !== "invoice" && session.metadata?.type !== "reserve_deposit") {
       await supabase
         .from("onboarding_progress")
         .update({

@@ -8,10 +8,10 @@ const STATUS_LABELS = {
 };
 
 const STATUS_STYLE = {
-  ACTIVE: "bg-green-100 text-green-700",
-  NOTICE_GIVEN: "bg-yellow-100 text-yellow-700",
-  CHECKOUT_PENDING: "bg-orange-100 text-orange-700",
-  COMPLETED: "bg-gray-100 text-gray-600",
+  ACTIVE: "bg-emerald-500/15 text-emerald-300",
+  NOTICE_GIVEN: "bg-amber-500/15 text-amber-300",
+  CHECKOUT_PENDING: "bg-amber-500/15 text-amber-300",
+  COMPLETED: "bg-surface-container text-foreground-variant",
 };
 
 function CheckItem({ label, done }) {
@@ -20,8 +20,8 @@ function CheckItem({ label, done }) {
       <div
         className={`w-4 h-4 rounded border flex items-center justify-center text-xs ${
           done
-            ? "bg-green-500 border-green-500 text-white"
-            : "border-gray-300"
+            ? "bg-emerald-500 border-emerald-500 text-white"
+            : "border-border"
         }`}
       >
         {done && "✓"}
@@ -40,7 +40,7 @@ export default function CheckoutStatusCard({ checkout, profile }) {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="text-base">Tenancy Status</CardTitle>
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700">
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-emerald-500/15 text-emerald-300">
               Active Tenancy
             </span>
           </div>

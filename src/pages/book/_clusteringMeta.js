@@ -79,5 +79,5 @@ export function slotStateClass(slot, isSelected) {
   if (slot.state === "BLOCKED-BUFFER") return "bg-amber-50 text-amber-300 cursor-not-allowed";
   if (slot.state === "BLOCKED-CONFLICT") return "bg-slate-100 text-slate-400 cursor-not-allowed line-through";
   if (slot.state === "PROP-RESERVED") return "bg-[#D9A441]/10 text-[#A87813] hover:bg-[#D9A441]/25";
-  return "bg-[#e6e8ea] text-[#1F2937] hover:bg-[#D9A441]/20 hover:text-[#A87813]";
+  return "bg-[#E7DCC2] text-[#181511] hover:bg-[#D9A441]/20 hover:text-[#A87813]";
 }

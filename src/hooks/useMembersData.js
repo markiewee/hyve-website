@@ -12,10 +12,12 @@ export function useMembersData(propertyFilter = "ALL") {
       .select(`
         id, name,
         rooms(
-          id, name, unit_code,
+          id, name, unit_code, room_type,
           tenant_profiles(
             id, user_id, role, moved_in_at, moved_out_at, is_active,
-            lease_end
+            is_primary, archived_at, monthly_rent, lease_end,
+            tenant_details(full_name, email, phone),
+            onboarding_progress(status, current_step)
           )
         ),
         maintenance_tickets(id, status, created_at)
@@ -33,20 +35,39 @@ export function useMembersData(propertyFilter = "ALL") {
       return;
     }
 
+    // tenant_details + onboarding_progress are children of tenant_profiles,
+    // so Supabase embeds them as ARRAYS. Normalise to single objects.
+    const pick1 = (x) => (Array.isArray(x) ? x[0] ?? null : x ?? null);
+
     const enriched = (properties ?? []).map((p) => {
-      const rooms = (p.rooms ?? []).map((r) => {
-        const activeTenant = (r.tenant_profiles ?? []).find((tp) => tp.is_active);
+      // Lettable bedrooms only — skip common areas / kitchens / yards / toilets
+      const lettable = (p.rooms ?? []).filter((r) => r.room_type != null);
+      const rooms = lettable.map((r) => {
+        // Filter: active and not archived (skips tenants past their 30-day grace)
+        const live = (r.tenant_profiles ?? [])
+          .filter((tp) => tp.is_active && !tp.archived_at)
+          .map((tp) => ({
+            ...tp,
+            tenant_details: pick1(tp.tenant_details),
+            onboarding_progress: pick1(tp.onboarding_progress),
+          }));
+        // Primary tenant first (the rent-paying one); fall back to first live tenant
+        const primary = live.find((tp) => tp.is_primary) ?? live[0] ?? null;
+        // Roommates: registered +1s (is_primary = false), e.g. couples/partners
+        const roommates = live.filter((tp) => tp !== primary);
         return {
           id: r.id,
           name: r.name,
           unit_code: r.unit_code,
-          tenant: activeTenant ?? null,
+          tenant: primary, // kept as `tenant` for backwards compat
+          roommates,
+          occupants: live, // primary + roommates combined, in original order
         };
       }).sort((a, b) => (a.unit_code ?? "").localeCompare(b.unit_code ?? ""));
 
       const captains = (p.rooms ?? [])
         .flatMap((r) => r.tenant_profiles ?? [])
-        .filter((tp) => tp.is_active && tp.role === "HOUSE_CAPTAIN");
+        .filter((tp) => tp.is_active && !tp.archived_at && tp.role === "HOUSE_CAPTAIN");
 
       const openTickets = (p.maintenance_tickets ?? [])
         .filter((t) => t.status === "OPEN" || t.status === "IN_PROGRESS");
@@ -69,7 +90,22 @@ export function useMembersData(propertyFilter = "ALL") {
     setData({ properties: enriched, loading: false });
   }, [propertyFilter]);
 
-  useEffect(() => { fetchData(); }, [fetchData]);
+  useEffect(() => {
+    fetchData();
+
+    // Realtime — keep the roster, occupancy and open-ticket counts live.
+    // Refetch on any change to the tables this view is derived from.
+    const channel = supabase
+      .channel("members_data_changes")
+      .on("postgres_changes", { event: "*", schema: "public", table: "tenant_profiles" }, () => fetchData())
+      .on("postgres_changes", { event: "*", schema: "public", table: "rooms" }, () => fetchData())
+      .on("postgres_changes", { event: "*", schema: "public", table: "maintenance_tickets" }, () => fetchData())
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [fetchData]);
 
   return { ...data, refetch: fetchData };
 }

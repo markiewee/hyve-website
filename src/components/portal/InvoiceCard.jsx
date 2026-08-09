@@ -1,9 +1,9 @@
 const OVERAGE_RATE = 0.3;
 
 const STATUS_BADGE = {
-  PENDING: "bg-gray-100 text-gray-600",
-  INVOICED: "bg-yellow-100 text-yellow-700",
-  PAID: "bg-green-100 text-green-700",
+  PENDING: "bg-surface-container text-foreground-variant",
+  INVOICED: "bg-amber-500/15 text-amber-300",
+  PAID: "bg-emerald-500/15 text-emerald-300",
 };
 
 function formatMonth(monthStr) {
@@ -26,14 +26,14 @@ export default function InvoiceCard({ invoice }) {
   const badgeClass = STATUS_BADGE[status] ?? STATUS_BADGE.PENDING;
 
   return (
-    <div className="flex items-center justify-between py-4 border-b last:border-b-0">
+    <div className="flex items-center justify-between py-4 border-b border-border last:border-b-0">
       {/* Left: month + hours */}
       <div className="min-w-0">
         <p className="text-sm font-medium text-foreground">{formatMonth(month)}</p>
         <p className="text-xs text-muted-foreground mt-0.5">
           {total_hours.toFixed(1)}h total
           {overage_hours > 0 && (
-            <span className="text-red-500 ml-1">· {overage_hours.toFixed(1)}h overage</span>
+            <span className="text-red-400 ml-1">· {overage_hours.toFixed(1)}h overage</span>
           )}
         </p>
       </div>
@@ -66,7 +66,7 @@ export default function InvoiceCard({ invoice }) {
             href={stripe_hosted_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center px-3 py-1 rounded text-xs font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors"
+            className="inline-flex items-center px-3 py-1 rounded text-xs font-medium border border-border text-foreground-variant hover:bg-surface-container transition-colors"
           >
             View Receipt
           </a>

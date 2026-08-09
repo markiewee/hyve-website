@@ -103,9 +103,16 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
       const safeName = areaName.toLowerCase().replace(/\s+/g, "-");
       const path = `checklists/${profile.id}/${safeName}-${timestamp}.jpg`;
 
+      // Android galleries often give an empty file.type. supabase-js takes the
+      // multipart content-type from the Blob's own .type (ignoring the option),
+      // so re-wrap into a typed File so the stored photo renders inline.
+      const typed =
+        file.type && file.type.startsWith("image/")
+          ? file
+          : new File([file], file.name, { type: "image/jpeg" });
       const { error: uploadError } = await supabase.storage
         .from("tenant-documents")
-        .upload(path, file, { upsert: true });
+        .upload(path, typed, { upsert: true });
 
       if (uploadError) {
         console.error(`Upload failed for ${areaName}:`, uploadError);
@@ -194,9 +201,9 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
           key={area.name}
           className="border border-border rounded-lg overflow-hidden"
         >
-          <div className="bg-[#A87813]/5 px-4 py-3 border-b border-border">
+          <div className="bg-accent/5 px-4 py-3 border-b border-border">
             <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#A87813] text-[18px]">
+              <span className="material-symbols-outlined text-accent text-[18px]">
                 {area.name.includes("Bathroom") ? "bathroom" : "bed"}
               </span>
               {area.name}
@@ -221,9 +228,9 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
                             : cond === "Fair"
                             ? "bg-amber-500 text-white border-amber-500"
                             : cond === "N/A"
-                            ? "bg-gray-400 text-white border-gray-400"
+                            ? "bg-surface-container text-foreground border-border"
                             : "bg-red-500 text-white border-red-500"
-                          : "bg-background text-foreground border-border hover:bg-accent"
+                          : "bg-background text-foreground border-border hover:bg-white/5"
                       }`}
                     >
                       {cond}
@@ -244,7 +251,7 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
           </div>
 
           {/* Photos for this area */}
-          <div className="px-4 py-3 bg-[#FAF6EC] border-t border-border">
+          <div className="px-4 py-3 bg-surface-container border-t border-border">
             <label className="block text-xs text-muted-foreground mb-1.5">
               Photos of {area.name.toLowerCase()}{" "}
               <span className="text-muted-foreground/60">(optional — recommended for any damage)</span>
@@ -268,7 +275,7 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
         </div>
       ))}
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-400">{error}</p>}
 
       <Button
         type="submit"

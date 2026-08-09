@@ -152,6 +152,8 @@ async function sendEmail(to: string, subject: string, html: string) {
       from: "Lazybee Co-living <hello@lazybee.sg>",
       reply_to: "hello@lazybee.sg",
       to: [to],
+      // Silent copy of every outbound notification to the ops inbox.
+      bcc: ["admin@lazybee.sg"],
       subject,
       html,
     }),
@@ -347,6 +349,26 @@ async function buildEmail(
           ],
           cta: { label: "Log In", url: login_url || `${PORTAL_BASE}/portal/login` },
           ctaCaption: "Change your password after first login",
+        }),
+      };
+    }
+
+    case "PASSWORD_RESET": {
+      const { reset_url, expires_in_minutes } = details;
+      const ttl = expires_in_minutes || 60;
+      return {
+        subject: "Reset your Lazybee portal password",
+        html: generic({
+          preheader: "A password reset was requested for your account.",
+          badge: "Password Reset",
+          headline: "Reset your password.",
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            "We received a request to reset the password for your Lazybee portal account. Click the button below to choose a new one.",
+            `This link expires in ${ttl} minutes. If you didn't request a reset, you can ignore this email — your password won't change.`,
+          ],
+          cta: { label: "Reset Password", url: reset_url },
+          ctaCaption: "One-time use link",
         }),
       };
     }
@@ -597,6 +619,42 @@ async function buildEmail(
             `<strong>Please settle the full outstanding amount within 7 days</strong>, or contact us immediately to discuss. Failure to do so will result in formal notice to vacate and the deposit being forfeited toward outstanding amounts.`,
           ],
           cta: { label: "Pay Now", url: `${PORTAL_BASE}/portal/billing/${details.invoice_id}` },
+        }),
+      };
+    }
+
+    case "OWNER_LOGIN_LINK": {
+      return {
+        subject: "Your Lazybee owner portal sign-in link",
+        html: generic({
+          badge: "Owner Portal",
+          headline: "Sign in to your owner portal",
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            "Here is your secure sign-in link for the Lazybee owner portal. It signs you in directly, no password needed.",
+            `The link is valid for 24 hours and can be used once. Need a new one? Go to the <a href="${PORTAL_BASE}/portal/login" style="color:#006b5f">portal sign-in page</a>, choose "Property owner? Sign in with an email link", and a fresh link will be sent to you.`,
+          ],
+          cta: { label: "View Portal", url: details.action_link },
+          ctaCaption: "Signs you in directly",
+        }),
+      };
+    }
+
+    case "OWNER_WELCOME": {
+      const propertyName = details.property_name || "your property";
+      return {
+        subject: `Your owner portal for ${propertyName} is ready`,
+        html: generic({
+          badge: "Owner Portal",
+          headline: "Your owner portal is ready",
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            `We've set up a private owner portal for <strong>${escape(propertyName)}</strong>. It shows who is staying in your unit, with passport / ID and immigration pass details and move-in / move-out dates, and lets you view and download each resident's ID and passport.`,
+            "The button below signs you in directly, no password needed.",
+            `Any time you want back in, go to the <a href="${PORTAL_BASE}/portal/login" style="color:#006b5f">portal sign-in page</a>, choose "Property owner? Sign in with an email link", enter this email address, and a fresh link will be sent to you.`,
+          ],
+          cta: { label: "View Portal", url: details.action_link },
+          ctaCaption: "Signs you in directly",
         }),
       };
     }

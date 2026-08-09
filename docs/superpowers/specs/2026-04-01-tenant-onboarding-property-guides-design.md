@@ -125,7 +125,7 @@ Rendered as card sections, ordered top to bottom:
 | 6 | House Rules | gavel | Re-read the rules they acknowledged during onboarding | Existing `house_rules` table |
 | 7 | FAQ | help | Common questions — AC billing, rent payment, noise policy, guest policy, etc. | `property_guides` table |
 | 8 | Submit an Issue | build | CTA linking to `/portal/issues/new` — for maintenance, repairs, complaints | Static link |
-| 9 | Contact Lazybee | support | WhatsApp +65 8088 5410 — with note: "Checked the FAQ and tickets first?" | Static |
+| 9 | Contact Lazybee | support | WhatsApp +65 8069 5410 — with note: "Checked the FAQ and tickets first?" | Static |
 
 ### 2.3 IH Building Guide Content
 

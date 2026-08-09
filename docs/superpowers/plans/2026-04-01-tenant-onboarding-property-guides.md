@@ -849,13 +849,13 @@ export default function PropertyGuidePage() {
                   <h3 className="font-['Plus_Jakarta_Sans'] text-sm font-bold text-[#121c2a] mb-1">Contact Lazybee</h3>
                   <p className="font-['Manrope'] text-xs text-[#6c7a77] mb-2">Checked the FAQ and submitted a ticket first?</p>
                   <a
-                    href="https://wa.me/6580885410"
+                    href="https://wa.me/6580695410"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 font-['Manrope'] text-sm font-semibold text-[#006b5f] hover:underline"
                   >
                     <span className="material-symbols-outlined text-[16px]">chat</span>
-                    WhatsApp +65 8088 5410
+                    WhatsApp +65 8069 5410
                   </a>
                 </div>
               </div>

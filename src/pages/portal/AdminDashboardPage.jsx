@@ -1,17 +1,14 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 import PageHeader from "../../components/portal/PageHeader";
 import ActionInbox from "../../components/portal/ActionInbox";
-import SignatureCanvas from "../../components/portal/SignatureCanvas";
-import { useAuth } from "../../hooks/useAuth";
 
 const OPEN_STATUSES = ["OPEN", "IN_PROGRESS", "ESCALATED"];
 const ONLINE_THRESHOLD_MINUTES = 20;
 
 export default function AdminDashboardPage() {
-  const { profile, setProfile } = useAuth();
   const [counts, setCounts] = useState({
     totalRooms: 0,
     activeTenants: 0,
@@ -21,74 +18,31 @@ export default function AdminDashboardPage() {
   });
   const [loading, setLoading] = useState(true);
 
-  // Signature section state
-  const sigRef = useRef(null);
-  const [showSigEditor, setShowSigEditor] = useState(false);
-  const [sigSaving, setSigSaving] = useState(false);
-  const [sigMessage, setSigMessage] = useState(null);
-
-  async function handleSaveSignature() {
-    const sigData = sigRef.current?.getSignatureData();
-    if (!sigData) {
-      setSigMessage({ type: "error", text: "Please draw or type a signature first." });
-      return;
-    }
-    setSigSaving(true);
-    setSigMessage(null);
-    const { error } = await supabase
-      .from("tenant_profiles")
-      .update({ saved_signature: sigData })
-      .eq("id", profile.id);
-    if (error) {
-      setSigMessage({ type: "error", text: "Failed to save: " + error.message });
-    } else {
-      setSigMessage({ type: "success", text: "Signature saved." });
-      setShowSigEditor(false);
-      // Refresh profile in context by refetching
-      const { data: updated } = await supabase
-        .from("tenant_profiles")
-        .select("*, rooms(name, unit_code, property_id), properties(name, code), onboarding_progress(*)")
-        .eq("id", profile.id)
-        .single();
-      if (updated && setProfile) setProfile(updated);
-    }
-    setSigSaving(false);
-  }
-
-  async function handleClearSignature() {
-    setSigSaving(true);
-    setSigMessage(null);
-    const { error } = await supabase
-      .from("tenant_profiles")
-      .update({ saved_signature: null })
-      .eq("id", profile.id);
-    if (error) {
-      setSigMessage({ type: "error", text: "Failed to clear: " + error.message });
-    } else {
-      setSigMessage({ type: "success", text: "Signature cleared." });
-      setShowSigEditor(false);
-      const { data: updated } = await supabase
-        .from("tenant_profiles")
-        .select("*, rooms(name, unit_code, property_id), properties(name, code), onboarding_progress(*)")
-        .eq("id", profile.id)
-        .single();
-      if (updated && setProfile) setProfile(updated);
-    }
-    setSigSaving(false);
-  }
-
   useEffect(() => {
     async function fetchCounts() {
       const onlineThreshold = new Date(
         Date.now() - ONLINE_THRESHOLD_MINUTES * 60 * 1000
       ).toISOString();
 
+      const nowIso = new Date().toISOString();
       const [rooms, tenants, tickets, devices, allDevices] = await Promise.all([
-        supabase.from("rooms").select("id", { count: "exact", head: true }),
+        // Only count lettable bedrooms (room_type set) — exclude common areas,
+        // kitchens, yards and shared toilets (room_type null).
+        supabase.from("rooms").select("id", { count: "exact", head: true }).not("room_type", "is", null),
+        // Active Members = currently in-residence tenants/captains only:
+        //   is_active=true AND archived_at IS NULL
+        //   AND role != ADMIN  (staff accounts aren't "members")
+        //   AND moved_in_at <= now
+        //   AND (moved_out_at IS NULL OR moved_out_at > now)
+        // Excludes future incoming, GRACE-window movers, archived, and staff.
         supabase
           .from("tenant_profiles")
           .select("id", { count: "exact", head: true })
-          .eq("is_active", true),
+          .eq("is_active", true)
+          .is("archived_at", null)
+          .neq("role", "ADMIN")
+          .lte("moved_in_at", nowIso)
+          .or(`moved_out_at.is.null,moved_out_at.gt.${nowIso}`),
         supabase
           .from("maintenance_tickets")
           .select("id", { count: "exact", head: true })
@@ -132,33 +86,33 @@ export default function AdminDashboardPage() {
       value: counts.totalRooms,
       icon: "meeting_room",
       to: "/portal/property",
-      accent: "text-[#A87813]",
-      bg: "bg-white hover:bg-[#A87813] group",
-      valueCls: "text-[#1F2937] group-hover:text-white",
-      labelCls: "text-[#6B7280] group-hover:text-white/80",
-      iconCls: "text-[#A87813] group-hover:text-white",
+      accent: "text-accent",
+      bg: "bg-surface hover:bg-accent group",
+      valueCls: "text-foreground group-hover:text-white",
+      labelCls: "text-foreground-variant group-hover:text-white/80",
+      iconCls: "text-accent group-hover:text-white",
     },
     {
       label: "Active Members",
       value: counts.activeTenants,
       icon: "group",
-      to: "/portal/admin/onboarding",
-      accent: "text-[#6B7280]",
-      bg: "bg-white hover:bg-[#6B7280] group",
-      valueCls: "text-[#1F2937] group-hover:text-white",
-      labelCls: "text-[#6B7280] group-hover:text-white/80",
-      iconCls: "text-[#6B7280] group-hover:text-white",
+      to: "/portal/admin/members",
+      accent: "text-foreground-variant",
+      bg: "bg-surface hover:bg-white/10 group",
+      valueCls: "text-foreground group-hover:text-foreground",
+      labelCls: "text-foreground-variant group-hover:text-foreground",
+      iconCls: "text-foreground-variant group-hover:text-foreground",
     },
     {
       label: "Open Tickets",
       value: counts.openTickets,
       icon: "build",
       to: "/portal/admin/tickets",
-      accent: "text-[#ba1a1a]",
-      bg: "bg-white hover:bg-[#ba1a1a] group",
-      valueCls: "text-[#1F2937] group-hover:text-white",
-      labelCls: "text-[#6B7280] group-hover:text-white/80",
-      iconCls: "text-[#ba1a1a] group-hover:text-white",
+      accent: "text-red-400",
+      bg: "bg-surface hover:bg-red-500/15 group",
+      valueCls: "text-foreground group-hover:text-red-300",
+      labelCls: "text-foreground-variant group-hover:text-red-300",
+      iconCls: "text-red-400 group-hover:text-red-300",
     },
     {
       label: "Devices",
@@ -166,17 +120,18 @@ export default function AdminDashboardPage() {
       subtitle: `${counts.onlineDevices} online`,
       icon: "router",
       to: "/portal/admin/devices",
-      accent: "text-[#A87813]",
-      bg: "bg-white hover:bg-[#A87813] group",
-      valueCls: "text-[#1F2937] group-hover:text-white",
-      labelCls: "text-[#6B7280] group-hover:text-white/80",
-      iconCls: "text-[#A87813] group-hover:text-white",
+      accent: "text-accent",
+      bg: "bg-surface hover:bg-accent group",
+      valueCls: "text-foreground group-hover:text-white",
+      labelCls: "text-foreground-variant group-hover:text-white/80",
+      iconCls: "text-accent group-hover:text-white",
     },
   ];
 
   return (
     <PortalLayout>
       <PageHeader
+        eyebrow="Admin"
         title="Admin Console"
         subtitle="Global stats, action inbox, and quick links to every admin tool."
       />
@@ -187,10 +142,10 @@ export default function AdminDashboardPage() {
           <Link
             key={stat.label}
             to={stat.to}
-            className={`${stat.bg} rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm transition-all duration-300 cursor-pointer flex flex-col justify-between h-40`}
+            className={`${stat.bg} rounded-2xl p-6 border border-border transition-all duration-300 cursor-pointer flex flex-col justify-between h-40`}
           >
             <div className="flex items-start justify-between">
-              <div className={`w-10 h-10 rounded-xl bg-[#F2D88A] group-hover:bg-white/20 flex items-center justify-center transition-colors`}>
+              <div className={`w-10 h-10 rounded-xl bg-white/5 group-hover:bg-white/20 flex items-center justify-center transition-colors`}>
                 <span className={`material-symbols-outlined text-[20px] ${stat.iconCls} transition-colors`}>
                   {stat.icon}
                 </span>
@@ -204,14 +159,14 @@ export default function AdminDashboardPage() {
                 {stat.label}
               </p>
               {loading ? (
-                <div className="h-8 w-16 bg-[#F2D88A] animate-pulse rounded" />
+                <div className="h-8 w-16 bg-white/5 animate-pulse rounded" />
               ) : (
                 <>
-                  <p className={`font-['Plus_Jakarta_Sans'] text-3xl font-extrabold ${stat.valueCls} transition-colors`}>
+                  <p className={`font-['Hanken_Grotesk'] text-3xl font-extrabold ${stat.valueCls} transition-colors`}>
                     {stat.value}
                   </p>
                   {stat.subtitle && (
-                    <p className={`font-['Manrope'] text-xs mt-0.5 ${stat.labelCls} transition-colors`}>
+                    <p className={`font-['Inter'] text-xs mt-0.5 ${stat.labelCls} transition-colors`}>
                       {stat.subtitle}
                     </p>
                   )}
@@ -222,113 +177,10 @@ export default function AdminDashboardPage() {
         ))}
       </div>
 
-      {/* Action Inbox — top 8, link to /portal/admin/inbox for full list */}
+      {/* Action Inbox — full list lives at /portal/admin/inbox */}
       <div className="mb-10">
         <ActionInbox limit={8} />
       </div>
-
-      {/* Quick links */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {[
-          { label: "Onboarding Tracker", desc: "Monitor member onboarding progress", icon: "how_to_reg", to: "/portal/admin/onboarding" },
-          { label: "Rent Management", desc: "Generate records and track payments", icon: "receipt_long", to: "/portal/admin/rent" },
-          { label: "Announcements", desc: "Send updates to residents", icon: "campaign", to: "/portal/admin/announcements" },
-          { label: "Documents", desc: "Create and send member documents", icon: "description", to: "/portal/admin/documents" },
-          { label: "Expense Tracking", desc: "Log and review property expenses", icon: "account_balance", to: "/portal/admin/expenses" },
-          { label: "Financial Reports", desc: "Monthly P&L and distributions", icon: "bar_chart", to: "/portal/admin/financials" },
-        ].map((item) => (
-          <Link
-            key={item.to}
-            to={item.to}
-            className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm hover:border-[#A87813]/30 hover:shadow-md transition-all flex items-start gap-4 group"
-          >
-            <div className="w-10 h-10 rounded-xl bg-[#F2D88A] flex items-center justify-center shrink-0 group-hover:bg-[#A87813] transition-colors">
-              <span className="material-symbols-outlined text-[#A87813] group-hover:text-white text-[20px] transition-colors">
-                {item.icon}
-              </span>
-            </div>
-            <div>
-              <p className="font-['Manrope'] font-bold text-[#1F2937] text-sm">{item.label}</p>
-              <p className="font-['Manrope'] text-[#6B7280] text-xs mt-0.5">{item.desc}</p>
-            </div>
-          </Link>
-        ))}
-      </div>
-
-      {/* My Signature */}
-      {profile && (
-        <div className="mt-8 bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm p-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#F2D88A] flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-[#A87813] text-[20px]">draw</span>
-              </div>
-              <div>
-                <p className="font-['Manrope'] font-bold text-[#1F2937] text-sm">My Signature</p>
-                <p className="font-['Manrope'] text-[#6B7280] text-xs mt-0.5">
-                  This signature will be used when counter-signing member agreements.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              {profile.saved_signature && (
-                <button
-                  type="button"
-                  onClick={handleClearSignature}
-                  disabled={sigSaving}
-                  className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-red-200 text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
-                >
-                  Clear Saved Signature
-                </button>
-              )}
-              <button
-                type="button"
-                onClick={() => { setShowSigEditor((v) => !v); setSigMessage(null); }}
-                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#F2D88A] text-[#A87813] hover:bg-[#A87813] hover:text-white transition-colors"
-              >
-                {showSigEditor ? "Cancel" : profile.saved_signature ? "Update Signature" : "Add Signature"}
-              </button>
-            </div>
-          </div>
-
-          {/* Saved signature preview */}
-          {profile.saved_signature && !showSigEditor && (
-            <div className="rounded-xl border border-[#E8E0CE]/30 bg-[#f8faf9] p-3 inline-block">
-              <img
-                src={profile.saved_signature}
-                alt="Saved signature"
-                className="max-h-[80px] max-w-[320px] object-contain"
-              />
-            </div>
-          )}
-
-          {/* Signature editor */}
-          {showSigEditor && (
-            <div className="space-y-3 pt-1">
-              <SignatureCanvas signatureRef={sigRef} />
-              <button
-                type="button"
-                onClick={handleSaveSignature}
-                disabled={sigSaving}
-                className="px-4 py-2 text-sm font-semibold rounded-lg bg-[#A87813] text-white hover:bg-[#A87813] transition-colors disabled:opacity-50"
-              >
-                {sigSaving ? "Saving…" : "Save Signature"}
-              </button>
-            </div>
-          )}
-
-          {/* Feedback message */}
-          {sigMessage && (
-            <p
-              className={`text-xs font-medium ${
-                sigMessage.type === "error" ? "text-red-600" : "text-[#A87813]"
-              }`}
-            >
-              {sigMessage.text}
-            </p>
-          )}
-        </div>
-      )}
     </PortalLayout>
   );
 }

@@ -69,7 +69,7 @@ export default function MoveInInstructions({ advanceStep }) {
     return (
       <div className="space-y-3">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="h-4 bg-gray-100 animate-pulse rounded" />
+          <div key={i} className="h-4 bg-surface-container animate-pulse rounded" />
         ))}
       </div>
     );
@@ -78,25 +78,25 @@ export default function MoveInInstructions({ advanceStep }) {
   return (
     <div className="space-y-10">
       {/* Check-in Highlight */}
-      <section className="bg-[#D9A441]/5 rounded-2xl p-6 border border-[#D9A441]/10">
+      <section className="bg-accent/10 rounded-2xl p-6 border border-accent/25">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#A87813] mb-2">
+            <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-accent mb-2">
               Arrival Instruction
             </p>
-            <h2 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-[#A87813]">
+            <h2 className="font-display text-2xl font-extrabold text-accent">
               Check-in from 10:00 AM
             </h2>
-            <p className="text-sm text-[#1F2937] mt-1">
+            <p className="text-sm text-foreground mt-1">
               Your move-in date will be confirmed by your house captain
               {unitCode ? ` • ${unitCode}` : ""}
             </p>
           </div>
           <div className="flex flex-col items-start md:items-end gap-1 shrink-0">
-            <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#A87813]">
+            <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-accent">
               Moving Hours
             </p>
-            <div className="flex items-center gap-2 text-[#A87813]">
+            <div className="flex items-center gap-2 text-accent">
               <span className="material-symbols-outlined text-[20px]">schedule</span>
               <span className="font-bold text-sm font-['Inter']">10:00 AM – 5:00 PM</span>
             </div>
@@ -109,34 +109,34 @@ export default function MoveInInstructions({ advanceStep }) {
         {/* WiFi Card */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#D9A441]">wifi</span>
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-base text-[#191c1e]">
+            <span className="material-symbols-outlined text-accent">wifi</span>
+            <h3 className="font-display font-bold text-base text-foreground">
               High-Speed WiFi
             </h3>
           </div>
-          <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 space-y-4">
+          <div className="bg-surface-container rounded-2xl p-5 border border-border space-y-4">
             {wifiNetwork ? (
               <>
                 <div>
-                  <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest mb-1">
+                  <p className="text-[10px] uppercase font-bold text-foreground-variant tracking-widest mb-1">
                     Network Name
                   </p>
-                  <p className="font-mono font-bold text-lg text-[#191c1e]">{wifiNetwork}</p>
+                  <p className="font-mono font-bold text-lg text-foreground">{wifiNetwork}</p>
                 </div>
                 {wifiPassword && (
-                  <div className="pt-3 border-t border-slate-200/50">
-                    <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest mb-1">
+                  <div className="pt-3 border-t border-white/10">
+                    <p className="text-[10px] uppercase font-bold text-foreground-variant tracking-widest mb-1">
                       Password
                     </p>
                     <div className="flex items-center justify-between gap-3">
-                      <p className="font-mono font-bold text-lg text-[#191c1e] break-all">
+                      <p className="font-mono font-bold text-lg text-foreground break-all">
                         {wifiPassword}
                       </p>
                       <button
                         type="button"
                         onClick={handleCopy}
                         title="Copy password"
-                        className="shrink-0 text-slate-400 hover:text-[#A87813] transition-colors"
+                        className="shrink-0 text-foreground-variant hover:text-accent transition-colors"
                       >
                         <span className="material-symbols-outlined text-[20px]">
                           {copied ? "check" : "content_copy"}
@@ -144,13 +144,13 @@ export default function MoveInInstructions({ advanceStep }) {
                       </button>
                     </div>
                     {copied && (
-                      <p className="text-[10px] text-[#A87813] font-semibold mt-1">Copied!</p>
+                      <p className="text-[10px] text-accent font-semibold mt-1">Copied!</p>
                     )}
                   </div>
                 )}
               </>
             ) : (
-              <p className="text-sm text-slate-400 font-['Inter']">
+              <p className="text-sm text-foreground-variant font-['Inter']">
                 WiFi details will be shared by your house captain before move-in.
               </p>
             )}
@@ -160,23 +160,23 @@ export default function MoveInInstructions({ advanceStep }) {
         {/* What's Provided Card */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#D9A441]">inventory_2</span>
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-base text-[#191c1e]">
+            <span className="material-symbols-outlined text-accent">inventory_2</span>
+            <h3 className="font-display font-bold text-base text-foreground">
               What's Provided
             </h3>
           </div>
-          <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+          <div className="bg-surface-container rounded-2xl p-5 border border-border">
             {providedItems && typeof providedItems === "object" && !Array.isArray(providedItems) ? (
               <div className="grid grid-cols-2 gap-x-4 gap-y-4">
                 {Object.entries(providedItems).map(([category, items], idx) => (
                   <div
                     key={category}
-                    className={idx >= 2 ? "pt-2 border-t border-slate-200/50" : ""}
+                    className={idx >= 2 ? "pt-2 border-t border-white/10" : ""}
                   >
-                    <p className="text-[9px] uppercase font-bold text-[#D9A441] tracking-widest mb-1">
+                    <p className="text-[9px] uppercase font-bold text-accent tracking-widest mb-1">
                       {category}
                     </p>
-                    <p className="text-[11px] text-[#1F2937] leading-relaxed">
+                    <p className="text-[11px] text-foreground leading-relaxed">
                       {Array.isArray(items) ? items.join(", ") : items}
                     </p>
                   </div>
@@ -185,9 +185,9 @@ export default function MoveInInstructions({ advanceStep }) {
             ) : providedItems && Array.isArray(providedItems) ? (
               <ul className="space-y-1">
                 {providedItems.map((item, idx) => (
-                  <li key={idx} className="flex items-center gap-2 text-sm text-[#1F2937]">
+                  <li key={idx} className="flex items-center gap-2 text-sm text-foreground">
                     <span
-                      className="material-symbols-outlined text-[#D9A441] text-[16px]"
+                      className="material-symbols-outlined text-accent text-[16px]"
                       style={{ fontVariationSettings: "'FILL' 1" }}
                     >
                       check_circle
@@ -200,20 +200,20 @@ export default function MoveInInstructions({ advanceStep }) {
               /* Default fallback grid matching Stitch template */
               <div className="grid grid-cols-2 gap-x-4 gap-y-4">
                 <div>
-                  <p className="text-[9px] uppercase font-bold text-[#D9A441] tracking-widest mb-1">Room</p>
-                  <p className="text-[11px] text-[#1F2937] leading-relaxed">Bed, Mattress,<br />Wardrobe, Desk</p>
+                  <p className="text-[9px] uppercase font-bold text-accent tracking-widest mb-1">Room</p>
+                  <p className="text-[11px] text-foreground leading-relaxed">Bed, Mattress,<br />Wardrobe, Desk</p>
                 </div>
                 <div>
-                  <p className="text-[9px] uppercase font-bold text-[#D9A441] tracking-widest mb-1">Kitchen</p>
-                  <p className="text-[11px] text-[#1F2937] leading-relaxed">Fridge, Stove,<br />Microwave</p>
+                  <p className="text-[9px] uppercase font-bold text-accent tracking-widest mb-1">Kitchen</p>
+                  <p className="text-[11px] text-foreground leading-relaxed">Fridge, Stove,<br />Microwave</p>
                 </div>
-                <div className="pt-2 border-t border-slate-200/50">
-                  <p className="text-[9px] uppercase font-bold text-[#D9A441] tracking-widest mb-1">Laundry</p>
-                  <p className="text-[11px] text-[#1F2937] leading-relaxed">Washing Machine</p>
+                <div className="pt-2 border-t border-white/10">
+                  <p className="text-[9px] uppercase font-bold text-accent tracking-widest mb-1">Laundry</p>
+                  <p className="text-[11px] text-foreground leading-relaxed">Washing Machine</p>
                 </div>
-                <div className="pt-2 border-t border-slate-200/50">
-                  <p className="text-[9px] uppercase font-bold text-[#D9A441] tracking-widest mb-1">Common</p>
-                  <p className="text-[11px] text-[#1F2937] leading-relaxed">WiFi, Vacuum Cleaner</p>
+                <div className="pt-2 border-t border-white/10">
+                  <p className="text-[9px] uppercase font-bold text-accent tracking-widest mb-1">Common</p>
+                  <p className="text-[11px] text-foreground leading-relaxed">WiFi, Vacuum Cleaner</p>
                 </div>
               </div>
             )}
@@ -223,38 +223,38 @@ export default function MoveInInstructions({ advanceStep }) {
 
       {/* Unit Access Codes */}
       <section>
-        <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-base text-[#191c1e] mb-4">
+        <h3 className="font-display font-bold text-base text-foreground mb-4">
           Unit Access Codes
         </h3>
         {codesUnlocked && (mainDoorCode || roomCode) ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {mainDoorCode && (
-              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+              <div className="p-5 bg-surface-container rounded-2xl border border-border">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="material-symbols-outlined text-[#D9A441] text-[18px]">door_front</span>
-                  <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">
+                  <span className="material-symbols-outlined text-accent text-[18px]">door_front</span>
+                  <p className="text-[10px] uppercase font-bold text-foreground-variant tracking-widest">
                     Main Door
                   </p>
                 </div>
-                <p className="font-mono font-bold text-xl text-[#191c1e]">{mainDoorCode}</p>
+                <p className="font-mono font-bold text-xl text-foreground">{mainDoorCode}</p>
               </div>
             )}
             {roomCode && (
-              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+              <div className="p-5 bg-surface-container rounded-2xl border border-border">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="material-symbols-outlined text-[#D9A441] text-[18px]">meeting_room</span>
-                  <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">
+                  <span className="material-symbols-outlined text-accent text-[18px]">meeting_room</span>
+                  <p className="text-[10px] uppercase font-bold text-foreground-variant tracking-widest">
                     Your Room {unitCode ? `(${unitCode})` : ""}
                   </p>
                 </div>
-                <p className="font-mono font-bold text-xl text-[#191c1e]">{roomCode}</p>
+                <p className="font-mono font-bold text-xl text-foreground">{roomCode}</p>
               </div>
             )}
           </div>
         ) : (
-          <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 flex items-start gap-3">
-            <span className="material-symbols-outlined text-slate-400 text-[20px] mt-0.5">lock</span>
-            <p className="text-sm text-[#1F2937] font-['Inter'] leading-relaxed">
+          <div className="p-5 bg-surface-container rounded-2xl border border-border flex items-start gap-3">
+            <span className="material-symbols-outlined text-foreground-variant text-[20px] mt-0.5">lock</span>
+            <p className="text-sm text-foreground font-['Inter'] leading-relaxed">
               Your door codes will appear here on your move-in day
               {tenancyStartDate ? ` (${tenancyStartDate})` : ""}.
             </p>
@@ -263,49 +263,49 @@ export default function MoveInInstructions({ advanceStep }) {
       </section>
 
       {/* Need Help? */}
-      <section className="pt-8 border-t border-slate-100">
+      <section className="pt-8 border-t border-border">
         <div className="flex items-center gap-2 mb-6">
-          <span className="material-symbols-outlined text-[#9b4426]">contact_support</span>
-          <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-base text-[#191c1e]">
+          <span className="material-symbols-outlined text-accent">contact_support</span>
+          <h3 className="font-display font-bold text-base text-foreground">
             Need Help?
           </h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="flex items-start gap-4 p-4 bg-white border border-slate-100 rounded-xl">
-            <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold shrink-0 font-['Inter']">
+          <div className="flex items-start gap-4 p-4 bg-surface border border-border rounded-xl">
+            <div className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-xs font-bold shrink-0 font-['Inter'] text-foreground">
               1
             </div>
             <div>
-              <p className="font-bold text-xs mb-1 font-['Plus_Jakarta_Sans'] text-[#191c1e]">
+              <p className="font-bold text-xs mb-1 font-display text-foreground">
                 Resident Portal
               </p>
-              <p className="text-[10px] text-slate-500 leading-tight font-['Inter']">
+              <p className="text-[10px] text-foreground-variant leading-tight font-['Inter']">
                 Visit the Help section in your dashboard.
               </p>
             </div>
           </div>
-          <div className="flex items-start gap-4 p-4 bg-white border border-slate-100 rounded-xl">
-            <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold shrink-0 font-['Inter']">
+          <div className="flex items-start gap-4 p-4 bg-surface border border-border rounded-xl">
+            <div className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-xs font-bold shrink-0 font-['Inter'] text-foreground">
               2
             </div>
             <div>
-              <p className="font-bold text-xs mb-1 font-['Plus_Jakarta_Sans'] text-[#191c1e]">
+              <p className="font-bold text-xs mb-1 font-display text-foreground">
                 Self-Help Guides
               </p>
-              <p className="text-[10px] text-slate-500 leading-tight font-['Inter']">
+              <p className="text-[10px] text-foreground-variant leading-tight font-['Inter']">
                 Browse common solutions and FAQs.
               </p>
             </div>
           </div>
-          <div className="flex items-start gap-4 p-4 bg-white border border-slate-100 rounded-xl">
-            <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold shrink-0 font-['Inter']">
+          <div className="flex items-start gap-4 p-4 bg-surface border border-border rounded-xl">
+            <div className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-xs font-bold shrink-0 font-['Inter'] text-foreground">
               3
             </div>
             <div>
-              <p className="font-bold text-xs mb-1 font-['Plus_Jakarta_Sans'] text-[#191c1e]">
+              <p className="font-bold text-xs mb-1 font-display text-foreground">
                 File a Ticket
               </p>
-              <p className="text-[10px] text-slate-500 leading-tight font-['Inter']">
+              <p className="text-[10px] text-foreground-variant leading-tight font-['Inter']">
                 Contact support for unresolved issues.
               </p>
             </div>
@@ -314,8 +314,8 @@ export default function MoveInInstructions({ advanceStep }) {
       </section>
 
       {/* Footer */}
-      <div className="pt-4 border-t border-slate-100 text-center">
-        <p className="text-xs text-slate-400 font-medium font-['Inter']">
+      <div className="pt-4 border-t border-border text-center">
+        <p className="text-xs text-foreground-variant font-medium font-['Inter']">
           Welcome to {propertyName} • Managed by Lazybee
         </p>
       </div>
@@ -325,7 +325,7 @@ export default function MoveInInstructions({ advanceStep }) {
         <button
           type="button"
           onClick={() => advanceStep(null)}
-          className="inline-flex items-center gap-2 bg-[#A87813] text-white rounded-xl px-7 py-3 font-['Plus_Jakarta_Sans'] font-bold text-sm hover:bg-[#5C420B] transition-colors shadow-md shadow-[#A87813]/20"
+          className="inline-flex items-center gap-2 bg-accent text-white rounded-full px-7 py-3 font-display font-bold text-sm hover:opacity-90 transition-colors"
         >
           Continue
           <span className="material-symbols-outlined text-[18px]">arrow_forward</span>

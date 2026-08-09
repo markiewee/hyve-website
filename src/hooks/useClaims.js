@@ -8,15 +8,27 @@ const CLAIM_COLUMNS = `
   properties(name)
 `;
 
+// claims bucket only allows image/jpeg|png|heic|webp. Android galleries often
+// give an empty file.type, which the bucket rejects (415). Derive the MIME from
+// the (already validated) extension so the upload always carries a valid type.
+const EXT_MIME = { jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", heic: "image/heic", webp: "image/webp" };
+
 async function uploadClaimPhoto(file, userId, kind) {
   const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
   const safeExt = ["jpg", "jpeg", "png", "heic", "webp"].includes(ext) ? ext : "jpg";
   const path = `${userId}/${Date.now()}_${kind}.${safeExt}`;
 
-  const { error } = await supabase.storage.from("claims").upload(path, file, {
+  // supabase-js takes the multipart content-type from the Blob's own .type and
+  // ignores the `contentType` option for File bodies. Re-wrap when the type is
+  // missing (common on Android) so the image-only bucket doesn't 415.
+  const typed =
+    file.type && file.type.startsWith("image/")
+      ? file
+      : new File([file], file.name, { type: EXT_MIME[safeExt] });
+
+  const { error } = await supabase.storage.from("claims").upload(path, typed, {
     cacheControl: "3600",
     upsert: false,
-    contentType: file.type,
   });
   if (error) throw error;
   return path;

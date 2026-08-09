@@ -43,8 +43,28 @@ export function getOAuthClient({ withRefreshToken = true } = {}) {
   return oauth2;
 }
 
+// Service-account auth (preferred): server-to-server, no refresh token, never
+// expires — kills the recurring re-auth. Requires the viewings calendar to be
+// shared with GOOGLE_SA_CLIENT_EMAIL ("Make changes to events"). No
+// domain-wide delegation needed: every call uses sendUpdates:"none" (we email
+// via Resend), so the SA never tries to invite guests off a shared calendar.
+function getServiceAccountAuth() {
+  const clientEmail = process.env.GOOGLE_SA_CLIENT_EMAIL;
+  let privateKey = process.env.GOOGLE_SA_PRIVATE_KEY;
+  if (!clientEmail || !privateKey) return null;
+  // Vercel stores the PEM with literal "\n" — restore real newlines.
+  privateKey = privateKey.replace(/\\n/g, "\n");
+  return new google.auth.JWT({
+    email: clientEmail,
+    key: privateKey,
+    scopes: ["https://www.googleapis.com/auth/calendar"],
+  });
+}
+
 function getCalendarClient() {
-  const auth = getOAuthClient();
+  // Prefer the service account; fall back to the legacy user-OAuth refresh
+  // token if the SA env vars aren't set yet.
+  const auth = getServiceAccountAuth() || getOAuthClient();
   return google.calendar({ version: "v3", auth });
 }
 

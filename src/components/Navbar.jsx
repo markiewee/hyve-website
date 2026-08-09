@@ -1,109 +1,63 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useLanguage } from '../i18n/LanguageContext';
 import Wordmark from './Wordmark';
+import { BOOKING_URL } from '../lib/booking';
+import { track, EVENTS } from '../lib/analytics';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { t } = useLanguage();
-
   useEffect(() => { setIsOpen(false); }, [location.pathname]);
 
   const navigation = [
-    { name: t('public.nav.properties'), href: '/properties' },
-    { name: t('public.nav.locations'), href: '/locations' },
-    { name: t('public.nav.about'), href: '/about' },
-    { name: t('public.nav.blog'), href: '/blog' },
+    { name: 'FAQs', href: '/faqs' },
+    { name: 'Contact', href: '/contact' },
   ];
-
   const isActive = (path) => location.pathname === path;
+  const onBrowse = () => track(EVENTS.BROWSE_ROOMS_CLICK, { source: 'navbar' });
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-sm">
-      <div className="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
-        {/* Left: Logo + Links */}
-        <div className="flex items-center gap-12">
-          <Link to="/" aria-label="Lazybee home">
-            <Wordmark size="md" />
-          </Link>
+    <nav className="fixed top-0 w-full z-50 bg-background/70 backdrop-blur-xl border-b border-border">
+      <div className="flex justify-between items-center px-6 md:px-8 py-4 max-w-screen-2xl mx-auto">
+        <div className="flex items-center gap-10">
+          <Link to="/" aria-label="Lazybee home"><Wordmark size="md" /></Link>
           <div className="hidden md:flex items-center gap-8">
             {navigation.map((item) => (
-              <Link
-                key={item.href}
-                to={item.href}
-                className={`font-['Plus_Jakarta_Sans'] font-bold tracking-tight transition-colors duration-300 ${
-                  isActive(item.href)
-                    ? 'text-honey-800 border-b-2 border-honey-700 pb-1'
-                    : 'text-slate-600 hover:text-honey-500'
-                }`}
-              >
+              <Link key={item.href} to={item.href}
+                className={`font-display font-semibold tracking-tight transition-colors ${
+                  isActive(item.href) ? 'text-accent' : 'text-foreground-variant hover:text-foreground'}`}>
                 {item.name}
               </Link>
             ))}
           </div>
         </div>
-
-        {/* Right: Actions */}
-        <div className="hidden md:flex items-center gap-4">
-          <Link
-            to="/portal/login"
-            className="font-['Plus_Jakarta_Sans'] font-bold tracking-tight text-slate-600 hover:text-honey-700 px-4 py-2 transition-all text-sm"
-          >
-            {t('public.nav.login')}
-          </Link>
-          <Link
-            to="/contact"
-            className="bg-[#A87813] text-white font-['Plus_Jakarta_Sans'] font-bold tracking-tight px-6 py-2.5 rounded-xl hover:opacity-90 active:scale-95 transition-all shadow-sm text-sm"
-          >
-            {t('public.nav.getInTouch')}
+        <div className="hidden md:flex items-center gap-5">
+          <a href={BOOKING_URL} onClick={onBrowse} className="font-display font-semibold text-foreground-variant hover:text-foreground text-sm">Browse rooms</a>
+          <a href="https://portal.lazybee.sg" className="font-display font-semibold text-foreground-variant hover:text-foreground text-sm">Portal</a>
+          <Link to="/contact"
+             className="bg-accent text-accent-foreground font-display font-bold px-6 py-2.5 rounded-full hover:opacity-90 active:scale-95 transition-all text-sm">
+            List your unit →
           </Link>
         </div>
-
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden p-2 text-slate-600 active:scale-95 transition-transform"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span className="material-symbols-outlined">
-            {isOpen ? 'close' : 'menu'}
-          </span>
+        <button className="md:hidden p-2 text-foreground active:scale-95" onClick={() => setIsOpen(!isOpen)} aria-label="Menu">
+          <span className="material-symbols-outlined">{isOpen ? 'close' : 'menu'}</span>
         </button>
       </div>
-
-      {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-xl border-t border-slate-100">
+        <div className="md:hidden bg-surface/95 backdrop-blur-xl border-t border-border">
           <div className="px-6 py-4 space-y-1">
             {navigation.map((item) => (
-              <Link
-                key={item.href}
-                to={item.href}
-                onClick={() => setIsOpen(false)}
-                className={`block px-4 py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-bold tracking-tight transition-colors ${
-                  isActive(item.href)
-                    ? 'text-honey-800 bg-honey-50'
-                    : 'text-slate-600 hover:text-honey-500 hover:bg-slate-50'
-                }`}
-              >
+              <Link key={item.href} to={item.href} onClick={() => setIsOpen(false)}
+                className={`block px-4 py-3 rounded-xl font-display font-semibold ${
+                  isActive(item.href) ? 'text-accent bg-surface-container' : 'text-foreground-variant hover:text-foreground hover:bg-surface-container'}`}>
                 {item.name}
               </Link>
             ))}
-            <div className="pt-4 space-y-3 border-t border-slate-100 mt-2">
-              <Link
-                to="/portal/login"
-                onClick={() => setIsOpen(false)}
-                className="block text-center px-4 py-3 text-slate-600 font-['Plus_Jakarta_Sans'] font-bold rounded-xl hover:bg-slate-50"
-              >
-                {t('public.nav.login')}
-              </Link>
-              <Link
-                to="/contact"
-                onClick={() => setIsOpen(false)}
-                className="block text-center bg-[#A87813] text-white font-['Plus_Jakarta_Sans'] font-bold px-6 py-3 rounded-xl"
-              >
-                {t('public.nav.getInTouch')}
-              </Link>
+            <div className="pt-4 space-y-3 border-t border-border mt-2">
+              <a href={BOOKING_URL} onClick={() => { onBrowse(); setIsOpen(false); }} className="block text-center px-4 py-3 text-foreground-variant font-display font-semibold rounded-xl">Browse rooms</a>
+              <a href="https://portal.lazybee.sg" onClick={() => setIsOpen(false)} className="block text-center px-4 py-3 text-foreground-variant font-display font-semibold rounded-xl">Portal</a>
+              <Link to="/contact" onClick={() => setIsOpen(false)}
+                 className="block text-center bg-accent text-accent-foreground font-display font-bold px-6 py-3 rounded-full">List your unit →</Link>
             </div>
           </div>
         </div>
@@ -111,5 +65,4 @@ const Navbar = () => {
     </nav>
   );
 };
-
 export default Navbar;

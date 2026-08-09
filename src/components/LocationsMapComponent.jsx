@@ -22,7 +22,7 @@ const neighborhoodIcon = new L.DivIcon({
   className: 'custom-neighborhood-icon',
   html: `<div style="
     width: 36px; height: 36px;
-    background: #A87813;
+    background: #c47a35;
     border: 3px solid #fff;
     border-radius: 50%;
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
@@ -178,13 +178,13 @@ const LocationsMapComponent = ({
                 <Marker key={`n-${idx}`} position={[lat, lng]} icon={neighborhoodIcon}>
                   <Popup>
                     <div style={{ maxWidth: 260 }}>
-                      <h4 style={{ margin: '0 0 6px', color: '#A87813', fontSize: 15, fontWeight: 700 }}>
+                      <h4 style={{ margin: '0 0 6px', color: '#c47a35', fontSize: 15, fontWeight: 700 }}>
                         {neighborhood.name}
                       </h4>
                       <p style={{ margin: '0 0 6px', color: '#666', fontSize: 13 }}>
                         {neighborhood.description || 'Popular neighborhood'}
                       </p>
-                      <p style={{ margin: '0 0 6px', color: '#A87813', fontWeight: 600, fontSize: 13 }}>
+                      <p style={{ margin: '0 0 6px', color: '#c47a35', fontWeight: 600, fontSize: 13 }}>
                         {propertiesInNeighborhood} {propertiesInNeighborhood === 1 ? 'property' : 'properties'} available
                       </p>
                       {neighborhood.highlights && (
@@ -210,11 +210,11 @@ const LocationsMapComponent = ({
                           {matchingProperties.map((p) => (
                             <a
                               key={p._id || p.id}
-                              href={`/property/${p.slug?.current || p.id || p._id}`}
+                              href={`https://book.lazybee.sg/?room=${p.slug?.current || p.id || p._id}`}
                               style={{
                                 display: 'block',
                                 padding: '6px 10px',
-                                background: '#A87813',
+                                background: '#c47a35',
                                 color: '#fff',
                                 borderRadius: 6,
                                 fontSize: 12,
@@ -260,7 +260,7 @@ const LocationsMapComponent = ({
                         {property.neighborhood?.name || property.neighborhood || ''}
                       </p>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ color: '#A87813', fontWeight: 700, fontSize: 14 }}>
+                        <span style={{ color: '#c47a35', fontWeight: 700, fontSize: 14 }}>
                           From ${property.startingPrice || property.priceMonthly || 'N/A'}/month
                         </span>
                         <span style={{ color: '#666', fontSize: 12 }}>
@@ -280,7 +280,7 @@ const LocationsMapComponent = ({
             size="sm"
             variant="secondary"
             onClick={resetView}
-            className="bg-white/90 hover:bg-white shadow-md"
+            className="bg-surface/90 hover:bg-surface"
           >
             <RotateCcw className="w-4 h-4 mr-1" />
             Fit All
@@ -288,8 +288,8 @@ const LocationsMapComponent = ({
         </div>
 
         {/* Map Info Overlay */}
-        <div className="absolute bottom-4 left-4 bg-white/95 rounded-lg p-3 shadow-md" style={{ zIndex: 1000 }}>
-          <div className="text-xs text-gray-600">
+        <div className="absolute bottom-4 left-4 bg-surface/95 rounded-lg p-3 border border-border" style={{ zIndex: 1000 }}>
+          <div className="text-xs text-foreground-variant">
             {showProperties ? (
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-orange-500 rounded-full border border-orange-600"></div>
@@ -297,7 +297,7 @@ const LocationsMapComponent = ({
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full border-2" style={{ background: '#A87813', borderColor: '#A87813' }}></div>
+                <div className="w-4 h-4 rounded-full border-2" style={{ background: '#c47a35', borderColor: '#c47a35' }}></div>
                 <span>Showing neighborhoods - Zoom in for properties</span>
               </div>
             )}
@@ -306,12 +306,12 @@ const LocationsMapComponent = ({
 
         {/* Selected property info */}
         {selectedProperty && (
-          <div className="absolute bottom-4 right-4 bg-white/95 rounded-lg p-3 shadow-md max-w-xs" style={{ zIndex: 1000 }}>
+          <div className="absolute bottom-4 right-4 bg-surface/95 rounded-lg p-3 border border-border max-w-xs" style={{ zIndex: 1000 }}>
             <h4 className="font-semibold text-sm mb-1">{selectedProperty.name}</h4>
-            <p className="text-xs text-gray-600 mb-1">
+            <p className="text-xs text-foreground-variant mb-1">
               {selectedProperty.neighborhood?.name || selectedProperty.neighborhood}
             </p>
-            <p className="text-xs font-semibold" style={{ color: '#A87813' }}>
+            <p className="text-xs font-semibold" style={{ color: '#c47a35' }}>
               From ${selectedProperty.startingPrice}/mo - {selectedProperty.availableRooms} available
             </p>
           </div>

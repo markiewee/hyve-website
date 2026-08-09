@@ -18,28 +18,28 @@ const BOX_CONFIG = {
   tenant: {
     label: "Member Signature",
     borderClass: "border-blue-500",
-    bgClass: "bg-blue-50",
+    bgClass: "bg-blue-500/15",
     headerClass: "bg-blue-500 text-white",
     handleClass: "bg-blue-500",
   },
   admin: {
     label: "Licensor Signature",
     borderClass: "border-emerald-500",
-    bgClass: "bg-emerald-50",
+    bgClass: "bg-emerald-500/15",
     headerClass: "bg-emerald-500 text-white",
     handleClass: "bg-emerald-500",
   },
   tenant_date: {
     label: "Member Date",
     borderClass: "border-blue-300",
-    bgClass: "bg-blue-50",
+    bgClass: "bg-blue-500/15",
     headerClass: "bg-blue-300 text-blue-900",
     handleClass: "bg-blue-300",
   },
   admin_date: {
     label: "Licensor Date",
     borderClass: "border-emerald-300",
-    bgClass: "bg-emerald-50",
+    bgClass: "bg-emerald-500/15",
     headerClass: "bg-emerald-300 text-emerald-900",
     handleClass: "bg-emerald-300",
   },
@@ -229,7 +229,7 @@ function DraggableBox({
       />
 
       {/* Debug coordinates */}
-      <div className="absolute -bottom-4 left-0 text-[8px] text-gray-500 whitespace-nowrap">
+      <div className="absolute -bottom-4 left-0 text-[8px] text-foreground-variant whitespace-nowrap">
         x:{Math.round(pos.x)} y:{Math.round(pos.y)} w:{Math.round(pos.width)} h:{Math.round(pos.height)}
       </div>
     </div>
@@ -309,7 +309,7 @@ export default function DraggableSignaturePlacer({ pdfUrl, value, onChange }) {
 
   if (error) {
     return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+      <div className="rounded-lg border border-red-500/25 bg-red-500/10 p-4 text-sm text-red-300">
         {error}
       </div>
     );
@@ -349,7 +349,7 @@ export default function DraggableSignaturePlacer({ pdfUrl, value, onChange }) {
 
       {/* PDF + overlays */}
       <div
-        className="relative border border-border rounded-lg overflow-hidden bg-gray-100 inline-block"
+        className="relative border border-border rounded-lg overflow-hidden bg-surface-container inline-block"
         style={{ width: RENDER_WIDTH }}
       >
         {loading && (

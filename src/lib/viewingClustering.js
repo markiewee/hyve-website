@@ -13,7 +13,7 @@ const TZ_OFFSET_MS = 8 * 60 * 60 * 1000; // SGT — no DST
 // Window definitions: day-of-week (Sun=0, Fri=5, Sat=6), key, SGT start/end hours
 const WINDOW_DEFS = [
   { dow: 5, key: "fri-evening",   startH: 19, endH: 22 },
-  { dow: 6, key: "sat-morning",   startH: 10, endH: 13 },
+  { dow: 6, key: "sat-morning",   startH: 10, endH: 14 },
   { dow: 0, key: "sun-afternoon", startH: 16, endH: 18 },
 ];
 
@@ -119,8 +119,19 @@ function clusterBookings(bookings) {
   return Array.from(byProperty.values()).sort((a, b) => a.earliestMs - b.earliestMs);
 }
 
+// Returns true if the 15-min grid slot [slotStartMs, slotStartMs+SLOT_MS)
+// overlaps any booking's [slot_start, slot_end) interval. A booking may span
+// more than one grid slot (e.g. a 30-min viewing covers two 15-min slots), so
+// we cannot just compare start-times. Equality-based check let 30-min bookings
+// with non-aligned starts (e.g. 11:45–12:15) leak the 12:00 grid slot as
+// "available" even though it sat inside the booking.
 function isSlotBooked(slotStartMs, bookings) {
-  return bookings.some((b) => new Date(b.slot_start).getTime() === slotStartMs);
+  const slotEndMs = slotStartMs + SLOT_MS;
+  return bookings.some((b) => {
+    const bStart = new Date(b.slot_start).getTime();
+    const bEnd = new Date(b.slot_end).getTime();
+    return slotStartMs < bEnd && bStart < slotEndMs;
+  });
 }
 
 function isWindowEdge(slotStartMs, slotEndMs, window) {

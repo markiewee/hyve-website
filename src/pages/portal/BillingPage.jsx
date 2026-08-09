@@ -93,10 +93,11 @@ export default function BillingPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
+        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Billing</span>
+        <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
           Billing & Payments
         </h1>
-        <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">
+        <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
           Manage your rent payments and AC usage charges.
         </p>
       </div>
@@ -104,15 +105,15 @@ export default function BillingPage() {
       {/* Summary stat cards */}
       <div className={`grid grid-cols-1 ${profile?.role !== "ADMIN" ? "sm:grid-cols-3" : "sm:grid-cols-1"} gap-6 mb-10`}>
         {/* Outstanding balance — red when overdue, teal when ok */}
-        <div className={`sm:col-span-2 rounded-2xl p-8 relative overflow-hidden ${hasOverdue ? "bg-[#ba1a1a]" : "bg-[#A87813]"}`}>
+        <div className={`sm:col-span-2 rounded-2xl p-8 relative overflow-hidden ${hasOverdue ? "bg-[#ba1a1a]" : "bg-accent"}`}>
           <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -mr-20 -mt-20 pointer-events-none" />
-          <p className={`font-['Inter'] text-xs uppercase tracking-widest font-bold mb-2 ${hasOverdue ? "text-[#ffdad6]/80" : "text-[#D9A441]/80"}`}>
+          <p className={`font-['Inter'] text-xs uppercase tracking-widest font-bold mb-2 ${hasOverdue ? "text-[#ffdad6]/80" : "text-white/80"}`}>
             {hasOverdue ? "Overdue Balance" : "Outstanding Balance"}
           </p>
-          <p className="font-['Plus_Jakarta_Sans'] text-5xl font-black text-white mb-4">
+          <p className="font-display text-5xl font-black text-white mb-4">
             ${totalOwed.toLocaleString("en-SG", { minimumFractionDigits: 2 })}
           </p>
-          <p className="text-white/60 font-['Manrope'] text-sm">
+          <p className="text-white/60 font-['Inter'] text-sm">
             {hasOverdue
               ? `${overdueRent} overdue payment${overdueRent !== 1 ? "s" : ""} — please pay immediately`
               : `${pendingRent} rent payment${pendingRent !== 1 ? "s" : ""}${pendingChargesCount > 0 ? ` + ${pendingChargesCount} charge${pendingChargesCount !== 1 ? "s" : ""}` : ""} pending`}
@@ -120,60 +121,60 @@ export default function BillingPage() {
           {hasOverdue && (
             <div className="mt-3 flex items-center gap-2 text-white/80">
               <span className="material-symbols-outlined text-[18px]">warning</span>
-              <span className="font-['Manrope'] text-xs font-bold">Late fees are accruing at SGD {lateFeePerDay}/day</span>
+              <span className="font-['Inter'] text-xs font-bold">Late fees are accruing at SGD {lateFeePerDay}/day</span>
             </div>
           )}
         </div>
 
         {/* Rent amount stat — hidden for admin */}
         {profile?.role !== "ADMIN" && (
-          <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm flex flex-col justify-between">
-            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">
+          <div className="bg-surface rounded-2xl p-6 border border-border flex flex-col justify-between">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-3">
               Monthly Rent
             </p>
-            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937]">
+            <p className="font-display text-3xl font-extrabold text-foreground">
               {(profile?.monthly_rent || profile?.rooms?.rent_amount)
                 ? `$${Number(profile.monthly_rent || profile.rooms?.rent_amount).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`
                 : "—"}
             </p>
-            <p className="text-[#6B7280] font-['Manrope'] text-xs mt-2">Due 1st of each month</p>
+            <p className="text-foreground-variant font-['Inter'] text-xs mt-2">Due 1st of each month</p>
           </div>
         )}
       </div>
 
       {/* Rent Payments section */}
-      <section className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm mb-8">
-        <div className="px-8 py-6 border-b border-[#E8E0CE]/15 flex items-center justify-between">
-          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937] flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#A87813] text-[20px]">receipt_long</span>
+      <section className="bg-surface rounded-2xl border border-border mb-8">
+        <div className="px-8 py-6 border-b border-border flex items-center justify-between">
+          <h2 className="font-display font-bold text-lg text-foreground flex items-center gap-2">
+            <span className="material-symbols-outlined text-accent text-[20px]">receipt_long</span>
             Rent Payments
           </h2>
         </div>
 
         {rentLoading ? (
-          <div className="divide-y divide-[#E8E0CE]/15">
+          <div className="divide-y divide-white/10">
             {[1, 2, 3].map((i) => (
               <div key={i} className="px-8 py-5 flex items-center justify-between">
                 <div className="space-y-2">
-                  <div className="h-4 w-28 bg-[#F2D88A] animate-pulse rounded" />
-                  <div className="h-3 w-20 bg-[#F2D88A] animate-pulse rounded" />
+                  <div className="h-4 w-28 bg-surface-container animate-pulse rounded" />
+                  <div className="h-3 w-20 bg-surface-container animate-pulse rounded" />
                 </div>
-                <div className="h-5 w-16 bg-[#F2D88A] animate-pulse rounded-full" />
+                <div className="h-5 w-16 bg-surface-container animate-pulse rounded-full" />
               </div>
             ))}
           </div>
         ) : rentPayments.length === 0 ? (
           <div className="px-8 py-12 text-center">
-            <p className="text-[#6B7280] font-['Manrope'] text-sm">No rent records yet.</p>
+            <p className="text-foreground-variant font-['Inter'] text-sm">Norent records yet.</p>
           </div>
         ) : (
-          <div className="divide-y divide-[#E8E0CE]/10">
+          <div className="divide-y divide-white/10">
             {rentPayments.map((payment) => {
               const matchingInvoice = invoiceByMonth[payment.month];
               return (
               <div
                 key={payment.id}
-                className={`flex items-center justify-between px-8 py-4${matchingInvoice ? " cursor-pointer hover:bg-[#FAF6EC] transition-colors" : ""}`}
+                className={`flex items-center justify-between px-8 py-4${matchingInvoice ? " cursor-pointer hover:bg-white/5 transition-colors" : ""}`}
                 onClick={matchingInvoice ? () => navigate(`/portal/billing/${matchingInvoice.id}`) : undefined}
               >
                 <div className="flex-1 min-w-0">
@@ -185,7 +186,7 @@ export default function BillingPage() {
                 {payment.status === "PAID" && (
                   <button
                     onClick={() => setReceiptPayment({ ...payment, _type: "rent" })}
-                    className="ml-4 shrink-0 px-3 py-1 text-xs font-medium text-[#A87813] bg-[#A87813]/10 rounded-lg hover:bg-[#A87813]/20 whitespace-nowrap"
+                    className="ml-4 shrink-0 px-3 py-1 text-xs font-medium text-accent bg-accent/10 rounded-full hover:bg-accent/20 whitespace-nowrap"
                   >
                     Receipt
                   </button>
@@ -198,32 +199,32 @@ export default function BillingPage() {
       </section>
 
       {/* AC Usage Billing section */}
-      <section className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm">
-        <div className="px-8 py-6 border-b border-[#E8E0CE]/15 flex items-center justify-between">
-          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937] flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#A87813] text-[20px]">ac_unit</span>
+      <section className="bg-surface rounded-2xl border border-border">
+        <div className="px-8 py-6 border-b border-border flex items-center justify-between">
+          <h2 className="font-display font-bold text-lg text-foreground flex items-center gap-2">
+            <span className="material-symbols-outlined text-accent text-[20px]">ac_unit</span>
             AC Usage History
           </h2>
         </div>
 
         {loading ? (
-          <div className="divide-y divide-[#E8E0CE]/15">
+          <div className="divide-y divide-white/10">
             {[1, 2, 3].map((i) => (
               <div key={i} className="px-8 py-5 flex items-center justify-between">
                 <div className="space-y-2">
-                  <div className="h-4 w-28 bg-[#F2D88A] animate-pulse rounded" />
-                  <div className="h-3 w-20 bg-[#F2D88A] animate-pulse rounded" />
+                  <div className="h-4 w-28 bg-surface-container animate-pulse rounded" />
+                  <div className="h-3 w-20 bg-surface-container animate-pulse rounded" />
                 </div>
-                <div className="h-5 w-16 bg-[#F2D88A] animate-pulse rounded-full" />
+                <div className="h-5 w-16 bg-surface-container animate-pulse rounded-full" />
               </div>
             ))}
           </div>
         ) : invoices.length === 0 ? (
           <div className="px-8 py-12 text-center">
-            <p className="text-[#6B7280] font-['Manrope'] text-sm">No billing history yet.</p>
+            <p className="text-foreground-variant font-['Inter'] text-sm">Nobilling history yet.</p>
           </div>
         ) : (
-          <div className="divide-y divide-[#E8E0CE]/10">
+          <div className="divide-y divide-white/10">
             {invoices.map((invoice) => (
               <div key={invoice.id} className="relative group">
                 <InvoiceCard invoice={invoice} />
@@ -231,7 +232,7 @@ export default function BillingPage() {
                   <div className="absolute right-8 top-1/2 -translate-y-1/2">
                     <button
                       onClick={() => setReceiptPayment({ ...invoice, _type: "ac" })}
-                      className="text-xs font-medium text-[#A87813] hover:underline whitespace-nowrap"
+                      className="text-xs font-medium text-accent hover:underline whitespace-nowrap"
                     >
                       Receipt
                     </button>
@@ -243,46 +244,46 @@ export default function BillingPage() {
         )}
       </section>
       {/* Other Charges section */}
-      <section className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm mt-8">
-        <div className="px-8 py-6 border-b border-[#E8E0CE]/15 flex items-center justify-between">
-          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937] flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#A87813] text-[20px]">payments</span>
+      <section className="bg-surface rounded-2xl border border-border mt-8">
+        <div className="px-8 py-6 border-b border-border flex items-center justify-between">
+          <h2 className="font-display font-bold text-lg text-foreground flex items-center gap-2">
+            <span className="material-symbols-outlined text-accent text-[20px]">payments</span>
             Other Charges
           </h2>
         </div>
 
         {chargesLoading ? (
-          <div className="divide-y divide-[#E8E0CE]/15">
+          <div className="divide-y divide-white/10">
             {[1, 2].map((i) => (
               <div key={i} className="px-8 py-5 flex items-center justify-between">
                 <div className="space-y-2">
-                  <div className="h-4 w-28 bg-[#F2D88A] animate-pulse rounded" />
-                  <div className="h-3 w-20 bg-[#F2D88A] animate-pulse rounded" />
+                  <div className="h-4 w-28 bg-surface-container animate-pulse rounded" />
+                  <div className="h-3 w-20 bg-surface-container animate-pulse rounded" />
                 </div>
-                <div className="h-5 w-16 bg-[#F2D88A] animate-pulse rounded-full" />
+                <div className="h-5 w-16 bg-surface-container animate-pulse rounded-full" />
               </div>
             ))}
           </div>
         ) : charges.length === 0 ? (
           <div className="px-8 py-12 text-center">
-            <p className="text-[#6B7280] font-['Manrope'] text-sm">No additional charges.</p>
+            <p className="text-foreground-variant font-['Inter'] text-sm">Noadditional charges.</p>
           </div>
         ) : (
-          <div className="divide-y divide-[#E8E0CE]/10">
+          <div className="divide-y divide-white/10">
             {charges.map((charge) => {
               const isPaid = charge.status === "PAID";
               return (
-                <div key={charge.id} className={`px-8 py-5 flex items-center justify-between ${!isPaid ? "bg-amber-50/30" : ""}`}>
+                <div key={charge.id} className={`px-8 py-5 flex items-center justify-between ${!isPaid ? "bg-amber-500/10" : ""}`}>
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <p className="font-['Manrope'] font-bold text-sm text-[#1F2937]">
+                      <p className="font-['Inter'] font-bold text-sm text-foreground">
                         {charge.description}
                       </p>
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-[#F2D88A] text-[#6B7280]">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-surface-container text-foreground-variant">
                         {charge.category?.replace(/_/g, " ")}
                       </span>
                     </div>
-                    <div className="flex items-center gap-3 text-xs text-[#6B7280] font-['Manrope']">
+                    <div className="flex items-center gap-3 text-xs text-foreground-variant font-['Inter']">
                       <span>
                         Due: {charge.due_date ? new Date(charge.due_date).toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" }) : "—"}
                       </span>
@@ -292,11 +293,11 @@ export default function BillingPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm tabular-nums text-[#1F2937]">
+                    <p className="font-display font-bold text-sm tabular-nums text-foreground">
                       ${Number(charge.amount).toLocaleString("en-SG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </p>
                     <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest ${
-                      isPaid ? "bg-[#d1fae5] text-[#065f46]" : "bg-amber-100 text-amber-700"
+                      isPaid ? "bg-emerald-500/15 text-emerald-300" : "bg-amber-500/15 text-amber-300"
                     }`}>
                       {charge.status}
                     </span>
@@ -304,7 +305,7 @@ export default function BillingPage() {
                       <>
                         <button
                           onClick={() => setReceiptPayment({ ...charge, _type: "charge", _mode: "invoice" })}
-                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#F2D88A] text-[#A87813] text-xs font-['Manrope'] font-bold hover:bg-[#FAF0CC]"
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-accent/15 text-accent text-xs font-['Inter'] font-bold hover:bg-accent/25"
                         >
                           <span className="material-symbols-outlined text-[14px]">receipt</span>
                           Invoice
@@ -323,7 +324,7 @@ export default function BillingPage() {
                               else alert(body.error || "Payment failed");
                             } catch { alert("Payment failed"); }
                           }}
-                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#A87813] text-white text-xs font-['Manrope'] font-bold hover:opacity-90"
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-accent text-white text-xs font-['Inter'] font-bold hover:opacity-90"
                         >
                           <span className="material-symbols-outlined text-[14px]">credit_card</span>
                           Pay
@@ -333,7 +334,7 @@ export default function BillingPage() {
                     {isPaid && (
                       <button
                         onClick={() => setReceiptPayment({ ...charge, _type: "charge" })}
-                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#F2D88A] text-[#A87813] text-xs font-['Manrope'] font-bold hover:bg-[#FAF0CC]"
+                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-accent/15 text-accent text-xs font-['Inter'] font-bold hover:bg-accent/25"
                       >
                         <span className="material-symbols-outlined text-[14px]">receipt</span>
                         Receipt

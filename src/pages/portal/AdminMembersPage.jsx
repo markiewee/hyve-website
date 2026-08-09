@@ -5,10 +5,12 @@ import MembersRoster from "../../components/portal/MembersRoster";
 import MembersAlerts from "../../components/portal/MembersAlerts";
 import MembersCaptains from "../../components/portal/MembersCaptains";
 import MembersClaimsQueue from "../../components/portal/MembersClaimsQueue";
+import { OnboardingLifecycle } from "./AdminOnboardingPage";
 import { useMembersData } from "../../hooks/useMembersData";
 import { supabase } from "../../lib/supabase";
 
 const MODES = [
+  { key: "LIFECYCLE", label: "Lifecycle" },
   { key: "ROSTER", label: "Roster" },
   { key: "ALERTS", label: "Alerts" },
   { key: "CAPTAINS", label: "Captains" },
@@ -16,7 +18,7 @@ const MODES = [
 ];
 
 export default function AdminMembersPage() {
-  const [mode, setMode] = useState("ROSTER");
+  const [mode, setMode] = useState("LIFECYCLE");
   const [propertyFilter, setPropertyFilter] = useState("ALL");
   const [captainFilter, setCaptainFilter] = useState(null);
   const [allProperties, setAllProperties] = useState([]);
@@ -36,6 +38,7 @@ export default function AdminMembersPage() {
     <PortalLayout>
       <div className="space-y-4">
         <PageHeader
+          eyebrow="Admin"
           title="Members"
           action={
             <select
@@ -51,7 +54,7 @@ export default function AdminMembersPage() {
           }
         />
 
-        <div className="flex gap-2 border-b border-[#E8E0CE]/30">
+        <div className="flex gap-2 border-b border-border">
           {MODES.map((m) => {
             const dot = m.key === "CLAIMS" && pendingClaimCount > 0;
             return (
@@ -61,8 +64,8 @@ export default function AdminMembersPage() {
                 onClick={() => { setMode(m.key); setCaptainFilter(null); }}
                 className={`relative px-4 py-2 text-sm font-medium ${
                   mode === m.key
-                    ? "border-b-2 border-[#A87813] text-[#A87813]"
-                    : "text-[#6B7280] hover:text-[#1F2937]"
+                    ? "border-b-2 border-[#c47a35] text-[#c47a35]"
+                    : "text-foreground-variant hover:text-foreground"
                 }`}
               >
                 {m.label}
@@ -76,6 +79,7 @@ export default function AdminMembersPage() {
           })}
         </div>
 
+        {mode === "LIFECYCLE" && <OnboardingLifecycle embedded />}
         {mode === "ROSTER" && <MembersRoster properties={properties} loading={loading} />}
         {mode === "ALERTS" && <MembersAlerts properties={properties} loading={loading} />}
         {mode === "CAPTAINS" && (

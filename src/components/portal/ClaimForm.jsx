@@ -56,7 +56,7 @@ export default function ClaimForm({ propertyId, propertyName, prefill, onSuccess
           type="text"
           value={propertyName ?? ""}
           readOnly
-          className="w-full rounded border border-gray-200 bg-gray-50 px-3 py-2 text-sm"
+          className="w-full rounded border border-border bg-surface-container px-3 py-2 text-sm text-foreground"
         />
       </div>
 
@@ -65,7 +65,7 @@ export default function ClaimForm({ propertyId, propertyName, prefill, onSuccess
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
+          className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-foreground"
         >
           {CATEGORIES.map((c) => (
             <option key={c.value} value={c.value}>{c.label}</option>
@@ -81,7 +81,7 @@ export default function ClaimForm({ propertyId, propertyName, prefill, onSuccess
           min="0.01"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
+          className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-foreground"
           required
         />
       </div>
@@ -93,7 +93,7 @@ export default function ClaimForm({ propertyId, propertyName, prefill, onSuccess
           onChange={(e) => setDescription(e.target.value)}
           rows={3}
           maxLength={500}
-          className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
+          className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-foreground"
           placeholder="e.g. Replaced kitchen sink trap, was leaking"
           required
         />
@@ -106,6 +106,7 @@ export default function ClaimForm({ propertyId, propertyName, prefill, onSuccess
           accept="image/jpeg,image/png,image/heic,image/webp"
           onChange={(e) => setReceiptFile(e.target.files?.[0] ?? null)}
           required
+          className="block w-full text-sm text-foreground-variant cursor-pointer file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-accent file:px-4 file:py-2 file:text-sm file:font-semibold file:text-accent-foreground hover:file:opacity-90"
         />
       </div>
 
@@ -116,15 +117,16 @@ export default function ClaimForm({ propertyId, propertyName, prefill, onSuccess
           accept="image/jpeg,image/png,image/heic,image/webp"
           onChange={(e) => setItemFile(e.target.files?.[0] ?? null)}
           required
+          className="block w-full text-sm text-foreground-variant cursor-pointer file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-accent file:px-4 file:py-2 file:text-sm file:font-semibold file:text-accent-foreground hover:file:opacity-90"
         />
       </div>
 
-      {error && <div className="text-sm text-red-600">{error}</div>}
+      {error && <div className="text-sm text-red-400">{error}</div>}
 
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded bg-blue-600 text-white py-2 font-medium disabled:opacity-50"
+        className="w-full rounded bg-accent text-white py-2 font-medium disabled:opacity-50"
       >
         {submitting ? "Submitting…" : "Submit claim"}
       </button>

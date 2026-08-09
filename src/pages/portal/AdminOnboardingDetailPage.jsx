@@ -10,6 +10,7 @@ import { STEPS, STEP_LABELS } from "../../hooks/useOnboarding";
 import { useAuth } from "../../hooks/useAuth";
 import { notifyMember } from "../../lib/notify";
 import { confirm } from "../../lib/confirm";
+import { PORTAL_HOST } from "../../lib/portal";
 
 function DepositProofImage({ url }) {
   const [signedUrl, setSignedUrl] = useState(null);
@@ -32,8 +33,8 @@ function DepositProofImage({ url }) {
   return (
     <div className="space-y-3">
       {imgError ? (
-        <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
-          <p className="text-sm text-amber-800">Unable to load deposit proof image. <a href={url} target="_blank" rel="noopener noreferrer" className="underline font-semibold">Try opening directly</a></p>
+        <div className="p-4 bg-amber-500/10 border border-amber-500/25 rounded-lg">
+          <p className="text-sm text-amber-300">Unable to load deposit proof image. <a href={url} target="_blank" rel="noopener noreferrer" className="underline font-semibold">Try opening directly</a></p>
         </div>
       ) : signedUrl ? (
         <a href={signedUrl} target="_blank" rel="noopener noreferrer">
@@ -569,7 +570,8 @@ export default function AdminOnboardingDetailPage() {
   return (
     <PortalLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-foreground">
+        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-3">Members</span>
+        <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
           Onboarding: {unitCode}
         </h1>
         <p className="text-sm text-muted-foreground mt-1">{propertyName}</p>
@@ -579,8 +581,8 @@ export default function AdminOnboardingDetailPage() {
         <div
           className={`mb-4 px-4 py-3 rounded-lg text-sm ${
             message.type === "error"
-              ? "bg-red-50 text-red-700 border border-red-200"
-              : "bg-green-50 text-green-700 border border-green-200"
+              ? "bg-red-500/15 text-red-300 border border-red-500/25"
+              : "bg-emerald-500/15 text-emerald-300 border border-emerald-500/25"
           }`}
         >
           {message.text}
@@ -777,7 +779,7 @@ export default function AdminOnboardingDetailPage() {
           <SectionCard title="Upload Tenancy Agreement">
             {onboarding.ta_document_url ? (
               <div className="space-y-2">
-                <p className="text-sm text-green-700">
+                <p className="text-sm text-emerald-300">
                   TA uploaded.{" "}
                   <button
                     type="button"
@@ -845,7 +847,7 @@ export default function AdminOnboardingDetailPage() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500" />
                   </span>
-                  <p className="text-sm text-amber-700 font-medium">
+                  <p className="text-sm text-amber-300 font-medium">
                     Tenant has signed — waiting for your counter-signature
                   </p>
                 </div>
@@ -886,8 +888,8 @@ export default function AdminOnboardingDetailPage() {
                         onClick={() => setSigMode("saved")}
                         className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors ${
                           sigMode === "saved"
-                            ? "bg-[#A87813] text-white border-[#A87813]"
-                            : "bg-white border-[#E8E0CE]/40 text-[#6B7280] hover:border-[#A87813]/40"
+                            ? "bg-accent text-white border-accent"
+                            : "bg-surface border-border text-foreground-variant hover:border-accent/40"
                         }`}
                       >
                         Use Saved Signature
@@ -897,8 +899,8 @@ export default function AdminOnboardingDetailPage() {
                         onClick={() => setSigMode("draw")}
                         className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors ${
                           sigMode === "draw"
-                            ? "bg-[#A87813] text-white border-[#A87813]"
-                            : "bg-white border-[#E8E0CE]/40 text-[#6B7280] hover:border-[#A87813]/40"
+                            ? "bg-accent text-white border-accent"
+                            : "bg-surface border-border text-foreground-variant hover:border-accent/40"
                         }`}
                       >
                         Draw New Signature
@@ -908,7 +910,7 @@ export default function AdminOnboardingDetailPage() {
 
                   {/* Saved signature preview */}
                   {sigMode === "saved" && profile?.saved_signature && (
-                    <div className="rounded-xl border border-[#E8E0CE]/30 bg-[#f8faf9] p-3 inline-block">
+                    <div className="rounded-xl border border-border bg-surface-container p-3 inline-block">
                       <img
                         src={profile.saved_signature}
                         alt="Saved signature"
@@ -926,7 +928,7 @@ export default function AdminOnboardingDetailPage() {
                 <Button
                   onClick={handleCounterSign}
                   disabled={counterSigning || actionLoading}
-                  className="w-full sm:w-auto bg-[#A87813] hover:bg-[#A87813] text-white"
+                  className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-white"
                 >
                   {counterSigning ? "Executing…" : "Counter-Sign & Execute"}
                 </Button>
@@ -938,13 +940,13 @@ export default function AdminOnboardingDetailPage() {
           {onboarding.signing_status === "FULLY_EXECUTED" && (
             <SectionCard title="Agreement Status">
               <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
-                  <svg className="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/15 flex items-center justify-center mt-0.5">
+                  <svg className="w-4 h-4 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-green-800">Fully Executed</p>
+                  <p className="text-sm font-semibold text-emerald-300">Fully Executed</p>
                   <p className="text-xs text-muted-foreground mt-0.5">
                     Tenant signed: {formatDateTime(onboarding.ta_signed_at)} ·
                     Admin counter-signed: {formatDateTime(onboarding.admin_signed_at)}
@@ -1137,7 +1139,7 @@ export default function AdminOnboardingDetailPage() {
             <SectionCard title="Login Credentials">
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-[#A87813]/10 flex items-center justify-center text-[#A87813] font-bold text-lg shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-[#c47a35]/10 flex items-center justify-center text-[#c47a35] font-bold text-lg shrink-0">
                     {(tenantDetails?.full_name || onboarding.tenant_profiles.username || "?").charAt(0).toUpperCase()}
                   </div>
                   <div>
@@ -1145,7 +1147,7 @@ export default function AdminOnboardingDetailPage() {
                     <p className="text-xs text-muted-foreground">{onboarding.tenant_profiles?.rooms?.unit_code} · {onboarding.tenant_profiles?.properties?.name}</p>
                   </div>
                 </div>
-                <div className="bg-[#f8faf9] rounded-lg p-4 space-y-3 text-sm">
+                <div className="bg-surface-container rounded-lg p-4 space-y-3 text-sm">
                   <div className="grid grid-cols-[100px_1fr] gap-2 items-center">
                     <span className="text-muted-foreground text-xs font-medium">Username</span>
                     <input
@@ -1198,7 +1200,7 @@ export default function AdminOnboardingDetailPage() {
                     <Button
                       size="sm"
                       variant="outline"
-                      className="h-7 text-xs bg-[#A87813]/5 border-[#A87813]/20 text-[#A87813] hover:bg-[#A87813]/10"
+                      className="h-7 text-xs bg-[#c47a35]/5 border-[#c47a35]/20 text-[#c47a35] hover:bg-[#c47a35]/10"
                       onClick={async () => {
                         setActionLoading(true);
                         const chars = "abcdefghijkmnpqrstuvwxyz23456789";
@@ -1234,7 +1236,7 @@ export default function AdminOnboardingDetailPage() {
                   size="sm"
                   variant="outline"
                   onClick={() => {
-                    navigator.clipboard.writeText(`Username: ${onboarding.tenant_profiles.username}\nLogin: lazybee.sg/portal/login`);
+                    navigator.clipboard.writeText(`Username: ${onboarding.tenant_profiles.username}\nLogin: ${PORTAL_HOST}/portal/login`);
                     setMessage({ type: "success", text: "Credentials copied to clipboard." });
                   }}
                 >
@@ -1243,7 +1245,7 @@ export default function AdminOnboardingDetailPage() {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="bg-[#25D366]/5 border-[#25D366]/30 text-[#128C7E] hover:bg-[#25D366]/10"
+                  className="bg-[#25D366]/10 border-[#25D366]/30 text-[#25D366] hover:bg-[#25D366]/20"
                   onClick={() => {
                     const username = onboarding.tenant_profiles.username || "";
                     const name = tenantDetails?.full_name || username;
@@ -1262,7 +1264,7 @@ export default function AdminOnboardingDetailPage() {
                       `You can now pay rent, report issues, and view your documents all in one place.`,
                       ``,
                       `🔐 *Login*`,
-                      `lazybee.sg/portal/login`,
+                      `${PORTAL_HOST}/portal/login`,
                       `Username: ${username}`,
                       ``,
                       `Let me know if you need your password reset!`,
@@ -1359,7 +1361,7 @@ export default function AdminOnboardingDetailPage() {
                 </div>
 
                 {/* Deposit refund calculation */}
-                <div className="bg-[#FAF6EC] rounded-lg p-4 space-y-2">
+                <div className="bg-surface-container rounded-lg p-4 space-y-2">
                   <p className="text-xs font-medium text-muted-foreground">Deposit Settlement</p>
                   <div className="grid grid-cols-3 gap-2 text-sm">
                     <div>
@@ -1368,11 +1370,11 @@ export default function AdminOnboardingDetailPage() {
                     </div>
                     <div>
                       <span className="text-xs text-muted-foreground block">Deductions</span>
-                      <strong className={totalDeductions > 0 ? "text-red-600" : ""}>SGD {totalDeductions.toLocaleString("en-SG", { minimumFractionDigits: 2 })}</strong>
+                      <strong className={totalDeductions > 0 ? "text-red-400" : ""}>SGD {totalDeductions.toLocaleString("en-SG", { minimumFractionDigits: 2 })}</strong>
                     </div>
                     <div>
                       <span className="text-xs text-muted-foreground block">Refund Due</span>
-                      <strong className="text-[#A87813]">SGD {Math.max(0, (Number(onboarding.deposit_amount || 0) - totalDeductions)).toLocaleString("en-SG", { minimumFractionDigits: 2 })}</strong>
+                      <strong className="text-accent">SGD {Math.max(0, (Number(onboarding.deposit_amount || 0) - totalDeductions)).toLocaleString("en-SG", { minimumFractionDigits: 2 })}</strong>
                     </div>
                   </div>
                 </div>
@@ -1500,10 +1502,10 @@ export default function AdminOnboardingDetailPage() {
                     <div>
                       <p className="text-sm font-medium text-foreground flex items-center gap-2">
                         {c.description}
-                        <span className="inline-flex px-1.5 py-0.5 rounded text-[10px] font-bold uppercase bg-[#F2D88A] text-[#6B7280]">
+                        <span className="inline-flex px-1.5 py-0.5 rounded text-[10px] font-bold uppercase bg-white/5 text-foreground-variant">
                           {c.category?.replace(/_/g, " ")}
                         </span>
-                        <span className={`inline-flex px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${c.status === "PAID" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"}`}>
+                        <span className={`inline-flex px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${c.status === "PAID" ? "bg-emerald-500/15 text-emerald-300" : "bg-amber-500/15 text-amber-300"}`}>
                           {c.status}
                         </span>
                       </p>
@@ -1531,7 +1533,7 @@ export default function AdminOnboardingDetailPage() {
             <div className="space-y-4">
               {/* Offboard — for active or onboarding members */}
               {onboarding.status !== "END_OF_TENANCY" && onboarding.status !== "ARCHIVED" && (
-                <div className="flex items-center justify-between p-3 rounded-lg border border-[#E8E0CE]/15">
+                <div className="flex items-center justify-between p-3 rounded-lg border border-border">
                   <div>
                     <p className="text-sm font-medium text-foreground">Start Offboarding</p>
                     <p className="text-xs text-muted-foreground">Mark as end of tenancy when moving out.</p>
@@ -1557,7 +1559,7 @@ export default function AdminOnboardingDetailPage() {
 
               {/* Archive — available for all statuses */}
               {onboarding.status !== "ARCHIVED" && (
-                <div className="flex items-center justify-between p-3 rounded-lg border border-amber-200 bg-amber-50/50">
+                <div className="flex items-center justify-between p-3 rounded-lg border border-amber-500/25 bg-amber-500/10">
                   <div>
                     <p className="text-sm font-medium text-foreground">Archive Member</p>
                     <p className="text-xs text-muted-foreground">Deactivate account. Can be restored later.</p>
@@ -1565,7 +1567,7 @@ export default function AdminOnboardingDetailPage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="border-amber-300 text-amber-700 hover:bg-amber-100"
+                    className="border-amber-500/40 text-amber-300 hover:bg-amber-500/20"
                     onClick={async () => {
                       if (!await confirm({ title: "Archive this member? Their login will be deactivated." })) return;
                       setActionLoading(true);
@@ -1590,10 +1592,10 @@ export default function AdminOnboardingDetailPage() {
               )}
 
               {/* Delete — available for all statuses */}
-              <div className="flex items-center justify-between p-3 rounded-lg border border-red-200 bg-red-50/50">
+              <div className="flex items-center justify-between p-3 rounded-lg border border-red-500/25 bg-red-500/10">
                 <div>
-                  <p className="text-sm font-medium text-red-800">Delete Permanently</p>
-                  <p className="text-xs text-red-600">Remove all data. Cannot be undone.</p>
+                  <p className="text-sm font-medium text-red-300">Delete Permanently</p>
+                  <p className="text-xs text-red-400">Remove all data. Cannot be undone.</p>
                 </div>
                 <Button
                   size="sm"
@@ -1664,16 +1666,16 @@ export default function AdminOnboardingDetailPage() {
                     disabled={actionLoading}
                     className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-left text-sm transition-all ${
                       isCurrent
-                        ? "bg-[#A87813] text-white font-bold"
+                        ? "bg-accent text-white font-bold"
                         : isCompleted
-                        ? "bg-[#d1fae5] text-[#065f46] hover:bg-[#bbf7d0]"
-                        : "bg-[#FAF6EC] text-[#6B7280] hover:bg-[#F2D88A]"
+                        ? "bg-emerald-500/15 text-emerald-300 hover:bg-emerald-500/25"
+                        : "bg-surface-container text-foreground-variant hover:bg-white/5"
                     }`}
                   >
                     <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
-                      isCurrent ? "bg-white text-[#A87813]"
-                      : isCompleted ? "bg-[#065f46] text-white"
-                      : "bg-[#E8E0CE]/20 text-[#6B7280]"
+                      isCurrent ? "bg-white text-accent"
+                      : isCompleted ? "bg-emerald-500 text-white"
+                      : "bg-white/10 text-foreground-variant"
                     }`}>
                       {isCompleted ? (
                         <span className="material-symbols-outlined text-[14px]">check</span>
@@ -1737,10 +1739,10 @@ export default function AdminOnboardingDetailPage() {
                   <span
                     className={`inline-flex px-1.5 py-0.5 rounded text-xs font-semibold ${
                       onboarding.signing_status === "FULLY_EXECUTED"
-                        ? "bg-green-100 text-green-700"
+                        ? "bg-emerald-500/15 text-emerald-300"
                         : onboarding.signing_status === "TENANT_SIGNED"
-                        ? "bg-amber-100 text-amber-700"
-                        : "bg-gray-100 text-gray-600"
+                        ? "bg-amber-500/15 text-amber-300"
+                        : "bg-surface-container text-foreground-variant"
                     }`}
                   >
                     {onboarding.signing_status ?? "UNSIGNED"}

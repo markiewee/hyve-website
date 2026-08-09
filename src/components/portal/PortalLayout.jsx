@@ -16,7 +16,6 @@ function useNavLinks(role, needsOutcome = 0) {
       { label: t("nav.documents"), to: "/portal/documents", icon: "folder_open" },
       { label: t("nav.billing"), to: "/portal/billing", icon: "payments" },
       { label: t("nav.issues"), to: "/portal/issues", icon: "build" },
-      { label: t("nav.maintenance"), to: "/portal/maintenance", icon: "engineering" },
       { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
     ];
 
@@ -26,67 +25,61 @@ function useNavLinks(role, needsOutcome = 0) {
       { label: t("nav.documents"), to: "/portal/documents", icon: "folder_open" },
       { label: t("nav.billing"), to: "/portal/billing", icon: "payments" },
       { label: t("nav.issues"), to: "/portal/issues", icon: "build" },
-      { label: t("nav.maintenance"), to: "/portal/maintenance", icon: "engineering" },
       { label: t("nav.propertyOverview"), to: "/portal/property", icon: "apartment" },
       { label: t("nav.tickets"), to: "/portal/property/tickets", icon: "confirmation_number" },
       { label: t("nav.members"), to: "/portal/property/tenants", icon: "group" },
-      { label: "Viewings", to: "/portal/viewings", icon: "visibility", badge: needsOutcome },
-      { label: t("nav.claims"), to: "/portal/captain/claims", icon: "request_quote" },
       { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
     ];
 
-    const ADMIN_MANAGE_SECTION = {
-      label: t("nav.manage"),
-      icon: "manage_accounts",
-      groups: [
-        {
-          label: "Today",
-          children: [
-            { label: "Leads", to: "/portal/admin/leads", icon: "track_changes" },
-            { label: "Inbox", to: "/portal/admin/inbox", icon: "inbox" },
-            { label: t("nav.announcements"), to: "/portal/admin/announcements", icon: "campaign" },
-          ],
-        },
-        {
-          label: "People",
-          children: [
-            { label: t("nav.members"), to: "/portal/admin/members", icon: "group" },
-            { label: t("nav.onboarding"), to: "/portal/admin/onboarding", icon: "how_to_reg" },
-            { label: t("nav.investors"), to: "/portal/admin/investors", icon: "trending_up" },
-          ],
-        },
-        {
-          label: "Money",
-          children: [
-            { label: "Billing", to: "/portal/admin/billing", icon: "receipt_long" },
-            { label: t("nav.expenses"), to: "/portal/admin/expenses", icon: "account_balance" },
-            { label: t("nav.financials"), to: "/portal/admin/financials", icon: "bar_chart" },
-          ],
-        },
-        {
-          label: "Ops",
-          children: [
-            { label: t("nav.viewings"), to: "/portal/admin/viewings", icon: "visibility", badge: needsOutcome },
-            { label: t("nav.tickets"), to: "/portal/admin/tickets", icon: "confirmation_number" },
-            { label: t("nav.locks"), to: "/portal/admin/locks", icon: "lock" },
-            { label: t("nav.devices"), to: "/portal/admin/devices", icon: "router" },
-            { label: t("nav.documents"), to: "/portal/admin/documents", icon: "description" },
-          ],
-        },
-      ],
-    };
-
-    // Super admin: admin-only, no tenant/resident views
-    const SUPER_ADMIN_NAV = [
-      { label: t("nav.admin"), to: "/portal/admin", icon: "admin_panel_settings" },
-      ADMIN_MANAGE_SECTION,
+    // Admin tools as inline sections, no collapsible "Manage" nesting.
+    const MANAGE_SECTIONS = [
+      {
+        section: "Today",
+        children: [
+          { label: "Leads", to: "/portal/admin/leads", icon: "track_changes" },
+          { label: "Inbox", to: "/portal/admin/inbox", icon: "inbox" },
+          { label: t("nav.announcements"), to: "/portal/admin/announcements", icon: "campaign" },
+        ],
+      },
+      {
+        section: "People",
+        children: [
+          { label: "Members", to: "/portal/admin/members", icon: "how_to_reg" },
+          { label: "Investors", to: "/portal/admin/investors", icon: "trending_up" },
+        ],
+      },
+      {
+        section: "Money",
+        children: [
+          { label: "Rent", to: "/portal/admin/rent", icon: "receipt_long" },
+          { label: "Invoices", to: "/portal/admin/invoices", icon: "request_quote" },
+          { label: "Month Reports", to: "/portal/admin/expenses/import", icon: "account_balance_wallet" },
+        ],
+      },
+      {
+        section: "Ops",
+        children: [
+          // Viewings was dropped from this nav in 652ac939 because the entry
+          // carried no signal. It is back only because it now carries the
+          // needs-outcome count: 43 past viewings currently have no answer,
+          // and a queue nobody can navigate to cannot stop them ageing.
+          { label: t("nav.viewings"), to: "/portal/admin/viewings", icon: "visibility", badge: needsOutcome },
+          { label: t("nav.tickets"), to: "/portal/admin/tickets", icon: "confirmation_number" },
+          { label: "Locks", to: "/portal/admin/locks", icon: "lock" },
+          { label: t("nav.devices"), to: "/portal/admin/devices", icon: "router" },
+          { label: "Contract Generator", to: "/portal/admin/documents", icon: "description" },
+        ],
+      },
     ];
 
-    // Admin who's also a resident/house captain: sees both admin AND tenant/captain nav
-    const ADMIN_RESIDENT_NAV = [
-      ...HOUSE_CAPTAIN_NAV.filter(l => l.to !== "/portal/settings"),
+    const SUPER_ADMIN_NAV = [
       { label: t("nav.admin"), to: "/portal/admin", icon: "admin_panel_settings" },
-      ADMIN_MANAGE_SECTION,
+      ...MANAGE_SECTIONS,
+    ];
+
+    const ADMIN_RESIDENT_NAV = [
+      { label: t("nav.admin"), to: "/portal/admin", icon: "admin_panel_settings" },
+      ...MANAGE_SECTIONS,
       { label: t("nav.settings"), to: "/portal/settings", icon: "settings" },
     ];
 
@@ -105,8 +98,8 @@ function NavLink({ link, location, onClick }) {
       onClick={onClick}
       className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 ${
         isActive
-          ? "bg-white text-[#A87813] font-bold rounded-l-full shadow-sm translate-x-0"
-          : "text-[#6B7280] hover:bg-[#F2D88A] hover:translate-x-1"
+          ? "bg-surface-container text-accent font-bold rounded-l-full translate-x-0"
+          : "text-foreground-variant hover:bg-white/5 hover:text-foreground hover:translate-x-1"
       }`}
     >
       <span
@@ -115,7 +108,7 @@ function NavLink({ link, location, onClick }) {
       >
         {link.icon}
       </span>
-      <span className="font-['Manrope'] flex-1">{link.label}</span>
+      <span className="font-['Inter'] flex-1">{link.label}</span>
       {link.badge > 0 && (
         <span
           title={`${link.badge} past viewing${link.badge === 1 ? "" : "s"} with no outcome recorded`}
@@ -145,12 +138,12 @@ function AdminDropdown({ link, location, onLinkClick }) {
         onClick={() => setOpen((v) => !v)}
         className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 ${
           isChildActive
-            ? "text-[#A87813] font-bold"
-            : "text-[#6B7280] hover:bg-[#F2D88A] hover:translate-x-1"
+            ? "text-accent font-bold"
+            : "text-foreground-variant hover:bg-white/5 hover:text-foreground hover:translate-x-1"
         }`}
       >
         <span className="material-symbols-outlined text-[20px] shrink-0">{link.icon}</span>
-        <span className="font-['Manrope'] flex-1 text-left">{link.label}</span>
+        <span className="font-['Inter'] flex-1 text-left">{link.label}</span>
         {!open && childBadgeTotal > 0 && (
           <span
             title={`${childBadgeTotal} past viewing${childBadgeTotal === 1 ? "" : "s"} with no outcome recorded`}
@@ -164,11 +157,11 @@ function AdminDropdown({ link, location, onLinkClick }) {
         </span>
       </button>
       {open && (
-        <div className="ml-4 space-y-0.5 border-l border-[#E8E0CE]/30 pl-4 mb-1">
+        <div className="ml-4 space-y-0.5 border-l border-border pl-4 mb-1">
           {link.groups
             ? link.groups.map((g) => (
                 <div key={g.label} className="mb-2 last:mb-0">
-                  <div className="px-4 pt-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-[#6B7280]/70 font-['Manrope']">
+                  <div className="px-4 pt-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-foreground-variant/70 font-['Inter']">
                     {g.label}
                   </div>
                   {g.children.map((child) => (
@@ -191,21 +184,21 @@ function LanguageToggle() {
     <div className="flex items-center gap-1 px-4 py-2">
       <button
         onClick={() => setLanguage("en")}
-        className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
+        className={`px-2 py-1 text-xs font-['Inter'] font-bold rounded transition-colors ${
           lang === "en"
-            ? "bg-[#A87813] text-white"
-            : "text-[#6B7280] hover:text-[#A87813]"
+            ? "bg-accent text-white"
+            : "text-foreground-variant hover:text-accent"
         }`}
       >
         EN
       </button>
-      <span className="text-[#E8E0CE]">|</span>
+      <span className="text-foreground-variant">|</span>
       <button
         onClick={() => setLanguage("zh")}
-        className={`px-2 py-1 text-xs font-['Manrope'] font-bold rounded transition-colors ${
+        className={`px-2 py-1 text-xs font-['Inter'] font-bold rounded transition-colors ${
           lang === "zh"
-            ? "bg-[#A87813] text-white"
-            : "text-[#6B7280] hover:text-[#A87813]"
+            ? "bg-accent text-white"
+            : "text-foreground-variant hover:text-accent"
         }`}
       >
         中文
@@ -217,27 +210,28 @@ function LanguageToggle() {
 function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTour }) {
   const { t } = useLanguage();
   const isSuperAdmin = profile?.role === "SUPER_ADMIN";
-  const unitCode = isSuperAdmin ? "" : (profile?.rooms?.unit_code ?? profile?.room_id ?? "");
-  const propertyName = isSuperAdmin ? "Super Admin" : (profile?.properties?.name ?? profile?.rooms?.name ?? "Lazybee");
-  const displayName = profile?.tenant_details?.full_name ?? profile?.full_name ?? profile?.email ?? t("nav.defaultName");
+  const isAnyAdmin = isSuperAdmin || profile?.role === "ADMIN";
+  const unitCode = isAnyAdmin ? "" : (profile?.rooms?.unit_code ?? profile?.room_id ?? "");
+  const propertyName = isSuperAdmin ? "Super Admin" : isAnyAdmin ? "Administrator" : (profile?.properties?.name ?? profile?.rooms?.name ?? "Lazybee");
+  const displayName = profile?.tenant_details?.full_name ?? profile?.full_name ?? (isAnyAdmin ? "Admin" : null) ?? profile?.email ?? t("nav.defaultName");
   const firstName = displayName.split(" ")[0];
 
   return (
-    <aside className="h-screen w-64 fixed left-0 top-0 bg-slate-50 flex flex-col py-8 pl-4 z-40 border-r border-[#E8E0CE]/20">
+    <aside className="h-screen w-64 fixed left-0 top-0 bg-surface flex flex-col py-8 pl-4 z-40 border-r border-border">
       {/* Logo + user profile */}
       <div className="mb-10 px-4">
         <div className="mb-8">
           <Wordmark size="md" />
         </div>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#FAF0CC] flex items-center justify-center text-[#A87813] font-bold text-sm shrink-0">
+          <div className="w-10 h-10 rounded-full bg-accent/15 flex items-center justify-center text-accent font-bold text-sm shrink-0">
             {firstName.slice(0, 2).toUpperCase()}
           </div>
           <div className="min-w-0">
-            <p className="font-['Manrope'] font-bold text-[#1F2937] text-sm truncate">
+            <p className="font-['Inter'] font-bold text-foreground text-sm truncate">
               {t("nav.welcome", { name: firstName })}
             </p>
-            <p className="font-['Manrope'] text-[#6B7280] text-xs truncate">
+            <p className="font-['Inter'] text-foreground-variant text-xs truncate">
               {unitCode ? `${unitCode} · ` : ""}{propertyName}
             </p>
           </div>
@@ -247,6 +241,18 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
       {/* Nav links */}
       <nav className="flex-1 space-y-1 overflow-y-auto scrollbar-hide pr-0">
         {navLinks.map((link) => {
+          if (link.section) {
+            return (
+              <div key={link.section} className="pt-3 first:pt-0">
+                <div className="px-4 pb-1 text-[10px] font-bold uppercase tracking-widest text-foreground-variant/70 font-['Inter']">
+                  {link.section}
+                </div>
+                {link.children.map((c) => (
+                  <NavLink key={c.to} link={c} location={location} onClick={onLinkClick} />
+                ))}
+              </div>
+            );
+          }
           if (link.children || link.groups) {
             return (
               <AdminDropdown
@@ -265,39 +271,31 @@ function Sidebar({ profile, navLinks, location, onLinkClick, signOut, onStartTou
 
       {/* CTA + footer */}
       <div className="mt-auto pr-4 space-y-4 pt-4">
-        <Link
-          to="/portal/issues/new"
-          onClick={onLinkClick}
-          className="w-full py-3 px-4 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-        >
-          <span className="material-symbols-outlined text-[18px]">support_agent</span>
-          {t("nav.quickSupport")}
-        </Link>
         <div className="space-y-1">
           <LanguageToggle />
           {onStartTour && (
             <button
               onClick={() => { localStorage.removeItem("lazybee_tour_done"); onStartTour(); }}
-              className="w-full flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#A87813] text-sm transition-colors"
+              className="w-full flex items-center gap-3 px-4 py-2 text-foreground-variant hover:text-accent text-sm transition-colors"
             >
               <span className="material-symbols-outlined text-[18px]">tour</span>
-              <span className="font-['Manrope']">{t("nav.takeTour")}</span>
+              <span className="font-['Inter']">{t("nav.takeTour")}</span>
             </button>
           )}
           <Link
             to="/portal/help"
             onClick={onLinkClick}
-            className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-[#A87813] text-sm transition-colors"
+            className="flex items-center gap-3 px-4 py-2 text-foreground-variant hover:text-accent text-sm transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">help</span>
-            <span className="font-['Manrope']">{t("nav.help")}</span>
+            <span className="font-['Inter']">{t("nav.help")}</span>
           </Link>
           <button
             onClick={signOut}
-            className="w-full flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-red-500 text-sm transition-colors"
+            className="w-full flex items-center gap-3 px-4 py-2 text-foreground-variant hover:text-red-400 text-sm transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">logout</span>
-            <span className="font-['Manrope']">{t("nav.logout")}</span>
+            <span className="font-['Inter']">{t("nav.logout")}</span>
           </button>
         </div>
       </div>
@@ -324,14 +322,14 @@ function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
   const isDropdownChildActive = dropdownChildren.some((c) => location.pathname === c.to);
 
   return (
-    <div className="md:hidden fixed bottom-0 w-full bg-white border-t border-[#E8E0CE]/20 px-6 py-3 flex justify-between items-center z-50">
+    <div className="md:hidden fixed bottom-0 w-full bg-surface border-t border-border px-6 py-3 flex justify-between items-center z-50">
       {visibleLinks.map((link) => {
         const isActive = location.pathname === link.to;
         return (
           <Link
             key={link.to}
             to={link.to}
-            className={`flex flex-col items-center gap-1 ${isActive ? "text-[#A87813]" : "text-[#6B7280]"}`}
+            className={`flex flex-col items-center gap-1 ${isActive ? "text-accent" : "text-foreground-variant"}`}
           >
             <span
               className="material-symbols-outlined text-[22px]"
@@ -346,7 +344,7 @@ function MobileBottomNav({ navLinks, location, onOpenSidebar }) {
       {dropdownLink && (
         <button
           onClick={onOpenSidebar}
-          className={`flex flex-col items-center gap-1 ${isDropdownChildActive ? "text-[#A87813]" : "text-[#6B7280]"}`}
+          className={`flex flex-col items-center gap-1 ${isDropdownChildActive ? "text-accent" : "text-foreground-variant"}`}
         >
           <span
             className="material-symbols-outlined text-[22px]"
@@ -379,7 +377,7 @@ export default function PortalLayout({ children }) {
   }, [profile]);
 
   return (
-    <div className="min-h-screen bg-[#FAF6EC]">
+    <div className="min-h-screen bg-background">
       {showTour && <PortalTour onComplete={() => setShowTour(false)} />}
       {/* Desktop Sidebar */}
       <div className="hidden md:block">
@@ -395,7 +393,7 @@ export default function PortalLayout({ children }) {
 
       {/* Mobile: hamburger button */}
       <button
-        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-white rounded-xl shadow-sm border border-[#E8E0CE]/20 flex items-center justify-center text-[#A87813]"
+        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-surface rounded-xl border border-border flex items-center justify-center text-accent"
         onClick={() => setSidebarOpen(true)}
         aria-label="Open menu"
       >

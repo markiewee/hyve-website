@@ -10,7 +10,7 @@ export default function CaptainBadge({ size = "md", className }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full font-medium bg-blue-100 text-blue-700",
+        "inline-flex items-center rounded-full font-medium bg-blue-500/15 text-blue-300",
         SIZE_STYLES[size],
         className,
       )}

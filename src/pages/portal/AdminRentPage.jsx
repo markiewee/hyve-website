@@ -43,17 +43,17 @@ function daysBetween(dateA, dateB) {
 }
 
 const STATUS_BADGE = {
-  PENDING: "bg-[#FAF0CC] text-[#6B7280]",
-  PAID: "bg-[#d1fae5] text-[#065f46]",
-  OVERDUE: "bg-[#ffdad6] text-[#ba1a1a]",
-  PARTIAL: "bg-amber-100 text-amber-700",
+  PENDING: "bg-amber-500/15 text-amber-300",
+  PAID: "bg-emerald-500/15 text-emerald-300",
+  OVERDUE: "bg-red-500/15 text-red-300",
+  PARTIAL: "bg-amber-500/15 text-amber-300",
 };
 
 const CHARGE_CATEGORIES = ["STAMPING", "KEY_REPLACEMENT", "DAMAGE", "CLEANING", "LATE_CHECKOUT", "AC_OVERAGE", "OTHER"];
 
 const CHARGE_STATUS_BADGE = {
-  PENDING: "bg-amber-100 text-amber-700",
-  PAID: "bg-[#d1fae5] text-[#065f46]",
+  PENDING: "bg-amber-500/15 text-amber-300",
+  PAID: "bg-emerald-500/15 text-emerald-300",
 };
 
 export default function AdminRentPage() {
@@ -62,7 +62,12 @@ export default function AdminRentPage() {
   const [generating, setGenerating] = useState(false);
   const [generateResult, setGenerateResult] = useState(null);
   const [actionLoading, setActionLoading] = useState(null);
-  const [paymentForm, setPaymentForm] = useState(null); // { id, paid_amount, paid_at, payment_method }
+  // Month filter for the rent table — defaults to the current month so the
+  // list isn't an ever-growing pile of every month ever generated.
+  const [tableMonth, setTableMonth] = useState(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  });
 
   // Ad-hoc charges state
   const [members, setMembers] = useState([]);
@@ -232,7 +237,55 @@ export default function AdminRentPage() {
     setSelectedTxn(null);
   }
 
+  // Match a selected Aspire transaction to an ad-hoc charge. This is the ONLY
+  // way a charge becomes PAID — no manual "mark paid" — so a charge is never
+  // settled unless real money is seen landing in the bank.
+  async function handleMatchCharge(charge) {
+    if (!selectedTxn) return;
+    const { error } = await supabase
+      .from("member_charges")
+      .update({ status: "PAID", paid_at: selectedTxn.transaction_date })
+      .eq("id", charge.id);
+    if (error) { console.error("Charge match error:", error); return; }
+    setCharges(prev => prev.map(c =>
+      c.id === charge.id ? { ...c, status: "PAID", paid_at: selectedTxn.transaction_date } : c
+    ));
+    setMatchedPairs(prev => [...prev, {
+      rentPaymentId: `charge-${charge.id}`,
+      kind: "charge",
+      chargeId: charge.id,
+      transactionRef: selectedTxn.reference,
+      tenantName: `${charge.description}`,
+      unitCode: charge.tenant_profiles?.rooms?.unit_code || "—",
+      rentAmount: charge.amount,
+      txnAmount: selectedTxn.amount,
+      txnDate: selectedTxn.transaction_date,
+      txnDescription: selectedTxn.description,
+      isLate: false,
+      daysLate: 0,
+      lateFee: 0,
+    }]);
+    setAspireTransactions(prev => prev.filter(t => t.reference !== selectedTxn.reference));
+    setSelectedTxn(null);
+  }
+
   async function handleUnmatch(pair) {
+    if (pair.kind === "charge") {
+      const { error } = await supabase
+        .from("member_charges")
+        .update({ status: "PENDING", paid_at: null })
+        .eq("id", pair.chargeId);
+      if (error) { console.error("Charge unmatch error:", error); return; }
+      setCharges(prev => prev.map(c =>
+        c.id === pair.chargeId ? { ...c, status: "PENDING", paid_at: null } : c
+      ));
+      setAspireTransactions(prev => [...prev, {
+        transaction_date: pair.txnDate, description: pair.txnDescription,
+        amount: pair.txnAmount, reference: pair.transactionRef, transaction_type: "INCOME",
+      }]);
+      setMatchedPairs(prev => prev.filter(mp => mp.rentPaymentId !== pair.rentPaymentId));
+      return;
+    }
     const { error } = await supabase
       .from("rent_payments")
       .update({ status: "PENDING", paid_at: null, paid_amount: null, payment_reference: null, payment_method: null })
@@ -271,37 +324,29 @@ export default function AdminRentPage() {
   }, [fetchPayments, fetchMembers, fetchCharges]);
 
   async function handleGenerateThisMonth() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const monthStr = `${year}-${month}-01`;
+    // Guard against double-fire — the confirm dialog isn't a hard input lock, so
+    // rapid clicks could each pass the "already exists" check before any insert
+    // lands and pile up duplicate rows. Bail if a run is already in flight.
+    if (generating) return;
+
+    // Always operate on the month the table is currently showing, so "regenerate"
+    // is unambiguous about which month it refreshes.
+    const [fy, fm] = tableMonth.split("-");
+    const monthStr = `${fy}-${fm}-01`;
     const dueDateStr = monthStr;
 
-    // Check if rent records already exist for this month before confirming
-    const { data: existingCheck } = await supabase
-      .from("rent_payments")
-      .select("id")
-      .eq("month", monthStr)
-      .limit(1);
-
-    if (existingCheck && existingCheck.length > 0) {
-      if (!await confirm({
-        title: `Rent records exist for ${formatMonth(monthStr)}`,
-        description: "Continue and generate records for any remaining tenants?",
-      })) return;
-    } else {
-      if (!await confirm({
-        title: `Generate rent for ${formatMonth(monthStr)}?`,
-        description: "Creates rent records for all active tenants.",
-      })) return;
-    }
+    if (!await confirm({
+      title: `Generate / regenerate rent for ${formatMonth(monthStr)}?`,
+      description:
+        "Refreshes unpaid rent records for all active tenants. Paid, partial and overdue records are left untouched — only PENDING rows are cleared and recreated, so re-running never piles up duplicates.",
+    })) return;
 
     setGenerating(true);
     setGenerateResult(null);
 
     const { data: profiles, error: profilesError } = await supabase
       .from("tenant_profiles")
-      .select("id, monthly_rent, late_fee_per_day, room_id, onboarding_progress(tenancy_start_date, tenancy_end_date)")
+      .select("id, monthly_rent, late_fee_per_day, room_id, moved_in_at, moved_out_at, onboarding_progress(tenancy_start_date, tenancy_end_date)")
       .eq("is_active", true)
       .not("monthly_rent", "is", null)
       .gt("monthly_rent", 0);
@@ -319,6 +364,22 @@ export default function AdminRentPage() {
       return;
     }
 
+    // Idempotent regenerate: wipe this month's PENDING rows first (these carry no
+    // payment, so they're safe to recreate). PAID / PARTIAL / OVERDUE rows stay.
+    const { error: wipeError } = await supabase
+      .from("rent_payments")
+      .delete()
+      .eq("month", monthStr)
+      .eq("status", "PENDING");
+
+    if (wipeError) {
+      console.error("Error clearing pending rent rows:", wipeError);
+      setGenerateResult({ error: "Failed to clear existing pending records." });
+      setGenerating(false);
+      return;
+    }
+
+    // Re-read remaining rows (PAID/PARTIAL/OVERDUE) so we skip those tenants.
     const { data: existing, error: existingError } = await supabase
       .from("rent_payments")
       .select("tenant_profile_id")
@@ -332,33 +393,43 @@ export default function AdminRentPage() {
     }
 
     const existingSet = new Set((existing ?? []).map((r) => r.tenant_profile_id));
+    const currentMonth = monthStr.substring(0, 7); // "2026-06"
+
+    // Effective tenancy start/end: prefer the onboarding dates, but FALL BACK to
+    // tenant_profiles.moved_in_at / moved_out_at. Many tenants only have the
+    // move dates set (onboarding_progress is null), so reading only the
+    // onboarding date wrongly treated future move-ins as already-resident and
+    // billed them a full month. Both date sources must be consulted.
+    const effStart = (p) => {
+      const s = p.onboarding_progress?.tenancy_start_date || (p.moved_in_at ? String(p.moved_in_at).substring(0, 10) : null);
+      return s || null;
+    };
+    const effEnd = (p) => {
+      const e = p.onboarding_progress?.tenancy_end_date || (p.moved_out_at ? String(p.moved_out_at).substring(0, 10) : null);
+      return e || null;
+    };
 
     const toInsert = profiles
       .filter((p) => {
         if (existingSet.has(p.id)) return false;
-        // Skip tenants whose tenancy hasn't started yet
-        const startDate = p.onboarding_progress?.tenancy_start_date;
-        if (startDate) {
-          const startMonth = startDate.substring(0, 7); // "2026-06"
-          const currentMonth = monthStr.substring(0, 7); // "2026-04"
-          if (startMonth > currentMonth) return false;
-        }
+        const start = effStart(p);
+        // Skip tenants whose tenancy hasn't started yet (starts a later month)
+        if (start && start.substring(0, 7) > currentMonth) return false;
+        const end = effEnd(p);
+        // Skip tenants who already moved out before this month
+        if (end && end.substring(0, 7) < currentMonth) return false;
         return true;
       })
       .map((p) => {
         // Prorate rent if tenant starts mid-month
         let rentAmount = Number(p.monthly_rent);
-        const startDate = p.onboarding_progress?.tenancy_start_date;
-        if (startDate) {
-          const startMonth = startDate.substring(0, 7);
-          const currentMonth = monthStr.substring(0, 7);
-          if (startMonth === currentMonth) {
-            const startDay = parseInt(startDate.substring(8, 10), 10);
-            const monthDate = new Date(monthStr);
-            const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
-            const daysOccupied = daysInMonth - startDay + 1;
-            rentAmount = Math.round((rentAmount * daysOccupied / daysInMonth) * 100) / 100;
-          }
+        const start = effStart(p);
+        if (start && start.substring(0, 7) === currentMonth) {
+          const startDay = parseInt(start.substring(8, 10), 10);
+          const monthDate = new Date(monthStr);
+          const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
+          const daysOccupied = daysInMonth - startDay + 1;
+          rentAmount = Math.round((rentAmount * daysOccupied / daysInMonth) * 100) / 100;
         }
         return {
           tenant_profile_id: p.id,
@@ -398,68 +469,6 @@ export default function AdminRentPage() {
     });
     setGenerating(false);
     fetchPayments();
-  }
-
-  function openPaymentForm(payment) {
-    setPaymentForm({
-      id: payment.id,
-      paid_amount: String(payment.rent_amount),
-      paid_at: new Date().toISOString().split("T")[0],
-      payment_method: "PAYNOW",
-    });
-  }
-
-  async function handleConfirmPayment(payment) {
-    if (!paymentForm) return;
-    setActionLoading(payment.id);
-
-    const paidAmount = Number(paymentForm.paid_amount);
-    const paidAt = new Date(paymentForm.paid_at);
-    const dueDate = payment.due_date ? new Date(payment.due_date) : null;
-    const isLate = dueDate ? paidAt > dueDate : false;
-    const daysLate = isLate && dueDate ? daysBetween(dueDate, paidAt) : 0;
-    // Late fee per contract: 5% after 5 days, additional 5% after 30 days
-    const outstanding = Number(payment.rent_amount);
-    const lateFee = !isLate ? 0 : daysLate > 30 ? Math.round(outstanding * 0.10 * 100) / 100 : Math.round(outstanding * 0.05 * 100) / 100;
-    const isPartial = paidAmount < Number(payment.rent_amount);
-
-    const { error } = await supabase
-      .from("rent_payments")
-      .update({
-        status: isPartial ? "PARTIAL" : "PAID",
-        paid_at: paidAt.toISOString(),
-        paid_amount: paidAmount,
-        payment_method: paymentForm.payment_method,
-        is_late: isLate,
-        late_fee: lateFee,
-      })
-      .eq("id", payment.id);
-
-    if (error) {
-      console.error("Error recording payment:", error);
-    } else {
-      setRentPayments((prev) =>
-        prev.map((p) =>
-          p.id === payment.id
-            ? {
-                ...p,
-                status: isPartial ? "PARTIAL" : "PAID",
-                paid_at: paidAt.toISOString(),
-                paid_amount: paidAmount,
-                payment_method: paymentForm.payment_method,
-                is_late: isLate,
-                late_fee: lateFee,
-              }
-            : p
-        )
-      );
-      if (!isPartial) {
-        fireRentPaidEmail(payment.tenant_profile_id, payment.month, paidAmount);
-      }
-      setPaymentForm(null);
-    }
-
-    setActionLoading(null);
   }
 
   async function handleAddLateFee(payment) {
@@ -534,6 +543,9 @@ export default function AdminRentPage() {
     setChargeActionLoading(null);
   }
 
+  // Rent table is scoped to the selected month so it doesn't show every month ever.
+  const monthRows = rentPayments.filter((p) => (p.month || "").startsWith(tableMonth));
+
   const pendingCount = rentPayments.filter((p) => p.status === "PENDING").length;
   const overdueCount = rentPayments.filter((p) => p.status === "OVERDUE").length;
   const paidCount = rentPayments.filter((p) => p.status === "PAID").length;
@@ -545,48 +557,49 @@ export default function AdminRentPage() {
     <PortalLayout>
       {/* Page header */}
       <div className="mb-10">
-        <h1 className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937] tracking-tight">
+        <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-4">Money</span>
+        <h1 className="font-display text-3xl font-extrabold text-foreground tracking-tight">
           Rent Management
         </h1>
-        <p className="text-[#6B7280] font-['Manrope'] font-medium mt-1">
+        <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
           Generate monthly rent records and track payment status.
         </p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">Pending</p>
+        <div className="bg-surface rounded-2xl p-6 border border-border">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-3">Pending</p>
           {loading ? (
-            <div className="h-8 w-8 bg-[#F2D88A] animate-pulse rounded" />
+            <div className="h-8 w-8 bg-white/5 animate-pulse rounded" />
           ) : (
-            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#1F2937]">{pendingCount}</p>
+            <p className="font-display text-3xl font-extrabold text-foreground">{pendingCount}</p>
           )}
         </div>
-        <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">Overdue</p>
+        <div className="bg-surface rounded-2xl p-6 border border-border">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-3">Overdue</p>
           {loading ? (
-            <div className="h-8 w-8 bg-[#F2D88A] animate-pulse rounded" />
+            <div className="h-8 w-8 bg-white/5 animate-pulse rounded" />
           ) : (
-            <p className={`font-['Plus_Jakarta_Sans'] text-3xl font-extrabold ${overdueCount > 0 ? "text-[#ba1a1a]" : "text-[#1F2937]"}`}>
+            <p className={`font-display text-3xl font-extrabold ${overdueCount > 0 ? "text-red-400" : "text-foreground"}`}>
               {overdueCount}
             </p>
           )}
         </div>
-        <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-3">Paid</p>
+        <div className="bg-surface rounded-2xl p-6 border border-border">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-3">Paid</p>
           {loading ? (
-            <div className="h-8 w-8 bg-[#F2D88A] animate-pulse rounded" />
+            <div className="h-8 w-8 bg-white/5 animate-pulse rounded" />
           ) : (
-            <p className="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#A87813]">{paidCount}</p>
+            <p className="font-display text-3xl font-extrabold text-accent">{paidCount}</p>
           )}
         </div>
-        <div className="bg-[#A87813] rounded-2xl p-6">
-          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#D9A441]/80 font-bold mb-3">Collected</p>
+        <div className="bg-accent rounded-2xl p-6">
+          <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-white/80 font-bold mb-3">Collected</p>
           {loading ? (
             <div className="h-8 w-20 bg-white/10 animate-pulse rounded" />
           ) : (
-            <p className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-white">
+            <p className="font-display text-2xl font-extrabold text-white">
               {formatSGD(totalCollected)}
             </p>
           )}
@@ -594,81 +607,87 @@ export default function AdminRentPage() {
       </div>
 
       {/* Generate button */}
-      <div className="bg-white rounded-2xl p-6 border border-[#E8E0CE]/15 shadow-sm mb-8 flex flex-col sm:flex-row sm:items-center gap-4">
+      <div className="bg-surface rounded-2xl p-6 border border-border mb-8 flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="flex-1">
-          <p className="font-['Manrope'] font-bold text-[#1F2937] text-sm">Generate Monthly Rent</p>
-          <p className="font-['Manrope'] text-[#6B7280] text-xs mt-0.5">
-            Create rent records for all active tenants for the current month.
+          <p className="font-['Inter'] font-bold text-foreground text-sm">Generate / Regenerate Rent</p>
+          <p className="font-['Inter'] text-foreground-variant text-xs mt-0.5">
+            Refreshes unpaid rent records for <span className="font-semibold text-foreground">{formatMonth(`${tableMonth}-01`)}</span> (the month selected below). Paid records are untouched, and re-running never creates duplicates.
           </p>
         </div>
         <div className="flex items-center gap-4">
           {generateResult && (
-            <p className={`font-['Manrope'] text-sm ${generateResult.error ? "text-[#ba1a1a]" : "text-[#A87813]"}`}>
+            <p className={`font-['Inter'] text-sm ${generateResult.error ? "text-red-400" : "text-accent"}`}>
               {generateResult.error ?? generateResult.message}
             </p>
           )}
           <button
             onClick={handleGenerateThisMonth}
             disabled={generating}
-            className="px-6 py-3 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
+            className="px-6 py-3 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0"
           >
             <span className="material-symbols-outlined text-[18px]">receipt_long</span>
-            {generating ? "Generating…" : "Generate This Month"}
+            {generating ? "Generating…" : "Generate / Regenerate"}
           </button>
         </div>
       </div>
 
       {/* Rent Payment Table */}
-      <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden relative">
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10 sm:hidden rounded-r-2xl"></div>
-        <div className="px-8 py-6 border-b border-[#E8E0CE]/15">
-          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937]">
-            All Rent Payments
+      <div className="bg-surface rounded-2xl border border-border overflow-hidden relative">
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-surface to-transparent z-10 sm:hidden rounded-r-2xl"></div>
+        <div className="px-8 py-6 border-b border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <h2 className="font-display font-bold text-lg text-foreground">
+            Rent Payments — {formatMonth(`${tableMonth}-01`)}
           </h2>
+          <input
+            type="month"
+            value={tableMonth}
+            onChange={(e) => setTableMonth(e.target.value)}
+            className="px-3 py-2 rounded-lg border border-border bg-surface text-foreground text-sm font-['Inter'] focus:outline-none focus:ring-2 focus:ring-accent"
+          />
         </div>
 
         {loading ? (
-          <div className="divide-y divide-[#E8E0CE]/10">
+          <div className="divide-y divide-white/10">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="px-8 py-5 flex items-center gap-4">
-                <div className="h-4 w-16 bg-[#F2D88A] animate-pulse rounded" />
-                <div className="h-4 w-24 bg-[#F2D88A] animate-pulse rounded" />
-                <div className="h-4 w-20 bg-[#F2D88A] animate-pulse rounded ml-auto" />
-                <div className="h-5 w-16 bg-[#F2D88A] animate-pulse rounded-full" />
+                <div className="h-4 w-16 bg-white/5 animate-pulse rounded" />
+                <div className="h-4 w-24 bg-white/5 animate-pulse rounded" />
+                <div className="h-4 w-20 bg-white/5 animate-pulse rounded ml-auto" />
+                <div className="h-5 w-16 bg-white/5 animate-pulse rounded-full" />
               </div>
             ))}
           </div>
-        ) : rentPayments.length === 0 ? (
+        ) : monthRows.length === 0 ? (
           <div className="px-8 py-12 text-center">
-            <p className="text-[#6B7280] font-['Manrope'] text-sm">No rent payment records yet.</p>
+            <p className="text-foreground-variant font-['Inter'] text-sm">
+              No rent records for {formatMonth(`${tableMonth}-01`)}. Click “Generate / Regenerate” above to create them.
+            </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[700px]">
-              <thead className="bg-[#F2D88A]">
+              <thead className="bg-surface-container">
                 <tr>
-                  <th className="text-left px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Room</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Tenant</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Month</th>
-                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Rent</th>
-                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Late Fee</th>
-                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Total</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Status</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap hidden md:table-cell">Paid Date</th>
+                  <th className="text-left px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap">Room</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap">Tenant</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap">Month</th>
+                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap">Rent</th>
+                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap">Late Fee</th>
+                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap">Total</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap">Status</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap hidden md:table-cell">Paid Date</th>
                   <th className="px-4 py-4" />
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E8E0CE]/10">
-                {rentPayments.map((p) => {
+              <tbody className="divide-y divide-white/10">
+                {monthRows.map((p) => {
                   const tp = p.tenant_profiles;
                   const unitCode = tp?.rooms?.unit_code ?? "—";
                   const tenantName = tp?.tenant_details?.full_name || tp?.username || "—";
                   const lateFee = p.late_fee ?? 0;
-                  const showForm = paymentForm?.id === p.id;
                   const total = Number(p.rent_amount) + Number(lateFee);
                   const badgeClass = STATUS_BADGE[p.status] ?? STATUS_BADGE.PENDING;
                   const isActionLoading = actionLoading === p.id;
-                  const canMarkPaid = p.status === "PENDING" || p.status === "OVERDUE";
                   const canAddLateFee =
                     (p.status === "PENDING" || p.status === "OVERDUE") &&
                     p.due_date &&
@@ -679,32 +698,32 @@ export default function AdminRentPage() {
                     <tr
                       className={`transition-colors ${
                         p.status === "OVERDUE"
-                          ? "bg-[#ffdad6]/20 hover:bg-[#ffdad6]/30"
-                          : "hover:bg-[#FAF6EC]"
+                          ? "bg-red-500/10 hover:bg-red-500/15"
+                          : "hover:bg-white/5"
                       }`}
                     >
                       <td className="px-8 py-4">
-                        <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#F2D88A] px-2 py-1 rounded">
+                        <span className="font-['Inter'] text-xs font-bold text-accent bg-surface-container px-2 py-1 rounded">
                           {unitCode}
                         </span>
                       </td>
-                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#1F2937] whitespace-nowrap truncate max-w-[120px]" title={tenantName}>
+                      <td className="px-4 py-4 font-['Inter'] text-sm text-foreground whitespace-nowrap truncate max-w-[120px]" title={tenantName}>
                         {tenantName}
                       </td>
-                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#1F2937] whitespace-nowrap">
+                      <td className="px-4 py-4 font-['Inter'] text-sm text-foreground whitespace-nowrap">
                         {formatMonth(p.month)}
                       </td>
-                      <td className="px-4 py-4 text-right font-['Manrope'] font-medium text-sm whitespace-nowrap tabular-nums">
+                      <td className="px-4 py-4 text-right font-['Inter'] font-medium text-sm whitespace-nowrap tabular-nums text-foreground">
                         {formatSGD(p.rent_amount)}
                       </td>
                       <td className="px-4 py-4 text-right whitespace-nowrap tabular-nums">
                         {lateFee > 0 ? (
-                          <span className="font-['Manrope'] text-sm font-medium text-[#ba1a1a]">{formatSGD(lateFee)}</span>
+                          <span className="font-['Inter'] text-sm font-medium text-red-400">{formatSGD(lateFee)}</span>
                         ) : (
-                          <span className="text-[#E8E0CE]">—</span>
+                          <span className="text-foreground-variant">—</span>
                         )}
                       </td>
-                      <td className="px-4 py-4 text-right whitespace-nowrap font-['Plus_Jakarta_Sans'] font-bold text-sm tabular-nums">
+                      <td className="px-4 py-4 text-right whitespace-nowrap font-display font-bold text-sm tabular-nums text-foreground">
                         {formatSGD(total)}
                       </td>
                       <td className="px-4 py-4">
@@ -712,85 +731,31 @@ export default function AdminRentPage() {
                           {p.status}
                         </span>
                       </td>
-                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#6B7280] whitespace-nowrap hidden md:table-cell">
+                      <td className="px-4 py-4 font-['Inter'] text-sm text-foreground-variant whitespace-nowrap hidden md:table-cell">
                         {formatDate(p.paid_at)}
                       </td>
                       <td className="px-4 py-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          {canMarkPaid && !showForm && (
-                            <button
-                              onClick={() => openPaymentForm(p)}
-                              disabled={isActionLoading}
-                              className="text-xs px-3 py-1.5 rounded-lg bg-[#A87813] text-white hover:opacity-90 disabled:opacity-50 transition-all font-['Manrope'] font-bold whitespace-nowrap"
-                            >
-                              {isActionLoading ? "…" : "Mark Paid"}
-                            </button>
-                          )}
                           {canAddLateFee && (
                             <button
                               onClick={() => handleAddLateFee(p)}
                               disabled={isActionLoading}
-                              className="text-xs px-3 py-1.5 rounded-lg bg-[#ffdad6] text-[#ba1a1a] hover:bg-[#ba1a1a] hover:text-white disabled:opacity-50 transition-all font-['Manrope'] font-bold whitespace-nowrap"
+                              className="text-xs px-3 py-1.5 rounded-lg bg-red-500/15 text-red-300 hover:bg-red-500/25 disabled:opacity-50 transition-all font-['Inter'] font-bold whitespace-nowrap"
                             >
                               {isActionLoading ? "…" : "Late Fee"}
                             </button>
                           )}
+                          {(p.status === "PENDING" || p.status === "OVERDUE") && (
+                            <span
+                              className="text-[10px] text-foreground-variant italic whitespace-nowrap"
+                              title="Rent is marked paid only by matching a real bank transfer in the Reconcile panel below."
+                            >
+                              reconcile to mark paid
+                            </span>
+                          )}
                         </div>
                       </td>
                     </tr>
-                    {showForm && (
-                      <tr className="bg-[#f0fdf4]">
-                        <td colSpan={9} className="px-8 py-4">
-                          <div className="flex flex-wrap items-end gap-4">
-                            <div>
-                              <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6B7280] mb-1">Amount Received</label>
-                              <input
-                                type="number"
-                                step="0.01"
-                                value={paymentForm.paid_amount}
-                                onChange={(e) => setPaymentForm(f => ({ ...f, paid_amount: e.target.value }))}
-                                className="w-32 px-3 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope'] font-semibold"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6B7280] mb-1">Date Received</label>
-                              <input
-                                type="date"
-                                value={paymentForm.paid_at}
-                                onChange={(e) => setPaymentForm(f => ({ ...f, paid_at: e.target.value }))}
-                                className="px-3 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope']"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-[10px] font-['Inter'] font-bold uppercase tracking-widest text-[#6B7280] mb-1">Method</label>
-                              <select
-                                value={paymentForm.payment_method}
-                                onChange={(e) => setPaymentForm(f => ({ ...f, payment_method: e.target.value }))}
-                                className="px-3 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope']"
-                              >
-                                <option value="PAYNOW">PayNow</option>
-                                <option value="BANK_TRANSFER">Bank Transfer</option>
-                                <option value="CASH">Cash</option>
-                                <option value="OTHER">Other</option>
-                              </select>
-                            </div>
-                            <button
-                              onClick={() => handleConfirmPayment(p)}
-                              disabled={isActionLoading}
-                              className="px-4 py-2 rounded-lg bg-[#A87813] text-white text-sm font-['Manrope'] font-bold hover:opacity-90 disabled:opacity-50"
-                            >
-                              {isActionLoading ? "Saving…" : "Confirm Payment"}
-                            </button>
-                            <button
-                              onClick={() => setPaymentForm(null)}
-                              className="px-4 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope'] font-semibold text-[#6B7280] hover:bg-white"
-                            >
-                              Cancel
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    )}
                     </React.Fragment>
                   );
                 })}
@@ -800,19 +765,19 @@ export default function AdminRentPage() {
         )}
       </div>
       {/* ── Reconciliation Panel ── */}
-      <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden mt-8">
-        <div className="px-8 py-6 border-b border-[#E8E0CE]/15 flex flex-col sm:flex-row sm:items-center gap-4">
+      <div className="bg-surface rounded-2xl border border-border overflow-hidden mt-8">
+        <div className="px-8 py-6 border-b border-border flex flex-col sm:flex-row sm:items-center gap-4">
           <div className="flex-1">
-            <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937]">Reconcile with Aspire</h2>
-            <p className="font-['Manrope'] text-[#6B7280] text-xs mt-0.5">Match incoming bank transfers to tenant rent records.</p>
+            <h2 className="font-display font-bold text-lg text-foreground">Reconcile with Aspire</h2>
+            <p className="font-['Inter'] text-foreground-variant text-xs mt-0.5">Match incoming bank transfers to tenant rent records.</p>
           </div>
           <div className="flex items-center gap-3 flex-wrap">
             <input type="month" value={reconcileMonth} onChange={(e) => setReconcileMonth(e.target.value)}
-              className="px-3 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]" />
+              className="px-3 py-2 rounded-lg border border-border bg-surface text-foreground text-sm font-['Inter'] focus:outline-none focus:ring-2 focus:ring-accent" />
             {aspireAccounts.length > 0 ? (
               <>
                 <select value={aspireAccountId} onChange={(e) => setAspireAccountId(e.target.value)}
-                  className="px-3 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white max-w-[200px]">
+                  className="px-3 py-2 rounded-lg border border-border text-sm font-['Inter'] focus:outline-none focus:ring-2 focus:ring-accent bg-surface text-foreground max-w-[200px]">
                   <option value="">Select account…</option>
                   {aspireAccounts.map(acc => {
                     const id = acc.id ?? acc.account_id ?? acc.accountId;
@@ -842,7 +807,7 @@ export default function AdminRentPage() {
                         });
                       }
                     }}
-                    className="px-3 py-2 rounded-lg border border-[#E8E0CE]/30 text-[#6B7280] hover:bg-[#FAF6EC] transition-colors"
+                    className="px-3 py-2 rounded-lg border border-border text-foreground-variant hover:bg-white/5 transition-colors"
                     title="Edit nickname"
                   >
                     <span className="material-symbols-outlined text-[18px]">edit</span>
@@ -851,12 +816,12 @@ export default function AdminRentPage() {
               </>
             ) : (
               <button onClick={handleLoadAspireAccounts}
-                className="px-4 py-2 rounded-lg border border-[#E8E0CE]/30 text-sm font-['Manrope'] font-semibold text-[#6B7280] hover:bg-[#FAF6EC]">
+                className="px-4 py-2 rounded-lg border border-border text-sm font-['Inter'] font-semibold text-foreground-variant hover:bg-white/5">
                 Load Accounts
               </button>
             )}
             <button onClick={handleFetchAspire} disabled={aspireLoading || !aspireAccountId}
-              className="px-5 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0">
+              className="px-5 py-2.5 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shrink-0">
               <span className="material-symbols-outlined text-[18px]">account_balance</span>
               {aspireLoading ? "Fetching…" : "Fetch Aspire"}
             </button>
@@ -864,22 +829,22 @@ export default function AdminRentPage() {
         </div>
 
         {aspireError && (
-          <div className="px-8 py-3 bg-[#ffdad6]/30 text-[#ba1a1a] font-['Manrope'] text-sm">{aspireError}</div>
+          <div className="px-8 py-3 bg-red-500/10 text-red-300 font-['Inter'] text-sm">{aspireError}</div>
         )}
 
         {selectedTxn && (
-          <div className="px-8 py-3 bg-[#d1fae5] font-['Manrope'] text-sm text-[#065f46] flex items-center gap-2">
+          <div className="px-8 py-3 bg-emerald-500/10 font-['Inter'] text-sm text-emerald-300 flex items-center gap-2">
             <span className="material-symbols-outlined text-[16px]">check_circle</span>
             Selected: {selectedTxn.description} — {formatSGD(selectedTxn.amount)} ({selectedTxn.transaction_date})
             <button onClick={() => setSelectedTxn(null)} className="ml-auto text-xs underline">Cancel</button>
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-[#E8E0CE]/15">
-          {/* LEFT: Unpaid Rent */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-white/10">
+          {/* LEFT: Unpaid Rent + Charges */}
           <div className="p-6">
-            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-4">
-              Unpaid Rent ({rentPayments.filter(p => p.status === "PENDING" || p.status === "OVERDUE").length})
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-4">
+              Unpaid Rent &amp; Charges ({rentPayments.filter(p => p.status === "PENDING" || p.status === "OVERDUE").length + charges.filter(c => c.status === "PENDING").length})
             </p>
             <div className="space-y-2 max-h-[400px] overflow-y-auto">
               {rentPayments
@@ -891,28 +856,49 @@ export default function AdminRentPage() {
                   return (
                     <button key={p.id} onClick={() => selectedTxn ? handleMatch(p) : null} disabled={!selectedTxn}
                       className={`w-full text-left p-4 rounded-xl border transition-all flex items-center gap-3 ${
-                        selectedTxn ? "border-[#D9A441] hover:bg-[#A87813]/5 cursor-pointer" : "border-[#E8E0CE]/15 opacity-60 cursor-default"
+                        selectedTxn ? "border-accent hover:bg-accent/5 cursor-pointer" : "border-border opacity-60 cursor-default"
                       }`}>
-                      <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#F2D88A] px-2 py-1 rounded shrink-0">{unitCode}</span>
+                      <span className="font-['Inter'] text-xs font-bold text-accent bg-surface-container px-2 py-1 rounded shrink-0">{unitCode}</span>
                       <div className="flex-1 min-w-0">
-                        <p className="font-['Manrope'] text-sm font-semibold text-[#1F2937] truncate">{name}</p>
+                        <p className="font-['Inter'] text-sm font-semibold text-foreground truncate">{name}</p>
                       </div>
                       <div className="text-right shrink-0">
-                        <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm tabular-nums">{formatSGD(p.rent_amount)}</p>
+                        <p className="font-display font-bold text-sm tabular-nums text-foreground">{formatSGD(p.rent_amount)}</p>
                         <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest ${STATUS_BADGE[p.status]}`}>{p.status}</span>
                       </div>
                     </button>
                   );
                 })}
-              {rentPayments.filter(p => p.status === "PENDING" || p.status === "OVERDUE").length === 0 && (
-                <p className="text-center text-[#6B7280] font-['Manrope'] text-sm py-8">All rent paid!</p>
+              {charges
+                .filter(c => c.status === "PENDING")
+                .map(c => {
+                  const unitCode = c.tenant_profiles?.rooms?.unit_code ?? "—";
+                  return (
+                    <button key={`charge-${c.id}`} onClick={() => selectedTxn ? handleMatchCharge(c) : null} disabled={!selectedTxn}
+                      className={`w-full text-left p-4 rounded-xl border transition-all flex items-center gap-3 ${
+                        selectedTxn ? "border-accent hover:bg-accent/5 cursor-pointer" : "border-border opacity-60 cursor-default"
+                      }`}>
+                      <span className="font-['Inter'] text-xs font-bold text-accent bg-surface-container px-2 py-1 rounded shrink-0">{unitCode}</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-['Inter'] text-sm font-semibold text-foreground truncate">{c.description}</p>
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-purple-500/15 text-purple-300">Charge · {c.category?.replace(/_/g, " ")}</span>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="font-display font-bold text-sm tabular-nums text-foreground">{formatSGD(c.amount)}</p>
+                      </div>
+                    </button>
+                  );
+                })}
+              {rentPayments.filter(p => p.status === "PENDING" || p.status === "OVERDUE").length === 0 &&
+               charges.filter(c => c.status === "PENDING").length === 0 && (
+                <p className="text-center text-foreground-variant font-['Inter'] text-sm py-8">All rent &amp; charges paid!</p>
               )}
             </div>
           </div>
 
           {/* RIGHT: Aspire Transactions */}
           <div className="p-6">
-            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-4">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-4">
               Aspire Incoming ({aspireTransactions.length})
             </p>
             <div className="space-y-2 max-h-[400px] overflow-y-auto">
@@ -921,24 +907,24 @@ export default function AdminRentPage() {
                 return (
                   <button key={txn.reference || idx} onClick={() => setSelectedTxn(isSelected ? null : txn)}
                     className={`w-full text-left p-4 rounded-xl border transition-all flex items-center gap-3 ${
-                      isSelected ? "border-[#D9A441] ring-2 ring-[#D9A441] bg-[#A87813]/5" : "border-[#E8E0CE]/15 hover:border-[#D9A441] hover:bg-[#FAF6EC]"
+                      isSelected ? "border-accent ring-2 ring-accent bg-accent/5" : "border-border hover:border-accent hover:bg-white/5"
                     }`}>
                     <div className="flex-1 min-w-0">
-                      <p className="font-['Manrope'] text-sm font-semibold text-[#1F2937] truncate">{txn.description || "Unknown"}</p>
-                      <p className="font-['Manrope'] text-xs text-[#6B7280]">{txn.transaction_date}</p>
+                      <p className="font-['Inter'] text-sm font-semibold text-foreground truncate">{txn.description || "Unknown"}</p>
+                      <p className="font-['Inter'] text-xs text-foreground-variant">{txn.transaction_date}</p>
                     </div>
-                    <p className="font-['Plus_Jakarta_Sans'] font-bold text-sm tabular-nums text-[#A87813] shrink-0">{formatSGD(txn.amount)}</p>
+                    <p className="font-display font-bold text-sm tabular-nums text-accent shrink-0">{formatSGD(txn.amount)}</p>
                   </button>
                 );
               })}
               {aspireTransactions.length === 0 && !aspireLoading && (
-                <p className="text-center text-[#6B7280] font-['Manrope'] text-sm py-8">
+                <p className="text-center text-foreground-variant font-['Inter'] text-sm py-8">
                   {aspireError ? "Failed to load" : "Click \"Fetch Aspire\" to load transactions"}
                 </p>
               )}
               {aspireLoading && (
                 <div className="py-8 text-center">
-                  <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-[#A87813] border-r-transparent" />
+                  <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-accent border-r-transparent" />
                 </div>
               )}
             </div>
@@ -946,33 +932,33 @@ export default function AdminRentPage() {
         </div>
 
         {matchedPairs.length > 0 && (
-          <div className="border-t border-[#E8E0CE]/15 p-6">
-            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-4">
+          <div className="border-t border-border p-6">
+            <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-4">
               Matched This Session ({matchedPairs.length})
             </p>
             <div className="space-y-2">
               {matchedPairs.map(pair => (
-                <div key={pair.rentPaymentId} className="flex items-center gap-3 p-3 rounded-xl bg-[#d1fae5]/30 border border-[#d1fae5]">
-                  <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#F2D88A] px-2 py-1 rounded">{pair.unitCode}</span>
-                  <p className="font-['Manrope'] text-sm text-[#1F2937] flex-1">{pair.tenantName} — {formatSGD(pair.rentAmount)}</p>
-                  <span className="text-[#6B7280] font-['Manrope'] text-xs">←</span>
-                  <p className="font-['Manrope'] text-sm text-[#1F2937]">{pair.txnDescription} — {formatSGD(pair.txnAmount)}</p>
+                <div key={pair.rentPaymentId} className="flex items-center gap-3 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/25">
+                  <span className="font-['Inter'] text-xs font-bold text-accent bg-surface-container px-2 py-1 rounded">{pair.unitCode}</span>
+                  <p className="font-['Inter'] text-sm text-foreground flex-1">{pair.tenantName} — {formatSGD(pair.rentAmount)}</p>
+                  <span className="text-foreground-variant font-['Inter'] text-xs">←</span>
+                  <p className="font-['Inter'] text-sm text-foreground">{pair.txnDescription} — {formatSGD(pair.txnAmount)}</p>
                   {Number(pair.txnAmount) !== Number(pair.rentAmount) && (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-amber-100 text-amber-700">Mismatch</span>
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-amber-500/15 text-amber-300">Mismatch</span>
                   )}
                   {pair.isLate && pair.lateFee > 0 && (
                     <>
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-[#ffdad6] text-[#ba1a1a]">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-red-500/15 text-red-300">
                         {pair.daysLate}d late — {formatSGD(pair.lateFee)} fee
                       </span>
                       <button onClick={() => handleWaiveLateFee(pair)}
-                        className="text-xs px-3 py-1.5 rounded-lg bg-amber-100 text-amber-700 hover:bg-amber-200 font-['Manrope'] font-bold shrink-0">
+                        className="text-xs px-3 py-1.5 rounded-lg bg-amber-500/15 text-amber-300 hover:bg-amber-500/25 font-['Inter'] font-bold shrink-0">
                         Waive
                       </button>
                     </>
                   )}
                   <button onClick={() => handleUnmatch(pair)}
-                    className="text-xs px-3 py-1.5 rounded-lg border border-[#E8E0CE]/30 text-[#6B7280] hover:bg-white font-['Manrope'] font-bold shrink-0">
+                    className="text-xs px-3 py-1.5 rounded-lg border border-border text-foreground-variant hover:bg-white/5 font-['Inter'] font-bold shrink-0">
                     Unmatch
                   </button>
                 </div>
@@ -983,23 +969,23 @@ export default function AdminRentPage() {
       </div>
 
       {/* Add Charge Section */}
-      <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden mt-8">
-        <div className="px-8 py-6 border-b border-[#E8E0CE]/15">
-          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937]">
+      <div className="bg-surface rounded-2xl border border-border overflow-hidden mt-8">
+        <div className="px-8 py-6 border-b border-border">
+          <h2 className="font-display font-bold text-lg text-foreground">
             Add One-Off Charge
           </h2>
-          <p className="font-['Manrope'] text-[#6B7280] text-xs mt-0.5">
+          <p className="font-['Inter'] text-foreground-variant text-xs mt-0.5">
             Charge a member for stamping fees, key replacement, damage, etc.
           </p>
         </div>
         <div className="px-8 py-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
             <div>
-              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-1">Member *</label>
+              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-1">Member *</label>
               <select
                 value={chargeForm.tenant_profile_id}
                 onChange={(e) => setChargeForm(f => ({ ...f, tenant_profile_id: e.target.value }))}
-                className="w-full border border-[#E8E0CE]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
+                className="w-full border border-border rounded-xl px-3 py-2.5 text-sm font-['Inter'] focus:outline-none focus:ring-2 focus:ring-accent bg-surface text-foreground"
               >
                 <option value="">Select member...</option>
                 {members.map(m => (
@@ -1010,17 +996,17 @@ export default function AdminRentPage() {
               </select>
             </div>
             <div>
-              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-1">Description *</label>
+              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-1">Description *</label>
               <input
                 type="text"
                 value={chargeForm.description}
                 onChange={(e) => setChargeForm(f => ({ ...f, description: e.target.value }))}
                 placeholder="e.g. Stamping fee"
-                className="w-full border border-[#E8E0CE]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]"
+                className="w-full border border-border rounded-xl px-3 py-2.5 text-sm font-['Inter'] focus:outline-none focus:ring-2 focus:ring-accent bg-surface text-foreground"
               />
             </div>
             <div>
-              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-1">Amount SGD *</label>
+              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-1">Amount SGD *</label>
               <input
                 type="number"
                 min="0"
@@ -1028,15 +1014,15 @@ export default function AdminRentPage() {
                 value={chargeForm.amount}
                 onChange={(e) => setChargeForm(f => ({ ...f, amount: e.target.value }))}
                 placeholder="0.00"
-                className="w-full border border-[#E8E0CE]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]"
+                className="w-full border border-border rounded-xl px-3 py-2.5 text-sm font-['Inter'] focus:outline-none focus:ring-2 focus:ring-accent bg-surface text-foreground"
               />
             </div>
             <div>
-              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-1">Category</label>
+              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-1">Category</label>
               <select
                 value={chargeForm.category}
                 onChange={(e) => setChargeForm(f => ({ ...f, category: e.target.value }))}
-                className="w-full border border-[#E8E0CE]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813] bg-white"
+                className="w-full border border-border rounded-xl px-3 py-2.5 text-sm font-['Inter'] focus:outline-none focus:ring-2 focus:ring-accent bg-surface text-foreground"
               >
                 {CHARGE_CATEGORIES.map(cat => (
                   <option key={cat} value={cat}>{cat.replace(/_/g, " ")}</option>
@@ -1044,19 +1030,19 @@ export default function AdminRentPage() {
               </select>
             </div>
             <div>
-              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold mb-1">Due Date</label>
+              <label className="block font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-1">Due Date</label>
               <input
                 type="date"
                 value={chargeForm.due_date}
                 onChange={(e) => setChargeForm(f => ({ ...f, due_date: e.target.value }))}
-                className="w-full border border-[#E8E0CE]/30 rounded-xl px-3 py-2.5 text-sm font-['Manrope'] focus:outline-none focus:ring-2 focus:ring-[#A87813]"
+                className="w-full border border-border rounded-xl px-3 py-2.5 text-sm font-['Inter'] focus:outline-none focus:ring-2 focus:ring-accent bg-surface text-foreground"
               />
             </div>
             <div className="flex items-end">
               <button
                 onClick={handleCreateCharge}
                 disabled={chargeSaving}
-                className="px-6 py-2.5 bg-[#A87813] text-white rounded-xl font-['Manrope'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
+                className="px-6 py-2.5 bg-accent text-white rounded-full font-['Inter'] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">add_circle</span>
                 {chargeSaving ? "Creating..." : "Create Charge"}
@@ -1067,79 +1053,78 @@ export default function AdminRentPage() {
       </div>
 
       {/* All Charges Table */}
-      <div className="bg-white rounded-2xl border border-[#E8E0CE]/15 shadow-sm overflow-hidden mt-8">
-        <div className="px-8 py-6 border-b border-[#E8E0CE]/15">
-          <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#1F2937]">
+      <div className="bg-surface rounded-2xl border border-border overflow-hidden mt-8">
+        <div className="px-8 py-6 border-b border-border">
+          <h2 className="font-display font-bold text-lg text-foreground">
             All Ad-hoc Charges
           </h2>
         </div>
 
         {chargesLoading ? (
-          <div className="divide-y divide-[#E8E0CE]/10">
+          <div className="divide-y divide-white/10">
             {[1, 2, 3].map((i) => (
               <div key={i} className="px-8 py-5 flex items-center gap-4">
-                <div className="h-4 w-16 bg-[#F2D88A] animate-pulse rounded" />
-                <div className="h-4 w-24 bg-[#F2D88A] animate-pulse rounded" />
-                <div className="h-4 w-20 bg-[#F2D88A] animate-pulse rounded ml-auto" />
+                <div className="h-4 w-16 bg-white/5 animate-pulse rounded" />
+                <div className="h-4 w-24 bg-white/5 animate-pulse rounded" />
+                <div className="h-4 w-20 bg-white/5 animate-pulse rounded ml-auto" />
               </div>
             ))}
           </div>
         ) : charges.length === 0 ? (
           <div className="px-8 py-12 text-center">
-            <p className="text-[#6B7280] font-['Manrope'] text-sm">No ad-hoc charges yet.</p>
+            <p className="text-foreground-variant font-['Inter'] text-sm">No ad-hoc charges yet.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[600px]">
-              <thead className="bg-[#F2D88A]">
+              <thead className="bg-surface-container">
                 <tr>
-                  <th className="text-left px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Room</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Description</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Category</th>
-                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Amount</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Due Date</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap">Status</th>
-                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-[#6B7280] font-bold whitespace-nowrap hidden md:table-cell">Created</th>
+                  <th className="text-left px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap">Room</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap">Description</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap">Category</th>
+                  <th className="text-right px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap">Amount</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap">Due Date</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap">Status</th>
+                  <th className="text-left px-4 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold whitespace-nowrap hidden md:table-cell">Created</th>
                   <th className="px-4 py-4" />
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E8E0CE]/10">
+              <tbody className="divide-y divide-white/10">
                 {charges.map((c) => {
                   const unitCode = c.tenant_profiles?.rooms?.unit_code ?? "—";
                   const badgeClass = CHARGE_STATUS_BADGE[c.status] ?? CHARGE_STATUS_BADGE.PENDING;
                   const isLoading = chargeActionLoading === c.id;
                   return (
-                    <tr key={c.id} className="hover:bg-[#FAF6EC] transition-colors">
+                    <tr key={c.id} className="hover:bg-white/5 transition-colors">
                       <td className="px-8 py-4">
-                        <span className="font-['Inter'] text-xs font-bold text-[#A87813] bg-[#F2D88A] px-2 py-1 rounded">
+                        <span className="font-['Inter'] text-xs font-bold text-accent bg-surface-container px-2 py-1 rounded">
                           {unitCode}
                         </span>
                       </td>
-                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#1F2937]">{c.description}</td>
+                      <td className="px-4 py-4 font-['Inter'] text-sm text-foreground">{c.description}</td>
                       <td className="px-4 py-4">
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-[#F2D88A] text-[#6B7280]">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-surface-container text-foreground-variant">
                           {c.category?.replace(/_/g, " ")}
                         </span>
                       </td>
-                      <td className="px-4 py-4 text-right font-['Plus_Jakarta_Sans'] font-bold text-sm tabular-nums">{formatSGD(c.amount)}</td>
-                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#1F2937] whitespace-nowrap">{formatDate(c.due_date)}</td>
+                      <td className="px-4 py-4 text-right font-display font-bold text-sm tabular-nums text-foreground">{formatSGD(c.amount)}</td>
+                      <td className="px-4 py-4 font-['Inter'] text-sm text-foreground whitespace-nowrap">{formatDate(c.due_date)}</td>
                       <td className="px-4 py-4">
                         <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${badgeClass}`}>
                           {c.status}
                         </span>
                       </td>
-                      <td className="px-4 py-4 font-['Manrope'] text-sm text-[#6B7280] whitespace-nowrap hidden md:table-cell">
+                      <td className="px-4 py-4 font-['Inter'] text-sm text-foreground-variant whitespace-nowrap hidden md:table-cell">
                         {formatDate(c.created_at)}
                       </td>
                       <td className="px-4 py-4 text-right">
                         {c.status === "PENDING" && (
-                          <button
-                            onClick={() => handleMarkChargePaid(c.id)}
-                            disabled={isLoading}
-                            className="text-xs px-3 py-1.5 rounded-lg bg-[#A87813] text-white hover:opacity-90 disabled:opacity-50 transition-all font-['Manrope'] font-bold whitespace-nowrap"
+                          <span
+                            className="text-[10px] text-foreground-variant italic whitespace-nowrap"
+                            title="Charges are marked paid only by matching a real bank transfer in the Reconcile panel above."
                           >
-                            {isLoading ? "..." : "Mark Paid"}
-                          </button>
+                            reconcile to mark paid
+                          </span>
                         )}
                       </td>
                     </tr>

@@ -45,17 +45,17 @@ export default function OnboardingTimeline({ currentStep, onboarding, onStepClic
           let dateClass = "text-xs mt-0.5 ";
 
           if (isDone) {
-            dotClass += "bg-green-500 border-green-500";
+            dotClass += "bg-emerald-500 border-emerald-500";
             labelClass += "text-foreground";
-            dateClass += "text-muted-foreground";
+            dateClass += "text-foreground-variant";
           } else if (isCurrent) {
-            dotClass += "bg-blue-500 border-blue-500 animate-pulse";
+            dotClass += "bg-accent border-accent animate-pulse";
             labelClass += "text-foreground font-semibold";
-            dateClass += "text-blue-600";
+            dateClass += "text-accent";
           } else {
             dotClass += "bg-background border-border";
-            labelClass += "text-muted-foreground";
-            dateClass += "text-muted-foreground";
+            labelClass += "text-foreground-variant";
+            dateClass += "text-foreground-variant";
           }
 
           const completedAt =
@@ -68,7 +68,7 @@ export default function OnboardingTimeline({ currentStep, onboarding, onStepClic
           return (
             <li
               key={step}
-              className={`flex items-start gap-3 pb-6 last:pb-0 ${canClick ? "cursor-pointer hover:bg-[#F2D88A] rounded-lg -mx-2 px-2 py-1 transition-colors" : ""}`}
+              className={`flex items-start gap-3 pb-6 last:pb-0 ${canClick ? "cursor-pointer hover:bg-white/5 rounded-lg -mx-2 px-2 py-1 transition-colors" : ""}`}
               onClick={canClick ? () => onStepClick(step) : undefined}
             >
               <div className={dotClass}>
@@ -96,7 +96,7 @@ export default function OnboardingTimeline({ currentStep, onboarding, onStepClic
                 <p className={labelClass}>{STEP_LABELS[step]}</p>
                 {completedAt && <p className={dateClass}>{completedAt}</p>}
                 {isCurrent && !completedAt && (
-                  <p className="text-xs text-blue-600 mt-0.5">In progress</p>
+                  <p className="text-xs text-accent mt-0.5">In progress</p>
                 )}
               </div>
             </li>

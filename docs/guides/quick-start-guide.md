@@ -1,6 +1,6 @@
 # Lazybee Portal — Quick Start Guide / 快速入门指南
 
-**Support / 客服:** WhatsApp +65 8088 5410
+**Support / 客服:** WhatsApp +65 8069 5410
 
 ---
 
@@ -16,7 +16,7 @@
 | **Change Password** | Settings → enter new password → Update | 设置 → 输入新密码 → 更新 |
 | **View Agreement** | Documents → find your signed Licence Agreement | 文件 → 查看已签署的许可协议 |
 | **Check AC Usage** | Dashboard → AC usage card shows hours used and remaining | 仪表板 → 空调使用卡片显示已用和剩余小时数 |
-| **Contact Support** | WhatsApp +65 8088 5410 or email admin@lazybee.sg | WhatsApp +65 8088 5410 或邮件 admin@lazybee.sg |
+| **Contact Support** | WhatsApp +65 8069 5410 or email admin@lazybee.sg | WhatsApp +65 8069 5410 或邮件 admin@lazybee.sg |
 
 ---
 
@@ -73,7 +73,7 @@
 | **Laundry hours / 洗衣时间** | 8 AM – 10 PM / 早上8点至晚上10点 |
 | **AC included / 空调包含** | 300 hours/month / 每月300小时 |
 | **AC excess / 空调超额** | S$0.30/hour / 每小时 S$0.30 |
-| **Emergency / 紧急情况** | WhatsApp +65 8088 5410 |
+| **Emergency / 紧急情况** | WhatsApp +65 8069 5410 |
 
 ---
 
@@ -87,4 +87,4 @@
 
 ---
 
-> **Need help? / 需要帮助？** WhatsApp +65 8088 5410 · admin@lazybee.sg
+> **Need help? / 需要帮助？** WhatsApp +65 8069 5410 · admin@lazybee.sg

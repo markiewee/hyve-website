@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { selectNeedsOutcome } from "../lib/viewingOutcomes";
 
-/** Roles that can actually action a viewing outcome. Nobody else is nagged. */
+/**
+ * Roles that can actually action a viewing outcome. Nobody else is nagged.
+ * Compared lower-cased because tenant_profiles.role is stored upper-case
+ * (ADMIN, SUPER_ADMIN, HOUSE_CAPTAIN) and PortalLayout passes it through raw,
+ * so a case-sensitive check here would zero the badge for every real user.
+ */
 const CAN_ACTION = new Set(["admin", "super_admin", "house_captain", "manager"]);
 
 /**
@@ -20,7 +25,7 @@ export function useNeedsOutcomeCount(role) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!CAN_ACTION.has(role)) {
+    if (!CAN_ACTION.has(String(role ?? "").toLowerCase())) {
       setCount(0);
       return;
     }

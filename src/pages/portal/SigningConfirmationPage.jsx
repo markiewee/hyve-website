@@ -98,7 +98,7 @@ export default function SigningConfirmationPage() {
     return (
       <PortalLayout>
         <div className="flex items-center justify-center min-h-[60vh]">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#A87813]" />
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent" />
         </div>
       </PortalLayout>
     );
@@ -108,9 +108,9 @@ export default function SigningConfirmationPage() {
     <PortalLayout>
       <div className="max-w-lg mx-auto py-12 px-4 text-center">
         {/* Animated checkmark */}
-        <div className="mx-auto mb-8 w-24 h-24 rounded-full bg-green-50 flex items-center justify-center checkmark-container">
+        <div className="mx-auto mb-8 w-24 h-24 rounded-full bg-emerald-500/15 flex items-center justify-center checkmark-container">
           <svg
-            className="w-14 h-14 text-green-500 checkmark-svg"
+            className="w-14 h-14 text-emerald-400 checkmark-svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -133,37 +133,37 @@ export default function SigningConfirmationPage() {
         </div>
 
         {/* Heading */}
-        <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#A87813] mb-2">
+        <h1 className="font-display text-2xl font-bold text-accent mb-2">
           Agreement Signed Successfully
         </h1>
-        <p className="font-['Manrope'] text-sm text-[#6B7280] mb-6">
+        <p className="font-['Inter'] text-sm text-foreground-variant mb-6">
           Your Tenancy Agreement has been submitted. Thank you for signing!
         </p>
 
         {/* Signing timestamp */}
         {signedAt && (
-          <div className="inline-flex items-center gap-2 bg-white border border-[#E8E0CE]/30 rounded-lg px-4 py-2.5 mb-6">
-            <svg className="w-4 h-4 text-[#6B7280]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="inline-flex items-center gap-2 bg-surface-container border border-border rounded-lg px-4 py-2.5 mb-6">
+            <svg className="w-4 h-4 text-foreground-variant" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span className="font-['Manrope'] text-sm text-[#1F2937]">
+            <span className="font-['Inter'] text-sm text-foreground">
               Signed on {formatDateTime(signedAt)}
             </span>
           </div>
         )}
 
         {/* Counter-signature status badge */}
-        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 mb-8">
+        <div className="rounded-lg border border-amber-500/25 bg-amber-500/10 p-4 mb-8">
           <div className="flex items-center justify-center gap-3">
             <span className="relative flex h-3 w-3 flex-shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500" />
             </span>
-            <p className="font-['Manrope'] text-sm font-medium text-amber-800">
+            <p className="font-['Inter'] text-sm font-medium text-amber-300">
               Waiting for admin counter-signature
             </p>
           </div>
-          <p className="font-['Manrope'] text-xs text-amber-700 mt-1.5">
+          <p className="font-['Inter'] text-xs text-amber-300 mt-1.5">
             The Lazybee team will countersign your agreement shortly. You'll receive an email once it's fully executed.
           </p>
         </div>
@@ -175,7 +175,7 @@ export default function SigningConfirmationPage() {
               variant="outline"
               onClick={handleDownloadPdf}
               disabled={downloading}
-              className="w-full sm:w-auto font-['Manrope'] gap-2"
+              className="w-full sm:w-auto font-['Inter'] gap-2"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -186,7 +186,7 @@ export default function SigningConfirmationPage() {
 
           <Button
             onClick={() => navigate("/portal/onboarding")}
-            className="w-full sm:w-auto font-['Manrope'] bg-[#A87813] hover:bg-[#A87813] gap-2"
+            className="w-full sm:w-auto font-['Inter'] bg-accent hover:bg-accent text-white gap-2"
           >
             Continue to Onboarding
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

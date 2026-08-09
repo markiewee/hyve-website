@@ -16,28 +16,28 @@ const COLUMN_LABELS = {
   cold: "Cold",
 };
 
-export function LeadColumn({ status, leads, onCardClick }) {
+export function LeadColumn({ status, leads, onCardClick, onArchive }) {
   const { setNodeRef, isOver } = useDroppable({ id: status });
 
   return (
-    <div className="flex flex-col min-w-[260px] w-[260px] bg-slate-50 rounded-lg p-2 flex-shrink-0">
+    <div className="flex flex-col min-w-[260px] w-[260px] bg-surface-container rounded-lg p-2 flex-shrink-0">
       <div className="px-1 pb-2 flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-slate-700">{COLUMN_LABELS[status] || status}</h3>
-        <span className="text-xs text-slate-500 bg-white px-1.5 py-0.5 rounded">
+        <h3 className="text-sm font-semibold text-foreground">{COLUMN_LABELS[status] || status}</h3>
+        <span className="text-xs text-foreground-variant bg-surface px-1.5 py-0.5 rounded">
           {leads.length}
         </span>
       </div>
       <div
         ref={setNodeRef}
         className={`flex-1 min-h-[200px] rounded transition-colors p-1 ${
-          isOver ? "bg-slate-200" : ""
+          isOver ? "bg-white/5" : ""
         }`}
       >
         {leads.map((lead) => (
-          <LeadCard key={lead.id} lead={lead} onClick={onCardClick} />
+          <LeadCard key={lead.id} lead={lead} onClick={onCardClick} onArchive={onArchive} />
         ))}
         {leads.length === 0 && (
-          <div className="text-xs text-slate-400 italic px-2 py-4">No leads</div>
+          <div className="text-xs text-foreground-variant italic px-2 py-4">No leads</div>
         )}
       </div>
     </div>

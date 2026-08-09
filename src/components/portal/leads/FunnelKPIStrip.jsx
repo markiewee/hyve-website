@@ -3,15 +3,15 @@
 
 function Tile({ label, value, sub }) {
   return (
-    <div className="bg-slate-50 rounded-md px-3 py-2 border border-slate-200">
-      <div className="text-[11px] uppercase tracking-wide text-slate-500">
+    <div className="bg-surface-container rounded-md px-3 py-2 border border-border">
+      <div className="text-[11px] uppercase tracking-wide text-foreground-variant">
         {label}
       </div>
-      <div className="text-2xl font-semibold text-slate-900 leading-tight">
+      <div className="text-2xl font-semibold text-foreground leading-tight">
         {value}
       </div>
       {sub ? (
-        <div className="text-[11px] text-slate-500 mt-0.5">{sub}</div>
+        <div className="text-[11px] text-foreground-variant mt-0.5">{sub}</div>
       ) : null}
     </div>
   );

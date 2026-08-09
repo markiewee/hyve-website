@@ -65,9 +65,16 @@ export function AuthProvider({ children }) {
       const sessionUser = session?.user ?? null;
       setUser(sessionUser);
       if (sessionUser) {
-        fetchProfile(sessionUser.id)
-          .then(setProfile)
-          .catch((e) => console.error("fetchProfile (onAuthStateChange) failed", e));
+        // Defer DB calls OUT of the auth callback. Calling supabase.from()
+        // synchronously inside onAuthStateChange deadlocks the client's auth
+        // lock — login succeeds but the profile query waits on the lock the
+        // callback still holds, leaving the UI stuck on "Signing in…".
+        // setTimeout(0) lets the callback return and release the lock first.
+        setTimeout(() => {
+          fetchProfile(sessionUser.id)
+            .then(setProfile)
+            .catch((e) => console.error("fetchProfile (onAuthStateChange) failed", e));
+        }, 0);
       } else {
         setProfile(null);
       }

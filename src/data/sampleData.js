@@ -10,7 +10,7 @@ export const properties = [
     propertyType: "Condominium",
     totalRooms: 8,
     amenities: ["Swimming Pool", "Gym", "24/7 Security", "Parking", "WiFi", "Housekeeping", "Laundry"],
-    images: ["hero_coliving_interior.jpg", "stock_apart1.png", "modern_coliving_space.jpg"],
+    images: ["/photos/tg-hero.jpg", "/photos/cp-hero.jpg", "modern_coliving_space.jpg"],
     startingPrice: 900,
     availableRooms: 2,
     nearbyMRT: ["Lentor MRT (5 min walk)", "Mayflower MRT (8 min walk)"],
@@ -27,7 +27,7 @@ export const properties = [
     propertyType: "Penthouse",
     totalRooms: 6,
     amenities: ["Rooftop Terrace", "City Views", "Premium Furnishing", "Concierge", "WiFi", "Housekeeping"],
-    images: ["river_valley_exterior.jpg", "stock_apart2.png", "shared_kitchen.jpg"],
+    images: ["river_valley_exterior.jpg", "/photos/ih-hero.jpg", "shared_kitchen.jpg"],
     startingPrice: 1200,
     availableRooms: 1,
     nearbyMRT: ["Great World MRT (3 min walk)", "Orchard MRT (10 min walk)"],
@@ -44,7 +44,7 @@ export const properties = [
     propertyType: "Apartment",
     totalRooms: 5,
     amenities: ["Shopping Access", "MRT Nearby", "Restaurants", "WiFi", "Housekeeping", "Flexible Terms"],
-    images: ["orchard_building.jpg", "stock_apart1.png", "singapore_apartment_living.jpg"],
+    images: ["orchard_building.jpg", "/photos/cp-hero.jpg", "singapore_apartment_living.jpg"],
     startingPrice: 1100,
     availableRooms: 3,
     nearbyMRT: ["Orchard MRT (2 min walk)", "Somerset MRT (5 min walk)"],
@@ -61,7 +61,7 @@ export const properties = [
     propertyType: "Heritage Building",
     totalRooms: 4,
     amenities: ["Heritage Architecture", "Local Cafes", "Art Scene", "WiFi", "Housekeeping", "Community Events"],
-    images: ["tiong_bahru_neighborhood.jpg", "stock_apart2.png", "shared_kitchen.jpg"],
+    images: ["tiong_bahru_neighborhood.jpg", "/photos/ih-hero.jpg", "shared_kitchen.jpg"],
     startingPrice: 950,
     availableRooms: 2,
     nearbyMRT: ["Tiong Bahru MRT (3 min walk)", "Outram Park MRT (8 min walk)"],
@@ -80,7 +80,7 @@ export const rooms = [
     isAvailable: true,
     availableFrom: "2025-07-15",
     amenities: ["Private Bathroom", "Balcony", "Air Conditioning", "Study Desk"],
-    images: ["modern_bedroom.jpg", "stock_apart1.png"]
+    images: ["modern_bedroom.jpg", "/photos/cp-hero.jpg"]
   },
   {
     id: 2,
@@ -92,7 +92,7 @@ export const rooms = [
     isAvailable: false,
     availableFrom: "2025-02-15",
     amenities: ["Shared Bathroom", "Air Conditioning", "Study Desk"],
-    images: ["modern_bedroom.jpg", "stock_apart1.png"]
+    images: ["modern_bedroom.jpg", "/photos/cp-hero.jpg"]
   },
   {
     id: 3,
@@ -104,7 +104,7 @@ export const rooms = [
     isAvailable: false,
     availableFrom: "2025-03-01",
     amenities: ["Shared Bathroom", "Air Conditioning", "Study Desk"],
-    images: ["modern_bedroom.jpg", "stock_apart1.png"]
+    images: ["modern_bedroom.jpg", "/photos/cp-hero.jpg"]
   },
   {
     id: 4,
@@ -116,7 +116,7 @@ export const rooms = [
     isAvailable: true,
     availableFrom: "2025-07-01",
     amenities: ["Private Bathroom", "City View", "Balcony", "Premium Furnishing"],
-    images: ["modern_bedroom.jpg", "stock_apart1.png"]
+    images: ["modern_bedroom.jpg", "/photos/cp-hero.jpg"]
   },
   {
     id: 5,
@@ -128,7 +128,7 @@ export const rooms = [
     isAvailable: true,
     availableFrom: "2025-07-10",
     amenities: ["Shared Bathroom", "Air Conditioning", "Study Desk"],
-    images: ["modern_bedroom.jpg", "stock_apart1.png"]
+    images: ["modern_bedroom.jpg", "/photos/cp-hero.jpg"]
   },
   {
     id: 6,
@@ -140,7 +140,7 @@ export const rooms = [
     isAvailable: true,
     availableFrom: "2025-01-15",
     amenities: ["Shared Bathroom", "Double Bed", "Study Desk", "Air Conditioning", "Large Window"],
-    images: ["modern_bedroom.jpg", "stock_apart1.png"]
+    images: ["modern_bedroom.jpg", "/photos/cp-hero.jpg"]
   },
   {
     id: 7,
@@ -152,7 +152,7 @@ export const rooms = [
     isAvailable: false,
     availableFrom: "2025-03-10",
     amenities: ["Private Bathroom", "Double Bed", "Study Desk", "Air Conditioning", "City View", "Balcony"],
-    images: ["modern_bedroom.jpg", "stock_apart2.png"]
+    images: ["modern_bedroom.jpg", "/photos/ih-hero.jpg"]
   },
   {
     id: 8,
@@ -164,7 +164,7 @@ export const rooms = [
     isAvailable: true,
     availableFrom: "2025-02-01",
     amenities: ["Shared Bathroom", "Double Bed", "Study Desk", "Air Conditioning", "Garden View"],
-    images: ["modern_bedroom.jpg", "stock_apart1.png"]
+    images: ["modern_bedroom.jpg", "/photos/cp-hero.jpg"]
   }
 ];
 
@@ -317,7 +317,7 @@ Ready to start your coliving journey? Explore our properties across Singapore's 
     publishedAt: "2025-01-15",
     readTime: 8,
     tags: ["Coliving", "Singapore", "Guide"],
-    featuredImage: "/stock_apart1.png",
+    featuredImage: "/photos/cp-hero.jpg",
     category: "Guides"
   },
   {
@@ -371,7 +371,7 @@ Each neighborhood offers unique advantages - the key is finding the one that ali
     publishedAt: "2025-01-12",
     readTime: 6,
     tags: ["Neighborhoods", "Professionals", "Lifestyle"],
-    featuredImage: "/stock_apart2.png",
+    featuredImage: "/photos/ih-hero.jpg",
     category: "Lifestyle"
   },
   {
@@ -438,7 +438,7 @@ Remember, building community takes time and effort from everyone. Be patient, st
     publishedAt: "2025-01-10",
     readTime: 5,
     tags: ["Community", "Tips", "Social"],
-    featuredImage: "/stock_apart1.png",
+    featuredImage: "/photos/cp-hero.jpg",
     category: "Community"
   },
   {
@@ -520,7 +520,7 @@ Working from a coliving space offers unique advantages - embrace the community w
     publishedAt: "2025-01-08",
     readTime: 7,
     tags: ["Remote Work", "Productivity", "Coliving"],
-    featuredImage: "/stock_apart2.png",
+    featuredImage: "/photos/ih-hero.jpg",
     category: "Work"
   }
 ];

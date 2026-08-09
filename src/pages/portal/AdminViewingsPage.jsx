@@ -15,17 +15,17 @@ import {
 /* ───────────────────────────── helpers ───────────────────────────── */
 
 const PROPERTY_BADGE = {
-  TG: { bg: "bg-blue-100", text: "text-blue-700", border: "border-blue-500", label: "TG" },
-  IH: { bg: "bg-honey-100", text: "text-honey-800", border: "border-honey-500", label: "IH" },
-  CP: { bg: "bg-amber-100", text: "text-amber-700", border: "border-amber-500", label: "CP" },
+  TG: { bg: "bg-blue-500/15", text: "text-blue-300", border: "border-blue-500", label: "TG" },
+  IH: { bg: "bg-accent/15", text: "text-accent", border: "border-accent", label: "IH" },
+  CP: { bg: "bg-amber-500/15", text: "text-amber-300", border: "border-amber-500", label: "CP" },
 };
 
 const LEAD_STATUSES = [
-  { key: "new", label: "New", color: "bg-slate-200 text-slate-700" },
-  { key: "viewing_booked", label: "Viewing booked", color: "bg-honey-100 text-honey-800" },
-  { key: "viewed", label: "Viewed", color: "bg-blue-100 text-blue-700" },
-  { key: "closed_won", label: "Closed (won)", color: "bg-emerald-100 text-emerald-700" },
-  { key: "closed_lost", label: "Closed (lost)", color: "bg-red-100 text-red-700" },
+  { key: "new", label: "New", color: "bg-surface-container text-foreground-variant" },
+  { key: "viewing_booked", label: "Viewing booked", color: "bg-accent/15 text-accent" },
+  { key: "viewed", label: "Viewed", color: "bg-blue-500/15 text-blue-300" },
+  { key: "closed_won", label: "Closed (won)", color: "bg-emerald-500/15 text-emerald-300" },
+  { key: "closed_lost", label: "Closed (lost)", color: "bg-red-500/15 text-red-300" },
 ];
 
 function isoDate(d) {
@@ -80,17 +80,17 @@ function TabButton({ active, onClick, children, count }) {
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-['Plus_Jakarta_Sans'] font-bold text-sm transition-all ${
+      className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-['Hanken_Grotesk'] font-bold text-sm transition-all ${
         active
-          ? "bg-[#A87813] text-white shadow-md"
-          : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
+          ? "bg-accent text-white"
+          : "bg-surface text-foreground-variant hover:bg-white/5 border border-border"
       }`}
     >
       {children}
       {typeof count === "number" && (
         <span
           className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
-            active ? "bg-white/20" : "bg-slate-100 text-slate-600"
+            active ? "bg-white/20" : "bg-surface-container text-foreground-variant"
           }`}
         >
           {count}
@@ -107,6 +107,79 @@ function CalendarTab({ viewings, refetch }) {
   const [propertyFilter, setPropertyFilter] = useState("");
   const [activeViewing, setActiveViewing] = useState(null);
   const [activeBlock, setActiveBlock] = useState(null);
+  const [gcalBlockers, setGcalBlockers] = useState([]);
+  const [gcalWindows, setGcalWindows] = useState([]);
+  const [gcalError, setGcalError] = useState(null);
+
+  // Pull Mark's GCal busy ranges + booking windows so the grid mirrors what
+  // prospects see on lazybee.sg/book (windows = green/clickable, outside
+  // windows = faded "no window", gcal busy = rose).
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/booking/admin-calendar");
+        if (!res.ok) {
+          setGcalError(`GCal sync failed (${res.status})`);
+          setGcalBlockers([]);
+          setGcalWindows([]);
+          return;
+        }
+        const body = await res.json();
+        if (!cancelled) {
+          setGcalBlockers(Array.isArray(body.blockers) ? body.blockers : []);
+          setGcalWindows(Array.isArray(body.windows) ? body.windows : []);
+          setGcalError(null);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          console.error("admin-calendar fetch failed:", err);
+          setGcalError("GCal sync failed");
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Expand any time range (gcal blocker or window) into 30-min slot keys.
+  function expandToSlotKeys(ranges) {
+    const out = new Set();
+    for (const r of ranges) {
+      if (!r.start || !r.end) continue;
+      const startD = new Date(r.start);
+      const endD = new Date(r.end);
+      const t = new Date(startD);
+      while (t < endD) {
+        const sgt = new Date(t.toLocaleString("en-US", { timeZone: "Asia/Singapore" }));
+        const dayIso = isoDate(sgt);
+        const hour = sgt.getHours();
+        const half = sgt.getMinutes() >= 30;
+        if (GRID_HOURS.includes(hour)) {
+          out.add(hashSlotKey(dayIso, hour, half));
+        }
+        t.setMinutes(t.getMinutes() + 30);
+      }
+    }
+    return out;
+  }
+
+  const gcalBlockedKeys = useMemo(() => expandToSlotKeys(gcalBlockers), [gcalBlockers]);
+  const windowKeys = useMemo(() => expandToSlotKeys(gcalWindows), [gcalWindows]);
+  // Only enforce the "outside-window = not bookable" rule for property-filter
+  // views matching the window's anchor property (or unfiltered). Windows tagged
+  // "— CP only" should grey out for IH/TG, etc.
+  const windowKeysByAnchor = useMemo(() => {
+    const map = {};
+    for (const w of gcalWindows) {
+      const anchor = w.anchorProperty || "ALL";
+      if (!map[anchor]) map[anchor] = new Set();
+      const sub = expandToSlotKeys([w]);
+      for (const k of sub) map[anchor].add(k);
+    }
+    return map;
+  }, [gcalWindows]);
 
   const filteredViewings = useMemo(() => {
     if (!propertyFilter) return viewings;
@@ -151,7 +224,7 @@ function CalendarTab({ viewings, refetch }) {
           <select
             value={propertyFilter}
             onChange={(e) => setPropertyFilter(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 text-slate-900 text-sm rounded-lg px-4 py-2.5 pr-10 focus:ring-honey-500 focus:border-honey-500 font-medium"
+            className="appearance-none bg-surface border border-border text-foreground text-sm rounded-lg px-4 py-2.5 pr-10 focus:ring-accent focus:border-accent font-medium"
           >
             <option value="">All properties</option>
             {PROPERTY_CODES.map((code) => (
@@ -160,44 +233,55 @@ function CalendarTab({ viewings, refetch }) {
               </option>
             ))}
           </select>
-          <span className="material-symbols-outlined absolute right-3 top-2.5 text-slate-400 pointer-events-none text-[20px]">
+          <span className="material-symbols-outlined absolute right-3 top-2.5 text-foreground-variant pointer-events-none text-[20px]">
             expand_more
           </span>
         </div>
-        <div className="flex items-center gap-3 text-xs text-slate-500 font-medium ml-auto">
+        <div className="flex items-center gap-3 text-xs text-foreground-variant font-medium ml-auto">
           <span className="inline-flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded bg-emerald-100 border border-emerald-300" /> free
+            <span className="w-3 h-3 rounded bg-emerald-500/40 border border-emerald-500/50" /> in window
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded bg-honey-500" /> booked
+            <span className="w-3 h-3 rounded bg-emerald-500/10 border border-emerald-500/20" /> outside
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded bg-slate-300" /> blocked
+            <span className="w-3 h-3 rounded bg-accent" /> booked
           </span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded bg-white/20" /> blocked
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded bg-red-500/40 border border-red-500/50" /> gcal busy
+          </span>
+          {gcalError && (
+            <span className="text-red-400 font-semibold" title={gcalError}>
+              · gcal sync error
+            </span>
+          )}
         </div>
       </div>
 
       {/* Calendar grid */}
-      <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+      <div className="bg-surface rounded-2xl border border-border overflow-hidden">
         <div className="overflow-x-auto">
           <div className="min-w-[1100px]">
             {/* Header row */}
-            <div className="grid grid-cols-[80px_repeat(14,minmax(0,1fr))] bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
-              <div className="p-2 text-[10px] uppercase tracking-widest text-slate-400 font-bold border-r border-slate-200" />
+            <div className="grid grid-cols-[80px_repeat(14,minmax(0,1fr))] bg-surface-container border-b border-border sticky top-0 z-10">
+              <div className="p-2 text-[10px] uppercase tracking-widest text-foreground-variant font-bold border-r border-border" />
               {days.map((d) => {
                 const isWeekend = d.getDay() === 0 || d.getDay() === 6;
                 return (
                   <div
                     key={isoDate(d)}
-                    className={`p-2 text-center border-r border-slate-200 last:border-r-0 ${
-                      isWeekend ? "bg-honey-50" : ""
+                    className={`p-2 text-center border-r border-border last:border-r-0 ${
+                      isWeekend ? "bg-white/5" : ""
                     }`}
                   >
-                    <div className="text-[9px] uppercase tracking-widest text-slate-400 font-bold">
+                    <div className="text-[9px] uppercase tracking-widest text-foreground-variant font-bold">
                       {d.toLocaleDateString("en-SG", { weekday: "short" })}
                     </div>
-                    <div className="text-sm font-extrabold text-slate-900">{d.getDate()}</div>
-                    <div className="text-[9px] text-slate-400 font-medium">
+                    <div className="text-sm font-extrabold text-foreground">{d.getDate()}</div>
+                    <div className="text-[9px] text-foreground-variant font-medium">
                       {d.toLocaleDateString("en-SG", { month: "short" })}
                     </div>
                   </div>
@@ -209,9 +293,9 @@ function CalendarTab({ viewings, refetch }) {
             {GRID_HOURS.map((hour) => (
               <div
                 key={hour}
-                className="grid grid-cols-[80px_repeat(14,minmax(0,1fr))] border-b border-slate-100"
+                className="grid grid-cols-[80px_repeat(14,minmax(0,1fr))] border-b border-border"
               >
-                <div className="p-2 text-[10px] text-slate-500 font-bold border-r border-slate-200 bg-slate-50/40">
+                <div className="p-2 text-[10px] text-foreground-variant font-bold border-r border-border bg-surface-container/40">
                   {hour > 12 ? `${hour - 12}pm` : `${hour}${hour === 12 ? "pm" : "am"}`}
                 </div>
                 {days.map((d) => {
@@ -220,8 +304,8 @@ function CalendarTab({ viewings, refetch }) {
                   return (
                     <div
                       key={`${dayIso}-${hour}`}
-                      className={`grid grid-rows-2 border-r border-slate-100 last:border-r-0 ${
-                        isWeekend ? "bg-honey-50/30" : ""
+                      className={`grid grid-rows-2 border-r border-border last:border-r-0 ${
+                        isWeekend ? "bg-white/5" : ""
                       }`}
                     >
                       {[0, 1].map((half) => {
@@ -232,10 +316,24 @@ function CalendarTab({ viewings, refetch }) {
                         const cancelled =
                           viewing?.status === "cancelled" || viewing?.status === "CANCELLED";
                         const free = !viewing;
+                        const gcalBusy = free && gcalBlockedKeys.has(key);
+                        // Inside a booking window we set on gcal? Mirrors what
+                        // prospects see at lazybee.sg/book — anything outside
+                        // a window is unbookable from their side.
+                        const anchorKey = propertyFilter || "ALL";
+                        const inWindow =
+                          windowKeys.has(key) &&
+                          (!propertyFilter ||
+                            (windowKeysByAnchor[anchorKey]?.has(key) ?? false) ||
+                            (windowKeysByAnchor.ALL?.has(key) ?? false));
                         return (
                           <button
                             key={`${key}-${half}`}
                             onClick={() => {
+                              if (gcalBusy) {
+                                // GCal-only busy — no admin write path, just informational.
+                                return;
+                              }
                               if (free) {
                                 setActiveBlock({
                                   property: propertyFilter || "TG",
@@ -251,14 +349,18 @@ function CalendarTab({ viewings, refetch }) {
                                 setActiveViewing(viewing);
                               }
                             }}
-                            className={`block min-h-[16px] border-b border-slate-50 last:border-b-0 transition-colors ${
+                            className={`block min-h-[16px] border-b border-border last:border-b-0 transition-colors ${
                               blocked
-                                ? "bg-slate-300 hover:bg-slate-400"
+                                ? "bg-white/20 hover:bg-white/30"
                                 : cancelled
-                                  ? "bg-red-50 hover:bg-red-100"
+                                  ? "bg-red-500/15 hover:bg-red-500/25"
                                   : viewing
-                                    ? "bg-honey-500 hover:bg-honey-700"
-                                    : "bg-emerald-50/50 hover:bg-emerald-100"
+                                    ? "bg-accent hover:bg-accent/80"
+                                    : gcalBusy
+                                      ? "bg-red-500/40 cursor-not-allowed"
+                                      : inWindow
+                                        ? "bg-emerald-500/40 hover:bg-emerald-500/50"
+                                        : "bg-emerald-500/10 hover:bg-emerald-500/20"
                             }`}
                             title={
                               viewing
@@ -281,15 +383,15 @@ function CalendarTab({ viewings, refetch }) {
 
       {/* Upcoming list */}
       <div className="mt-8">
-        <h2 className="font-['Plus_Jakarta_Sans'] text-lg font-bold text-slate-900 mb-3 tracking-tight">
+        <h2 className="font-['Hanken_Grotesk'] text-lg font-bold text-foreground mb-3 tracking-tight">
           Upcoming viewings ({upcoming.length})
         </h2>
-        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+        <div className="bg-surface rounded-2xl border border-border overflow-hidden">
           {upcoming.length === 0 ? (
-            <p className="text-sm text-slate-500 italic p-6 text-center">No upcoming viewings.</p>
+            <p className="text-sm text-foreground-variant italic p-6 text-center">No upcoming viewings.</p>
           ) : (
             <table className="w-full">
-              <thead className="bg-slate-50 border-b border-slate-200 text-[10px] uppercase tracking-widest text-slate-500 font-bold">
+              <thead className="bg-surface-container border-b border-border text-[10px] uppercase tracking-widest text-foreground-variant font-bold">
                 <tr>
                   <th className="px-4 py-2 text-left">Room</th>
                   <th className="px-4 py-2 text-left">When</th>
@@ -303,21 +405,21 @@ function CalendarTab({ viewings, refetch }) {
                 {upcoming.map((v) => {
                   const code = v.properties?.code;
                   const badge = PROPERTY_BADGE[code] || {
-                    bg: "bg-slate-100",
-                    text: "text-slate-600",
+                    bg: "bg-surface-container",
+                    text: "text-foreground-variant",
                   };
                   return (
                     <tr
                       key={v.id}
                       onClick={() => setActiveViewing(v)}
-                      className="border-b border-slate-100 last:border-b-0 hover:bg-slate-50 cursor-pointer text-sm"
+                      className="border-b border-border last:border-b-0 hover:bg-white/5 cursor-pointer text-sm"
                     >
-                      <td className="px-4 py-3 font-bold text-slate-900 tabular-nums">
+                      <td className="px-4 py-3 font-bold text-foreground tabular-nums">
                         {v.rooms?.unit_code || (
-                          <span className="text-slate-400 font-medium italic">flexible</span>
+                          <span className="text-foreground-variant font-medium italic">flexible</span>
                         )}
                       </td>
-                      <td className="px-4 py-3 font-medium text-slate-900">
+                      <td className="px-4 py-3 font-medium text-foreground">
                         {fmtDate(v.slot_start)} · {fmtTime(v.slot_start)}
                       </td>
                       <td className="px-4 py-3">
@@ -325,13 +427,13 @@ function CalendarTab({ viewings, refetch }) {
                           {code || "—"}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-slate-700">
+                      <td className="px-4 py-3 text-foreground">
                         {v.prospect_name || "Unknown"}
                       </td>
-                      <td className="px-4 py-3 text-slate-500 text-xs">
+                      <td className="px-4 py-3 text-foreground-variant text-xs">
                         {v.captain?.full_name || "—"}
                       </td>
-                      <td className="px-4 py-3 text-right text-xs text-slate-400 uppercase tracking-wider">
+                      <td className="px-4 py-3 text-right text-xs text-foreground-variant uppercase tracking-wider">
                         {v.source || "—"}
                       </td>
                     </tr>
@@ -397,14 +499,14 @@ function ViewingModal({ viewing, onClose, onChanged }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-surface rounded-2xl border border-border w-full max-w-md p-6" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-slate-900">
+          <h3 className="font-['Hanken_Grotesk'] font-bold text-lg text-foreground">
             Viewing details
           </h3>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600"
+            className="p-1 rounded-lg hover:bg-white/5 text-foreground-variant hover:text-foreground"
           >
             <span className="material-symbols-outlined">close</span>
           </button>
@@ -412,49 +514,49 @@ function ViewingModal({ viewing, onClose, onChanged }) {
 
         <div className="space-y-3 text-sm">
           <div>
-            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">When</p>
-            <p className="font-medium text-slate-900">
+            <p className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold">When</p>
+            <p className="font-medium text-foreground">
               {fmtDate(viewing.slot_start, { weekday: "long", day: "numeric", month: "long" })}
             </p>
-            <p className="text-slate-600">
+            <p className="text-foreground-variant">
               {fmtTime(viewing.slot_start)} – {fmtTime(viewing.slot_end)}
             </p>
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Property</p>
-            <p className="font-medium text-slate-900">{viewing.properties?.name || meta?.name || "—"}</p>
+            <p className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Property</p>
+            <p className="font-medium text-foreground">{viewing.properties?.name || meta?.name || "—"}</p>
             {viewing.rooms && (
-              <p className="text-slate-600 text-xs">
+              <p className="text-foreground-variant text-xs">
                 Room: {viewing.rooms.unit_code || viewing.rooms.name}
               </p>
             )}
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Prospect</p>
-            <p className="font-medium text-slate-900">{viewing.prospect_name || "—"}</p>
-            <p className="text-slate-600 text-xs">{viewing.prospect_email}</p>
-            <p className="text-slate-600 text-xs">{viewing.prospect_whatsapp}</p>
+            <p className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Prospect</p>
+            <p className="font-medium text-foreground">{viewing.prospect_name || "—"}</p>
+            <p className="text-foreground-variant text-xs">{viewing.prospect_email}</p>
+            <p className="text-foreground-variant text-xs">{viewing.prospect_whatsapp}</p>
           </div>
           {viewing.notes && (
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Notes</p>
-              <p className="text-slate-700">{viewing.notes}</p>
+              <p className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Notes</p>
+              <p className="text-foreground">{viewing.notes}</p>
             </div>
           )}
           <div>
-            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Source</p>
-            <p className="text-slate-700 uppercase tracking-wider text-xs">{viewing.source || "—"}</p>
+            <p className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Source</p>
+            <p className="text-foreground uppercase tracking-wider text-xs">{viewing.source || "—"}</p>
           </div>
         </div>
 
         {error && (
-          <div className="mt-4 p-3 rounded-lg bg-red-50 text-red-700 text-sm">{error}</div>
+          <div className="mt-4 p-3 rounded-lg bg-red-500/15 text-red-300 text-sm">{error}</div>
         )}
 
         <div className="mt-6 flex gap-2">
           <Link
             to={`/portal/admin/viewings/${viewing.id}`}
-            className="flex-1 py-2.5 bg-slate-100 text-slate-700 rounded-lg font-bold text-sm text-center hover:bg-slate-200 transition-colors"
+            className="flex-1 py-2.5 bg-surface-container text-foreground rounded-lg font-bold text-sm text-center hover:bg-white/5 transition-colors"
           >
             Open detail
           </Link>
@@ -504,29 +606,29 @@ function BlockSlotModal({ slot, onClose, onBlocked }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-surface rounded-2xl border border-border w-full max-w-sm p-6" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-slate-900">Block slot</h3>
+          <h3 className="font-['Hanken_Grotesk'] font-bold text-lg text-foreground">Block slot</h3>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600"
+            className="p-1 rounded-lg hover:bg-white/5 text-foreground-variant hover:text-foreground"
           >
             <span className="material-symbols-outlined">close</span>
           </button>
         </div>
-        <p className="text-sm text-slate-600 mb-4">
+        <p className="text-sm text-foreground-variant mb-4">
           {fmtDate(slot.slot_start, { weekday: "short", day: "numeric", month: "short" })} ·{" "}
           {fmtTime(slot.slot_start)} — {fmtTime(slot.slot_end)}
         </p>
         <div className="space-y-3 mb-4">
           <div>
-            <label className="text-[10px] uppercase tracking-widest text-slate-500 font-bold block mb-1">
+            <label className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold block mb-1">
               Property
             </label>
             <select
               value={property}
               onChange={(e) => setProperty(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-honey-500 outline-none"
+              className="w-full bg-surface-container border border-border text-foreground rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-accent outline-none"
             >
               {PROPERTY_CODES.map((c) => (
                 <option key={c} value={c}>
@@ -536,22 +638,22 @@ function BlockSlotModal({ slot, onClose, onBlocked }) {
             </select>
           </div>
           <div>
-            <label className="text-[10px] uppercase tracking-widest text-slate-500 font-bold block mb-1">
+            <label className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold block mb-1">
               Reason (optional)
             </label>
             <input
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               placeholder="Captain unavailable…"
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-honey-500 outline-none"
+              className="w-full bg-surface-container border border-border text-foreground rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-accent outline-none"
             />
           </div>
         </div>
-        {error && <p className="text-sm text-red-600 mb-3">{error}</p>}
+        {error && <p className="text-sm text-red-400 mb-3">{error}</p>}
         <button
           onClick={handleBlock}
           disabled={saving}
-          className="w-full py-2.5 bg-slate-700 text-white rounded-lg font-bold text-sm hover:bg-slate-800 disabled:opacity-50 transition-colors"
+          className="w-full py-2.5 bg-surface-container text-foreground rounded-lg font-bold text-sm hover:bg-white/5 disabled:opacity-50 transition-colors border border-border"
         >
           {saving ? "Blocking…" : "Block this slot"}
         </button>
@@ -625,14 +727,14 @@ function LeadsTab() {
 
   if (!hasLeadsTable) {
     return (
-      <div className="bg-white rounded-2xl border border-slate-200 p-10 text-center">
-        <span className="material-symbols-outlined text-4xl text-slate-400 mb-3 block">
+      <div className="bg-surface rounded-2xl border border-border p-10 text-center">
+        <span className="material-symbols-outlined text-4xl text-foreground-variant mb-3 block">
           deployed_code
         </span>
-        <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-slate-900 mb-1">
+        <h3 className="font-['Hanken_Grotesk'] font-bold text-lg text-foreground mb-1">
           Leads table not deployed yet
         </h3>
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-foreground-variant">
           Once the backend migration applies the <code>leads</code> table, this tab will populate
           automatically.
         </p>
@@ -648,8 +750,8 @@ function LeadsTab() {
           onClick={() => setStatusFilter("")}
           className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
             !statusFilter
-              ? "bg-[#A87813] text-white"
-              : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
+              ? "bg-accent text-white"
+              : "bg-surface border border-border text-foreground-variant hover:bg-white/5"
           }`}
         >
           All ({leads.length})
@@ -660,8 +762,8 @@ function LeadsTab() {
             onClick={() => setStatusFilter(s.key)}
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
               statusFilter === s.key
-                ? "bg-[#A87813] text-white"
-                : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
+                ? "bg-accent text-white"
+                : "bg-surface border border-border text-foreground-variant hover:bg-white/5"
             }`}
           >
             {s.label}
@@ -679,8 +781,8 @@ function LeadsTab() {
           title="Viewed leads with no status change for 3+ days"
           className={`ml-auto px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
             staleOnly
-              ? "bg-[#FF9D4D] text-white"
-              : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
+              ? "bg-amber-500/15 text-amber-300 border border-amber-500/25"
+              : "bg-surface border border-border text-foreground-variant hover:bg-white/5"
           }`}
         >
           <span className="material-symbols-outlined text-[14px]">history</span>
@@ -689,18 +791,18 @@ function LeadsTab() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+      <div className="bg-surface rounded-2xl border border-border overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <span className="material-symbols-outlined text-honey-700 text-3xl animate-spin">
+            <span className="material-symbols-outlined text-accent text-3xl animate-spin">
               progress_activity
             </span>
           </div>
         ) : filtered.length === 0 ? (
-          <p className="p-10 text-sm text-slate-500 italic text-center">No leads match.</p>
+          <p className="p-10 text-sm text-foreground-variant italic text-center">No leads match.</p>
         ) : (
           <table className="w-full">
-            <thead className="bg-slate-50 border-b border-slate-200 text-[10px] uppercase tracking-widest text-slate-500 font-bold">
+            <thead className="bg-surface-container border-b border-border text-[10px] uppercase tracking-widest text-foreground-variant font-bold">
               <tr>
                 <th className="px-4 py-2 text-left">Name</th>
                 <th className="px-4 py-2 text-left">Contact</th>
@@ -717,25 +819,25 @@ function LeadsTab() {
                   <tr
                     key={l.id}
                     onClick={() => setActiveLead(l)}
-                    className="border-b border-slate-100 last:border-b-0 hover:bg-slate-50 cursor-pointer text-sm"
+                    className="border-b border-border last:border-b-0 hover:bg-white/5 cursor-pointer text-sm"
                   >
-                    <td className="px-4 py-3 font-medium text-slate-900">{l.name}</td>
-                    <td className="px-4 py-3 text-slate-600 text-xs">
+                    <td className="px-4 py-3 font-medium text-foreground">{l.name}</td>
+                    <td className="px-4 py-3 text-foreground-variant text-xs">
                       <div>{l.email}</div>
                       <div>{l.phone}</div>
                     </td>
-                    <td className="px-4 py-3 text-xs text-slate-600">
+                    <td className="px-4 py-3 text-xs text-foreground-variant">
                       {(l.property_interest || []).join(", ") || "—"}
                     </td>
-                    <td className="px-4 py-3 text-xs uppercase tracking-wider text-slate-400">
+                    <td className="px-4 py-3 text-xs uppercase tracking-wider text-foreground-variant">
                       {l.source || "—"}
                     </td>
                     <td className="px-4 py-3">
-                      <span className={`${status?.color || "bg-slate-100 text-slate-600"} text-[10px] font-bold px-2 py-1 rounded`}>
+                      <span className={`${status?.color || "bg-surface-container text-foreground-variant"} text-[10px] font-bold px-2 py-1 rounded`}>
                         {status?.label || l.status}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right text-xs text-slate-500">
+                    <td className="px-4 py-3 text-right text-xs text-foreground-variant">
                       {fmtDate(l.first_contact_at)}
                     </td>
                   </tr>
@@ -800,21 +902,21 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/40" onClick={onClose}>
       <div
-        className="bg-white w-full max-w-md h-full overflow-y-auto shadow-2xl"
+        className="bg-surface w-full max-w-md h-full overflow-y-auto border-l border-border"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="sticky top-0 bg-white border-b border-slate-200 p-5 flex items-start justify-between">
+        <div className="sticky top-0 bg-surface border-b border-border p-5 flex items-start justify-between">
           <div>
-            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-lg text-slate-900">
+            <h3 className="font-['Hanken_Grotesk'] font-bold text-lg text-foreground">
               {lead.name}
             </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-foreground-variant mt-0.5">
               First contact {fmtDate(lead.first_contact_at)}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600"
+            className="p-1 rounded-lg hover:bg-white/5 text-foreground-variant hover:text-foreground"
           >
             <span className="material-symbols-outlined">close</span>
           </button>
@@ -823,18 +925,18 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
         <div className="p-5 space-y-5">
           {/* Contact */}
           <section>
-            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1">
+            <p className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-1">
               Contact
             </p>
-            <p className="text-sm">{lead.email || "—"}</p>
-            <p className="text-sm">{lead.phone || "—"}</p>
+            <p className="text-sm text-foreground">{lead.email || "—"}</p>
+            <p className="text-sm text-foreground">{lead.phone || "—"}</p>
             <div className="flex gap-2 mt-2">
               {lead.phone && (
                 <a
                   href={`https://wa.me/${lead.phone.replace(/[^\d]/g, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs px-3 py-1.5 bg-[#25D366]/15 text-[#A87813] rounded-lg font-bold hover:bg-[#25D366]/25 transition-colors"
+                  className="inline-flex items-center gap-1 text-xs px-3 py-1.5 bg-[#25D366]/15 text-[#25D366] rounded-lg font-bold hover:bg-[#25D366]/25 transition-colors"
                 >
                   <span className="material-symbols-outlined text-sm">chat</span> WA
                 </a>
@@ -842,7 +944,7 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
               {lead.email && (
                 <a
                   href={`mailto:${lead.email}`}
-                  className="inline-flex items-center gap-1 text-xs px-3 py-1.5 bg-slate-100 text-slate-700 rounded-lg font-bold hover:bg-slate-200 transition-colors"
+                  className="inline-flex items-center gap-1 text-xs px-3 py-1.5 bg-surface-container text-foreground rounded-lg font-bold hover:bg-white/5 transition-colors"
                 >
                   <span className="material-symbols-outlined text-sm">mail</span> Email
                 </a>
@@ -852,7 +954,7 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
 
           {/* Status */}
           <section>
-            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2">
+            <p className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-2">
               Status
             </p>
             <div className="grid grid-cols-2 gap-2">
@@ -863,8 +965,8 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
                   disabled={saving}
                   className={`text-xs font-bold py-2 rounded-lg border transition-all ${
                     lead.status === s.key
-                      ? "border-[#A87813] bg-[#A87813] text-white"
-                      : "border-slate-200 bg-white text-slate-600 hover:border-[#A87813] hover:text-[#A87813]"
+                      ? "border-accent bg-accent text-white"
+                      : "border-border bg-surface text-foreground-variant hover:border-accent hover:text-accent"
                   }`}
                 >
                   {s.label}
@@ -876,17 +978,17 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
           {/* Linked viewing */}
           {lead.viewing && (
             <section>
-              <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1">
+              <p className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-1">
                 Linked viewing
               </p>
               <Link
                 to={`/portal/admin/viewings/${lead.viewing.id}`}
-                className="block bg-slate-50 hover:bg-slate-100 transition-colors rounded-lg p-3 text-sm"
+                className="block bg-surface-container hover:bg-white/5 transition-colors rounded-lg p-3 text-sm"
               >
-                <p className="font-medium text-slate-900">
+                <p className="font-medium text-foreground">
                   {fmtDate(lead.viewing.slot_start)} · {fmtTime(lead.viewing.slot_start)}
                 </p>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-foreground-variant">
                   Status: {lead.viewing.status || "—"}
                 </p>
               </Link>
@@ -895,26 +997,26 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
 
           {/* Notes */}
           <section>
-            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1">
+            <p className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-1">
               Notes
             </p>
             <textarea
               rows={4}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-honey-500 outline-none resize-none"
+              className="w-full bg-surface-container border border-border text-foreground rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-accent outline-none resize-none"
               placeholder="Internal notes…"
             />
             <button
               onClick={saveNotes}
               disabled={saving}
-              className="mt-2 px-4 py-2 bg-[#A87813] text-white rounded-lg font-bold text-xs hover:bg-[#A87813]/90 disabled:opacity-50 transition-colors"
+              className="mt-2 px-4 py-2 bg-accent text-white rounded-full font-bold text-xs hover:bg-accent/90 disabled:opacity-50 transition-colors"
             >
               {saving ? "Saving…" : "Save notes"}
             </button>
           </section>
 
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && <p className="text-sm text-red-400">{error}</p>}
         </div>
       </div>
     </div>
@@ -970,10 +1072,10 @@ export function NeedsOutcomeTab({ viewings, refetch }) {
 
   if (!pending.length) {
     return (
-      <div className="bg-white rounded-xl border border-slate-200 p-10 text-center">
-        <span className="material-symbols-outlined text-emerald-600 text-4xl">task_alt</span>
-        <p className="mt-2 font-bold text-slate-900">Every past viewing is closed out.</p>
-        <p className="text-sm text-slate-500 mt-1">
+      <div className="bg-surface rounded-xl border border-border p-10 text-center">
+        <span className="material-symbols-outlined text-emerald-300 text-4xl">task_alt</span>
+        <p className="mt-2 font-bold text-foreground">Every past viewing is closed out.</p>
+        <p className="text-sm text-foreground-variant mt-1">
           Nothing is ageing. Conversion numbers are trustworthy.
         </p>
       </div>
@@ -982,15 +1084,15 @@ export function NeedsOutcomeTab({ viewings, refetch }) {
 
   return (
     <div className="space-y-3">
-      <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3">
-        <p className="text-sm text-amber-900">
+      <div className="rounded-xl border border-amber-500/25 bg-amber-500/15 px-4 py-3">
+        <p className="text-sm text-amber-300">
           <strong>{pending.length}</strong>{" "}
           {pending.length === 1 ? "viewing has" : "viewings have"} been and gone with nobody saying
           what happened. Until these are answered, viewing-to-signed conversion cannot be measured.
         </p>
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-300">{error}</p>}
 
       {pending.map((v) => {
         const when = v.slot_start || v.viewing_date;
@@ -1001,11 +1103,11 @@ export function NeedsOutcomeTab({ viewings, refetch }) {
         const asking = askingId === v.id;
 
         return (
-          <div key={v.id} className="bg-white rounded-xl border border-slate-200 p-4">
+          <div key={v.id} className="bg-surface rounded-xl border border-border p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="font-bold text-slate-900">{v.prospect_name || "Unnamed prospect"}</p>
-                <p className="text-sm text-slate-500 mt-0.5">
+                <p className="font-bold text-foreground">{v.prospect_name || "Unnamed prospect"}</p>
+                <p className="text-sm text-foreground-variant mt-0.5">
                   {v.properties?.name || "Unknown property"}
                   {v.rooms?.unit_code ? ` · ${v.rooms.unit_code}` : ""}
                   {when ? ` · ${new Date(v.slot_start || when).toLocaleDateString("en-SG", { day: "numeric", month: "short" })}` : ""}
@@ -1013,7 +1115,7 @@ export function NeedsOutcomeTab({ viewings, refetch }) {
                 </p>
               </div>
               {daysAgo !== null && daysAgo >= 7 && (
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full bg-red-100 text-red-700">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full bg-red-500/15 text-red-300">
                   {daysAgo} days overdue
                 </span>
               )}
@@ -1024,35 +1126,35 @@ export function NeedsOutcomeTab({ viewings, refetch }) {
                 <button
                   disabled={busy}
                   onClick={() => setAskingId(v.id)}
-                  className="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-bold hover:bg-emerald-700 disabled:opacity-50"
+                  className="px-4 py-2 rounded-lg bg-accent text-white text-sm font-bold hover:bg-accent/90 disabled:opacity-50"
                 >
                   Attended
                 </button>
                 <button
                   disabled={busy}
                   onClick={() => record(v, "no_show")}
-                  className="px-4 py-2 rounded-lg bg-slate-200 text-slate-800 text-sm font-bold hover:bg-slate-300 disabled:opacity-50"
+                  className="px-4 py-2 rounded-lg bg-surface-container text-foreground text-sm font-bold border border-border hover:bg-white/5 disabled:opacity-50"
                 >
                   No show
                 </button>
                 <button
                   disabled={busy}
                   onClick={() => record(v, "cancelled")}
-                  className="px-4 py-2 rounded-lg bg-slate-200 text-slate-800 text-sm font-bold hover:bg-slate-300 disabled:opacity-50"
+                  className="px-4 py-2 rounded-lg bg-surface-container text-foreground text-sm font-bold border border-border hover:bg-white/5 disabled:opacity-50"
                 >
                   Cancelled
                 </button>
               </div>
             ) : (
               <div className="mt-3">
-                <p className="text-sm font-bold text-slate-700 mb-2">They came. What happened?</p>
+                <p className="text-sm font-bold text-foreground mb-2">They came. What happened?</p>
                 <div className="flex flex-wrap gap-2">
                   {ATTENDED_RESULTS.map((r) => (
                     <button
                       key={r.value}
                       disabled={busy}
                       onClick={() => record(v, "attended", r.value)}
-                      className="px-4 py-2 rounded-lg bg-honey-100 text-honey-800 text-sm font-bold hover:bg-honey-200 disabled:opacity-50"
+                      className="px-4 py-2 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/25 text-sm font-bold hover:bg-amber-500/25 disabled:opacity-50"
                     >
                       {r.label}
                     </button>
@@ -1060,7 +1162,7 @@ export function NeedsOutcomeTab({ viewings, refetch }) {
                   <button
                     disabled={busy}
                     onClick={() => setAskingId(null)}
-                    className="px-3 py-2 rounded-lg text-slate-500 text-sm font-bold hover:text-slate-700 disabled:opacity-50"
+                    className="px-3 py-2 rounded-lg text-foreground-variant text-sm font-bold hover:text-foreground disabled:opacity-50"
                   >
                     Back
                   </button>
@@ -1124,10 +1226,10 @@ export default function AdminViewingsPage() {
     <PortalLayout>
       <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="font-['Hanken_Grotesk'] text-2xl font-extrabold text-foreground tracking-tight">
             Viewings
           </h1>
-          <p className="text-sm text-slate-500 font-medium mt-1">
+          <p className="text-sm text-foreground-variant font-medium mt-1">
             Calendar grid + leads pipeline · 14-day horizon
           </p>
         </div>
@@ -1136,14 +1238,14 @@ export default function AdminViewingsPage() {
         <div className="relative">
           <button
             onClick={() => setShowCopyMenu((v) => !v)}
-            className="bg-white border border-slate-200 text-slate-700 py-2.5 px-5 rounded-lg font-bold text-sm flex items-center gap-2 shadow-sm hover:border-honey-500 hover:text-honey-800 transition-all"
+            className="bg-surface border border-border text-foreground py-2.5 px-5 rounded-lg font-bold text-sm flex items-center gap-2 hover:border-accent hover:text-accent transition-all"
           >
             <span className="material-symbols-outlined text-[20px]">link</span>
             Copy booking link
             <span className="material-symbols-outlined text-[16px]">expand_more</span>
           </button>
           {showCopyMenu && (
-            <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-xl shadow-xl border border-slate-200 z-30 overflow-hidden">
+            <div className="absolute right-0 top-full mt-2 w-72 bg-surface rounded-xl border border-border z-30 overflow-hidden">
               <DeepLinkMenu onCopy={copyDeepLink} onClose={() => setShowCopyMenu(false)} />
             </div>
           )}
@@ -1173,7 +1275,7 @@ export default function AdminViewingsPage() {
 
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <span className="material-symbols-outlined text-honey-700 text-3xl animate-spin">
+          <span className="material-symbols-outlined text-accent text-3xl animate-spin">
             progress_activity
           </span>
         </div>
@@ -1189,25 +1291,17 @@ export default function AdminViewingsPage() {
 }
 
 function DeepLinkMenu({ onCopy, onClose }) {
-  const [rooms, setRooms] = useState([]);
-  useEffect(() => {
-    supabase
-      .from("rooms")
-      .select("id, name, unit_code, property_id, is_available, properties(code, name)")
-      .order("unit_code")
-      .then(({ data }) => setRooms(data || []));
-  }, []);
   const origin = typeof window !== "undefined" ? window.location.origin : "https://lazybee.sg";
 
   return (
     <div className="max-h-96 overflow-y-auto">
-      <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
-        <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">
+      <div className="px-4 py-3 border-b border-border flex items-center justify-between">
+        <span className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold">
           Property links
         </span>
         <button
           onClick={onClose}
-          className="text-slate-400 hover:text-slate-600 text-xs"
+          className="text-foreground-variant hover:text-foreground text-xs"
         >
           ✕
         </button>
@@ -1218,35 +1312,13 @@ function DeepLinkMenu({ onCopy, onClose }) {
           <button
             key={code}
             onClick={() => onCopy(url)}
-            className="w-full px-4 py-2 text-left hover:bg-slate-50 flex items-center justify-between text-sm border-b border-slate-50"
+            className="w-full px-4 py-2 text-left hover:bg-white/5 flex items-center justify-between text-sm border-b border-border text-foreground"
           >
             <span className="font-medium">{PROPERTY_META[code].name}</span>
-            <span className="text-xs text-slate-400">/{code}</span>
+            <span className="text-xs text-foreground-variant">/{code}</span>
           </button>
         );
       })}
-      <div className="px-4 py-3 border-y border-slate-100">
-        <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">
-          Room links
-        </span>
-      </div>
-      {rooms
-        .filter((r) => r.is_available !== false && r.properties?.code)
-        .map((r) => {
-          const url = `${origin}/book/${r.properties.code}/${r.unit_code}`;
-          return (
-            <button
-              key={r.id}
-              onClick={() => onCopy(url)}
-              className="w-full px-4 py-2 text-left hover:bg-slate-50 flex items-center justify-between text-xs border-b border-slate-50"
-            >
-              <span className="font-medium text-slate-700">
-                {r.properties.code} · {r.unit_code}
-              </span>
-              <span className="text-slate-400">copy</span>
-            </button>
-          );
-        })}
     </div>
   );
 }

@@ -5,11 +5,11 @@ import CaptainBadge from "./CaptainBadge";
 const CATEGORY_BADGE = "bg-secondary text-secondary-foreground";
 
 const STATUS_CONFIG = {
-  OPEN: { label: "Open", class: "bg-red-100 text-red-700" },
-  ACKNOWLEDGED: { label: "Acknowledged", class: "bg-blue-100 text-blue-700" },
-  IN_PROGRESS: { label: "In Progress", class: "bg-yellow-100 text-yellow-700" },
-  ESCALATED: { label: "Escalated", class: "bg-orange-100 text-orange-700" },
-  RESOLVED: { label: "Resolved", class: "bg-green-100 text-green-700" },
+  OPEN: { label: "Open", class: "bg-red-500/15 text-red-300" },
+  ACKNOWLEDGED: { label: "Acknowledged", class: "bg-blue-500/15 text-blue-300" },
+  IN_PROGRESS: { label: "In Progress", class: "bg-yellow-500/15 text-amber-300" },
+  ESCALATED: { label: "Escalated", class: "bg-amber-500/15 text-amber-300" },
+  RESOLVED: { label: "Resolved", class: "bg-emerald-500/15 text-emerald-300" },
 };
 
 export default function TicketCard({ ticket, onAction, onWithdraw }) {
@@ -70,7 +70,7 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
   return (
     <div
       className={`rounded-lg p-4 space-y-3 bg-card border ${
-        is_flagged ? "border-red-400 border-2 ring-1 ring-red-200" : ""
+        is_flagged ? "border-red-500/50 border-2 ring-1 ring-red-500/25" : ""
       }`}
     >
       {/* Header row */}
@@ -78,7 +78,7 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
         {/* Flag indicator */}
         {is_flagged && (
           <span
-            className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700"
+            className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-red-500/15 text-red-300"
             title="Flagged urgent"
           >
             <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>flag</span>
@@ -137,9 +137,9 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
 
       {/* Resolution note */}
       {resolution_note && (
-        <div className="bg-green-50 border border-green-200 rounded p-3">
-          <p className="text-xs font-medium text-green-700 mb-0.5">Resolution</p>
-          <p className="text-sm text-green-800">{resolution_note}</p>
+        <div className="bg-emerald-500/10 border border-emerald-500/25 rounded p-3">
+          <p className="text-xs font-medium text-emerald-300 mb-0.5">Resolution</p>
+          <p className="text-sm text-emerald-300">{resolution_note}</p>
         </div>
       )}
 
@@ -153,8 +153,8 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
               onClick={() => onAction(id, is_flagged ? "unflag" : "flag")}
               className={`px-3 py-1 rounded text-xs font-medium transition-colors inline-flex items-center gap-1 ${
                 is_flagged
-                  ? "bg-red-100 text-red-700 hover:bg-red-200"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  ? "bg-red-500/15 text-red-300 hover:bg-red-500/25"
+                  : "bg-surface-container text-foreground hover:bg-white/5"
               }`}
             >
               <span className="material-symbols-outlined text-[14px]" style={is_flagged ? { fontVariationSettings: "'FILL' 1" } : {}}>flag</span>
@@ -165,7 +165,7 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
             <button
               type="button"
               onClick={() => onAction(id, "acknowledge")}
-              className="px-3 py-1 rounded text-xs font-medium bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors"
+              className="px-3 py-1 rounded text-xs font-medium bg-blue-500/15 text-blue-300 hover:bg-blue-500/25 transition-colors"
               title="Tell the resident we've seen this"
             >
               Acknowledge
@@ -184,7 +184,7 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
             <button
               type="button"
               onClick={() => onAction(id, "escalate")}
-              className="px-3 py-1 rounded text-xs font-medium bg-orange-100 text-orange-700 hover:bg-orange-200 transition-colors"
+              className="px-3 py-1 rounded text-xs font-medium bg-amber-500/15 text-amber-300 hover:bg-amber-500/25 transition-colors"
             >
               Escalate
             </button>
@@ -193,7 +193,7 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
             <button
               type="button"
               onClick={() => onAction(id, "resolve")}
-              className="px-3 py-1 rounded text-xs font-medium bg-green-100 text-green-700 hover:bg-green-200 transition-colors"
+              className="px-3 py-1 rounded text-xs font-medium bg-emerald-500/15 text-emerald-300 hover:bg-emerald-500/25 transition-colors"
             >
               Resolve
             </button>
@@ -208,7 +208,7 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
             type="button"
             onClick={handleWithdraw}
             disabled={withdrawing}
-            className="px-3 py-1 rounded text-xs font-medium bg-red-50 text-red-600 hover:bg-red-100 transition-colors disabled:opacity-50"
+            className="px-3 py-1 rounded text-xs font-medium bg-red-500/15 text-red-300 hover:bg-red-500/25 transition-colors disabled:opacity-50"
           >
             {withdrawing ? "Withdrawing..." : "Withdraw"}
           </button>

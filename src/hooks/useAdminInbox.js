@@ -124,22 +124,46 @@ export function useAdminInbox() {
         });
       });
 
-      // ── 6. Stale leads (viewed > 3 days, no follow-up) — AMBER
-      const cutoff3d = new Date(Date.now() - 3 * 24 * 3600 * 1000).toISOString();
-      const { data: staleLeads } = await supabase
+      // ── 6. Leads needing follow-up — AMBER
+      // Any active lead that has gone quiet past its per-stage SLA surfaces here
+      // so a hot prospect never silently rots on the Kanban. Cleared the moment
+      // the lead is messaged (last_message_at bumps) or its stage advances.
+      const FOLLOWUP_SLA_DAYS = {
+        new: 2,            // qualify fast or lose them
+        qualified: 3,      // send a room / book a viewing
+        viewing_booked: 2, // confirm slot + host
+        viewed: 3,         // close the loop after a viewing
+        viewing_done: 3,
+        agreement_sent: 2, // chase the signature
+      };
+      const FOLLOWUP_LABEL = {
+        new: "qualify",
+        qualified: "send room / book viewing",
+        viewing_booked: "confirm viewing",
+        viewed: "follow up post-viewing",
+        viewing_done: "follow up post-viewing",
+        agreement_sent: "chase signature",
+      };
+      const { data: followupLeads } = await supabase
         .from("leads")
-        .select("id, name, status, updated_at, properties(code)")
-        .eq("status", "viewed")
-        .lt("updated_at", cutoff3d);
-      (staleLeads ?? []).forEach((l) => {
+        .select("id, name, status, last_message_at, updated_at, intent")
+        .in("status", Object.keys(FOLLOWUP_SLA_DAYS));
+      (followupLeads ?? []).forEach((l) => {
+        const slaDays = FOLLOWUP_SLA_DAYS[l.status];
+        if (!slaDays) return;
+        const lastTouch = l.last_message_at || l.updated_at;
+        if (!lastTouch) return;
+        const ageDays = (Date.now() - new Date(lastTouch).getTime()) / 86400000;
+        if (ageDays < slaDays) return;
+        const props = Array.isArray(l.intent?.properties) ? l.intent.properties.join("/") : null;
         out.push({
           key: `lead-${l.id}`,
           severity: "amber",
-          icon: "history",
-          label: `Lead pending follow-up — ${l.name || "Prospect"}`,
-          meta: l.properties?.code,
-          to: "/portal/admin/viewings?tab=leads",
-          time: l.updated_at,
+          icon: "track_changes",
+          label: `Lead needs follow-up (${FOLLOWUP_LABEL[l.status] || l.status}) — ${l.name || "Prospect"}`,
+          meta: props,
+          to: "/portal/admin/leads",
+          time: lastTouch,
         });
       });
 
