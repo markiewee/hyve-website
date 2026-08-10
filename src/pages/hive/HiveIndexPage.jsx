@@ -16,7 +16,6 @@ import { indexMeta, HIVE_TITLE, HIVE_BLURB } from '../../lib/hiveRoutes';
 import { usePageMeta } from '../../lib/pageMeta';
 import { useReveal } from '../../hooks/useReveal';
 import { useScrollTop } from '../../hooks/useScrollTop';
-import { useLazybeeTheme } from '../../hooks/useLazybeeTheme';
 import {
   HiveHeader, HiveFooter, HiveBanner, TopicChips, LeadCard, ArticleCard, Pagination,
 } from '../../components/hive/HiveChrome';
@@ -33,7 +32,6 @@ export default function HiveIndexPage() {
   const page = parsePage(rawPage);
   const valid = page >= 1 && page <= PAGE_COUNT && rawPage !== '1';
 
-  const [theme, toggleTheme] = useLazybeeTheme();
   const rootRef = useRef(null);
   useReveal(rootRef, page);
   useScrollTop(page);
@@ -51,8 +49,8 @@ export default function HiveIndexPage() {
   const rest = page === 1 ? items.slice(1) : items;
 
   return (
-    <div className="lzb hive" data-theme={theme} ref={rootRef}>
-      <HiveHeader theme={theme} onToggleTheme={toggleTheme} />
+    <div className="lzb hive" data-theme="alabaster" ref={rootRef}>
+      <HiveHeader />
 
       <HiveBanner
         kicker={page > 1 ? `The Lazybee journal · page ${page} of ${PAGE_COUNT}` : 'The Lazybee journal'}

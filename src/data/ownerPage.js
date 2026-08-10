@@ -1,43 +1,47 @@
 // src/data/ownerPage.js
 //
 // Every list on the owner homepage, kept as data rather than buried in JSX.
-// Copy ported verbatim from design-preview/owners.html. Mark edits words here,
-// not in a component.
+//
+// Since the page went bilingual on 10 Aug 2026 these arrays hold dictionary KEYS
+// rather than English strings: the words themselves live in src/i18n/en.json and
+// zh.json under `owner.*`, and the components resolve them through `t()`. The
+// order and the shape of each list still lives here, which is what the JSX cares
+// about. Mark edits words in the dictionaries now, not in this file.
 
 /* ── the comparison table ─────────────────────────────────────────── */
 export const COMPARE_HEADS = [
-  'Agent, then a fixed lease',
-  'Run it yourself, room by room',
-  'Lazybee, floor plus share',
+  'owner.compare.head1',
+  'owner.compare.head2',
+  'owner.compare.head3',
 ];
 
 export const COMPARE_ROWS = [
-  ['What you earn', 'One number, fixed for the term', 'Everything, minus everything', 'A floor, plus half of everything above it'],
-  ['Locked in for', 'Two or three years, from signature', 'Nothing, it is all on you', 'Ninety days, then it is your call'],
-  ['Cost to find out', "An agent's time, then a decision", 'Your evenings', 'Nothing. We spend first, you decide after'],
-  ['The empty month', 'Yours, at every turnover', 'Yours', 'Ours. The floor still lands on the first'],
-  ['Finding tenants', 'Two portals, then waiting', 'You, every single time', 'Fourteen channels, most of them outside Singapore'],
-  ['Agent commission', 'Half a month, again at every renewal', 'None', 'None, ever'],
-  ['Furniture and fit-out', 'Yours, or you let it bare and price it lower', 'Yours', 'Ours, at our cost, to one standard'],
-  ['Who answers at 2am', 'You', 'You', 'A house captain who lives in the building'],
-  ['Your hours a month', 'Two to four, spiking at turnover', 'Eight to fifteen', 'None, unless you want them'],
-  ['What you can see', 'A bank transfer', 'Everything, because you are doing it', 'Everything, live, in an owner portal'],
-  ['If a tenant stops paying', 'Your problem, and your lawyer', 'Your problem', 'Ours. It does not touch your floor'],
+  ['owner.compare.earn.k', 'owner.compare.earn.a', 'owner.compare.earn.b', 'owner.compare.earn.us'],
+  ['owner.compare.locked.k', 'owner.compare.locked.a', 'owner.compare.locked.b', 'owner.compare.locked.us'],
+  ['owner.compare.cost.k', 'owner.compare.cost.a', 'owner.compare.cost.b', 'owner.compare.cost.us'],
+  ['owner.compare.void.k', 'owner.compare.void.a', 'owner.compare.void.b', 'owner.compare.void.us'],
+  ['owner.compare.finding.k', 'owner.compare.finding.a', 'owner.compare.finding.b', 'owner.compare.finding.us'],
+  ['owner.compare.commission.k', 'owner.compare.commission.a', 'owner.compare.commission.b', 'owner.compare.commission.us'],
+  ['owner.compare.furniture.k', 'owner.compare.furniture.a', 'owner.compare.furniture.b', 'owner.compare.furniture.us'],
+  ['owner.compare.twoam.k', 'owner.compare.twoam.a', 'owner.compare.twoam.b', 'owner.compare.twoam.us'],
+  ['owner.compare.hours.k', 'owner.compare.hours.a', 'owner.compare.hours.b', 'owner.compare.hours.us'],
+  ['owner.compare.see.k', 'owner.compare.see.a', 'owner.compare.see.b', 'owner.compare.see.us'],
+  ['owner.compare.arrears.k', 'owner.compare.arrears.a', 'owner.compare.arrears.b', 'owner.compare.arrears.us'],
 ];
 
 /* ── the ninety day trial ─────────────────────────────────────────── */
 export const ZEROS = [
-  'To try it',
-  'Furnishing and photography',
-  'Agent commission, ever',
-  'To walk away at day ninety',
+  'owner.trial.zero1',
+  'owner.trial.zero2',
+  'owner.trial.zero3',
+  'owner.trial.zero4',
 ];
 
 export const TRIAL_KEEPS = [
-  ['Condition report and photo set', 'Yours, from day one'],
-  ['Every floor payment already made', 'Never clawed back'],
-  ['Our list of what the unit needs', 'Yours, even if you say no'],
-  ['The unit itself', 'Back as we found it'],
+  ['owner.trial.keep1.k', 'owner.trial.keep1.v'],
+  ['owner.trial.keep2.k', 'owner.trial.keep2.v'],
+  ['owner.trial.keep3.k', 'owner.trial.keep3.v'],
+  ['owner.trial.keep4.k', 'owner.trial.keep4.v'],
 ];
 
 /* ── how it runs ──────────────────────────────────────────────────── */
@@ -101,10 +105,10 @@ export const CHANNELS_SOON = [
 
 /* ── compliance ───────────────────────────────────────────────────── */
 export const COMPLIANCE = [
-  ['Minimum stay', 'Never short-let', 'Every tenancy is written at three months or longer, inside the URA rule for private homes. No nightly stays, no exceptions, no letter from the authorities.'],
-  ['Occupancy', 'Inside the cap', 'We let to the occupancy limit for your property type and write that limit into the agreement, so an extra body cannot quietly appear.'],
-  ['Data', 'PDPA, and GDPR', 'Tenant identity documents are collected once, stored encrypted, masked in the portal, and deleted on schedule. Our tenants come from Europe too, so we hold to GDPR as well.'],
-  ['Stamping', 'IRAS, by us', 'Every agreement is stamped, and we do the stamping for tenants who have no Singapore bank account yet. The certificate sits in your portal.'],
+  ['owner.legal.stay.label', 'owner.legal.stay.head', 'owner.legal.stay.body'],
+  ['owner.legal.occ.label', 'owner.legal.occ.head', 'owner.legal.occ.body'],
+  ['owner.legal.data.label', 'owner.legal.data.head', 'owner.legal.data.body'],
+  ['owner.legal.stamp.label', 'owner.legal.stamp.head', 'owner.legal.stamp.body'],
 ];
 
 /* ── The Hive teaser ──────────────────────────────────────────────── */
@@ -119,19 +123,19 @@ export const POSTS = [
 
 /* ── FAQ ──────────────────────────────────────────────────────────── */
 export const FAQ = [
-  ['What is the catch with the ninety days?', 'That we spend real money on your unit before you owe us anything, and we are betting you will not want to unwind it once you have watched it run. That is the bet, and it is on our side of the table. The only string is the tenancies: anyone we house signs a real lease, so at day ninety you either take those over as they stand or give us the time to see them out.'],
-  ['What if the rooms sit empty?', 'Then you are paid the floor and we are paid nothing. The floor is the first call on the money, ahead of our costs and well ahead of our margin. That is the point of the structure, and it is why we will not quote a floor before we have seen the unit.'],
-  ['So the floor is just a lease with extra steps?', 'In a bad year, yes, and deliberately so. The difference shows up in a normal year, when a lease would have kept the whole upside on our side of the table and this does not.'],
-  ['Who pays for the furniture?', 'We do, at our cost, to one standard across every home. You put in nothing. At the end of the term the unit comes back the way we found it, or better, with the condition written down and photographed on day one.'],
-  ['Can I actually see what is happening?', 'Yes, from the day you sign, and you can see most of it on this page already. Every booking, every rate, every payout line, the tenant documents, the maintenance log and the inspection photos. Not a quarterly PDF.'],
-  ['What if I want the unit back?', 'There is a notice period and it is in the agreement before you sign. We will not hold your asset hostage. What we ask is enough notice to see out the tenancies already signed, because those are real people with leases.'],
-  ['Is my unit even eligible?', 'Private condominiums and apartments, let at three months or longer, within the occupancy cap. HDB flats do not work for this model and we will say so rather than waste your afternoon.'],
-  ['Who deals with a tenant who stops paying?', 'We do, and it does not touch your floor. You will read about it in the arrears log if you want to. You will not be asked to do anything about it.'],
+  ['owner.faq.catch.q', 'owner.faq.catch.a'],
+  ['owner.faq.empty.q', 'owner.faq.empty.a'],
+  ['owner.faq.lease.q', 'owner.faq.lease.a'],
+  ['owner.faq.furniture.q', 'owner.faq.furniture.a'],
+  ['owner.faq.see.q', 'owner.faq.see.a'],
+  ['owner.faq.back.q', 'owner.faq.back.a'],
+  ['owner.faq.eligible.q', 'owner.faq.eligible.a'],
+  ['owner.faq.arrears.q', 'owner.faq.arrears.a'],
 ];
 
 /* ── what happens after the coffee form ───────────────────────────── */
 export const WHAT_HAPPENS = [
-  ['Within a day', 'Marcus messages you on WhatsApp to pick a time and a place. Your place, your office, the coffee shop downstairs, whichever is least effort for you.'],
-  ['Forty minutes, in person', 'No slides and no laptop. He brings a printed one page read on your unit, worked out from what you have entered here plus what the district is actually renting for.'],
-  ['You keep the paper', 'Whether you go ahead or not. If your unit is not a fit he will say so at the table rather than send you a polite email next week.'],
+  ['owner.ask.wh1.t', 'owner.ask.wh1.b'],
+  ['owner.ask.wh2.t', 'owner.ask.wh2.b'],
+  ['owner.ask.wh3.t', 'owner.ask.wh3.b'],
 ];

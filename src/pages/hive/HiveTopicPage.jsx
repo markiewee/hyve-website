@@ -22,7 +22,6 @@ import { topicMeta, HIVE_TITLE } from '../../lib/hiveRoutes';
 import { usePageMeta } from '../../lib/pageMeta';
 import { useReveal } from '../../hooks/useReveal';
 import { useScrollTop } from '../../hooks/useScrollTop';
-import { useLazybeeTheme } from '../../hooks/useLazybeeTheme';
 import {
   HiveHeader, HiveFooter, HiveBanner, TopicChips, LeadCard, ArticleCard,
 } from '../../components/hive/HiveChrome';
@@ -33,7 +32,6 @@ export default function HiveTopicPage() {
   const { tag } = useParams();
   const topic = topicBySlug(tag);
 
-  const [theme, toggleTheme] = useLazybeeTheme();
   const rootRef = useRef(null);
   useReveal(rootRef, tag);
   useScrollTop(tag);
@@ -45,8 +43,8 @@ export default function HiveTopicPage() {
   const [lead, ...rest] = topic.articles;
 
   return (
-    <div className="lzb hive" data-theme={theme} ref={rootRef}>
-      <HiveHeader theme={theme} onToggleTheme={toggleTheme} />
+    <div className="lzb hive" data-theme="alabaster" ref={rootRef}>
+      <HiveHeader />
 
       <HiveBanner
         kicker={<>The Lazybee journal · <Link to="/hive" className="bannerlink">all subjects</Link></>}

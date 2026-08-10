@@ -28,7 +28,16 @@
     "maintenance": "Maintenance",
     "logout": "Logout",
     "welcome": "Welcome, {name}",
-    "defaultName": "Member"
+    "defaultName": "Member",
+    "earnings": "Metrics",
+    "compare": "Why us",
+    "portfolio": "Our locations",
+    "guides": "Blog",
+    "estimate": "Free coffee",
+    "forOwners": "For owners",
+    "findRoom": "Find a room",
+    "backToHome": "Lazybee, back to the home page",
+    "backToTop": "Lazybee, back to the top"
   },
   "login": {
     "title": "Welcome Back",
@@ -36,7 +45,7 @@
     "username": "Username or Email",
     "password": "Password",
     "signIn": "Sign In",
-    "signingIn": "Signing in\u2026",
+    "signingIn": "Signing in…",
     "forgotPassword": "Forgot password?",
     "resetSent": "Password reset email sent. Check your inbox.",
     "resetEmailRequired": "Please enter your email address to reset password.",
@@ -79,7 +88,7 @@
     "outstanding": "Outstanding Balance",
     "overdue": "Overdue Balance",
     "paymentsPending": "{count} payment(s) pending",
-    "overdueWarning": "{count} overdue payment(s) \u2014 please pay immediately",
+    "overdueWarning": "{count} overdue payment(s) — please pay immediately",
     "lateFees": "Late fees are accruing at SGD {amount}/day",
     "rentPayments": "Rent Payments",
     "otherCharges": "Other Charges",
@@ -118,7 +127,7 @@
     "skipNote": "You can sign the agreement later from your Documents page",
     "saveContinue": "Save & Continue",
     "confirmContinue": "Confirm & Continue",
-    "loadingOnboarding": "Loading your onboarding\u2026",
+    "loadingOnboarding": "Loading your onboarding…",
     "notFound": "Onboarding Not Found",
     "notFoundDesc": "Your onboarding record could not be found. Please contact Lazybee support.",
     "backToDashboard": "Back to Dashboard",
@@ -151,13 +160,13 @@
     "reportFirst": "Report your first issue",
     "selectCategory": "Let's try to fix it first. Select what's wrong.",
     "trySteps": "Try these steps before submitting a ticket.",
-    "didntWork": "The self-help steps didn't resolve it \u2014 let us know the details.",
+    "didntWork": "The self-help steps didn't resolve it — let us know the details.",
     "fixed": "Fixed!",
     "gladWorked": "Great, glad that worked!",
     "backToHome": "Back to home",
     "stillBroken": "Still broken",
     "submitTicket": "Submit a ticket",
-    "skipSelfHelp": "Skip self-help \u2014 I need to report this now",
+    "skipSelfHelp": "Skip self-help — I need to report this now",
     "backToSelfHelp": "Back to self-help",
     "withdraw": "Withdraw",
     "withdrawing": "Withdrawing...",
@@ -245,12 +254,12 @@
     "processingFee": "Processing fee (4%)",
     "total": "Total",
     "payNow": "Pay Now",
-    "redirecting": "Redirecting\u2026",
+    "redirecting": "Redirecting…",
     "verified": "Deposit Verified",
     "verifiedDesc": "Your security deposit has been received and verified.",
     "pendingVerification": "Pending Verification",
     "pendingDesc": "Your bank transfer proof has been submitted. Admin will verify within 24 hours.",
-    "proofSubmitted": "Payment proof submitted \u2014 pending admin verification."
+    "proofSubmitted": "Payment proof submitted — pending admin verification."
   },
   "houseRules": {
     "acknowledge": "I acknowledge and agree to the house rules",
@@ -270,7 +279,7 @@
     "wifi": "WiFi",
     "wifiDesc": "Network: Lazybee WiFi. Password: Thelazybee2027@. Router is in the common area.",
     "laundry": "Laundry",
-    "laundryDesc": "Washing machine is in the common area. Please use it between 8am\u201310pm. Detergent is not provided.",
+    "laundryDesc": "Washing machine is in the common area. Please use it between 8am–10pm. Detergent is not provided.",
     "cleaningSchedule": "Cleaning Schedule",
     "cleaningScheduleDesc": "Common areas are cleaned weekly. Keep shared spaces tidy after use. Cleaning supplies are under the kitchen sink.",
     "wasteRecycling": "Waste & Recycling",
@@ -282,21 +291,21 @@
     "maintenance": "Maintenance Issues",
     "maintenanceDesc": "Report any issues via the portal (Issues page). For emergencies, WhatsApp us at +65 8069 5410.",
     "community": "Community",
-    "communityDesc": "Be respectful of your housemates. Quiet hours are 10pm\u20138am. Guests are welcome but overnight stays need prior notice."
+    "communityDesc": "Be respectful of your housemates. Quiet hours are 10pm–8am. Guests are welcome but overnight stays need prior notice."
   },
   "checklist": {
-    "instructions": "Check each item in your room and note its condition. Take photos of any existing damage \u2014 this protects your deposit.",
+    "instructions": "Check each item in your room and note its condition. Take photos of any existing damage — this protects your deposit.",
     "yourRoom": "Your Room",
     "attachedBathroom": "Attached Bathroom",
     "ensuiteToilet": "Ensuite Toilet (if applicable)",
     "photosOf": "Photos of {area}",
-    "photosOptional": "(optional \u2014 recommended for any damage)",
+    "photosOptional": "(optional — recommended for any damage)",
     "photosSelected": "{count} photo(s) selected",
-    "photoUploading": "\u2014 uploading\u2026",
-    "photoDone": "\u2014 uploaded",
+    "photoUploading": "— uploading…",
+    "photoDone": "— uploaded",
     "describeIssue": "Describe issue...",
     "submit": "Submit Move-In Checklist",
-    "submitting": "Submitting\u2026",
+    "submitting": "Submitting…",
     "condGood": "Good",
     "condFair": "Fair",
     "condDamaged": "Damaged",
@@ -322,9 +331,9 @@
   },
   "agreement": {
     "signAgreement": "Sign Agreement",
-    "signing": "Signing\u2026",
+    "signing": "Signing…",
     "signError": "Please sign before submitting.",
-    "loadingAgreement": "Loading agreement\u2026",
+    "loadingAgreement": "Loading agreement…",
     "loadFailed": "Failed to load agreement. Please try again.",
     "beingPrepared": "Agreement being prepared",
     "beingPreparedDesc": "Your licence agreement is being prepared. Admin will upload it shortly. Check back here once you receive a notification.",
@@ -341,7 +350,7 @@
     "tenantSigned": "Tenant signed",
     "licensorSigned": "Licensor counter-signed",
     "download": "Download Agreement",
-    "preparing": "Preparing\u2026"
+    "preparing": "Preparing…"
   },
   "tour": {
     "welcomeTitle": "Welcome to Lazybee Portal!",
@@ -435,7 +444,7 @@
     "passportPhotoPage": "Passport Photo Page",
     "frontNRIC": "Front of NRIC",
     "required": "(required)",
-    "scanning": "Scanning\u2026",
+    "scanning": "Scanning…",
     "rescan": "Rescan",
     "scanDocument": "Scan Document",
     "backNRIC": "Back of NRIC",
@@ -445,8 +454,8 @@
     "nricNumber": "NRIC Number",
     "documentNumber": "Document Number",
     "expiryDate": "Expiry Date",
-    "scanSuccess": "Document scanned \u2014 please verify the details.",
-    "scanFailed": "Scan failed \u2014 please fill in the details manually.",
+    "scanSuccess": "Document scanned — please verify the details.",
+    "scanFailed": "Scan failed — please fill in the details manually.",
     "docExpired": "Document Expired",
     "docExpiredDesc": "Your {docType} has expired. You cannot proceed with an expired document. Please provide a valid document or contact your employer for renewal.",
     "docExpiringSoon": "Document Expiring Soon",
@@ -477,7 +486,7 @@
     "passPhotoRequired": "Please upload a photo of your pass (Work Permit / EP / S Pass).",
     "passportExpired": "Your passport has expired. Please provide a valid document.",
     "passExpiredError": "Your pass has expired. Please provide a valid document.",
-    "uploading": "Uploading\u2026"
+    "uploading": "Uploading…"
   },
   "common": {
     "loading": "Loading...",
@@ -594,6 +603,338 @@
     "faq": {
       "title": "Frequently Asked Questions",
       "backToHome": "Back to Home"
+    }
+  },
+  "owner": {
+    "hero": {
+      "eyebrow": "For unit owners in Singapore",
+      "a": {
+        "line1": "Be a lazy",
+        "line2": "landlord",
+        "sub": "We do the viewings, the contracts, the cleaning. You do nothing, and you still keep half the upside."
+      },
+      "b": {
+        "line1": "We pay first.",
+        "line2": "You decide after.",
+        "sub": "We furnish it, shoot it, list it and start paying your floor, all before anything binds you to us. Ninety days later you carry on or you walk."
+      },
+      "c": {
+        "line1": "What is your unit",
+        "line2": "actually worth?",
+        "sub": "Not the asking rent. The number after the empty month, the agent and the repairs. Put in a postal code and we will show you both, side by side."
+      },
+      "postalCode": "Postal code",
+      "district": "District",
+      "typeACode": "Type a code",
+      "floorArea": "Floor area",
+      "sqft": "{n} sqft",
+      "bedrooms": "Bedrooms",
+      "cta": "Show me the split",
+      "trial": "Ninety days to decide · nothing to pay · nothing to sign today"
+    },
+    "split": {
+      "title": "A lease pays you a number. A year pays you what actually happened.",
+      "intro": "Move the sliders in the hero and this redraws. The left bar in every month is what a fixed lease really puts in your account after the void, the agent and the repairs. The right bar is what the same unit makes with us.",
+      "introBold": "The dark part is your floor. The bright part is your share.",
+      "normalYear": "A normal year with us",
+      "againstPre": "Against {lease} from a fixed lease on the same unit. That is",
+      "againstBold": "{pct}% more",
+      "againstPost": ", on an asset you already own.",
+      "versus": "Fixed lease, after the year happens",
+      "floorLabel": "Your floor, even in our worst year",
+      "floorNote": "Paid on the first, full or empty. If we let the rooms badly, we earn nothing and you still clear the lease.",
+      "cta": "Get this number for my unit",
+      "ctaNote": "Two fields, then Marcus comes to you with the real version of this chart, worked out on your actual unit.",
+      "sideBySide": "Twelve months, side by side",
+      "months": "J,F,M,A,M,J,J,A,S,O,N,D",
+      "tipLease": "Lease: {amount}",
+      "tipUs": "Lazybee: {amount}",
+      "keyLease": "Fixed lease",
+      "keyFloor": "Your floor",
+      "keyUpside": "Your share of the upside",
+      "totalLease": "Lease, twelve months",
+      "totalUs": "Lazybee, twelve months",
+      "totalDiff": "Difference",
+      "rowDistrict": "District",
+      "rowAsking": "Asking rent, whole unit",
+      "rowLetsAs": "Lets as",
+      "rowGross": "Gross room income",
+      "rowOpex": "Running costs, our side",
+      "rowFloor": "Your floor",
+      "rowShare": "Your share above it",
+      "valAsking": "S${psf} psf, {amount} / mo",
+      "valCells": "{n} cells",
+      "valPerMo": "{amount} / mo",
+      "valPctGross": "{pct}% of gross",
+      "fine": "Indicative, from median asking rents in your district and from how our own nineteen cells actually perform. The real floor is agreed in writing after we walk the unit."
+    },
+    "band": {
+      "cells": "Cells under management",
+      "let": "Let today",
+      "spend": "Owner spend on fit-out"
+    },
+    "why": {
+      "title": "We are asking for the deal that is worse for us in a bad year.",
+      "p1": "A fixed lease pays us to pay you as little as possible. We would quote low, hold your unit for three years and keep everything above the number. Every owner who has signed one has the same quiet suspicion, and the suspicion is usually correct.",
+      "p2": "A share flips it. We earn nothing until your floor is paid and the running costs are covered. Empty rooms come out of our side first. There is no version of this where we do well and you do not.",
+      "p3": "That is the whole argument. Not that we are nicer, but that we have deliberately taken the structure where the only way we make money in year two is to keep your unit full in year one."
+    },
+    "compare": {
+      "title": "Three ways to own the same unit.",
+      "sub": "The honest version, including the parts that are worse for us.",
+      "head1": "Agent, then a fixed lease",
+      "head2": "Run it yourself, room by room",
+      "head3": "Lazybee, floor plus share",
+      "earn": {
+        "k": "What you earn",
+        "a": "One number, fixed for the term",
+        "b": "Everything, minus everything",
+        "us": "A floor, plus half of everything above it"
+      },
+      "locked": {
+        "k": "Locked in for",
+        "a": "Two or three years, from signature",
+        "b": "Nothing, it is all on you",
+        "us": "Ninety days, then it is your call"
+      },
+      "cost": {
+        "k": "Cost to find out",
+        "a": "An agent's time, then a decision",
+        "b": "Your evenings",
+        "us": "Nothing. We spend first, you decide after"
+      },
+      "void": {
+        "k": "The empty month",
+        "a": "Yours, at every turnover",
+        "b": "Yours",
+        "us": "Ours. The floor still lands on the first"
+      },
+      "finding": {
+        "k": "Finding tenants",
+        "a": "Two portals, then waiting",
+        "b": "You, every single time",
+        "us": "Fourteen channels, most of them outside Singapore"
+      },
+      "commission": {
+        "k": "Agent commission",
+        "a": "Half a month, again at every renewal",
+        "b": "None",
+        "us": "None, ever"
+      },
+      "furniture": {
+        "k": "Furniture and fit-out",
+        "a": "Yours, or you let it bare and price it lower",
+        "b": "Yours",
+        "us": "Ours, at our cost, to one standard"
+      },
+      "twoam": {
+        "k": "Who answers at 2am",
+        "a": "You",
+        "b": "You",
+        "us": "A house captain who lives in the building"
+      },
+      "hours": {
+        "k": "Your hours a month",
+        "a": "Two to four, spiking at turnover",
+        "b": "Eight to fifteen",
+        "us": "None, unless you want them"
+      },
+      "see": {
+        "k": "What you can see",
+        "a": "A bank transfer",
+        "b": "Everything, because you are doing it",
+        "us": "Everything, live, in an owner portal"
+      },
+      "arrears": {
+        "k": "If a tenant stops paying",
+        "a": "Your problem, and your lawyer",
+        "b": "Your problem",
+        "us": "Ours. It does not touch your floor"
+      }
+    },
+    "trial": {
+      "kicker": "No commitment",
+      "title": "Ninety days, then decide.",
+      "body": "We spend our money before you spend yours. We furnish the unit, shoot it, list it across every channel and start paying your floor, all before anything binds you to us. At day ninety you carry on or you walk.",
+      "bodyBold": "Walking costs you nothing.",
+      "bodyTail": "We take our furniture back out at our own cost and leave the unit as we found it.",
+      "zero1": "To try it",
+      "zero2": "Furnishing and photography",
+      "zero3": "Agent commission, ever",
+      "zero4": "To walk away at day ninety",
+      "keepTitle": "What you keep either way",
+      "keep1": {
+        "k": "Condition report and photo set",
+        "v": "Yours, from day one"
+      },
+      "keep2": {
+        "k": "Every floor payment already made",
+        "v": "Never clawed back"
+      },
+      "keep3": {
+        "k": "Our list of what the unit needs",
+        "v": "Yours, even if you say no"
+      },
+      "keep4": {
+        "k": "The unit itself",
+        "v": "Back as we found it"
+      },
+      "stringTitle": "The one string attached",
+      "string1": "Anyone we house during the trial signs a real lease, because they are real people moving their lives into your unit. So if you leave at day ninety you pick how that lands: take the tenancies over as they stand, with the agreements and the deposits handed to you, or give us the time to see them out.",
+      "string2": "That is the whole of the small print. We would rather put it on the page than bury it in a clause you find in month four."
+    },
+    "legal": {
+      "title": "The boring part, done properly.",
+      "sub": "Three things go wrong for owners who let room by room: the stay is too short, the unit is over-occupied, and nobody can produce a document when it is asked for. We run all three as checklists, not as promises.",
+      "stay": {
+        "label": "Minimum stay",
+        "head": "Never short-let",
+        "body": "Every tenancy is written at three months or longer, inside the URA rule for private homes. No nightly stays, no exceptions, no letter from the authorities."
+      },
+      "occ": {
+        "label": "Occupancy",
+        "head": "Inside the cap",
+        "body": "We let to the occupancy limit for your property type and write that limit into the agreement, so an extra body cannot quietly appear."
+      },
+      "data": {
+        "label": "Data",
+        "head": "PDPA, and GDPR",
+        "body": "Tenant identity documents are collected once, stored encrypted, masked in the portal, and deleted on schedule. Our tenants come from Europe too, so we hold to GDPR as well."
+      },
+      "stamp": {
+        "label": "Stamping",
+        "head": "IRAS, by us",
+        "body": "Every agreement is stamped, and we do the stamping for tenants who have no Singapore bank account yet. The certificate sits in your portal."
+      }
+    },
+    "homes": {
+      "count": "{cells} cells, {filled} let",
+      "open": ", {open} open now"
+    },
+    "hive": {
+      "kicker": "From the blog",
+      "title": "What we write down.",
+      "body": "Everything we learn running the comb goes into The Hive. What a Singapore unit actually earns once the void is counted, what the URA rules mean on a Tuesday rather than in a circular, what breaks in year two and what it costs to fix. No lead magnets and no gated PDFs.",
+      "cta": "Read the blog"
+    },
+    "reach": {
+      "title": "Your rooms go on sale in places you have never heard of.",
+      "body": "A room in Serangoon gets taken from Chengdu, Bangalore or Berlin, weeks before the tenant lands in Singapore. We list, price and sync every cell from one system, so a booking on any channel closes the others in the same minute. An agent puts your unit on two portals and waits for a phone call.",
+      "live": "Live now",
+      "soon": "Onboarded or in progress"
+    },
+    "faq": {
+      "title": "The things owners actually ask.",
+      "catch": {
+        "q": "What is the catch with the ninety days?",
+        "a": "That we spend real money on your unit before you owe us anything, and we are betting you will not want to unwind it once you have watched it run. That is the bet, and it is on our side of the table. The only string is the tenancies: anyone we house signs a real lease, so at day ninety you either take those over as they stand or give us the time to see them out."
+      },
+      "empty": {
+        "q": "What if the rooms sit empty?",
+        "a": "Then you are paid the floor and we are paid nothing. The floor is the first call on the money, ahead of our costs and well ahead of our margin. That is the point of the structure, and it is why we will not quote a floor before we have seen the unit."
+      },
+      "lease": {
+        "q": "So the floor is just a lease with extra steps?",
+        "a": "In a bad year, yes, and deliberately so. The difference shows up in a normal year, when a lease would have kept the whole upside on our side of the table and this does not."
+      },
+      "furniture": {
+        "q": "Who pays for the furniture?",
+        "a": "We do, at our cost, to one standard across every home. You put in nothing. At the end of the term the unit comes back the way we found it, or better, with the condition written down and photographed on day one."
+      },
+      "see": {
+        "q": "Can I actually see what is happening?",
+        "a": "Yes, from the day you sign, and you can see most of it on this page already. Every booking, every rate, every payout line, the tenant documents, the maintenance log and the inspection photos. Not a quarterly PDF."
+      },
+      "back": {
+        "q": "What if I want the unit back?",
+        "a": "There is a notice period and it is in the agreement before you sign. We will not hold your asset hostage. What we ask is enough notice to see out the tenancies already signed, because those are real people with leases."
+      },
+      "eligible": {
+        "q": "Is my unit even eligible?",
+        "a": "Private condominiums and apartments, let at three months or longer, within the occupancy cap. HDB flats do not work for this model and we will say so rather than waste your afternoon."
+      },
+      "arrears": {
+        "q": "Who deals with a tenant who stops paying?",
+        "a": "We do, and it does not touch your floor. You will read about it in the arrears log if you want to. You will not be asked to do anything about it."
+      }
+    },
+    "comb": {
+      "kicker": "Live rooms",
+      "title": "Every cell is a real room.",
+      "introPre": "Nineteen cells so far, each one drawn where it actually stands on the island.",
+      "introBold": "Click any cell",
+      "keyOpen": "Open now",
+      "keyNotOurs": "Not ours yet",
+      "minStay": "Minimum stay",
+      "months": "{n} months",
+      "bathroom": "Bathroom",
+      "ensuite": "Ensuite",
+      "shared": "Shared",
+      "nextAvailable": "Next available",
+      "now": "Now",
+      "letUntil": "Let until {date}",
+      "perMonth": "per month",
+      "size": "Size",
+      "sqm": "{n} sqm",
+      "notMeasured": "not measured",
+      "bed": "Bed",
+      "notSet": "not set",
+      "sleeps": "Sleeps",
+      "people": "{n} people",
+      "person": "{n} person",
+      "keyLet": "Let",
+      "introTail": "and you get the room itself, straight from the same database that runs the booking site: the photographs, the price, the size, the bed, what is in it and when it next opens. The pale cells are the rest of Singapore, which is the part of the comb we have not built yet."
+    },
+    "portal": {
+      "title": "You see exactly what we see.",
+      "opex": "Running costs, itemised",
+      "floor": "Your floor",
+      "upside": "Your share of the upside",
+      "pdf": "Download August as PDF",
+      "csv": "Export twelve months to CSV",
+      "maintYtd": "Maintenance, year to date",
+      "chargedYou": "Charged to you"
+    },
+    "ask": {
+      "kicker": "The next step is a coffee",
+      "title1": "Marcus will come to you",
+      "title2": "and buy you a coffee.",
+      "p1": "Not a call. Not a deck. Tell me roughly where your unit is and I will come to you, anywhere on the island, at whatever hour suits. I will buy the coffee, look at the photos on your phone, and tell you what I think your unit would actually make.",
+      "p2": "If it is not a fit I will say so before the cup is cold, and you will have lost forty minutes and gained a flat white.",
+      "postal": "Postal code",
+      "contact": "WhatsApp or email",
+      "submit": "Book the coffee",
+      "saved": "Saved. This is what Marcus brings to the table.",
+      "yourUnit": "Your unit, {district}",
+      "attached": "Everything you worked out on this page is attached to your enquiry, so the first thing he says is not \"tell me about your unit\".",
+      "variantPre": "Your enquiry is saved against hero variant",
+      "variantPost": "which is how we find out which opening line actually produces coffees. Marcus is messaged within a day.",
+      "rowPostal": "Postal code",
+      "rowNotGiven": "not given",
+      "rowDistrict": "District",
+      "rowSize": "Size and layout",
+      "valSize": "{sqft} sqft, {beds} bedrooms",
+      "rowAsking": "District asking rent",
+      "valAsking": "S${psf} psf, {amount} / mo",
+      "rowFloor": "Floor we would start from",
+      "valPerMo": "{amount} / mo",
+      "rowModelled": "Modelled against a lease",
+      "valModelled": "+{pct}%, {amount} a year",
+      "whatHappens": "What happens when you press that",
+      "wh1": {
+        "t": "Within a day",
+        "b": "Marcus messages you on WhatsApp to pick a time and a place. Your place, your office, the coffee shop downstairs, whichever is least effort for you."
+      },
+      "wh2": {
+        "t": "Forty minutes, in person",
+        "b": "No slides and no laptop. He brings a printed one page read on your unit, worked out from what you have entered here plus what the district is actually renting for."
+      },
+      "wh3": {
+        "t": "You keep the paper",
+        "b": "Whether you go ahead or not. If your unit is not a fit he will say so at the table rather than send you a polite email next week."
+      },
+      "signFine": "Marcus · Makery Pte Ltd · the one who actually turns up",
+      "noSpam": "No newsletter. No sequence of five emails. No agent ringing you on a Sunday."
     }
   }
 }

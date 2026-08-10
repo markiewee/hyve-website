@@ -1,22 +1,24 @@
 import { useEffect, useRef, useState } from 'react';
 import { HOMES, HOME_HERO } from '../../data/lazybeeRooms';
 import { scrollToId } from '../../lib/scrollToId';
+import { useLanguage } from '../../i18n/LanguageContext';
 
-/* Where the designed line break falls in each headline. The copy itself lives in
-   src/lib/experiment.js and is not repeated here, so the split test and the page
-   can never disagree about what was shown. Only the typography is local. */
-const BREAK_AT = { a: 'Be a lazy'.length, b: 'We pay first.'.length, c: 'What is your unit'.length };
+/* Which variant sets its second line in italic. The line break is a dictionary
+   decision rather than a character offset into the headline: the old
+   `'Be a lazy'.length` slice cut the English string in the designed place and
+   cut a Chinese one mid-word. Each variant now carries line1 and line2, and a
+   language that wants one unbroken line simply leaves line2 empty. */
 const ITALIC_TAIL = { a: true, b: false, c: false };
 
-function Headline({ variant, headline }) {
-  const at = BREAK_AT[variant] ?? headline.length;
-  const first = headline.slice(0, at).trim();
-  const rest = headline.slice(at).trim();
+function Headline({ variant, t }) {
+  const first = t(`owner.hero.${variant}.line1`);
+  const rest = t(`owner.hero.${variant}.line2`);
+  const hasRest = rest && rest !== `owner.hero.${variant}.line2`;
   return (
     <h1>
       {first}
-      {rest && <br />}
-      {ITALIC_TAIL[variant] ? <><em>{rest}</em>.</> : rest}
+      {hasRest && <br />}
+      {hasRest && (ITALIC_TAIL[variant] ? <><em>{rest}</em>.</> : rest)}
     </h1>
   );
 }
@@ -25,7 +27,8 @@ function Headline({ variant, headline }) {
  * The hero: a slow carousel of the three homes, the pitch for this visitor's
  * variant, and the rent estimator that every number further down the page hangs off.
  */
-export default function HeroSection({ heroRef, variant, copy, estimator, districtLabel, onEstimatorChange }) {
+export default function HeroSection({ heroRef, variant, estimator, districtLabel, onEstimatorChange }) {
+  const { t } = useLanguage();
   const [slide, setSlide] = useState(0);
   const timer = useRef(null);
 
@@ -59,45 +62,45 @@ export default function HeroSection({ heroRef, variant, copy, estimator, distric
       <div className="scrim" />
 
       <div className="mid">
-        <div className="eyeb">For unit owners in Singapore</div>
+        <div className="eyeb">{t('owner.hero.eyebrow')}</div>
         <div className="hv">
-          <Headline variant={variant} headline={copy.headline} />
-          <p className="sub">{copy.sub}</p>
+          <Headline variant={variant} t={t} />
+          <p className="sub">{t(`owner.hero.${variant}.sub`)}</p>
         </div>
 
         <form className="instrument glass" onSubmit={(e) => e.preventDefault()}>
           <div className="gf">
-            <div className="label">Postal code</div>
+            <div className="label">{t('owner.hero.postalCode')}</div>
             <input
               type="text"
               inputMode="numeric"
               maxLength={6}
               placeholder="556114"
-              aria-label="Postal code"
+              aria-label={t('owner.hero.postalCode')}
               value={estimator.postal}
               onChange={(e) => onEstimatorChange({ postal: e.target.value.replace(/\D/g, '').slice(0, 6) }, 'postal')}
             />
           </div>
           <div className="gf" style={{ flex: '1.55 1 0' }}>
-            <div className="label">District</div>
+            <div className="label">{t('owner.hero.district')}</div>
             <div className="v">{districtLabel}</div>
           </div>
           <div className="gf">
-            <div className="label">Floor area</div>
-            <div className="v">{estimator.sqft.toLocaleString('en-SG')} sqft</div>
+            <div className="label">{t('owner.hero.floorArea')}</div>
+            <div className="v">{t('owner.hero.sqft', { n: estimator.sqft.toLocaleString('en-SG') })}</div>
             <input
               className="range"
               type="range"
               min="400"
               max="2600"
               step="50"
-              aria-label="Floor area"
+              aria-label={t('owner.hero.floorArea')}
               value={estimator.sqft}
               onChange={(e) => onEstimatorChange({ sqft: +e.target.value }, 'sqft')}
             />
           </div>
           <div className="gf">
-            <div className="label">Bedrooms</div>
+            <div className="label">{t('owner.hero.bedrooms')}</div>
             <div className="v">{estimator.beds}</div>
             <input
               className="range"
@@ -105,16 +108,16 @@ export default function HeroSection({ heroRef, variant, copy, estimator, distric
               min="1"
               max="6"
               step="1"
-              aria-label="Bedrooms"
+              aria-label={t('owner.hero.bedrooms')}
               value={estimator.beds}
               onChange={(e) => onEstimatorChange({ beds: +e.target.value }, 'beds')}
             />
           </div>
           <button className="btn btn-accent" type="button" onClick={() => scrollToId('split')}>
-            Show me the split
+            {t('owner.hero.cta')}
           </button>
         </form>
-        <p className="trial">Ninety days to decide · nothing to pay · nothing to sign today</p>
+        <p className="trial">{t('owner.hero.trial')}</p>
       </div>
 
       <div className="where">

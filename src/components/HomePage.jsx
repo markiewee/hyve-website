@@ -8,6 +8,7 @@ import { assignHeroVariant } from '../lib/experiment';
 import { model, DEFAULT_STATE, DI, PSF, districtForPostal } from '../lib/ownerModel';
 import { useReveal } from '../hooks/useReveal';
 import { FAQ } from '../data/ownerPage';
+import { useLanguage } from '../i18n/LanguageContext';
 
 import { OwnerHeader, OwnerFooter } from './owners/OwnerChrome';
 import HeroSection from './owners/HeroSection';
@@ -36,8 +37,8 @@ function heroOnce() {
 
 export default function HomePage() {
   const { variant, copy } = heroOnce();
+  const { t } = useLanguage();
 
-  const [theme, setTheme] = useState('alabaster');
   const [estimator, setEstimator] = useState({ ...DEFAULT_STATE, postal: '' });
 
   const rootRef = useRef(null);
@@ -48,7 +49,7 @@ export default function HomePage() {
   useReveal(rootRef);
 
   const m = useMemo(() => model(estimator), [estimator]);
-  const districtLabel = estimator.district ? `${estimator.district} ${DI[estimator.district]}` : 'Type a code';
+  const districtLabel = estimator.district ? `${estimator.district} ${DI[estimator.district]}` : t('owner.hero.typeACode');
 
   /* One handler for the three hero controls. A postal code moves the district and
      the psf with it, which is the only field that changes more than itself. */
@@ -76,25 +77,24 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="lzb" data-theme={theme} ref={rootRef}>
+    /* Alabaster, fixed. The light-dark toggle came out on 10 Aug 2026: the owner
+       page is a light page and the control was spending the one header slot that
+       the language switch needed. The booking site keeps its own toggle, because
+       it is photographic and opens dark. */
+    <div className="lzb" data-theme="alabaster" ref={rootRef}>
       <SEO
         title="Be a lazy landlord"
         description="Be a lazy landlord. We do the viewings, the contracts and the cleaning on your Singapore unit. You are paid a floor whether it is full or empty, and you still keep half the upside. Ninety days to decide, nothing to pay if you walk."
         canonical="/"
-        schema={[orgSchema(), faqPageSchema(FAQ.map(([q, a]) => ({ q, a })))]}
+        schema={[orgSchema(), faqPageSchema(FAQ.map(([q, a]) => ({ q: t(q), a: t(a) })))]}
       />
 
-      <OwnerHeader
-        heroRef={heroRef}
-        theme={theme}
-        onToggleTheme={() => setTheme((t) => (t === 'tobacco' ? 'alabaster' : 'tobacco'))}
-      />
+      <OwnerHeader heroRef={heroRef} />
 
       <main id="top">
         <HeroSection
           heroRef={heroRef}
           variant={variant}
-          copy={copy}
           estimator={estimator}
           districtLabel={districtLabel}
           onEstimatorChange={onEstimatorChange}

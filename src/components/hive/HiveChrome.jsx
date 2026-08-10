@@ -21,22 +21,25 @@
 import { Link } from 'react-router-dom';
 import { BeeMark } from '../owners/OwnerChrome';
 import { BOOKING_URL } from '../../lib/booking';
+import { useLanguage } from '../../i18n/LanguageContext';
+import LangSwitch from '../../i18n/LangSwitch';
 
 /** Static header. Real links, so every Hive page is reachable without JavaScript. */
-export function HiveHeader({ theme, onToggleTheme }) {
+export function HiveHeader() {
+  const { t } = useLanguage();
   return (
     <header className="hivehead">
-      <Link className="brandlock" to="/" aria-label="Lazybee, back to the home page">
+      <Link className="brandlock" to="/" aria-label={t('nav.backToHome')}>
         <BeeMark />
         <span className="wd">LAZYBEE</span>
       </Link>
       <nav className="navlinks" aria-label="Primary">
-        <Link to="/">For owners</Link>
-        <a href={BOOKING_URL}>Find a room</a>
-        <Link to="/hive" aria-current="page">The Hive</Link>
-        <button className="modebtn" type="button" onClick={onToggleTheme}>
-          {theme === 'tobacco' ? 'Light' : 'Dark'}
-        </button>
+        <Link to="/">{t('nav.forOwners')}</Link>
+        <a href={BOOKING_URL}>{t('nav.findRoom')}</a>
+        {/* Named Guides here too. The archive is called the Hive internally and
+            lives at /hive, but a reader has to be told what is in it. */}
+        <Link to="/hive" aria-current="page">{t('nav.guides')}</Link>
+        <LangSwitch />
       </nav>
     </header>
   );

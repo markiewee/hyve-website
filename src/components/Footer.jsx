@@ -38,7 +38,7 @@ const Footer = () => {
         {/* Brand */}
         <div className="col-span-1 md:col-span-1">
           <Link to="/" className="block mb-4" aria-label="Lazybee home">
-            <Wordmark size="md" />
+            <Wordmark size="md" variant="lazybee" />
           </Link>
           <p className="text-foreground-variant font-display text-sm leading-relaxed">
             Singapore co-living, productized — designed, leased and operated as a single product across every unit.

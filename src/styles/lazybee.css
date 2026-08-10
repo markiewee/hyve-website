@@ -236,9 +236,16 @@
 /* bigger mark up top, as asked */
 .lzb .lzbheader .brandlock svg{width:32px}
 .lzb .lzbheader .brandlock .wd{font-size:19px;letter-spacing:.32em}
-.lzb .modebtn{background:none;border:1px solid currentColor;color:inherit;cursor:pointer;padding:6px 10px;
-  border-radius:var(--r-pill);font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;opacity:.72}
-.lzb .modebtn:hover{opacity:1}
+/* The language switch, in the slot the light-dark button used to hold. Sized to
+   a 44px tap target and given a min-width so the box does not jump between the
+   two-glyph 中文 and the two-letter EN. The Han characters are set in the UI
+   face rather than the mono one, which has no CJK coverage and would fall back
+   to whatever the device happens to have. */
+.lzb .langbtn{background:none;border:1px solid currentColor;color:inherit;cursor:pointer;padding:6px 12px;
+  border-radius:var(--r-pill);font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;opacity:.72;
+  min-height:44px;min-width:58px;display:inline-flex;align-items:center;justify-content:center}
+.lzb .langbtn[lang="zh-Hans"]{font-family:inherit;font-size:13px;letter-spacing:.08em;text-transform:none}
+.lzb .langbtn:hover{opacity:1}
 
 /* ── hero ── */
 .lzb .hero{position:relative;height:100svh;min-height:620px;overflow:hidden;background:#0C0F0F}
@@ -540,7 +547,8 @@
 
 .lzb.hive .label{font-size:12px}
 .lzb.hive .navlinks{font-size:12px}
-.lzb.hive .modebtn{font-size:12px;padding:9px 13px;min-height:44px}
+.lzb.hive .langbtn{font-size:12px;padding:9px 13px;min-height:44px}
+.lzb.hive .langbtn[lang="zh-Hans"]{font-size:13px}
 
 /* ── header ── */
 .lzb .hivehead{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 20px;
