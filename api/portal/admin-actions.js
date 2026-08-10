@@ -76,6 +76,42 @@ async function handleLandlordDocUrl(req, res) {
   return res.status(200).json({ url: signed.signedUrl });
 }
 
+// ── Landlord: signed URL for a property document ────────────────
+// Property documents (AC servicing bills, invoices, statements) belong to the
+// PROPERTY, not to a tenant. Separate table, separate private bucket, separate
+// code path from handleLandlordDocUrl above. Nothing here touches
+// OWNER_VISIBLE_TYPES or tenant_documents, so tenant document visibility is
+// unaffected.
+//
+// Owners have a SELECT policy on property_documents but no access to the
+// storage bucket at all, so this is their only download route. It re-checks
+// ownership and the visible_to_owner flag before signing.
+async function handleLandlordPropertyDocUrl(req, res) {
+  const propertyId = await landlordProperty(req);
+  if (!propertyId) return res.status(403).json({ error: "Not authorized" });
+
+  const { doc_id } = req.body || {};
+  if (!doc_id) return res.status(400).json({ error: "doc_id required" });
+
+  const { data: doc, error: docErr } = await supabase
+    .from("property_documents")
+    .select("id, property_id, file_path, visible_to_owner")
+    .eq("id", doc_id)
+    .single();
+
+  if (docErr || !doc) return res.status(404).json({ error: "Document not found" });
+  if (doc.property_id !== propertyId) return res.status(403).json({ error: "Not authorized" });
+  if (!doc.visible_to_owner) return res.status(403).json({ error: "Not authorized" });
+  if (!doc.file_path) return res.status(422).json({ error: "Document has no file" });
+
+  const { data: signed, error: signErr } = await supabase.storage
+    .from("property-documents")
+    .createSignedUrl(doc.file_path, 3600);
+
+  if (signErr || !signed?.signedUrl) return res.status(500).json({ error: "Could not generate download link" });
+  return res.status(200).json({ url: signed.signedUrl });
+}
+
 // ── Landlord: passwordless sign-in link ─────────────────────────
 // Unauthenticated by design (it's the owner's way IN). Only mints a link if
 // the email belongs to an active LANDLORD profile, and always answers
@@ -290,6 +326,7 @@ export default async function handler(req, res) {
 
   // Landlord actions use their own auth (LANDLORD role / none), not the admin gate.
   if (action === "landlord_doc_url") return handleLandlordDocUrl(req, res);
+  if (action === "landlord_property_doc_url") return handleLandlordPropertyDocUrl(req, res);
   if (action === "owner_link_request") return handleOwnerLinkRequest(req, res);
 
   const admin = await verifyAdmin(req);
