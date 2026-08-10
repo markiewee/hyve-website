@@ -17,6 +17,8 @@ export const QUERIES = {
   roomsByProperty:     { kind: 'roomsByProperty' },
   neighborhoods:       { kind: 'neighborhoods' },
   neighborhoodsFull:   { kind: 'neighborhoodsFull' },
+  blogPosts:           { kind: 'blogPosts' },
+  blogPostBySlug:      { kind: 'blogPostBySlug' },
 };
 
 const NEIGHBORHOOD_BY_CODE = {
@@ -138,6 +140,30 @@ export const client = {
           ...r.content,
           _id: r.content?.slug?.current,
         }));
+      }
+
+      case 'blogPosts': {
+        const { data, error } = await supabase
+          .from('cms_content')
+          .select('slug, content')
+          .eq('type', 'blog_post')
+          .eq('published', true)
+          .order('sort_order')
+          .order('created_at', { ascending: false });
+        if (error) console.warn('cms blogPosts fetch failed:', error.message);
+        return (data ?? []).map((r) => ({ ...r.content, slug: r.content?.slug ?? r.slug }));
+      }
+
+      case 'blogPostBySlug': {
+        const { data, error } = await supabase
+          .from('cms_content')
+          .select('content')
+          .eq('type', 'blog_post')
+          .eq('slug', params.slug)
+          .eq('published', true)
+          .maybeSingle();
+        if (error) console.warn('cms blogPostBySlug fetch failed:', error.message);
+        return data?.content ?? null;
       }
 
       case 'properties': {

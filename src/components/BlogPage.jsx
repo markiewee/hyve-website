@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { blogPosts } from '../data/sampleData';
+import { blogPosts as sampleBlogPosts } from '../data/sampleData';
+import { client, QUERIES } from '../lib/cms';
 import SEO from './SEO';
 import { breadcrumbSchema } from '../lib/seo';
+
+const PAGE_SIZE = 24;
 
 const BlogPage = () => {
   const [posts, setPosts] = useState([]);
@@ -10,16 +13,21 @@ const BlogPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        setPosts(blogPosts);
-        setFilteredPosts(blogPosts);
+        const cmsPosts = await client.fetch(QUERIES.blogPosts);
+        // Fall back to the static sample posts if the CMS has nothing yet,
+        // so the page never renders empty.
+        const list = cmsPosts && cmsPosts.length ? cmsPosts : sampleBlogPosts;
+        setPosts(list);
+        setFilteredPosts(list);
       } catch (error) {
         console.error('Error loading blog posts:', error);
-        setPosts(blogPosts);
-        setFilteredPosts(blogPosts);
+        setPosts(sampleBlogPosts);
+        setFilteredPosts(sampleBlogPosts);
       } finally {
         setLoading(false);
       }
@@ -39,6 +47,7 @@ const BlogPage = () => {
       filtered = filtered.filter(post => post.category === selectedCategory);
     }
     setFilteredPosts(filtered);
+    setVisibleCount(PAGE_SIZE);
   }, [posts, searchTerm, selectedCategory]);
 
   const categories = ['all', ...new Set(posts.map(post => post.category))];
@@ -71,9 +80,11 @@ const BlogPage = () => {
     );
   }
 
-  const featuredPost = filteredPosts[0];
-  const sidebarPost = filteredPosts[1];
-  const remainingPosts = filteredPosts.slice(2);
+  const visiblePosts = filteredPosts.slice(0, visibleCount);
+  const featuredPost = visiblePosts[0];
+  const sidebarPost = visiblePosts[1];
+  const remainingPosts = visiblePosts.slice(2);
+  const hasMore = visibleCount < filteredPosts.length;
 
   return (
     <main className="bg-background text-foreground pt-24 md:pt-28 min-h-screen pb-32">
@@ -277,6 +288,16 @@ const BlogPage = () => {
                 </button>
               </div>
             </aside>
+          </div>
+        )}
+        {hasMore && (
+          <div className="flex justify-center mt-16">
+            <button
+              onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+              className="bg-surface border border-border text-foreground px-8 py-3 rounded-full font-display font-bold hover:border-accent hover:text-accent transition-all"
+            >
+              Load More Articles
+            </button>
           </div>
         )}
       </section>
