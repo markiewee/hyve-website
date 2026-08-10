@@ -3,8 +3,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { EVENT_TYPES, signPayload, verifySignature, eventForChange } from "./partnerWebhooks.js";
 
-test("event catalogue is exactly the documented four", () => {
+test("event catalogue is exactly the documented five", () => {
   assert.deepEqual([...EVENT_TYPES].sort(), [
+    "booking.updated",
     "booking_request.updated",
     "listing.calendar.updated",
     "listing.profile.updated",
@@ -27,5 +28,6 @@ test("table changes map to event names", () => {
   assert.equal(eventForChange("listing_profiles"), "listing.profile.updated");
   assert.equal(eventForChange("booking_requests"), "booking_request.updated");
   assert.equal(eventForChange("rooms"), "listing.rates.updated");
+  assert.equal(eventForChange("channel_bookings"), "booking.updated");
   assert.equal(eventForChange("unrelated_table"), null);
 });
