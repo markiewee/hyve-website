@@ -4,6 +4,7 @@ import { aspire } from "../../lib/aspire";
 import { notifyMember } from "../../lib/notify";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { confirm } from "../../lib/confirm";
+import RentMatchQueue from "../../components/portal/RentMatchQueue";
 
 async function fireRentPaidEmail(tenantProfileId, monthStr, amount) {
   if (!tenantProfileId || !monthStr) return;
@@ -75,7 +76,6 @@ export default function AdminRentPage() {
   const [chargesLoading, setChargesLoading] = useState(true);
   const [chargeForm, setChargeForm] = useState({ tenant_profile_id: "", description: "", amount: "", due_date: "", category: "OTHER" });
   const [chargeSaving, setChargeSaving] = useState(false);
-  const [chargeActionLoading, setChargeActionLoading] = useState(null);
 
   // Reconciliation state
   const [aspireAccounts, setAspireAccounts] = useState([]);
@@ -533,15 +533,11 @@ export default function AdminRentPage() {
     setChargeSaving(false);
   }
 
-  async function handleMarkChargePaid(chargeId) {
-    if (!await confirm({ title: "Mark this charge as paid?" })) return;
-    setChargeActionLoading(chargeId);
-    const { error } = await supabase.from("member_charges").update({ status: "PAID", paid_at: new Date().toISOString() }).eq("id", chargeId);
-    if (!error) {
-      setCharges(prev => prev.map(c => c.id === chargeId ? { ...c, status: "PAID", paid_at: new Date().toISOString() } : c));
-    }
-    setChargeActionLoading(null);
-  }
+  // handleMarkChargePaid used to live here: a one-click "mark this charge as
+  // paid" with no money seen. It was already unreachable, and it contradicted
+  // the rule stated 300 lines above it, that a charge is never settled unless
+  // real money is seen landing in the bank. Deleted rather than left lying
+  // around for someone to wire a button back onto.
 
   // Rent table is scoped to the selected month so it doesn't show every month ever.
   const monthRows = rentPayments.filter((p) => (p.month || "").startsWith(tableMonth));
@@ -564,6 +560,16 @@ export default function AdminRentPage() {
         <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
           Generate monthly rent records and track payment status.
         </p>
+      </div>
+
+      {/* Bank credits the matcher would not settle on its own. Placed above the
+          stats deliberately: this is unallocated money, and it should be the
+          first thing seen, not something found by scrolling. */}
+      <div className="mb-8">
+        <h2 className="font-display text-lg font-extrabold text-foreground mb-3">
+          Payments needing review
+        </h2>
+        <RentMatchQueue onResolved={fetchPayments} />
       </div>
 
       {/* Stats */}
@@ -1093,7 +1099,6 @@ export default function AdminRentPage() {
                 {charges.map((c) => {
                   const unitCode = c.tenant_profiles?.rooms?.unit_code ?? "—";
                   const badgeClass = CHARGE_STATUS_BADGE[c.status] ?? CHARGE_STATUS_BADGE.PENDING;
-                  const isLoading = chargeActionLoading === c.id;
                   return (
                     <tr key={c.id} className="hover:bg-white/5 transition-colors">
                       <td className="px-8 py-4">
