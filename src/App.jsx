@@ -14,6 +14,7 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import CookiePolicy from './components/CookiePolicy';
 import StaffRoomDeskPage from './pages/staff/StaffRoomDeskPage';
+import StaffPinGate from './components/staff/StaffPinGate';
 import HiveIndexPage from './pages/hive/HiveIndexPage';
 import HiveArticlePage from './pages/hive/HiveArticlePage';
 import HiveTopicPage from './pages/hive/HiveTopicPage';
@@ -130,10 +131,12 @@ function AppContent() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/cookie-policy" element={<CookiePolicy />} />
-          {/* HOUSE_CAPTAIN, not ADMIN: a captain opening a unit for a viewing
-              needs the room facts as much as the person selling. Tenants,
-              landlords and investors are excluded by the guard. */}
-          <Route path="/staff" element={<AuthGuard requiredRole="HOUSE_CAPTAIN"><StaffRoomDeskPage /></AuthGuard>} />
+          {/* A PIN rather than AuthGuard. The room desk is opened by captains and
+              sales people who do not all have portal accounts, so requiring one
+              locked out the intended users along with everyone else. A PIN is
+              issued per person and revoked per person: the same control, without
+              the account. See supabase/migrations/20260813000000_staff_pins.sql. */}
+          <Route path="/staff" element={<StaffPinGate><StaffRoomDeskPage /></StaffPinGate>} />
           {/* Portal routes, no Navbar/Footer */}
           <Route path="/portal" element={<Navigate to="/portal/login" replace />} />
           <Route path="/portal/login" element={<LoginPage />} />
