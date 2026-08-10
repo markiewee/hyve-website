@@ -21,8 +21,7 @@ const NAV = [
   ['Your split', 'split'],
   ['Versus a lease', 'compare'],
   ['The comb', 'comb'],
-  /* The Hive goes back in the moment the /hive route ships. Linking to a
-     route that does not exist is worse than not linking to it. */
+  ['The Hive', null, '/hive'],
   ['Free coffee', 'ask'],
 ];
 
@@ -59,6 +58,8 @@ export function OwnerHeader({ heroRef, theme, onToggleTheme }) {
             ? <Link key={label} to={to}>{label}</Link>
             : <a key={label} href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollToId(id); }}>{label}</a>
         ))}
+        {/* The one nav item that is a route rather than a scroll target. */}
+        <Link to="/hive">The Hive</Link>
         <button className="modebtn" type="button" onClick={onToggleTheme}>
           {theme === 'tobacco' ? 'Light' : 'Dark'}
         </button>
@@ -92,6 +93,7 @@ export function OwnerFooter() {
         {/* Every other indexable page hangs off this footer. The homepage is the
             only page a crawler is guaranteed to reach, so if a route is not linked
             from here it is an orphan no matter what the sitemap says. */}
+        · <Link to="/hive" style={{ textDecoration: 'none' }}>The Hive</Link>{' '}
         · <a href="/faqs" style={{ textDecoration: 'none' }}>FAQs</a>{' '}
         · <a href="/contact" style={{ textDecoration: 'none' }}>Contact</a>{' '}
         · <a href="/privacy-policy" style={{ textDecoration: 'none' }}>Privacy</a>{' '}

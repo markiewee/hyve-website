@@ -123,7 +123,7 @@ if (!shell.includes('<div id="root"></div>')) {
 }
 
 const mod = await import(pathToFileURL(SSR_ENTRY).href);
-const { render, ROUTE_META, PRERENDER_ROUTES, canonicalFor, SITE_NAME, DEFAULT_OG_IMAGE } = mod;
+const { render, ALL_ROUTE_META, PRERENDER_ROUTES, canonicalFor, SITE_NAME, DEFAULT_OG_IMAGE } = mod;
 
 /* The SPA shell, kept as-is for every route we do not prerender. It is marked
    noindex because it has no content: if a crawler ever reaches it directly we
@@ -144,7 +144,7 @@ let helmetWorked = false;
 const failures = [];
 
 for (const route of PRERENDER_ROUTES) {
-  const meta = ROUTE_META[route];
+  const meta = ALL_ROUTE_META[route];
   const canonical = canonicalFor(route);
   const { html: appHtml, helmetApplied } = render(route);
   helmetWorked = helmetWorked || helmetApplied;

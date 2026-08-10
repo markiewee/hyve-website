@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom';
 import { HOMES, ROOMS, HOME_HERO, roomsForHome, isLet } from '../../data/lazybeeRooms';
 import { COMPARE_HEADS, COMPARE_ROWS, ZEROS, TRIAL_KEEPS, COMPLIANCE, POSTS } from '../../data/ownerPage';
+import { ARTICLES } from '../../lib/hiveContent';
 
 /** The green band: three numbers, one of them counted off the live room data. */
 export function GreenBand() {
@@ -168,12 +170,14 @@ export function HomesStrip() {
 /**
  * The Hive teaser.
  *
- * The prototype linked every card to hive.html, a sibling static page. There is no
- * Hive route in this app yet, so the cards are rendered as articles rather than as
- * links: a dead link is worse than no link. Point them at the real route the day
- * The Hive ships.
+ * The prototype linked every card to hive.html, a sibling static page. The Hive is
+ * now a real set of routes, so these are the three most recent articles read
+ * straight off src/content/hive, each one a real link. The hardcoded POSTS list in
+ * ownerPage.js is the fallback for the case where nothing has been published yet,
+ * which keeps the homepage from rendering an empty section on a fresh checkout.
  */
 export function HiveSection() {
+  const recent = ARTICLES.slice(0, 3);
   return (
     <section className="wrap sec" id="thehive">
       <div className="label rv">The Hive</div>
@@ -184,17 +188,31 @@ export function HiveSection() {
         costs to fix. No lead magnets and no gated PDFs.
       </p>
       <div className="posts">
-        {POSTS.map(([img, kicker, title, body]) => (
-          <article className="post rv" key={title}>
-            <div className="im"><img src={img} alt="" loading="lazy" /></div>
-            <div className="bd">
-              <div className="label">{kicker}</div>
-              <h3>{title}</h3>
-              <p>{body}</p>
-            </div>
-          </article>
-        ))}
+        {recent.length > 0
+          ? recent.map((a) => (
+            <Link className="post rv" to={a.path} key={a.slug}>
+              <div className="im"><img src={a.hero || '/photos/cp/Common-1.jpg'} alt={a.heroAlt || ''} loading="lazy" /></div>
+              <div className="bd">
+                <div className="label">{a.tags[0] || 'Lazybee'}</div>
+                <h3>{a.title}</h3>
+                <p>{a.excerpt}</p>
+              </div>
+            </Link>
+          ))
+          : POSTS.map(([img, kicker, title, body]) => (
+            <article className="post rv" key={title}>
+              <div className="im"><img src={img} alt="" loading="lazy" /></div>
+              <div className="bd">
+                <div className="label">{kicker}</div>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </div>
+            </article>
+          ))}
       </div>
+      <p className="rv" style={{ marginTop: 'var(--s6)' }}>
+        <Link className="btn btn-ghost" to="/hive">Read The Hive</Link>
+      </p>
     </section>
   );
 }

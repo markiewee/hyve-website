@@ -14,8 +14,12 @@ import { useEffect } from 'react';
  * re-renders and no rerender is needed per element that scrolls into view.
  *
  * @param {{current: HTMLElement|null}} rootRef  the page wrapper to search
+ * @param {*} [changeKey]  re-run the sweep when this changes. A route that swaps
+ *   its content in place (The Hive going from page 1 to page 2) keeps the same
+ *   wrapper element, so without this the new .rv nodes would never be revealed
+ *   and the page would render blank below the fold.
  */
-export function useReveal(rootRef) {
+export function useReveal(rootRef, changeKey) {
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -42,5 +46,5 @@ export function useReveal(rootRef) {
     );
     pending.forEach((n) => io.observe(n));
     return () => io.disconnect();
-  }, [rootRef]);
+  }, [rootRef, changeKey]);
 }
