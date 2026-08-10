@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './components/HomePage';
 import FAQsPage from './components/FAQsPage';
+import DevelopersPage from './components/DevelopersPage';
 import ContactPage from './components/ContactPage';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
@@ -117,6 +118,7 @@ function AppContent() {
           <Route path="/hive/:slug" element={<HiveArticlePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faqs" element={<FAQsPage />} />
+          <Route path="/developers" element={<DevelopersPage />} />
           <Route path="/about" element={<Navigate to="/" replace />} />
           <Route path="/residents" element={<Navigate to="/" replace />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />

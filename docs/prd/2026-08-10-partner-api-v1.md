@@ -45,8 +45,8 @@ Zero tenant PII in any response or event, enforced by tests that assert exact ou
 
 Build on `feat/partner-api-v1` per the implementation plan (10 tasks, TDD, one migration pair, preview-deploy smoke test before review). After merge: set the dispatch secret env var, mint Pranjal's key with commission unset, flip `enabled` when Mark says so, and reply to Pranjal's email with the docs URL. The reply email is drafted for Mark's approval, not auto-sent.
 
-## Open questions for Mark
+## Open questions, resolved 10 Aug
 
-1. The docs page needs a request-access contact. `partners@lazybee.sg` does not exist yet: create it as an alias, or use founders@lazybee.sg?
-2. Pranjal's commercial terms are unknown. Proposed default: mint his key now with no commission configured (he sees base prices), set the real modifier when the deal is agreed. OK?
-3. Rate limit default of 60 requests per minute per partner: fine, or set higher for launch?
+1. Request-access contact on the docs page: **mark@lazybee.sg** (Mark's call, 10 Aug).
+2. Pranjal's key: minted with no commission configured, so he sees base prices until the deal is agreed. (Approved with "ok go".)
+3. Rate limit: default 60 requests per minute per key stands.
