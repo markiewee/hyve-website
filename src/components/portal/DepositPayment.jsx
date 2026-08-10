@@ -91,7 +91,7 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
 
       if (updateError) throw updateError;
 
-      toast.success("Payment proof submitted — pending admin verification.");
+      toast.success("Payment proof submitted, pending admin verification.");
       refetch && refetch();
     } catch (err) {
       console.error("Bank transfer submission failed:", err);

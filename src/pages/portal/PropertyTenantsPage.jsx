@@ -80,13 +80,13 @@ export default function PropertyTenantsPage() {
               {others.map((m) => (
                 <div key={m.id} className="rounded border border-border bg-surface p-3">
                   <div className="font-medium">
-                    {m.rooms?.name ?? "—"}
+                    {m.rooms?.name ?? "-"}
                     {m.rooms?.unit_code && (
                       <span className="text-xs text-foreground-variant ml-1">{m.rooms.unit_code}</span>
                     )}
                   </div>
                   <div className="text-xs text-foreground-variant">
-                    Moved in {m.moved_in_at ? format(new Date(m.moved_in_at), "d MMM yyyy") : "—"}
+                    Moved in {m.moved_in_at ? format(new Date(m.moved_in_at), "d MMM yyyy") : "-"}
                   </div>
                 </div>
               ))}

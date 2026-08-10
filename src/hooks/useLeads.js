@@ -73,7 +73,7 @@ export function useLeads({ includeArchived = false } = {}) {
               return existing ? current.filter((l) => l.id !== row.id) : current;
             }
             if (!existing) return [row, ...current];
-            // Merge to keep ordering stable — do NOT re-sort.
+            // Merge to keep ordering stable, do NOT re-sort.
             return current.map((l) => (l.id === row.id ? { ...l, ...row } : l));
           });
         }

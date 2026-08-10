@@ -24,14 +24,14 @@ export function FunnelKPIStrip({ kpis }) {
       <Tile
         label="Conversion"
         value={
-          kpis.total === 0 ? "—" : `${kpis.conversionPct.toFixed(1)}%`
+          kpis.total === 0 ? "-" : `${kpis.conversionPct.toFixed(1)}%`
         }
         sub={`Won ${kpis.wonCount} / ${kpis.total}`}
       />
       <Tile
         label="Avg → viewing"
         value={
-          kpis.avgDaysToViewing == null ? "—" : `${kpis.avgDaysToViewing}d`
+          kpis.avgDaysToViewing == null ? "-" : `${kpis.avgDaysToViewing}d`
         }
         sub="created → viewing_booked"
       />

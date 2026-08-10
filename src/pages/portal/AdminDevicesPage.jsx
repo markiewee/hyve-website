@@ -151,7 +151,7 @@ export default function AdminDevicesPage() {
               .filter((r) => !devices.some((d) => d.room_id === r.id))
               .map((r) => (
                 <option key={r.id} value={r.id}>
-                  {r.unit_code} — {r.name} ({r.properties?.name})
+                  {r.unit_code}, {r.name} ({r.properties?.name})
                 </option>
               ))}
           </select>

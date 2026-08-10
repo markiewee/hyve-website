@@ -29,7 +29,7 @@ export function generateFeeSchedule(startDate, endDate, monthlyRent) {
 
   // ── First month (possibly prorated) ──
   if (startDay === 1) {
-    // Starts on 1st — full month
+    // Starts on 1st, full month
     rows.push({
       label: "Licence Fee (1)",
       amount: fmtAmount(rent),
@@ -43,10 +43,10 @@ export function generateFeeSchedule(startDate, endDate, monthlyRent) {
     const remainingDays = totalDays - startDay + 1;
     const prorated = Math.round((rent / totalDays) * remainingDays * 100) / 100;
     rows.push({
-      label: `Licence Fee (1) — prorated ${remainingDays}/${totalDays} days`,
+      label: `Licence Fee (1), prorated ${remainingDays}/${totalDays} days`,
       amount: fmtAmount(prorated),
       amountNum: prorated,
-      date: `${fmtDate(start)} – ${fmtDate(new Date(start.getFullYear(), start.getMonth() + 1, 0))}`,
+      date: `${fmtDate(start)}, ${fmtDate(new Date(start.getFullYear(), start.getMonth() + 1, 0))}`,
       dateISO: startDate,
     });
   }
@@ -69,10 +69,10 @@ export function generateFeeSchedule(startDate, endDate, monthlyRent) {
         const activeDays = end.getDate();
         const prorated = Math.round((rent / totalDays) * activeDays * 100) / 100;
         rows.push({
-          label: `Licence Fee (${counter}) — prorated ${activeDays}/${totalDays} days`,
+          label: `Licence Fee (${counter}), prorated ${activeDays}/${totalDays} days`,
           amount: fmtAmount(prorated),
           amountNum: prorated,
-          date: `${fmtDate(current)} – ${fmtDate(end)}`,
+          date: `${fmtDate(current)}, ${fmtDate(end)}`,
           dateISO: current.toISOString().split("T")[0],
         });
         break;

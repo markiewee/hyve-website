@@ -47,7 +47,7 @@ function parseDateField(raw) {
 /**
  * Map a raw CSV row (with Aspire-style column names) to our transaction schema.
  *
- * @param {Object} row  — papaparse header row
+ * @param {Object} row, papaparse header row
  * @returns {{ transaction_date: string, description: string, amount: number, currency: string, reference: string }}
  */
 function mapCsvRow(row) {
@@ -82,7 +82,7 @@ function mapCsvRow(row) {
   return {
     transaction_date: parseDateField(rawDate),
     description: String(rawDescription).trim(),
-    // Keep original sign — it determines income vs expense
+    // Keep original sign, it determines income vs expense
     amount: parseFloat(String(rawAmount).replace(/[^0-9.\-]/g, '')) || 0,
     currency: String(rawCurrency).trim() || 'SGD',
     reference: String(rawReference).trim(),
@@ -95,7 +95,7 @@ function mapCsvRow(row) {
  *
  * @param {Array}    rows
  * @param {string}   batchId
- * @param {Function} onProgress  — called with (insertedSoFar, total)
+ * @param {Function} onProgress, called with (insertedSoFar, total)
  */
 async function insertInChunks(rows, batchId, onProgress) {
   let inserted = 0;
@@ -175,7 +175,7 @@ async function finaliseBatch(batchId, stats) {
     .eq('id', batchId);
 
   if (error) {
-    // Non-fatal — log but don't throw
+    // Non-fatal, log but don't throw
     console.error('[useTransactionImport] Failed to update batch stats:', error.message);
   }
 }
@@ -268,7 +268,7 @@ export function useTransactionImport() {
           skipEmptyLines: true,
           complete: (result) => {
             if (result.errors.length > 0) {
-              // Non-fatal row-level errors — log and continue
+              // Non-fatal row-level errors, log and continue
               console.warn('[useTransactionImport] CSV parse warnings:', result.errors);
             }
             resolve(result.data);

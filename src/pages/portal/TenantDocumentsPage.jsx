@@ -80,7 +80,7 @@ export default function TenantDocumentsPage() {
 
     try {
       const ts = Date.now();
-      // Safely extract extension — fallback to mime type or "bin"
+      // Safely extract extension, fallback to mime type or "bin"
       const nameParts = uploadFile.name.split(".");
       const ext = nameParts.length > 1 ? nameParts.pop().toLowerCase() : (uploadFile.type?.split("/")[1] || "bin");
       const mimeType = uploadFile.type || "application/octet-stream";
@@ -95,7 +95,7 @@ export default function TenantDocumentsPage() {
 
       if (uploadError) throw new Error("Upload failed: " + uploadError.message);
 
-      // Store the path — use signed URLs for private bucket
+      // Store the path, use signed URLs for private bucket
       const fileUrl = `tenant-documents/${storagePath}`;
 
       const { error: insertError } = await supabase
@@ -174,7 +174,7 @@ export default function TenantDocumentsPage() {
                     </p>
                     <p className="font-mono text-xs text-foreground-variant mt-0.5">
                       {DOC_TYPE_LABELS[doc.doc_type] || doc.doc_type}
-                      {doc.created_at && ` — ${new Date(doc.created_at).toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" })}`}
+                      {doc.created_at && `${new Date(doc.created_at).toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" })}`}
                     </p>
                   </div>
                 </div>

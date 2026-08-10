@@ -30,7 +30,7 @@ function resolveImageContentType(file) {
 }
 
 // supabase-js uploads a File/Blob via multipart FormData and takes the part's
-// content-type from the Blob's own .type — the `contentType` upload option is
+// content-type from the Blob's own .type, the `contentType` upload option is
 // IGNORED for File bodies. So when the type is missing/wrong we must re-wrap the
 // bytes into a new File that carries a valid image/* type, or the image/*-only
 // bucket rejects it with 415.
@@ -46,7 +46,7 @@ function isHeic(file) {
 }
 
 // iPhones save photos as HEIC by default. iOS Safari can render HEIC, but
-// Chrome / Firefox / most admin browsers cannot — admins would see broken
+// Chrome / Firefox / most admin browsers cannot, admins would see broken
 // thumbnails. Convert HEIC to JPEG client-side before upload so the photo is
 // viewable everywhere. heic2any is dynamically imported so the ~1MB libheif
 // WASM payload only loads when an iOS user actually picks a HEIC file.
@@ -117,7 +117,7 @@ export default function TicketForm({ preselectedCategory = null }) {
 
     try {
       // 1. Upload photos to storage FIRST. We deliberately do not create the
-      //    ticket until at least one photo is secured — tenants can't DELETE a
+      //    ticket until at least one photo is secured, tenants can't DELETE a
       //    ticket (RLS), so an insert-then-rollback approach leaves orphan
       //    photo-less tickets whenever an upload fails. Upload-first means a
       //    failure simply aborts before any ticket row exists.
@@ -166,7 +166,7 @@ export default function TicketForm({ preselectedCategory = null }) {
       if (rowError) console.error("Photo row insert failed:", rowError);
 
       // Email the submitter a "we've received your request" confirmation.
-      // Fire-and-forget — notify swallows its own errors, never blocks filing.
+      // Fire-and-forget, notify swallows its own errors, never blocks filing.
       notifyTicketStatusChange(ticket, "OPEN", null);
 
       navigate("/portal/issues");
@@ -246,7 +246,7 @@ export default function TicketForm({ preselectedCategory = null }) {
           htmlFor="photos"
           className="block text-sm font-medium text-foreground mb-2"
         >
-          Photos <span className="text-red-600 font-normal">(required — at least 1, up to {MAX_PHOTOS})</span>
+          Photos <span className="text-red-600 font-normal">(required, at least 1, up to {MAX_PHOTOS})</span>
         </label>
         <input
           id="photos"

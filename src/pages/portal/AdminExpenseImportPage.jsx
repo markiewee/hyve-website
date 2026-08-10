@@ -326,13 +326,13 @@ export default function AdminExpenseImportPage() {
         return;
       }
 
-      // Add unique keys for tracking (reference alone isn't unique — combine with amount + date + description)
+      // Add unique keys for tracking (reference alone isn't unique, combine with amount + date + description)
       const withKeys = debitTxns.map((t, i) => ({
         ...t,
         _key: `${t.reference || "no-ref"}-${t.transaction_date}-${t.amount}-${(t.description || "").slice(0, 20)}-${i}`,
       }));
 
-      // Save to bank_transactions — keep original reference, skip if already exists
+      // Save to bank_transactions, keep original reference, skip if already exists
       const existingRefs = new Set();
       if (withKeys.some((t) => t.reference)) {
         const { data: existingBt } = await supabase
@@ -421,7 +421,7 @@ export default function AdminExpenseImportPage() {
       const actuallyIgnored = needsTagging.filter((t) => t._wasIgnored);
       const actuallyUntagged = needsTagging.filter((t) => !t._wasIgnored);
 
-      // Append to existing — don't replace, so multiple fetches stack up
+      // Append to existing, don't replace, so multiple fetches stack up
       setUntagged((prev) => {
         const existingKeys = new Set(prev.map((t) => t._key));
         const newUntagged = actuallyUntagged.filter((t) => !existingKeys.has(t._key));
@@ -511,7 +511,7 @@ export default function AdminExpenseImportPage() {
         saved++;
       }
 
-      setMessage({ type: "success", text: `Progress saved — ${saved} transactions stored.` });
+      setMessage({ type: "success", text: `Progress saved, ${saved} transactions stored.` });
     } catch (err) {
       setMessage({ type: "error", text: `Save failed: ${err.message}` });
     } finally {
@@ -663,7 +663,7 @@ export default function AdminExpenseImportPage() {
   }
 
   async function handleUndoTagged(txn) {
-    // Delete from property_expenses — by ID if available, otherwise by description+amount match
+    // Delete from property_expenses, by ID if available, otherwise by description+amount match
     if (txn._expenseId) {
       const { error } = await supabase
         .from("property_expenses")
@@ -829,7 +829,7 @@ export default function AdminExpenseImportPage() {
         const grossProfit = income - expensesExclMgmt;
         const netAfterCarry = grossProfit - carriedLoss;
 
-        // Always charge management fee — carry losses forward
+        // Always charge management fee, carry losses forward
         mgmtFeeApplied[propId] = mgmtFee;
         mgmtFeeWaived[propId] = false;
         const netAfterMgmt = netAfterCarry - mgmtFee;
@@ -1337,7 +1337,7 @@ export default function AdminExpenseImportPage() {
                                 <button
                                   onClick={() => handleUndoTagged(txn)}
                                   className="text-foreground-variant hover:text-red-300 transition-colors shrink-0"
-                                  title="Undo — move back to untagged"
+                                  title="Undo, move back to untagged"
                                 >
                                   <span className="material-symbols-outlined text-[16px]">undo</span>
                                 </button>
@@ -1522,7 +1522,7 @@ export default function AdminExpenseImportPage() {
                   </td>
                 </tr>
 
-                {/* Expenses section (excluding management fees — shown separately) */}
+                {/* Expenses section (excluding management fees, shown separately) */}
                 <tr className="bg-red-500/10">
                   <td
                     colSpan={pnlData.properties.length + 2}
@@ -1589,7 +1589,7 @@ export default function AdminExpenseImportPage() {
                   </td>
                 </tr>
 
-                {/* Carried Loss (prev month) — only show if any property has carried loss */}
+                {/* Carried Loss (prev month), only show if any property has carried loss */}
                 {pnlData.carriedLossFromPrev && pnlData.properties.some((p) => (pnlData.carriedLossFromPrev[p] || 0) > 0) && (
                   <tr className="border-b border-border bg-amber-500/10">
                     <td className="py-2 pr-4 font-['Inter'] text-foreground italic">
@@ -1687,7 +1687,7 @@ export default function AdminExpenseImportPage() {
                   </td>
                 </tr>
 
-                {/* Loss Carried Forward — only show if any property has loss to carry */}
+                {/* Loss Carried Forward, only show if any property has loss to carry */}
                 {pnlData.carriedLossForward && pnlData.properties.some((p) => (pnlData.carriedLossForward[p] || 0) > 0) && (
                   <tr className="border-t border-border bg-amber-500/10">
                     <td className="py-2 pr-4 font-['Inter'] font-semibold text-amber-300 italic">

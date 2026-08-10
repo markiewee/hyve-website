@@ -252,7 +252,7 @@ export default function AdminChannelPricingPage() {
                           {money(b.quotedMonthly)}
                         </td>
                         <td className="px-4 py-3 text-right font-mono text-foreground-variant">
-                          {b.channelCost ? money(b.channelCost) : "—"}
+                          {b.channelCost ? money(b.channelCost) : "-"}
                         </td>
                         <td className="px-4 py-3 text-right font-mono text-foreground">
                           {money(b.netMonthly)}
@@ -385,7 +385,7 @@ function ChannelPins({ channels, onError }) {
     else setPins((p) => p.map((r) => (r.pin === pin ? { ...r, enabled: false } : r)));
   }
 
-  const nameOf = (id) => channels.find((c) => c.id === id)?.name ?? "—";
+  const nameOf = (id) => channels.find((c) => c.id === id)?.name ?? "-";
 
   return (
     <div className="border border-border p-4 space-y-3">

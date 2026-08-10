@@ -6,7 +6,7 @@ function formatMonth(monthStr) {
 }
 
 function formatDate(dateStr) {
-  if (!dateStr) return "—";
+  if (!dateStr) return "-";
   return new Date(dateStr).toLocaleDateString("en-SG", {
     day: "numeric",
     month: "short",

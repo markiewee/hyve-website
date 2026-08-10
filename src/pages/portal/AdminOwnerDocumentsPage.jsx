@@ -340,10 +340,10 @@ export default function AdminOwnerDocumentsPage() {
                     {propertyDocLabel(d.doc_type)}
                   </td>
                   <td className="px-4 py-3 font-mono text-[13px] text-foreground-variant whitespace-nowrap">
-                    {formatPeriodMonth(d.period_month) || "—"}
+                    {formatPeriodMonth(d.period_month) || "-"}
                   </td>
                   <td className="px-4 py-3 font-mono text-[13px] text-foreground-variant whitespace-nowrap">
-                    {formatFileSize(d.file_size) || "—"}
+                    {formatFileSize(d.file_size) || "-"}
                   </td>
                   <td className="px-4 py-3 font-mono text-[13px] text-foreground-variant whitespace-nowrap">
                     {fmtDate(d.created_at)}

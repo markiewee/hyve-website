@@ -5,7 +5,7 @@ import { confirm } from "../../lib/confirm";
 import { PORTAL_URL } from "../../lib/portal";
 
 function formatSGD(amount) {
-  if (amount == null) return "—";
+  if (amount == null) return "-";
   return `$${Number(amount).toLocaleString("en-SG", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -642,7 +642,7 @@ export default function AdminInvestorsPage() {
                             </div>
                             <div className="min-w-0">
                               <p className="font-body font-bold text-foreground text-sm truncate">
-                                {inv.full_name ?? "—"}
+                                {inv.full_name ?? "-"}
                               </p>
                               <p className="font-body text-foreground-variant text-xs truncate">{inv.email}</p>
                             </div>
@@ -698,7 +698,7 @@ export default function AdminInvestorsPage() {
                                     return (
                                       <tr key={i.id}>
                                         <td className="px-4 py-3 font-body text-sm font-medium text-foreground">
-                                          {i.properties?.name ?? "—"}
+                                          {i.properties?.name ?? "-"}
                                         </td>
                                         <td className="px-4 py-3 text-right font-body text-sm tabular-nums font-medium">
                                           {formatSGD(i.capital_contributed)}
@@ -861,10 +861,10 @@ export default function AdminInvestorsPage() {
                 {pendingDistributions.map((dist) => (
                   <tr key={dist.id} className="hover:bg-white/5 transition-colors">
                     <td className="px-4 py-3 font-body text-sm font-medium text-foreground">
-                      {dist.investors?.name ?? dist.investors?.email ?? "—"}
+                      {dist.investors?.name ?? dist.investors?.email ?? "-"}
                     </td>
                     <td className="px-4 py-3 font-body text-sm text-foreground-variant">
-                      {dist.properties?.name ?? "—"}
+                      {dist.properties?.name ?? "-"}
                       {dist.properties?.code && (
                         <span className="ml-1.5 font-body text-xs font-bold bg-white/5 text-accent px-1.5 py-0.5 rounded">
                           {dist.properties.code}
@@ -924,10 +924,10 @@ export default function AdminInvestorsPage() {
                 {paidDistributions.map((dist) => (
                   <tr key={dist.id} className="hover:bg-white/5 transition-colors">
                     <td className="px-4 py-3 font-body text-sm font-medium text-foreground">
-                      {dist.investors?.name ?? "—"}
+                      {dist.investors?.name ?? "-"}
                     </td>
                     <td className="px-4 py-3 font-body text-sm text-foreground-variant">
-                      {dist.properties?.name ?? "—"}
+                      {dist.properties?.name ?? "-"}
                     </td>
                     <td className="px-4 py-3 text-right font-display font-bold text-sm text-emerald-400 tabular-nums">
                       {formatSGD(dist.amount)}
@@ -935,7 +935,7 @@ export default function AdminInvestorsPage() {
                     <td className="px-4 py-3 text-right font-body text-xs text-foreground-variant">
                       {dist.paid_at ? new Date(dist.paid_at).toLocaleDateString("en-SG", {
                         day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit",
-                      }) : "—"}
+                      }) : "-"}
                     </td>
                   </tr>
                 ))}

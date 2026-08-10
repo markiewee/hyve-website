@@ -243,7 +243,7 @@ export default function DraggableSignaturePlacer({ pdfUrl, value, onChange }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Internal positions in PDF points — resolve "last" to actual page number
+  // Internal positions in PDF points, resolve "last" to actual page number
   const resolvePage = (p) => (p === "last" && numPages) ? numPages : (typeof p === "number" ? p : 1);
   const ALL_ROLES = ["tenant", "admin", "tenant_date", "admin_date"];
   const positions = {};

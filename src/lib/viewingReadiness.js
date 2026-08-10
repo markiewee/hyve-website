@@ -6,11 +6,11 @@
 //   2. Pax
 //   3. Move-in date
 //   4. Lease duration
-//   5. Viewing host arrangement confirmed — see roles below.
+//   5. Viewing host arrangement confirmed, see roles below.
 //
 // Viewing host arrangement satisfied when one of:
 //   • In-person: a resident or captain has acknowledged BOTH door-opener and
-//     shower roles (same person can fill both — preferred path).
+//     shower roles (same person can fill both, preferred path).
 //   • Virtual (last resort): Mark provides the door code remotely AND
 //     conducts the tour by video call. Flagged via activity entry of
 //     type "virtual_viewing_arranged".

@@ -40,7 +40,7 @@ function calcTodayHours(events) {
   }
 
   // Edge case: if the first event is OFF, AC was likely on since midnight
-  // We only count from events we can see — conservative approach.
+  // We only count from events we can see, conservative approach.
 
   return totalMs / (1000 * 60 * 60);
 }

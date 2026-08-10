@@ -31,7 +31,7 @@ const AboutPage = () => {
     <main className="bg-background text-foreground pt-24 md:pt-28">
       <SEO
         title="About Lazybee"
-        description="Lazybee makes co-living in Singapore simple — all-inclusive, furnished rooms near MRT, no agent fees."
+        description="Lazybee makes co-living in Singapore simple, all-inclusive, furnished rooms near MRT, no agent fees."
         canonical="/about"
         schema={[orgSchema(), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }])]}
       />
@@ -47,7 +47,7 @@ const AboutPage = () => {
               Architecting the <span className="text-accent italic">future</span> of urban sanctuary.
             </h1>
             <p className="text-foreground-variant text-lg lg:text-xl leading-relaxed max-w-xl">
-              We believe living spaces should be more than a residence. Lazybee is a movement toward intentional, community-driven living — all-inclusive, no agent fees, flexible 3-month leases, and always near the MRT.
+              We believe living spaces should be more than a residence. Lazybee is a movement toward intentional, community-driven living, all-inclusive, no agent fees, flexible 3-month leases, and always near the MRT.
             </p>
           </div>
         </FadeIn>
@@ -88,7 +88,7 @@ const AboutPage = () => {
                   Founded in 2023, Lazybee was born from a simple observation: young professionals and students in Singapore were seeking connection, not just square footage.
                 </p>
                 <p>
-                  Our journey began with a small team sketching a model for living that balanced private sanctuary with vibrant shared ecosystems. Today, we operate 3 properties across Singapore&apos;s most vibrant neighbourhoods — home to 16 residents from multiple nationalities and growing.
+                  Our journey began with a small team sketching a model for living that balanced private sanctuary with vibrant shared ecosystems. Today, we operate 3 properties across Singapore&apos;s most vibrant neighbourhoods, home to 16 residents from multiple nationalities and growing.
                 </p>
                 <p>
                   Everything is all-inclusive: utilities, WiFi, weekly housekeeping, professional management. No agent fees. Flexible 3-month leases. Every property is within walking distance of an MRT. Lazybee isn&apos;t just a place to stay &mdash; it&apos;s a curated lifestyle for the modern professional.
@@ -112,7 +112,7 @@ const AboutPage = () => {
             {
               icon: 'payments',
               title: 'All-Inclusive Pricing',
-              description: 'From S$950/month — utilities, WiFi, weekly housekeeping, and maintenance all covered. No hidden fees, no agent commission.'
+              description: 'From S$950/month, utilities, WiFi, weekly housekeeping, and maintenance all covered. No hidden fees, no agent commission.'
             },
             {
               icon: 'directions_transit',
@@ -122,7 +122,7 @@ const AboutPage = () => {
             {
               icon: 'event_available',
               title: 'Flexible Leases',
-              description: '3-month minimum stay with options to extend. Professional management that actually responds — 24/7 for residents.'
+              description: '3-month minimum stay with options to extend. Professional management that actually responds, 24/7 for residents.'
             }
           ].map((value, index) => (
             <FadeIn key={index} delay={index * 0.1}>
@@ -157,7 +157,7 @@ const AboutPage = () => {
               {
                 icon: 'architecture',
                 title: 'Design',
-                description: 'Thoughtfully designed environments that optimise light, flow, and wellness — creating physical sanctuaries for the soul.'
+                description: 'Thoughtfully designed environments that optimise light, flow, and wellness, creating physical sanctuaries for the soul.'
               },
               {
                 icon: 'hub',

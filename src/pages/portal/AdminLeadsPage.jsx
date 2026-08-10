@@ -9,13 +9,13 @@ import { LeadFunnelPanel } from "@/components/portal/leads/LeadFunnelPanel";
 import { Button } from "@/components/ui/button";
 
 // Order: prospect lifecycle, then legacy aliases mixed in where they fit semantically.
-// 'cold' sits between viewing_done and the closed/lost archive lanes — it's a
+// 'cold' sits between viewing_done and the closed/lost archive lanes, it's a
 // parking lane for leads that went silent but might re-warm, NOT a final state.
 const ACTIVE_STATUSES = [
   "new",
   "qualified",
   "viewing_booked",
-  "viewed",          // legacy — pairs with viewing_booked/done
+  "viewed",          // legacy, pairs with viewing_booked/done
   "viewing_done",
   "cold",            // holding lane for silent-but-revivable leads
   "agreement_sent",
@@ -31,12 +31,12 @@ export default function AdminLeadsPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
 
-  // Require 8px movement before drag starts — otherwise a click never reaches the card.
+  // Require 8px movement before drag starts, otherwise a click never reaches the card.
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
 
   // Tracks whether the most recent pointer interaction was a drag, so we can
   // suppress the click that fires after a successful drop (the card's onClick
-  // runs after dragend, by which time isDragging is already false — see
+  // runs after dragend, by which time isDragging is already false, see
   // https://github.com/clauderic/dnd-kit/issues/591). Without this guard,
   // every drop also opens the LeadDrawer, which Mark perceived as DnD being
   // broken.

@@ -31,13 +31,13 @@ const ROOM_TYPE_OPTIONS = [
   { value: "standard", label: "Standard" },
 ];
 const TENANT_TYPE_OPTIONS = [
-  { value: "", label: "—" },
+  { value: "", label: "-" },
   { value: "single", label: "Single" },
   { value: "couple", label: "Couple" },
   { value: "group", label: "Group" },
 ];
 const LEASE_OPTIONS = [
-  { value: "", label: "—" },
+  { value: "", label: "-" },
   { value: 3, label: "3 months" },
   { value: 6, label: "6 months" },
   { value: 9, label: "9 months" },
@@ -109,7 +109,7 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
       <SheetContent className="w-[520px] sm:max-w-[520px] overflow-y-auto">
         <SheetHeader>
           <SheetTitle>
-            {lead.name || "(no name)"} {lead.phone ? `— ${lead.phone}` : ""}
+            {lead.name || "(no name)"} {lead.phone ? `${lead.phone}` : ""}
           </SheetTitle>
         </SheetHeader>
 
@@ -318,7 +318,7 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
           </div>
 
           <div className="text-xs text-foreground-variant border-t pt-3 space-y-1.5">
-            <div>Source: <span className="text-foreground">{lead.source || "—"}</span></div>
+            <div>Source: <span className="text-foreground">{lead.source || "-"}</span></div>
             <div className="flex items-center gap-2">
               <label className="text-foreground-variant">Date initiated:</label>
               <input
@@ -340,7 +340,7 @@ export function LeadDrawer({ lead, open, onOpenChange, onSave }) {
             </div>
             <div>
               Last message:{" "}
-              <span className="text-foreground">{lead.last_message_excerpt || "—"}</span>
+              <span className="text-foreground">{lead.last_message_excerpt || "-"}</span>
             </div>
             {lead.chat_id && (
               <div>chat_id: <span className="text-foreground font-mono">{lead.chat_id}</span></div>
@@ -462,7 +462,7 @@ function OffHorizonPanel({ lead }) {
   return (
     <div className="rounded-md border border-amber-500/25 bg-amber-500/10 p-3 space-y-2">
       <div className="text-xs font-semibold uppercase tracking-wider text-amber-300">
-        Off-horizon — target {intent.target_move_in_date || "?"}
+        Off-horizon, target {intent.target_move_in_date || "?"}
       </div>
       <div className="text-xs text-amber-300">
         Sent {sentCount} reminder{sentCount === 1 ? "" : "s"}.
@@ -543,7 +543,7 @@ function ViewingReadinessPanel({ lead }) {
         <div className="text-[11px] text-amber-300 mt-2 leading-snug">
           Viewing cannot proceed until all 5 are checked. Two roles need to be
           covered: <strong>door-opener</strong> (lets the prospect in) and
-          <strong> shower</strong> (gives the tour) — the same resident or
+          <strong> shower</strong> (gives the tour), the same resident or
           captain can do both. If neither is available, last resort is a
           <strong> virtual viewing</strong>: Mark shares the door code remotely
           and conducts the tour over video.

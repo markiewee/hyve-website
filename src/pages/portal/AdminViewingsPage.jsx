@@ -36,12 +36,12 @@ function isoDate(d) {
 }
 
 function fmtDate(iso, opts = { weekday: "short", day: "numeric", month: "short" }) {
-  if (!iso) return "—";
+  if (!iso) return "-";
   return new Date(iso).toLocaleDateString("en-SG", { ...opts, timeZone: "Asia/Singapore" });
 }
 
 function fmtTime(iso) {
-  if (!iso) return "—";
+  if (!iso) return "-";
   return new Date(iso).toLocaleTimeString("en-SG", {
     hour: "numeric",
     minute: "2-digit",
@@ -169,7 +169,7 @@ function CalendarTab({ viewings, refetch }) {
   const windowKeys = useMemo(() => expandToSlotKeys(gcalWindows), [gcalWindows]);
   // Only enforce the "outside-window = not bookable" rule for property-filter
   // views matching the window's anchor property (or unfiltered). Windows tagged
-  // "— CP only" should grey out for IH/TG, etc.
+  // "CP only" should grey out for IH/TG, etc.
   const windowKeysByAnchor = useMemo(() => {
     const map = {};
     for (const w of gcalWindows) {
@@ -318,7 +318,7 @@ function CalendarTab({ viewings, refetch }) {
                         const free = !viewing;
                         const gcalBusy = free && gcalBlockedKeys.has(key);
                         // Inside a booking window we set on gcal? Mirrors what
-                        // prospects see at lazybee.sg/book — anything outside
+                        // prospects see at lazybee.sg/book, anything outside
                         // a window is unbookable from their side.
                         const anchorKey = propertyFilter || "ALL";
                         const inWindow =
@@ -331,7 +331,7 @@ function CalendarTab({ viewings, refetch }) {
                             key={`${key}-${half}`}
                             onClick={() => {
                               if (gcalBusy) {
-                                // GCal-only busy — no admin write path, just informational.
+                                // GCal-only busy, no admin write path, just informational.
                                 return;
                               }
                               if (free) {
@@ -424,17 +424,17 @@ function CalendarTab({ viewings, refetch }) {
                       </td>
                       <td className="px-4 py-3">
                         <span className={`${badge.bg} ${badge.text} text-[10px] font-bold px-2 py-1 rounded`}>
-                          {code || "—"}
+                          {code || "-"}
                         </span>
                       </td>
                       <td className="px-4 py-3 text-foreground">
                         {v.prospect_name || "Unknown"}
                       </td>
                       <td className="px-4 py-3 text-foreground-variant text-xs">
-                        {v.captain?.full_name || "—"}
+                        {v.captain?.full_name || "-"}
                       </td>
                       <td className="px-4 py-3 text-right text-xs text-foreground-variant uppercase tracking-wider">
-                        {v.source || "—"}
+                        {v.source || "-"}
                       </td>
                     </tr>
                   );
@@ -519,12 +519,12 @@ function ViewingModal({ viewing, onClose, onChanged }) {
               {fmtDate(viewing.slot_start, { weekday: "long", day: "numeric", month: "long" })}
             </p>
             <p className="text-foreground-variant">
-              {fmtTime(viewing.slot_start)} – {fmtTime(viewing.slot_end)}
+              {fmtTime(viewing.slot_start)}, {fmtTime(viewing.slot_end)}
             </p>
           </div>
           <div>
             <p className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Property</p>
-            <p className="font-medium text-foreground">{viewing.properties?.name || meta?.name || "—"}</p>
+            <p className="font-medium text-foreground">{viewing.properties?.name || meta?.name || "-"}</p>
             {viewing.rooms && (
               <p className="text-foreground-variant text-xs">
                 Room: {viewing.rooms.unit_code || viewing.rooms.name}
@@ -533,7 +533,7 @@ function ViewingModal({ viewing, onClose, onChanged }) {
           </div>
           <div>
             <p className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Prospect</p>
-            <p className="font-medium text-foreground">{viewing.prospect_name || "—"}</p>
+            <p className="font-medium text-foreground">{viewing.prospect_name || "-"}</p>
             <p className="text-foreground-variant text-xs">{viewing.prospect_email}</p>
             <p className="text-foreground-variant text-xs">{viewing.prospect_whatsapp}</p>
           </div>
@@ -545,7 +545,7 @@ function ViewingModal({ viewing, onClose, onChanged }) {
           )}
           <div>
             <p className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold">Source</p>
-            <p className="text-foreground uppercase tracking-wider text-xs">{viewing.source || "—"}</p>
+            <p className="text-foreground uppercase tracking-wider text-xs">{viewing.source || "-"}</p>
           </div>
         </div>
 
@@ -593,7 +593,7 @@ function BlockSlotModal({ slot, onClose, onBlocked }) {
       onClose();
     } catch (err) {
       // If backend hasn't shipped /api/book/block yet we surface a friendly message
-      // rather than crashing — Mark can still cancel in-cal manually.
+      // rather than crashing, Mark can still cancel in-cal manually.
       if (err.status === 404) {
         setError("Blocking endpoint not deployed yet. Add the block manually in Google Calendar.");
       } else {
@@ -618,7 +618,7 @@ function BlockSlotModal({ slot, onClose, onBlocked }) {
         </div>
         <p className="text-sm text-foreground-variant mb-4">
           {fmtDate(slot.slot_start, { weekday: "short", day: "numeric", month: "short" })} ·{" "}
-          {fmtTime(slot.slot_start)} — {fmtTime(slot.slot_end)}
+          {fmtTime(slot.slot_start)}, {fmtTime(slot.slot_end)}
         </p>
         <div className="space-y-3 mb-4">
           <div>
@@ -681,7 +681,7 @@ function LeadsTab() {
         .order("first_contact_at", { ascending: false })
         .limit(500);
       if (error) {
-        // Table may not exist yet (backend agent's migration hasn't landed) — degrade gracefully.
+        // Table may not exist yet (backend agent's migration hasn't landed), degrade gracefully.
         if (
           error.code === "42P01" ||
           /relation .* does not exist/i.test(error.message || "")
@@ -827,10 +827,10 @@ function LeadsTab() {
                       <div>{l.phone}</div>
                     </td>
                     <td className="px-4 py-3 text-xs text-foreground-variant">
-                      {(l.property_interest || []).join(", ") || "—"}
+                      {(l.property_interest || []).join(", ") || "-"}
                     </td>
                     <td className="px-4 py-3 text-xs uppercase tracking-wider text-foreground-variant">
-                      {l.source || "—"}
+                      {l.source || "-"}
                     </td>
                     <td className="px-4 py-3">
                       <span className={`${status?.color || "bg-surface-container text-foreground-variant"} text-[10px] font-bold px-2 py-1 rounded`}>
@@ -928,8 +928,8 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
             <p className="text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-1">
               Contact
             </p>
-            <p className="text-sm text-foreground">{lead.email || "—"}</p>
-            <p className="text-sm text-foreground">{lead.phone || "—"}</p>
+            <p className="text-sm text-foreground">{lead.email || "-"}</p>
+            <p className="text-sm text-foreground">{lead.phone || "-"}</p>
             <div className="flex gap-2 mt-2">
               {lead.phone && (
                 <a
@@ -989,7 +989,7 @@ function LeadDrawer({ lead, onClose, onUpdated }) {
                   {fmtDate(lead.viewing.slot_start)} · {fmtTime(lead.viewing.slot_start)}
                 </p>
                 <p className="text-xs text-foreground-variant">
-                  Status: {lead.viewing.status || "—"}
+                  Status: {lead.viewing.status || "-"}
                 </p>
               </Link>
             </section>

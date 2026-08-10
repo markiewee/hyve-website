@@ -1,5 +1,5 @@
 /**
- * tagging.js — Pure functions for pattern matching and auto-tagging of bank transactions.
+ * tagging.js, Pure functions for pattern matching and auto-tagging of bank transactions.
  * No side effects, no database calls.
  */
 
@@ -29,14 +29,14 @@ export function normalizeDescription(desc) {
 }
 
 /**
- * Score how well a rule pattern matches a transaction description (0–1).
+ * Score how well a rule pattern matches a transaction description (0 to 1).
  *
  * Scoring rules (after normalization):
- *   1.0 — Exact match
- *   0.9 — Description contains the pattern
- *   0.7 — Pattern contains description (only if desc > 3 chars)
+ *   1.0, Exact match
+ *   0.9, Description contains the pattern
+ *   0.7, Pattern contains description (only if desc > 3 chars)
  *   word overlap ≥ 50% → score * 0.8
- *   0   — No match
+ *   0, No match
  *
  * @param {string} rulePattern
  * @param {string} transactionDesc
@@ -92,9 +92,9 @@ export function inferTransactionType(amount) {
  * transaction's own type (from the transaction_type field or inferred from
  * the amount sign). A type mismatch applies a 0.2 penalty.
  *
- * @param {Object} transaction — must have a `description` field
- * @param {Array}  rules       — each rule must have `pattern`, `property_id`, `category`, `id`, optionally `hit_count`, `transaction_type`
- * @param {number} threshold   — minimum confidence to return a match (default 0.6)
+ * @param {Object} transaction, must have a `description` field
+ * @param {Array}  rules, each rule must have `pattern`, `property_id`, `category`, `id`, optionally `hit_count`, `transaction_type`
+ * @param {number} threshold, minimum confidence to return a match (default 0.6)
  * @returns {{ rule: Object, confidence: number } | null}
  */
 export function findBestMatch(transaction, rules, threshold = 0.6) {

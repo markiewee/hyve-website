@@ -14,6 +14,7 @@
 // those are fixed by the same decision: a subject is a page, so the lead article
 // and the count are simply the lead article and count of that page.
 
+import { LazybeeRoot } from '../../hooks/useLazybeeTheme';
 import { useRef } from 'react';
 import { Navigate, useParams, Link } from 'react-router-dom';
 
@@ -43,7 +44,7 @@ export default function HiveTopicPage() {
   const [lead, ...rest] = topic.articles;
 
   return (
-    <div className="lzb hive" data-theme="alabaster" ref={rootRef}>
+    <LazybeeRoot className="lzb hive" ref={rootRef}>
       <HiveHeader />
 
       <HiveBanner
@@ -71,6 +72,6 @@ export default function HiveTopicPage() {
       </main>
 
       <HiveFooter />
-    </div>
+    </LazybeeRoot>
   );
 }

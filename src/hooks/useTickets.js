@@ -41,7 +41,7 @@ export function useTickets(roomId, propertyId, scope = "room") {
 
       const ticketsList = data ?? [];
 
-      // Look up submitter roles in a second query — maintenance_tickets.submitted_by
+      // Look up submitter roles in a second query, maintenance_tickets.submitted_by
       // references auth.users(id), not tenant_profiles, so we can't embed directly.
       const submitterIds = [...new Set(ticketsList.map((t) => t.submitted_by).filter(Boolean))];
       let roleByUserId = {};
@@ -68,7 +68,7 @@ export function useTickets(roomId, propertyId, scope = "room") {
 
     fetchTickets();
 
-    // Realtime subscription — refetch on any change to maintenance_tickets
+    // Realtime subscription, refetch on any change to maintenance_tickets
     const channel = supabase
       .channel("maintenance_tickets_changes")
       .on(

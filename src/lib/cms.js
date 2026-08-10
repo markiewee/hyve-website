@@ -1,11 +1,11 @@
-// CMS adapter — replaces src/lib/sanity.js.
+// CMS adapter, replaces src/lib/sanity.js.
 // Reads page/neighborhood content from Supabase `cms_content` table.
 // Reads property/room data from existing Supabase tables (the source of truth).
 // Surface area mirrors sanity.js so call sites swap imports with no other changes.
 
 import { supabase } from './supabase';
 
-// Each "query" is just an opaque tag — `client.fetch` switches on `kind`.
+// Each "query" is just an opaque tag, `client.fetch` switches on `kind`.
 export const QUERIES = {
   homePage:            { kind: 'page', slug: 'home' },
   aboutPage:           { kind: 'page', slug: 'about' },
@@ -188,7 +188,7 @@ export const client = {
       }
 
       case 'featuredProperties': {
-        // No `featured` column in Supabase yet — return all active, capped at 6
+        // No `featured` column in Supabase yet, return all active, capped at 6
         const { data, error } = await supabase
           .from('properties')
           .select('*, rooms(price_monthly, available_until)')
@@ -228,7 +228,7 @@ export const client = {
 };
 
 // Compat with Sanity's `urlFor(image).width(W).height(H).url()` fluent chain.
-// All our images are already local paths — width/height are decorative
+// All our images are already local paths, width/height are decorative
 // (the static server doesn't resize). Returns the src string from .url().
 export const urlFor = (image) => {
   const src =

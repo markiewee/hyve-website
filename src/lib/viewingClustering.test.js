@@ -54,7 +54,7 @@ test("open window, no bookings → 12 slots, all OPEN-ANY", () => {
   assert.ok(r.slots.every((s) => s.state === SLOT_STATE.OPEN_ANY));
 });
 
-test("TG booked at 19:45, TG prospect: tight cluster — only adjacent slots PROP_RESERVED", () => {
+test("TG booked at 19:45, TG prospect: tight cluster, only adjacent slots PROP_RESERVED", () => {
   const bookings = [{
     slot_start: "2026-05-15T19:45:00+08:00",
     slot_end:   "2026-05-15T20:00:00+08:00",
@@ -111,7 +111,7 @@ test("TG booked at 19:45, CP prospect: edge OPEN-ANY, near BLOCKED-BUFFER, far O
   assert.equal(at2030.state, SLOT_STATE.OPEN_ANY);
 });
 
-test("GCal pre-anchored TG — CP booking attempt rejected", () => {
+test("GCal pre-anchored TG, CP booking attempt rejected", () => {
   const result = validateBookingAttempt({
     propertyOfInterest: "CP",
     slotStartIso: "2026-05-15T19:00:00+08:00",
@@ -130,7 +130,7 @@ test("Tight cluster: TG extension to 20:00 (adjacent) when CP at 20:30 → would
     { slot_start: "2026-05-15T20:30:00+08:00", slot_end: "2026-05-15T20:45:00+08:00", property_code: "CP", status: "confirmed" },
   ];
   // 20:00 is the only adjacent-after slot. Extending TG cluster to [19:45, 20:15]
-  // leaves only 15 min to CP at 20:30 — under the 30-min travel buffer.
+  // leaves only 15 min to CP at 20:30, under the 30-min travel buffer.
   const result = validateBookingAttempt({
     propertyOfInterest: "TG",
     slotStartIso: "2026-05-15T20:00:00+08:00",
@@ -256,7 +256,7 @@ test("Slot outside window range → slot-outside-window", () => {
 });
 
 test("listUpcomingWindows returns Fri/Sat/Sun within horizon", () => {
-  // 2026-05-14 is Thursday — first window should be Fri 15
+  // 2026-05-14 is Thursday, first window should be Fri 15
   const now = new Date("2026-05-14T12:00:00+08:00");
   const ws = listUpcomingWindows(now, 7);
   assert.ok(ws.length >= 3, `expected ≥ 3 windows, got ${ws.length}`);
@@ -332,7 +332,7 @@ test("Strict cluster: TG bookings at 19:30 + 20:30 leave only adj-edge slots ope
   // Bookings keep BOOKED label.
   assert.equal(r.slots.find((s) => s.start === SLOT_AT("19:30")).state, SLOT_STATE.BOOKED);
   assert.equal(r.slots.find((s) => s.start === SLOT_AT("20:30")).state, SLOT_STATE.BOOKED);
-  // Mid-cluster gap slots are BLOCKED — no gap fill under strict rule.
+  // Mid-cluster gap slots are BLOCKED, no gap fill under strict rule.
   ["19:45","20:00","20:15"].forEach((t) => {
     assert.equal(r.slots.find((s) => s.start === SLOT_AT(t)).state, SLOT_STATE.BLOCKED_BUFFER);
   });
@@ -362,7 +362,7 @@ test("GCal blocker 20:00-20:30 → 20:00 and 20:15 slots are BLOCKED-CONFLICT", 
   assert.equal(at2030.state, SLOT_STATE.OPEN_ANY);
 });
 
-test("Blocker doesn't override BOOKED state — booking keeps BOOKED label", () => {
+test("Blocker doesn't override BOOKED state, booking keeps BOOKED label", () => {
   const r = resolveSlots({
     propertyOfInterest: "IH",
     window: friWindow(),
@@ -400,7 +400,7 @@ test("validateBookingAttempt rejects slot overlapping a blocker", () => {
 });
 
 test("buildWindowsResponse filters blockers to those overlapping each window", () => {
-  // Blocker on Friday only — Saturday window should be unaffected.
+  // Blocker on Friday only, Saturday window should be unaffected.
   const now = new Date("2026-05-12T08:00:00+08:00");
   const gcalEvents = [
     { start: "2026-05-15T19:00:00+08:00", end: "2026-05-15T22:00:00+08:00", anchorProperty: null },
@@ -425,7 +425,7 @@ test("buildWindowsResponse filters blockers to those overlapping each window", (
 
 // Regression: 30-min booking starting at a non-aligned 15-min boundary used to
 // leak grid slots that overlapped its second half (Shri K · 30 May · 12:00).
-// Sharlyn's 11:45–12:15 IH viewing should make BOTH the 11:45 and 12:00 grid
+// Sharlyn's 11:45 to 12:15 IH viewing should make BOTH the 11:45 and 12:00 grid
 // slots BOOKED, and validateBookingAttempt should reject 12:00 as slot-taken.
 test("30-min booking at 19:45 blocks both 19:45 AND 20:00 grid slots", () => {
   const bookings = [{
@@ -443,7 +443,7 @@ test("30-min booking at 19:45 blocks both 19:45 AND 20:00 grid slots", () => {
   const at1945 = r.slots.find((s) => s.start === SLOT_AT("19:45"));
   const at2000 = r.slots.find((s) => s.start === SLOT_AT("20:00"));
   assert.equal(at1945.state, SLOT_STATE.BOOKED);
-  assert.equal(at2000.state, SLOT_STATE.BOOKED, "20:00 sits inside the 19:45–20:15 booking and must be BOOKED");
+  assert.equal(at2000.state, SLOT_STATE.BOOKED, "20:00 sits inside the 19:45 to 20:15 booking and must be BOOKED");
 });
 
 test("validateBookingAttempt rejects a 30-min-overlapping slot with slot-taken", () => {

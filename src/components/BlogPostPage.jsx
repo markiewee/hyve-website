@@ -223,7 +223,7 @@ const BlogPostPage = () => {
         );
         index++;
       } else if (line.startsWith('- ')) {
-        // Handle list items — consume all consecutive '- ' lines
+        // Handle list items, consume all consecutive '- ' lines
         const nextLines = [];
         const startIndex = index;
         while (index < lines.length && lines[index].startsWith('- ')) {
@@ -240,7 +240,7 @@ const BlogPostPage = () => {
           </ul>
         );
       } else if (line.match(/^\d+\. /)) {
-        // Handle numbered lists — consume all consecutive numbered lines
+        // Handle numbered lists, consume all consecutive numbered lines
         const nextLines = [];
         const startIndex = index;
         while (index < lines.length && lines[index].match(/^\d+\. /)) {

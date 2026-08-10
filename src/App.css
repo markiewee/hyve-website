@@ -113,7 +113,7 @@
   --honey-800: #876010;
   --honey-900: #5C420B;
 
-  /* Portal sidebar + charts (consumed by ui/sidebar.jsx) — remapped to dark palette */
+  /* Portal sidebar + charts (consumed by ui/sidebar.jsx), remapped to dark palette */
   --sidebar: var(--surface);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--accent);

@@ -34,8 +34,8 @@ function wifiSignalLabel(rssi) {
 
 export default function DeviceStatusCard({ device, energyReading }) {
   const { rooms, ac_state, last_heartbeat, wifi_rssi } = device;
-  const unitCode = rooms?.unit_code ?? "—";
-  const roomName = rooms?.name ?? "—";
+  const unitCode = rooms?.unit_code ?? "-";
+  const roomName = rooms?.name ?? "-";
   const propertyName = rooms?.properties?.name ?? "";
   const online = isOnline(last_heartbeat);
   const wifi = wifiSignalLabel(wifi_rssi);
@@ -79,7 +79,7 @@ export default function DeviceStatusCard({ device, energyReading }) {
         </span>
       </div>
 
-      {/* Energy readings — show if available */}
+      {/* Energy readings, show if available */}
       {hasEnergy && (
         <div className="grid grid-cols-4 gap-2 bg-surface-container rounded-xl p-3">
           <div className="text-center">
@@ -112,7 +112,7 @@ export default function DeviceStatusCard({ device, energyReading }) {
           }`}
         >
           <span className="material-symbols-outlined text-[14px]">ac_unit</span>
-          AC {ac_state ?? "—"}
+          AC {ac_state ?? "-"}
         </span>
 
         {/* WiFi signal */}

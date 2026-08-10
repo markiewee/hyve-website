@@ -1,5 +1,5 @@
 // src/components/portal/leads/AddLeadModal.jsx
-// Manual lead capture — for prospects that come in by phone, walk-in, referral,
+// Manual lead capture, for prospects that come in by phone, walk-in, referral,
 // or any channel the auto-sweep didn't catch. Writes a fresh row to public.leads
 // (status defaults to "new") so it lands on the Kanban immediately.
 import { useState } from "react";
@@ -32,7 +32,7 @@ const SOURCE_OPTIONS = [
   "other",
 ];
 const TENANT_TYPE_OPTIONS = [
-  { value: "", label: "—" },
+  { value: "", label: "-" },
   { value: "single", label: "Single" },
   { value: "couple", label: "Couple" },
   { value: "group", label: "Group" },

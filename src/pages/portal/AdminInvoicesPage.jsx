@@ -156,8 +156,8 @@ export default function AdminInvoicesPage() {
               {filtered.map((inv) => (
                 <tr key={inv.id} className="hover:bg-white/5 transition-colors">
                   <td className="px-4 py-3 font-['Inter'] text-sm font-bold text-foreground">{inv.invoice_code}</td>
-                  <td className="px-4 py-3 font-['Inter'] text-sm text-foreground-variant">{inv.tenant_profiles?.username ?? "—"}</td>
-                  <td className="px-4 py-3 font-['Inter'] text-sm text-foreground-variant">{inv.tenant_profiles?.rooms?.unit_code ?? "—"}</td>
+                  <td className="px-4 py-3 font-['Inter'] text-sm text-foreground-variant">{inv.tenant_profiles?.username ?? "-"}</td>
+                  <td className="px-4 py-3 font-['Inter'] text-sm text-foreground-variant">{inv.tenant_profiles?.rooms?.unit_code ?? "-"}</td>
                   <td className="px-4 py-3 font-['Inter'] text-sm text-foreground text-right">{formatSGD(inv.total_due)}</td>
                   <td className="px-4 py-3 font-['Inter'] text-sm text-emerald-300 text-right">{formatSGD(inv.total_paid)}</td>
                   <td className="px-4 py-3 text-center">
@@ -200,7 +200,7 @@ export default function AdminInvoicesPage() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-surface border border-border rounded-2xl p-6 w-full max-w-md">
             <h3 className="font-display text-xl text-foreground mb-4">
-              Mark as Paid — {payModal.invoice_code}
+              Mark as Paid, {payModal.invoice_code}
             </h3>
             <div className="space-y-3">
               <div>

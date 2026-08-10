@@ -11,9 +11,9 @@ import {
 import { ownerSignedUrl } from "../../lib/propertyDocumentsApi";
 
 function fmtDate(d) {
-  if (!d) return "—";
+  if (!d) return "-";
   const dt = new Date(d);
-  if (isNaN(dt)) return "—";
+  if (isNaN(dt)) return "-";
   return dt.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 }
 
@@ -265,7 +265,7 @@ export default function LandlordPage() {
                     <div>
                       <dt className="font-mono text-[11px] uppercase tracking-[0.2em] text-foreground-variant">Passport / ID</dt>
                       <dd className="text-foreground mt-0.5">
-                        {r.id_number || "—"}
+                        {r.id_number || "-"}
                         {r.id_number && (
                           <span className="block text-[11px] text-foreground-variant">
                             {prettyLabel(r.id_type)}
@@ -277,7 +277,7 @@ export default function LandlordPage() {
                     <div>
                       <dt className="font-mono text-[11px] uppercase tracking-[0.2em] text-foreground-variant">Immigration Pass</dt>
                       <dd className="text-foreground mt-0.5">
-                        {r.pass_number || "—"}
+                        {r.pass_number || "-"}
                         {r.pass_number && (
                           <span className="block text-[11px] text-foreground-variant">
                             {prettyLabel(r.pass_type)}
@@ -327,7 +327,7 @@ export default function LandlordPage() {
                       </td>
                       <td className="px-5 py-4 text-foreground">{r.full_name}</td>
                       <td className="px-5 py-4 font-mono text-[13px] text-foreground-variant whitespace-nowrap">
-                        {r.nationality || "—"}
+                        {r.nationality || "-"}
                       </td>
                       <td className="px-5 py-4 whitespace-nowrap">
                         {r.id_number ? (
@@ -339,7 +339,7 @@ export default function LandlordPage() {
                             </div>
                           </div>
                         ) : (
-                          <span className="text-foreground-variant">—</span>
+                          <span className="text-foreground-variant">-</span>
                         )}
                       </td>
                       <td className="px-5 py-4 whitespace-nowrap">
@@ -352,7 +352,7 @@ export default function LandlordPage() {
                             </div>
                           </div>
                         ) : (
-                          <span className="text-foreground-variant">—</span>
+                          <span className="text-foreground-variant">-</span>
                         )}
                       </td>
                       <td className="px-5 py-4 font-mono text-[13px] text-foreground-variant whitespace-nowrap">

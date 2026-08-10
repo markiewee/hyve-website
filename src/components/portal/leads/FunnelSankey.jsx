@@ -148,7 +148,7 @@ export function FunnelSankey({ data, total, height = 280 }) {
         className="flex items-center justify-center text-foreground-variant text-sm italic"
         style={{ height }}
       >
-        No leads in this timeframe yet — adjust the filter or wait for new prospects.
+        No leads in this timeframe yet, adjust the filter or wait for new prospects.
       </div>
     );
   }

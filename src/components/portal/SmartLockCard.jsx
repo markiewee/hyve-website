@@ -71,7 +71,7 @@ export default function SmartLockCard({ lock, icon = "lock", label, sublabel, ac
           ) : (
             <>
               <div className="grid grid-cols-2 gap-3 text-sm">
-                <Field label="Battery" value={battery != null ? `${battery}%` : "—"} />
+                <Field label="Battery" value={battery != null ? `${battery}%` : "-"} />
                 <Field label="Lock ID" value={String(lock.lockId)} />
               </div>
 
@@ -85,7 +85,7 @@ export default function SmartLockCard({ lock, icon = "lock", label, sublabel, ac
                   <div className="space-y-1">
                     {passcodes.map((p) => (
                       <div key={p.keyboardPwdId} className="flex justify-between text-sm">
-                        <span className="text-foreground truncate">{p.keyboardPwdName || "—"}</span>
+                        <span className="text-foreground truncate">{p.keyboardPwdName || "-"}</span>
                         <span className="font-mono text-foreground-variant ml-3">{p.keyboardPwd}</span>
                       </div>
                     ))}

@@ -53,7 +53,7 @@ function DepositProofImage({ url }) {
 }
 
 function formatDateTime(dateStr) {
-  if (!dateStr) return "—";
+  if (!dateStr) return "-";
   return new Date(dateStr).toLocaleString("en-SG", {
     day: "numeric",
     month: "short",
@@ -395,7 +395,7 @@ export default function AdminOnboardingDetailPage() {
     if (error) {
       setMessage({ type: "error", text: "Failed to approve deposit: " + error.message });
     } else {
-      // Activate tenant — TA is signed and deposit is verified
+      // Activate tenant, TA is signed and deposit is verified
       const activateUpdates = { is_active: true, updated_at: new Date().toISOString() };
       if (onboarding.tenancy_end_date) {
         activateUpdates.lease_end = onboarding.tenancy_end_date;
@@ -562,8 +562,8 @@ export default function AdminOnboardingDetailPage() {
   }
 
   const currentStep = onboarding.current_step ?? "PERSONAL_DETAILS";
-  const unitCode = onboarding.tenant_profiles?.rooms?.unit_code ?? "—";
-  const propertyName = onboarding.tenant_profiles?.properties?.name ?? "—";
+  const unitCode = onboarding.tenant_profiles?.rooms?.unit_code ?? "-";
+  const propertyName = onboarding.tenant_profiles?.properties?.name ?? "-";
   const showBankTransferApproval =
     onboarding.deposit_method === "BANK_TRANSFER" && !onboarding.deposit_verified;
 
@@ -605,7 +605,7 @@ export default function AdminOnboardingDetailPage() {
 
         {/* Main actions */}
         <div className="lg:col-span-3 space-y-4">
-          {/* Member Profile — editable with save button */}
+          {/* Member Profile, editable with save button */}
           {tenantDetails && (
             <SectionCard title="Member Profile">
               <form onSubmit={async (e) => {
@@ -673,7 +673,7 @@ export default function AdminOnboardingDetailPage() {
                         <div className="h-24 w-32 rounded border border-border bg-muted flex items-center justify-center hover:bg-accent transition-colors">
                           <span className="material-symbols-outlined text-muted-foreground">image</span>
                         </div>
-                        <p className="text-[10px] text-primary mt-1 hover:underline">{alt} — click to view</p>
+                        <p className="text-[10px] text-primary mt-1 hover:underline">{alt}, click to view</p>
                       </button>
                     ) : null)}
                   </div>
@@ -705,7 +705,7 @@ export default function AdminOnboardingDetailPage() {
                         <div className="h-24 w-32 rounded border border-border bg-muted flex items-center justify-center hover:bg-accent transition-colors">
                           <span className="material-symbols-outlined text-muted-foreground">badge</span>
                         </div>
-                        <p className="text-[10px] text-primary mt-1 hover:underline">Work Pass — click to view</p>
+                        <p className="text-[10px] text-primary mt-1 hover:underline">Work Pass, click to view</p>
                       </button>
                     )}
                   </div>
@@ -815,7 +815,7 @@ export default function AdminOnboardingDetailPage() {
             </div>
           </SectionCard>
 
-          {/* Signature Placement — shown when a TA has been uploaded */}
+          {/* Signature Placement, shown when a TA has been uploaded */}
           {onboarding.ta_document_url && sigPlacerUrl && (
             <SectionCard title="Signature Placement">
               <p className="text-xs text-muted-foreground mb-2">
@@ -837,7 +837,7 @@ export default function AdminOnboardingDetailPage() {
             </SectionCard>
           )}
 
-          {/* Counter-Sign — shown only when tenant has signed but admin hasn't yet */}
+          {/* Counter-Sign, shown only when tenant has signed but admin hasn't yet */}
           {onboarding.signing_status === "TENANT_SIGNED" && (
             <SectionCard title="Counter-Sign Agreement">
               <div className="space-y-4">
@@ -848,7 +848,7 @@ export default function AdminOnboardingDetailPage() {
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500" />
                   </span>
                   <p className="text-sm text-amber-300 font-medium">
-                    Tenant has signed — waiting for your counter-signature
+                    Tenant has signed, waiting for your counter-signature
                   </p>
                 </div>
 
@@ -880,7 +880,7 @@ export default function AdminOnboardingDetailPage() {
                 <div className="space-y-3">
                   <p className="text-sm font-medium text-foreground">Your Signature</p>
 
-                  {/* Mode toggle — only shown when admin has a saved sig */}
+                  {/* Mode toggle, only shown when admin has a saved sig */}
                   {profile?.saved_signature && (
                     <div className="flex gap-2">
                       <button
@@ -936,7 +936,7 @@ export default function AdminOnboardingDetailPage() {
             </SectionCard>
           )}
 
-          {/* Fully executed — show confirmation */}
+          {/* Fully executed, show confirmation */}
           {onboarding.signing_status === "FULLY_EXECUTED" && (
             <SectionCard title="Agreement Status">
               <div className="flex items-start gap-3">
@@ -1037,7 +1037,7 @@ export default function AdminOnboardingDetailPage() {
               ) : (
                 <div className="space-y-3">
                   <p className="text-sm text-muted-foreground">
-                    Bank transfer selected — no proof image uploaded yet.
+                    Bank transfer selected, no proof image uploaded yet.
                   </p>
                   <div className="flex gap-2">
                     <Button
@@ -1143,7 +1143,7 @@ export default function AdminOnboardingDetailPage() {
                     {(tenantDetails?.full_name || onboarding.tenant_profiles.username || "?").charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">{tenantDetails?.full_name || "—"}</p>
+                    <p className="font-semibold text-foreground">{tenantDetails?.full_name || "-"}</p>
                     <p className="text-xs text-muted-foreground">{onboarding.tenant_profiles?.rooms?.unit_code} · {onboarding.tenant_profiles?.properties?.name}</p>
                   </div>
                 </div>
@@ -1281,7 +1281,7 @@ export default function AdminOnboardingDetailPage() {
             </SectionCard>
           )}
 
-          {/* Move-Out Process — shown when offboarding */}
+          {/* Move-Out Process, shown when offboarding */}
           {(onboarding.status === "END_OF_TENANCY" || onboarding.current_step === "END_OF_TENANCY") && (
             <SectionCard title="Move-Out Process">
               <div className="space-y-5">
@@ -1510,7 +1510,7 @@ export default function AdminOnboardingDetailPage() {
                         </span>
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        SGD {Number(c.amount).toFixed(2)} &mdash; Due: {c.due_date ?? "—"} &mdash; Created: {formatDateTime(c.created_at)}
+                        SGD {Number(c.amount).toFixed(2)} &mdash; Due: {c.due_date ?? "-"} &mdash; Created: {formatDateTime(c.created_at)}
                       </p>
                     </div>
                     {c.status === "PENDING" && (
@@ -1531,7 +1531,7 @@ export default function AdminOnboardingDetailPage() {
           {/* Actions: Offboard / Archive / Delete */}
           <SectionCard title="Member Actions">
             <div className="space-y-4">
-              {/* Offboard — for active or onboarding members */}
+              {/* Offboard, for active or onboarding members */}
               {onboarding.status !== "END_OF_TENANCY" && onboarding.status !== "ARCHIVED" && (
                 <div className="flex items-center justify-between p-3 rounded-lg border border-border">
                   <div>
@@ -1557,7 +1557,7 @@ export default function AdminOnboardingDetailPage() {
                 </div>
               )}
 
-              {/* Archive — available for all statuses */}
+              {/* Archive, available for all statuses */}
               {onboarding.status !== "ARCHIVED" && (
                 <div className="flex items-center justify-between p-3 rounded-lg border border-amber-500/25 bg-amber-500/10">
                   <div>
@@ -1591,7 +1591,7 @@ export default function AdminOnboardingDetailPage() {
                 </div>
               )}
 
-              {/* Delete — available for all statuses */}
+              {/* Delete, available for all statuses */}
               <div className="flex items-center justify-between p-3 rounded-lg border border-red-500/25 bg-red-500/10">
                 <div>
                   <p className="text-sm font-medium text-red-300">Delete Permanently</p>
@@ -1613,7 +1613,7 @@ export default function AdminOnboardingDetailPage() {
                       await supabase.from("tenant_details").delete().eq("tenant_profile_id", tpId);
                       await supabase.from("onboarding_progress").delete().eq("id", id);
                       await supabase.from("tenant_profiles").delete().eq("id", tpId);
-                      // Auth admin delete may fail from client — that's OK, DB records are gone
+                      // Auth admin delete may fail from client, that's OK, DB records are gone
                       if (userId) {
                         try { await supabase.auth.admin.deleteUser(userId); } catch {}
                       }
@@ -1725,7 +1725,7 @@ export default function AdminOnboardingDetailPage() {
             <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
               <div>
                 <dt className="text-muted-foreground">Deposit Method</dt>
-                <dd className="font-medium">{onboarding.deposit_method ?? "—"}</dd>
+                <dd className="font-medium">{onboarding.deposit_method ?? "-"}</dd>
               </div>
               <div>
                 <dt className="text-muted-foreground">Deposit Verified</dt>

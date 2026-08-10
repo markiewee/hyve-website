@@ -1,4 +1,4 @@
-// /portal/admin/inbox — full Action Inbox page.
+// /portal/admin/inbox, full Action Inbox page.
 // Top of the admin nav. Mark lands here every morning to see what's burning.
 
 import PortalLayout from "../../components/portal/PortalLayout";
@@ -11,7 +11,7 @@ export default function AdminInboxPage() {
       <PageHeader
         eyebrow="Admin"
         title="Inbox"
-        subtitle="Everything that needs admin attention right now — overdue rent, escalated tickets, unstaffed viewings, pending reviews, expiring leases."
+        subtitle="Everything that needs admin attention right now, overdue rent, escalated tickets, unstaffed viewings, pending reviews, expiring leases."
       />
       <ActionInbox showHeader={false} compact />
     </PortalLayout>

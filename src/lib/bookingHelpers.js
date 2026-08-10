@@ -1,5 +1,5 @@
 // Shared helpers for /api/book/* routes
-// Server-only — uses node crypto.
+// Server-only, uses node crypto.
 
 import crypto from "crypto";
 

@@ -193,7 +193,7 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <p className="text-sm text-muted-foreground">
-        Check each item in your room and note its condition. Take photos of any existing damage — this protects your deposit.
+        Check each item in your room and note its condition. Take photos of any existing damage, this protects your deposit.
       </p>
 
       {areas.map((area, areaIndex) => (
@@ -207,7 +207,7 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
                 {area.name.includes("Bathroom") ? "bathroom" : "bed"}
               </span>
               {area.name}
-              {roomName && <span className="text-xs font-normal text-muted-foreground">— {roomName}</span>}
+              {roomName && <span className="text-xs font-normal text-muted-foreground">{roomName}</span>}
             </h3>
           </div>
 
@@ -254,7 +254,7 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
           <div className="px-4 py-3 bg-surface-container border-t border-border">
             <label className="block text-xs text-muted-foreground mb-1.5">
               Photos of {area.name.toLowerCase()}{" "}
-              <span className="text-muted-foreground/60">(optional — recommended for any damage)</span>
+              <span className="text-muted-foreground/60">(optional, recommended for any damage)</span>
             </label>
             <input
               type="file"
@@ -267,8 +267,8 @@ export default function RoomChecklistForm({ onboarding, advanceStep }) {
             {area.photos.length > 0 && (
               <p className="text-xs text-muted-foreground mt-1">
                 {area.photos.length} photo{area.photos.length > 1 ? "s" : ""} selected
-                {uploadProgress[area.name] === "uploading" && " — uploading…"}
-                {uploadProgress[area.name] === "done" && " — uploaded"}
+                {uploadProgress[area.name] === "uploading" && "uploading…"}
+                {uploadProgress[area.name] === "done" && "uploaded"}
               </p>
             )}
           </div>

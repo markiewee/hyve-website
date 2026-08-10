@@ -84,7 +84,7 @@ export function useViewings(filters = {}) {
   async function createViewing(data) {
     setError(null);
 
-    // Auto-assign captain — find the HOUSE_CAPTAIN for this property
+    // Auto-assign captain, find the HOUSE_CAPTAIN for this property
     let captainId = data.captain_id || null;
     if (!captainId && data.property_id) {
       const { data: captains } = await supabase
@@ -100,7 +100,7 @@ export function useViewings(filters = {}) {
       }
     }
 
-    // Auto-assign resident — find the active tenant in this room
+    // Auto-assign resident, find the active tenant in this room
     let residentId = data.resident_id || null;
     if (!residentId && data.room_id) {
       const { data: residents } = await supabase

@@ -31,7 +31,7 @@ export function confirm({
 } = {}) {
   return new Promise((resolve) => {
     if (!listener) {
-      // No host mounted — fall back to native confirm so callers never hang.
+      // No host mounted, fall back to native confirm so callers never hang.
       console.warn("ConfirmHost not mounted; falling back to window.confirm");
       resolve(window.confirm(title));
       return;

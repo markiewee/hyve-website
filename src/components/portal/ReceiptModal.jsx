@@ -9,7 +9,7 @@ function generateReceiptId(dateStr) {
 }
 
 function formatDate(dateStr) {
-  if (!dateStr) return "—";
+  if (!dateStr) return "-";
   return new Date(dateStr).toLocaleDateString("en-SG", {
     day: "numeric",
     month: "long",
@@ -72,7 +72,7 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
   const lineItems = [];
   if (isRent) {
     lineItems.push({
-      description: `Monthly Rent — ${formatDate(payment.month)}`.replace("1 ", "").replace(/^(\w+ \d+),\s/, "$1 "),
+      description: `Monthly Rent, ${formatDate(payment.month)}`.replace("1 ", "").replace(/^(\w+ \d+),\s/, "$1 "),
       amount: Number(payment.rent_amount || payment.amount_due || 0),
     });
     if (Number(payment.late_fee) > 0) {
@@ -80,7 +80,7 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
     }
   } else if (isAC) {
     lineItems.push({
-      description: `AC Usage Overage — ${formatDate(payment.month)}`.replace(/^(\w+ \d+),\s/, "$1 "),
+      description: `AC Usage Overage, ${formatDate(payment.month)}`.replace(/^(\w+ \d+),\s/, "$1 "),
       amount: Number(payment.overage_hours ?? 0) * 0.3,
     });
   } else if (isCharge) {
@@ -156,7 +156,7 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
                     Billed To
                   </p>
                   <p className="font-semibold text-[#181511] font-['Hanken_Grotesk']">
-                    {tenantInfo?.name ?? "—"}
+                    {tenantInfo?.name ?? "-"}
                   </p>
                   {tenantInfo?.email && (
                     <p className="text-[#57534E] text-xs mt-0.5">{tenantInfo.email}</p>
@@ -167,7 +167,7 @@ export default function ReceiptModal({ payment, tenantInfo, onClose }) {
                     Property
                   </p>
                   <p className="font-semibold text-[#181511] font-['Hanken_Grotesk']">
-                    {tenantInfo?.room ?? "—"}
+                    {tenantInfo?.room ?? "-"}
                   </p>
                   {tenantInfo?.property && (
                     <p className="text-[#57534E] text-xs mt-0.5">{tenantInfo.property}</p>

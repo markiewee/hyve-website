@@ -6,7 +6,7 @@ import { supabase } from "../../lib/supabase";
 import { useState, useEffect } from "react";
 
 function formatDateTime(dateStr) {
-  if (!dateStr) return "—";
+  if (!dateStr) return "-";
   return new Date(dateStr).toLocaleString("en-SG", {
     day: "numeric",
     month: "short",

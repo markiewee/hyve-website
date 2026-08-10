@@ -45,7 +45,7 @@ function getAvailabilityStatus(room) {
   const now = new Date();
   if (!room.next_available) {
     if (room.available_until) {
-      return { label: `Available now — until ${formatDate(room.available_until)}`, color: 'amber' };
+      return { label: `Available now, until ${formatDate(room.available_until)}`, color: 'amber' };
     }
     return { label: 'Available now', color: 'green' };
   }
@@ -94,14 +94,14 @@ function roomMatchesSearch(room, propertyCode, s, today) {
   }
   // Location
   if (s.location && s.location !== 'ALL' && propertyCode !== s.location) return false;
-  // Move-in date — fixed = available by the date, flexible = within ~30 days after
+  // Move-in date, fixed = available by the date, flexible = within ~30 days after
   if (s.date) {
     const target = new Date(s.date); target.setHours(0, 0, 0, 0);
     const from = room.next_available ? new Date(room.next_available) : today;
     const limit = new Date(target);
     if (s.dateMode === 'flexible') limit.setDate(limit.getDate() + 30);
     if (from > limit) return false;
-    // Available now but vacated before the target — exclude
+    // Available now but vacated before the target, exclude
     if (room.available_until && new Date(room.available_until) < target) return false;
   }
   return true;
@@ -189,7 +189,7 @@ function RoomCard({ room, property }) {
   const isAvailable = status.color === 'green' || status.color === 'amber' && !room.next_available;
   const roomTypeLabel = room.room_type
     ? room.room_type.charAt(0).toUpperCase() + room.room_type.slice(1)
-    : '—';
+    : '-';
 
   return (
     <div
@@ -436,7 +436,7 @@ function PropertySection({ property }) {
               <ul className="space-y-1">
                 {p.nearby_mrt.map((m, i) => (
                   <li key={i} className="text-sm text-foreground">
-                    <span className="font-medium">{m.station}</span> ({m.line}) — {m.walking_minutes} min walk
+                    <span className="font-medium">{m.station}</span> ({m.line}), {m.walking_minutes} min walk
                   </li>
                 ))}
               </ul>
@@ -449,7 +449,7 @@ function PropertySection({ property }) {
               <ul className="space-y-1">
                 {p.nearby_amenities.map((a, i) => (
                   <li key={i} className="text-sm text-foreground">
-                    <span className="font-medium">{a.name}</span> — {a.walking_minutes} min walk
+                    <span className="font-medium">{a.name}</span>{a.walking_minutes} min walk
                   </li>
                 ))}
               </ul>
@@ -614,7 +614,7 @@ function FAQSection() {
     { q: 'How do I report a maintenance issue?', a: 'Submit a ticket through the Lazybee tenant portal, or message us on WhatsApp. We aim to respond within 24 hours.' },
     { q: 'Can I end my lease early?', a: 'Early termination requires 1 month written notice. The security deposit may be forfeited depending on circumstances.' },
     { q: 'What happens to my deposit?', a: 'Your deposit is fully refundable within 14 days of move-out, subject to a room condition inspection. Deductions apply for damages beyond normal wear and tear.' },
-    { q: 'Are utilities included?', a: 'Yes — water, electricity (with a monthly AC allowance), WiFi, and weekly common area cleaning are all included in rent. AC usage above the allowance is charged separately.' },
+    { q: 'Are utilities included?', a: 'Yes, water, electricity (with a monthly AC allowance), WiFi, and weekly common area cleaning are all included in rent. AC usage above the allowance is charged separately.' },
     { q: 'Is there parking?', a: 'Chiltern Park and Ivory Heights have nearby HDB parking. Thomson Grove has limited porch parking. Check with us for availability.' },
     { q: "What's the AC usage policy?", a: 'Each room has a monthly AC allowance included in rent. Usage is tracked via smart plugs. Overage is billed monthly at the prevailing electricity rate.' },
   ];
@@ -728,7 +728,7 @@ export default function StaffResourcePage() {
               // Single source of truth: rooms.next_available / available_until are
               // DERIVED server-side from tenant_profiles (fn_recompute_room_availability,
               // trigger + nightly cron) so the staff portal and the public booking site
-              // read the IDENTICAL availability. Do NOT recompute it here — just read the
+              // read the IDENTICAL availability. Do NOT recompute it here, just read the
               // DB columns. We still compute the upcoming_bookings list locally because
               // staff has tenant access and the public site does not.
               const avail = computeRoomAvailability(r, roomTenants, today);
@@ -784,7 +784,7 @@ export default function StaffResourcePage() {
           Staff Resource Guide
         </h1>
         <p className="text-foreground-variant text-lg">
-          Live room details and availability — pull pricing, beds, and move-in dates fast.
+          Live room details and availability, pull pricing, beds, and move-in dates fast.
         </p>
       </section>
 
@@ -809,7 +809,7 @@ export default function StaffResourcePage() {
               <TabsList className="mb-8 w-full sm:w-auto">
                 {properties.map(p => (
                   <TabsTrigger key={p.code} value={p.code} className="px-6 py-2.5 text-sm font-semibold">
-                    {p.code} — {p.name}
+                    {p.code}, {p.name}
                   </TabsTrigger>
                 ))}
               </TabsList>

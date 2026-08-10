@@ -71,7 +71,7 @@ export default function ClaimCard({ claim, mode = "captain", actions }) {
         )}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-medium">{claim.properties?.name ?? "—"}</span>
+            <span className="font-medium">{claim.properties?.name ?? "-"}</span>
             <span className="text-foreground-variant">·</span>
             <span>{CATEGORY_LABEL[claim.category]}</span>
             <span className="text-foreground-variant">·</span>

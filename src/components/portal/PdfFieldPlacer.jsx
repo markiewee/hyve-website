@@ -158,7 +158,7 @@ export default function PdfFieldPlacer({ pdfUrl, fields = [], signatures = {}, o
       {/* Toolbar: add fields */}
       <div className="space-y-2">
         <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold">
-          Add Data Fields <span className="normal-case tracking-normal text-foreground-variant">— click to place on page {viewPage}</span>
+          Add Data Fields <span className="normal-case tracking-normal text-foreground-variant">click to place on page {viewPage}</span>
         </p>
         <div className="flex flex-wrap gap-1.5">
           {availableFields.map(f => (

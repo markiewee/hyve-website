@@ -3,9 +3,9 @@ import { Helmet } from "react-helmet-async";
 export default function SEO({ title, description, canonical, ogImage, type = "website", schema, noindex = false }) {
   const siteName = "Lazybee";
   const baseUrl = "https://www.lazybee.sg";
-  const fullTitle = title ? `${title} | ${siteName}` : "Lazybee — Co-living in Singapore";
+  const fullTitle = title ? `${title} | ${siteName}` : "Lazybee, Co-living in Singapore";
   const fullCanonical = canonical ? `${baseUrl}${canonical}` : baseUrl;
-  const defaultDescription = "All-inclusive co-living rooms in Singapore from S$950/month — furnished, bills included, near MRT in Lentor, Jurong East & Serangoon. No agent fees.";
+  const defaultDescription = "All-inclusive co-living rooms in Singapore from S$950/month, furnished, bills included, near MRT in Lentor, Jurong East & Serangoon. No agent fees.";
   const desc = description || defaultDescription;
   const image = ogImage || `${baseUrl}/og-default.png`;
   const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];

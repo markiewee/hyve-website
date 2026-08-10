@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import CaptainBadge from "./CaptainBadge";
 
 /**
- * MembersRoster — sortable + filterable table of every room/tenant pair.
+ * MembersRoster, sortable + filterable table of every room/tenant pair.
  *
  *   Sort:   unit code, move-in (new/old), move-out (soon/late), onboarding stage.
  *   Filter: onboarding stage, occupancy (occupied/vacant/shared).
@@ -81,7 +81,7 @@ function RoomRow({ room, propertyName }) {
       <td className="px-3 py-2">
         {t ? (
           <div>
-            <div className="font-medium text-foreground">{tenantName ?? "—"}</div>
+            <div className="font-medium text-foreground">{tenantName ?? "-"}</div>
             {t.role === "HOUSE_CAPTAIN" && <CaptainBadge size="sm" />}
             {t.is_primary === false && (
               <span className="ml-1 text-xs text-foreground-variant">(roommate)</span>
@@ -97,16 +97,16 @@ function RoomRow({ room, propertyName }) {
         )}
       </td>
       <td className="px-3 py-2 text-xs text-foreground-variant">
-        {t?.moved_in_at ? format(new Date(t.moved_in_at), "d MMM yyyy") : "—"}
+        {t?.moved_in_at ? format(new Date(t.moved_in_at), "d MMM yyyy") : "-"}
       </td>
       <td className="px-3 py-2 text-xs text-foreground-variant">
-        {t?.moved_out_at ? format(new Date(t.moved_out_at), "d MMM yyyy") : "—"}
+        {t?.moved_out_at ? format(new Date(t.moved_out_at), "d MMM yyyy") : "-"}
       </td>
       <td className="px-3 py-2 text-xs text-foreground-variant">
-        {t?.lease_end ? format(new Date(t.lease_end), "d MMM yyyy") : "—"}
+        {t?.lease_end ? format(new Date(t.lease_end), "d MMM yyyy") : "-"}
       </td>
       <td className="px-3 py-2">
-        {stageBadge ?? <span className="text-xs text-foreground-variant">—</span>}
+        {stageBadge ?? <span className="text-xs text-foreground-variant">-</span>}
       </td>
     </tr>
   );

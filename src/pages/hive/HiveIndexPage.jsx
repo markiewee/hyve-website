@@ -8,6 +8,7 @@
 // that only exists after a click is a page that Google and the AI crawlers never
 // see, which would defeat the point of writing any of it.
 
+import { LazybeeRoot } from '../../hooks/useLazybeeTheme';
 import { useRef } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 
@@ -49,7 +50,7 @@ export default function HiveIndexPage() {
   const rest = page === 1 ? items.slice(1) : items;
 
   return (
-    <div className="lzb hive" data-theme="alabaster" ref={rootRef}>
+    <LazybeeRoot className="lzb hive" ref={rootRef}>
       <HiveHeader />
 
       <HiveBanner
@@ -82,6 +83,6 @@ export default function HiveIndexPage() {
       </main>
 
       <HiveFooter />
-    </div>
+    </LazybeeRoot>
   );
 }

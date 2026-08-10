@@ -13,7 +13,7 @@ const DIAGNOSTICS = {
       { text: "Make sure the AC mode is set to COOL (not FAN or DRY) and temperature is below 25°C.", action: "Set to COOL mode, 23°C. Wait 3 minutes for compressor to start." },
       { text: "Check if the AC filter is dirty or blocked.", action: "Slide out the filter panel on the front of the indoor unit and rinse under running water. Let dry completely before reinserting." },
       { text: "Is the AC blowing warm air? The outdoor unit may be blocked or overheating.", action: "Check if anything is blocking the outdoor compressor unit (clothes, boxes). Clear the area around it." },
-      { text: "Is there water dripping from the indoor unit?", action: "This usually means a blocked drain pipe. Place a towel underneath and submit a ticket — this needs a technician." },
+      { text: "Is there water dripping from the indoor unit?", action: "This usually means a blocked drain pipe. Place a towel underneath and submit a ticket, this needs a technician." },
       { text: "AC turns on but shuts off after a few minutes?", action: "This could be a refrigerant issue. Turn off the AC completely and submit a ticket." },
     ],
   },
@@ -34,10 +34,10 @@ const DIAGNOSTICS = {
     title: "Electrical Issue",
     steps: [
       { text: "If a specific outlet isn't working: check if the switch next to it is turned ON.", action: "Toggle the switch. Try plugging in a different device to test if the outlet works." },
-      { text: "If a room has no power: check the circuit breaker panel — a tripped breaker will be in the middle position.", action: "Flip it fully OFF, then back ON. If it trips again immediately, unplug all devices in that room and try again." },
+      { text: "If a room has no power: check the circuit breaker panel, a tripped breaker will be in the middle position.", action: "Flip it fully OFF, then back ON. If it trips again immediately, unplug all devices in that room and try again." },
       { text: "If lights are flickering: try tightening the bulb or replacing it.", action: "Turn off the switch first, then twist the bulb to ensure it's secure. Spare bulbs are in the utility cabinet." },
       { text: "Multiple rooms have no power?", action: "Check the main breaker (largest switch at the top of the panel). If the whole unit is out, check if neighbours are affected too." },
-      { text: "Outlet sparks when plugging something in?", action: "STOP using that outlet immediately. This is a safety concern — submit a ticket right away." },
+      { text: "Outlet sparks when plugging something in?", action: "STOP using that outlet immediately. This is a safety concern, submit a ticket right away." },
     ],
   },
   WIFI: {
@@ -57,7 +57,7 @@ const DIAGNOSTICS = {
     steps: [
       { text: "Smart lock not responding? Check if the battery indicator is showing low.", action: "If the lock panel is blank, the batteries may be dead. Hold a 9V battery to the emergency contacts below the keypad to temporarily power it." },
       { text: "Passcode not working? Make sure you're entering the correct code followed by #.", action: "Try pressing the lock button first to wake it up, then enter your code + #." },
-      { text: "Door won't lock when you close it? Check if the door is fully closed and aligned.", action: "Push the door firmly shut. If the bolt doesn't engage, the door may be misaligned — try lifting the handle while closing." },
+      { text: "Door won't lock when you close it? Check if the door is fully closed and aligned.", action: "Push the door firmly shut. If the bolt doesn't engage, the door may be misaligned, try lifting the handle while closing." },
       { text: "Locked yourself out?", action: "Do NOT try to force the door. Contact management via WhatsApp immediately: +65 8069 5410." },
     ],
   },
@@ -66,8 +66,8 @@ const DIAGNOSTICS = {
     title: "Appliance Issue",
     steps: [
       { text: "Washing machine not starting? Check if the door is fully closed and the power switch is ON.", action: "Push the door firmly until you hear a click. Check the outlet switch is turned on." },
-      { text: "Washing machine vibrating excessively?", action: "Check if the load is balanced — redistribute clothes evenly. Make sure the machine is on a level surface." },
-      { text: "Fridge not cooling? Check the temperature dial inside.", action: "Set to 3-4 (medium). Make sure the fridge isn't overpacked — air needs to circulate." },
+      { text: "Washing machine vibrating excessively?", action: "Check if the load is balanced, redistribute clothes evenly. Make sure the machine is on a level surface." },
+      { text: "Fridge not cooling? Check the temperature dial inside.", action: "Set to 3-4 (medium). Make sure the fridge isn't overpacked, air needs to circulate." },
       { text: "Microwave/oven not heating?", action: "Check the power switch and try a different outlet. If it turns on but doesn't heat, submit a ticket." },
       { text: "Induction stove not working?", action: "Induction only works with magnetic pots/pans. Try a different pan. Make sure the cooktop switch is on." },
     ],
@@ -77,9 +77,9 @@ const DIAGNOSTICS = {
     title: "Pest Issue",
     steps: [
       { text: "Seeing ants? Check for exposed food or sugary spills.", action: "Clean the area thoroughly. Store food in sealed containers. Wipe down surfaces with vinegar solution." },
-      { text: "Cockroaches spotted?", action: "Keep kitchen clean and dry. Don't leave dishes in the sink overnight. Check under the sink for leaks — roaches love moisture." },
+      { text: "Cockroaches spotted?", action: "Keep kitchen clean and dry. Don't leave dishes in the sink overnight. Check under the sink for leaks, roaches love moisture." },
       { text: "Mosquitoes inside? Check for stagnant water anywhere in the unit.", action: "Empty any standing water (plant saucers, containers). Keep windows closed or use the mesh screens." },
-      { text: "Issue persists after cleaning?", action: "Submit a ticket. We do regular pest control servicing — we can arrange an ad-hoc treatment." },
+      { text: "Issue persists after cleaning?", action: "Submit a ticket. We do regular pest control servicing, we can arrange an ad-hoc treatment." },
     ],
   },
   FURNITURE: {
@@ -105,7 +105,7 @@ const DIAGNOSTICS = {
     icon: "help",
     title: "Other Issue",
     steps: [
-      { text: "For noise complaints: try speaking with your housemate directly first.", action: "Quiet hours are 10 PM – 8 AM. If unresolved, submit a ticket and management will mediate." },
+      { text: "For noise complaints: try speaking with your housemate directly first.", action: "Quiet hours are 10 PM, 8 AM. If unresolved, submit a ticket and management will mediate." },
       { text: "Mail / parcel delivered to the wrong unit?", action: "Leave it at the door or hand it to the concierge. If you're missing a parcel, check with your neighbours." },
       { text: "Need extra supplies (toilet paper, cleaning products)?", action: "Check the utility cabinet first. If supplies are out, submit a ticket and we'll restock." },
       { text: "Smell coming from drains?", action: "Pour water down all drains (sinks, floor traps) to refill the water seal. This prevents sewer gas from entering." },
@@ -132,7 +132,7 @@ export default function NewIssuePage() {
     if (currentStep < diagnostic.steps.length - 1) {
       setCurrentStep((s) => s + 1);
     } else {
-      // All steps exhausted — proceed to report
+      // All steps exhausted, proceed to report
       setPhase("report");
     }
   }
@@ -147,7 +147,7 @@ export default function NewIssuePage() {
         <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
           {phase === "select" && "Let's try to fix it first. Select what's wrong."}
           {phase === "diagnose" && "Try these steps before submitting a ticket."}
-          {phase === "report" && "The self-help steps didn't resolve it — let us know the details."}
+          {phase === "report" && "The self-help steps didn't resolve it, let us know the details."}
         </p>
       </div>
 
@@ -256,7 +256,7 @@ export default function NewIssuePage() {
                   onClick={() => setPhase("report")}
                   className="w-full text-center text-xs font-['Inter'] text-foreground-variant hover:text-accent hover:underline"
                 >
-                  Skip self-help — I need to report this now
+                  Skip self-help, I need to report this now
                 </button>
               )}
             </div>

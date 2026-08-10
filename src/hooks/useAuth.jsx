@@ -67,7 +67,7 @@ export function AuthProvider({ children }) {
       if (sessionUser) {
         // Defer DB calls OUT of the auth callback. Calling supabase.from()
         // synchronously inside onAuthStateChange deadlocks the client's auth
-        // lock — login succeeds but the profile query waits on the lock the
+        // lock, login succeeds but the profile query waits on the lock the
         // callback still holds, leaving the UI stuck on "Signing in…".
         // setTimeout(0) lets the callback return and release the lock first.
         setTimeout(() => {
@@ -87,7 +87,7 @@ export function AuthProvider({ children }) {
     // If identifier looks like an email, use directly; otherwise treat as username
     let email = identifier;
     if (!identifier.includes("@")) {
-      // Construct the placeholder email directly — no DB lookup needed
+      // Construct the placeholder email directly, no DB lookup needed
       email = `${identifier.toLowerCase().trim()}@portal.lazybee.sg`;
     }
 

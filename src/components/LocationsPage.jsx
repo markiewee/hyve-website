@@ -11,7 +11,7 @@ const AREAS = [
     rooms: 6,
     mrt: 'Lentor MRT (TEL) & Bright Hill MRT',
     blurb:
-      'A leafy, sought-after new-growth corridor. Nature trails, parks and Lentor Modern within walking distance — strong long-stay demand from professionals.',
+      'A leafy, sought-after new-growth corridor. Nature trails, parks and Lentor Modern within walking distance, strong long-stay demand from professionals.',
   },
   {
     name: 'Jurong East',
@@ -19,7 +19,7 @@ const AREAS = [
     rooms: 7,
     mrt: 'Jurong East interchange (EWL & NSL)',
     blurb:
-      "Singapore's second CBD — JEM, Westgate, IMM and major employers minutes away. The largest commuter catchment outside the city centre.",
+      "Singapore's second CBD, JEM, Westgate, IMM and major employers minutes away. The largest commuter catchment outside the city centre.",
   },
   {
     name: 'Serangoon',
@@ -27,7 +27,7 @@ const AREAS = [
     rooms: 6,
     mrt: 'Serangoon interchange (NEL & CCL)',
     blurb:
-      'Northeast heartland at its best — NEX mall, hawker culture and two MRT lines on the doorstep. Deep, stable tenant demand year-round.',
+      'Northeast heartland at its best, NEX mall, hawker culture and two MRT lines on the doorstep. Deep, stable tenant demand year-round.',
   },
 ];
 
@@ -35,8 +35,8 @@ const LocationsPage = () => {
   return (
     <main className="bg-background text-foreground pt-24 md:pt-28 min-h-screen">
       <SEO
-        title="Where Lazybee operates — Singapore"
-        description="Lazybee runs managed co-living in Lentor, Jurong East and Serangoon — all near MRT interchanges, chosen for rental demand. A real, expanding footprint."
+        title="Where Lazybee operates, Singapore"
+        description="Lazybee runs managed co-living in Lentor, Jurong East and Serangoon, all near MRT interchanges, chosen for rental demand. A real, expanding footprint."
         canonical="/locations"
         schema={[
           lodgingBusinessSchema(),
@@ -55,7 +55,7 @@ const LocationsPage = () => {
             Where Lazybee operates
           </h1>
           <p className="text-foreground-variant text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            Three live properties across Singapore — each chosen for MRT access and rental demand.
+            Three live properties across Singapore, each chosen for MRT access and rental demand.
             Two more under negotiation.
           </p>
         </FadeIn>

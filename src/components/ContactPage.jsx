@@ -26,7 +26,7 @@ const ContactPage = () => {
     <main className="bg-background text-foreground pt-24 md:pt-28 min-h-screen">
       <SEO
         title="Contact Lazybee"
-        description="Get in touch with Lazybee — WhatsApp +65 8069 5410 or email mark@meetmillia.com."
+        description="Get in touch with Lazybee, WhatsApp +65 8069 5410 or email mark@meetmillia.com."
         canonical="/contact"
       />
 
@@ -35,7 +35,7 @@ const ContactPage = () => {
           <span className="block text-[11px] uppercase tracking-[0.4em] font-semibold text-accent mb-6">Get in touch</span>
           <h1 className="font-display font-bold tracking-display text-5xl md:text-6xl leading-none mb-6">Talk to Lazybee.</h1>
           <p className="text-foreground-variant text-lg max-w-xl mx-auto leading-relaxed">
-            Investors, partners, landlords — reach the founders directly. We reply the same day.
+            Investors, partners, landlords, reach the founders directly. We reply the same day.
           </p>
         </FadeIn>
 

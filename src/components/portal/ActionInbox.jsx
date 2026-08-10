@@ -1,4 +1,4 @@
-// Action Inbox — single render of "what needs admin attention now."
+// Action Inbox, single render of "what needs admin attention now."
 // Uses useAdminInbox hook. Pass `limit` to cap the list (dashboard widget),
 // or omit for the full inbox page.
 

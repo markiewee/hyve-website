@@ -40,7 +40,7 @@ export function useMembersData(propertyFilter = "ALL") {
     const pick1 = (x) => (Array.isArray(x) ? x[0] ?? null : x ?? null);
 
     const enriched = (properties ?? []).map((p) => {
-      // Lettable bedrooms only — skip common areas / kitchens / yards / toilets
+      // Lettable bedrooms only, skip common areas / kitchens / yards / toilets
       const lettable = (p.rooms ?? []).filter((r) => r.room_type != null);
       const rooms = lettable.map((r) => {
         // Filter: active and not archived (skips tenants past their 30-day grace)
@@ -93,7 +93,7 @@ export function useMembersData(propertyFilter = "ALL") {
   useEffect(() => {
     fetchData();
 
-    // Realtime — keep the roster, occupancy and open-ticket counts live.
+    // Realtime, keep the roster, occupancy and open-ticket counts live.
     // Refetch on any change to the tables this view is derived from.
     const channel = supabase
       .channel("members_data_changes")

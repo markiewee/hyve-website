@@ -68,7 +68,7 @@ export default function ResetPasswordPage() {
               Set a new password.
             </h1>
             <p className="text-white/80 text-lg font-medium leading-relaxed opacity-90">
-              Pick something memorable — at least 8 characters. You'll use it next time you sign in.
+              Pick something memorable, at least 8 characters. You'll use it next time you sign in.
             </p>
           </div>
           <div />

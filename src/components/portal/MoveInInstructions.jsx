@@ -33,11 +33,11 @@ export default function MoveInInstructions({ advanceStep }) {
     try {
       providedItems = JSON.parse(providedSection.content);
     } catch {
-      // not JSON — won't render structured grid
+      // not JSON, won't render structured grid
     }
   }
 
-  // Parse access codes — only reveal on/after tenancy start date (Singapore time)
+  // Parse access codes, only reveal on/after tenancy start date (Singapore time)
   const accessSection = getSection("access_codes");
   let mainDoorCode = "";
   let roomCode = "";
@@ -47,7 +47,7 @@ export default function MoveInInstructions({ advanceStep }) {
       mainDoorCode = parsed.main_door ?? "";
       roomCode = parsed.rooms?.[unitCode] ?? "";
     } catch {
-      // not JSON — keep both blank
+      // not JSON, keep both blank
     }
   }
 
@@ -98,7 +98,7 @@ export default function MoveInInstructions({ advanceStep }) {
             </p>
             <div className="flex items-center gap-2 text-accent">
               <span className="material-symbols-outlined text-[20px]">schedule</span>
-              <span className="font-bold text-sm font-['Inter']">10:00 AM – 5:00 PM</span>
+              <span className="font-bold text-sm font-['Inter']">10:00 AM, 5:00 PM</span>
             </div>
           </div>
         </div>

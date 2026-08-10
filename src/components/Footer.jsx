@@ -41,7 +41,7 @@ const Footer = () => {
             <Wordmark size="md" variant="lazybee" />
           </Link>
           <p className="text-foreground-variant font-display text-sm leading-relaxed">
-            Singapore co-living, productized — designed, leased and operated as a single product across every unit.
+            Singapore co-living, productized, designed, leased and operated as a single product across every unit.
           </p>
           <p className="text-foreground-variant text-xs mt-2">Operated by Makery Pte. Ltd.</p>
           <div className="flex gap-4 mt-6">

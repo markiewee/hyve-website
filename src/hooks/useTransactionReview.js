@@ -3,9 +3,9 @@ import { supabase } from '../lib/supabase';
 import { extractVendorPattern } from '../lib/tagging';
 
 /**
- * useTransactionReview — Manages the review flow for bank transactions.
+ * useTransactionReview, Manages the review flow for bank transactions.
  *
- * @param {string|null} batchId — Optional import batch ID to filter transactions.
+ * @param {string|null} batchId, Optional import batch ID to filter transactions.
  */
 export function useTransactionReview(batchId) {
   const [transactions, setTransactions] = useState([]);
@@ -90,8 +90,8 @@ export function useTransactionReview(batchId) {
    * @param {string} transactionId
    * @param {string} propertyId
    * @param {string} category
-   * @param {string|null} month — Optional. If not provided, derived from transaction_date.
-   * @param {{ room_id?: string, transaction_type?: string }} extra — Optional extra fields.
+   * @param {string|null} month, Optional. If not provided, derived from transaction_date.
+   * @param {{ room_id?: string, transaction_type?: string }} extra, Optional extra fields.
    */
   const confirmTag = useCallback(async (transactionId, propertyId, category, month = null, extra = {}) => {
     // a) Update the transaction row
@@ -114,7 +114,7 @@ export function useTransactionReview(batchId) {
     if (updateError) throw updateError;
     const tx = updatedRows;
 
-    // b) Upsert tagging_rules — select-then-insert/update to handle nullable property_id
+    // b) Upsert tagging_rules, select-then-insert/update to handle nullable property_id
     const vendorPattern = extractVendorPattern(tx.description);
     const txType = tx.transaction_type ?? (tx.amount >= 0 ? 'INCOME' : 'EXPENSE');
 
@@ -136,7 +136,7 @@ export function useTransactionReview(batchId) {
       if (selectError) throw selectError;
 
       if (existingRules && existingRules.length > 0) {
-        // Rule exists — increment hit_count and update last_used_at
+        // Rule exists, increment hit_count and update last_used_at
         const rule = existingRules[0];
         const { error: ruleUpdateError } = await supabase
           .from('tagging_rules')
@@ -148,7 +148,7 @@ export function useTransactionReview(batchId) {
           .eq('id', rule.id);
         if (ruleUpdateError) throw ruleUpdateError;
       } else {
-        // Rule does not exist — insert new rule; catch conflict from race condition
+        // Rule does not exist, insert new rule; catch conflict from race condition
         try {
           const { error: ruleInsertError } = await supabase
             .from('tagging_rules')
@@ -162,7 +162,7 @@ export function useTransactionReview(batchId) {
             });
           if (ruleInsertError) throw ruleInsertError;
         } catch (insertErr) {
-          // Race condition: another request inserted the same rule — update instead
+          // Race condition: another request inserted the same rule, update instead
           let conflictQuery = supabase
             .from('tagging_rules')
             .select('id, hit_count')
@@ -187,7 +187,7 @@ export function useTransactionReview(batchId) {
               .eq('id', rule.id);
             if (conflictUpdateErr) throw conflictUpdateErr;
           } else {
-            // Not a conflict — rethrow original error
+            // Not a conflict, rethrow original error
             throw insertErr;
           }
         }
@@ -232,7 +232,7 @@ export function useTransactionReview(batchId) {
    * Bulk-confirm all AUTO_TAGGED transactions with confidence >= minConfidence
    * that already have property_id and category set.
    *
-   * @param {number} minConfidence — Default 0.85
+   * @param {number} minConfidence, Default 0.85
    */
   const bulkConfirmAutoTagged = useCallback(async (minConfidence = 0.85) => {
     const eligible = transactions.filter(
@@ -248,7 +248,7 @@ export function useTransactionReview(batchId) {
       await confirmTag(tx.id, tx.property_id, tx.category, null);
     }
 
-    // confirmTag already calls fetchTransactions after each — do a final refresh
+    // confirmTag already calls fetchTransactions after each, do a final refresh
     // to ensure state is consistent after the loop
     await fetchTransactions();
   }, [transactions, confirmTag, fetchTransactions]);

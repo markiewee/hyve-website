@@ -1,5 +1,5 @@
 /**
- * aspire.js — Aspire API client with token lifecycle management.
+ * aspire.js, Aspire API client with token lifecycle management.
  *
  * Credentials are read from:
  *   VITE_ASPIRE_CLIENT_ID
@@ -35,7 +35,7 @@ function parseDateToIso(raw) {
 /**
  * Normalise a raw Aspire transaction object into our internal schema.
  *
- * Aspire may use different field names across API versions — we try a set
+ * Aspire may use different field names across API versions, we try a set
  * of known aliases so we remain resilient to minor API changes.
  *
  * @param {Object} raw
@@ -69,7 +69,7 @@ function normalizeTransaction(raw) {
 }
 
 /**
- * Aspire API client — proxied through /api/portal/admin-actions to avoid CORS.
+ * Aspire API client, proxied through /api/portal/admin-actions to avoid CORS.
  * All calls go through the server-side proxy which handles auth.
  */
 class AspireClient {

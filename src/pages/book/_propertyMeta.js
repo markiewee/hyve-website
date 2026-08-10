@@ -1,7 +1,7 @@
 // Shared property metadata for the V2 booking flow.
 // Single source of truth for the public /book/* pages and admin calendar tab.
 // Codes (TG/IH/CP) match the `properties.code` column in Supabase and the API
-// contract — `?property=IH` etc.
+// contract, `?property=IH` etc.
 
 export const PROPERTY_META = {
   TG: {
@@ -44,7 +44,7 @@ export const PROPERTY_META = {
 
 export const PROPERTY_CODES = Object.keys(PROPERTY_META);
 
-// Common aliases people type or paste — Members Dashboard uses CHP, some
+// Common aliases people type or paste, Members Dashboard uses CHP, some
 // internal docs use TGV/THM, etc. Keep this loose so a wrong code in a
 // pasted link still resolves to the right property.
 const PROPERTY_ALIASES = {
@@ -82,19 +82,19 @@ export function normalizeSource(raw) {
   return BOOKING_SOURCES.has(s) ? s : "organic";
 }
 
-// SG / MY phone validator — matches the API contract.
+// SG / MY phone validator, matches the API contract.
 // Expects the leading "+" already present.
 export function isValidPhone(phone) {
   if (!phone) return false;
   const stripped = phone.replace(/\s|-/g, "");
   // SG: +65 followed by 8 digits
   if (/^\+65\d{8}$/.test(stripped)) return true;
-  // MY: +60 followed by 9–10 digits
+  // MY: +60 followed by 9 to 10 digits
   if (/^\+60\d{9,10}$/.test(stripped)) return true;
   return false;
 }
 
-// Captain WhatsApp fallback — generic Lazybee number until the API resolves a per-property captain.
+// Captain WhatsApp fallback, generic Lazybee number until the API resolves a per-property captain.
 export const LAZYBEE_WA_NUMBER = "6580695410";
 
 export function buildCaptainWaLink({ phone, propertyName, slotStart }) {

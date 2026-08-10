@@ -17,7 +17,7 @@ export default function UsageProgressBar({ totalHours, freeHours = 300 }) {
         </span>
         {isOver ? (
           <span className="text-red-400 font-medium">
-            {overBy.toFixed(1)}h over — est. SGD ${estCharge.toFixed(2)}
+            {overBy.toFixed(1)}h over, est. SGD ${estCharge.toFixed(2)}
           </span>
         ) : (
           <span className="text-muted-foreground">

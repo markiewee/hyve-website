@@ -49,7 +49,7 @@ function getStepProgress(currentStep) {
 }
 
 function formatDate(dateStr) {
-  if (!dateStr) return "—";
+  if (!dateStr) return "-";
   return new Date(dateStr).toLocaleDateString("en-SG", {
     day: "numeric",
     month: "short",
@@ -206,7 +206,7 @@ export function OnboardingLifecycle({ embedded = false }) {
         html = html.replaceAll(`{{${key}}}`, val || `[${key}]`);
       }
       // Clear any remaining unfilled FEE_DATE placeholders
-      html = html.replace(/\{\{FEE_DATE_\d+\}\}/g, "—");
+      html = html.replace(/\{\{FEE_DATE_\d+\}\}/g, "-");
       setTaPreviewHtml(html);
     } catch (err) {
       console.error("Failed to load template:", err);
@@ -263,7 +263,7 @@ export function OnboardingLifecycle({ embedded = false }) {
           }
         }
 
-        // TA is NOT generated here — admin generates it later via
+        // TA is NOT generated here, admin generates it later via
         // Documents → Generate Agreement → Save as PDF → Send to Member
         // This avoids the broken html2pdf conversion entirely.
       }
@@ -391,9 +391,9 @@ export function OnboardingLifecycle({ embedded = false }) {
     { value: "move_in_newest", label: "Move-in (newest)" },
     { value: "move_in_oldest", label: "Move-in (oldest)" },
     { value: "move_out_soonest", label: "Move-out (soonest)" },
-    { value: "name_asc", label: "Name (A–Z)" },
-    { value: "name_desc", label: "Name (Z–A)" },
-    { value: "unit_asc", label: "Unit (A–Z)" },
+    { value: "name_asc", label: "Name (A-Z)" },
+    { value: "name_desc", label: "Name (Z-A)" },
+    { value: "unit_asc", label: "Unit (A-Z)" },
     { value: "step", label: "Onboarding stage" },
     { value: "status", label: "Status" },
   ];
@@ -409,7 +409,7 @@ export function OnboardingLifecycle({ embedded = false }) {
             Members
           </h1>
           <p className="text-foreground-variant font-['Inter'] font-medium mt-1">
-            Full lifecycle — onboarding, active members, and move-outs.
+            Full lifecycle, onboarding, active members, and move-outs.
           </p>
         </div>
         )}
@@ -482,7 +482,7 @@ export function OnboardingLifecycle({ embedded = false }) {
                         const occupant = occupiedRoomMap[r.id];
                         return (
                           <option key={r.id} value={r.id} disabled={!!occupant}>
-                            {r.unit_code} — {r.name} ({r.properties?.name}){occupant ? ` (Occupied — ${occupant})` : ""}
+                            {r.unit_code}, {r.name} ({r.properties?.name}){occupant ? ` (Occupied, ${occupant})` : ""}
                           </option>
                         );
                       })}
@@ -605,7 +605,7 @@ export function OnboardingLifecycle({ embedded = false }) {
                     </div>
                   )}
 
-                  {/* Reference Number — auto-generated, editable */}
+                  {/* Reference Number, auto-generated, editable */}
                   <div className="space-y-1.5">
                     <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold block">
                       Reference Number <span className="normal-case tracking-normal text-foreground-variant">(auto-generated)</span>
@@ -626,7 +626,7 @@ export function OnboardingLifecycle({ embedded = false }) {
                   <div className="bg-surface-container rounded-xl p-4 space-y-1.5 text-xs font-['Inter']">
                     <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-2">Summary</p>
                     <p><span className="text-foreground-variant">Username:</span> <strong>{inviteUsername}</strong></p>
-                    <p><span className="text-foreground-variant">Room:</span> <strong>{selectedRoom?.unit_code} — {selectedRoom?.name}</strong></p>
+                    <p><span className="text-foreground-variant">Room:</span> <strong>{selectedRoom?.unit_code}, {selectedRoom?.name}</strong></p>
                     <p><span className="text-foreground-variant">Rent:</span> <strong>SGD {Number(inviteRent || 0).toLocaleString()}/mo</strong> · <span className="text-foreground-variant">Deposit:</span> <strong>SGD {Number(inviteDeposit || 0).toLocaleString()}</strong></p>
                     <p><span className="text-foreground-variant">Period:</span> <strong>{calcLicencePeriod} months</strong> from <strong>{inviteStartDate || "TBD"}</strong>{inviteEndDate ? ` to ${inviteEndDate}` : ""}</p>
                   </div>
@@ -778,7 +778,7 @@ export function OnboardingLifecycle({ embedded = false }) {
                         TA generated and sent to member for signing.
                       </p>
                     ) : (
-                      <p className="text-xs text-foreground-variant">No TA template was available — you can generate it later from the member's profile.</p>
+                      <p className="text-xs text-foreground-variant">No TA template was available, you can generate it later from the member's profile.</p>
                     )}
                   </div>
 
@@ -812,7 +812,7 @@ export function OnboardingLifecycle({ embedded = false }) {
         </div>
       )}
 
-      {/* Stat cards — clickable to filter */}
+      {/* Stat cards, clickable to filter */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 mb-6">
         {[
           { label: "Total", count: rows.length, filter: "ALL", color: "text-foreground", bg: "bg-surface" },
@@ -858,9 +858,9 @@ export function OnboardingLifecycle({ embedded = false }) {
             className="bg-surface border border-border rounded-xl px-3 py-2 text-sm font-['Inter'] text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
           >
             <option value="ALL">All</option>
-            <option value="CP">CP — Chiltern Park</option>
-            <option value="IH">IH — Ivory Heights</option>
-            <option value="TG">TG — Thomson Grove</option>
+            <option value="CP">CP, Chiltern Park</option>
+            <option value="IH">IH, Ivory Heights</option>
+            <option value="TG">TG, Thomson Grove</option>
           </select>
         </div>
         <div className="flex items-center gap-2">
@@ -942,7 +942,7 @@ export function OnboardingLifecycle({ embedded = false }) {
             </thead>
             <tbody className="divide-y divide-white/10">
               {filteredRows.map((row) => {
-                const unitCode = row.tenant_profiles?.rooms?.unit_code ?? "—";
+                const unitCode = row.tenant_profiles?.rooms?.unit_code ?? "-";
                 const roomName = row.tenant_profiles?.rooms?.name ?? "";
                 const tenantName = row.tenant_profiles?.tenant_details?.full_name ?? row.tenant_profiles?.username ?? "";
                 const stepLabel = STEP_LABELS[row.current_step] ?? row.current_step;
@@ -967,7 +967,7 @@ export function OnboardingLifecycle({ embedded = false }) {
                             {tenantName || unitCode}
                           </p>
                           <p className="font-['Inter'] text-foreground-variant text-xs">
-                            {unitCode}{roomName ? ` — ${roomName}` : ""}
+                            {unitCode}{roomName ? `${roomName}` : ""}
                           </p>
                         </div>
                       </div>
@@ -979,7 +979,7 @@ export function OnboardingLifecycle({ embedded = false }) {
                         </span>
                       ) : (
                         <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${statusColor}`}>
-                          {row.status ?? "—"}
+                          {row.status ?? "-"}
                         </span>
                       )}
                     </td>
@@ -995,7 +995,7 @@ export function OnboardingLifecycle({ embedded = false }) {
                           <p className="text-foreground-variant">to {formatDate(row.tenancy_end_date)}</p>
                         </div>
                       ) : (
-                        <span className="font-['Inter'] text-xs text-foreground-variant">—</span>
+                        <span className="font-['Inter'] text-xs text-foreground-variant">-</span>
                       )}
                     </td>
                     <td className="px-6 py-5 text-right">

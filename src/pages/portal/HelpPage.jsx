@@ -26,7 +26,7 @@ const SECTIONS = [
       {
         q: "How do I switch language?",
         qZh: "如何切换语言？",
-        a: "Look at the bottom of the sidebar — click 'EN' for English or '中文' for Chinese. Your preference is saved automatically.",
+        a: "Look at the bottom of the sidebar, click 'EN' for English or '中文' for Chinese. Your preference is saved automatically.",
         aZh: "在侧边栏底部点击 'EN'（英文）或 '中文'（中文）。您的偏好会自动保存。",
       },
     ],
@@ -46,8 +46,8 @@ const SECTIONS = [
       {
         q: "How do I pay rent?",
         qZh: "如何支付租金？",
-        a: "Option 1: Bank transfer to DBS Bank Ltd — Makery Pte. Ltd. — Account 885215114103 (no fee, local SGD only). Option 2: Click 'Pay' on the Billing page to pay via Stripe/card (4% processing fee).",
-        aZh: "方式1：银行转账至 DBS Bank Ltd — Makery Pte. Ltd. — 账号 885215114103（无手续费，仅限本地新币转账）。方式2：在账单页面点击「支付」通过 Stripe/信用卡支付（4% 手续费）。",
+        a: "Option 1: Bank transfer to DBS Bank Ltd, Makery Pte. Ltd., Account 885215114103 (no fee, local SGD only). Option 2: Click 'Pay' on the Billing page to pay via Stripe/card (4% processing fee).",
+        aZh: "方式1：银行转账至 DBS Bank Ltd, Makery Pte. Ltd., 账号 885215114103（无手续费，仅限本地新币转账）。方式2：在账单页面点击「支付」通过 Stripe/信用卡支付（4% 手续费）。",
       },
       {
         q: "How do I pay other charges (stamping fee, damage, etc.)?",
@@ -112,14 +112,14 @@ const SECTIONS = [
       {
         q: "What are the quiet hours?",
         qZh: "安静时间是什么时候？",
-        a: "Quiet hours are 10 PM – 8 AM. Please keep noise to a minimum during these hours.",
+        a: "Quiet hours are 10 PM, 8 AM. Please keep noise to a minimum during these hours.",
         aZh: "安静时间为晚上10点至早上8点。请在此期间将噪音降到最低。",
       },
       {
         q: "What's the WiFi password?",
         qZh: "WiFi密码是什么？",
-        a: "Network: Lazybee WiFi — Password: check the sticker on the router or ask your property manager.",
-        aZh: "网络名：Lazybee WiFi — 密码：查看路由器上的贴纸或询问物业经理。",
+        a: "Network: Lazybee WiFi, Password: check the sticker on the router or ask your property manager.",
+        aZh: "网络名：Lazybee WiFi, 密码：查看路由器上的贴纸或询问物业经理。",
       },
       {
         q: "How much AC is included?",
@@ -281,7 +281,7 @@ export default function HelpPage() {
         <p className="font-['Inter'] text-sm text-foreground mb-4">
           {isZh
             ? "WhatsApp 我们，通常几小时内回复。"
-            : "WhatsApp us — we typically reply within a few hours."}
+            : "WhatsApp us, we typically reply within a few hours."}
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
