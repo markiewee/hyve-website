@@ -16,34 +16,50 @@ test("mergeProfiles: NULL inherits from property, empty string is a deliberate b
 
 test("rateCard resolves through channel pricing: percent channel grossed up to whole dollars", () => {
   const card = rateCard(
-    { price_monthly: 1500, deposit: 1500, min_stay_months: 3 },
+    { price_monthly: 1500, deposit_months: 1, min_stay_months: 3 },
     { commission_pct: 0.10, commission_months: null, gross_up: true, fee_fixed: null },
     12
   );
   // quotedPrice rounds once, to the dollar: 1500 / 0.9 = 1666.67 -> 1667
   assert.equal(card.monthly_rate, 1667);
+  // deposit is months of the QUOTED rate: what the tenant actually pays
+  assert.equal(card.deposit, 1667);
   assert.equal(card.currency, "SGD");
   assert.equal(card.duration_months, 12);
 });
 
 test("rateCard refuses a duration too short for month-based commission", () => {
   assert.throws(() =>
-    rateCard({ price_monthly: 1500, deposit: 1500, min_stay_months: 3 },
+    rateCard({ price_monthly: 1500, deposit_months: 1, min_stay_months: 3 },
       { commission_pct: null, commission_months: 1, gross_up: true, fee_fixed: null, slug: "agent-x" }, 1)
   );
 });
 
+test("media falls back to room photos with absolute urls when profile has none", () => {
+  const res = listingResource({
+    code: "IH-STD3", propertySlug: "ivory-heights",
+    profile: { title: "t", description: "d", fields: {} },
+    room: { price_monthly: 1200, deposit_months: 1, min_stay_months: 3, max_occupancy: 1,
+      photos: ["/photos/ih/STD3.jpg"], amenities: ["aircon"] },
+    channel: { commission_pct: null, commission_months: null, gross_up: true, fee_fixed: null },
+    availableFrom: null, durationMonths: 12,
+  });
+  assert.deepEqual(res.media, [{ url: "https://lazybee.sg/photos/ih/STD3.jpg" }]);
+  assert.deepEqual(res.features, ["aircon"]);
+});
+
 test("rateCard with no commission configured quotes base", () => {
-  const card = rateCard({ price_monthly: 1500, deposit: 1500, min_stay_months: 3 },
+  const card = rateCard({ price_monthly: 1500, deposit_months: 1, min_stay_months: 3 },
     { commission_pct: null, commission_months: null, gross_up: true, fee_fixed: null }, 12);
   assert.equal(card.monthly_rate, 1500);
+  assert.equal(card.deposit, 1500);
 });
 
 test("listingResource exposes ONLY the documented keys", () => {
   const res = listingResource({
     code: "IH-STD1", propertySlug: "ivory-heights",
     profile: { title: "t", description: "d", fields: { features: ["aircon"], media: [{ url: "https://x/1.jpg", hero: true }] } },
-    room: { price_monthly: 1500, deposit: 1500, min_stay_months: 3, max_occupancy: 2 },
+    room: { price_monthly: 1500, deposit_months: 1, min_stay_months: 3, max_occupancy: 2 },
     channel: { commission_pct: null, commission_months: null, gross_up: true, fee_fixed: null },
     availableFrom: "2026-09-01", durationMonths: 12,
   });

@@ -74,7 +74,7 @@ async function logRequest(keyId, req, status, startedMs) {
 async function loadPropertyProfiles() {
   const { data } = await supabase
     .from("listing_profiles")
-    .select("property_id, title, description, fields, updated_at, property:properties(id, name, slug)")
+    .select("property_id, title, description, fields, updated_at, property:properties(id, name, slug, images, amenities)")
     .eq("scope", "PROPERTY");
   return data ?? [];
 }
@@ -82,9 +82,9 @@ async function loadPropertyProfiles() {
 async function loadRoomListings() {
   const { data } = await supabase
     .from("listing_profiles")
-    .select("room_id, title, description, fields, updated_at, room:rooms(id, code, price_monthly, deposit, min_stay_months, max_occupancy, is_active, property_id)")
+    .select("room_id, title, description, fields, updated_at, room:rooms(id, unit_code, price_monthly, deposit_months, min_stay_months, max_occupancy, photos, amenities, property_id)")
     .eq("scope", "ROOM");
-  return (data ?? []).filter((r) => r.room && r.room.is_active !== false);
+  return (data ?? []).filter((r) => r.room && r.room.unit_code);
 }
 
 // Rooms this partner must not see: an explicit PAUSED placement for this
@@ -116,6 +116,8 @@ async function handleProperties(res, slugFilter) {
       profile: { title: p.title ?? p.property.name, description: p.description, fields: p.fields },
       listingCount: countByProperty[p.property.id] ?? 0,
       updatedAt: p.updated_at,
+      fallbackMedia: p.property.images,
+      fallbackFeatures: p.property.amenities,
     }));
   if (slugFilter && out.length === 0) return err(res, 404, "not_found", "No such property");
   return res.status(200).json(slugFilter ? out[0] : { data: out });
@@ -136,7 +138,7 @@ async function handleListings(res, channel, query, codeFilter) {
   const rows = [];
   try {
     for (const l of listings) {
-      if (codeFilter && l.room.code !== codeFilter) continue;
+      if (codeFilter && l.room.unit_code !== codeFilter) continue;
       if (paused.has(l.room.id)) continue;
       const propRow = propProfileById[l.room.property_id];
       if (query.property && propRow?.property?.slug !== query.property) continue;
@@ -147,7 +149,7 @@ async function handleListings(res, channel, query, codeFilter) {
       const availableFrom = await availableFromFor(l.room.id);
       if (query.available_from && availableFrom && availableFrom > query.available_from) continue;
       const resource = listingResource({
-        code: l.room.code, propertySlug: propRow?.property?.slug ?? null, profile,
+        code: l.room.unit_code, propertySlug: propRow?.property?.slug ?? null, profile,
         room: l.room, channel, availableFrom, durationMonths: duration, updatedAt: l.updated_at,
       });
       if (query.max_rate && resource.rate_card.monthly_rate > Number(query.max_rate)) continue;
@@ -166,7 +168,7 @@ async function handleListings(res, channel, query, codeFilter) {
 }
 
 async function handleCalendar(res, code) {
-  const { data: room } = await supabase.from("rooms").select("id, code").eq("code", code).maybeSingle();
+  const { data: room } = await supabase.from("rooms").select("id, unit_code").eq("unit_code", code).maybeSingle();
   if (!room) return err(res, 404, "not_found", "No such listing");
   const from = new Date().toISOString().slice(0, 10);
   const { data: rows } = await supabase
@@ -206,14 +208,14 @@ async function handleCreateBookingRequest(req, res, channel) {
   const missing = ["listing_code", "move_in", "duration_months"].filter((f) => !b[f]);
   if (!b.applicant?.name || !b.applicant?.email) missing.push("applicant.name/email");
   if (missing.length) return err(res, 422, "validation_failed", `Missing: ${missing.join(", ")}`);
-  const { data: room } = await supabase.from("rooms").select("id, code").eq("code", b.listing_code).maybeSingle();
+  const { data: room } = await supabase.from("rooms").select("id, unit_code").eq("unit_code", b.listing_code).maybeSingle();
   if (!room) return err(res, 422, "validation_failed", "Unknown listing_code");
 
   if (b.idempotency_key) {
     const { data: existing } = await supabase
       .from("booking_requests").select("id, status, created_at")
       .eq("channel_id", channel.id).eq("idempotency_key", b.idempotency_key).maybeSingle();
-    if (existing) return res.status(200).json(bookingRequestView(existing, room.code));
+    if (existing) return res.status(200).json(bookingRequestView(existing, room.unit_code));
   }
 
   // Enquiry records, never blocks: Mark's rule, enforced at insert.
@@ -232,16 +234,16 @@ async function handleCreateBookingRequest(req, res, channel) {
   }).select("id, status, created_at").single();
   if (insErr) return err(res, 500, "internal", "Could not record the request");
 
-  await notifyAdmin(channel, b, room.code);
-  return res.status(201).json(bookingRequestView(created, room.code));
+  await notifyAdmin(channel, b, room.unit_code);
+  return res.status(201).json(bookingRequestView(created, room.unit_code));
 }
 
 async function handleGetBookingRequest(res, channel, id) {
   const { data } = await supabase
-    .from("booking_requests").select("id, status, created_at, room:rooms(code)")
+    .from("booking_requests").select("id, status, created_at, room:rooms(unit_code)")
     .eq("id", id).eq("channel_id", channel.id).maybeSingle();
   if (!data) return err(res, 404, "not_found", "No such booking request for this key");
-  return res.status(200).json(bookingRequestView(data, data.room?.code ?? null));
+  return res.status(200).json(bookingRequestView(data, data.room?.unit_code ?? null));
 }
 
 // ── Webhook subscription CRUD ────────────────────────────────────────

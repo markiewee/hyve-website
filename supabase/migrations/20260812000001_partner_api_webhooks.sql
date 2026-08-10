@@ -25,6 +25,7 @@ as $$
 declare
   v_event text;
   v_payload jsonb;
+  v_channel_filter uuid := null;
 begin
   v_event := case tg_table_name
     when 'room_calendar'    then 'listing.calendar.updated'
@@ -40,10 +41,23 @@ begin
     'change', lower(tg_op),
     'occurred_at', now()
   );
+  -- Field access stays inside per-table branches: a record reference to a
+  -- column the row type does not have fails at plan time, even when no
+  -- subscription rows exist, and takes the caller's write down with it.
   if tg_table_name = 'room_calendar' then
-    v_payload := v_payload || jsonb_build_object('room_id', coalesce(new.room_id, old.room_id));
+    if tg_op = 'DELETE' then
+      v_payload := v_payload || jsonb_build_object('room_id', old.room_id);
+    else
+      v_payload := v_payload || jsonb_build_object('room_id', new.room_id);
+    end if;
   elsif tg_table_name = 'booking_requests' then
-    v_payload := v_payload || jsonb_build_object('booking_request_id', coalesce(new.id, old.id));
+    if tg_op = 'DELETE' then
+      v_payload := v_payload || jsonb_build_object('booking_request_id', old.id);
+      v_channel_filter := old.channel_id;
+    else
+      v_payload := v_payload || jsonb_build_object('booking_request_id', new.id);
+      v_channel_filter := new.channel_id;
+    end if;
   end if;
 
   insert into public.webhook_deliveries (subscription_id, event_type, payload)
@@ -52,7 +66,7 @@ begin
   where s.active
     and v_event = any(s.events)
     -- booking_request events go only to the channel that owns the request
-    and (tg_table_name <> 'booking_requests' or s.channel_id = coalesce(new.channel_id, old.channel_id));
+    and (v_channel_filter is null or s.channel_id = v_channel_filter);
 
   return null;
 end;
