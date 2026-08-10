@@ -63,6 +63,7 @@ import AdminMembersPage from './pages/portal/AdminMembersPage';
 import AdminPastTenantsPage from './pages/portal/AdminPastTenantsPage';
 import AdminInboxPage from './pages/portal/AdminInboxPage';
 import AdminLeadsPage from './pages/portal/AdminLeadsPage';
+import AdminChannelPricingPage from './pages/portal/AdminChannelPricingPage';
 import { ConfirmHost } from './lib/confirm';
 
 function AppContent() {
@@ -313,6 +314,14 @@ function AppContent() {
             element={
               <AuthGuard requiredRole="ADMIN">
                 <AdminAnnouncementsPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/admin/pricing"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminChannelPricingPage />
               </AuthGuard>
             }
           />
