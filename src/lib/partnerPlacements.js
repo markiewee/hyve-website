@@ -25,5 +25,12 @@ export function buildPlacementPatch(input, nowIso) {
   if (i.verified) patch.last_verified_at = nowIso;
   if (i.drift !== undefined) patch.last_drift = i.drift;
   if (i.error !== undefined) patch.last_error = i.error;
+  // What the agent actually saw on the platform, verbatim. Observation time
+  // is ours to stamp: agents report "now", not a claimed timestamp.
+  if (i.observed !== undefined) {
+    patch.observed_state = i.observed;
+    patch.observed_at = nowIso;
+  }
+  if (i.expires_at !== undefined) patch.expires_at = i.expires_at;
   return patch;
 }

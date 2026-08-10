@@ -34,3 +34,19 @@ test("omits what was not sent and never stamps unflagged timestamps", () => {
 test("refuses an unknown status", () => {
   assert.throws(() => buildPlacementPatch({ status: "SHINY" }, NOW));
 });
+
+test("observed state is stored verbatim and stamps observed_at", () => {
+  const p = buildPlacementPatch(
+    { observed: { title: "Big room near MRT", price: 1500, views: 42, verdict: "RENEW" } },
+    NOW
+  );
+  assert.deepEqual(p, {
+    observed_state: { title: "Big room near MRT", price: 1500, views: 42, verdict: "RENEW" },
+    observed_at: NOW,
+  });
+});
+
+test("expires_at passes through as a date and clears with null", () => {
+  assert.deepEqual(buildPlacementPatch({ expires_at: "2026-08-14" }, NOW), { expires_at: "2026-08-14" });
+  assert.deepEqual(buildPlacementPatch({ expires_at: null }, NOW), { expires_at: null });
+});
