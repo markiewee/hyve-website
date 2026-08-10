@@ -71,6 +71,7 @@ export function OwnerHeader({ heroRef }) {
 }
 
 export function OwnerFooter() {
+  const { t } = useLanguage();
   return (
     <footer className="lzbfooter wrap">
       <a
@@ -95,7 +96,7 @@ export function OwnerFooter() {
         {/* Every other indexable page hangs off this footer. The homepage is the
             only page a crawler is guaranteed to reach, so if a route is not linked
             from here it is an orphan no matter what the sitemap says. */}
-        · <Link to="/hive" style={{ textDecoration: 'none' }}>The Hive</Link>{' '}
+        · <Link to="/hive" style={{ textDecoration: 'none' }}>{t('nav.guides')}</Link>{' '}
         · <a href="/faqs" style={{ textDecoration: 'none' }}>FAQs</a>{' '}
         · <a href="/contact" style={{ textDecoration: 'none' }}>Contact</a>{' '}
         · <a href="/privacy-policy" style={{ textDecoration: 'none' }}>Privacy</a>{' '}

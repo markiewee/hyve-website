@@ -48,6 +48,7 @@ export function HiveHeader() {
 }
 
 export function HiveFooter() {
+  const { t } = useLanguage();
   return (
     <footer className="lzbfooter wrap">
       <Link className="brandlock" to="/" style={{ color: 'var(--ink)' }}>
@@ -56,7 +57,7 @@ export function HiveFooter() {
       </Link>
       <p className="label">
         Makery Pte Ltd · Singapore ·{' '}
-        <Link to="/hive" style={{ textDecoration: 'none' }}>The Hive</Link> ·{' '}
+        <Link to="/hive" style={{ textDecoration: 'none' }}>{t('nav.guides')}</Link> ·{' '}
         <a href={BOOKING_URL} className="accent" style={{ textDecoration: 'none' }}>Find a room</a> ·{' '}
         <Link to="/privacy-policy" style={{ textDecoration: 'none' }}>Privacy</Link> ·{' '}
         <Link to="/terms-of-service" style={{ textDecoration: 'none' }}>Terms</Link> ·{' '}
@@ -197,6 +198,7 @@ export function ArticleCard({ article }) {
  * rather than a set of near duplicates.
  */
 export function Pagination({ page, pageCount }) {
+  const { t } = useLanguage();
   if (pageCount <= 1) return null;
   const href = (p) => (p === 1 ? '/hive' : `/hive/page/${p}`);
 
@@ -211,7 +213,7 @@ export function Pagination({ page, pageCount }) {
       : all.filter((p) => p === 1 || p === pageCount || Math.abs(p - page) <= 2);
 
   return (
-    <nav className="pager" aria-label="Pages of The Hive">
+    <nav className="pager" aria-label={t('nav.guides')}>
       {page > 1 && <Link className="pg prev" rel="prev" to={href(page - 1)}>Newer</Link>}
       <ol className="pgnums">
         {pages.map((p, i) => (

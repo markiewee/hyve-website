@@ -48,11 +48,11 @@ export default function HiveTopicPage() {
       <HiveHeader />
 
       <HiveBanner
-        kicker={<>The Lazybee journal · <Link to="/hive" className="bannerlink">all subjects</Link></>}
+        kicker={<>Notes from the houses · <Link to="/hive" className="bannerlink">all subjects</Link></>}
         title={topic.label}
         blurb={`Everything we have written about ${topic.label.toLowerCase()} while running nineteen rooms across three Singapore homes. Newest first, all of it, nothing held back for a mailing list.`}
         count={topic.articles.length}
-        cadence="In The Hive"
+        cadence="On the blog"
       />
 
       <main className="wrap hivemain" id="top">
@@ -67,7 +67,7 @@ export default function HiveTopicPage() {
         )}
 
         <p className="small backline">
-          <Link to="/hive">Back to everything in The Hive</Link>
+          <Link to="/hive">Back to everything on the blog</Link>
         </p>
       </main>
 
