@@ -24,6 +24,7 @@ import { mergeProfiles, listingResource, propertyResource } from "../../src/lib/
 import { EVENT_TYPES, signPayload } from "../../src/lib/partnerWebhooks.js";
 import { validateBooking, bookingView } from "../../src/lib/partnerBookings.js";
 import { buildPlacementPatch } from "../../src/lib/partnerPlacements.js";
+import { bookingRequestEmail, bookingEmail, bookingCancelledEmail } from "../../src/lib/partnerNotify.js";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -188,8 +189,9 @@ const bookingRequestView = (row, code) => ({
   id: row.id, listing_code: code, status: row.status, created_at: row.created_at,
 });
 
-// Resend, the portal's transport (see api/portal/claim-reserve.js).
-async function notifyAdmin(channel, b, roomCode) {
+// Resend, the portal's transport (see api/portal/claim-reserve.js). Subject
+// and body come from partnerNotify.js, where their wording is pinned by tests.
+async function sendAdminEmail({ subject, text }) {
   if (!process.env.RESEND_API_KEY) return;
   try {
     await fetch("https://api.resend.com/emails", {
@@ -198,19 +200,23 @@ async function notifyAdmin(channel, b, roomCode) {
       body: JSON.stringify({
         from: "Lazybee Co-living <hello@lazybee.sg>",
         to: ["admin@lazybee.sg"],
-        subject: `Partner booking request: ${roomCode} via ${channel.name}`,
-        text: `Channel: ${channel.name}\nListing: ${roomCode}\nMove-in: ${b.move_in} for ${b.duration_months} months\nApplicant: ${b.applicant.name} <${b.applicant.email}> ${b.applicant.phone ?? ""}\nNote: ${b.note ?? ""}`,
+        subject,
+        text,
       }),
     });
   } catch { /* notification failure must not fail the request */ }
 }
+
+// Enough room to price and place the booking in an email: sales needs the
+// money and the building, not just a unit code.
+const ROOM_FOR_EMAIL = "id, unit_code, name, price_monthly, deposit_months, property:properties(name)";
 
 async function handleCreateBookingRequest(req, res, channel) {
   const b = req.body ?? {};
   const missing = ["listing_code", "move_in", "duration_months"].filter((f) => !b[f]);
   if (!b.applicant?.name || !b.applicant?.email) missing.push("applicant.name/email");
   if (missing.length) return err(res, 422, "validation_failed", `Missing: ${missing.join(", ")}`);
-  const { data: room } = await supabase.from("rooms").select("id, unit_code").eq("unit_code", b.listing_code).maybeSingle();
+  const { data: room } = await supabase.from("rooms").select(ROOM_FOR_EMAIL).eq("unit_code", b.listing_code).maybeSingle();
   if (!room) return err(res, 422, "validation_failed", "Unknown listing_code");
 
   if (b.idempotency_key) {
@@ -236,7 +242,7 @@ async function handleCreateBookingRequest(req, res, channel) {
   }).select("id, status, created_at").single();
   if (insErr) return err(res, 500, "internal", "Could not record the request");
 
-  await notifyAdmin(channel, b, room.unit_code);
+  await sendAdminEmail(bookingRequestEmail({ channel, room, request: b, requestId: created.id }));
   return res.status(201).json(bookingRequestView(created, room.unit_code));
 }
 
@@ -254,7 +260,7 @@ async function handleCreateBooking(req, res, channel) {
   const b = req.body ?? {};
   const v = validateBooking(b);
   if (!v.ok) return err(res, 422, "validation_failed", `Missing or invalid: ${v.missing.join(", ")}`);
-  const { data: room } = await supabase.from("rooms").select("id, unit_code").eq("unit_code", b.listing_code).maybeSingle();
+  const { data: room } = await supabase.from("rooms").select(ROOM_FOR_EMAIL).eq("unit_code", b.listing_code).maybeSingle();
   if (!room) return err(res, 422, "validation_failed", "Unknown listing_code");
 
   if (b.idempotency_key) {
@@ -277,24 +283,8 @@ async function handleCreateBooking(req, res, channel) {
   }).select("id, starts_on, ends_on, status, external_ref, created_at").single();
   if (insErr) return err(res, 500, "internal", "Could not record the booking");
 
-  await notifyBooking(channel, created, room.unit_code, b.guest?.name);
+  await sendAdminEmail(bookingEmail({ channel, room, booking: created, guest: b.guest }));
   return res.status(201).json(bookingView(created, room.unit_code));
-}
-
-async function notifyBooking(channel, booking, roomCode, guestName) {
-  if (!process.env.RESEND_API_KEY) return;
-  try {
-    await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from: "Lazybee Co-living <hello@lazybee.sg>",
-        to: ["admin@lazybee.sg"],
-        subject: `API booking: ${roomCode} via ${channel.name}`,
-        text: `Channel: ${channel.name}\nListing: ${roomCode}\nStay: ${booking.starts_on} to ${booking.ends_on ?? "open-ended"}\nGuest: ${guestName ?? "(unnamed)"}\nBooking id: ${booking.id}`,
-      }),
-    });
-  } catch { /* notification failure must not fail the booking */ }
 }
 
 async function handleListBookings(res, channel, query) {
@@ -317,7 +307,7 @@ async function handleGetBooking(res, channel, id) {
 
 async function handleCancelBooking(res, channel, id) {
   const { data } = await supabase.from("channel_bookings")
-    .select("id, starts_on, ends_on, status, external_ref, created_at, calendar_id, room:rooms(unit_code)")
+    .select("id, starts_on, ends_on, status, external_ref, created_at, calendar_id, guest, room:rooms(unit_code, name, property:properties(name))")
     .eq("id", id).eq("channel_id", channel.id).maybeSingle();
   if (!data) return err(res, 404, "not_found", "No such booking for this key");
   if (data.status === "cancelled") return res.status(200).json(bookingView(data, data.room?.unit_code ?? null));
@@ -326,6 +316,7 @@ async function handleCancelBooking(res, channel, id) {
     .eq("id", id).select("id, starts_on, ends_on, status, external_ref, created_at").single();
   if (data.calendar_id)
     await supabase.from("room_calendar").update({ status: "CANCELLED" }).eq("id", data.calendar_id);
+  if (data.room) await sendAdminEmail(bookingCancelledEmail({ channel, room: data.room, booking: data }));
   return res.status(200).json(bookingView(updated, data.room?.unit_code ?? null));
 }
 
