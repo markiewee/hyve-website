@@ -49,11 +49,12 @@ const DevelopersPage = () => (
 
     <Section title="Base URL and authentication">
       <P>
-        All endpoints live under <code className="text-foreground">https://lazybee.sg/api/v1</code>. Every request
-        carries your API key in the Authorization header. Keys are issued per partner and can be revoked or
+        All endpoints live under <code className="text-foreground">https://www.lazybee.sg/api/v1</code> (the bare
+        domain redirects here; use the www host in scripts so plain curl works without following redirects). Every
+        request carries your API key in the Authorization header. Keys are issued per partner and can be revoked or
         rate-limited independently.
       </P>
-      <Code>{`curl -s https://lazybee.sg/api/v1/ping \\
+      <Code>{`curl -s https://www.lazybee.sg/api/v1/ping \\
   -H "Authorization: Bearer $LAZYBEE_API_KEY"
 
 {"ok":true,"partner":"Your Platform","version":"v1"}`}</Code>
@@ -137,7 +138,7 @@ const DevelopersPage = () => (
         poll <code className="text-foreground">GET /booking-requests/&#123;id&#125;</code> or subscribe to the{' '}
         <code className="text-foreground">booking_request.updated</code> webhook.
       </P>
-      <Code>{`curl -s -X POST https://lazybee.sg/api/v1/booking-requests \\
+      <Code>{`curl -s -X POST https://www.lazybee.sg/api/v1/booking-requests \\
   -H "Authorization: Bearer $LAZYBEE_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
