@@ -4,7 +4,8 @@ import { Calendar, Clock, User, Tag, ArrowLeft, Share2, Copy, Twitter, Facebook,
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
-import { blogPosts } from '../data/sampleData';
+import { blogPosts as sampleBlogPosts } from '../data/sampleData';
+import { client, QUERIES } from '../lib/cms';
 import SEO from './SEO';
 import { blogPostingSchema, breadcrumbSchema } from '../lib/seo';
 
@@ -21,18 +22,27 @@ const BlogPostPage = () => {
   useEffect(() => {
     const loadPost = async () => {
       try {
-        // Find the post by slug
-        const foundPost = blogPosts.find(p => p.slug === slug);
+        let foundPost = await client.fetch(QUERIES.blogPostBySlug, { slug });
+        let pool = null;
+
+        if (!foundPost) {
+          // Fall back to the static sample posts (covers the case where the
+          // CMS has nothing yet, or this slug is one of the original samples).
+          foundPost = sampleBlogPosts.find(p => p.slug === slug) || null;
+        }
 
         if (foundPost) {
           setPost(foundPost);
 
-          // Find related posts (same category or tags)
-          const related = blogPosts
-            .filter(p => p.id !== foundPost.id)
+          // Related posts: prefer other CMS posts, fall back to the sample pool.
+          pool = await client.fetch(QUERIES.blogPosts);
+          if (!pool || !pool.length) pool = sampleBlogPosts;
+
+          const related = pool
+            .filter(p => p.slug !== foundPost.slug)
             .filter(p =>
               p.category === foundPost.category ||
-              p.tags.some(tag => foundPost.tags.includes(tag))
+              (p.tags || []).some(tag => (foundPost.tags || []).includes(tag))
             )
             .slice(0, 3);
 
@@ -100,6 +110,49 @@ const BlogPostPage = () => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
+  // Renders inline markdown within a single line: **bold** and [text](url).
+  // Internal lazybee.sg links become client-side <Link> (no full reload);
+  // everything else opens in a new tab.
+  const renderInline = (text, keyPrefix) => {
+    const tokenRe = /\*\*(.*?)\*\*|\[([^\]]+)\]\(([^)]+)\)/g;
+    const nodes = [];
+    let last = 0;
+    let m;
+    let i = 0;
+    while ((m = tokenRe.exec(text)) !== null) {
+      if (m.index > last) nodes.push(text.slice(last, m.index));
+      if (m[1] !== undefined) {
+        nodes.push(<strong key={`${keyPrefix}-b${i}`} className="text-foreground">{m[1]}</strong>);
+      } else {
+        const label = m[2];
+        const href = m[3];
+        const internal = href.startsWith('https://lazybee.sg/') || href.startsWith('/');
+        const path = href.replace(/^https:\/\/lazybee\.sg/, '');
+        nodes.push(
+          internal ? (
+            <Link key={`${keyPrefix}-l${i}`} to={path} className="text-accent underline hover:opacity-80">
+              {label}
+            </Link>
+          ) : (
+            <a
+              key={`${keyPrefix}-l${i}`}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent underline hover:opacity-80"
+            >
+              {label}
+            </a>
+          )
+        );
+      }
+      last = tokenRe.lastIndex;
+      i++;
+    }
+    if (last < text.length) nodes.push(text.slice(last));
+    return nodes;
+  };
+
   // Function to render markdown-like content
   const renderContent = (content) => {
     // Simple markdown parsing for headers and lists
@@ -107,20 +160,66 @@ const BlogPostPage = () => {
     const elements = [];
     let index = 0;
 
+    const isTableRow = (l) => /^\s*\|.*\|\s*$/.test(l);
+    const isTableSeparator = (l) => /^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)+\|?\s*$/.test(l);
+    const splitRow = (l) => l.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map((c) => c.trim());
+
     while (index < lines.length) {
       const line = lines[index];
-      if (line.startsWith('## ')) {
+      if (isTableRow(line) && isTableSeparator(lines[index + 1] || '')) {
+        const header = splitRow(line);
+        const startIndex = index;
+        index += 2;
+        const bodyRows = [];
+        while (index < lines.length && isTableRow(lines[index])) {
+          bodyRows.push(splitRow(lines[index]));
+          index++;
+        }
         elements.push(
-          <h2 key={index} className="text-2xl font-display font-bold text-foreground mt-8 mb-4">
-            {line.substring(3)}
-          </h2>
+          <div key={startIndex} className="overflow-x-auto mb-6">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="border-b border-border">
+                  {header.map((cell, ci) => (
+                    <th key={ci} className="text-left font-display font-bold text-foreground py-2 pr-6 whitespace-nowrap">
+                      {renderInline(cell, `th-${startIndex}-${ci}`)}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {bodyRows.map((row, ri) => (
+                  <tr key={ri} className="border-b border-border/60">
+                    {row.map((cell, ci) => (
+                      <td key={ci} className="text-foreground-variant py-2 pr-6 align-top">
+                        {renderInline(cell, `td-${startIndex}-${ri}-${ci}`)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      } else if (line.startsWith('#### ')) {
+        elements.push(
+          <h4 key={index} className="text-lg font-display font-semibold text-foreground mt-5 mb-2">
+            {renderInline(line.substring(5), `h4-${index}`)}
+          </h4>
         );
         index++;
       } else if (line.startsWith('### ')) {
         elements.push(
           <h3 key={index} className="text-xl font-display font-semibold text-foreground mt-6 mb-3">
-            {line.substring(4)}
+            {renderInline(line.substring(4), `h3-${index}`)}
           </h3>
+        );
+        index++;
+      } else if (line.startsWith('## ')) {
+        elements.push(
+          <h2 key={index} className="text-2xl font-display font-bold text-foreground mt-8 mb-4">
+            {renderInline(line.substring(3), `h2-${index}`)}
+          </h2>
         );
         index++;
       } else if (line.startsWith('- ')) {
@@ -135,11 +234,7 @@ const BlogPostPage = () => {
           <ul key={startIndex} className="list-disc list-inside space-y-2 mb-4 text-foreground-variant">
             {nextLines.map((item, itemIndex) => (
               <li key={itemIndex} className="leading-relaxed">
-                {item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').split('<strong>').map((part, partIndex) => {
-                  if (partIndex % 2 === 0) return part;
-                  const [bold, rest] = part.split('</strong>');
-                  return <><strong key={partIndex} className="text-foreground">{bold}</strong>{rest}</>;
-                })}
+                {renderInline(item, `ul-${startIndex}-${itemIndex}`)}
               </li>
             ))}
           </ul>
@@ -156,11 +251,7 @@ const BlogPostPage = () => {
           <ol key={startIndex} className="list-decimal list-inside space-y-2 mb-4 text-foreground-variant">
             {nextLines.map((item, itemIndex) => (
               <li key={itemIndex} className="leading-relaxed">
-                {item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').split('<strong>').map((part, partIndex) => {
-                  if (partIndex % 2 === 0) return part;
-                  const [bold, rest] = part.split('</strong>');
-                  return <><strong key={partIndex} className="text-foreground">{bold}</strong>{rest}</>;
-                })}
+                {renderInline(item, `ol-${startIndex}-${itemIndex}`)}
               </li>
             ))}
           </ol>
@@ -168,11 +259,7 @@ const BlogPostPage = () => {
       } else if (line.trim() && !line.startsWith('#')) {
         elements.push(
           <p key={index} className="text-foreground-variant leading-relaxed mb-4">
-            {line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').split('<strong>').map((part, partIndex) => {
-              if (partIndex % 2 === 0) return part;
-              const [bold, rest] = part.split('</strong>');
-              return <><strong key={partIndex} className="text-foreground">{bold}</strong>{rest}</>;
-            })}
+            {renderInline(line, `p-${index}`)}
           </p>
         );
         index++;
@@ -483,7 +570,7 @@ const BlogPostPage = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {relatedPosts.map((relatedPost) => (
-                <RelatedPostCard key={relatedPost.id} post={relatedPost} />
+                <RelatedPostCard key={relatedPost.slug} post={relatedPost} />
               ))}
             </div>
           </section>

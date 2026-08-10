@@ -16,6 +16,8 @@ import StaffResourcePage from './components/StaffResourcePage';
 import HiveIndexPage from './pages/hive/HiveIndexPage';
 import HiveArticlePage from './pages/hive/HiveArticlePage';
 import HiveTopicPage from './pages/hive/HiveTopicPage';
+import BlogPage from './components/BlogPage';
+import BlogPostPage from './components/BlogPostPage';
 
 // Auth
 import { AuthProvider } from './hooks/useAuth';
@@ -93,11 +95,11 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/locations" element={<Navigate to="/" replace />} />
-          {/* The old /blog never shipped content. The Hive replaces it, so the two
-              legacy paths hand their link equity to the new archive rather than
-              bouncing to the homepage. */}
-          <Route path="/blog" element={<Navigate to="/hive" replace />} />
-          <Route path="/blog/:slug" element={<Navigate to="/hive" replace />} />
+          {/* The SEO content bank: long-form housing guides, Supabase-backed
+              (cms_content, type='blog_post'). Separate from The Hive below,
+              which stays its own short-form operational-diary archive. */}
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
           {/* The Hive. Ordered static segments first so /hive/page/2 and
               /hive/topic/rules can never be read as an article slug. */}
           <Route path="/hive" element={<HiveIndexPage />} />
