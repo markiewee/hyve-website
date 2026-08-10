@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { BOOKING_URL } from '../../lib/booking';
 import { track, EVENTS } from '../../lib/analytics';
 import { scrollToId } from '../../lib/scrollToId';
+import { useLanguage } from '../../i18n/LanguageContext';
+import LangSwitch from '../../i18n/LangSwitch';
 
 /** The Lazybee bee, as drawn in the prototype. */
 export function BeeMark() {
@@ -13,16 +15,17 @@ export function BeeMark() {
   );
 }
 
-/* Nav labels say what the owner gets, not what we called the section internally.
-   "Free coffee" is deliberate: it is the actual offer at the bottom of the page,
-   and naming it is what makes a stranger click it. The Hive is a real route, not
-   an anchor, so it carries a `to` instead of a section id. */
+/* Nav labels name the thing, not the metaphor. An owner landing cold gets about
+   three seconds to work out what each one opens, and "The comb" and "Free coffee"
+   spent that budget on charm: one is the live grid of real rooms at real prices,
+   the other is the earnings estimator. Guides is a real route rather than an
+   anchor, so it carries a `to` instead of a section id. */
 const NAV = [
-  ['Your split', 'split'],
-  ['Versus a lease', 'compare'],
-  ['The comb', 'comb'],
-  ['The Hive', null, '/hive'],
-  ['Free coffee', 'ask'],
+  ['nav.earnings', 'split'],
+  ['nav.compare', 'compare'],
+  ['nav.portfolio', 'comb'],
+  ['nav.guides', null, '/hive'],
+  ['nav.estimate', 'ask'],
 ];
 
 /**
@@ -30,8 +33,9 @@ const NAV = [
  * The observer watches the hero rather than a scroll position so it stays correct
  * when the hero height changes between a phone and a desktop.
  */
-export function OwnerHeader({ heroRef, theme, onToggleTheme }) {
+export function OwnerHeader({ heroRef }) {
   const [solid, setSolid] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const hero = heroRef.current;
@@ -53,16 +57,12 @@ export function OwnerHeader({ heroRef, theme, onToggleTheme }) {
         <span className="wd">LAZYBEE</span>
       </a>
       <nav className="navlinks">
-        {NAV.map(([label, id, to]) => (
+        {NAV.map(([key, id, to]) => (
           to
-            ? <Link key={label} to={to}>{label}</Link>
-            : <a key={label} href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollToId(id); }}>{label}</a>
+            ? <Link key={key} to={to}>{t(key)}</Link>
+            : <a key={key} href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollToId(id); }}>{t(key)}</a>
         ))}
-        {/* The one nav item that is a route rather than a scroll target. */}
-        <Link to="/hive">The Hive</Link>
-        <button className="modebtn" type="button" onClick={onToggleTheme}>
-          {theme === 'tobacco' ? 'Light' : 'Dark'}
-        </button>
+        <LangSwitch />
       </nav>
     </header>
   );

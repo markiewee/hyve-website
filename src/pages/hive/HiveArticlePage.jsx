@@ -19,7 +19,6 @@ import { slugify } from '../../lib/hiveArticles';
 import { usePageMeta } from '../../lib/pageMeta';
 import { useReveal } from '../../hooks/useReveal';
 import { useScrollTop } from '../../hooks/useScrollTop';
-import { useLazybeeTheme } from '../../hooks/useLazybeeTheme';
 import { BOOKING_URL } from '../../lib/booking';
 import { HiveHeader, HiveFooter, ArticleCard } from '../../components/hive/HiveChrome';
 
@@ -29,7 +28,6 @@ export default function HiveArticlePage() {
   const { slug } = useParams();
   const article = articleBySlug(slug);
 
-  const [theme, toggleTheme] = useLazybeeTheme();
   const rootRef = useRef(null);
   useReveal(rootRef, slug);
   useScrollTop(slug);
@@ -46,8 +44,8 @@ export default function HiveArticlePage() {
   const { newer, older } = neighboursOf(article, ARTICLES);
 
   return (
-    <div className="lzb hive" data-theme={theme} ref={rootRef}>
-      <HiveHeader theme={theme} onToggleTheme={toggleTheme} />
+    <div className="lzb hive" data-theme="alabaster" ref={rootRef}>
+      <HiveHeader />
 
       <main id="top">
         <article className="wrap post-page">

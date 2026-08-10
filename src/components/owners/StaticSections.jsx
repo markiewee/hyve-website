@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom';
 import { HOMES, ROOMS, HOME_HERO, roomsForHome, isLet } from '../../data/lazybeeRooms';
 import { COMPARE_HEADS, COMPARE_ROWS, ZEROS, TRIAL_KEEPS, COMPLIANCE, POSTS } from '../../data/ownerPage';
 import { ARTICLES } from '../../lib/hiveContent';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 /** The green band: three numbers, one of them counted off the live room data. */
 export function GreenBand() {
+  const { t } = useLanguage();
   const let_ = ROOMS.filter((r) => isLet(r)).length;
   return (
     <div className="band">
@@ -12,43 +14,35 @@ export function GreenBand() {
         className="wrap grid g3"
         style={{ paddingTop: 'clamp(30px,4vw,56px)', paddingBottom: 'clamp(30px,4vw,56px)' }}
       >
-        <div className="rv"><div className="n">{ROOMS.length}</div><div className="l">Cells under management</div></div>
-        <div className="rv"><div className="n">{let_} / {ROOMS.length}</div><div className="l">Let today</div></div>
-        <div className="rv"><div className="n">S$0</div><div className="l">Owner spend on fit-out</div></div>
+        <div className="rv"><div className="n">{ROOMS.length}</div><div className="l">{t('owner.band.cells')}</div></div>
+        <div className="rv"><div className="n">{let_} / {ROOMS.length}</div><div className="l">{t('owner.band.let')}</div></div>
+        <div className="rv"><div className="n">S$0</div><div className="l">{t('owner.band.spend')}</div></div>
       </div>
     </div>
   );
 }
 
 export function AlignmentSection() {
+  const { t } = useLanguage();
   return (
     <section className="wrap sec" id="why">
-      <h2 className="h1 rv">We are asking for the deal that is worse for us in a bad year.</h2>
+      <h2 className="h1 rv">{t('owner.why.title')}</h2>
       <div className="grid g3" style={{ marginTop: 'var(--s6)', gap: 'var(--s6)' }}>
-        <p className="body rv">
-          A fixed lease pays us to pay you as little as possible. We would quote low, hold your unit for three years and
-          keep everything above the number. Every owner who has signed one has the same quiet suspicion, and the
-          suspicion is usually correct.
-        </p>
-        <p className="body rv">
-          A share flips it. We earn nothing until your floor is paid and the running costs are covered. Empty rooms come
-          out of our side first. There is no version of this where we do well and you do not.
-        </p>
-        <p className="body rv">
-          That is the whole argument. Not that we are nicer, but that we have deliberately taken the structure where the
-          only way we make money in year two is to keep your unit full in year one.
-        </p>
+        <p className="body rv">{t('owner.why.p1')}</p>
+        <p className="body rv">{t('owner.why.p2')}</p>
+        <p className="body rv">{t('owner.why.p3')}</p>
       </div>
     </section>
   );
 }
 
 export function CompareSection() {
+  const { t } = useLanguage();
   return (
     <section className="wrap sec rule" id="compare">
-      <h2 className="h1 rv">Three ways to own the same unit.</h2>
+      <h2 className="h1 rv">{t('owner.compare.title')}</h2>
       <p className="body rv" style={{ marginTop: 18 }}>
-        The honest version, including the parts that are worse for us.
+        {t('owner.compare.sub')}
       </p>
       <div className="cmpwrap rv">
         <table className="cmp">
@@ -56,14 +50,14 @@ export function CompareSection() {
             <tr>
               <th />
               {COMPARE_HEADS.map((h, i) => (
-                <th key={h} className={i === 2 ? 'us' : undefined}>{h}</th>
+                <th key={h} className={i === 2 ? 'us' : undefined}>{t(h)}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {COMPARE_ROWS.map(([k, a, b, us]) => (
               <tr key={k}>
-                <td>{k}</td><td>{a}</td><td>{b}</td><td className="us">{us}</td>
+                <td>{t(k)}</td><td>{t(a)}</td><td>{t(b)}</td><td className="us">{t(us)}</td>
               </tr>
             ))}
           </tbody>
@@ -74,41 +68,38 @@ export function CompareSection() {
 }
 
 export function TrialSection() {
+  const { t } = useLanguage();
   return (
     <section className="wrap sec rule" id="trial">
-      <div className="label rv">No commitment</div>
-      <h2 className="h1 rv" style={{ marginTop: 14 }}>Ninety days, then decide.</h2>
+      <div className="label rv">{t('owner.trial.kicker')}</div>
+      <h2 className="h1 rv" style={{ marginTop: 14 }}>{t('owner.trial.title')}</h2>
       <p className="body rv" style={{ marginTop: 18 }}>
-        We spend our money before you spend yours. We furnish the unit, shoot it, list it across every channel and start
-        paying your floor, all before anything binds you to us. At day ninety you carry on or you walk.{' '}
-        <b>Walking costs you nothing.</b> We take our furniture back out at our own cost and leave the unit as we found it.
+        {t('owner.trial.body')}{' '}
+        <b>{t('owner.trial.bodyBold')}</b> {t('owner.trial.bodyTail')}
       </p>
 
       <div className="zeros rv">
         {ZEROS.map((l) => (
-          <div key={l}><div className="z">S$0</div><div className="label">{l}</div></div>
+          <div key={l}><div className="z">S$0</div><div className="label">{t(l)}</div></div>
         ))}
       </div>
 
       <div className="grid g2 rv" style={{ marginTop: 'var(--s7)', gap: 'var(--s7)' }}>
         <div>
-          <h3 className="h2">What you keep either way</h3>
+          <h3 className="h2">{t('owner.trial.keepTitle')}</h3>
           <div className="rows" style={{ marginTop: 'var(--s4)' }}>
             {TRIAL_KEEPS.map(([k, v]) => (
-              <div className="row" key={k}><span>{k}</span><b>{v}</b></div>
+              <div className="row" key={k}><span>{t(k)}</span><b>{t(v)}</b></div>
             ))}
           </div>
         </div>
         <div>
-          <h3 className="h2">The one string attached</h3>
+          <h3 className="h2">{t('owner.trial.stringTitle')}</h3>
           <p className="body" style={{ marginTop: 'var(--s4)' }}>
-            Anyone we house during the trial signs a real lease, because they are real people moving their lives into
-            your unit. So if you leave at day ninety you pick how that lands: take the tenancies over as they stand,
-            with the agreements and the deposits handed to you, or give us the time to see them out.
+            {t('owner.trial.string1')}
           </p>
           <p className="body" style={{ marginTop: 14 }}>
-            That is the whole of the small print. We would rather put it on the page than bury it in a clause you find
-            in month four.
+            {t('owner.trial.string2')}
           </p>
         </div>
       </div>
@@ -118,19 +109,19 @@ export function TrialSection() {
 
 
 export function ComplianceSection() {
+  const { t } = useLanguage();
   return (
     <section className="wrap sec rule" id="legal">
-      <h2 className="h1 rv">The boring part, done properly.</h2>
+      <h2 className="h1 rv">{t('owner.legal.title')}</h2>
       <p className="body rv" style={{ marginTop: 18 }}>
-        Three things go wrong for owners who let room by room: the stay is too short, the unit is over-occupied, and
-        nobody can produce a document when it is asked for. We run all three as checklists, not as promises.
+        {t('owner.legal.sub')}
       </p>
       <div className="deal rv">
         {COMPLIANCE.map(([label, head, body]) => (
           <div key={head}>
-            <span className="label">{label}</span>
-            <h3>{head}</h3>
-            <p>{body}</p>
+            <span className="label">{t(label)}</span>
+            <h3>{t(head)}</h3>
+            <p>{t(body)}</p>
           </div>
         ))}
       </div>
@@ -140,6 +131,7 @@ export function ComplianceSection() {
 
 /** The three homes, photographed, with a bar per cell and how many are let. */
 export function HomesStrip() {
+  const { t } = useLanguage();
   return (
     <section className="homes" id="homes">
       {HOMES.map((h) => {
@@ -154,7 +146,8 @@ export function HomesStrip() {
               <div className="label" style={{ color: '#D3C7B2' }}>{h.mrt ? h.mrt.station : ''}</div>
               <div className="place" style={{ marginTop: 6 }}>{h.name}</div>
               <div style={{ fontSize: 12.5, color: '#D6CDBC', marginTop: 6 }}>
-                {rs.length} cells, {filled} let{open ? `, ${open} open now` : ''}
+                {t('owner.homes.count', { cells: rs.length, filled })}
+                {open ? t('owner.homes.open', { open }) : ''}
               </div>
               <div className="bars" style={{ marginTop: 13 }}>
                 {rs.map((r, i) => <i key={r.code} className={i < filled ? 'on' : ''} />)}
@@ -177,15 +170,14 @@ export function HomesStrip() {
  * which keeps the homepage from rendering an empty section on a fresh checkout.
  */
 export function HiveSection() {
+  const { t } = useLanguage();
   const recent = ARTICLES.slice(0, 3);
   return (
     <section className="wrap sec" id="thehive">
-      <div className="label rv">The Hive</div>
-      <h2 className="h1 rv" style={{ marginTop: 14 }}>What we write down.</h2>
+      <div className="label rv">{t('owner.hive.kicker')}</div>
+      <h2 className="h1 rv" style={{ marginTop: 14 }}>{t('owner.hive.title')}</h2>
       <p className="body rv" style={{ marginTop: 18 }}>
-        Everything we learn running the comb goes into The Hive. What a Singapore unit actually earns once the void is
-        counted, what the URA rules mean on a Tuesday rather than in a circular, what breaks in year two and what it
-        costs to fix. No lead magnets and no gated PDFs.
+        {t('owner.hive.body')}
       </p>
       <div className="posts">
         {recent.length > 0
@@ -211,7 +203,7 @@ export function HiveSection() {
           ))}
       </div>
       <p className="rv" style={{ marginTop: 'var(--s6)' }}>
-        <Link className="btn btn-ghost" to="/hive">Read The Hive</Link>
+        <Link className="btn btn-ghost" to="/hive">{t('owner.hive.cta')}</Link>
       </p>
     </section>
   );

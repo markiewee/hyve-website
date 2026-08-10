@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { roomsForHome, isLet } from '../../data/lazybeeRooms';
 import { PORTAL_TABS, PORTAL_TILES, DOCS, LOG, GAL } from '../../data/ownerPage';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 const money = (n) => 'S$' + n.toLocaleString('en-SG');
 
@@ -10,12 +11,13 @@ const money = (n) => 'S$' + n.toLocaleString('en-SG');
  * is a black box, so the point of this section is to open the box.
  */
 export default function PortalSection() {
+  const { t } = useLanguage();
   const [tab, setTab] = useState(PORTAL_TABS[0].id);
   const cp = roomsForHome('CP');
 
   return (
     <section className="wrap sec rule" id="see">
-      <h2 className="h1 rv">You see exactly what we see.</h2>
+      <h2 className="h1 rv">{t('owner.portal.title')}</h2>
       <p className="body rv" style={{ marginTop: 18 }}>
         A share only feels risky when it is a black box. So it is not one. You get an owner login on the day you sign.
         Everything below is a real view from a real month, with tenant names and identity numbers masked the way they
@@ -57,13 +59,13 @@ export default function PortalSection() {
                   <b>{isLet(r) ? money(r.price) : 'S$0'}</b>
                 </div>
               ))}
-              <div className="row"><span>Running costs, itemised</span><b>-S$2,228</b></div>
-              <div className="row"><span>Your floor</span><b>S$4,324</b></div>
-              <div className="row"><span>Your share of the upside</span><b>S$1,001</b></div>
+              <div className="row"><span>{t('owner.portal.opex')}</span><b>-S$2,228</b></div>
+              <div className="row"><span>{t('owner.portal.floor')}</span><b>S$4,324</b></div>
+              <div className="row"><span>{t('owner.portal.upside')}</span><b>S$1,001</b></div>
             </div>
             <div style={{ display: 'flex', gap: 9, flexWrap: 'wrap', marginTop: 'var(--s5)' }}>
-              <span className="chip on">Download August as PDF</span>
-              <span className="chip">Export twelve months to CSV</span>
+              <span className="chip on">{t('owner.portal.pdf')}</span>
+              <span className="chip">{t('owner.portal.csv')}</span>
             </div>
           </div>
         )}
@@ -117,8 +119,8 @@ export default function PortalSection() {
               ))}
             </div>
             <div className="rows" style={{ marginTop: 'var(--s5)', maxWidth: 420 }}>
-              <div className="row"><span>Maintenance, year to date</span><b>S$1,284</b></div>
-              <div className="row"><span>Charged to you</span><b>S$0</b></div>
+              <div className="row"><span>{t('owner.portal.maintYtd')}</span><b>S$1,284</b></div>
+              <div className="row"><span>{t('owner.portal.chargedYou')}</span><b>S$0</b></div>
             </div>
           </div>
         )}

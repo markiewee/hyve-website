@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { FAQ } from '../../data/ownerPage';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 /**
  * One open at a time, animated on max-height exactly as the prototype does it.
@@ -8,6 +9,7 @@ import { FAQ } from '../../data/ownerPage';
  * would clip the long ones on a phone.
  */
 export default function FaqSection() {
+  const { t, lang } = useLanguage();
   const [open, setOpen] = useState(-1);
   const answers = useRef([]);
 
@@ -19,11 +21,14 @@ export default function FaqSection() {
     apply();
     window.addEventListener('resize', apply);
     return () => window.removeEventListener('resize', apply);
-  }, [open]);
+    /* `lang` is a dependency because a Chinese answer wraps to a different
+       height than the English one, and the open panel's max-height is a measured
+       pixel value that would otherwise clip after a language switch. */
+  }, [open, lang]);
 
   return (
     <section className="wrap sec rule" id="faq">
-      <h2 className="h1 rv">The things owners actually ask.</h2>
+      <h2 className="h1 rv">{t('owner.faq.title')}</h2>
       <div className="qs">
         {FAQ.map(([q, a], i) => (
           /* The open state rides on a data attribute, not on className. The reveal
@@ -36,10 +41,10 @@ export default function FaqSection() {
               aria-expanded={open === i}
               onClick={() => setOpen(open === i ? -1 : i)}
             >
-              {q}
+              {t(q)}
             </button>
             <div className="a" ref={(el) => { answers.current[i] = el; }}>
-              <p>{a}</p>
+              <p>{t(a)}</p>
             </div>
           </div>
         ))}

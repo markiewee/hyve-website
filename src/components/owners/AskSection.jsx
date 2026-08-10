@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { UPLIFT, OPEX, FLOORPCT, SHARE, DI, sgd } from '../../lib/ownerModel';
 import { WHAT_HAPPENS } from '../../data/ownerPage';
 import { track, EVENTS } from '../../lib/analytics';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 /**
  * The ask: a postal code, a way to reach you, and Marcus turns up with coffee.
@@ -13,6 +14,7 @@ import { track, EVENTS } from '../../lib/analytics';
  * of this port, and the prototype only logged it to the console.
  */
 export default function AskSection({ m, estimator, variant, copy }) {
+  const { t } = useLanguage();
   const [postal, setPostal] = useState('');
   const [contact, setContact] = useState('');
   const [lead, setLead] = useState(null);
@@ -51,29 +53,26 @@ export default function AskSection({ m, estimator, variant, copy }) {
   };
 
   const reportRows = lead && [
-    ['Postal code', lead.postal_code || 'not given'],
-    ['District', `${lead.district} ${lead.district_name}`],
-    ['Size and layout', `${lead.floor_area_sqft.toLocaleString('en-SG')} sqft, ${lead.bedrooms} bedrooms`],
-    ['District asking rent', `S$${lead.psf_used.toFixed(1)} psf, ${sgd(lead.market_rent_monthly)} / mo`],
-    ['Floor we would start from', `${sgd(lead.floor_offered_monthly)} / mo`],
-    ['Modelled against a lease', `+${lead.uplift_pct}%, ${sgd(lead.modelled_owner_year - lead.modelled_lease_year)} a year`],
+    [t('owner.ask.rowPostal'), lead.postal_code || t('owner.ask.rowNotGiven')],
+    [t('owner.ask.rowDistrict'), `${lead.district} ${lead.district_name}`],
+    [t('owner.ask.rowSize'), t('owner.ask.valSize', { sqft: lead.floor_area_sqft.toLocaleString('en-SG'), beds: lead.bedrooms })],
+    [t('owner.ask.rowAsking'), t('owner.ask.valAsking', { psf: lead.psf_used.toFixed(1), amount: sgd(lead.market_rent_monthly) })],
+    [t('owner.ask.rowFloor'), t('owner.ask.valPerMo', { amount: sgd(lead.floor_offered_monthly) })],
+    [t('owner.ask.rowModelled'), t('owner.ask.valModelled', { pct: lead.uplift_pct, amount: sgd(lead.modelled_owner_year - lead.modelled_lease_year) })],
   ];
 
   return (
     <section className="wrap sec rule" id="ask">
       <div className="askbox">
-        <div className="label rv">The next step is a coffee</div>
+        <div className="label rv">{t('owner.ask.kicker')}</div>
         <h2 className="h1 rv" style={{ maxWidth: 'none', margin: '16px auto 0' }}>
-          Marcus will come to you<br />and buy you a coffee.
+          {t('owner.ask.title1')}<br />{t('owner.ask.title2')}
         </h2>
         <p className="body rv" style={{ margin: '20px auto 0' }}>
-          Not a call. Not a deck. Tell me roughly where your unit is and I will come to you, anywhere on the island, at
-          whatever hour suits. I will buy the coffee, look at the photos on your phone, and tell you what I think your
-          unit would actually make.
+          {t('owner.ask.p1')}
         </p>
         <p className="body rv" style={{ margin: '14px auto 0' }}>
-          If it is not a fit I will say so before the cup is cold, and you will have lost forty minutes and gained a
-          flat white.
+          {t('owner.ask.p2')}
         </p>
 
         {!lead && (
@@ -82,31 +81,32 @@ export default function AskSection({ m, estimator, variant, copy }) {
               type="text"
               inputMode="numeric"
               maxLength={6}
-              placeholder="Postal code"
+              placeholder={t('owner.ask.postal')}
               required
-              aria-label="Postal code"
+              aria-label={t('owner.ask.postal')}
               value={postal}
               onChange={(e) => setPostal(e.target.value.replace(/\D/g, '').slice(0, 6))}
             />
             <input
               type="text"
-              placeholder="WhatsApp or email"
+              placeholder={t('owner.ask.contact')}
               required
-              aria-label="WhatsApp or email"
+              aria-label={t('owner.ask.contact')}
               value={contact}
               onChange={(e) => setContact(e.target.value)}
             />
-            <button className="btn btn-accent" type="submit">Book the coffee</button>
+            <button className="btn btn-accent" type="submit">{t('owner.ask.submit')}</button>
           </form>
         )}
 
         {lead && (
           <div className="report rv in" ref={reportRef}>
-            <div className="label">Saved. This is what Marcus brings to the table.</div>
-            <h3 className="h2" style={{ marginTop: 12 }}>Your unit, {DI[estimator.district] || ''}</h3>
+            <div className="label">{t('owner.ask.saved')}</div>
+            <h3 className="h2" style={{ marginTop: 12 }}>
+              {t('owner.ask.yourUnit', { district: DI[estimator.district] || '' })}
+            </h3>
             <p className="small" style={{ marginTop: 10 }}>
-              Everything you worked out on this page is attached to your enquiry, so the first thing he says is not
-              &quot;tell me about your unit&quot;.
+              {t('owner.ask.attached')}
             </p>
             <div className="rr">
               {reportRows.map(([k, v]) => (
@@ -114,19 +114,18 @@ export default function AskSection({ m, estimator, variant, copy }) {
               ))}
             </div>
             <p className="fine" style={{ marginTop: 'var(--s5)' }}>
-              Your enquiry is saved against hero variant <b>{lead.hero_variant.toUpperCase()}</b>, which is how we find
-              out which opening line actually produces coffees. Marcus is messaged within a day.
+              {t('owner.ask.variantPre')} <b>{lead.hero_variant.toUpperCase()}</b>{t('owner.ask.variantPost')}
             </p>
           </div>
         )}
 
         <div className="whathappens rv">
-          <div className="label" style={{ textAlign: 'left' }}>What happens when you press that</div>
+          <div className="label" style={{ textAlign: 'left' }}>{t('owner.ask.whatHappens')}</div>
           <div className="wh">
             {WHAT_HAPPENS.map(([title, body], i) => (
               <div key={title}>
                 <span className="i">{i + 1}</span>
-                <div><b>{title}</b><p>{body}</p></div>
+                <div><b>{t(title)}</b><p>{t(body)}</p></div>
               </div>
             ))}
           </div>
@@ -134,10 +133,10 @@ export default function AskSection({ m, estimator, variant, copy }) {
 
         <div className="sign rv">
           <div className="sig">Marcus</div>
-          <div className="fine">Marcus · Makery Pte Ltd · the one who actually turns up</div>
+          <div className="fine">{t('owner.ask.signFine')}</div>
         </div>
         <p className="fine rv" style={{ marginTop: 'var(--s5)' }}>
-          No newsletter. No sequence of five emails. No agent ringing you on a Sunday.
+          {t('owner.ask.noSpam')}
         </p>
       </div>
     </section>

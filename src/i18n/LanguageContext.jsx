@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import en from "./en.json";
 import zh from "./zh.json";
 
@@ -23,7 +23,24 @@ function detectLanguage() {
 }
 
 export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState(detectLanguage);
+  // English first, on the server and in the browser alike, so the first client
+  // render matches the prerendered HTML byte for byte and React keeps the tree
+  // it hydrated. Running detectLanguage in the useState initialiser instead put
+  // a Chinese first render against English markup for any visitor on a zh
+  // browser, which React resolves by throwing the hydrated tree away. That was
+  // invisible while no public page was translated. The owner header is, now.
+  const [lang, setLang] = useState("en");
+
+  useEffect(() => {
+    const detected = detectLanguage();
+    if (detected !== "en") setLang(detected);
+  }, []);
+
+  // Screen readers switch voice on this, and Chrome stops offering to translate
+  // a page that is already in the language it would translate to.
+  useEffect(() => {
+    document.documentElement.lang = lang === "zh" ? "zh-Hans" : "en";
+  }, [lang]);
 
   function setLanguage(l) {
     setLang(l);

@@ -5,6 +5,7 @@ import { buildComb } from '../../lib/comb';
 import { bookingUrl } from '../../lib/booking';
 import { track, EVENTS } from '../../lib/analytics';
 import { scrollToId } from '../../lib/scrollToId';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 const money = (n) => 'S$' + n.toLocaleString('en-SG');
 const nice = (d) => new Date(d).toLocaleDateString('en-SG', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -12,18 +13,19 @@ const nice = (d) => new Date(d).toLocaleDateString('en-SG', { day: 'numeric', mo
 /** The listing preview beside the comb. Straight out of the same room record the
     booking site reads, so nothing here can quietly diverge from what is on sale. */
 function CellCard({ room, shot, onShot }) {
+  const { t } = useLanguage();
   const home = HOMES.find((x) => x.code === room.home);
   const let_ = isLet(room);
   const photos = room.photos.length ? room.photos : [HOME_HERO[room.home]];
   const i = Math.min(shot, photos.length - 1);
 
   const specs = [
-    ['Size', room.sqm ? `${room.sqm} sqm` : 'not measured'],
-    ['Bed', room.bed || 'not set'],
-    ['Sleeps', room.occ + (room.occ > 1 ? ' people' : ' person')],
-    ['Minimum stay', `${room.min} months`],
-    ['Bathroom', room.ensuite ? 'Ensuite' : 'Shared'],
-    ['Next available', let_ ? nice(room.next) : 'Now'],
+    [t('owner.comb.size'), room.sqm ? t('owner.comb.sqm', { n: room.sqm }) : t('owner.comb.notMeasured')],
+    [t('owner.comb.bed'), room.bed || t('owner.comb.notSet')],
+    [t('owner.comb.sleeps'), t(room.occ > 1 ? 'owner.comb.people' : 'owner.comb.person', { n: room.occ })],
+    [t('owner.comb.minStay'), t('owner.comb.months', { n: room.min })],
+    [t('owner.comb.bathroom'), room.ensuite ? t('owner.comb.ensuite') : t('owner.comb.shared')],
+    [t('owner.comb.nextAvailable'), let_ ? nice(room.next) : t('owner.comb.now')],
   ];
 
   return (
@@ -38,7 +40,7 @@ function CellCard({ room, shot, onShot }) {
             color: let_ ? '#9ED3B6' : '#E3C489',
           }}
         >
-          {let_ ? `Let until ${nice(room.next)}` : 'Open now'}
+          {let_ ? t('owner.comb.letUntil', { date: nice(room.next) }) : t('owner.comb.keyOpen')}
         </span>
         {photos.length > 1 && (
           <div className="thumbs">
@@ -60,7 +62,7 @@ function CellCard({ room, shot, onShot }) {
         <div className="place" style={{ fontSize: 26, marginTop: 6 }}>{room.type}</div>
         <div className="num" style={{ fontSize: 22, fontWeight: 700, marginTop: 10 }}>
           {money(room.price)}
-          <span className="label" style={{ letterSpacing: '.2em', marginLeft: 8 }}>per month</span>
+          <span className="label" style={{ letterSpacing: '.2em', marginLeft: 8 }}>{t('owner.comb.perMonth')}</span>
         </div>
         <div className="specs">
           {specs.map(([k, v]) => (
@@ -105,6 +107,7 @@ function CellCard({ room, shot, onShot }) {
 }
 
 export default function CombSection() {
+  const { t } = useLanguage();
   const comb = useMemo(() => buildComb(ISLAND, HOMES, roomsForHome, (r) => isLet(r)), []);
   const firstOpen = useMemo(() => ROOMS.find((r) => !isLet(r)) || ROOMS[0], []);
   const [code, setCode] = useState(firstOpen.code);
@@ -121,18 +124,15 @@ export default function CombSection() {
 
   return (
     <section className="wrap sec rule" id="comb">
-      <div className="label rv">The comb</div>
-      <h2 className="h1 rv" style={{ marginTop: 14 }}>Every cell is a real room.</h2>
+      <div className="label rv">{t('owner.comb.kicker')}</div>
+      <h2 className="h1 rv" style={{ marginTop: 14 }}>{t('owner.comb.title')}</h2>
       <p className="body rv" style={{ marginTop: 18 }}>
-        Nineteen cells so far, each one drawn where it actually stands on the island. <b>Click any cell</b> and you get
-        the room itself, straight from the same database that runs the booking site: the photographs, the price, the
-        size, the bed, what is in it and when it next opens. The pale cells are the rest of Singapore, which is the part
-        of the comb we have not built yet.
+        {t('owner.comb.introPre')} <b>{t('owner.comb.introBold')}</b> {t('owner.comb.introTail')}
       </p>
       <div className="key rv">
-        <span><i style={{ background: 'var(--comb-occ)' }} />Let</span>
-        <span><i style={{ background: 'var(--comb-open)' }} />Open now</span>
-        <span><i style={{ background: 'var(--comb-land-fill)', border: '1px solid var(--comb-land)' }} />Not ours yet</span>
+        <span><i style={{ background: 'var(--comb-occ)' }} />{t('owner.comb.keyLet')}</span>
+        <span><i style={{ background: 'var(--comb-open)' }} />{t('owner.comb.keyOpen')}</span>
+        <span><i style={{ background: 'var(--comb-land-fill)', border: '1px solid var(--comb-land)' }} />{t('owner.comb.keyNotOurs')}</span>
       </div>
 
       <div className="combgrid">
