@@ -74,4 +74,69 @@ User-agent: meta-externalagent
 Allow: /
 Disallow: /portal/
 
+# Crawlers that feed model training corpora and AI answer engines. Named
+# explicitly even though the wildcard block above already allows them, because several
+# of these look for their own token before anything else, and because being
+# unambiguous costs nothing. Lazybee wants to be read.
+
+User-agent: CCBot
+Allow: /
+Disallow: /portal/
+
+User-agent: Bytespider
+Allow: /
+Disallow: /portal/
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+Disallow: /portal/
+
+User-agent: FacebookBot
+Allow: /
+Disallow: /portal/
+
+User-agent: cohere-ai
+Allow: /
+Disallow: /portal/
+
+User-agent: cohere-training-data-crawler
+Allow: /
+Disallow: /portal/
+
+User-agent: MistralAI-User
+Allow: /
+Disallow: /portal/
+
+User-agent: DuckAssistBot
+Allow: /
+Disallow: /portal/
+
+User-agent: YouBot
+Allow: /
+Disallow: /portal/
+
+User-agent: AI2Bot
+Allow: /
+Disallow: /portal/
+
+User-agent: Diffbot
+Allow: /
+Disallow: /portal/
+
+User-agent: omgilibot
+Allow: /
+Disallow: /portal/
+
+User-agent: Timpibot
+Allow: /
+Disallow: /portal/
+
+User-agent: PetalBot
+Allow: /
+Disallow: /portal/
+
+User-agent: SemrushBot-OCOB
+Allow: /
+Disallow: /portal/
+
 Sitemap: https://www.lazybee.sg/sitemap.xml
