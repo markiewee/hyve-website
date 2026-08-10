@@ -145,7 +145,7 @@ export default function AdminDocumentsPage() {
     // Auto-generate fee schedule with prorated first/last months
     const feeDates = {};
     const feeScheduleRows = generateFeeScheduleHtml(ob?.tenancy_start_date, ob?.tenancy_end_date, tenant?.monthly_rent);
-    const rent = tenant?.monthly_rent ? Number(tenant.monthly_rent).toLocaleString() : "—";
+    const rent = tenant?.monthly_rent ? Number(tenant.monthly_rent).toLocaleString() : "-";
 
     const values = {
       TENANT_NAME: tenant?.tenant_details?.full_name || tenant?.username || "",
@@ -179,9 +179,9 @@ export default function AdminDocumentsPage() {
         html = html.replaceAll(`{{${key}}}`, val || `[${key}]`);
       }
       // Clear remaining unfilled FEE_DATE placeholders
-      html = html.replace(/\{\{FEE_DATE_\d+\}\}/g, "—");
+      html = html.replace(/\{\{FEE_DATE_\d+\}\}/g, "-");
 
-      // Download as HTML file — works on both desktop and mobile
+      // Download as HTML file, works on both desktop and mobile
       const blob = new Blob([html], { type: "text/html" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -262,7 +262,7 @@ export default function AdminDocumentsPage() {
       const tplFields = tpl?.text_fields || [];
 
       if (sendPdfFile) {
-        // Custom upload — stamp text if template has text fields
+        // Custom upload, stamp text if template has text fields
         if (tplFields.length > 0) {
           const bytes = await sendPdfFile.arrayBuffer();
           const stamped = await stampPdf(bytes, tplFields, autoValues);
@@ -271,7 +271,7 @@ export default function AdminDocumentsPage() {
           pdfBlob = sendPdfFile;
         }
       } else if (tpl?.pdf_url) {
-        // From template — fetch PDF, stamp text fields with member data
+        // From template, fetch PDF, stamp text fields with member data
         const pdfBytes = await fetchPdfBytes(sendPdfUrl);
         if (tplFields.length > 0) {
           const stamped = await stampPdf(pdfBytes, tplFields, autoValues);
@@ -365,7 +365,7 @@ export default function AdminDocumentsPage() {
             </div>
             <div className="p-8 space-y-5">
               <p className="text-sm text-foreground-variant font-['Inter']">
-                Select a member — the agreement will be auto-filled with their details and opened in a new tab for you to review and save as PDF.
+                Select a member, the agreement will be auto-filled with their details and opened in a new tab for you to review and save as PDF.
               </p>
               <div className="space-y-1.5">
                 <label className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold block">Member *</label>
@@ -374,7 +374,7 @@ export default function AdminDocumentsPage() {
                   <option value="">Select member</option>
                   {tenants.map(t => (
                     <option key={t.id} value={t.id}>
-                      {t.tenant_details?.full_name || t.username || "Unnamed"} — {t.rooms?.unit_code}
+                      {t.tenant_details?.full_name || t.username || "Unnamed"}, {t.rooms?.unit_code}
                     </option>
                   ))}
                 </select>
@@ -386,11 +386,11 @@ export default function AdminDocumentsPage() {
                 return (
                   <div className="bg-surface-container rounded-xl p-4 text-xs font-['Inter'] space-y-1 text-foreground">
                     <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-foreground-variant font-bold mb-2">Will auto-fill</p>
-                    <p><span className="text-foreground-variant">Name:</span> <strong>{t?.tenant_details?.full_name || "—"}</strong></p>
-                    <p><span className="text-foreground-variant">Room:</span> <strong>{t?.rooms?.unit_code} — {t?.rooms?.name}</strong></p>
-                    <p><span className="text-foreground-variant">Rent:</span> <strong>SGD {t?.monthly_rent || "—"}</strong> · <span className="text-foreground-variant">Deposit:</span> <strong>SGD {ob?.deposit_amount || "—"}</strong></p>
-                    <p><span className="text-foreground-variant">Period:</span> <strong>{ob?.licence_period || "—"}</strong></p>
-                    <p><span className="text-foreground-variant">Ref:</span> <strong>{ob?.ref_number || "—"}</strong></p>
+                    <p><span className="text-foreground-variant">Name:</span> <strong>{t?.tenant_details?.full_name || "-"}</strong></p>
+                    <p><span className="text-foreground-variant">Room:</span> <strong>{t?.rooms?.unit_code}, {t?.rooms?.name}</strong></p>
+                    <p><span className="text-foreground-variant">Rent:</span> <strong>SGD {t?.monthly_rent || "-"}</strong> · <span className="text-foreground-variant">Deposit:</span> <strong>SGD {ob?.deposit_amount || "-"}</strong></p>
+                    <p><span className="text-foreground-variant">Period:</span> <strong>{ob?.licence_period || "-"}</strong></p>
+                    <p><span className="text-foreground-variant">Ref:</span> <strong>{ob?.ref_number || "-"}</strong></p>
                   </div>
                 );
               })()}
@@ -503,7 +503,7 @@ export default function AdminDocumentsPage() {
                   <option value="">Select member</option>
                   {tenants.map(t => (
                     <option key={t.id} value={t.id}>
-                      {t.tenant_details?.full_name || t.username || "Unnamed"} — {t.rooms?.unit_code}
+                      {t.tenant_details?.full_name || t.username || "Unnamed"}, {t.rooms?.unit_code}
                     </option>
                   ))}
                 </select>
@@ -535,7 +535,7 @@ export default function AdminDocumentsPage() {
               {sendPdfUrl && (
                 <div className="space-y-2">
                   <p className="font-['Inter'] text-[10px] uppercase tracking-widest text-accent font-bold">
-                    Preview — data fields will be auto-filled from member profile
+                    Preview, data fields will be auto-filled from member profile
                   </p>
                   <PdfFieldPlacer
                     pdfUrl={sendPdfUrl}
@@ -595,8 +595,8 @@ export default function AdminDocumentsPage() {
                     <p className="font-['Inter'] font-bold text-sm text-foreground">{tpl.name}</p>
                     <p className="font-['Inter'] text-xs text-foreground-variant">
                       {DOC_TYPE_LABELS[tpl.doc_type] || tpl.doc_type}
-                      {tpl.pdf_url ? " — PDF" : " — HTML (legacy)"}
-                      {!tpl.is_active && " — Inactive"}
+                      {tpl.pdf_url ? "PDF" : "HTML (legacy)"}
+                      {!tpl.is_active && "Inactive"}
                     </p>
                   </div>
                 </div>

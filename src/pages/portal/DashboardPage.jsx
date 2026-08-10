@@ -44,7 +44,7 @@ export default function DashboardPage() {
 
   // Admins always go to the admin dashboard. (Until 2026-05, only SUPER_ADMIN
   // was redirected here, but SUPER_ADMIN was demoted to ADMIN to fix the
-  // 36-policy RLS gap — and now Mark logging in as admin@hyve.sg was landing
+  // 36-policy RLS gap, and now Mark logging in as admin@hyve.sg was landing
   // on the tenant dashboard.)
   if (profile?.role === "ADMIN" || profile?.role === "SUPER_ADMIN") {
     return <Navigate to="/portal/admin" replace />;
@@ -99,7 +99,7 @@ export default function DashboardPage() {
         </p>
       </header>
 
-      {/* Announcements — full-width above grid */}
+      {/* Announcements, full-width above grid */}
       <AnnouncementBanner propertyId={profile?.property_id} />
 
       {/* Outstanding Invoices */}
@@ -146,12 +146,12 @@ export default function DashboardPage() {
       {/* Bento Grid */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 max-w-6xl">
 
-        {/* Access codes — only renders on/after move-in date */}
+        {/* Access codes, only renders on/after move-in date */}
         <AccessCodesCard profile={profile} />
 
         {/* ── Row 1 ── */}
 
-        {/* Billing Overview — col-span-12 */}
+        {/* Billing Overview, col-span-12 */}
         <section className="md:col-span-12 bg-surface rounded-xl p-8 border border-border relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full -mr-16 -mt-16 pointer-events-none" />
           <div className="relative z-10">
@@ -166,7 +166,7 @@ export default function DashboardPage() {
                 <p className="font-mono text-2xl font-bold tabular-nums tracking-tight text-foreground">
                   {(profile?.monthly_rent || profile?.rooms?.rent_amount)
                     ? `$${Number(profile.monthly_rent || profile.rooms?.rent_amount).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`
-                    : "—"}
+                    : "-"}
                 </p>
                 <p className="text-xs text-foreground-variant mt-1">{t("dashboard.due1st")}</p>
               </div>
@@ -201,7 +201,7 @@ export default function DashboardPage() {
 
         {/* ── Row 2 ── */}
 
-        {/* AC Usage chart + allowance — col-span-7 */}
+        {/* AC Usage chart + allowance, col-span-7 */}
         <section className="md:col-span-7 bg-surface rounded-xl p-8 border border-border">
           <div className="flex items-center justify-between mb-6">
             <h3 className="font-display text-2xl flex items-center gap-2 text-foreground">
@@ -217,7 +217,7 @@ export default function DashboardPage() {
           ) : (
             <UsageChart {...usageChart} />
           )}
-          {/* Monthly allowance — folded in from its own section */}
+          {/* Monthly allowance, folded in from its own section */}
           {!usageLoading && (
             <div className="mt-6 pt-6 border-t border-border">
               <UsageProgressBar totalHours={totalHours} freeHours={getFreeHours()} />
@@ -228,7 +228,7 @@ export default function DashboardPage() {
           )}
         </section>
 
-        {/* Tenancy Status — col-span-5 */}
+        {/* Tenancy Status, col-span-5 */}
         <section className="md:col-span-5 bg-surface rounded-xl p-8 border border-border">
           {dashLoading ? (
             <div className="space-y-3">
@@ -241,7 +241,7 @@ export default function DashboardPage() {
           )}
         </section>
 
-        {/* ── Row 2.5: Documents — full width ── */}
+        {/* ── Row 2.5: Documents, full width ── */}
         <section className="md:col-span-12 bg-surface rounded-xl p-8 border border-border">
           {dashLoading ? (
             <div className="space-y-3">

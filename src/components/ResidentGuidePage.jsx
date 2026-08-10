@@ -8,14 +8,14 @@ const linkClass = 'text-accent underline underline-offset-2 hover:opacity-80 tra
 const sections = [
   {
     id: 'help',
-    title: '1. Getting Help — The Escalation Path',
+    title: '1. Getting Help, The Escalation Path',
     content: (
       <>
         <p className="mb-3 text-foreground-variant">When something's not right, please follow this order so issues get resolved fast:</p>
         <ol className="list-decimal pl-6 space-y-2 mb-4 text-foreground-variant">
-          <li><strong className="text-foreground">Check the FAQs / this guide first</strong> — most common questions are answered here</li>
-          <li><strong className="text-foreground">Ask your house captain</strong> — they handle day-to-day stuff and can often resolve things on the spot</li>
-          <li><strong className="text-foreground">Escalate to Lazybee</strong> — raise a ticket on the tenant portal (<a href={`${PORTAL_URL}/portal`} className={linkClass}>{PORTAL_HOST}/portal</a>) or WhatsApp us</li>
+          <li><strong className="text-foreground">Check the FAQs / this guide first</strong>most common questions are answered here</li>
+          <li><strong className="text-foreground">Ask your house captain</strong>they handle day-to-day stuff and can often resolve things on the spot</li>
+          <li><strong className="text-foreground">Escalate to Lazybee</strong>raise a ticket on the tenant portal (<a href={`${PORTAL_URL}/portal`} className={linkClass}>{PORTAL_HOST}/portal</a>) or WhatsApp us</li>
         </ol>
         <h4 className="font-display text-foreground font-semibold mt-4 mb-2">What counts as urgent?</h4>
         <p className="text-foreground-variant mb-2">Call or WhatsApp us directly (don't just raise a ticket) for:</p>
@@ -43,7 +43,7 @@ const sections = [
           <li>Check AC usage and overage charges</li>
           <li>Update your personal details</li>
         </ul>
-        <p className="text-foreground-variant">If your portal shows rent as "pending" after you've paid, give it 1–2 working days to sync. If still wrong, WhatsApp us with your payment slip.</p>
+        <p className="text-foreground-variant">If your portal shows rent as "pending" after you've paid, give it 1 to 2 working days to sync. If still wrong, WhatsApp us with your payment slip.</p>
       </>
     ),
   },
@@ -59,9 +59,9 @@ const sections = [
           <li><strong className="text-foreground">Security deposit:</strong> equivalent to one month's rent, held by Lazybee</li>
         </ul>
         <h4 className="font-display text-foreground font-semibold mt-3 mb-1">Can I pay by credit card?</h4>
-        <p className="mb-3 text-foreground-variant">Yes — via the portal Stripe link. A processing fee applies.</p>
+        <p className="mb-3 text-foreground-variant">Yes, via the portal Stripe link. A processing fee applies.</p>
         <h4 className="font-display text-foreground font-semibold mt-3 mb-1">Why does my portal show rent as pending when I've paid?</h4>
-        <p className="mb-3 text-foreground-variant">Give it 1–2 working days to sync. If still wrong, send us your payment slip.</p>
+        <p className="mb-3 text-foreground-variant">Give it 1 to 2 working days to sync. If still wrong, send us your payment slip.</p>
         <h4 className="font-display text-foreground font-semibold mt-3 mb-1">Pro-rated rent</h4>
         <p className="text-foreground-variant">If you moved in partway through the month, your first month's rent is pro-rated to your actual move-in date.</p>
       </>
@@ -78,7 +78,7 @@ const sections = [
         <p className="mb-3 text-foreground-variant">You pass your remaining lease term to a new tenant who takes over the room on your existing terms.</p>
 
         <h4 className="font-display text-foreground font-semibold mt-4 mb-1">Who handles the transfer?</h4>
-        <p className="mb-2 text-foreground-variant"><strong className="text-foreground">You (the outgoing tenant) handle the process — this is not delegated to Lazybee.</strong></p>
+        <p className="mb-2 text-foreground-variant"><strong className="text-foreground">You (the outgoing tenant) handle the process, this is not delegated to Lazybee.</strong></p>
         <p className="mb-1 text-foreground-variant">Your responsibilities:</p>
         <ul className="list-disc pl-6 space-y-1 mb-3 text-foreground-variant">
           <li>Source a suitable replacement yourself</li>
@@ -95,7 +95,7 @@ const sections = [
         </ul>
 
         <h4 className="font-display text-foreground font-semibold mt-4 mb-1">What are the terms for the new tenant?</h4>
-        <p className="mb-3 text-foreground-variant">The incoming tenant <strong className="text-foreground">inherits your existing licence</strong> — same rent, same deposit, same remaining term, and all associated liabilities. <strong className="text-foreground">No renegotiation.</strong></p>
+        <p className="mb-3 text-foreground-variant">The incoming tenant <strong className="text-foreground">inherits your existing licence</strong>same rent, same deposit, same remaining term, and all associated liabilities. <strong className="text-foreground">No renegotiation.</strong></p>
 
         <h4 className="font-display text-foreground font-semibold mt-4 mb-1">When do I get my deposit back?</h4>
         <p className="mb-3 text-foreground-variant">Refunded once the new tenant (1) signs the licence, (2) pays their deposit and first month's rent, and (3) officially moves in. Processed within <strong className="text-foreground">7 working days</strong>.</p>
@@ -139,7 +139,7 @@ const sections = [
         <h4 className="font-display text-foreground font-semibold mt-3 mb-1">How quickly will my issue be resolved?</h4>
         <ul className="list-disc pl-6 space-y-1 mb-3 text-foreground-variant">
           <li><strong className="text-foreground">Urgent</strong> (safety, major leaks, no power/water): within 24 hours</li>
-          <li><strong className="text-foreground">Standard</strong> (appliance repairs, leaks, fixtures): 3–5 working days</li>
+          <li><strong className="text-foreground">Standard</strong> (appliance repairs, leaks, fixtures): 3 to 5 working days</li>
           <li><strong className="text-foreground">Cosmetic:</strong> batched into monthly maintenance sweep</li>
         </ul>
 
@@ -150,13 +150,13 @@ const sections = [
         </ul>
 
         <h4 className="font-display text-foreground font-semibold mt-3 mb-1">Pests</h4>
-        <p className="mb-3 text-foreground-variant">Report immediately via WhatsApp with photos. Prevention is shared — wash dishes, dispose of food properly, don't leave food out.</p>
+        <p className="mb-3 text-foreground-variant">Report immediately via WhatsApp with photos. Prevention is shared, wash dishes, dispose of food properly, don't leave food out.</p>
 
         <h4 className="font-display text-foreground font-semibold mt-3 mb-1">Locked out?</h4>
-        <p className="mb-3 text-foreground-variant">WhatsApp us — we keep spare keys. After-hours call-outs may incur a service fee.</p>
+        <p className="mb-3 text-foreground-variant">WhatsApp us, we keep spare keys. After-hours call-outs may incur a service fee.</p>
 
         <h4 className="font-display text-foreground font-semibold mt-3 mb-1">Can I do small repairs myself?</h4>
-        <p className="mb-3 text-foreground-variant">Light bulbs and batteries — yes. Plumbing, electrical, appliances, or structural work — raise a ticket. Unauthorised repairs that cause damage will be charged to you.</p>
+        <p className="mb-3 text-foreground-variant">Light bulbs and batteries, yes. Plumbing, electrical, appliances, or structural work, raise a ticket. Unauthorised repairs that cause damage will be charged to you.</p>
 
         <h4 className="font-display text-foreground font-semibold mt-3 mb-1">What if my housemates are the problem?</h4>
         <p className="text-foreground-variant">Try to resolve directly first. If that doesn't work, message your house captain or Lazybee. We mediate and, in serious cases, enforce house rules.</p>
@@ -172,9 +172,9 @@ const sections = [
         <li>Respect noise levels (especially after 10 PM)</li>
         <li>No smoking indoors</li>
         <li>No parties without prior approval</li>
-        <li>Overnight guests allowed with notice (limit 2–3 nights/week)</li>
+        <li>Overnight guests allowed with notice (limit 2 to 3 nights/week)</li>
         <li><strong className="text-foreground">Cats are welcome</strong> (dogs: case by case)</li>
-        <li>Wash your dishes — shared kitchens = shared responsibility</li>
+        <li>Wash your dishes, shared kitchens = shared responsibility</li>
       </ul>
     ),
   },
@@ -191,7 +191,7 @@ const sections = [
         </ol>
 
         <h4 className="font-display text-foreground font-semibold mt-3 mb-1">Don't have a SG bank account / don't know what IRAS is?</h4>
-        <p className="mb-3 text-foreground-variant"><strong className="text-foreground">We'll process IRAS e-stamping for you.</strong> WhatsApp us your passport, allow 2–3 working days.</p>
+        <p className="mb-3 text-foreground-variant"><strong className="text-foreground">We'll process IRAS e-stamping for you.</strong> WhatsApp us your passport, allow 2 to 3 working days.</p>
 
         <h4 className="font-display text-foreground font-semibold mt-3 mb-1">Where do I get my Tenancy Agreement?</h4>
         <p className="text-foreground-variant">Tenant portal → Documents section. If you have trouble, WhatsApp us.</p>
@@ -217,7 +217,7 @@ const ResidentGuidePage = () => (
   <main className="bg-background text-foreground pt-24 md:pt-28">
     <SEO
       title="Resident Guide"
-      description="Everything Lazybee residents need — house rules, move-in, payments and support."
+      description="Everything Lazybee residents need, house rules, move-in, payments and support."
       canonical="/residents"
     />
 

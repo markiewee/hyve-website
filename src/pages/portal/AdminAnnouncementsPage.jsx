@@ -18,7 +18,7 @@ const PRIORITY_CARD = {
 };
 
 function formatDate(dateStr) {
-  if (!dateStr) return "—";
+  if (!dateStr) return "-";
   return new Date(dateStr).toLocaleDateString("en-SG", {
     day: "numeric",
     month: "short",
@@ -51,7 +51,7 @@ export default function AdminAnnouncementsPage() {
   useEffect(() => {
     async function fetchData() {
       // Auto-deactivate any active announcements past their expiry. Cheap one-shot
-      // sweep — runs whenever an admin opens this page, no cron needed.
+      // sweep, runs whenever an admin opens this page, no cron needed.
       await supabase
         .from("announcements")
         .update({ is_active: false })

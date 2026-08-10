@@ -22,7 +22,7 @@ function formatMonth(monthStr) {
 }
 
 function formatDate(dateStr) {
-  if (!dateStr) return "—";
+  if (!dateStr) return "-";
   return new Date(dateStr).toLocaleDateString("en-SG", {
     day: "numeric",
     month: "short",
@@ -31,7 +31,7 @@ function formatDate(dateStr) {
 }
 
 function formatSGD(amount) {
-  if (amount == null) return "—";
+  if (amount == null) return "-";
   return `$${Number(amount).toLocaleString("en-SG", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -63,7 +63,7 @@ export default function AdminRentPage() {
   const [generating, setGenerating] = useState(false);
   const [generateResult, setGenerateResult] = useState(null);
   const [actionLoading, setActionLoading] = useState(null);
-  // Month filter for the rent table — defaults to the current month so the
+  // Month filter for the rent table, defaults to the current month so the
   // list isn't an ever-growing pile of every month ever generated.
   const [tableMonth, setTableMonth] = useState(() => {
     const now = new Date();
@@ -218,8 +218,8 @@ export default function AdminRentPage() {
     setMatchedPairs(prev => [...prev, {
       rentPaymentId: rentPayment.id,
       transactionRef: selectedTxn.reference,
-      tenantName: rentPayment.tenant_profiles?.tenant_details?.full_name || rentPayment.tenant_profiles?.username || "—",
-      unitCode: rentPayment.tenant_profiles?.rooms?.unit_code || "—",
+      tenantName: rentPayment.tenant_profiles?.tenant_details?.full_name || rentPayment.tenant_profiles?.username || "-",
+      unitCode: rentPayment.tenant_profiles?.rooms?.unit_code || "-",
       rentAmount: rentPayment.rent_amount,
       txnAmount: selectedTxn.amount,
       txnDate: selectedTxn.transaction_date,
@@ -238,7 +238,7 @@ export default function AdminRentPage() {
   }
 
   // Match a selected Aspire transaction to an ad-hoc charge. This is the ONLY
-  // way a charge becomes PAID — no manual "mark paid" — so a charge is never
+  // way a charge becomes PAID, no manual "mark paid"so a charge is never
   // settled unless real money is seen landing in the bank.
   async function handleMatchCharge(charge) {
     if (!selectedTxn) return;
@@ -256,7 +256,7 @@ export default function AdminRentPage() {
       chargeId: charge.id,
       transactionRef: selectedTxn.reference,
       tenantName: `${charge.description}`,
-      unitCode: charge.tenant_profiles?.rooms?.unit_code || "—",
+      unitCode: charge.tenant_profiles?.rooms?.unit_code || "-",
       rentAmount: charge.amount,
       txnAmount: selectedTxn.amount,
       txnDate: selectedTxn.transaction_date,
@@ -324,7 +324,7 @@ export default function AdminRentPage() {
   }, [fetchPayments, fetchMembers, fetchCharges]);
 
   async function handleGenerateThisMonth() {
-    // Guard against double-fire — the confirm dialog isn't a hard input lock, so
+    // Guard against double-fire, the confirm dialog isn't a hard input lock, so
     // rapid clicks could each pass the "already exists" check before any insert
     // lands and pile up duplicate rows. Bail if a run is already in flight.
     if (generating) return;
@@ -338,7 +338,7 @@ export default function AdminRentPage() {
     if (!await confirm({
       title: `Generate / regenerate rent for ${formatMonth(monthStr)}?`,
       description:
-        "Refreshes unpaid rent records for all active tenants. Paid, partial and overdue records are left untouched — only PENDING rows are cleared and recreated, so re-running never piles up duplicates.",
+        "Refreshes unpaid rent records for all active tenants. Paid, partial and overdue records are left untouched, only PENDING rows are cleared and recreated, so re-running never piles up duplicates.",
     })) return;
 
     setGenerating(true);
@@ -642,7 +642,7 @@ export default function AdminRentPage() {
         <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-surface to-transparent z-10 sm:hidden rounded-r-2xl"></div>
         <div className="px-8 py-6 border-b border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <h2 className="font-display text-xl text-foreground">
-            Rent Payments — {formatMonth(`${tableMonth}-01`)}
+            Rent Payments, {formatMonth(`${tableMonth}-01`)}
           </h2>
           <input
             type="month"
@@ -688,8 +688,8 @@ export default function AdminRentPage() {
               <tbody className="divide-y divide-white/10">
                 {monthRows.map((p) => {
                   const tp = p.tenant_profiles;
-                  const unitCode = tp?.rooms?.unit_code ?? "—";
-                  const tenantName = tp?.tenant_details?.full_name || tp?.username || "—";
+                  const unitCode = tp?.rooms?.unit_code ?? "-";
+                  const tenantName = tp?.tenant_details?.full_name || tp?.username || "-";
                   const lateFee = p.late_fee ?? 0;
                   const total = Number(p.rent_amount) + Number(lateFee);
                   const badgeClass = STATUS_BADGE[p.status] ?? STATUS_BADGE.PENDING;
@@ -726,7 +726,7 @@ export default function AdminRentPage() {
                         {lateFee > 0 ? (
                           <span className="font-['Inter'] text-sm font-medium text-red-400">{formatSGD(lateFee)}</span>
                         ) : (
-                          <span className="text-foreground-variant">—</span>
+                          <span className="text-foreground-variant">-</span>
                         )}
                       </td>
                       <td className="px-4 py-4 text-right whitespace-nowrap font-display font-bold text-sm tabular-nums text-foreground">
@@ -841,7 +841,7 @@ export default function AdminRentPage() {
         {selectedTxn && (
           <div className="px-8 py-3 bg-emerald-500/10 font-['Inter'] text-sm text-emerald-300 flex items-center gap-2">
             <span className="material-symbols-outlined text-[16px]">check_circle</span>
-            Selected: {selectedTxn.description} — {formatSGD(selectedTxn.amount)} ({selectedTxn.transaction_date})
+            Selected: {selectedTxn.description}, {formatSGD(selectedTxn.amount)} ({selectedTxn.transaction_date})
             <button onClick={() => setSelectedTxn(null)} className="ml-auto text-xs underline">Cancel</button>
           </div>
         )}
@@ -857,8 +857,8 @@ export default function AdminRentPage() {
                 .filter(p => p.status === "PENDING" || p.status === "OVERDUE")
                 .map(p => {
                   const tp = p.tenant_profiles;
-                  const unitCode = tp?.rooms?.unit_code ?? "—";
-                  const name = tp?.tenant_details?.full_name || tp?.username || "—";
+                  const unitCode = tp?.rooms?.unit_code ?? "-";
+                  const name = tp?.tenant_details?.full_name || tp?.username || "-";
                   return (
                     <button key={p.id} onClick={() => selectedTxn ? handleMatch(p) : null} disabled={!selectedTxn}
                       className={`w-full text-left p-4 rounded-xl border transition-all flex items-center gap-3 ${
@@ -878,7 +878,7 @@ export default function AdminRentPage() {
               {charges
                 .filter(c => c.status === "PENDING")
                 .map(c => {
-                  const unitCode = c.tenant_profiles?.rooms?.unit_code ?? "—";
+                  const unitCode = c.tenant_profiles?.rooms?.unit_code ?? "-";
                   return (
                     <button key={`charge-${c.id}`} onClick={() => selectedTxn ? handleMatchCharge(c) : null} disabled={!selectedTxn}
                       className={`w-full text-left p-4 rounded-xl border transition-all flex items-center gap-3 ${
@@ -946,16 +946,16 @@ export default function AdminRentPage() {
               {matchedPairs.map(pair => (
                 <div key={pair.rentPaymentId} className="flex items-center gap-3 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/25">
                   <span className="font-['Inter'] text-xs font-bold text-accent bg-surface-container px-2 py-1 rounded">{pair.unitCode}</span>
-                  <p className="font-['Inter'] text-sm text-foreground flex-1">{pair.tenantName} — {formatSGD(pair.rentAmount)}</p>
+                  <p className="font-['Inter'] text-sm text-foreground flex-1">{pair.tenantName}, {formatSGD(pair.rentAmount)}</p>
                   <span className="text-foreground-variant font-['Inter'] text-xs">←</span>
-                  <p className="font-['Inter'] text-sm text-foreground">{pair.txnDescription} — {formatSGD(pair.txnAmount)}</p>
+                  <p className="font-['Inter'] text-sm text-foreground">{pair.txnDescription}, {formatSGD(pair.txnAmount)}</p>
                   {Number(pair.txnAmount) !== Number(pair.rentAmount) && (
                     <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-amber-500/15 text-amber-300">Mismatch</span>
                   )}
                   {pair.isLate && pair.lateFee > 0 && (
                     <>
                       <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-red-500/15 text-red-300">
-                        {pair.daysLate}d late — {formatSGD(pair.lateFee)} fee
+                        {pair.daysLate}d late, {formatSGD(pair.lateFee)} fee
                       </span>
                       <button onClick={() => handleWaiveLateFee(pair)}
                         className="text-xs px-3 py-1.5 rounded-lg bg-amber-500/15 text-amber-300 hover:bg-amber-500/25 font-['Inter'] font-bold shrink-0">
@@ -996,7 +996,7 @@ export default function AdminRentPage() {
                 <option value="">Select member...</option>
                 {members.map(m => (
                   <option key={m.id} value={m.id}>
-                    {m.rooms?.unit_code ?? "—"} — {m.full_name || m.username}
+                    {m.rooms?.unit_code ?? "-"}, {m.full_name || m.username}
                   </option>
                 ))}
               </select>
@@ -1097,7 +1097,7 @@ export default function AdminRentPage() {
               </thead>
               <tbody className="divide-y divide-white/10">
                 {charges.map((c) => {
-                  const unitCode = c.tenant_profiles?.rooms?.unit_code ?? "—";
+                  const unitCode = c.tenant_profiles?.rooms?.unit_code ?? "-";
                   const badgeClass = CHARGE_STATUS_BADGE[c.status] ?? CHARGE_STATUS_BADGE.PENDING;
                   return (
                     <tr key={c.id} className="hover:bg-white/5 transition-colors">

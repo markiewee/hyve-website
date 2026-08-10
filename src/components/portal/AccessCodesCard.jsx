@@ -16,7 +16,7 @@ export default function AccessCodesCard({ profile }) {
       mainDoorCode = parsed.main_door ?? "";
       roomCode = parsed.rooms?.[unitCode] ?? "";
     } catch {
-      // not JSON — keep blank
+      // not JSON, keep blank
     }
   }
 

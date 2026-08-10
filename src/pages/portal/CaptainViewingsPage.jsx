@@ -168,7 +168,7 @@ function Toast({ message, onClose }) {
 }
 
 // ---------------------------------------------------------------------------
-// Inline Availability Grid wrapper — uses useViewingPoll per card
+// Inline Availability Grid wrapper, uses useViewingPoll per card
 // ---------------------------------------------------------------------------
 
 function AvailabilitySection({ viewing, onConfirmed }) {

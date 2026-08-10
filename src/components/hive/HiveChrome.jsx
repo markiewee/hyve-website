@@ -23,6 +23,7 @@ import { BeeMark } from '../owners/OwnerChrome';
 import { BOOKING_URL } from '../../lib/booking';
 import { useLanguage } from '../../i18n/LanguageContext';
 import LangSwitch from '../../i18n/LangSwitch';
+import ThemeToggle from '../ThemeToggle';
 
 /** Static header. Real links, so every Hive page is reachable without JavaScript. */
 export function HiveHeader() {
@@ -39,6 +40,7 @@ export function HiveHeader() {
         {/* Named Guides here too. The archive is called the Hive internally and
             lives at /hive, but a reader has to be told what is in it. */}
         <Link to="/hive" aria-current="page">{t('nav.guides')}</Link>
+        <ThemeToggle />
         <LangSwitch />
       </nav>
     </header>

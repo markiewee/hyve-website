@@ -62,7 +62,7 @@ export default function MembersAlerts({ properties, loading }) {
         )}
       />
       <Section
-        icon="🟡" title="Lease ending 30–60 days"
+        icon="🟡" title="Lease ending 30 to 60 days"
         items={groups.leaseEnding60}
         render={(it, i) => (
           <div key={i} className="rounded border p-3 text-sm">

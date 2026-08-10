@@ -146,7 +146,7 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
       {/* Action buttons (captain/admin) */}
       {onAction && (
         <div className="flex flex-wrap gap-2 pt-1">
-          {/* Flag toggle — always available unless resolved */}
+          {/* Flag toggle, always available unless resolved */}
           {status !== "RESOLVED" && (
             <button
               type="button"

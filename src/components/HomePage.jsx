@@ -1,3 +1,4 @@
+import { LazybeeRoot } from '../hooks/useLazybeeTheme';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import posthog from 'posthog-js';
 
@@ -81,7 +82,7 @@ export default function HomePage() {
        page is a light page and the control was spending the one header slot that
        the language switch needed. The booking site keeps its own toggle, because
        it is photographic and opens dark. */
-    <div className="lzb" data-theme="alabaster" ref={rootRef}>
+    <LazybeeRoot className="lzb" ref={rootRef}>
       <SEO
         title="Be a lazy landlord"
         description="Be a lazy landlord. We do the viewings, the contracts and the cleaning on your Singapore unit. You are paid a floor whether it is full or empty, and you still keep half the upside. Ninety days to decide, nothing to pay if you walk."
@@ -115,6 +116,6 @@ export default function HomePage() {
       </main>
 
       <OwnerFooter />
-    </div>
+    </LazybeeRoot>
   );
 }

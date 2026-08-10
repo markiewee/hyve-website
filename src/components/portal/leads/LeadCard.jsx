@@ -60,7 +60,7 @@ function isStale(lead) {
 }
 
 function timeAgo(iso) {
-  if (!iso) return "—";
+  if (!iso) return "-";
   const mins = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
   if (mins < 1) return "just now";
   if (mins < 60) return `${mins}m`;

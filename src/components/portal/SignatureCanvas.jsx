@@ -122,7 +122,7 @@ export default function SignatureCanvas({ signatureRef: externalRef }) {
           </div>
           {typedName && (
             <p className="text-xs text-muted-foreground">
-              Preview — italic signature generated from typed name
+              Preview, italic signature generated from typed name
             </p>
           )}
         </div>

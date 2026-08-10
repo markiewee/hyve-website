@@ -20,7 +20,7 @@ export default function AcStatusIndicator({ status }) {
     );
   }
 
-  // null / unknown — no recent data from sensor
+  // null / unknown, no recent data from sensor
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-2">

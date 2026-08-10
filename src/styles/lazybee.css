@@ -247,6 +247,17 @@
 .lzb .langbtn[lang="zh-Hans"]{font-family:inherit;font-size:13px;letter-spacing:.08em;text-transform:none}
 .lzb .langbtn:hover{opacity:1}
 
+/* The light-dark control, restored 10 Aug 2026 to match book.lazybee.sg. Same
+   box as .langbtn so the two sit as a pair: same border, same pill, same 44px
+   tap target. Square rather than min-width:58px because it holds an 18px icon
+   and a wide box around a small glyph looks like a mistake. */
+.lzb .modebtn{background:none;border:1px solid currentColor;color:inherit;cursor:pointer;padding:6px;
+  border-radius:var(--r-pill);opacity:.72;min-height:44px;min-width:44px;
+  display:inline-flex;align-items:center;justify-content:center;transition:opacity .25s var(--ease)}
+.lzb .modebtn:hover{opacity:1}
+.lzb .modebtn svg{display:block}
+.lzb.hive .modebtn{min-height:44px;min-width:44px}
+
 /* ── hero ── */
 .lzb .hero{position:relative;height:100svh;min-height:620px;overflow:hidden;background:#0C0F0F}
 .lzb .frame{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease}

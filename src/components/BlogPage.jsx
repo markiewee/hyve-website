@@ -90,7 +90,7 @@ const BlogPage = () => {
     <main className="bg-background text-foreground pt-24 md:pt-28 min-h-screen pb-32">
       <SEO
         title="Co-living Blog"
-        description="Tips and guides on co-living, renting and moving in Singapore — from Lazybee."
+        description="Tips and guides on co-living, renting and moving in Singapore, from Lazybee."
         canonical="/blog"
         schema={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }])}
       />

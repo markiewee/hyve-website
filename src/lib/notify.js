@@ -56,7 +56,7 @@ export async function notifyTicketStatusChange(
 }
 
 /**
- * Generic notification helper — sends any event type to a tenant.
+ * Generic notification helper, sends any event type to a tenant.
  * Errors are swallowed so they never block the main action.
  */
 export async function notifyMember(tenantProfileId, eventType, details = {}) {

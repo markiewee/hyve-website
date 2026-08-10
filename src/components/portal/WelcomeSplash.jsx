@@ -54,7 +54,7 @@ export default function WelcomeSplash({ onContinue }) {
   const { getSections, getSection, loading } = usePropertyGuides(propertyId);
 
   const welcomeGuides = getSections("welcome_");
-  const houseRulesPreview = "Quiet hours after 10pm. Clean up shared spaces after use. Overnight guests allowed up to 2 nights/week — inform your house captain.";
+  const houseRulesPreview = "Quiet hours after 10pm. Clean up shared spaces after use. Overnight guests allowed up to 2 nights/week, inform your house captain.";
 
   if (loading) {
     return (

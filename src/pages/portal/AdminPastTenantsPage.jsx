@@ -5,7 +5,7 @@ import PageHeader from "../../components/portal/PageHeader";
 import { supabase } from "../../lib/supabase";
 
 /**
- * Past Tenants — reads from v_tenant_status WHERE status='ARCHIVED'.
+ * Past Tenants, reads from v_tenant_status WHERE status='ARCHIVED'.
  * Powered by the auto-archive cron (`auto-archive-tenants`, daily 02:00 SGT)
  * which flips a tenant to ARCHIVED 30 days after their moved_out_at.
  */
@@ -91,24 +91,24 @@ export default function AdminPastTenantsPage() {
                 {rows.map((r) => (
                   <tr key={r.id} className="border-b border-border last:border-0 hover:bg-white/5">
                     <td className="px-3 py-2">
-                      <div className="font-medium text-foreground">{r.tenant_details?.full_name ?? "—"}</div>
+                      <div className="font-medium text-foreground">{r.tenant_details?.full_name ?? "-"}</div>
                       <div className="text-xs text-foreground-variant">
                         {r.tenant_details?.email ?? r.tenant_details?.phone ?? ""}
                       </div>
                     </td>
                     <td className="px-3 py-2">
-                      <div className="text-foreground">{r.properties?.name ?? "—"}</div>
+                      <div className="text-foreground">{r.properties?.name ?? "-"}</div>
                       <div className="text-xs text-foreground-variant">{r.rooms?.unit_code ?? ""}</div>
                     </td>
                     <td className="px-3 py-2 text-xs text-foreground-variant">{r.role}</td>
                     <td className="px-3 py-2 text-xs text-foreground-variant">
-                      {r.moved_in_at ? format(new Date(r.moved_in_at), "d MMM yyyy") : "—"}
+                      {r.moved_in_at ? format(new Date(r.moved_in_at), "d MMM yyyy") : "-"}
                     </td>
                     <td className="px-3 py-2 text-xs text-foreground-variant">
-                      {r.moved_out_at ? format(new Date(r.moved_out_at), "d MMM yyyy") : "—"}
+                      {r.moved_out_at ? format(new Date(r.moved_out_at), "d MMM yyyy") : "-"}
                     </td>
                     <td className="px-3 py-2 text-xs text-foreground-variant">
-                      {r.archived_at ? format(new Date(r.archived_at), "d MMM yyyy") : "—"}
+                      {r.archived_at ? format(new Date(r.archived_at), "d MMM yyyy") : "-"}
                     </td>
                   </tr>
                 ))}

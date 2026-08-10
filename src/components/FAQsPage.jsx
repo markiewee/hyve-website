@@ -19,8 +19,8 @@ const FAQS = FAQ_PAGE_QUESTIONS;
 const FAQsPage = () => (
   <main className="bg-background text-foreground pt-24 md:pt-28">
     <SEO
-      title="Lazybee for landlords & investors — FAQs"
-      description="How Lazybee's managed co-living master lease works for landlords and investors — what we pay, lease terms, who manages tenants, and how to get an offer."
+      title="Lazybee for landlords & investors, FAQs"
+      description="How Lazybee's managed co-living master lease works for landlords and investors, what we pay, lease terms, who manages tenants, and how to get an offer."
       canonical="/faqs"
       schema={[faqPageSchema(FAQS), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'FAQs', path: '/faqs' }])]}
     />
@@ -67,7 +67,7 @@ const FAQsPage = () => (
       <FadeIn className="max-w-3xl mx-auto text-center rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-2xl p-10 md:p-14">
         <h2 className="font-display tracking-display text-3xl md:text-4xl font-bold mb-4">Still have a question?</h2>
         <p className="text-foreground-variant mb-8 max-w-xl mx-auto">
-          Tell us about your unit and we'll come back with a guaranteed offer — or request the deck for the full picture.
+          Tell us about your unit and we'll come back with a guaranteed offer, or request the deck for the full picture.
         </p>
         <a
           href="/contact"

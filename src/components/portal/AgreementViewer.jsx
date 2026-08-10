@@ -20,7 +20,7 @@ async function resolveSignedUrl(pathOrUrl) {
   if (pathOrUrl.includes("/tenant-documents/")) {
     storagePath = pathOrUrl.split("/tenant-documents/")[1].split("?")[0];
   } else if (pathOrUrl.startsWith("http")) {
-    // Unknown URL format — try it directly but verify it works
+    // Unknown URL format, try it directly but verify it works
     try {
       const check = await fetch(pathOrUrl, { method: "HEAD" });
       if (check.ok) return pathOrUrl;
@@ -39,7 +39,7 @@ async function resolveSignedUrl(pathOrUrl) {
 }
 
 function formatDateTime(dateStr) {
-  if (!dateStr) return "—";
+  if (!dateStr) return "-";
   return new Date(dateStr).toLocaleString("en-SG", {
     day: "numeric",
     month: "short",
@@ -409,7 +409,7 @@ export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
     return <TenantSignedView onboarding={onboarding} />;
   }
 
-  // UNSIGNED — if PDF URL failed to resolve, show "being prepared"
+  // UNSIGNED, if PDF URL failed to resolve, show "being prepared"
   if (taPath && !pdfUrl) {
     return (
       <div className="rounded-md border border-dashed border-border p-8 text-center">
@@ -438,7 +438,7 @@ export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
     );
   }
 
-  // UNSIGNED — show PDF + signature pad
+  // UNSIGNED, show PDF + signature pad
   return (
     <UnsignedView
       onboarding={onboarding}

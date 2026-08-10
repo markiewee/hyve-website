@@ -123,7 +123,7 @@ function AppContent() {
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/cookie-policy" element={<CookiePolicy />} />
           <Route path="/staff" element={<StaffResourcePage />} />
-          {/* Portal routes — no Navbar/Footer */}
+          {/* Portal routes, no Navbar/Footer */}
           <Route path="/portal" element={<Navigate to="/portal/login" replace />} />
           <Route path="/portal/login" element={<LoginPage />} />
           <Route path="/portal/reset-password" element={<ResetPasswordPage />} />
@@ -357,8 +357,7 @@ function AppContent() {
               </AuthGuard>
             }
           />
-          {/* Legacy money routes (Expense Tracking, P&L, Money hub) retired —
-              redirect any old links to the live money pages. */}
+          {/* Legacy money routes (Expense Tracking, P&L, Money hub) retired,               redirect any old links to the live money pages. */}
           <Route path="/portal/admin/expenses" element={<Navigate to="/portal/admin/expenses/import" replace />} />
           <Route path="/portal/admin/financials" element={<Navigate to="/portal/admin/rent" replace />} />
           <Route path="/portal/admin/billing" element={<Navigate to="/portal/admin/rent" replace />} />

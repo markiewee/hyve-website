@@ -1,4 +1,4 @@
-// src/lib/seo.js — pure JSON-LD builders. No side effects.
+// src/lib/seo.js, pure JSON-LD builders. No side effects.
 //
 // Every number and address in here is grounded in src/data/lazybeeRooms.js, which
 // is a live pull from hyve-iot. There are deliberately no aggregateRating and no

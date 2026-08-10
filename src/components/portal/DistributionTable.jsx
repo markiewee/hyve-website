@@ -1,14 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 function formatMonth(monthStr) {
-  if (!monthStr) return "—";
+  if (!monthStr) return "-";
   const [year, month] = monthStr.split("-");
   const date = new Date(Number(year), Number(month) - 1, 1);
   return date.toLocaleDateString("en-SG", { month: "short", year: "numeric" });
 }
 
 function formatDate(dateStr) {
-  if (!dateStr) return "—";
+  if (!dateStr) return "-";
   const date = new Date(dateStr);
   return date.toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" });
 }
@@ -43,7 +43,7 @@ function DistributionRows({ items, showCumulative }) {
           {formatMonth(d.month)}
         </td>
         <td className="px-4 py-3 whitespace-nowrap">
-          {d.properties?.name ?? "—"}
+          {d.properties?.name ?? "-"}
         </td>
         <td className="px-4 py-3 text-right font-semibold tabular-nums whitespace-nowrap">
           {formatSGD(d.amount)}
@@ -54,14 +54,14 @@ function DistributionRows({ items, showCumulative }) {
           </span>
         </td>
         <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">
-          {d.paid_at ? formatDate(d.paid_at) : "—"}
+          {d.paid_at ? formatDate(d.paid_at) : "-"}
         </td>
         <td className="px-4 py-3 text-muted-foreground max-w-[300px]">
-          {d.notes || "—"}
+          {d.notes || "-"}
         </td>
         {showCumulative && (
           <td className="px-4 py-3 text-right tabular-nums text-muted-foreground whitespace-nowrap">
-            {d.status === "PAID" ? formatSGD(cumulativeMap[d.id]) : "—"}
+            {d.status === "PAID" ? formatSGD(cumulativeMap[d.id]) : "-"}
           </td>
         )}
       </tr>

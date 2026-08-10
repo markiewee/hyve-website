@@ -40,7 +40,7 @@ function buildCalendarLink(date, propertyName, address, viewingType) {
   const fmt = (d) =>
     d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
   const title = encodeURIComponent(
-    `Lazybee Viewing — ${propertyName || "Property"}`
+    `Lazybee Viewing, ${propertyName || "Property"}`
   );
   const details = encodeURIComponent(
     `${viewingType === "virtual" ? "Virtual tour" : "In-person viewing"} at ${propertyName || "Lazybee"}.`
@@ -454,7 +454,7 @@ export default function ViewingPollPage() {
   // Expired
   if (isExpired || pollStatus === "expired") return <ExpiredState />;
 
-  // Matched — either from hook or just submitted
+  // Matched, either from hook or just submitted
   const confirmedSlot = justMatched || matchedSlot;
   if (confirmedSlot) {
     return (

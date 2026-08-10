@@ -10,7 +10,7 @@ function formatSGD(amount) {
 }
 
 function formatDate(dateStr) {
-  if (!dateStr) return "—";
+  if (!dateStr) return "-";
   return new Date(dateStr).toLocaleDateString("en-SG", {
     day: "numeric",
     month: "short",
@@ -23,7 +23,7 @@ const STATUS_STYLES = {
   PARTIALLY_PAID: "bg-orange-100 text-orange-800",
   PAID: "bg-green-100 text-green-800",
   VOID: "bg-gray-100 text-gray-500",
-}; // KEPT LIGHT — print document (id="invoice-print"), Exception 1
+}; // KEPT LIGHT, print document (id="invoice-print"), Exception 1
 
 export default function InvoiceDocument({ invoice }) {
   if (!invoice) return null;
@@ -64,9 +64,9 @@ export default function InvoiceDocument({ invoice }) {
       <div className="grid grid-cols-2 gap-8 mb-8">
         <div>
           <p className="font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-1">Billed To</p>
-          <p className="font-['Inter'] text-sm text-[#181511]">{tenant?.username ?? "—"}</p>
-          <p className="font-['Inter'] text-sm text-[#57534E]">{room?.unit_code ?? "—"}</p>
-          <p className="font-['Inter'] text-sm text-[#57534E]">{property?.name ?? "—"}</p>
+          <p className="font-['Inter'] text-sm text-[#181511]">{tenant?.username ?? "-"}</p>
+          <p className="font-['Inter'] text-sm text-[#57534E]">{room?.unit_code ?? "-"}</p>
+          <p className="font-['Inter'] text-sm text-[#57534E]">{property?.name ?? "-"}</p>
         </div>
         <div className="text-right">
           <p className="font-['Inter'] text-xs uppercase tracking-widest text-[#57534E] font-bold mb-1">Billing Period</p>

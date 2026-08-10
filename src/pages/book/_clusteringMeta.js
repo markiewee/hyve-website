@@ -1,4 +1,4 @@
-// V3 booking metadata — labels, time formatting, slot/window state copy.
+// V3 booking metadata, labels, time formatting, slot/window state copy.
 // Pure data, browser-safe.
 
 export const WINDOW_LABELS = {
@@ -8,9 +8,9 @@ export const WINDOW_LABELS = {
 };
 
 export const WINDOW_TIMES = {
-  "fri-evening":   "7–10 pm",
-  "sat-morning":   "10 am – 1 pm",
-  "sun-afternoon": "4–6 pm",
+  "fri-evening":   "7 to 10 pm",
+  "sat-morning":   "10 am, 1 pm",
+  "sun-afternoon": "4 to 6 pm",
 };
 
 /**
@@ -63,7 +63,7 @@ export function isSlotClickable(slot, propertyOfInterest, anchorProperty) {
  */
 export function slotStateTitle(slot) {
   if (slot.state === "BOOKED") return "Already booked";
-  if (slot.state === "BLOCKED-BUFFER") return "Travel buffer — pick the edge slot";
+  if (slot.state === "BLOCKED-BUFFER") return "Travel buffer, pick the edge slot";
   if (slot.state === "BLOCKED-CONFLICT") return "Mark has a conflict at this time";
   if (slot.state === "WINDOW-CLOSED") return "Window closed";
   if (slot.state === "PROP-RESERVED") return "Reserved for another property this window";

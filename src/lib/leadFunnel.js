@@ -2,7 +2,7 @@
 // Spec: docs/specs/2026-05-15-kanban-sankey-analytics.md
 //
 // Pure aggregation helpers for the lead-funnel Sankey panel.
-// No React, no Supabase — easy to unit-test from a Node REPL:
+// No React, no Supabase, easy to unit-test from a Node REPL:
 //   node --input-type=module -e 'import { computeKpis } from "./src/lib/leadFunnel.js"; console.log(computeKpis([]));'
 
 export const OUTCOME_BUCKETS = {
@@ -81,7 +81,7 @@ export function computeKpis(leads) {
   for (const l of leads) {
     buckets[bucketOf(l.status)]++;
     // Only leads currently sitting in viewing_booked have a reliable
-    // "time to viewing booked" delta — see spec §3.1 limitation.
+    // "time to viewing booked" delta, see spec §3.1 limitation.
     if (l.status === "viewing_booked" && l.created_at && l.status_changed_at) {
       const ms =
         new Date(l.status_changed_at).getTime() -

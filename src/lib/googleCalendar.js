@@ -6,7 +6,7 @@
 //   - Compute free 30-min slots within configured booking bands
 //   - Create/cancel events when prospects book/cancel
 //
-// All times Asia/Singapore (UTC+8). Be explicit — never naive UTC.
+// All times Asia/Singapore (UTC+8). Be explicit, never naive UTC.
 // Server-only module (uses node googleapis SDK; do not import in browser).
 // ──────────────────────────────────────────────────────────────────────
 
@@ -44,7 +44,7 @@ export function getOAuthClient({ withRefreshToken = true } = {}) {
 }
 
 // Service-account auth (preferred): server-to-server, no refresh token, never
-// expires — kills the recurring re-auth. Requires the viewings calendar to be
+// expires, kills the recurring re-auth. Requires the viewings calendar to be
 // shared with GOOGLE_SA_CLIENT_EMAIL ("Make changes to events"). No
 // domain-wide delegation needed: every call uses sendUpdates:"none" (we email
 // via Resend), so the SA never tries to invite guests off a shared calendar.
@@ -52,7 +52,7 @@ function getServiceAccountAuth() {
   const clientEmail = process.env.GOOGLE_SA_CLIENT_EMAIL;
   let privateKey = process.env.GOOGLE_SA_PRIVATE_KEY;
   if (!clientEmail || !privateKey) return null;
-  // Vercel stores the PEM with literal "\n" — restore real newlines.
+  // Vercel stores the PEM with literal "\n"restore real newlines.
   privateKey = privateKey.replace(/\\n/g, "\n");
   return new google.auth.JWT({
     email: clientEmail,
@@ -69,7 +69,7 @@ function getCalendarClient() {
 }
 
 function getCalendarId() {
-  // Required: LAZYBEE_VIEWINGS_CAL_ID — the Google Calendar ID for viewings.
+  // Required: LAZYBEE_VIEWINGS_CAL_ID, the Google Calendar ID for viewings.
   return env("LAZYBEE_VIEWINGS_CAL_ID");
 }
 
@@ -122,7 +122,7 @@ export async function createEvent({ summary, description = "", start, end, atten
 
 /**
  * Cancel (delete) an event on the Lazybee Viewings calendar.
- * Idempotent — swallows 404/410 if the event is already gone.
+ * Idempotent, swallows 404/410 if the event is already gone.
  */
 export async function cancelEvent(eventId) {
   if (!eventId) return;
@@ -206,7 +206,7 @@ function overlaps(aStart, aEnd, bStart, bEnd) {
 /**
  * Compute free 30-min slots for a given date and propertyCode.
  * @param {string} date YYYY-MM-DD (interpreted as SGT calendar date)
- * @param {string} propertyCode e.g. "IH" / "CP" / "TG" — currently informational;
+ * @param {string} propertyCode e.g. "IH" / "CP" / "TG"currently informational;
  *                 future: per-property bands. Spec uses one shared cal for now.
  * @returns {Promise<Array<{start: string, end: string}>>}  (ISO with +08:00)
  */
@@ -225,7 +225,7 @@ export async function getAvailableSlots(date, propertyCode /* eslint-disable-lin
 
   // SGT calendar weekday for band selection
   // (we built dayStart as exactly SGT midnight so its UTC getDay reflects SGT day)
-  // To avoid TZ bugs use a Date in SGT — easiest: use the original parts.
+  // To avoid TZ bugs use a Date in SGT, easiest: use the original parts.
   const sgtDate = new Date(Date.UTC(y, m - 1, d));
   const bandKey = bandKeyForDate(sgtDate);
 
@@ -331,12 +331,12 @@ export const _internal = {
 
 // ── V3 booking-window control plane (clustering) ──────────────────────
 // Mark drops a single GCal event titled `booking window` (or
-// `booking window — TG only`, etc.) at the start time of one of the 3
+// `booking window, TG only`, etc.) at the start time of one of the 3
 // weekly windows to open it. We list those events on every form load.
 
-const BOOKING_WINDOW_RE = /^booking window( — (CP|IH|TG) only)?$/i;
+const BOOKING_WINDOW_RE = /^booking window(, (CP|IH|TG) only)?$/i;
 // Lazybee Viewing events are created by createEvent() above, summary shape:
-//   "Lazybee Viewing — <name> @ <PROP>[-<room>]"
+//   "Lazybee Viewing, <name> @ <PROP>[-<room>]"
 // They're already tracked as rows in property_viewings, so we exclude them
 // when building the blocker list (otherwise an active booking would also
 // look like a calendar conflict and stack-up double-blocking the slot).
@@ -345,12 +345,12 @@ const LAZYBEE_VIEWING_RE = /^lazybee viewing\b/i;
 /**
  * Fetch every event on the Lazybee Viewings calendar within the range and
  * partition into:
- *   - windows:  the `booking window[ — XX only]` events that OPEN slots
+ *   - windows:  the `booking window[, XX only]` events that OPEN slots
  *   - blockers: any other event Mark drops to mark himself unavailable
  *               (e.g. "dentist", "lunch w/ Jason"). Lazybee Viewing events
- *               are excluded — those are already counted as BOOKED via the DB.
+ *               are excluded, those are already counted as BOOKED via the DB.
  *
- * One `events.list` call covers both — spec §6 line 469.
+ * One `events.list` call covers both, spec §6 line 469.
  *
  * @param {string} startIso ISO 8601 with timezone
  * @param {string} endIso   ISO 8601 with timezone
@@ -378,7 +378,7 @@ export async function listBookingCalendarState(startIso, endIso) {
     const end   = ev.end?.dateTime   || ev.end?.date;
     if (!start || !end) continue;
     if (BOOKING_WINDOW_RE.test(summary)) {
-      const m = summary.match(/—\s*(CP|IH|TG)\s*only/i);
+      const m = summary.match(/-\s*(CP|IH|TG)\s*only/i);
       windows.push({
         start,
         end,
@@ -394,7 +394,7 @@ export async function listBookingCalendarState(startIso, endIso) {
 }
 
 /**
- * Back-compat shim — older callers only need the booking-window events.
+ * Back-compat shim, older callers only need the booking-window events.
  */
 export async function listBookingWindowEvents(startIso, endIso) {
   const { windows } = await listBookingCalendarState(startIso, endIso);

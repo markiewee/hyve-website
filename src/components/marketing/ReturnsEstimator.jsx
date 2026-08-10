@@ -3,7 +3,7 @@ import FadeIn from './FadeIn';
 import { track, EVENTS } from '../../lib/analytics';
 
 /*
- * Landlord estimator — "what your unit could earn with Lazybee".
+ * Landlord estimator, "what your unit could earn with Lazybee".
  * Postal code → market PSF · square footage → market rent · bathrooms →
  * how many ensuite / lettable rooms the unit typically yields.
  * Lazybee manages it and pays a guaranteed lease above open-market rent.
@@ -43,7 +43,7 @@ const DISTRICT_NAME = {
 const CCR = new Set(['D01', 'D02', 'D06', 'D07', 'D09', 'D10', 'D11']);
 const RCR = new Set(['D03', 'D04', 'D05', 'D08', 'D12', 'D13', 'D14', 'D15', 'D20']);
 const TIER = {
-  CCR: { psf: 5.2, label: 'Core Central — prime' },
+  CCR: { psf: 5.2, label: 'Core Central, prime' },
   RCR: { psf: 4.3, label: 'City fringe' },
   OCR: { psf: 3.6, label: 'Suburban' },
 };
@@ -102,7 +102,7 @@ export default function ReturnsEstimator() {
             What your unit could earn.
           </h2>
           <p className="mt-6 text-foreground-variant text-lg max-w-2xl leading-relaxed">
-            Hand us the keys. We furnish, fill, and manage it end-to-end — and pay you a guaranteed monthly
+            Hand us the keys. We furnish, fill, and manage it end-to-end, and pay you a guaranteed monthly
             lease, typically above open-market rent. No agents, no voids, no chasing tenants.
           </p>
         </FadeIn>
@@ -201,7 +201,7 @@ export default function ReturnsEstimator() {
             </a>
 
             <p className="mt-6 text-[11px] leading-relaxed text-foreground-variant/50">
-              Illustrative only — a guaranteed offer is made after a quick viewing. Figures assume a
+              Illustrative only, a guaranteed offer is made after a quick viewing. Figures assume a
               {' '}{Math.round(PREMIUM * 100)}% premium to open-market rent on a {LEASE_TERM} managed lease.
             </p>
           </FadeIn>

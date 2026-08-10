@@ -143,10 +143,10 @@ export default function IdScanForm({ onboarding, advanceStep }) {
         id_number: id_number ?? prev.id_number,
         id_expiry: id_expiry ?? prev.id_expiry,
       }));
-      toast.success("Document scanned — please verify the details.");
+      toast.success("Document scanned, please verify the details.");
     } catch (err) {
       console.error("OCR failed:", err);
-      toast.error("Scan failed — please fill in the details manually.");
+      toast.error("Scan failed, please fill in the details manually.");
     } finally {
       setScanning(false);
     }
@@ -316,7 +316,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Residency — auto-detected from nationality, or ask if not set */}
+      {/* Residency, auto-detected from nationality, or ask if not set */}
       {nationality ? (
         <div className="rounded-lg border border-accent/25 bg-accent/10 p-3 flex items-center gap-3">
           <span className="material-symbols-outlined text-accent text-[20px]">{isForeigner ? "flight" : "home"}</span>
@@ -353,7 +353,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
         </div>
       )}
 
-      {/* ID type — Singaporean: NRIC selector; Foreigner: always passport */}
+      {/* ID type, Singaporean: NRIC selector; Foreigner: always passport */}
       {residency === "SINGAPOREAN" && (
         <div>
           <Label className="block mb-2">Document Type</Label>

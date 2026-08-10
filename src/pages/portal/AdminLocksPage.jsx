@@ -48,7 +48,7 @@ export default function AdminLocksPage() {
 
       const merged = (properties || []).map((p) => {
         const g = guideByProperty[p.id] || { id: null, mainDoor: "", roomCodes: {} };
-        // Only lettable bedrooms have door locks — drop common areas, kitchens,
+        // Only lettable bedrooms have door locks, drop common areas, kitchens,
         // yards and shared toilets (room_type null).
         const sortedRooms = (p.rooms || [])
           .filter((r) => r.room_type != null)
@@ -64,7 +64,7 @@ export default function AdminLocksPage() {
       });
       setPropertyData(merged);
 
-      // Smart locks (TTLock) — graceful: [] when not configured, so every door
+      // Smart locks (TTLock), graceful: [] when not configured, so every door
       // falls back to the passcode editor.
       setLocks(await listLocks());
     } catch (err) {
@@ -107,7 +107,7 @@ export default function AdminLocksPage() {
           .eq("id", block.guideId);
         if (error) throw error;
       } else {
-        // title + section are NOT NULL on property_guides — required even though
+        // title + section are NOT NULL on property_guides, required even though
         // the locks page only reads/writes the content field.
         const { data, error } = await supabase
           .from("property_guides")
@@ -151,8 +151,8 @@ export default function AdminLocksPage() {
     const actives = (room.tenant_profiles || []).filter((t) => t.is_active && t.role === "TENANT");
     if (actives.length === 0) return null;
     // When a room is mid-handover (outgoing + incoming both flagged active),
-    // show whoever is actually resident TODAY — move-in on/before today and not
-    // yet moved out — so the lock card reflects the current occupant, not the
+    // show whoever is actually resident TODAY, move-in on/before today and not
+    // yet moved out, so the lock card reflects the current occupant, not the
     // incoming one.
     const today = new Date().toISOString().slice(0, 10);
     const current = actives.find((t) => {
@@ -209,7 +209,7 @@ export default function AdminLocksPage() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {/* Main door — smart lock if matched, else passcode editor */}
+                  {/* Main door, smart lock if matched, else passcode editor */}
                   {(() => {
                     const mainLock = matchMainLock(locks, property.code);
                     return mainLock ? (
@@ -356,7 +356,7 @@ function LockCard({
           }`}
         >
           {isEmpty ? (
-            <p className="text-xs font-['Inter'] font-semibold">No code set — click ✏️ to add</p>
+            <p className="text-xs font-['Inter'] font-semibold">No code set, click ✏️ to add</p>
           ) : (
             <div className="flex items-center justify-between gap-2">
               <p className="font-mono font-extrabold text-lg tracking-wider text-foreground">{code}</p>

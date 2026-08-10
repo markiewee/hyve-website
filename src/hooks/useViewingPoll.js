@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 
 /**
- * Hook for the public poll page — fetches poll data by token,
+ * Hook for the public poll page, fetches poll data by token,
  * handles availability submission, and runs the matching algorithm.
  *
  * @param {string} token - Unique poll token from the URL
@@ -116,7 +116,7 @@ export function useViewingPoll(token, respondentType) {
     const residentSlots = byType.resident ?? new Set();
     const withResident = overlap.filter((s) => residentSlots.has(s));
 
-    // Pick earliest — prefer with-resident, fall back to any overlap
+    // Pick earliest, prefer with-resident, fall back to any overlap
     const candidates = withResident.length > 0 ? withResident : overlap;
     candidates.sort((a, b) => new Date(a) - new Date(b));
     const matched = new Date(candidates[0]);

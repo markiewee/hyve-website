@@ -162,7 +162,7 @@ export default function AvailabilityGrid({
         Select your availability
       </h3>
 
-      {/* Scrollable container — shows 3 days on mobile, all on desktop */}
+      {/* Scrollable container, shows 3 days on mobile, all on desktop */}
       <div
         ref={containerRef}
         className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0"
@@ -199,7 +199,7 @@ export default function AvailabilityGrid({
           {/* Slot rows */}
           {timeLabels.map((label, ri) => (
             <React.Fragment key={`row-${ri}`}>
-              {/* Time label — sticky on mobile */}
+              {/* Time label, sticky on mobile */}
               <div
                 className="sticky left-0 z-10 bg-surface flex items-center justify-end pr-2"
               >
@@ -239,7 +239,7 @@ export default function AvailabilityGrid({
                     }}
                     onPointerEnter={() => handlePointerEnter(slot)}
                     role={readOnly ? "presentation" : "button"}
-                    aria-label={`${col.dayLabel} ${col.dateNum} ${col.month}, ${label}${selected ? " — selected" : ""}${highlighted ? " — matched" : ""}`}
+                    aria-label={`${col.dayLabel} ${col.dateNum} ${col.month}, ${label}${selected ? "selected" : ""}${highlighted ? "matched" : ""}`}
                     tabIndex={readOnly ? -1 : 0}
                     onKeyDown={(e) => {
                       if (!readOnly && (e.key === "Enter" || e.key === " ")) {

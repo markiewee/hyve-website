@@ -223,7 +223,7 @@ const LocationsMapComponent = ({
                                 textAlign: 'center',
                               }}
                             >
-                              {p.name} — from ${p.startingPrice}/mo
+                              {p.name}, from ${p.startingPrice}/mo
                             </a>
                           ))}
                         </div>

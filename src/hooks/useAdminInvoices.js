@@ -26,7 +26,7 @@ export function useAdminInvoices({ propertyId, month, status } = {}) {
   useEffect(() => {
     fetchInvoices();
 
-    // Realtime — keep the invoice queue live (mark-paid / void / new invoices
+    // Realtime, keep the invoice queue live (mark-paid / void / new invoices
     // from other admins or webhooks show up without a manual refresh).
     const channel = supabase
       .channel("admin_invoices_changes")

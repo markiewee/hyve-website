@@ -26,7 +26,7 @@ export default function AdminDashboardPage() {
 
       const nowIso = new Date().toISOString();
       const [rooms, tenants, tickets, devices, allDevices] = await Promise.all([
-        // Only count lettable bedrooms (room_type set) — exclude common areas,
+        // Only count lettable bedrooms (room_type set), exclude common areas,
         // kitchens, yards and shared toilets (room_type null).
         supabase.from("rooms").select("id", { count: "exact", head: true }).not("room_type", "is", null),
         // Active Members = currently in-residence tenants/captains only:
@@ -177,7 +177,7 @@ export default function AdminDashboardPage() {
         ))}
       </div>
 
-      {/* Action Inbox — full list lives at /portal/admin/inbox */}
+      {/* Action Inbox, full list lives at /portal/admin/inbox */}
       <div className="mb-10">
         <ActionInbox limit={8} />
       </div>

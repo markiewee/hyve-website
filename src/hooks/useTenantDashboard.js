@@ -36,7 +36,7 @@ export function useTenantDashboard(profileId, roomId) {
 
     loadData();
 
-    // Realtime — keep the open-ticket count live as tickets are raised/resolved
+    // Realtime, keep the open-ticket count live as tickets are raised/resolved
     // on this tenant's room. (maintenance_tickets is in the realtime publication.)
     const channel = supabase.channel(`tenant_dashboard_${profileId}`);
     if (roomId) {

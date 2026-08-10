@@ -9,6 +9,7 @@
 // cross links turn the archive into a mesh instead, which is the difference
 // between the long tail being indexed and being technically present.
 
+import { LazybeeRoot } from '../../hooks/useLazybeeTheme';
 import { useMemo, useRef } from 'react';
 import { Navigate, useParams, Link } from 'react-router-dom';
 
@@ -44,7 +45,7 @@ export default function HiveArticlePage() {
   const { newer, older } = neighboursOf(article, ARTICLES);
 
   return (
-    <div className="lzb hive" data-theme="alabaster" ref={rootRef}>
+    <LazybeeRoot className="lzb hive" ref={rootRef}>
       <HiveHeader />
 
       <main id="top">
@@ -134,6 +135,6 @@ export default function HiveArticlePage() {
       </main>
 
       <HiveFooter />
-    </div>
+    </LazybeeRoot>
   );
 }

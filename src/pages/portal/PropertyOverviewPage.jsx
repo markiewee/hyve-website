@@ -49,7 +49,7 @@ export default function PropertyOverviewPage() {
       }
       const propertyIds = props.map((p) => p.id);
 
-      // Lettable bedrooms only — skip common areas / kitchens / yards / toilets
+      // Lettable bedrooms only, skip common areas / kitchens / yards / toilets
       const { data: roomData, error: roomErr } = await supabase
         .from("rooms")
         .select("id, name, unit_code, property_id")

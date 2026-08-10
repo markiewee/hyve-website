@@ -5,6 +5,7 @@ import { track, EVENTS } from '../../lib/analytics';
 import { scrollToId } from '../../lib/scrollToId';
 import { useLanguage } from '../../i18n/LanguageContext';
 import LangSwitch from '../../i18n/LangSwitch';
+import ThemeToggle from '../ThemeToggle';
 
 /** The Lazybee bee, as drawn in the prototype. */
 export function BeeMark() {
@@ -62,6 +63,7 @@ export function OwnerHeader({ heroRef }) {
             ? <Link key={key} to={to}>{t(key)}</Link>
             : <a key={key} href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollToId(id); }}>{t(key)}</a>
         ))}
+        <ThemeToggle />
         <LangSwitch />
       </nav>
     </header>

@@ -1,5 +1,5 @@
 // ──────────────────────────────────────────────────────────────────────
-// Viewing clustering resolver — Lazybee Booking V3
+// Viewing clustering resolver, Lazybee Booking V3
 // Spec: docs/specs/2026-05-15-viewing-clustering.md
 //
 // Pure JS, no DB, no React. Used both by the API route (server-side) and
@@ -8,7 +8,7 @@
 
 const SLOT_MS = 15 * 60 * 1000;
 const TRAVEL_BUFFER_MS = 30 * 60 * 1000;
-const TZ_OFFSET_MS = 8 * 60 * 60 * 1000; // SGT — no DST
+const TZ_OFFSET_MS = 8 * 60 * 60 * 1000; // SGT, no DST
 
 // Window definitions: day-of-week (Sun=0, Fri=5, Sat=6), key, SGT start/end hours
 const WINDOW_DEFS = [
@@ -123,7 +123,7 @@ function clusterBookings(bookings) {
 // overlaps any booking's [slot_start, slot_end) interval. A booking may span
 // more than one grid slot (e.g. a 30-min viewing covers two 15-min slots), so
 // we cannot just compare start-times. Equality-based check let 30-min bookings
-// with non-aligned starts (e.g. 11:45–12:15) leak the 12:00 grid slot as
+// with non-aligned starts (e.g. 11:45 to 12:15) leak the 12:00 grid slot as
 // "available" even though it sat inside the booking.
 function isSlotBooked(slotStartMs, bookings) {
   const slotEndMs = slotStartMs + SLOT_MS;
@@ -215,12 +215,12 @@ export function resolveSlots({ propertyOfInterest, window, gcalEvent, bookings, 
     // Anchor present.
     if (anchor === propertyOfInterest) {
       // Same-property prospect. Strict cluster-max rule: exactly two
-      // openings per property per window — the slot immediately before
+      // openings per property per window, the slot immediately before
       // the cluster's earliest booking and the slot immediately after
       // its latest. No within-cluster gap fill. Forces tight back-to-
       // back booking; prospects can't drop into the middle of a gap.
       if (!ownCluster) {
-        // No cluster yet — this prospect seeds it, can pick anywhere.
+        // No cluster yet, this prospect seeds it, can pick anywhere.
         slots.push({
           start: startIso,
           end: endIso,
@@ -313,7 +313,7 @@ export function buildWindowsResponse({
       const ms = new Date(b.slot_start).getTime();
       return ms >= w.startMs && ms < w.endMs;
     });
-    // Keep blockers that overlap this window at all — even partial overlap
+    // Keep blockers that overlap this window at all, even partial overlap
     // matters because a 1-hour blocker can clip multiple slot starts.
     const windowBlockers = blockers.filter((b) => {
       const bStart = new Date(b.start).getTime();
@@ -352,12 +352,12 @@ export function buildWindowsResponse({
  * Returns `null` if valid, or `{ code, payload }` if rejected.
  *
  * Rejection codes (mirrored in the API response):
- *   - 'window-closed'        — no GCal event
- *   - 'slot-outside-window'  — slot doesn't fit the window range
- *   - 'slot-taken'           — exact slot already has an active booking
- *   - 'wrong-property'       — GCal pre-anchored to a different property
- *   - 'travel-buffer'        — cross-property buffer violation (with payload.earliest_allowed)
- *   - 'would-block-existing' — same-property extension would invalidate downstream
+ *   - 'window-closed'no GCal event
+ *   - 'slot-outside-window'slot doesn't fit the window range
+ *   - 'slot-taken'exact slot already has an active booking
+ *   - 'wrong-property'GCal pre-anchored to a different property
+ *   - 'travel-buffer'cross-property buffer violation (with payload.earliest_allowed)
+ *   - 'would-block-existing'same-property extension would invalidate downstream
  */
 export function validateBookingAttempt({
   propertyOfInterest,
@@ -396,7 +396,7 @@ export function validateBookingAttempt({
 
   const clusters = clusterBookings(bookings);
   if (clusters.length === 0) {
-    // First-booker — anything inside window is fine
+    // First-booker, anything inside window is fine
     return null;
   }
 

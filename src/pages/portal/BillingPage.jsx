@@ -85,7 +85,7 @@ export default function BillingPage() {
   const tenantInfo = {
     name: profile?.full_name ?? profile?.name ?? "Member",
     email: profile?.email ?? null,
-    room: profile?.rooms?.unit_code ?? profile?.rooms?.name ?? "—",
+    room: profile?.rooms?.unit_code ?? profile?.rooms?.name ?? "-",
     property: profile?.properties?.name ?? null,
   };
 
@@ -104,7 +104,7 @@ export default function BillingPage() {
 
       {/* Summary stat cards */}
       <div className={`grid grid-cols-1 ${profile?.role !== "ADMIN" ? "sm:grid-cols-3" : "sm:grid-cols-1"} gap-6 mb-10`}>
-        {/* Outstanding balance — red when overdue, teal when ok */}
+        {/* Outstanding balance, red when overdue, teal when ok */}
         <div className={`sm:col-span-2 p-8 relative overflow-hidden ${hasOverdue ? "bg-[#6E2A1F]" : "bg-[#0E2E20]"}`}>
           <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-20 -mt-20 pointer-events-none" />
           <p className={`font-mono text-[11px] uppercase tracking-[0.22em] mb-3 ${hasOverdue ? "text-[#F0C9BF]" : "text-[#7FA692]"}`}>
@@ -115,7 +115,7 @@ export default function BillingPage() {
           </p>
           <p className="text-[#EDE6DA]/85 text-sm">
             {hasOverdue
-              ? `${overdueRent} overdue payment${overdueRent !== 1 ? "s" : ""} — please pay immediately`
+              ? `${overdueRent} overdue payment${overdueRent !== 1 ? "s" : ""}, please pay immediately`
               : `${pendingRent} rent payment${pendingRent !== 1 ? "s" : ""}${pendingChargesCount > 0 ? ` + ${pendingChargesCount} charge${pendingChargesCount !== 1 ? "s" : ""}` : ""} pending`}
           </p>
           {hasOverdue && (
@@ -126,7 +126,7 @@ export default function BillingPage() {
           )}
         </div>
 
-        {/* Rent amount stat — hidden for admin */}
+        {/* Rent amount stat, hidden for admin */}
         {profile?.role !== "ADMIN" && (
           <div className="bg-surface p-6 border border-border flex flex-col justify-between">
             <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-foreground-variant mb-3">
@@ -135,7 +135,7 @@ export default function BillingPage() {
             <p className="font-mono text-3xl font-bold tabular-nums tracking-tight text-foreground">
               {(profile?.monthly_rent || profile?.rooms?.rent_amount)
                 ? `$${Number(profile.monthly_rent || profile.rooms?.rent_amount).toLocaleString("en-SG", { minimumFractionDigits: 2 })}`
-                : "—"}
+                : "-"}
             </p>
             <p className="text-foreground-variant text-xs mt-2">Due 1st of each month</p>
           </div>
@@ -285,7 +285,7 @@ export default function BillingPage() {
                     </div>
                     <div className="flex items-center gap-3 text-xs text-foreground-variant font-['Inter']">
                       <span>
-                        Due: {charge.due_date ? new Date(charge.due_date).toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" }) : "—"}
+                        Due: {charge.due_date ? new Date(charge.due_date).toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" }) : "-"}
                       </span>
                       <span>
                         Created: {new Date(charge.created_at).toLocaleDateString("en-SG", { day: "numeric", month: "short", year: "numeric" })}

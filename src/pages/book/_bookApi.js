@@ -1,5 +1,5 @@
 // Thin wrapper around the /api/booking/* contract from the V2 spec.
-// Backend agent is building these in parallel — this file is the only place
+// Backend agent is building these in parallel, this file is the only place
 // the frontend talks to those endpoints, so when the contract evolves we have
 // one knob to turn.
 
@@ -32,13 +32,13 @@ export function fetchSlots({ property, date, room, signal } = {}) {
   return jsonFetch(`/api/booking/slots?${qs.toString()}`, { signal });
 }
 
-// V3 — clustering windows endpoint
+// V3, clustering windows endpoint
 export function fetchWindows({ property, signal } = {}) {
   const qs = new URLSearchParams({ property });
   return jsonFetch(`/api/booking/windows?${qs.toString()}`, { signal });
 }
 
-// V3 — off-horizon lead capture
+// V3, off-horizon lead capture
 export function submitOffHorizonLead(payload) {
   return jsonFetch(`/api/booking/leads-off-horizon`, {
     method: "POST",
@@ -63,7 +63,7 @@ export function confirmCancel(token) {
   });
 }
 
-// Admin-side helpers (backend may expose later — used by the admin calendar tab).
+// Admin-side helpers (backend may expose later, used by the admin calendar tab).
 export function blockSlot({ property, slot_start, slot_end, reason }) {
   return jsonFetch(`/api/booking/block`, {
     method: "POST",

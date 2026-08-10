@@ -1,7 +1,7 @@
 import { supabase } from "./supabase";
 
 /**
- * TTLock API client — proxied through /api/portal/admin-actions (the server
+ * TTLock API client, proxied through /api/portal/admin-actions (the server
  * holds the TTLock credentials). Mirrors the Aspire client pattern.
  */
 export async function callTTLock(ttlock_action, params = {}) {

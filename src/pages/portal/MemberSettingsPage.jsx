@@ -71,7 +71,7 @@ export default function MemberSettingsPage() {
     }
     setEmailSaving(true);
     try {
-      // 1. Update tenant_details.email immediately — this is what notify-tenant reads
+      // 1. Update tenant_details.email immediately, this is what notify-tenant reads
       //    so invoice + late-payment reminders start going to the new address right away.
       const { error: detailsErr } = await supabase
         .from("tenant_details")
@@ -82,11 +82,11 @@ export default function MemberSettingsPage() {
         }, { onConflict: "tenant_profile_id" });
       if (detailsErr) throw detailsErr;
 
-      // 2. Update auth login email (sends verification — only takes effect once confirmed).
+      // 2. Update auth login email (sends verification, only takes effect once confirmed).
       const { error: authErr } = await supabase.auth.updateUser({ email: trimmed });
       if (authErr) {
         // Notification email still updated; tell user to confirm verification too
-        toast.success("Notification email updated. Verification for login email failed — please retry.");
+        toast.success("Notification email updated. Verification for login email failed, please retry.");
       } else {
         toast.success("Email updated. Reminders will now go to your new address. Check your inbox to confirm the new login email.");
       }

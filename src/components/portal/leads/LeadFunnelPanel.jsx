@@ -35,7 +35,7 @@ function writeLS(key, value) {
   try {
     localStorage.setItem(key, value);
   } catch {
-    /* private mode / SSR — silently no-op */
+    /* private mode / SSR, silently no-op */
   }
 }
 
