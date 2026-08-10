@@ -12,7 +12,7 @@ import ContactPage from './components/ContactPage';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import CookiePolicy from './components/CookiePolicy';
-import StaffResourcePage from './components/StaffResourcePage';
+import StaffRoomDeskPage from './pages/staff/StaffRoomDeskPage';
 import HiveIndexPage from './pages/hive/HiveIndexPage';
 import HiveArticlePage from './pages/hive/HiveArticlePage';
 import HiveTopicPage from './pages/hive/HiveTopicPage';
@@ -77,18 +77,24 @@ function AppContent() {
   // The Hive is themed alabaster/tobacco like the owner homepage and ships the
   // same chrome, so the dark terracotta site Navbar and Footer stay off it too.
   const isHive = location.pathname === '/hive' || location.pathname.startsWith('/hive/');
-  const bareChrome = isPortal || isViewing || isOwnerHome || isHive;
+  // The staff room desk joined this set on 10 Aug 2026, when it moved off the
+  // terracotta Tailwind theme onto .lzb. It ships its own topbar and toggle, so
+  // leaving it out put the marketing Navbar above its own header and let the
+  // site surface restyle its chips.
+  const isStaff = location.pathname === '/staff';
+  const bareChrome = isPortal || isViewing || isOwnerHome || isHive || isStaff;
 
   // Presentation only. Stamps the Lazybee token scope on <html> so body-level
   // Radix overlays (dialog, popover, select, toast) inherit it too.
   //
   //   "portal"  the tenant, owner and staff app
   //   "site"    the marketing pages: FAQs, contact, blog, locations, legal,
-  //             the resident guide and the staff resource page
+  //             and the resident guide
   //
-  // The owner homepage and The Hive are deliberately neither. They scope their
-  // own tokens through .lzb[data-theme] and carry a light/dark toggle, so
-  // stamping a surface on them would theme the same element twice.
+  // The owner homepage, The Hive and the staff room desk are deliberately
+  // neither. They scope their own tokens through .lzb[data-theme] and carry a
+  // light/dark toggle, so stamping a surface on them would theme the same
+  // element twice.
   // See the html[data-surface] block in App.css.
   const surface = isPortal ? 'portal' : bareChrome ? null : 'site';
   useEffect(() => {
@@ -122,7 +128,10 @@ function AppContent() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/cookie-policy" element={<CookiePolicy />} />
-          <Route path="/staff" element={<StaffResourcePage />} />
+          {/* HOUSE_CAPTAIN, not ADMIN: a captain opening a unit for a viewing
+              needs the room facts as much as the person selling. Tenants,
+              landlords and investors are excluded by the guard. */}
+          <Route path="/staff" element={<AuthGuard requiredRole="HOUSE_CAPTAIN"><StaffRoomDeskPage /></AuthGuard>} />
           {/* Portal routes, no Navbar/Footer */}
           <Route path="/portal" element={<Navigate to="/portal/login" replace />} />
           <Route path="/portal/login" element={<LoginPage />} />

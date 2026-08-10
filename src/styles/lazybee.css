@@ -34,6 +34,10 @@
   /* comb, from the owners.html page styles */
   --comb-land:#E0D6C3; --comb-land-fill:#EFE9DE; --comb-occ:#0E2E20; --comb-open:#B08D4F;
   --share:#0E2E20; --share-up:#B08D4F; --lease:#BCAF98;
+  /* Native controls follow the theme: without this the date picker and the
+     select menu on the staff room desk render in the OS default scheme and
+     sit in the page as a bright rectangle. */
+  color-scheme: light;
 }
 .lzb[data-theme="tobacco"] {
   --bg:#241811; --surface:#31231A; --raised:#3A2A1F; --line:#453224;
@@ -45,6 +49,7 @@
   --shadow:0 12px 34px rgba(0,0,0,.34);
   --comb-land:#4A3626; --comb-land-fill:#2C1F17; --comb-occ:#E8DACA; --comb-open:#B08D4F;
   --share:#B08D4F; --share-up:#E8DACA; --lease:#6E5942;
+  color-scheme: dark;
 }
 .lzb {
   /* the regal green is structural and identical in both modes */
@@ -722,3 +727,118 @@
    other control on the page from the first frame rather than fading in. */
 .lzb.hive .hivehead .navlinks a:focus-visible{outline-style:solid;outline-width:2px;outline-color:var(--accent);outline-offset:3px}
 .lzb.hive .hivehead .navlinks a{transition:opacity .25s,color .25s}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Staff room desk, ported from design-preview/staff.html.
+
+   Layout only. Colour, type, buttons, chips, badges and states all come
+   from the tokens above. Every selector is scoped under .lzb for the same
+   reason the rest of this file is: the app owns :root and defines its own
+   --surface and --accent for the terracotta portal theme, and class names
+   like .card, .row and .input would otherwise collide head on.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── search ───────────────────────────────────────────────────────── */
+.lzb .search{border:1px solid var(--line);background:var(--surface);padding:clamp(18px,2.2vw,28px)}
+.lzb .searchgrid{display:grid;grid-template-columns:1.5fr 1fr 1.3fr;gap:var(--s5);align-items:start}
+.lzb .seg{display:inline-flex;border:1px solid var(--line);border-radius:var(--r-pill);overflow:hidden;margin-top:var(--s3)}
+.lzb .seg button{background:none;border:0;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.15em;
+  text-transform:uppercase;padding:9px 15px;color:var(--faint);transition:.22s}
+.lzb .seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.lzb .searchfoot{display:flex;flex-wrap:wrap;gap:var(--s4);justify-content:space-between;align-items:center;
+  margin-top:var(--s5);padding-top:var(--s4);border-top:1px solid var(--line)}
+
+/* .stafftabs, not .tabs. There is already a .lzb .tabs above: the owner page
+   tab strip, underlined and uppercase. Reusing the name gave the room desk that
+   component's type and padding on top of its own chips. */
+.lzb .stafftabs{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s7)}
+/* No `font:inherit` here. The shorthand resets font-family too, which beats the
+   mono coming from .lzb .chip and drops the tab labels into body text. */
+.lzb .stafftabs button{background:none;cursor:pointer;border:1px solid var(--line)}
+
+/* The staff header. design-preview/assets/lazybee.css has a .topbar, but the
+   React copy of this file never took it: the owner page and The Hive each ship
+   their own header instead. This is the room desk's, named so it cannot collide
+   with either. */
+.lzb .stafftop{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  gap:var(--s5);padding:15px clamp(20px,3vw,40px);border-bottom:1px solid var(--line);
+  background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px)}
+.lzb .stafftop .brandlock{display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit}
+.lzb .stafftop .brandlock svg{width:22px;height:auto;fill:var(--accent)}
+.lzb .stafftop .brandlock .wd{font-family:var(--display);letter-spacing:.30em;font-size:15px}
+.lzb .stafftop nav{display:flex;align-items:center;gap:var(--s5)}
+
+/* ── property panel ───────────────────────────────────────────────── */
+.lzb .prop{border:1px solid var(--line);background:var(--surface);padding:clamp(20px,2.6vw,34px);margin-top:var(--s5)}
+.lzb .propmeta{display:flex;flex-wrap:wrap;gap:var(--s5);margin-top:var(--s4)}
+.lzb .subsec{margin-top:var(--s6);padding-top:var(--s5);border-top:1px solid var(--line)}
+.lzb .chips{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s3)}
+.lzb .chip-sm{font-size:11.5px;padding:6px 12px}
+.lzb .bullets{list-style:none;margin-top:var(--s3)}
+.lzb .bullets li{position:relative;padding-left:18px;font-size:14px;line-height:1.75;color:var(--muted)}
+.lzb .bullets li::before{content:'';position:absolute;left:0;top:11px;width:6px;height:1px;background:var(--accent)}
+.lzb .strip{display:flex;gap:var(--s2);overflow-x:auto;margin-top:var(--s3);padding-bottom:var(--s2)}
+.lzb .strip a{flex:0 0 auto;position:relative;border:1px solid var(--line);line-height:0}
+.lzb .strip img{width:186px;height:124px;object-fit:cover}
+.lzb .strip .dl{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:flex-end;padding:8px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#F7F3EA;
+  background:linear-gradient(180deg,rgba(8,10,10,0) 55%,rgba(8,10,10,.72));opacity:0;transition:opacity .3s var(--ease)}
+.lzb .strip a:hover .dl,
+.lzb .strip a:focus-visible .dl{opacity:1}
+
+/* ── room cards ───────────────────────────────────────────────────── */
+/* start, not stretch: an opened card must not drag its neighbours' height with it */
+.lzb .rooms{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:var(--s4);
+  margin-top:var(--s4);align-items:start}
+.lzb .room{border:1px solid var(--line);background:var(--bg)}
+.lzb .room > summary{list-style:none;cursor:pointer;padding:var(--s5);display:block;transition:background .25s}
+.lzb .room > summary::-webkit-details-marker{display:none}
+.lzb .room > summary:hover{background:var(--surface)}
+.lzb .room[open] > summary{border-bottom:1px solid var(--line)}
+.lzb .roomtop{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s3)}
+.lzb .code{font-family:var(--mono);font-weight:700;font-size:15px;letter-spacing:.04em;color:var(--ink)}
+.lzb .caret{flex:0 0 auto;width:11px;height:11px;stroke:var(--faint);stroke-width:1.6;fill:none;
+  transition:transform .3s var(--ease)}
+.lzb .room[open] .caret,
+.lzb .faq details[open] .caret{transform:rotate(180deg)}
+.lzb .roomline{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3);margin-top:var(--s3)}
+.lzb .price{font-family:var(--mono);font-weight:700;font-size:19px;letter-spacing:-.02em;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+.lzb .roombody{padding:var(--s5)}
+.lzb .ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);margin-top:var(--s3)}
+/* Direct child only. A bare `.ladder div` also paints the .t and .p inside the
+   highlighted rung, which buries brass under the ground colour. */
+.lzb .ladder > div{background:var(--bg);padding:11px 8px;text-align:center}
+.lzb .ladder .t{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.lzb .ladder .p{font-family:var(--mono);font-weight:700;font-size:14px;margin-top:5px;font-variant-numeric:tabular-nums}
+.lzb .ladder > div.on{background:var(--accent)}
+.lzb .ladder > div.on .t{color:color-mix(in srgb,var(--on-accent) 72%,transparent)}
+.lzb .ladder > div.on .p{color:var(--on-accent)}
+.lzb .specs{border-top:1px solid var(--line);margin-top:var(--s5)}
+.lzb .specs .row{font-size:13px;padding:10px 0}
+.lzb .booking{display:flex;justify-content:space-between;align-items:center;gap:var(--s3);
+  border:1px solid var(--line);padding:10px 13px;margin-top:var(--s2);
+  font-family:var(--mono);font-size:12px;color:var(--muted)}
+
+/* ── reference block ──────────────────────────────────────────────── */
+.lzb .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);margin-top:var(--s5)}
+.lzb .steps > div{background:var(--bg);padding:20px}
+.lzb .steps .n{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.2em;color:var(--accent-text)}
+.lzb .faq{border-top:1px solid var(--line);margin-top:var(--s5)}
+.lzb .faq details{border-bottom:1px solid var(--line)}
+.lzb .faq summary{list-style:none;cursor:pointer;padding:16px 0;display:flex;justify-content:space-between;
+  gap:var(--s4);font-size:15.5px;color:var(--ink)}
+.lzb .faq summary::-webkit-details-marker{display:none}
+.lzb .faq p{padding:0 0 18px;font-size:14.5px;line-height:1.7;color:var(--muted);max-width:70ch}
+
+@media(max-width:900px){
+  .lzb .searchgrid{grid-template-columns:1fr}
+  .lzb .steps{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .lzb .rooms{grid-template-columns:1fr}
+  .lzb .ladder{grid-template-columns:1fr 1fr}
+  .lzb .steps{grid-template-columns:1fr}
+}

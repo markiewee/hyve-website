@@ -1,0 +1,122 @@
+// The decisions behind the staff room desk. Pure, so they can be tested without
+// a browser or a database.
+//
+// `today` is always a parameter. Reading the clock inside these functions would
+// make every test depend on the day it runs, and the availability wording is the
+// one thing on the page that must not drift.
+
+/** The twelve week sell window from CLAUDE.md rule 18: viewing to move-in runs
+ *  four to eight weeks, so anything opening inside twelve is worth marketing. */
+export const SELL_WINDOW_DAYS = 84;
+
+/** Budget matches this far either side of the number the prospect gave. */
+export const BUDGET_BAND = 200;
+
+const DAY = 86400000;
+
+/** Midnight-normalised, so a comparison is date to date and not clock to clock. */
+export function atMidnight(value) {
+  const d = new Date(value);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+export function daysUntil(dateStr, today) {
+  return Math.round((atMidnight(dateStr) - atMidnight(today)) / DAY);
+}
+
+export function formatDate(dateStr) {
+  return atMidnight(dateStr).toLocaleDateString("en-SG", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+/** A real lettable bedroom has a type and a price. Kitchens, yards and shared
+ *  toilets are rows in the same table with neither, and are not inventory. */
+export function isLettable(room) {
+  return !!room.room_type && !!room.price_monthly;
+}
+
+/**
+ * The availability line, worded the way a captain would say it out loud.
+ * Returns { label, tone } where tone is 'warn' (sellable) or 'ok' (occupied),
+ * matching the .badge-warn / .badge-ok classes in lazybee.css.
+ */
+export function availabilityStatus(room, today) {
+  if (!room.next_available) {
+    return room.available_until
+      ? { label: `Open now, until ${formatDate(room.available_until)}`, tone: "warn" }
+      : { label: "Open now", tone: "warn" };
+  }
+  const d = daysUntil(room.next_available, today);
+  if (d <= 0) return { label: "Open now", tone: "warn" };
+  if (d <= SELL_WINDOW_DAYS) return { label: `Opens ${formatDate(room.next_available)}`, tone: "warn" };
+  return { label: `Occupied to ${formatDate(room.next_available)}`, tone: "ok" };
+}
+
+/** Worth actively marketing: going empty with nothing booked behind it, inside
+ *  the sell window. A room free today but with an arrival already booked is
+ *  covered, not a target. */
+export function isSellNow(room, today) {
+  if (!room.next_available) return !room.available_until;
+  return daysUntil(room.next_available, today) <= SELL_WINDOW_DAYS;
+}
+
+/** The published ladder. Twelve months is the anchor and the one we push. */
+export function priceLadder(basePrice) {
+  if (!basePrice) return null;
+  const base = Number(basePrice);
+  return [
+    { months: 3, price: base + 100 },
+    { months: 6, price: base + 50 },
+    { months: 12, price: base, anchor: true },
+    { months: 24, price: base - 50 },
+  ];
+}
+
+export const EMPTY_SEARCH = {
+  date: "",
+  dateMode: "fixed",
+  budget: "",
+  location: "ALL",
+  sell: false,
+  couple: false,
+  ensuite: false,
+};
+
+/** dateMode is deliberately excluded: on its own it filters nothing, and
+ *  counting it would leave the page stuck in results mode with every room. */
+export function isSearchActive(s) {
+  return !!(
+    s.date ||
+    s.budget ||
+    (s.location && s.location !== "ALL") ||
+    s.sell ||
+    s.couple ||
+    s.ensuite
+  );
+}
+
+export function roomMatchesSearch(room, propertyCode, s, today) {
+  if (s.budget) {
+    const b = Number(s.budget);
+    if (!room.price_monthly) return false;
+    if (room.price_monthly < b - BUDGET_BAND || room.price_monthly > b + BUDGET_BAND) return false;
+  }
+  if (s.location && s.location !== "ALL" && propertyCode !== s.location) return false;
+  if (s.sell && !isSellNow(room, today)) return false;
+  if (s.couple && (room.max_occupancy || 1) < 2) return false;
+  if (s.ensuite && !room.has_private_bathroom) return false;
+  if (s.date) {
+    const target = atMidnight(s.date);
+    const limit = atMidnight(s.date);
+    if (s.dateMode === "flexible") limit.setDate(limit.getDate() + 30);
+    const from = room.next_available ? atMidnight(room.next_available) : atMidnight(today);
+    if (from > limit) return false;
+    // Free today, but taken again before they would move in.
+    if (room.available_until && atMidnight(room.available_until) < target) return false;
+  }
+  return true;
+}
