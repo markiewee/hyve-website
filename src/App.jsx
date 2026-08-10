@@ -56,6 +56,7 @@ import SigningConfirmationPage from './pages/portal/SigningConfirmationPage';
 import PropertyGuidePage from './pages/portal/PropertyGuidePage';
 import InvoiceDetailPage from "./pages/portal/InvoiceDetailPage";
 import AdminInvoicesPage from "./pages/portal/AdminInvoicesPage";
+import AdminOwnerDocumentsPage from "./pages/portal/AdminOwnerDocumentsPage";
 import AdminMembersPage from './pages/portal/AdminMembersPage';
 import AdminPastTenantsPage from './pages/portal/AdminPastTenantsPage';
 import AdminInboxPage from './pages/portal/AdminInboxPage';
@@ -351,6 +352,14 @@ function AppContent() {
             }
           />
           <Route path="/portal/admin/invoices" element={<AuthGuard><AdminInvoicesPage /></AuthGuard>} />
+          <Route
+            path="/portal/admin/owner-documents"
+            element={
+              <AuthGuard requiredRole="ADMIN">
+                <AdminOwnerDocumentsPage />
+              </AuthGuard>
+            }
+          />
           <Route
             path="/portal/admin/members"
             element={

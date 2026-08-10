@@ -69,6 +69,7 @@ function useNavLinks(role, needsOutcome = 0) {
           { label: "Locks", to: "/portal/admin/locks", icon: "lock" },
           { label: t("nav.devices"), to: "/portal/admin/devices", icon: "router" },
           { label: "Contract Generator", to: "/portal/admin/documents", icon: "description" },
+          { label: "Owner Documents", to: "/portal/admin/owner-documents", icon: "folder_shared" },
         ],
       },
     ];

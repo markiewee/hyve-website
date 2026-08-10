@@ -3,6 +3,12 @@ import { Navigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import { useAuth } from "../../hooks/useAuth";
 import Wordmark from "../../components/Wordmark";
+import {
+  propertyDocLabel,
+  formatPeriodMonth,
+  formatFileSize,
+} from "../../lib/propertyDocuments";
+import { ownerSignedUrl } from "../../lib/propertyDocumentsApi";
 
 function fmtDate(d) {
   if (!d) return "—";
@@ -39,13 +45,24 @@ export default function LandlordPage() {
   const [viewer, setViewer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // Property-level documents (AC servicing bills, invoices, statements). These
+  // belong to the property, not to a tenant, and come from their own table.
+  const [propertyDocs, setPropertyDocs] = useState([]);
+  const [propertyDocsError, setPropertyDocsError] = useState(null);
 
   useEffect(() => {
     let active = true;
     (async () => {
-      const [roster, docs] = await Promise.all([
+      const [roster, docs, propDocs] = await Promise.all([
         supabase.rpc("get_landlord_roster"),
         supabase.rpc("get_landlord_documents"),
+        // RLS scopes this to the caller's own property and to rows flagged
+        // visible, so no property filter is needed (or trustworthy) here.
+        supabase
+          .from("property_documents")
+          .select("id, doc_type, title, period_month, file_name, file_size, notes, created_at")
+          .order("period_month", { ascending: false, nullsFirst: false })
+          .order("created_at", { ascending: false }),
       ]);
       if (!active) return;
       if (roster.error) setError(roster.error.message);
@@ -57,6 +74,10 @@ export default function LandlordPage() {
         (byKey[key] = byKey[key] || []).push(d);
       }
       setDocsByKey(byKey);
+      // A failed document load must not blank the roster, so it gets its own
+      // error slot rather than the page-level one.
+      if (propDocs.error) setPropertyDocsError(propDocs.error.message);
+      else setPropertyDocs(propDocs.data || []);
       setLoading(false);
     })();
     return () => {
@@ -87,7 +108,26 @@ export default function LandlordPage() {
     try {
       const url = await signedDocUrl(doc);
       const isPdf = url.split("?")[0].toLowerCase().endsWith(".pdf");
-      setViewer({ doc, url, isPdf });
+      setViewer({ url, isPdf, label: `${docLabel(doc)} · ${doc.full_name}` });
+    } catch (e) {
+      setDocError(e.message || "Could not open document");
+    } finally {
+      setBusyDoc(null);
+    }
+  }
+
+  // Same modal, different source. Property documents live in their own table
+  // and their own bucket, and the owner has no storage access at all, so the
+  // URL is minted server-side after re-checking ownership.
+  async function viewPropertyDoc(doc) {
+    setDocError(null);
+    setBusyDoc(doc.id);
+    try {
+      const url = await ownerSignedUrl(doc.id);
+      const isPdf =
+        url.split("?")[0].toLowerCase().endsWith(".pdf") ||
+        (doc.file_name || "").toLowerCase().endsWith(".pdf");
+      setViewer({ url, isPdf, label: doc.title });
     } catch (e) {
       setDocError(e.message || "Could not open document");
     } finally {
@@ -336,6 +376,54 @@ export default function LandlordPage() {
             </div>
           </>
         )}
+
+        {/* Property documents. Deliberately outside the roster block above: the
+            roster early-returns "No residents on record", and a property with an
+            empty roster must still show its bills. */}
+        <section className="mt-12">
+          <h2 className="font-display text-[24px] leading-tight text-foreground">Property documents</h2>
+          <p className="text-foreground-variant text-sm mt-1.5 max-w-[62ch]">
+            Servicing bills, invoices and statements for {propertyName}.
+          </p>
+
+          {propertyDocsError ? (
+            <div className="mt-5 p-4 bg-red-500/10 border-l-2 border-red-500 text-red-300 text-sm">
+              Couldn't load documents: {propertyDocsError}
+            </div>
+          ) : loading ? (
+            <div className="text-foreground-variant text-sm py-10">Loading documents…</div>
+          ) : propertyDocs.length === 0 ? (
+            <div className="mt-5 border border-border bg-surface px-5 py-8 text-center text-sm text-foreground-variant">
+              Nothing here yet. Bills and statements will appear as they are filed.
+            </div>
+          ) : (
+            <ul className="mt-5 border border-border bg-surface divide-y divide-border">
+              {propertyDocs.map((d) => (
+                <li key={d.id} className="flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-4">
+                  <div className="min-w-[200px] flex-1">
+                    <div className="text-foreground">{d.title}</div>
+                    <div className="font-mono text-[12px] text-foreground-variant mt-1">
+                      {propertyDocLabel(d.doc_type)}
+                      {formatPeriodMonth(d.period_month) ? ` · ${formatPeriodMonth(d.period_month)}` : ""}
+                      {formatFileSize(d.file_size) ? ` · ${formatFileSize(d.file_size)}` : ""}
+                    </div>
+                    {d.notes && (
+                      <div className="text-[12px] text-foreground-variant mt-1">{d.notes}</div>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => viewPropertyDoc(d)}
+                    disabled={busyDoc === d.id}
+                    className="inline-flex items-center gap-1.5 font-mono text-[12px] text-accent border border-accent/40 rounded-full px-3 py-1 hover:bg-accent/10 transition-colors disabled:opacity-50"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">visibility</span>
+                    {busyDoc === d.id ? "…" : "View"}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
       </main>
 
       {/* Document viewer */}
@@ -350,7 +438,7 @@ export default function LandlordPage() {
           >
             <div className="flex items-center justify-between px-5 py-3 border-b border-border">
               <div className="font-['Inter'] text-sm font-semibold text-foreground">
-                {docLabel(viewer.doc)} · {viewer.doc.full_name}
+                {viewer.label}
               </div>
               <div className="flex items-center gap-2">
                 <a
