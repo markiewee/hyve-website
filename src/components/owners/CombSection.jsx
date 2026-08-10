@@ -6,6 +6,7 @@ import { bookingUrl } from '../../lib/booking';
 import { track, EVENTS } from '../../lib/analytics';
 import { scrollToId } from '../../lib/scrollToId';
 import { useLanguage } from '../../i18n/LanguageContext';
+import { vocabKey } from '../../i18n/roomVocab';
 
 const money = (n) => 'S$' + n.toLocaleString('en-SG');
 const nice = (d) => new Date(d).toLocaleDateString('en-SG', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -59,7 +60,7 @@ function CellCard({ room, shot, onShot }) {
       </div>
       <div className="in">
         <div className="label">{room.code} · {home.name}</div>
-        <div className="place" style={{ fontSize: 26, marginTop: 6 }}>{room.type}</div>
+        <div className="place" style={{ fontSize: 26, marginTop: 6 }}>{t(vocabKey(room.type))}</div>
         <div className="num" style={{ fontSize: 22, fontWeight: 700, marginTop: 10 }}>
           {money(room.price)}
           <span className="label" style={{ letterSpacing: '.2em', marginLeft: 8 }}>{t('owner.comb.perMonth')}</span>
@@ -72,12 +73,15 @@ function CellCard({ room, shot, onShot }) {
         {room.am.length > 0 && (
           <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginTop: 'var(--s4)' }}>
             {room.am.map((a) => (
-              <span className="chip" key={a} style={{ fontSize: 10.5, padding: '6px 11px' }}>{a}</span>
+              <span className="chip" key={a} style={{ fontSize: 10.5, padding: '6px 11px' }}>{t(vocabKey(a))}</span>
             ))}
           </div>
         )}
         <p className="fine" style={{ marginTop: 'var(--s4)' }}>
-          {home.address}. {home.mrt ? `${home.mrt.station} MRT, ${home.mrt.walking_minutes} minutes on foot.` : ''}
+          {home.address}.{' '}
+          {home.mrt
+            ? t('owner.comb.mrtWalk', { station: t(vocabKey(home.mrt.station)), minutes: home.mrt.walking_minutes })
+            : ''}
         </p>
         <div style={{ display: 'flex', gap: 10, marginTop: 'var(--s5)', flexWrap: 'wrap' }}>
           <a
@@ -90,7 +94,7 @@ function CellCard({ room, shot, onShot }) {
             rel="noopener"
             onClick={() => track(EVENTS.BROWSE_ROOMS_CLICK, { source: 'comb_cell', room: room.code })}
           >
-            See it live
+            {t('owner.comb.seeItLive')}
           </a>
           <button
             type="button"
@@ -98,7 +102,7 @@ function CellCard({ room, shot, onShot }) {
             style={{ alignSelf: 'center' }}
             onClick={() => scrollToId('ask')}
           >
-            List a unit like this
+            {t('owner.comb.listAUnit')}
           </button>
         </div>
       </div>
@@ -181,7 +185,7 @@ export default function CombSection() {
               </g>
             ))}
           </svg>
-          <div className="hint"><span>&larr;</span> Click a filled cell to open the listing</div>
+          <div className="hint"><span>&larr;</span> {t('owner.comb.hint')}</div>
         </div>
         <aside className="cellcard rv" aria-live="polite">
           <CellCard room={room} shot={shot} onShot={setShot} />

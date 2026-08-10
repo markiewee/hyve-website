@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { roomsForHome, isLet } from '../../data/lazybeeRooms';
 import { PORTAL_TABS, PORTAL_TILES, DOCS, LOG, GAL } from '../../data/ownerPage';
+import { vocabKey } from '../../i18n/roomVocab';
 import { useLanguage } from '../../i18n/LanguageContext';
 
 const money = (n) => 'S$' + n.toLocaleString('en-SG');
@@ -27,20 +28,22 @@ export default function PortalSection() {
       <div className="portal rv">
         <div className="bar">
           <i /><i /><i />
-          <span className="label" style={{ marginLeft: 8 }}>owner.lazybee.sg · Chiltern Park 135</span>
+          <span className="label" style={{ marginLeft: 8 }}>{t('owner.portal.addressBar')}</span>
         </div>
         <div className="tabs" role="tablist">
-          {PORTAL_TABS.map((t) => (
+          {/* Named `pane` rather than `t`: the tab objects used to shadow the
+              translator, which is fine until a label needs translating. */}
+          {PORTAL_TABS.map((pane) => (
             <button
-              key={t.id}
+              key={pane.id}
               type="button"
               role="tab"
-              id={`tab-${t.id}`}
-              aria-selected={tab === t.id}
-              aria-controls={t.id}
-              onClick={() => setTab(t.id)}
+              id={`tab-${pane.id}`}
+              aria-selected={tab === pane.id}
+              aria-controls={pane.id}
+              onClick={() => setTab(pane.id)}
             >
-              {t.label}
+              {t(pane.label)}
             </button>
           ))}
         </div>
@@ -49,13 +52,15 @@ export default function PortalSection() {
           <div className="pane" id="p-stat" role="tabpanel" aria-labelledby="tab-p-stat">
             <div className="tiles">
               {PORTAL_TILES.map(([n, l]) => (
-                <div className="stat" key={l}><div className="n">{n}</div><div className="l">{l}</div></div>
+                <div className="stat" key={l}><div className="n">{n}</div><div className="l">{t(l)}</div></div>
               ))}
             </div>
             <div className="rows" style={{ marginTop: 'var(--s5)' }}>
               {cp.map((r) => (
                 <div className="row" key={r.code}>
-                  <span>{r.code}, {r.type.toLowerCase()}{isLet(r) ? '' : ', open, not billed'}</span>
+                  <span>
+                    {r.code}, {t(vocabKey(r.type))}{isLet(r) ? '' : t('owner.portal.notBilled')}
+                  </span>
                   <b>{isLet(r) ? money(r.price) : 'S$0'}</b>
                 </div>
               ))}
@@ -72,48 +77,39 @@ export default function PortalSection() {
 
         {tab === 'p-docs' && (
           <div className="pane" id="p-docs" role="tabpanel" aria-labelledby="tab-p-docs">
-            <p className="small">
-              Every document we hold on your unit, in one place. Identity numbers are partly masked under the PDPA, and
-              the full copy is released only if you are legally required to produce it.
-            </p>
+            <p className="small">{t('owner.portal.docsIntro')}</p>
             <div className="docs" style={{ marginTop: 'var(--s5)' }}>
               {DOCS.map(([title, meta, badge, state]) => (
                 <div className="d" key={title}>
                   <div>
-                    <div className="t">{title}</div>
-                    <div className="fine" style={{ marginTop: 3 }}>{meta}</div>
+                    <div className="t">{t(title)}</div>
+                    <div className="fine" style={{ marginTop: 3 }}>{t(meta)}</div>
                   </div>
                   <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
-                    <span className={`badge badge-${badge}`}>{state}</span>
-                    <span className="link" aria-hidden="true">Open</span>
+                    <span className={`badge badge-${badge}`}>{t(state)}</span>
+                    <span className="link" aria-hidden="true">{t('owner.portal.open')}</span>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="note" style={{ marginTop: 'var(--s5)' }}>
-              Nothing here is ever emailed around. Documents are viewed in the portal, access is logged, and tenants can
-              see that you looked.
-            </div>
+            <div className="note" style={{ marginTop: 'var(--s5)' }}>{t('owner.portal.docsNote')}</div>
           </div>
         )}
 
         {tab === 'p-log' && (
           <div className="pane" id="p-log" role="tabpanel" aria-labelledby="tab-p-log">
-            <p className="small">
-              Every job on the unit, what it cost, who did it and whether the photos came back. Anything over S$300
-              needs your tap before we spend it.
-            </p>
+            <p className="small">{t('owner.portal.logIntro')}</p>
             <div className="log" style={{ marginTop: 'var(--s5)' }}>
               {LOG.map(([date, title, body, cost, badge, state]) => (
                 <div className="e" key={title}>
                   <div className="dt">{date}</div>
                   <div>
-                    <div className="t">{title}</div>
-                    <p className="fine" style={{ marginTop: 4, maxWidth: '60ch' }}>{body}</p>
+                    <div className="t">{t(title)}</div>
+                    <p className="fine" style={{ marginTop: 4, maxWidth: '60ch' }}>{t(body)}</p>
                   </div>
                   <div style={{ textAlign: 'right' }}>
                     <div className="num" style={{ fontSize: 13 }}>{cost}</div>
-                    <span className={`badge badge-${badge}`} style={{ marginTop: 7 }}>{state}</span>
+                    <span className={`badge badge-${badge}`} style={{ marginTop: 7 }}>{t(state)}</span>
                   </div>
                 </div>
               ))}
@@ -127,15 +123,12 @@ export default function PortalSection() {
 
         {tab === 'p-gal' && (
           <div className="pane" id="p-gal" role="tabpanel" aria-labelledby="tab-p-gal">
-            <p className="small">
-              A photo set on move-in, on move-out, and every quarter in between. This is the record that settles any
-              argument about condition, and it is why the trial can end with the unit going back as we found it.
-            </p>
+            <p className="small">{t('owner.portal.galIntro')}</p>
             <div className="gal" style={{ marginTop: 'var(--s5)' }}>
               {GAL.map(([src, caption]) => (
                 <figure key={caption}>
-                  <img src={src} alt={caption} loading="lazy" />
-                  <figcaption>{caption}</figcaption>
+                  <img src={src} alt={t(caption)} loading="lazy" />
+                  <figcaption>{t(caption)}</figcaption>
                 </figure>
               ))}
             </div>

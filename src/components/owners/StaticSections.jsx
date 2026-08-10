@@ -3,6 +3,7 @@ import { HOMES, ROOMS, HOME_HERO, roomsForHome, isLet } from '../../data/lazybee
 import { COMPARE_HEADS, COMPARE_ROWS, ZEROS, TRIAL_KEEPS, COMPLIANCE, POSTS } from '../../data/ownerPage';
 import { ARTICLES } from '../../lib/hiveContent';
 import { useLanguage } from '../../i18n/LanguageContext';
+import { vocabKey } from '../../i18n/roomVocab';
 
 /** The green band: three numbers, one of them counted off the live room data. */
 export function GreenBand() {
@@ -143,7 +144,7 @@ export function HomesStrip() {
             <img src={HOME_HERO[h.code]} alt={h.name} loading="lazy" />
             <div className="scrim" />
             <div className="cap">
-              <div className="label" style={{ color: '#D3C7B2' }}>{h.mrt ? h.mrt.station : ''}</div>
+              <div className="label" style={{ color: '#D3C7B2' }}>{h.mrt ? t(vocabKey(h.mrt.station)) : ''}</div>
               <div className="place" style={{ marginTop: 6 }}>{h.name}</div>
               <div style={{ fontSize: 12.5, color: '#D6CDBC', marginTop: 6 }}>
                 {t('owner.homes.count', { cells: rs.length, filled })}

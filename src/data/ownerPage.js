@@ -48,46 +48,48 @@ export const TRIAL_KEEPS = [
 
 /* ── the owner portal mock ────────────────────────────────────────── */
 export const PORTAL_TABS = [
-  { id: 'p-stat', label: 'Statement' },
-  { id: 'p-docs', label: 'Tenant documents' },
-  { id: 'p-log', label: 'Maintenance log' },
-  { id: 'p-gal', label: 'Inspection photos' },
+  { id: 'p-stat', label: 'owner.portal.tab1' },
+  { id: 'p-docs', label: 'owner.portal.tab2' },
+  { id: 'p-log', label: 'owner.portal.tab3' },
+  { id: 'p-gal', label: 'owner.portal.tab4' },
 ];
 
+/* Figures stay literal: they are values, not prose. Only the labels translate. */
 export const PORTAL_TILES = [
-  ['S$8,570', 'Gross, August'],
-  ['S$5,325', 'Your payout'],
-  ['5 / 6', 'Cells let'],
-  ['14 Aug', 'Next transfer'],
+  ['S$8,570', 'owner.portal.tile1'],
+  ['S$5,325', 'owner.portal.tile2'],
+  ['5 / 6', 'owner.portal.tile3'],
+  ['14 Aug', 'owner.portal.tile4'],
 ];
 
 export const DOCS = [
-  ['Licence agreement, CP-PR3', 'Signed 12 Jun 2026 · PDF, 740 KB', 'ok', 'Current'],
-  ['IRAS stamp certificate, CP-PR3', 'Stamped 13 Jun 2026 · we filed it', 'ok', 'Stamped'],
-  ['Identity document, tenant CP-PR3', 'Passport · S••••827Z · masked under PDPA', 'mut', 'Masked'],
-  ['Proof of employment, tenant CP-PR3', 'Letter of employment · verified 10 Jun 2026', 'ok', 'Verified'],
-  ['Licence agreement, CP-PR2', 'Signed 2 Dec 2025 · renewal due 1 Dec 2026', 'warn', 'Renewal due'],
-  ['Handover inventory, whole unit', '48 items, photographed · signed by both sides', 'ok', 'Signed'],
-  ['Fire safety and appliance certificates', 'Aircon, water heater, extinguisher · next check Mar 2027', 'ok', 'In date'],
+  ['owner.portal.doc1.title', 'owner.portal.doc1.meta', 'ok', 'owner.portal.doc1.status'],
+  ['owner.portal.doc2.title', 'owner.portal.doc2.meta', 'ok', 'owner.portal.doc2.status'],
+  ['owner.portal.doc3.title', 'owner.portal.doc3.meta', 'mut', 'owner.portal.doc3.status'],
+  ['owner.portal.doc4.title', 'owner.portal.doc4.meta', 'ok', 'owner.portal.doc4.status'],
+  ['owner.portal.doc5.title', 'owner.portal.doc5.meta', 'warn', 'owner.portal.doc5.status'],
+  ['owner.portal.doc6.title', 'owner.portal.doc6.meta', 'ok', 'owner.portal.doc6.status'],
+  ['owner.portal.doc7.title', 'owner.portal.doc7.meta', 'ok', 'owner.portal.doc7.status'],
 ];
 
+/* Date and cost stay literal. The tone flag drives the badge colour. */
 export const LOG = [
-  ['7 Aug 2026', 'Aircon servicing, all four units', 'Quarterly service by Kavi. Filters washed, gas topped in the master. 6 photos returned.', 'S$180', 'ok', 'Done'],
-  ['22 Jul 2026', 'Water heater replaced, shared bathroom', 'Old unit failed on the 20th, tenant had cold water for two days. Replaced with a Rheem 25L. Your approval logged 21 Jul.', 'S$420', 'ok', 'Done'],
-  ['14 Jul 2026', 'Washing machine drain blocked', 'Cleared on site, no parts. Cause was a tenant washing bedding with a loose cover.', 'S$60', 'ok', 'Done'],
-  ['2 Jul 2026', 'Repaint, CP-PR1 on turnover', 'Two coats, scuffs from the previous tenancy. Deducted from that deposit, not from you.', 'S$240', 'ok', 'Recovered'],
-  ['28 Jun 2026', 'Front door lock stiff', 'Lubricated, still stiff. Locksmith quoted S$310 for a replacement cylinder, waiting on your tap.', 'S$310', 'warn', 'Awaiting you'],
+  ['7 Aug 2026', 'owner.portal.log1.title', 'owner.portal.log1.body', 'S$180', 'ok', 'owner.portal.log1.status'],
+  ['22 Jul 2026', 'owner.portal.log2.title', 'owner.portal.log2.body', 'S$420', 'ok', 'owner.portal.log2.status'],
+  ['14 Jul 2026', 'owner.portal.log3.title', 'owner.portal.log3.body', 'S$60', 'ok', 'owner.portal.log3.status'],
+  ['2 Jul 2026', 'owner.portal.log4.title', 'owner.portal.log4.body', 'S$240', 'ok', 'owner.portal.log4.status'],
+  ['28 Jun 2026', 'owner.portal.log5.title', 'owner.portal.log5.body', 'S$310', 'warn', 'owner.portal.log5.status'],
 ];
 
 export const GAL = [
-  ['/photos/cp/MBR.jpg', 'Master, move-in, 12 Jun'],
-  ['/photos/cp/Common-1.jpg', 'Living, quarterly, 1 Jul'],
-  ['/photos/cp/PR3.jpg', 'CP-PR3, move-in, 12 Jun'],
-  ['/photos/cp/PR1.jpg', 'CP-PR1, after repaint, 2 Jul'],
-  ['/photos/cp/Common-2.jpg', 'Kitchen, quarterly, 1 Jul'],
-  ['/photos/cp/PR2.jpg', 'CP-PR2, quarterly, 1 Jul'],
-  ['/photos/cp/STD1.jpg', 'CP-STD1, move-in, 4 Mar'],
-  ['/photos/cp/Common-3.jpg', 'Common, quarterly, 1 Jul'],
+  ['/photos/cp/MBR.jpg', 'owner.portal.gal1.caption'],
+  ['/photos/cp/Common-1.jpg', 'owner.portal.gal2.caption'],
+  ['/photos/cp/PR3.jpg', 'owner.portal.gal3.caption'],
+  ['/photos/cp/PR1.jpg', 'owner.portal.gal4.caption'],
+  ['/photos/cp/Common-2.jpg', 'owner.portal.gal5.caption'],
+  ['/photos/cp/PR2.jpg', 'owner.portal.gal6.caption'],
+  ['/photos/cp/STD1.jpg', 'owner.portal.gal7.caption'],
+  ['/photos/cp/Common-3.jpg', 'owner.portal.gal8.caption'],
 ];
 
 /* ── channels ─────────────────────────────────────────────────────── */
