@@ -390,19 +390,19 @@ html[data-surface] .bg-blue-600 { background-color: var(--lb-info); }
    the staff screens drawing a raw amber rule around a brass-and-ink warning
    card: 59 uses across the admin and captain pages, and the borders are the
    bulk of it. Same semantics as the fills, so the same tokens. */
-html[data-surface="portal"] .border-emerald-500,
-html[data-surface="portal"] .border-green-500 { border-color: var(--lb-ok); }
-html[data-surface="portal"] .border-red-500 { border-color: var(--lb-bad); }
-html[data-surface="portal"] .border-amber-500,
-html[data-surface="portal"] .border-amber-400 { border-color: var(--lb-warn); }
-html[data-surface="portal"] .border-blue-500 { border-color: var(--lb-info); }
+html[data-surface] .border-emerald-500,
+html[data-surface] .border-green-500 { border-color: var(--lb-ok); }
+html[data-surface] .border-red-500 { border-color: var(--lb-bad); }
+html[data-surface] .border-amber-500,
+html[data-surface] .border-amber-400 { border-color: var(--lb-warn); }
+html[data-surface] .border-blue-500 { border-color: var(--lb-info); }
 
 /* Stragglers carrying no status meaning. Purple was a lead-source tag, and the
    grays predate the token layer entirely. */
-html[data-surface="portal"] .bg-purple-500 { background-color: var(--lb-muted); }
-html[data-surface="portal"] .text-gray-500 { color: var(--lb-muted); }
-html[data-surface="portal"] .text-red-600 { color: var(--lb-bad); }
-html[data-surface="portal"] .border-gray-300 { border-color: var(--lb-line); }
+html[data-surface] .bg-purple-500 { background-color: var(--lb-muted); }
+html[data-surface] .text-gray-500 { color: var(--lb-muted); }
+html[data-surface] .text-red-600 { color: var(--lb-bad); }
+html[data-surface] .border-gray-300 { border-color: var(--lb-line); }
 
 /* Deliberately NOT re-pointed: the 7 opaque bg-white left in SignatureCanvas,
    ReceiptModal, InvoiceDocument, OnboardingTimeline and AdminOnboardingDetail.
