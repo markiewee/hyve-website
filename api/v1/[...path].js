@@ -311,7 +311,17 @@ async function handleDispatch(req, res) {
 // ── Router ───────────────────────────────────────────────────────────
 export default async function handler(req, res) {
   const started = Date.now();
-  const segs = [].concat(req.query.path ?? []);
+  // Resolve the route from req.url (req.query.path is unreliable for
+  // catch-alls in non-Next Vercel functions, same finding as api/booking).
+  // The platform only matches ONE segment after /api/v1, so vercel.json
+  // rewrites fold deeper paths into _seg2/_seg3 query params.
+  const segs = (req.url || "")
+    .split("?")[0]
+    .replace(/^\/api\/v1\/?/, "")
+    .split("/")
+    .filter(Boolean);
+  if (req.query?._seg2) segs.push(req.query._seg2);
+  if (req.query?._seg3) segs.push(req.query._seg3);
   const [head, second, third] = segs;
 
   if (req.method === "OPTIONS") return res.status(204).end();
