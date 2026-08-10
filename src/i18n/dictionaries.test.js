@@ -68,12 +68,15 @@ test('the renamed owner nav is present in both languages', () => {
     assert.ok(EN[`nav.${k}`], `missing en nav.${k}`);
     assert.ok(ZH[`nav.${k}`], `missing zh nav.${k}`);
   }
-  assert.equal(EN['nav.earnings'], 'Earnings');
-  assert.equal(ZH['nav.earnings'], '收益');
+  assert.equal(EN['nav.earnings'], 'Metrics');
+  assert.equal(ZH['nav.earnings'], '数据');
 });
 
-test('the cheesy labels are gone from the dictionaries', () => {
-  const cheesy = ['The comb', 'Free coffee', 'Your split', 'Versus a lease'];
+test('the labels that named our own sections rather than the reader are gone', () => {
+  /* "Free coffee" is deliberately NOT in this list. Mark put it back on 10 Aug:
+     it is the literal offer at the bottom of the page, so it does say what it
+     opens. The others named our internal metaphors and told a visitor nothing. */
+  const cheesy = ['The comb', 'Your split', 'Versus a lease'];
   const found = Object.entries(EN).filter(([, v]) => cheesy.includes(v));
   assert.deepEqual(found, [], `still present: ${JSON.stringify(found)}`);
 });
