@@ -151,13 +151,41 @@ const DevelopersPage = () => (
 {"id":"1f4c...","listing_code":"IH-STD1","status":"received","created_at":"..."}`}</Code>
     </Section>
 
+    <Section title="Bookings">
+      <P>
+        Where a booking request is a lead we review, <code className="text-foreground">POST /bookings</code> places a
+        confirmed hold that immediately blocks the calendar. Provide <code className="text-foreground">starts_on</code>{' '}
+        and optionally <code className="text-foreground">ends_on</code> (omit for open-ended), your own{' '}
+        <code className="text-foreground">external_ref</code>, and an <code className="text-foreground">idempotency_key</code>{' '}
+        for safe retries. Manage with <code className="text-foreground">GET /bookings</code>,{' '}
+        <code className="text-foreground">GET /bookings/&#123;id&#125;</code> and{' '}
+        <code className="text-foreground">POST /bookings/&#123;id&#125;/cancel</code>. Every create and status change
+        emits the <code className="text-foreground">booking.updated</code> webhook to you.
+      </P>
+      <Code>{`curl -s -X POST https://www.lazybee.sg/api/v1/bookings \\
+  -H "Authorization: Bearer $LAZYBEE_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "listing_code": "IH-STD1",
+    "starts_on": "2026-10-01",
+    "ends_on": "2027-03-31",
+    "external_ref": "your-booking-8891",
+    "idempotency_key": "your-booking-8891",
+    "guest": { "name": "Jane Tan", "email": "jane@example.com" }
+  }'
+
+{"id":"...","listing_code":"IH-STD1","starts_on":"2026-10-01","ends_on":"2027-03-31",
+ "status":"confirmed","external_ref":"your-booking-8891","created_at":"..."}`}</Code>
+    </Section>
+
     <Section title="Webhooks">
       <P>
-        Register an HTTPS endpoint with <code className="text-foreground">POST /webhooks</code> and choose from four
+        Register an HTTPS endpoint with <code className="text-foreground">POST /webhooks</code> and choose from five
         events: <code className="text-foreground">listing.calendar.updated</code>,{' '}
         <code className="text-foreground">listing.rates.updated</code>,{' '}
-        <code className="text-foreground">listing.profile.updated</code> and{' '}
-        <code className="text-foreground">booking_request.updated</code>. The response includes your signing secret,
+        <code className="text-foreground">listing.profile.updated</code>,{' '}
+        <code className="text-foreground">booking_request.updated</code> and{' '}
+        <code className="text-foreground">booking.updated</code>. The response includes your signing secret,
         shown once. Payloads are pointers; re-read the API for current state. Deliveries retry with backoff for
         up to eight attempts.
       </P>

@@ -22,6 +22,8 @@ import { hashKey, parseAuthHeader, allowRequest } from "../../src/lib/partnerAut
 import { calendarView } from "../../src/lib/partnerWindows.js";
 import { mergeProfiles, listingResource, propertyResource } from "../../src/lib/partnerSerialize.js";
 import { EVENT_TYPES, signPayload } from "../../src/lib/partnerWebhooks.js";
+import { validateBooking, bookingView } from "../../src/lib/partnerBookings.js";
+import { buildPlacementPatch } from "../../src/lib/partnerPlacements.js";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -44,7 +46,7 @@ async function authenticate(req) {
   if (!key) return { error: [401, "unauthorized", "Missing or malformed Authorization header"] };
   const { data: keyRow } = await supabase
     .from("channel_api_keys")
-    .select("id, rate_limit_per_min, revoked_at, channel:listing_channels(id, slug, name, enabled, commission_pct, commission_months, gross_up, fee_fixed)")
+    .select("id, rate_limit_per_min, revoked_at, scope, channel:listing_channels(id, slug, name, enabled, commission_pct, commission_months, gross_up, fee_fixed)")
     .eq("key_hash", hashKey(key))
     .maybeSingle();
   if (!keyRow || keyRow.revoked_at) return { error: [401, "unauthorized", "Unknown or revoked key"] };
@@ -246,6 +248,120 @@ async function handleGetBookingRequest(res, channel, id) {
   return res.status(200).json(bookingRequestView(data, data.room?.unit_code ?? null));
 }
 
+// ── Bookings: confirmed holds (v1.1). No overlap checks, ever: Mark
+// overbooks deliberately, so the API records what it is told. ──────────
+async function handleCreateBooking(req, res, channel) {
+  const b = req.body ?? {};
+  const v = validateBooking(b);
+  if (!v.ok) return err(res, 422, "validation_failed", `Missing or invalid: ${v.missing.join(", ")}`);
+  const { data: room } = await supabase.from("rooms").select("id, unit_code").eq("unit_code", b.listing_code).maybeSingle();
+  if (!room) return err(res, 422, "validation_failed", "Unknown listing_code");
+
+  if (b.idempotency_key) {
+    const { data: existing } = await supabase
+      .from("channel_bookings").select("id, starts_on, ends_on, status, external_ref, created_at")
+      .eq("channel_id", channel.id).eq("idempotency_key", b.idempotency_key).maybeSingle();
+    if (existing) return res.status(200).json(bookingView(existing, room.unit_code));
+  }
+
+  const { data: cal } = await supabase.from("room_calendar").insert({
+    room_id: room.id, starts_on: b.starts_on, ends_on: b.ends_on ?? null,
+    kind: "PLATFORM_BOOKING", source: channel.slug, external_ref: b.external_ref ?? null,
+    status: "ACTIVE", blocks: true, auto_created: true, notes: "Partner API booking",
+  }).select("id").single();
+
+  const { data: created, error: insErr } = await supabase.from("channel_bookings").insert({
+    channel_id: channel.id, room_id: room.id, external_ref: b.external_ref ?? null,
+    idempotency_key: b.idempotency_key ?? null, starts_on: b.starts_on, ends_on: b.ends_on ?? null,
+    guest: b.guest ?? {}, notes: b.note ?? null, calendar_id: cal?.id ?? null,
+  }).select("id, starts_on, ends_on, status, external_ref, created_at").single();
+  if (insErr) return err(res, 500, "internal", "Could not record the booking");
+
+  await notifyBooking(channel, created, room.unit_code, b.guest?.name);
+  return res.status(201).json(bookingView(created, room.unit_code));
+}
+
+async function notifyBooking(channel, booking, roomCode, guestName) {
+  if (!process.env.RESEND_API_KEY) return;
+  try {
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: "Lazybee Co-living <hello@lazybee.sg>",
+        to: ["admin@lazybee.sg"],
+        subject: `API booking: ${roomCode} via ${channel.name}`,
+        text: `Channel: ${channel.name}\nListing: ${roomCode}\nStay: ${booking.starts_on} to ${booking.ends_on ?? "open-ended"}\nGuest: ${guestName ?? "(unnamed)"}\nBooking id: ${booking.id}`,
+      }),
+    });
+  } catch { /* notification failure must not fail the booking */ }
+}
+
+async function handleListBookings(res, channel, query) {
+  let q = supabase.from("channel_bookings")
+    .select("id, starts_on, ends_on, status, external_ref, created_at, room:rooms(unit_code)")
+    .eq("channel_id", channel.id).order("created_at", { ascending: false }).limit(100);
+  const { data } = await q;
+  let rows = (data ?? []).map((r) => bookingView(r, r.room?.unit_code ?? null));
+  if (query.listing) rows = rows.filter((r) => r.listing_code === query.listing);
+  return res.status(200).json({ data: rows });
+}
+
+async function handleGetBooking(res, channel, id) {
+  const { data } = await supabase.from("channel_bookings")
+    .select("id, starts_on, ends_on, status, external_ref, created_at, room:rooms(unit_code)")
+    .eq("id", id).eq("channel_id", channel.id).maybeSingle();
+  if (!data) return err(res, 404, "not_found", "No such booking for this key");
+  return res.status(200).json(bookingView(data, data.room?.unit_code ?? null));
+}
+
+async function handleCancelBooking(res, channel, id) {
+  const { data } = await supabase.from("channel_bookings")
+    .select("id, starts_on, ends_on, status, external_ref, created_at, calendar_id, room:rooms(unit_code)")
+    .eq("id", id).eq("channel_id", channel.id).maybeSingle();
+  if (!data) return err(res, 404, "not_found", "No such booking for this key");
+  if (data.status === "cancelled") return res.status(200).json(bookingView(data, data.room?.unit_code ?? null));
+  const { data: updated } = await supabase.from("channel_bookings")
+    .update({ status: "cancelled", updated_at: new Date().toISOString() })
+    .eq("id", id).select("id, starts_on, ends_on, status, external_ref, created_at").single();
+  if (data.calendar_id)
+    await supabase.from("room_calendar").update({ status: "CANCELLED" }).eq("id", data.calendar_id);
+  return res.status(200).json(bookingView(updated, data.room?.unit_code ?? null));
+}
+
+// ── Placements: internal-scope agents report platform listing state ──
+async function handlePlacements(req, res, keyRow, channel) {
+  if (keyRow.scope !== "internal")
+    return err(res, 403, "forbidden", "Placements need an internal-scope key");
+  if (req.method === "GET") {
+    const { data } = await supabase.from("listing_placements")
+      .select("id, status, external_id, url, last_pushed_at, last_verified_at, last_drift, last_error, updated_at, room:rooms(unit_code)")
+      .eq("channel_id", channel.id);
+    return res.status(200).json({
+      data: (data ?? []).map((p) => ({ ...p, listing_code: p.room?.unit_code ?? null, room: undefined })),
+    });
+  }
+  if (req.method === "POST") {
+    const b = req.body ?? {};
+    if (!b.listing_code) return err(res, 422, "validation_failed", "Missing: listing_code");
+    const { data: room } = await supabase.from("rooms").select("id, unit_code").eq("unit_code", b.listing_code).maybeSingle();
+    if (!room) return err(res, 422, "validation_failed", "Unknown listing_code");
+    let patch;
+    try {
+      patch = buildPlacementPatch(b, new Date().toISOString());
+    } catch (e) {
+      return err(res, 422, "validation_failed", String(e.message ?? e));
+    }
+    const { data: up, error: upErr } = await supabase.from("listing_placements")
+      .upsert({ room_id: room.id, channel_id: channel.id, ...patch }, { onConflict: "room_id,channel_id" })
+      .select("id, status, external_id, url, last_pushed_at, last_verified_at")
+      .single();
+    if (upErr) return err(res, 500, "internal", "Could not record the placement");
+    return res.status(200).json({ ...up, listing_code: room.unit_code });
+  }
+  return err(res, 405, "method_not_allowed", "Unsupported method");
+}
+
 // ── Webhook subscription CRUD ────────────────────────────────────────
 async function handleWebhooks(req, res, channel, id) {
   if (req.method === "GET") {
@@ -349,6 +465,16 @@ export default async function handler(req, res) {
       return handleCreateBookingRequest(req, res, channel);
     if (head === "booking-requests" && req.method === "GET" && second)
       return handleGetBookingRequest(res, channel, second);
+    if (head === "bookings" && req.method === "POST" && !second)
+      return handleCreateBooking(req, res, channel);
+    if (head === "bookings" && req.method === "GET" && !second)
+      return handleListBookings(res, channel, req.query);
+    if (head === "bookings" && req.method === "GET" && second)
+      return handleGetBooking(res, channel, second);
+    if (head === "bookings" && req.method === "POST" && second && third === "cancel")
+      return handleCancelBooking(res, channel, second);
+    if (head === "placements")
+      return handlePlacements(req, res, keyRow, channel);
     if (head === "webhooks")
       return handleWebhooks(req, res, channel, second ?? null);
     return err(res, 404, "not_found", "Unknown route; see https://lazybee.sg/developers");

@@ -6,15 +6,16 @@
 // is stored.
 //
 // Usage:
-//   node scripts/mint-partner-key.mjs <channel-slug> "<Partner Name>" [label]
+//   node scripts/mint-partner-key.mjs <channel-slug> "<Partner Name>" [label] [scope]
+// scope: partner (default) or internal (our own agents; unlocks /placements).
 // Env: VITE_IOT_SUPABASE_URL, IOT_SUPABASE_SERVICE_ROLE_KEY (same as api/).
 
 import { createClient } from "@supabase/supabase-js";
 import { mintKey, hashKey } from "../src/lib/partnerAuth.js";
 
-const [slug, name, label = "default"] = process.argv.slice(2);
-if (!slug || !name) {
-  console.error('Usage: node scripts/mint-partner-key.mjs <channel-slug> "<Partner Name>" [label]');
+const [slug, name, label = "default", scope = "partner"] = process.argv.slice(2);
+if (!slug || !name || !["partner", "internal"].includes(scope)) {
+  console.error('Usage: node scripts/mint-partner-key.mjs <channel-slug> "<Partner Name>" [label] [partner|internal]');
   process.exit(1);
 }
 if (!process.env.VITE_IOT_SUPABASE_URL || !process.env.IOT_SUPABASE_SERVICE_ROLE_KEY) {
@@ -39,10 +40,10 @@ if (!channel) {
 }
 
 const key = mintKey();
-const { error } = await supabase.from("channel_api_keys").insert({ channel_id: channel.id, key_hash: hashKey(key), label });
+const { error } = await supabase.from("channel_api_keys").insert({ channel_id: channel.id, key_hash: hashKey(key), label, scope });
 if (error) { console.error("insert failed:", error.message); process.exit(1); }
 
 console.log(`\nPartner:  ${name} (${slug})`);
-console.log(`Label:    ${label}`);
+console.log(`Label:    ${label}  Scope: ${scope}`);
 console.log(`API key (shown once, store it now):\n\n  ${key}\n`);
 console.log(`Channel enabled: ${channel.enabled}. Rates: set commission on listing_channels to activate channel pricing.`);
