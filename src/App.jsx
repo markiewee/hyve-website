@@ -76,16 +76,24 @@ function AppContent() {
   const isHive = location.pathname === '/hive' || location.pathname.startsWith('/hive/');
   const bareChrome = isPortal || isViewing || isOwnerHome || isHive;
 
-  // Presentation only. Stamps the Lazybee token scope on <html> for portal
-  // routes so body-level Radix overlays (dialog, popover, select, toast)
-  // inherit it too, and so marketing routes keep the existing palette.
-  // See the html[data-surface="portal"] block in App.css.
+  // Presentation only. Stamps the Lazybee token scope on <html> so body-level
+  // Radix overlays (dialog, popover, select, toast) inherit it too.
+  //
+  //   "portal"  the tenant, owner and staff app
+  //   "site"    the marketing pages: FAQs, contact, blog, locations, legal,
+  //             the resident guide and the staff resource page
+  //
+  // The owner homepage and The Hive are deliberately neither. They scope their
+  // own tokens through .lzb[data-theme] and carry a light/dark toggle, so
+  // stamping a surface on them would theme the same element twice.
+  // See the html[data-surface] block in App.css.
+  const surface = isPortal ? 'portal' : bareChrome ? null : 'site';
   useEffect(() => {
     const root = document.documentElement;
-    if (isPortal) root.setAttribute('data-surface', 'portal');
+    if (surface) root.setAttribute('data-surface', surface);
     else root.removeAttribute('data-surface');
     return () => root.removeAttribute('data-surface');
-  }, [isPortal]);
+  }, [surface]);
 
   return (
       <div className="min-h-screen bg-background">

@@ -130,21 +130,35 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   LAZYBEE DESIGN SYSTEM, PORTAL SURFACES
+   LAZYBEE DESIGN SYSTEM
    Source of truth: design-preview/assets/lazybee.css (alabaster / tobacco).
    Reference layouts: design-preview/sample-portal.html, sample-admin.html.
 
-   Scoped to html[data-surface="portal"], which App.jsx stamps on the root
-   element while the route is under /portal. Two reasons it lives on <html>
-   and not on a wrapper div:
+   Scoped to html[data-surface], which App.jsx stamps on the root element:
+     "portal"  the tenant, owner and staff app
+     "site"    the marketing pages (FAQs, contact, blog, locations, legal,
+               resident guide, staff resources)
+
+   Both surfaces get the same tokens, so a prospect reading the FAQs and a
+   tenant in the portal see one brand. The owner homepage and The Hive are
+   deliberately unstamped: they scope .lzb[data-theme] themselves and carry a
+   light/dark toggle, so a surface here would theme them twice.
+
+   Two reasons this lives on <html> and not a wrapper div:
      1. Radix (dialog, popover, select, tooltip, toast) renders into
         document.body, outside any React wrapper. Root scoping means those
         overlays inherit the same custom properties.
-     2. The marketing pages keep the existing dark palette untouched, so
-        this reskin cannot regress them.
+     2. It survives route changes without every page opting in.
+
+   The marketing pages were written against the old dark terracotta palette
+   but almost entirely through the semantic tokens: 919 uses of
+   text-foreground, foreground-variant, accent, bg-surface and border-border
+   against only 68 raw palette classes, and those 68 are the same idioms the
+   compatibility shim below already handles. Re-pointing the tokens is
+   therefore the whole reskin, not the first step of one.
    ═══════════════════════════════════════════════════════════════════════ */
 
-html[data-surface="portal"] {
+html[data-surface] {
   color-scheme: light;
 
   /* Raw Lazybee palette, alabaster (light). Names match lazybee.css. */
@@ -252,7 +266,7 @@ html[data-surface="portal"][data-theme="tobacco"] {
   --surface-container: var(--lb-raised);
 }
 
-html[data-surface="portal"] body {
+html[data-surface] body {
   font-family: var(--ui-sans);
   background: var(--lb-bg);
   color: var(--lb-ink);
@@ -261,30 +275,30 @@ html[data-surface="portal"] body {
 /* Headings are the serif, at the weights Cormorant actually ships. The call
    sites all say font-bold / font-extrabold, which Cormorant has no business
    rendering, so the weight is pinned here rather than edited in 135 places. */
-html[data-surface="portal"] h1:not(.font-mono):not(.font-sans),
-html[data-surface="portal"] h2:not(.font-mono):not(.font-sans),
-html[data-surface="portal"] h3:not(.font-mono):not(.font-sans),
-html[data-surface="portal"] .font-display:not(.font-mono):not(.font-sans) {
+html[data-surface] h1:not(.font-mono):not(.font-sans),
+html[data-surface] h2:not(.font-mono):not(.font-sans),
+html[data-surface] h3:not(.font-mono):not(.font-sans),
+html[data-surface] .font-display:not(.font-mono):not(.font-sans) {
   font-family: var(--ui-display);
   font-weight: 500;
   letter-spacing: -0.005em;
 }
 /* Headings that opt into the mono label voice keep mono metrics. */
-html[data-surface="portal"] h1.font-mono,
-html[data-surface="portal"] h2.font-mono,
-html[data-surface="portal"] h3.font-mono {
+html[data-surface] h1.font-mono,
+html[data-surface] h2.font-mono,
+html[data-surface] h3.font-mono {
   font-family: var(--ui-mono);
   font-weight: 500;
 }
 /* Optical weight scale. Cormorant thins out at small sizes, so the smaller
    the heading the heavier it is set. Only applies to headings that have not
    opted into another family. */
-html[data-surface="portal"] h1:not(.font-mono):not(.font-sans) { font-weight: 400; line-height: 1.06; }
-html[data-surface="portal"] h2:not(.font-mono):not(.font-sans) { font-weight: 500; line-height: 1.18; }
-html[data-surface="portal"] h3:not(.font-mono):not(.font-sans) { font-weight: 600; line-height: 1.25; }
+html[data-surface] h1:not(.font-mono):not(.font-sans) { font-weight: 400; line-height: 1.06; }
+html[data-surface] h2:not(.font-mono):not(.font-sans) { font-weight: 500; line-height: 1.18; }
+html[data-surface] h3:not(.font-mono):not(.font-sans) { font-weight: 600; line-height: 1.25; }
 
 /* Visible keyboard focus everywhere in the portal. */
-html[data-surface="portal"] :focus-visible {
+html[data-surface] :focus-visible {
   outline: 2px solid var(--lb-brass);
   outline-offset: 2px;
 }
@@ -307,94 +321,94 @@ html[data-surface="portal"] :focus-visible {
    ─────────────────────────────────────────────────────────────────────── */
 
 /* Brass reads as text only in its darker cut. bg-accent keeps the raw brass. */
-html[data-surface="portal"] .text-accent,
-html[data-surface="portal"] .hover\:text-accent:hover,
-html[data-surface="portal"] .group:hover .group-hover\:text-accent,
-html[data-surface="portal"] .group:focus-within .group-focus-within\:text-accent {
+html[data-surface] .text-accent,
+html[data-surface] .hover\:text-accent:hover,
+html[data-surface] .group:hover .group-hover\:text-accent,
+html[data-surface] .group:focus-within .group-focus-within\:text-accent {
   color: var(--lb-brass-text);
 }
 
 /* White on brass is 2.4:1. The label has to be ink. */
-html[data-surface="portal"] .bg-accent.text-white,
-html[data-surface="portal"] .bg-accent\/90.text-white,
-html[data-surface="portal"] .hover\:bg-accent.text-white:hover {
+html[data-surface] .bg-accent.text-white,
+html[data-surface] .bg-accent\/90.text-white,
+html[data-surface] .hover\:bg-accent.text-white:hover {
   color: var(--lb-on-brass);
 }
 
 /* White washes were the dark theme's elevation trick. On paper they vanish.
    The :not() guards spare glass panels sitting over photography, where a
    white wash is still correct and the label is still white. */
-html[data-surface="portal"] .bg-white\/5:not([class*="backdrop-blur"]):not([class*="text-white"]),
-html[data-surface="portal"] .bg-white\/10:not([class*="backdrop-blur"]):not([class*="text-white"]),
-html[data-surface="portal"] .bg-white\/15:not([class*="backdrop-blur"]):not([class*="text-white"]) {
+html[data-surface] .bg-white\/5:not([class*="backdrop-blur"]):not([class*="text-white"]),
+html[data-surface] .bg-white\/10:not([class*="backdrop-blur"]):not([class*="text-white"]),
+html[data-surface] .bg-white\/15:not([class*="backdrop-blur"]):not([class*="text-white"]) {
   background-color: var(--lb-surface);
 }
-html[data-surface="portal"] .hover\:bg-white\/5:not([class*="backdrop-blur"]):hover,
-html[data-surface="portal"] .hover\:bg-white\/10:not([class*="backdrop-blur"]):hover {
+html[data-surface] .hover\:bg-white\/5:not([class*="backdrop-blur"]):hover,
+html[data-surface] .hover\:bg-white\/10:not([class*="backdrop-blur"]):hover {
   background-color: var(--lb-surface);
 }
-html[data-surface="portal"] .border-white\/10:not([class*="backdrop-blur"]):not([class*="text-white"]),
-html[data-surface="portal"] .divide-white\/10 > :not([hidden]) ~ :not([hidden]) {
+html[data-surface] .border-white\/10:not([class*="backdrop-blur"]):not([class*="text-white"]),
+html[data-surface] .divide-white\/10 > :not([hidden]) ~ :not([hidden]) {
   border-color: var(--lb-line);
 }
 
 /* Status colours. The -300 and -400 tints were tuned for a near-black ground
    and sit at 1.5:1 to 2:1 on alabaster. Re-point at the Lazybee semantics. */
-html[data-surface="portal"] .text-emerald-300,
-html[data-surface="portal"] .text-emerald-400,
-html[data-surface="portal"] .text-green-300 { color: var(--lb-ok); }
-html[data-surface="portal"] .text-red-300,
-html[data-surface="portal"] .text-red-400 { color: var(--lb-bad); }
-html[data-surface="portal"] .text-amber-300,
-html[data-surface="portal"] .text-amber-400,
-html[data-surface="portal"] .text-amber-200,
-html[data-surface="portal"] .text-yellow-300 { color: var(--lb-warn); }
-html[data-surface="portal"] .text-blue-300,
-html[data-surface="portal"] .text-blue-400 { color: var(--lb-info); }
-html[data-surface="portal"] .text-purple-300,
-html[data-surface="portal"] .text-pink-300 { color: var(--lb-muted); }
-html[data-surface="portal"] .hover\:text-red-400:hover { color: var(--lb-bad); }
+html[data-surface] .text-emerald-300,
+html[data-surface] .text-emerald-400,
+html[data-surface] .text-green-300 { color: var(--lb-ok); }
+html[data-surface] .text-red-300,
+html[data-surface] .text-red-400 { color: var(--lb-bad); }
+html[data-surface] .text-amber-300,
+html[data-surface] .text-amber-400,
+html[data-surface] .text-amber-200,
+html[data-surface] .text-yellow-300 { color: var(--lb-warn); }
+html[data-surface] .text-blue-300,
+html[data-surface] .text-blue-400 { color: var(--lb-info); }
+html[data-surface] .text-purple-300,
+html[data-surface] .text-pink-300 { color: var(--lb-muted); }
+html[data-surface] .hover\:text-red-400:hover { color: var(--lb-bad); }
 
 /* Solid status fills carry white labels, which is 2.5:1 on a 500 tint.
    Darken the fill so the label holds up. Tinted fills (/10, /15) are
    untouched: they read as a wash on paper and are doing their job. */
-html[data-surface="portal"] .bg-emerald-500,
-html[data-surface="portal"] .bg-emerald-600,
-html[data-surface="portal"] .bg-green-500,
-html[data-surface="portal"] .bg-green-600 { background-color: var(--lb-ok); }
-html[data-surface="portal"] .bg-red-500,
-html[data-surface="portal"] .bg-red-600,
-html[data-surface="portal"] .bg-red-700 { background-color: var(--lb-bad); }
-html[data-surface="portal"] .bg-amber-500,
-html[data-surface="portal"] .bg-amber-400,
-html[data-surface="portal"] .bg-yellow-500 { background-color: var(--lb-warn); }
-html[data-surface="portal"] .bg-blue-500,
-html[data-surface="portal"] .bg-blue-600 { background-color: var(--lb-info); }
+html[data-surface] .bg-emerald-500,
+html[data-surface] .bg-emerald-600,
+html[data-surface] .bg-green-500,
+html[data-surface] .bg-green-600 { background-color: var(--lb-ok); }
+html[data-surface] .bg-red-500,
+html[data-surface] .bg-red-600,
+html[data-surface] .bg-red-700 { background-color: var(--lb-bad); }
+html[data-surface] .bg-amber-500,
+html[data-surface] .bg-amber-400,
+html[data-surface] .bg-yellow-500 { background-color: var(--lb-warn); }
+html[data-surface] .bg-blue-500,
+html[data-surface] .bg-blue-600 { background-color: var(--lb-info); }
 
 /* Placeholders were half-opacity muted, about 2.4:1. Use the faint token. */
-html[data-surface="portal"] .placeholder\:text-foreground-variant\/50::placeholder,
-html[data-surface="portal"] ::placeholder { color: var(--lb-faint); opacity: 1; }
+html[data-surface] .placeholder\:text-foreground-variant\/50::placeholder,
+html[data-surface] ::placeholder { color: var(--lb-faint); opacity: 1; }
 
 /* Accessibility floor: nothing renders under 12px. 260 uses of text-[10px]
    and 19 of text-[9px] predate that rule. */
-html[data-surface="portal"] .text-\[8px\],
-html[data-surface="portal"] .text-\[9px\],
-html[data-surface="portal"] .text-\[10px\],
-html[data-surface="portal"] .text-\[11px\] { font-size: 12px; line-height: 1.45; }
+html[data-surface] .text-\[8px\],
+html[data-surface] .text-\[9px\],
+html[data-surface] .text-\[10px\],
+html[data-surface] .text-\[11px\] { font-size: 12px; line-height: 1.45; }
 
 /* The 2px radius, applied to the hand-rolled utilities the way --radius is
    applied to the shadcn primitives. rounded-full is left alone: avatars,
    pills and dots still need to be round. */
-html[data-surface="portal"] .rounded-md,
-html[data-surface="portal"] .rounded-lg,
-html[data-surface="portal"] .rounded-xl,
-html[data-surface="portal"] .rounded-2xl,
-html[data-surface="portal"] .rounded-3xl { border-radius: 2px; }
+html[data-surface] .rounded-md,
+html[data-surface] .rounded-lg,
+html[data-surface] .rounded-xl,
+html[data-surface] .rounded-2xl,
+html[data-surface] .rounded-3xl { border-radius: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
-  html[data-surface="portal"] *,
-  html[data-surface="portal"] *::before,
-  html[data-surface="portal"] *::after {
+  html[data-surface] *,
+  html[data-surface] *::before,
+  html[data-surface] *::after {
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
