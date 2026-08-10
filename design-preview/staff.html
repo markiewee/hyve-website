@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en" data-theme="tobacco">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Lazybee Staff &middot; sample</title>
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Hanken+Grotesk:wght@400;500;700&family=Italiana&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lazybee.css">
+<style>
+  /* Everything below is layout only. Colour, type, buttons, chips, badges,
+     tables and states all come from assets/lazybee.css. */
+
+  /* Native date picker, select menu and scrollbars follow the theme.
+     Worth promoting into lazybee.css: every surface with a form wants it. */
+  [data-theme="tobacco"]{color-scheme:dark}
+  [data-theme="alabaster"]{color-scheme:light}
+
+  .main{padding-bottom:var(--s9)}
+
+  /* search */
+  .search{border:1px solid var(--line);background:var(--surface);padding:clamp(18px,2.2vw,28px)}
+  .searchgrid{display:grid;grid-template-columns:1.5fr 1fr 1.3fr;gap:var(--s5);align-items:start}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:var(--r-pill);overflow:hidden;margin-top:var(--s3)}
+  .seg button{background:none;border:0;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.15em;
+    text-transform:uppercase;padding:9px 15px;color:var(--faint);transition:.22s}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+  .searchfoot{display:flex;flex-wrap:wrap;gap:var(--s4);justify-content:space-between;align-items:center;
+    margin-top:var(--s5);padding-top:var(--s4);border-top:1px solid var(--line)}
+
+  .tabs{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s7)}
+  .tabs button{background:none;cursor:pointer;font:inherit}
+
+  /* property panel */
+  .prop{border:1px solid var(--line);background:var(--surface);padding:clamp(20px,2.6vw,34px);margin-top:var(--s5)}
+  .propmeta{display:flex;flex-wrap:wrap;gap:var(--s5);margin-top:var(--s4)}
+  .subsec{margin-top:var(--s6);padding-top:var(--s5);border-top:1px solid var(--line)}
+  .chips{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s3)}
+  .chip-sm{font-size:11.5px;padding:6px 12px}
+  .bullets{list-style:none;margin-top:var(--s3)}
+  .bullets li{position:relative;padding-left:18px;font-size:14px;line-height:1.75;color:var(--muted)}
+  .bullets li::before{content:'';position:absolute;left:0;top:11px;width:6px;height:1px;background:var(--accent)}
+  .strip{display:flex;gap:var(--s2);overflow-x:auto;margin-top:var(--s3);padding-bottom:var(--s2)}
+  .strip a{flex:0 0 auto;position:relative;border:1px solid var(--line);line-height:0}
+  .strip img{width:186px;height:124px;object-fit:cover}
+  .strip .dl{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:flex-end;padding:8px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#F7F3EA;
+    background:linear-gradient(180deg,rgba(8,10,10,0) 55%,rgba(8,10,10,.72));opacity:0;transition:opacity .3s var(--ease)}
+  .strip a:hover .dl,.strip a:focus-visible .dl{opacity:1}
+
+  /* room cards */
+  /* start, not stretch: an opened card must not drag its neighbours' height with it */
+  .rooms{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:var(--s4);
+    margin-top:var(--s4);align-items:start}
+  .room{border:1px solid var(--line);background:var(--bg)}
+  .room > summary{list-style:none;cursor:pointer;padding:var(--s5);display:block;transition:background .25s}
+  .room > summary::-webkit-details-marker{display:none}
+  .room > summary:hover{background:var(--surface)}
+  .room[open] > summary{border-bottom:1px solid var(--line)}
+  .roomtop{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s3)}
+  .code{font-family:var(--mono);font-weight:700;font-size:15px;letter-spacing:.04em;color:var(--ink)}
+  .caret{flex:0 0 auto;width:11px;height:11px;stroke:var(--faint);stroke-width:1.6;fill:none;
+    transition:transform .3s var(--ease)}
+  .room[open] .caret,.faq details[open] .caret{transform:rotate(180deg)}
+  .roomline{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3);margin-top:var(--s3)}
+  .price{font-family:var(--mono);font-weight:700;font-size:19px;letter-spacing:-.02em;color:var(--ink);
+    font-variant-numeric:tabular-nums}
+  .roombody{padding:var(--s5)}
+  .ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);margin-top:var(--s3)}
+  /* Direct child only. A bare `.ladder div` also paints the .t and .p inside
+     the highlighted rung, which buries brass under the ground colour. */
+  .ladder > div{background:var(--bg);padding:11px 8px;text-align:center}
+  .ladder .t{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+  .ladder .p{font-family:var(--mono);font-weight:700;font-size:14px;margin-top:5px;font-variant-numeric:tabular-nums}
+  .ladder .on{background:var(--accent)}
+  .ladder .on .t{color:color-mix(in srgb,var(--on-accent) 72%,transparent)}
+  .ladder .on .p{color:var(--on-accent)}
+  .specs{border-top:1px solid var(--line);margin-top:var(--s5)}
+  .specs .row{font-size:13px;padding:10px 0}
+  .booking{display:flex;justify-content:space-between;align-items:center;gap:var(--s3);
+    border:1px solid var(--line);padding:10px 13px;margin-top:var(--s2);
+    font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .booking.clash{border-color:color-mix(in srgb,var(--bad) 60%,transparent)}
+
+  /* reference block */
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);margin-top:var(--s5)}
+  .steps > div{background:var(--bg);padding:20px}
+  .steps .n{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.2em;color:var(--accent-text)}
+  .faq{border-top:1px solid var(--line);margin-top:var(--s5)}
+  .faq details{border-bottom:1px solid var(--line)}
+  .faq summary{list-style:none;cursor:pointer;padding:16px 0;display:flex;justify-content:space-between;
+    gap:var(--s4);font-size:15.5px;color:var(--ink)}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq p{padding:0 0 18px;font-size:14.5px;line-height:1.7;color:var(--muted);max-width:70ch}
+
+  @media(max-width:900px){
+    .searchgrid{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:560px){
+    .rooms{grid-template-columns:1fr}
+    .ladder{grid-template-columns:1fr 1fr}
+    .steps{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brandlock" href="design.html">
+    <svg viewBox="13.43 21.63 73.13 57.45"><path d="M50.000,78.080Q50.000,69.658 45.141,58.091Q35.950,59.205 30.485,63.562Q35.950,59.205 39.081,50.492Q24.393,42.155 14.435,39.882Q24.393,42.155 41.243,41.017Q41.203,29.733 37.782,22.629Q41.203,29.733 50.000,36.800Q58.797,29.733 62.218,22.629Q58.797,29.733 58.757,41.017Q75.607,42.155 85.565,39.882Q75.607,42.155 60.919,50.492Q64.050,59.205 69.515,63.562Q64.050,59.205 54.859,58.091Q50.000,69.658 50.000,78.080Z"/></svg>
+    <span class="wd">LAZYBEE</span>
+  </a>
+  <nav class="navlinks">
+    <span class="label" style="letter-spacing:.16em">Staff</span>
+    <button class="btn btn-ghost btn-sm" id="mode" type="button">Light</button>
+  </nav>
+</div>
+
+<main class="wrap-wide main">
+
+  <!-- ── search, the page opens straight on the working control ─────── -->
+  <section class="sec-sm">
+    <div class="search">
+      <div class="searchgrid">
+        <div class="field" style="margin:0">
+          <label class="label" for="f-date">Move-in date</label>
+          <input class="input" type="date" id="f-date">
+          <div class="seg" role="group" aria-label="Date flexibility">
+            <button type="button" data-mode="fixed" aria-pressed="true">Fixed</button>
+            <button type="button" data-mode="flexible" aria-pressed="false">Flexible</button>
+          </div>
+        </div>
+        <div class="field" style="margin:0">
+          <label class="label" for="f-budget">Budget, plus or minus 200</label>
+          <input class="input" type="number" inputmode="numeric" id="f-budget" placeholder="1200">
+          <div class="help">Blank shows every price.</div>
+        </div>
+        <div class="field" style="margin:0">
+          <label class="label" for="f-loc">Property</label>
+          <select class="select input" id="f-loc">
+            <option value="ALL">All properties</option>
+            <option value="CP">Chiltern Park, Serangoon</option>
+            <option value="IH">Ivory Heights, Jurong East</option>
+            <option value="TG">Thomson Grove, Upper Thomson</option>
+          </select>
+          <div class="help">Walk times are in each property panel.</div>
+        </div>
+      </div>
+      <div class="searchfoot">
+        <div class="chips" style="margin:0">
+          <button class="chip chip-sm" type="button" id="f-sell" aria-pressed="false">Sell now, opens within 12 weeks</button>
+          <button class="chip chip-sm" type="button" id="f-couple" aria-pressed="false">Sleeps two</button>
+          <button class="chip chip-sm" type="button" id="f-ensuite" aria-pressed="false">Ensuite</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:var(--s4)">
+          <span class="label" id="count" style="letter-spacing:.14em"></span>
+          <button class="btn btn-ghost btn-sm" type="button" id="clear" hidden>Clear</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── results, shown only while a filter is on ───────────────────── -->
+  <section id="results" hidden>
+    <div class="rooms" id="resultgrid"></div>
+    <div class="empty" id="noresults" hidden>
+      <div class="h3">Nothing matches</div>
+      <p class="small" style="max-width:46ch;margin:0 auto">Widen the budget, or switch the date to flexible
+      to include rooms freeing within thirty days of it.</p>
+    </div>
+  </section>
+
+  <!-- ── browse by property ─────────────────────────────────────────── -->
+  <section id="browse">
+    <div class="tabs" id="tabs"></div>
+    <div id="prop"></div>
+  </section>
+
+  <!-- ── reference, the answers staff repeat all day ────────────────── -->
+  <section class="rule" style="margin-top:var(--s9);padding-top:var(--s7)">
+    <div class="label">Reference</div>
+    <h2 class="h2" style="margin-top:var(--s3)">The terms, in the order they get asked.</h2>
+
+    <div class="grid g2" style="margin-top:var(--s6);gap:var(--s7)">
+      <div>
+        <div class="label">Lease terms</div>
+        <div class="rows" style="margin-top:var(--s3)">
+          <div class="row"><span>Minimum stay</span><b>3 months</b></div>
+          <div class="row"><span>Deposit</span><b>1 month, refundable</b></div>
+          <div class="row"><span>Notice period</span><b>1 month</b></div>
+          <div class="row"><span>Payment</span><b>Bank transfer, due on the 1st</b></div>
+        </div>
+      </div>
+      <div>
+        <div class="label">In the rent</div>
+        <ul class="bullets">
+          <li>High-speed WiFi</li>
+          <li>Water and electricity, with a monthly AC allowance</li>
+          <li>Weekly common area cleaning</li>
+          <li>Fully furnished room</li>
+          <li>Kitchen, washing machine and dryer access</li>
+        </ul>
+        <div class="label" style="margin-top:var(--s5)">Not in the rent</div>
+        <ul class="bullets">
+          <li>AC used above the monthly allowance, billed at cost</li>
+          <li>Personal toiletries, and cleaning inside the bedroom</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="label" style="margin-top:var(--s8)">Move-in, five steps</div>
+    <div class="steps">
+      <div><div class="n">01</div><p class="small" style="margin-top:10px;color:var(--ink)">Browse or book a viewing</p><p class="fine" style="margin-top:6px">Two working days of lead time, minimum.</p></div>
+      <div><div class="n">02</div><p class="small" style="margin-top:10px;color:var(--ink)">Sign the licence</p><p class="fine" style="margin-top:6px">Digital, sent from the portal.</p></div>
+      <div><div class="n">03</div><p class="small" style="margin-top:10px;color:var(--ink)">Pay deposit and first month</p><p class="fine" style="margin-top:6px">Bank transfer, reference on the invoice.</p></div>
+      <div><div class="n">04</div><p class="small" style="margin-top:10px;color:var(--ink)">Receive access</p><p class="fine" style="margin-top:6px">Door code and directions, on the day.</p></div>
+      <div><div class="n">05</div><p class="small" style="margin-top:10px;color:var(--ink)">Move in</p><p class="fine" style="margin-top:6px">Captain meets them if it is a first tenancy.</p></div>
+    </div>
+
+    <div class="label" style="margin-top:var(--s8)">Questions that come up every week</div>
+    <div class="faq" id="faq"></div>
+  </section>
+
+</main>
+
+<footer class="rule">
+  <div class="wrap-wide" style="padding-top:var(--s6);padding-bottom:var(--s8);display:flex;flex-wrap:wrap;
+    gap:var(--s4);justify-content:space-between;align-items:center">
+    <p class="fine" style="max-width:64ch">Sample page. Room and property data is real, read from hyve-iot and
+    frozen into <span class="num">staff-data.js</span>. Nothing here touches the production app.</p>
+    <div class="label">Lazybee &middot; Makery Pte Ltd</div>
+  </div>
+</footer>
+
+<script src="staff-data.js"></script>
+<script>
+/* ═══ helpers ═══════════════════════════════════════════════════════ */
+const TODAY = (() => { const d = new Date(); d.setHours(0,0,0,0); return d; })();
+const DAY = 86400000;
+const sgd = n => 'S$' + Number(n).toLocaleString('en-SG');
+const parse = s => { const d = new Date(s); d.setHours(0,0,0,0); return d; };
+const days = s => Math.round((parse(s) - TODAY) / DAY);
+const fmt = s => parse(s).toLocaleDateString('en-SG', {day:'numeric', month:'short', year:'numeric'});
+const title = s => s ? s.replace(/_/g,' ').replace(/^./, c => c.toUpperCase()) : '';
+const CARET = '<svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>';
+
+const ROOMS = HOMES.flatMap(h => h.rooms.map(r => ({...r, home: h.code, homeName: h.name})));
+
+/* Availability, worded the way a captain would say it out loud. */
+function status(r){
+  if (!r.next_available){
+    return r.available_until
+      ? {label:'Open now, until ' + fmt(r.available_until), cls:'badge-warn'}
+      : {label:'Open now', cls:'badge-warn'};
+  }
+  const d = days(r.next_available);
+  if (d <= 0)  return {label:'Open now', cls:'badge-warn'};
+  if (d <= 84) return {label:'Opens ' + fmt(r.next_available), cls:'badge-warn'};
+  return {label:'Occupied to ' + fmt(r.next_available), cls:'badge-ok'};
+}
+
+/* Rule 18: a room worth selling is one going empty with nothing booked
+   behind it, inside the four to eight week lead time, so twelve weeks out. */
+function isSellNow(r){
+  if (!r.next_available) return !r.available_until;
+  const d = days(r.next_available);
+  return d <= 84;
+}
+
+/* The published ladder. Twelve months is the anchor and is the one we push. */
+const ladder = base => [
+  {t:'3 mo',  p: base + 100},
+  {t:'6 mo',  p: base + 50},
+  {t:'12 mo', p: base, on:true},
+  {t:'24 mo', p: base - 50},
+];
+
+/* ═══ room card ═════════════════════════════════════════════════════ */
+function photo(p){ return p.replace(/^\//,''); }
+
+function roomCard(r, withHome){
+  const st = status(r);
+  const chips = [];
+  if (r.bed_size) chips.push(title(r.bed_size));
+  if (r.max_occupancy > 1) chips.push('Sleeps ' + r.max_occupancy);
+  if (r.has_private_bathroom) chips.push('Ensuite');
+
+  const shots = (r.photos||[]).map((p,i) =>
+    '<a href="'+photo(p)+'" download="'+r.unit_code+'-'+(i+1)+'.jpg">'+
+    '<img src="'+photo(p)+'" alt="'+r.unit_code+', photo '+(i+1)+'" loading="lazy">'+
+    '<span class="dl">Save</span></a>').join('');
+
+  const rung = ladder(r.price_monthly).map(t =>
+    '<div class="'+(t.on?'on':'')+'"><div class="t">'+t.t+'</div><div class="p">'+sgd(t.p)+'</div></div>').join('');
+
+  const early = r.next_available && days(r.next_available) > 0
+    ? '<div class="note" style="margin-top:var(--s4)">Early bird, S$50 off the first two months if they commit '+
+      'before '+fmt(r.next_available)+'. Total saving S$100.</div>' : '';
+
+  const specs = [
+    ['Type', title(r.room_type)],
+    ['Size', r.size_sqm ? r.size_sqm + ' sqm' : null],
+    ['Bed', title(r.bed_size)],
+    ['Floor', r.floor],
+    ['Furnishing', title(r.furnishing_level)],
+    ['Deposit', r.deposit_months ? r.deposit_months + ' month' + (r.deposit_months>1?'s':'') : null],
+    ['Minimum stay', r.min_stay_months ? r.min_stay_months + ' months' : null],
+    ['Maximum pax', r.max_occupancy],
+    ['Aircon', r.has_aircon ? 'Yes' : null],
+    ['Private bathroom', r.has_private_bathroom ? 'Yes' : 'Shared'],
+  ].filter(s => s[1] !== null && s[1] !== undefined && s[1] !== '')
+   .map(s => '<div class="row"><span>'+s[0]+'</span><b>'+s[1]+'</b></div>').join('');
+
+  const tagRow = (label, list, cls) => !list || !list.length ? '' :
+    '<div style="margin-top:var(--s5)"><div class="label">'+label+'</div><div class="chips">'+
+    list.map(a => '<span class="chip chip-sm'+(cls||'')+'">'+a+'</span>').join('')+'</div></div>';
+
+  const booked = r.available_until
+    ? '<div style="margin-top:var(--s5)"><div class="label">Booked behind</div>'+
+      '<div class="booking"><span>Free now to '+fmt(r.available_until)+'</span>'+
+      '<span class="badge badge-warn">Bridged gap</span></div></div>' : '';
+
+  const tour = r.video_tour_url
+    ? '<a class="btn btn-ghost btn-sm" style="margin-top:var(--s5)" href="'+r.video_tour_url+'" target="_blank" rel="noopener">3D tour</a>' : '';
+
+  return '<details class="room" data-code="'+r.unit_code+'">'+
+    '<summary>'+
+      '<div class="roomtop"><div>'+
+        '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">'+
+          '<span class="code">'+r.unit_code+'</span>'+
+          (withHome ? '<span class="label accent" style="font-size:10px">'+r.homeName+'</span>' : '')+
+        '</div>'+
+        '<p class="small" style="margin-top:4px;color:var(--ink)">'+r.name+'</p>'+
+      '</div>'+CARET+'</div>'+
+      '<div class="roomline"><span class="price">'+sgd(r.price_monthly)+'</span>'+
+        '<span class="fine">per month</span>'+
+        chips.map(c => '<span class="chip chip-sm">'+c+'</span>').join('')+
+      '</div>'+
+      '<div style="margin-top:var(--s3)"><span class="badge '+st.cls+'">'+st.label+'</span></div>'+
+    '</summary>'+
+    '<div class="roombody">'+
+      (shots ? '<div class="strip">'+shots+'</div>' : '')+
+      '<div class="label" style="margin-top:var(--s4)">Price by lease length</div>'+
+      '<div class="ladder">'+rung+'</div>'+
+      early+
+      (r.description ? '<p class="small" style="margin-top:var(--s5)">'+r.description+'</p>' : '')+
+      '<div class="specs">'+specs+'</div>'+
+      tagRow('In the room', r.amenities)+
+      tagRow('Fixtures', r.facilities)+
+      booked+
+      tour+
+    '</div></details>';
+}
+
+/* ═══ property panels ═══════════════════════════════════════════════ */
+function propPanel(h){
+  const open = h.rooms.filter(r => !r.next_available || days(r.next_available) <= 0).length;
+  const roll = h.rooms.reduce((s,r) => s + (r.price_monthly||0), 0);
+
+  const mrt = (h.nearby_mrt||[]).map(m =>
+    '<li><b style="color:var(--ink);font-weight:400">'+m.station+'</b>, '+m.line+', '+m.walking_minutes+' min walk</li>').join('');
+  const near = (h.nearby_amenities||[]).map(a =>
+    '<li><b style="color:var(--ink);font-weight:400">'+a.name+'</b>, '+a.walking_minutes+' min walk</li>').join('');
+  const rules = (h.house_rules||[]).map(r => '<li>'+r+'</li>').join('');
+  const fac = (h.facilities||[]).map(f => '<span class="chip chip-sm">'+f+'</span>').join('');
+  const amen = (h.amenities||[]).map(f => '<span class="chip chip-sm">'+f+'</span>').join('');
+
+  const common = (h.images||[]).map((p,i) =>
+    '<a href="'+photo(p)+'" download="'+h.code+'-common-'+(i+1)+'.jpg">'+
+    '<img src="'+photo(p)+'" alt="'+h.name+', common area '+(i+1)+'" loading="lazy">'+
+    '<span class="dl">Save</span></a>').join('');
+
+  return '<div class="prop">'+
+    '<div class="label">'+h.code+'</div>'+
+    '<div class="place" style="margin-top:8px">'+h.name+'</div>'+
+    '<p class="small" style="margin-top:6px">'+h.address+'</p>'+
+    '<div class="propmeta">'+
+      '<div class="stat"><div class="n">'+h.rooms.length+'</div><div class="l">Rooms</div></div>'+
+      '<div class="stat"><div class="n">'+open+'</div><div class="l">Open today</div></div>'+
+      '<div class="stat"><div class="n">'+h.num_bathrooms+'</div><div class="l">Bathrooms</div></div>'+
+      '<div class="stat"><div class="n">'+sgd(roll)+'</div><div class="l">Roll at asking</div></div>'+
+    '</div>'+
+    (h.description ? '<p class="body" style="margin-top:var(--s5);font-size:15.5px">'+h.description+'</p>' : '')+
+
+    '<div class="subsec"><div class="label">Housemates</div>'+
+      '<div class="empty" style="margin-top:var(--s3);padding:var(--s5);text-align:left">'+
+        '<p class="small" style="margin:0">Signed out. The roster reads <span class="num">tenant_profiles</span>, '+
+        'which the anon key cannot see, so this stays empty until a staff account is signed in.</p></div>'+
+    '</div>'+
+
+    '<div class="subsec"><div class="grid g3" style="gap:var(--s6)">'+
+      '<div><div class="label">Nearest MRT</div><ul class="bullets">'+mrt+'</ul></div>'+
+      '<div><div class="label">Nearby</div><ul class="bullets">'+near+'</ul></div>'+
+      '<div><div class="label">Building facilities</div><div class="chips">'+fac+'</div></div>'+
+    '</div></div>'+
+
+    '<div class="subsec"><div class="grid g2" style="gap:var(--s6)">'+
+      '<div><div class="label">House rules</div><ul class="bullets">'+rules+'</ul></div>'+
+      '<div><div class="label">In every room here</div><div class="chips">'+amen+'</div>'+
+        '<div class="label" style="margin-top:var(--s5)">Common areas</div>'+
+        '<p class="small" style="margin-top:6px">'+h.common_areas+'</p></div>'+
+    '</div></div>'+
+
+    (common ? '<div class="subsec"><div class="label">Common area photos, click to save</div>'+
+      '<div class="strip">'+common+'</div></div>' : '')+
+
+    '<div class="subsec" style="display:flex;flex-wrap:wrap;gap:var(--s4);align-items:center;justify-content:space-between">'+
+      '<div><div class="label">Location</div>'+
+      '<p class="small" style="margin-top:6px">'+h.address+'</p>'+
+      '<p class="fine num" style="margin-top:4px">'+h.latitude+', '+h.longitude+'</p></div>'+
+      '<a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" '+
+      'href="https://www.google.com/maps/search/?api=1&query='+h.latitude+','+h.longitude+'">Open in maps</a>'+
+    '</div>'+
+  '</div>'+
+  '<div style="margin-top:var(--s7)"><div class="label">Rooms, '+h.rooms.length+'</div>'+
+  '<div class="rooms">'+h.rooms.map(r => roomCard(r, false)).join('')+'</div></div>';
+}
+
+/* ═══ tabs ══════════════════════════════════════════════════════════ */
+let current = HOMES[0].code;
+function drawTabs(){
+  document.getElementById('tabs').innerHTML = HOMES.map(h =>
+    '<button class="chip'+(h.code===current?' on':'')+'" type="button" data-tab="'+h.code+'">'+
+    h.code+', '+h.name+'</button>').join('');
+  document.getElementById('prop').innerHTML = propPanel(HOMES.find(h => h.code===current));
+}
+document.getElementById('tabs').addEventListener('click', e => {
+  const b = e.target.closest('[data-tab]');
+  if (!b) return;
+  current = b.dataset.tab;
+  drawTabs();
+});
+drawTabs();
+
+/* ═══ search ════════════════════════════════════════════════════════ */
+const BAND = 200;
+const state = {date:'', mode:'fixed', budget:'', loc:'ALL', sell:false, couple:false, ensuite:false};
+const active = () => !!(state.date || state.budget || state.loc !== 'ALL' || state.sell || state.couple || state.ensuite);
+
+function matches(r){
+  if (state.budget){
+    const b = Number(state.budget);
+    if (r.price_monthly < b - BAND || r.price_monthly > b + BAND) return false;
+  }
+  if (state.loc !== 'ALL' && r.home !== state.loc) return false;
+  if (state.sell && !isSellNow(r)) return false;
+  if (state.couple && (r.max_occupancy||1) < 2) return false;
+  if (state.ensuite && !r.has_private_bathroom) return false;
+  if (state.date){
+    const target = parse(state.date);
+    const limit = new Date(target);
+    if (state.mode === 'flexible') limit.setDate(limit.getDate() + 30);
+    const from = r.next_available ? parse(r.next_available) : TODAY;
+    if (from > limit) return false;
+    // Free today but taken again before they would move in.
+    if (r.available_until && parse(r.available_until) < target) return false;
+  }
+  return true;
+}
+
+function run(){
+  const on = active();
+  document.getElementById('results').hidden = !on;
+  document.getElementById('browse').hidden = on;
+  document.getElementById('clear').hidden = !on;
+
+  if (!on){ document.getElementById('count').textContent = ''; return; }
+
+  const hits = ROOMS.filter(matches).sort((a,b) => a.price_monthly - b.price_monthly);
+  const homes = new Set(hits.map(r => r.home)).size;
+  document.getElementById('count').textContent =
+    hits.length + (hits.length === 1 ? ' room' : ' rooms') +
+    (homes ? ' in ' + homes + (homes === 1 ? ' home' : ' homes') : '');
+  document.getElementById('resultgrid').innerHTML = hits.map(r => roomCard(r, true)).join('');
+  document.getElementById('noresults').hidden = hits.length > 0;
+}
+
+document.getElementById('f-date').addEventListener('change', e => { state.date = e.target.value; run(); });
+document.getElementById('f-budget').addEventListener('input', e => { state.budget = e.target.value; run(); });
+document.getElementById('f-loc').addEventListener('change', e => { state.loc = e.target.value; run(); });
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+  state.mode = b.dataset.mode;
+  document.querySelectorAll('.seg button').forEach(o => o.setAttribute('aria-pressed', o === b));
+  run();
+}));
+[['f-sell','sell'],['f-couple','couple'],['f-ensuite','ensuite']].forEach(([id,key]) => {
+  const el = document.getElementById(id);
+  el.addEventListener('click', () => {
+    state[key] = !state[key];
+    el.classList.toggle('on', state[key]);
+    el.setAttribute('aria-pressed', state[key]);
+    run();
+  });
+});
+document.getElementById('clear').addEventListener('click', () => {
+  Object.assign(state, {date:'', mode:'fixed', budget:'', loc:'ALL', sell:false, couple:false, ensuite:false});
+  document.getElementById('f-date').value = '';
+  document.getElementById('f-budget').value = '';
+  document.getElementById('f-loc').value = 'ALL';
+  document.querySelectorAll('.seg button').forEach(o => o.setAttribute('aria-pressed', o.dataset.mode === 'fixed'));
+  ['f-sell','f-couple','f-ensuite'].forEach(id => {
+    document.getElementById(id).classList.remove('on');
+    document.getElementById(id).setAttribute('aria-pressed','false');
+  });
+  run();
+});
+
+/* ═══ FAQ ═══════════════════════════════════════════════════════════ */
+const FAQ = [
+  ['Can they have guests overnight?',
+   'Yes, with advance notice to the housemates. Three nights or more needs approval from us first.'],
+  ['What is the WiFi like?',
+   'Fibre broadband at every property, 300Mbps or better, and coverage reaches every room.'],
+  ['Is cooking allowed?',
+   'Yes, the shared kitchen is fully equipped. Clean up after, and use the exhaust fan for anything heavily spiced.'],
+  ['How do they report a problem?',
+   'A ticket in the tenant portal, or a WhatsApp message to the SG line. We aim to reply inside 24 hours.'],
+  ['Can they leave early?',
+   'One month of written notice. The deposit may be forfeited depending on the circumstances, so check before promising.'],
+  ['When does the deposit come back?',
+   'Within 14 days of move-out, after the room inspection. Deductions only for damage beyond fair wear.'],
+  ['Are utilities included?',
+   'Water, electricity with a monthly AC allowance, WiFi and weekly common cleaning are all in the rent. AC above the allowance is billed at cost.'],
+  ['Is there parking?',
+   'HDB parking near Chiltern Park and Ivory Heights. Thomson Grove has limited porch parking. Check before committing.'],
+  ['How is AC usage tracked?',
+   'Smart plugs meter each room against its monthly allowance, and any overage is billed the following month.'],
+  ['How much notice does a viewing need?',
+   'Two working days, minimum. A captain has to be lined up to open the unit, so never offer same day or next day.'],
+];
+document.getElementById('faq').innerHTML = FAQ.map(f =>
+  '<details><summary>'+f[0]+CARET+'</summary><p>'+f[1]+'</p></details>').join('');
+
+/* ═══ light and dark ════════════════════════════════════════════════ */
+document.getElementById('mode').addEventListener('click', e => {
+  const dark = document.documentElement.dataset.theme === 'tobacco';
+  document.documentElement.dataset.theme = dark ? 'alabaster' : 'tobacco';
+  e.target.textContent = dark ? 'Dark' : 'Light';
+});
+</script>
+</body>
+</html>
