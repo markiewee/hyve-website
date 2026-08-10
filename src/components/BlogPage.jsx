@@ -236,7 +236,7 @@ const BlogPage = () => {
 
             {/* Remaining posts */}
             {remainingPosts.map((post) => (
-              <article key={post.id} className="md:col-span-4 group cursor-pointer">
+              <article key={post.slug} className="md:col-span-4 group cursor-pointer">
                 <Link to={`/blog/${post.slug}`}>
                   <div className="relative overflow-hidden rounded-3xl bg-surface border border-border hover:border-accent transition-colors mb-6">
                     <img
