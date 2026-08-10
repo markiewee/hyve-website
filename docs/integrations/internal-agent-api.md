@@ -28,6 +28,19 @@ curl -s -X POST https://www.lazybee.sg/api/v1/placements \
 
 `pushed: true` stamps `last_pushed_at`, `verified: true` stamps `last_verified_at`, `drift` records any disagreement found on read-back (empty object means verified in agreement), `error` records a failure message. Statuses: `NOT_LISTED`, `PENDING`, `LIVE`, `PAUSED`, `ERROR`. `GET /placements` returns the channel's own rows.
 
+Two more fields for observation reports: `observed` stores whatever the agent saw on the platform verbatim (title, price, views, verdict, anything) into `observed_state` and stamps `observed_at` server-side, and `expires_at` (ISO date or null) records when the platform will silently kill the listing, which is how Carousell expiry stops being invisible.
+
+## Sell priority (rule 18)
+
+`GET /internal/sell-state` (internal scope only) returns the rooms worth marketing right now, straight from the same database views the ops board uses:
+
+```json
+{ "data": [ { "listing_code": "CP-MR", "price": 2200, "frees_on": "2026-09-14",
+              "next_arrival": null, "should_be_live": true } ] }
+```
+
+`should_be_live` is the rule-18 verdict (goes empty inside the sell window with no follow-on booking). Agents must use this endpoint rather than re-deriving the rule client-side, so the rule lives in exactly one place.
+
 ## What agents read
 
 Grounding for replies and posts comes from `GET /listings` (prices, photos, features, available_from) and `GET /listings/{code}/calendar` (occupancy windows). There is deliberately no tenant identity anywhere on this API; if a task genuinely needs tenant data, it is not an agent task, it goes through Claudine's own session.

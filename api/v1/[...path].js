@@ -25,6 +25,7 @@ import { EVENT_TYPES, signPayload } from "../../src/lib/partnerWebhooks.js";
 import { validateBooking, bookingView } from "../../src/lib/partnerBookings.js";
 import { buildPlacementPatch } from "../../src/lib/partnerPlacements.js";
 import { bookingRequestEmail, bookingEmail, bookingCancelledEmail } from "../../src/lib/partnerNotify.js";
+import { sellStateView } from "../../src/lib/partnerSellState.js";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -320,13 +321,26 @@ async function handleCancelBooking(res, channel, id) {
   return res.status(200).json(bookingView(updated, data.room?.unit_code ?? null));
 }
 
+// ── Sell state: rule-18 sell-priority, straight from the DB views so the
+// rule lives in one place and agents can never drift from it ─────────
+async function handleSellState(res, keyRow) {
+  if (keyRow.scope !== "internal")
+    return err(res, 403, "forbidden", "Sell state needs an internal-scope key");
+  const [{ data: sellable }, { data: should }] = await Promise.all([
+    supabase.from("v_sellable_rooms").select("unit_code, price, frees_on, next_arrival"),
+    supabase.from("v_should_be_live").select("unit_code"),
+  ]);
+  const shouldSet = new Set((should ?? []).map((r) => r.unit_code));
+  return res.status(200).json({ data: (sellable ?? []).map((r) => sellStateView(r, shouldSet)) });
+}
+
 // ── Placements: internal-scope agents report platform listing state ──
 async function handlePlacements(req, res, keyRow, channel) {
   if (keyRow.scope !== "internal")
     return err(res, 403, "forbidden", "Placements need an internal-scope key");
   if (req.method === "GET") {
     const { data } = await supabase.from("listing_placements")
-      .select("id, status, external_id, url, last_pushed_at, last_verified_at, last_drift, last_error, updated_at, room:rooms(unit_code)")
+      .select("id, status, external_id, url, last_pushed_at, last_verified_at, last_drift, last_error, observed_state, observed_at, expires_at, updated_at, room:rooms(unit_code)")
       .eq("channel_id", channel.id);
     return res.status(200).json({
       data: (data ?? []).map((p) => ({ ...p, listing_code: p.room?.unit_code ?? null, room: undefined })),
@@ -464,6 +478,8 @@ export default async function handler(req, res) {
       return handleGetBooking(res, channel, second);
     if (head === "bookings" && req.method === "POST" && second && third === "cancel")
       return handleCancelBooking(res, channel, second);
+    if (head === "internal" && second === "sell-state" && req.method === "GET")
+      return handleSellState(res, keyRow);
     if (head === "placements")
       return handlePlacements(req, res, keyRow, channel);
     if (head === "webhooks")
