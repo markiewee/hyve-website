@@ -1,0 +1,17 @@
+# Partner API v1.1 Implementation Plan: bookings + internal agent scope
+
+> Executed same-session by Claudine under Mark's explicit autonomy waiver. Follows the proven v1 machinery (see `2026-08-10-partner-api-v1.md`); tasks below are compact because every pattern (catch-all router, rewrite-folded segments, vault-secret crons, safe per-table trigger branches, whitelist tests) is already established and tested in this repo.
+
+**Goal:** Confirmed bookings through the API (create, list, read, cancel, webhook on change) and an `internal` key scope exposing placement reporting for our own agents, so nothing on the Mac mini needs a Supabase service key.
+
+**PRD:** `docs/prd/2026-08-10-partner-api-v1.1.md`. Branch `feat/partner-api-bookings` off master (post #54).
+
+## Tasks
+
+1. **Migration `20260812000002_channel_bookings.sql`**: `channel_bookings` table (channel_id, room_id, external_ref, idempotency_key unique per channel, starts_on, ends_on nullable, guest jsonb, status confirmed/cancelled, calendar_id, notes, timestamps), RLS enabled no policies; `channel_api_keys.scope` text default 'partner' check in (partner, internal); enqueue trigger on channel_bookings insert-or-status-update mapping to event `booking.updated`, channel-scoped, with ALL record field access inside per-table branches (the v1 incident rule). Apply via Management API, verify, commit.
+2. **`src/lib/partnerWebhooks.js`**: add `booking.updated` to EVENT_TYPES and `channel_bookings` to the table map. Tests updated first (five events, new mapping).
+3. **`src/lib/partnerBookings.js` (new, pure, TDD)**: `validateBooking(body)` returning `{ok, missing}` (listing_code, starts_on, guest.name, and ends_on nullable but if present >= starts_on), and `bookingView(row, code)` whitelist (id, listing_code, starts_on, ends_on, status, external_ref, created_at). `buildPlacementPatch(input, nowIso)` lives in `src/lib/partnerPlacements.js`: maps allowed fields, stamps last_pushed_at when `pushed`, last_verified_at when `verified`, refuses unknown status values. Tests assert exact output keys and stamping.
+4. **Router**: auth select adds `scope`; new routes `POST /bookings`, `GET /bookings` (own, optional listing filter), `GET /bookings/{id}`, `POST /bookings/{id}/cancel` (3-segment, covered by the existing rewrites); `GET|POST /placements` gated `scope === 'internal'` else 403 envelope. Booking create: idempotency read-back, `room_calendar` insert kind PLATFORM_BOOKING blocks true source channel slug external_ref, `channel_bookings` insert, NO overlap check ever (Mark's overbooking rule), admin notify email reusing the v1 transport. Cancel: status cancelled + calendar row CANCELLED. Both rely on the trigger for webhooks.
+5. **Mint script**: optional 4th arg `scope` (partner default, internal allowed).
+6. **Docs**: /developers page gains the Bookings section (create, list, read, cancel, idempotency, the fifth event) with real shapes; `docs/integrations/internal-agent-api.md` documents the internal scope and /placements for agent authors. No public mention of placements.
+7. **Verify + ship**: node --test full partner suite green; build green with prerender guards; function count still 12; push branch, PR, preview smoke (auth, booking create/list/cancel, placement patch as internal, 403 as partner); merge; production QA including a cron-delivered booking.updated; mint internal keys for `roomies` and `carousell` channels (create if absent, enabled false until their skills migrate); clean QA rows; log loop + TODO.
