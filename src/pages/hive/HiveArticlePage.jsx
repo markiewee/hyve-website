@@ -53,7 +53,7 @@ export default function HiveArticlePage() {
           <nav className="crumbs" aria-label="Breadcrumb">
             <Link to="/">Lazybee</Link>
             <span aria-hidden="true">/</span>
-            <Link to="/hive">The Hive</Link>
+            <Link to="/hive">{HIVE_TITLE}</Link>
             {article.tags[0] && (
               <>
                 <span aria-hidden="true">/</span>
@@ -112,7 +112,7 @@ export default function HiveArticlePage() {
 
         {related.length > 0 && (
           <section className="wrap relatedbox">
-            <h2 className="h2">More from The Hive</h2>
+            <h2 className="h2">More from the blog</h2>
             <div className="list">
               {related.map((a) => <ArticleCard key={a.slug} article={a} />)}
             </div>

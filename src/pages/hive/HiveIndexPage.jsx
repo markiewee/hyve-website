@@ -54,7 +54,7 @@ export default function HiveIndexPage() {
       <HiveHeader />
 
       <HiveBanner
-        kicker={page > 1 ? `The Lazybee journal · page ${page} of ${PAGE_COUNT}` : 'The Lazybee journal'}
+        kicker={page > 1 ? `Notes from the houses · page ${page} of ${PAGE_COUNT}` : 'Notes from the houses'}
         title={HIVE_TITLE}
         blurb={page > 1 ? null : HIVE_BLURB}
         count={ARCHIVE.articles.length}

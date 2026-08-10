@@ -74,6 +74,24 @@ test('the renamed owner nav is present in both languages', () => {
   assert.equal(ZH['nav.earnings'], '数据');
 });
 
+test('the internal metaphors never come back into visible copy', () => {
+  /* Mark has flagged this twice: "the comb", "The Hive" and calling a room a
+     "cell" are our own words for our own things, and they tell a visitor
+     nothing. This test scans VALUES, not just nav labels, because the second
+     time round they were hiding in body copy rather than in a heading. */
+  const BANNED = [/\bthe comb\b/i, /\bthe hive\b/i, /\bcells?\b/i];
+  const offenders = [];
+  (function scan(node, path) {
+    for (const [k, v] of Object.entries(node)) {
+      if (v && typeof v === 'object') scan(v, `${path}${k}.`);
+      else if (typeof v === 'string' && path.startsWith('owner.')) {
+        if (BANNED.some((re) => re.test(v))) offenders.push(`${path}${k}: ${v.slice(0, 60)}`);
+      }
+    }
+  })(en, '');
+  assert.deepEqual(offenders, [], `internal metaphor in visible copy:\n${offenders.join('\n')}`);
+});
+
 test('the labels that named our own sections rather than the reader are gone', () => {
   /* "Free coffee" is deliberately NOT in this list. Mark put it back on 10 Aug:
      it is the literal offer at the bottom of the page, so it does say what it

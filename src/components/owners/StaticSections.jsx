@@ -147,7 +147,7 @@ export function HomesStrip() {
               <div className="label" style={{ color: '#D3C7B2' }}>{h.mrt ? t(vocabKey(h.mrt.station)) : ''}</div>
               <div className="place" style={{ marginTop: 6 }}>{h.name}</div>
               <div style={{ fontSize: 12.5, color: '#D6CDBC', marginTop: 6 }}>
-                {t('owner.homes.count', { cells: rs.length, filled })}
+                {t('owner.homes.count', { rooms: rs.length, filled })}
                 {open ? t('owner.homes.open', { open }) : ''}
               </div>
               <div className="bars" style={{ marginTop: 13 }}>

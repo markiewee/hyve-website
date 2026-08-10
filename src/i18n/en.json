@@ -663,13 +663,13 @@
       "rowFloor": "Your floor",
       "rowShare": "Your share above it",
       "valAsking": "S${psf} psf, {amount} / mo",
-      "valCells": "{n} cells",
+      "valCells": "{n} rooms",
       "valPerMo": "{amount} / mo",
       "valPctGross": "{pct}% of gross",
-      "fine": "Indicative, from median asking rents in your district and from how our own nineteen cells actually perform. The real floor is agreed in writing after we walk the unit."
+      "fine": "Indicative, from median asking rents in your district and from how our own nineteen rooms actually perform. The real floor is agreed in writing after we walk the unit."
     },
     "band": {
-      "cells": "Cells under management",
+      "cells": "Rooms under management",
       "let": "Let today",
       "spend": "Owner spend on fit-out"
     },
@@ -808,18 +808,18 @@
       }
     },
     "homes": {
-      "count": "{cells} cells, {filled} let",
+      "count": "{rooms} rooms, {filled} let",
       "open": ", {open} open now"
     },
     "hive": {
       "kicker": "From the blog",
-      "title": "What we write down.",
-      "body": "Everything we learn running the comb goes into The Hive. What a Singapore unit actually earns once the void is counted, what the URA rules mean on a Tuesday rather than in a circular, what breaks in year two and what it costs to fix. No lead magnets and no gated PDFs.",
+      "title": "What we've learned running the houses.",
+      "body": "Everything we pick up running nineteen rooms across three condos ends up here. What a Singapore unit actually earns once the empty month is counted, what the URA rules mean on a Tuesday rather than in a circular, what breaks in year two and what it costs to fix. No lead magnets and no gated PDFs.",
       "cta": "Read the blog"
     },
     "reach": {
       "title": "Your rooms go on sale in places you have never heard of.",
-      "body": "A room in Serangoon gets taken from Chengdu, Bangalore or Berlin, weeks before the tenant lands in Singapore. We list, price and sync every cell from one system, so a booking on any channel closes the others in the same minute. An agent puts your unit on two portals and waits for a phone call.",
+      "body": "A room in Serangoon gets taken from Chengdu, Bangalore or Berlin, weeks before the tenant lands in Singapore. We list, price and sync every room from one system, so a booking on any channel closes the others in the same minute. An agent puts your unit on two portals and waits for a phone call.",
       "live": "Live now",
       "soon": "Onboarded or in progress"
     },
@@ -860,9 +860,9 @@
     },
     "comb": {
       "kicker": "Live rooms",
-      "title": "Every cell is a real room.",
-      "introPre": "Nineteen cells so far, each one drawn where it actually stands on the island.",
-      "introBold": "Click any cell",
+      "title": "Every room on the map is real.",
+      "introPre": "Nineteen rooms so far, each one drawn where it actually stands on the island.",
+      "introBold": "Click any room",
       "keyOpen": "Open now",
       "keyNotOurs": "Not ours yet",
       "minStay": "Minimum stay",
@@ -883,8 +883,8 @@
       "people": "{n} people",
       "person": "{n} person",
       "keyLet": "Let",
-      "introTail": "and you get the room itself, straight from the same database that runs the booking site: the photographs, the price, the size, the bed, what is in it and when it next opens. The pale cells are the rest of Singapore, which is the part of the comb we have not built yet.",
-      "hint": "Click a filled cell to open the listing",
+      "introTail": "and you get the room itself, straight from the same database that runs the booking site: the photographs, the price, the size, the bed, what is in it and when it next opens. The pale shapes are the rest of Singapore, the part we have not built yet.",
+      "hint": "Click a filled room to open the listing",
       "seeItLive": "See it live",
       "listAUnit": "List a unit like this",
       "mrtWalk": "{station} MRT, {minutes} minutes on foot."
@@ -906,7 +906,7 @@
       "tab4": "Inspection photos",
       "tile1": "Gross, August",
       "tile2": "Your payout",
-      "tile3": "Cells let",
+      "tile3": "Rooms let",
       "tile4": "Next transfer",
       "doc1": {
         "title": "Licence agreement, CP-PR3",

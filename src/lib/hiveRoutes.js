@@ -21,9 +21,12 @@ import { breadcrumbSchema } from './seo.js';
 export const BASE_URL = 'https://www.lazybee.sg';
 export const DEFAULT_OG_IMAGE = `${BASE_URL}/og-default.png`;
 
-export const HIVE_TITLE = 'The Hive';
+/* Renamed from "The Hive" on 10 Aug 2026. It was our internal name for the
+   archive and told a reader nothing, the same reason the nav item became Blog.
+   The /hive URL is unchanged, so no redirect and no lost link equity. */
+export const HIVE_TITLE = 'The Lazybee blog';
 export const HIVE_BLURB =
-  'Everything we learn running nineteen rooms across three Singapore homes, written down. ' +
+  'Everything we pick up running nineteen rooms across three Singapore homes, written down. ' +
   'What a unit actually earns once the void is counted, what the rules mean on a Tuesday rather ' +
   'than in a circular, what breaks in year two and what it costs. No lead magnets and no gated PDFs.';
 
@@ -113,7 +116,7 @@ export function topicMeta(topic) {
   const path = `/hive/topic/${topic.slug}`;
   const description =
     `Everything we have written about ${topic.label.toLowerCase()} while running co-living in Singapore. ` +
-    `${topic.articles.length} ${topic.articles.length === 1 ? 'piece' : 'pieces'} in The Hive, all of it from our own operation.`;
+    `${topic.articles.length} ${topic.articles.length === 1 ? 'piece' : 'pieces'} on the blog, all of it from our own operation.`;
   return {
     title: `${topic.label} | ${HIVE_TITLE} | Lazybee`,
     description,
