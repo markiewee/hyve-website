@@ -84,11 +84,14 @@ test("no price means no ladder rather than a ladder of NaN", () => {
   assert.equal(priceLadder(null), null);
 });
 
-test("budget matches within a 200 band on either side", () => {
+test("budget is a ceiling plus 200, with no floor", () => {
+  // A prospect who says 1500 will happily take a 900 room. They will stretch to
+  // 1700. They will not be shown 1701.
   const s = { ...EMPTY_SEARCH, budget: "1500" };
-  assert.equal(roomMatchesSearch(room({ price_monthly: 1300 }), "CP", s, TODAY), true);
+  assert.equal(roomMatchesSearch(room({ price_monthly: 600 }), "CP", s, TODAY), true);
+  assert.equal(roomMatchesSearch(room({ price_monthly: 1500 }), "CP", s, TODAY), true);
   assert.equal(roomMatchesSearch(room({ price_monthly: 1700 }), "CP", s, TODAY), true);
-  assert.equal(roomMatchesSearch(room({ price_monthly: 1299 }), "CP", s, TODAY), false);
+  assert.equal(roomMatchesSearch(room({ price_monthly: 1701 }), "CP", s, TODAY), false);
 });
 
 test("a fixed date needs the room free by then, flexible allows thirty more days", () => {

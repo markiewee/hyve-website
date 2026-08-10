@@ -9,8 +9,15 @@
  *  four to eight weeks, so anything opening inside twelve is worth marketing. */
 export const SELL_WINDOW_DAYS = 84;
 
-/** Budget matches this far either side of the number the prospect gave. */
-export const BUDGET_BAND = 200;
+/**
+ * How far ABOVE the stated budget we still show a room.
+ *
+ * A ceiling, not a band. Someone who says 1500 will happily take a 900 room, so
+ * putting a floor under the search hides cheaper inventory from the person most
+ * likely to book it. They will stretch a couple of hundred for the right room,
+ * and no further.
+ */
+export const BUDGET_STRETCH = 200;
 
 const DAY = 86400000;
 
@@ -103,7 +110,7 @@ export function roomMatchesSearch(room, propertyCode, s, today) {
   if (s.budget) {
     const b = Number(s.budget);
     if (!room.price_monthly) return false;
-    if (room.price_monthly < b - BUDGET_BAND || room.price_monthly > b + BUDGET_BAND) return false;
+    if (room.price_monthly > b + BUDGET_STRETCH) return false;
   }
   if (s.location && s.location !== "ALL" && propertyCode !== s.location) return false;
   if (s.sell && !isSellNow(room, today)) return false;

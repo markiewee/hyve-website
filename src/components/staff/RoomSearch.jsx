@@ -5,7 +5,7 @@
 // drives both the result list and the count line, and splitting it would let the
 // two disagree.
 
-import { BUDGET_BAND } from '../../lib/staffRooms';
+import { BUDGET_STRETCH } from '../../lib/staffRooms';
 
 const LOCATIONS = [
   { code: 'ALL', label: 'All properties' },
@@ -51,7 +51,7 @@ export default function RoomSearch({ search, onChange, onClear, active, count, h
 
         <div className="field" style={{ margin: 0 }}>
           <label className="label" htmlFor="staff-budget">
-            Budget, plus or minus {BUDGET_BAND}
+            Budget, up to {BUDGET_STRETCH} over
           </label>
           <input
             className="input"
@@ -62,7 +62,7 @@ export default function RoomSearch({ search, onChange, onClear, active, count, h
             value={search.budget}
             onChange={(e) => set('budget', e.target.value)}
           />
-          <div className="help">Blank shows every price.</div>
+          <div className="help">Cheaper rooms always show. Blank shows every price.</div>
         </div>
 
         <div className="field" style={{ margin: 0 }}>
