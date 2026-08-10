@@ -114,7 +114,10 @@ export default function RoomCard({ room, property, today }) {
           <p className="small" style={{ marginTop: 'var(--s5)' }}>{room.description}</p>
         )}
 
-        <div className="specs">
+        {/* .staffspecs, not .specs. The design system already has a .specs:
+            the owner page two-column grid, which laid these rows out side by
+            side and clipped every value. */}
+        <div className="staffspecs">
           {specs.map(([k, v]) => (
             <div className="row" key={k}>
               <span>{k}</span>

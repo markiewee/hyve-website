@@ -107,7 +107,9 @@ export default function StaffReference() {
       </div>
 
       <div className="label" style={{ marginTop: 'var(--s8)' }}>Move-in, five steps</div>
-      <div className="steps">
+      {/* .staffsteps, not .steps. The design system already has a .steps on the
+          owner page, and it is a bordered list, not this five-across grid. */}
+      <div className="staffsteps">
         {STEPS.map(([n, title, note]) => (
           <div key={n}>
             <div className="n">{n}</div>

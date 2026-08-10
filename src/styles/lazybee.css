@@ -815,17 +815,17 @@
 .lzb .ladder > div.on{background:var(--accent)}
 .lzb .ladder > div.on .t{color:color-mix(in srgb,var(--on-accent) 72%,transparent)}
 .lzb .ladder > div.on .p{color:var(--on-accent)}
-.lzb .specs{border-top:1px solid var(--line);margin-top:var(--s5)}
-.lzb .specs .row{font-size:13px;padding:10px 0}
+.lzb .staffspecs{border-top:1px solid var(--line);margin-top:var(--s5)}
+.lzb .staffspecs .row{font-size:13px;padding:10px 0}
 .lzb .booking{display:flex;justify-content:space-between;align-items:center;gap:var(--s3);
   border:1px solid var(--line);padding:10px 13px;margin-top:var(--s2);
   font-family:var(--mono);font-size:12px;color:var(--muted)}
 
 /* ── reference block ──────────────────────────────────────────────── */
-.lzb .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);
+.lzb .staffsteps{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);
   border:1px solid var(--line);margin-top:var(--s5)}
-.lzb .steps > div{background:var(--bg);padding:20px}
-.lzb .steps .n{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.2em;color:var(--accent-text)}
+.lzb .staffsteps > div{background:var(--bg);padding:20px}
+.lzb .staffsteps .n{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.2em;color:var(--accent-text)}
 .lzb .faq{border-top:1px solid var(--line);margin-top:var(--s5)}
 .lzb .faq details{border-bottom:1px solid var(--line)}
 .lzb .faq summary{list-style:none;cursor:pointer;padding:16px 0;display:flex;justify-content:space-between;
@@ -835,10 +835,10 @@
 
 @media(max-width:900px){
   .lzb .searchgrid{grid-template-columns:1fr}
-  .lzb .steps{grid-template-columns:1fr 1fr}
+  .lzb .staffsteps{grid-template-columns:1fr 1fr}
 }
 @media(max-width:560px){
   .lzb .rooms{grid-template-columns:1fr}
   .lzb .ladder{grid-template-columns:1fr 1fr}
-  .lzb .steps{grid-template-columns:1fr}
+  .lzb .staffsteps{grid-template-columns:1fr}
 }
