@@ -1077,10 +1077,49 @@ git commit -m "fix(staff): <what the check caught>"
 
 ---
 
+---
+
+### Task 9: Close the open door on /staff
+
+Approved by Mark on 10 Aug 2026, alongside the port itself.
+
+**Files:**
+- Modify: `src/App.jsx` (the `/staff` route)
+
+- [ ] **Step 1: Wrap the route**
+
+`AuthGuard` already exists at `src/components/portal/AuthGuard.jsx` and is imported in `App.jsx`. Change the route to:
+
+```jsx
+<Route path="/staff" element={<AuthGuard requiredRole="HOUSE_CAPTAIN"><StaffRoomDeskPage /></AuthGuard>} />
+```
+
+`HOUSE_CAPTAIN` rather than `ADMIN` deliberately. The role ladder in `AuthGuard.jsx` is TENANT 0, HOUSE_CAPTAIN 1, ADMIN 2, SUPER_ADMIN 3, and a captain opening a unit for a viewing needs the room facts as much as the person selling. `ADMIN` would lock captains out of the page they need on site. Tenants, landlords and investors are all excluded either by the role level or by the earlier redirects in the guard.
+
+- [ ] **Step 2: Verify the redirect**
+
+Run: `npm run dev -- --host 127.0.0.1`, then open `http://127.0.0.1:5173/staff` in a private window with no session.
+Expected: redirected to `/portal/login`, not a flash of room data.
+
+- [ ] **Step 3: Verify a signed-in staff account still gets in**
+
+Sign in as an account with role `HOUSE_CAPTAIN` or higher and open `/staff`.
+Expected: the room desk renders, and the housemates block now shows the real roster rather than the signed-out empty state, because the session key passes the `tenant_profiles` RLS policy.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add src/App.jsx
+git commit -m "feat(staff): require a staff session for the room desk"
+```
+
+**Operational risk to flag on handover:** anyone who uses `/staff` today does so with no login at all. If a member of the sales team has no portal account, this change locks them out on the spot. Confirm every current user of the page has an account at `HOUSE_CAPTAIN` or above before this reaches production.
+
+---
+
 ## Out of scope, tracked separately
 
 1. **`rooms.next_available` is wrong for TG-PR2.** The column says 1 Nov 2026; `tenant_profiles`, via the rule 18 report, says 1 May 2027. Production `/staff`, the guest booking site and this page all read that column, so all three are wrong together. The fix belongs in `fn_recompute_room_availability`, not here. Porting the page must not paper over it.
-2. **`/staff` has no auth guard.** `src/App.jsx:125` mounts it with only an SEO `noindex`. `AuthGuard` already exists at `src/components/portal/AuthGuard.jsx`. Wrapping the route is a one-line change but it is a product decision, not a port decision.
 
 ## Self-Review
 

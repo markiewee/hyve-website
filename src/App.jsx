@@ -12,7 +12,7 @@ import ContactPage from './components/ContactPage';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import CookiePolicy from './components/CookiePolicy';
-import StaffResourcePage from './components/StaffResourcePage';
+import StaffRoomDeskPage from './pages/staff/StaffRoomDeskPage';
 import HiveIndexPage from './pages/hive/HiveIndexPage';
 import HiveArticlePage from './pages/hive/HiveArticlePage';
 import HiveTopicPage from './pages/hive/HiveTopicPage';
@@ -122,7 +122,10 @@ function AppContent() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/cookie-policy" element={<CookiePolicy />} />
-          <Route path="/staff" element={<StaffResourcePage />} />
+          {/* HOUSE_CAPTAIN, not ADMIN: a captain opening a unit for a viewing
+              needs the room facts as much as the person selling. Tenants,
+              landlords and investors are excluded by the guard. */}
+          <Route path="/staff" element={<AuthGuard requiredRole="HOUSE_CAPTAIN"><StaffRoomDeskPage /></AuthGuard>} />
           {/* Portal routes, no Navbar/Footer */}
           <Route path="/portal" element={<Navigate to="/portal/login" replace />} />
           <Route path="/portal/login" element={<LoginPage />} />
