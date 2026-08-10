@@ -11,6 +11,7 @@ export const EVENT_TYPES = new Set([
   "listing.rates.updated",
   "listing.profile.updated",
   "booking_request.updated",
+  "booking.updated",
 ]);
 
 const TABLE_EVENTS = {
@@ -19,6 +20,7 @@ const TABLE_EVENTS = {
   rooms: "listing.rates.updated",
   listing_profiles: "listing.profile.updated",
   booking_requests: "booking_request.updated",
+  channel_bookings: "booking.updated",
 };
 
 export function eventForChange(table) {
