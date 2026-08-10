@@ -88,15 +88,36 @@ export default function AdminChannelPricingPage() {
     return sorted[Math.floor(sorted.length / 2)];
   }, [room, rooms]);
 
-  async function toggleEnabled(ch) {
+  async function patchChannel(ch, patch) {
     setSaving(ch.slug);
+    setError(null);
     const { error: err } = await supabase
       .from("listing_channels")
-      .update({ enabled: !ch.enabled })
+      .update(patch)
       .eq("id", ch.id);
+    // The CHECK constraints do the real validating. Surfacing the database's
+    // own message beats reimplementing the rules here and letting them drift.
     if (err) setError(err.message);
-    else setChannels((cs) => cs.map((c) => (c.id === ch.id ? { ...c, enabled: !c.enabled } : c)));
+    else setChannels((cs) => cs.map((c) => (c.id === ch.id ? { ...c, ...patch } : c)));
     setSaving(null);
+  }
+
+  const toggleEnabled = (ch) => patchChannel(ch, { enabled: !ch.enabled });
+
+  /**
+   * Edit the modifier in place. A channel bills in months or in percent, never
+   * both, so setting one clears the other rather than leaving a stale value the
+   * CHECK would then reject with a message about a field you did not touch.
+   */
+  function setModifier(ch, kind, raw) {
+    const v = raw === "" ? null : Number(raw);
+    if (v != null && (!Number.isFinite(v) || v < 0)) return;
+    patchChannel(
+      ch,
+      kind === "months"
+        ? { commission_months: v, commission_pct: null }
+        : { commission_pct: v == null ? null : v / 100, commission_months: null },
+    );
   }
 
   const rows = channels.map((ch) => {
@@ -169,11 +190,57 @@ export default function AdminChannelPricingPage() {
                       <div className="text-foreground">{ch.name}</div>
                       <div className="text-xs text-foreground-variant">{ch.slug}</div>
                     </td>
-                    <td className="px-4 py-3 text-foreground-variant">
-                      {billingLabel(ch)}
-                      {ch.gross_up === false && billingOf(ch) !== BILLING.NONE && (
-                        <span className="ml-2 text-xs text-amber-400">absorbed</span>
-                      )}
+                    <td className="px-4 py-3">
+                      {/* Editable in place: the whole point of this screen is
+                          trying a number and seeing what it does to the net. */}
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="number"
+                          step="0.25"
+                          min="0"
+                          defaultValue={ch.commission_months ?? ""}
+                          onBlur={(e) => {
+                            const next = e.target.value === "" ? null : Number(e.target.value);
+                            if (next !== (ch.commission_months ?? null)) {
+                              setModifier(ch, "months", e.target.value);
+                            }
+                          }}
+                          className="w-16 bg-surface-container border border-border px-2 py-1 text-sm text-foreground"
+                          aria-label={`${ch.name} commission in months`}
+                        />
+                        <span className="text-xs text-foreground-variant">mo</span>
+                        <span className="text-xs text-foreground-variant">or</span>
+                        <input
+                          type="number"
+                          step="0.5"
+                          min="0"
+                          max="99"
+                          defaultValue={ch.commission_pct != null ? ch.commission_pct * 100 : ""}
+                          onBlur={(e) => {
+                            const next = e.target.value === "" ? null : Number(e.target.value) / 100;
+                            if (next !== (ch.commission_pct ?? null)) {
+                              setModifier(ch, "pct", e.target.value);
+                            }
+                          }}
+                          className="w-16 bg-surface-container border border-border px-2 py-1 text-sm text-foreground"
+                          aria-label={`${ch.name} commission percent`}
+                        />
+                        <span className="text-xs text-foreground-variant">%</span>
+                        <label className="flex items-center gap-1 text-xs text-foreground-variant ml-1">
+                          <input
+                            type="checkbox"
+                            checked={ch.gross_up !== false}
+                            onChange={() => patchChannel(ch, { gross_up: !(ch.gross_up !== false) })}
+                          />
+                          on top
+                        </label>
+                      </div>
+                      <div className="text-xs text-foreground-variant mt-1">
+                        {billingLabel(ch)}
+                        {ch.gross_up === false && billingOf(ch) !== BILLING.NONE && (
+                          <span className="ml-2 text-amber-400">absorbed by us</span>
+                        )}
+                      </div>
                     </td>
                     {rowError ? (
                       <td colSpan={3} className="px-4 py-3 text-red-400 text-xs">
@@ -211,6 +278,8 @@ export default function AdminChannelPricingPage() {
             </table>
           </div>
         )}
+
+        <ChannelPins channels={channels} onError={setError} />
 
         <div className="border border-border p-4 space-y-3">
           <h2 className="text-foreground font-medium">Preview a quote</h2>
@@ -258,5 +327,136 @@ export default function AdminChannelPricingPage() {
         </div>
       </div>
     </PortalLayout>
+  );
+}
+
+/**
+ * PINs for the human channels.
+ *
+ * An agent is a channel we reach through a person rather than a browser worker,
+ * so they do not get a login, they get a code. One row per person even when
+ * several sit on the same channel, because that is what makes usage
+ * attributable and lets you revoke one without touching the others.
+ */
+function ChannelPins({ channels, onError }) {
+  const [pins, setPins] = useState([]);
+  const [label, setLabel] = useState("");
+  const [channelId, setChannelId] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    supabase
+      .from("channel_pins")
+      .select("pin, label, enabled, last_used_at, use_count, channel_id")
+      .order("created_at", { ascending: false })
+      .then(({ data, error }) => {
+        if (error) onError?.(error.message);
+        else setPins(data ?? []);
+      });
+  }, [onError]);
+
+  useEffect(() => {
+    if (!channelId && channels.length) setChannelId(channels[0].id);
+  }, [channels, channelId]);
+
+  async function issue() {
+    if (!label.trim() || !channelId) return;
+    setBusy(true);
+    // Six digits, generated here so it can be read out over the phone. Retried
+    // on collision rather than made longer: the primary key is the guard.
+    const pin = String(Math.floor(100000 + Math.random() * 900000));
+    const { error } = await supabase
+      .from("channel_pins")
+      .insert({ pin, channel_id: channelId, label: label.trim() });
+    if (error) onError?.(error.message);
+    else {
+      setPins((p) => [{ pin, label: label.trim(), enabled: true, use_count: 0, channel_id: channelId }, ...p]);
+      setLabel("");
+    }
+    setBusy(false);
+  }
+
+  async function revoke(pin) {
+    const { error } = await supabase
+      .from("channel_pins")
+      .update({ enabled: false })
+      .eq("pin", pin);
+    if (error) onError?.(error.message);
+    else setPins((p) => p.map((r) => (r.pin === pin ? { ...r, enabled: false } : r)));
+  }
+
+  const nameOf = (id) => channels.find((c) => c.id === id)?.name ?? "—";
+
+  return (
+    <div className="border border-border p-4 space-y-3">
+      <h2 className="text-foreground font-medium">Access PINs</h2>
+      <p className="text-sm text-foreground-variant max-w-2xl">
+        Hand one of these to an agent or a partner. They enter it on the booking site and
+        every price becomes that channel&apos;s quote, with their commission alongside it. No
+        account, no login. A PIN only ever unlocks prices, never tenant data.
+      </p>
+
+      <div className="flex flex-wrap gap-2 items-center">
+        <input
+          value={label}
+          onChange={(e) => setLabel(e.target.value)}
+          placeholder="Who holds it, e.g. Serena, PropNex"
+          className="bg-surface-container border border-border px-3 py-2 text-sm text-foreground flex-1 min-w-64"
+        />
+        <select
+          value={channelId}
+          onChange={(e) => setChannelId(e.target.value)}
+          className="bg-surface-container border border-border px-3 py-2 text-sm text-foreground"
+        >
+          {channels.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.name}
+            </option>
+          ))}
+        </select>
+        <button
+          onClick={issue}
+          disabled={busy || !label.trim()}
+          className="bg-accent text-accent-foreground px-4 py-2 text-sm disabled:opacity-50"
+        >
+          {busy ? "…" : "Issue PIN"}
+        </button>
+      </div>
+
+      {pins.length > 0 && (
+        <table className="w-full text-sm">
+          <thead className="text-foreground-variant">
+            <tr>
+              <th className="text-left font-medium py-2">PIN</th>
+              <th className="text-left font-medium py-2">Holder</th>
+              <th className="text-left font-medium py-2">Channel</th>
+              <th className="text-right font-medium py-2">Used</th>
+              <th className="text-right font-medium py-2"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {pins.map((p) => (
+              <tr key={p.pin} className="border-t border-border">
+                <td className="py-2 font-mono text-foreground">{p.pin}</td>
+                <td className="py-2 text-foreground-variant">{p.label}</td>
+                <td className="py-2 text-foreground-variant">{nameOf(p.channel_id)}</td>
+                <td className="py-2 text-right font-mono text-foreground-variant">
+                  {p.use_count ?? 0}
+                </td>
+                <td className="py-2 text-right">
+                  {p.enabled ? (
+                    <button onClick={() => revoke(p.pin)} className="text-xs text-red-400">
+                      revoke
+                    </button>
+                  ) : (
+                    <span className="text-xs text-foreground-variant">revoked</span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
   );
 }
