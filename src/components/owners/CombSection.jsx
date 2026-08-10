@@ -22,7 +22,7 @@ function CellCard({ room, shot, onShot }) {
 
   const specs = [
     [t('owner.comb.size'), room.sqm ? t('owner.comb.sqm', { n: room.sqm }) : t('owner.comb.notMeasured')],
-    [t('owner.comb.bed'), room.bed || t('owner.comb.notSet')],
+    [t('owner.comb.bed'), room.bed ? t(vocabKey(room.bed)) : t('owner.comb.notSet')],
     [t('owner.comb.sleeps'), t(room.occ > 1 ? 'owner.comb.people' : 'owner.comb.person', { n: room.occ })],
     [t('owner.comb.minStay'), t('owner.comb.months', { n: room.min })],
     [t('owner.comb.bathroom'), room.ensuite ? t('owner.comb.ensuite') : t('owner.comb.shared')],

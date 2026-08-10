@@ -20,9 +20,7 @@ export default function PortalSection() {
     <section className="wrap sec rule" id="see">
       <h2 className="h1 rv">{t('owner.portal.title')}</h2>
       <p className="body rv" style={{ marginTop: 18 }}>
-        A share only feels risky when it is a black box. So it is not one. You get an owner login on the day you sign.
-        Everything below is a real view from a real month, with tenant names and identity numbers masked the way they
-        are masked for us too.
+        {t('owner.portal.intro')}
       </p>
 
       <div className="portal rv">
