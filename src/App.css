@@ -371,6 +371,30 @@ html[data-surface="portal"] .bg-yellow-500 { background-color: var(--lb-warn); }
 html[data-surface="portal"] .bg-blue-500,
 html[data-surface="portal"] .bg-blue-600 { background-color: var(--lb-info); }
 
+/* Status borders. The two blocks above re-point the -300/-400 text tints and
+   the -500 solid fills, but never the borders that pair with them. That left
+   the staff screens drawing a raw amber rule around a brass-and-ink warning
+   card: 59 uses across the admin and captain pages, and the borders are the
+   bulk of it. Same semantics as the fills, so the same tokens. */
+html[data-surface="portal"] .border-emerald-500,
+html[data-surface="portal"] .border-green-500 { border-color: var(--lb-ok); }
+html[data-surface="portal"] .border-red-500 { border-color: var(--lb-bad); }
+html[data-surface="portal"] .border-amber-500,
+html[data-surface="portal"] .border-amber-400 { border-color: var(--lb-warn); }
+html[data-surface="portal"] .border-blue-500 { border-color: var(--lb-info); }
+
+/* Stragglers carrying no status meaning. Purple was a lead-source tag, and the
+   grays predate the token layer entirely. */
+html[data-surface="portal"] .bg-purple-500 { background-color: var(--lb-muted); }
+html[data-surface="portal"] .text-gray-500 { color: var(--lb-muted); }
+html[data-surface="portal"] .text-red-600 { color: var(--lb-bad); }
+html[data-surface="portal"] .border-gray-300 { border-color: var(--lb-line); }
+
+/* Deliberately NOT re-pointed: the 7 opaque bg-white left in SignatureCanvas,
+   ReceiptModal, InvoiceDocument, OnboardingTimeline and AdminOnboardingDetail.
+   Those are signature pads and printable documents. Paper is white in both
+   themes, and a tenant printing an invoice should get white paper. */
+
 /* Placeholders were half-opacity muted, about 2.4:1. Use the faint token. */
 html[data-surface="portal"] .placeholder\:text-foreground-variant\/50::placeholder,
 html[data-surface="portal"] ::placeholder { color: var(--lb-faint); opacity: 1; }
