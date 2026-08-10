@@ -27,7 +27,7 @@ Aggregator platforms want to ingest our inventory and send us tenants. The first
 
 ## Surface
 
-Base URL `https://lazybee.sg/api/v1`. JSON only, ISO 8601 dates, SGD amounts, cursor pagination on list endpoints, `updated_at` on every resource.
+Base URL `https://lazybee.sg/api/v1`. JSON only, ISO 8601 dates, SGD amounts, `updated_at` on every resource. List endpoints return a `{ "data": [...] }` envelope; with 19 listings, pagination is deferred, and the envelope leaves room to add cursors later without a breaking change.
 
 | Endpoint | Behaviour |
 |---|---|

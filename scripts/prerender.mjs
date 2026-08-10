@@ -175,6 +175,7 @@ for (const route of PRERENDER_ROUTES) {
 const CHANGEFREQ = {
   '/': 'weekly',
   '/faqs': 'monthly',
+  '/developers': 'monthly',
   '/contact': 'monthly',
   '/privacy-policy': 'yearly',
   '/terms-of-service': 'yearly',
@@ -183,6 +184,7 @@ const CHANGEFREQ = {
 const PRIORITY = {
   '/': '1.0',
   '/faqs': '0.7',
+  '/developers': '0.5',
   '/contact': '0.6',
   '/privacy-policy': '0.3',
   '/terms-of-service': '0.3',

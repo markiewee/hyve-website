@@ -119,6 +119,15 @@ export const ROUTE_META = {
     ],
   },
 
+  '/developers': {
+    title: 'Lazybee Partner API | Developers',
+    description:
+      'Integrate Lazybee co-living inventory over a versioned JSON API: properties, room listings with ' +
+      'media and features, live availability calendars, partner rates, booking-request intake and ' +
+      'signed webhooks. API keys issued per partner.',
+    schema: () => [orgSchema(), crumb('Developers', '/developers')],
+  },
+
   '/contact': {
     title: 'Contact Lazybee',
     description:

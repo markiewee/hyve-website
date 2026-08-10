@@ -7,6 +7,8 @@
     { "source": "/view/:path*", "destination": "https://book.lazybee.sg", "statusCode": 301 }
   ],
   "rewrites": [
+    { "source": "/api/v1/:s1/:s2/:s3", "destination": "/api/v1/:s1?_seg2=:s2&_seg3=:s3" },
+    { "source": "/api/v1/:s1/:s2", "destination": "/api/v1/:s1?_seg2=:s2" },
     { "source": "/", "destination": "/index.html" },
     { "source": "/faqs", "destination": "/faqs/index.html" },
     { "source": "/contact", "destination": "/contact/index.html" },

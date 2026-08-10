@@ -1,0 +1,359 @@
+// /api/v1/[...path]
+//
+// Lazybee Partner API v1. Single catch-all serverless function, same shape as
+// /api/booking/[...path].js and for the same reason: the Hobby plan caps this
+// repo at 12 functions. All logic that can be pure lives in src/lib/partner*
+// with tests beside it; this file is wiring.
+//
+// Routes (all under /api/v1):
+//   GET    /ping
+//   GET    /properties            GET /properties/{slug}
+//   GET    /listings              GET /listings/{code}
+//   GET    /listings/{code}/calendar
+//   POST   /booking-requests      GET /booking-requests/{id}
+//   GET    /webhooks              POST /webhooks       DELETE /webhooks/{id}
+//   POST   /internal/dispatch     (secret-gated, not partner-facing)
+//
+// Spec: docs/superpowers/specs/2026-08-10-partner-api-v1.md
+
+import { createClient } from "@supabase/supabase-js";
+import { randomBytes } from "node:crypto";
+import { hashKey, parseAuthHeader, allowRequest } from "../../src/lib/partnerAuth.js";
+import { calendarView } from "../../src/lib/partnerWindows.js";
+import { mergeProfiles, listingResource, propertyResource } from "../../src/lib/partnerSerialize.js";
+import { EVENT_TYPES, signPayload } from "../../src/lib/partnerWebhooks.js";
+
+const supabase = createClient(
+  process.env.VITE_IOT_SUPABASE_URL,
+  process.env.IOT_SUPABASE_SERVICE_ROLE_KEY
+);
+
+const CALENDAR_HORIZON_DAYS = 365;
+const DEFAULT_DURATION_MONTHS = 12;
+const MAX_DELIVERY_ATTEMPTS = 8;
+
+const err = (res, status, code, message) =>
+  res.status(status).json({ error: { code, message } });
+
+// ── Partner auth ─────────────────────────────────────────────────────
+// Key -> channel row. Channel must be enabled (the kill switch gates the
+// whole API) and the key not revoked. Rate limit is a fixed one-minute
+// window counted from api_request_log.
+async function authenticate(req) {
+  const key = parseAuthHeader(req.headers.authorization);
+  if (!key) return { error: [401, "unauthorized", "Missing or malformed Authorization header"] };
+  const { data: keyRow } = await supabase
+    .from("channel_api_keys")
+    .select("id, rate_limit_per_min, revoked_at, channel:listing_channels(id, slug, name, enabled, commission_pct, commission_months, gross_up, fee_fixed)")
+    .eq("key_hash", hashKey(key))
+    .maybeSingle();
+  if (!keyRow || keyRow.revoked_at) return { error: [401, "unauthorized", "Unknown or revoked key"] };
+  if (!keyRow.channel?.enabled) return { error: [403, "channel_disabled", "This channel is not enabled"] };
+  const oneMinAgo = new Date(Date.now() - 60_000).toISOString();
+  const { count } = await supabase
+    .from("api_request_log")
+    .select("id", { count: "exact", head: true })
+    .eq("key_id", keyRow.id)
+    .gte("created_at", oneMinAgo);
+  if (!allowRequest(count ?? 0, keyRow.rate_limit_per_min))
+    return { error: [429, "rate_limited", "Rate limit exceeded; slow down"] };
+  return { keyRow };
+}
+
+async function logRequest(keyId, req, status, startedMs) {
+  try {
+    await supabase.from("api_request_log").insert({
+      key_id: keyId, method: req.method, path: req.url?.slice(0, 200) ?? "",
+      status, ms: Date.now() - startedMs,
+    });
+    await supabase.from("channel_api_keys").update({ last_used_at: new Date().toISOString() }).eq("id", keyId);
+  } catch { /* audit must never break serving */ }
+}
+
+// ── Data loads ───────────────────────────────────────────────────────
+async function loadPropertyProfiles() {
+  const { data } = await supabase
+    .from("listing_profiles")
+    .select("property_id, title, description, fields, updated_at, property:properties(id, name, slug, images, amenities)")
+    .eq("scope", "PROPERTY");
+  return data ?? [];
+}
+
+async function loadRoomListings() {
+  const { data } = await supabase
+    .from("listing_profiles")
+    .select("room_id, title, description, fields, updated_at, room:rooms(id, unit_code, price_monthly, deposit_months, min_stay_months, max_occupancy, photos, amenities, property_id)")
+    .eq("scope", "ROOM");
+  return (data ?? []).filter((r) => r.room && r.room.unit_code);
+}
+
+// Rooms this partner must not see: an explicit PAUSED placement for this
+// channel. Placements are outbound-push state, so "no row" means visible;
+// PAUSED is the one status that reads as a deliberate per-room off switch.
+async function pausedRoomIds(channelId) {
+  const { data } = await supabase
+    .from("listing_placements")
+    .select("room_id, status")
+    .eq("channel_id", channelId)
+    .eq("status", "PAUSED");
+  return new Set((data ?? []).map((p) => p.room_id));
+}
+
+async function availableFromFor(roomId) {
+  const { data } = await supabase.rpc("fn_room_next_available", { p_room_id: roomId });
+  return typeof data === "string" ? data : null;
+}
+
+// ── Handlers ─────────────────────────────────────────────────────────
+async function handleProperties(res, slugFilter) {
+  const [props, listings] = await Promise.all([loadPropertyProfiles(), loadRoomListings()]);
+  const countByProperty = {};
+  for (const l of listings) countByProperty[l.room.property_id] = (countByProperty[l.room.property_id] ?? 0) + 1;
+  const out = props
+    .filter((p) => p.property && (!slugFilter || p.property.slug === slugFilter))
+    .map((p) => propertyResource({
+      slug: p.property.slug,
+      profile: { title: p.title ?? p.property.name, description: p.description, fields: p.fields },
+      listingCount: countByProperty[p.property.id] ?? 0,
+      updatedAt: p.updated_at,
+      fallbackMedia: p.property.images,
+      fallbackFeatures: p.property.amenities,
+    }));
+  if (slugFilter && out.length === 0) return err(res, 404, "not_found", "No such property");
+  return res.status(200).json(slugFilter ? out[0] : { data: out });
+}
+
+function clampDuration(raw) {
+  const n = Number(raw);
+  if (!Number.isFinite(n) || n <= 0) return DEFAULT_DURATION_MONTHS;
+  return Math.min(Math.max(n, 3), 36);
+}
+
+async function handleListings(res, channel, query, codeFilter) {
+  const [props, listings, paused] = await Promise.all([
+    loadPropertyProfiles(), loadRoomListings(), pausedRoomIds(channel.id),
+  ]);
+  const propProfileById = Object.fromEntries(props.filter((p) => p.property).map((p) => [p.property.id, p]));
+  const duration = clampDuration(query.duration_months);
+  const rows = [];
+  try {
+    for (const l of listings) {
+      if (codeFilter && l.room.unit_code !== codeFilter) continue;
+      if (paused.has(l.room.id)) continue;
+      const propRow = propProfileById[l.room.property_id];
+      if (query.property && propRow?.property?.slug !== query.property) continue;
+      const profile = mergeProfiles(
+        propRow ? { title: propRow.title, description: propRow.description, fields: propRow.fields } : null,
+        { title: l.title, description: l.description, fields: l.fields }
+      );
+      const availableFrom = await availableFromFor(l.room.id);
+      if (query.available_from && availableFrom && availableFrom > query.available_from) continue;
+      const resource = listingResource({
+        code: l.room.unit_code, propertySlug: propRow?.property?.slug ?? null, profile,
+        room: l.room, channel, availableFrom, durationMonths: duration, updatedAt: l.updated_at,
+      });
+      if (query.max_rate && resource.rate_card.monthly_rate > Number(query.max_rate)) continue;
+      rows.push(resource);
+    }
+  } catch (e) {
+    // quotedPrice refuses impossible commission/duration combinations loudly;
+    // that is a caller problem, not a server fault.
+    return err(res, 422, "validation_failed", String(e.message ?? e));
+  }
+  if (codeFilter) {
+    if (rows.length === 0) return err(res, 404, "not_found", "No such listing");
+    return res.status(200).json(rows[0]);
+  }
+  return res.status(200).json({ data: rows });
+}
+
+async function handleCalendar(res, code) {
+  const { data: room } = await supabase.from("rooms").select("id, unit_code").eq("unit_code", code).maybeSingle();
+  if (!room) return err(res, 404, "not_found", "No such listing");
+  const from = new Date().toISOString().slice(0, 10);
+  const { data: rows } = await supabase
+    .from("room_calendar")
+    .select("starts_on, ends_on")
+    .eq("room_id", room.id).eq("status", "ACTIVE").eq("blocks", true);
+  return res.status(200).json({
+    listing: code,
+    from, horizon_days: CALENDAR_HORIZON_DAYS,
+    windows: calendarView(rows ?? [], { from, horizonDays: CALENDAR_HORIZON_DAYS }),
+  });
+}
+
+const bookingRequestView = (row, code) => ({
+  id: row.id, listing_code: code, status: row.status, created_at: row.created_at,
+});
+
+// Resend, the portal's transport (see api/portal/claim-reserve.js).
+async function notifyAdmin(channel, b, roomCode) {
+  if (!process.env.RESEND_API_KEY) return;
+  try {
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: "Lazybee Co-living <hello@lazybee.sg>",
+        to: ["admin@lazybee.sg"],
+        subject: `Partner booking request: ${roomCode} via ${channel.name}`,
+        text: `Channel: ${channel.name}\nListing: ${roomCode}\nMove-in: ${b.move_in} for ${b.duration_months} months\nApplicant: ${b.applicant.name} <${b.applicant.email}> ${b.applicant.phone ?? ""}\nNote: ${b.note ?? ""}`,
+      }),
+    });
+  } catch { /* notification failure must not fail the request */ }
+}
+
+async function handleCreateBookingRequest(req, res, channel) {
+  const b = req.body ?? {};
+  const missing = ["listing_code", "move_in", "duration_months"].filter((f) => !b[f]);
+  if (!b.applicant?.name || !b.applicant?.email) missing.push("applicant.name/email");
+  if (missing.length) return err(res, 422, "validation_failed", `Missing: ${missing.join(", ")}`);
+  const { data: room } = await supabase.from("rooms").select("id, unit_code").eq("unit_code", b.listing_code).maybeSingle();
+  if (!room) return err(res, 422, "validation_failed", "Unknown listing_code");
+
+  if (b.idempotency_key) {
+    const { data: existing } = await supabase
+      .from("booking_requests").select("id, status, created_at")
+      .eq("channel_id", channel.id).eq("idempotency_key", b.idempotency_key).maybeSingle();
+    if (existing) return res.status(200).json(bookingRequestView(existing, room.unit_code));
+  }
+
+  // Enquiry records, never blocks: Mark's rule, enforced at insert.
+  const { data: cal } = await supabase.from("room_calendar").insert({
+    room_id: room.id, starts_on: b.move_in, ends_on: null, kind: "ENQUIRY",
+    source: channel.slug, status: "ACTIVE", blocks: false, auto_created: true,
+    notes: "Partner API booking request",
+  }).select("id").single();
+
+  const { data: created, error: insErr } = await supabase.from("booking_requests").insert({
+    channel_id: channel.id, room_id: room.id, idempotency_key: b.idempotency_key ?? null,
+    move_in: b.move_in, duration_months: b.duration_months,
+    applicant_name: b.applicant.name, applicant_email: b.applicant.email,
+    applicant_phone: b.applicant.phone ?? null, applicant_nationality: b.applicant.nationality ?? null,
+    note: b.note ?? null, calendar_id: cal?.id ?? null,
+  }).select("id, status, created_at").single();
+  if (insErr) return err(res, 500, "internal", "Could not record the request");
+
+  await notifyAdmin(channel, b, room.unit_code);
+  return res.status(201).json(bookingRequestView(created, room.unit_code));
+}
+
+async function handleGetBookingRequest(res, channel, id) {
+  const { data } = await supabase
+    .from("booking_requests").select("id, status, created_at, room:rooms(unit_code)")
+    .eq("id", id).eq("channel_id", channel.id).maybeSingle();
+  if (!data) return err(res, 404, "not_found", "No such booking request for this key");
+  return res.status(200).json(bookingRequestView(data, data.room?.unit_code ?? null));
+}
+
+// ── Webhook subscription CRUD ────────────────────────────────────────
+async function handleWebhooks(req, res, channel, id) {
+  if (req.method === "GET") {
+    const { data } = await supabase.from("webhook_subscriptions")
+      .select("id, url, events, active, created_at").eq("channel_id", channel.id).eq("active", true);
+    return res.status(200).json({ data: data ?? [] });
+  }
+  if (req.method === "POST") {
+    const { url, events } = req.body ?? {};
+    if (!url || !/^https:\/\//.test(url)) return err(res, 422, "validation_failed", "url must be https");
+    if (!Array.isArray(events) || events.length === 0 || !events.every((e) => EVENT_TYPES.has(e)))
+      return err(res, 422, "validation_failed", `events must be a non-empty subset of: ${[...EVENT_TYPES].join(", ")}`);
+    const secret = "whsec_" + randomBytes(24).toString("base64url");
+    const { data } = await supabase.from("webhook_subscriptions")
+      .insert({ channel_id: channel.id, url, events, secret }).select("id, url, events, created_at").single();
+    return res.status(201).json({ ...data, secret });
+  }
+  if (req.method === "DELETE" && id) {
+    await supabase.from("webhook_subscriptions").update({ active: false })
+      .eq("id", id).eq("channel_id", channel.id);
+    return res.status(204).end();
+  }
+  return err(res, 405, "method_not_allowed", "Unsupported method");
+}
+
+// ── Internal dispatch (pg_cron sweep calls this every minute) ────────
+async function handleDispatch(req, res) {
+  if (req.headers["x-dispatch-secret"] !== process.env.PARTNER_DISPATCH_SECRET)
+    return err(res, 401, "unauthorized", "Bad dispatch secret");
+  const { data: pending } = await supabase
+    .from("webhook_deliveries")
+    .select("id, event_type, payload, attempts, subscription:webhook_subscriptions(id, url, secret, active)")
+    .eq("status", "PENDING").lte("attempts", MAX_DELIVERY_ATTEMPTS).limit(50);
+  let delivered = 0, failed = 0;
+  for (const d of pending ?? []) {
+    if (!d.subscription?.active) {
+      await supabase.from("webhook_deliveries").update({ status: "DEAD", last_error: "subscription inactive" }).eq("id", d.id);
+      continue;
+    }
+    const body = JSON.stringify({ id: d.id, type: d.event_type, created_at: new Date().toISOString(), data: d.payload });
+    try {
+      const r = await fetch(d.subscription.url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Lazybee-Signature": signPayload(d.subscription.secret, body) },
+        body, signal: AbortSignal.timeout(5000),
+      });
+      if (r.ok) {
+        await supabase.from("webhook_deliveries").update({ status: "DELIVERED", delivered_at: new Date().toISOString() }).eq("id", d.id);
+        delivered++;
+      } else throw new Error(`HTTP ${r.status}`);
+    } catch (e) {
+      const attempts = d.attempts + 1;
+      await supabase.from("webhook_deliveries").update({
+        attempts, last_error: String(e).slice(0, 300),
+        status: attempts >= MAX_DELIVERY_ATTEMPTS ? "DEAD" : "PENDING",
+      }).eq("id", d.id);
+      failed++;
+    }
+  }
+  return res.status(200).json({ delivered, failed });
+}
+
+// ── Router ───────────────────────────────────────────────────────────
+export default async function handler(req, res) {
+  const started = Date.now();
+  // Resolve the route from req.url (req.query.path is unreliable for
+  // catch-alls in non-Next Vercel functions, same finding as api/booking).
+  // The platform only matches ONE segment after /api/v1, so vercel.json
+  // rewrites fold deeper paths into _seg2/_seg3 query params.
+  const segs = (req.url || "")
+    .split("?")[0]
+    .replace(/^\/api\/v1\/?/, "")
+    .split("/")
+    .filter(Boolean);
+  if (req.query?._seg2) segs.push(req.query._seg2);
+  if (req.query?._seg3) segs.push(req.query._seg3);
+  const [head, second, third] = segs;
+
+  if (req.method === "OPTIONS") return res.status(204).end();
+  if (head === "internal" && second === "dispatch" && req.method === "POST")
+    return handleDispatch(req, res);
+
+  const auth = await authenticate(req);
+  if (auth.error) return err(res, ...auth.error);
+  const { keyRow } = auth;
+  const channel = keyRow.channel;
+
+  const originalJson = res.json.bind(res);
+  res.json = (payload) => { logRequest(keyRow.id, req, res.statusCode, started); return originalJson(payload); };
+
+  try {
+    if (head === "ping" && req.method === "GET")
+      return res.status(200).json({ ok: true, partner: channel.name, version: "v1" });
+    if (head === "properties" && req.method === "GET")
+      return handleProperties(res, second ?? null);
+    if (head === "listings" && req.method === "GET" && third === "calendar")
+      return handleCalendar(res, second);
+    if (head === "listings" && req.method === "GET")
+      return handleListings(res, channel, req.query, second ?? null);
+    if (head === "booking-requests" && req.method === "POST" && !second)
+      return handleCreateBookingRequest(req, res, channel);
+    if (head === "booking-requests" && req.method === "GET" && second)
+      return handleGetBookingRequest(res, channel, second);
+    if (head === "webhooks")
+      return handleWebhooks(req, res, channel, second ?? null);
+    return err(res, 404, "not_found", "Unknown route; see https://lazybee.sg/developers");
+  } catch (e) {
+    console.error("partner api error:", e);
+    return err(res, 500, "internal", "Something went wrong on our side");
+  }
+}
