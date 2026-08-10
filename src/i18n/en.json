@@ -883,7 +883,11 @@
       "people": "{n} people",
       "person": "{n} person",
       "keyLet": "Let",
-      "introTail": "and you get the room itself, straight from the same database that runs the booking site: the photographs, the price, the size, the bed, what is in it and when it next opens. The pale cells are the rest of Singapore, which is the part of the comb we have not built yet."
+      "introTail": "and you get the room itself, straight from the same database that runs the booking site: the photographs, the price, the size, the bed, what is in it and when it next opens. The pale cells are the rest of Singapore, which is the part of the comb we have not built yet.",
+      "hint": "Click a filled cell to open the listing",
+      "seeItLive": "See it live",
+      "listAUnit": "List a unit like this",
+      "mrtWalk": "{station} MRT, {minutes} minutes on foot."
     },
     "portal": {
       "title": "You see exactly what we see.",
@@ -893,7 +897,107 @@
       "pdf": "Download August as PDF",
       "csv": "Export twelve months to CSV",
       "maintYtd": "Maintenance, year to date",
-      "chargedYou": "Charged to you"
+      "chargedYou": "Charged to you",
+      "intro": "A share only feels risky when it is a black box. So it is not one. You get an owner login on the day you sign. Everything below is a real view from a real month, with tenant names and identity numbers masked the way they are masked for us too.",
+      "addressBar": "OWNER.LAZYBEE.SG · CHILTERN PARK 135",
+      "tab1": "Statement",
+      "tab2": "Tenant documents",
+      "tab3": "Maintenance log",
+      "tab4": "Inspection photos",
+      "tile1": "Gross, August",
+      "tile2": "Your payout",
+      "tile3": "Cells let",
+      "tile4": "Next transfer",
+      "doc1": {
+        "title": "Licence agreement, CP-PR3",
+        "meta": "Signed 12 Jun 2026 · PDF, 740 KB",
+        "status": "Current"
+      },
+      "doc2": {
+        "title": "IRAS stamp certificate, CP-PR3",
+        "meta": "Stamped 13 Jun 2026 · we filed it",
+        "status": "Stamped"
+      },
+      "doc3": {
+        "title": "Identity document, tenant CP-PR3",
+        "meta": "Passport · S••••827Z · masked under PDPA",
+        "status": "Masked"
+      },
+      "doc4": {
+        "title": "Proof of employment, tenant CP-PR3",
+        "meta": "Letter of employment · verified 10 Jun 2026",
+        "status": "Verified"
+      },
+      "doc5": {
+        "title": "Licence agreement, CP-PR2",
+        "meta": "Signed 2 Dec 2025 · renewal due 1 Dec 2026",
+        "status": "Renewal due"
+      },
+      "doc6": {
+        "title": "Handover inventory, whole unit",
+        "meta": "48 items, photographed · signed by both sides",
+        "status": "Signed"
+      },
+      "doc7": {
+        "title": "Fire safety and appliance certificates",
+        "meta": "Aircon, water heater, extinguisher · next check Mar 2027",
+        "status": "In date"
+      },
+      "log1": {
+        "title": "Aircon servicing, all four units",
+        "body": "Quarterly service by Kavi. Filters washed, gas topped in the master. 6 photos returned.",
+        "status": "Done"
+      },
+      "log2": {
+        "title": "Water heater replaced, shared bathroom",
+        "body": "Old unit failed on the 20th, tenant had cold water for two days. Replaced with a Rheem 25L. Your approval logged 21 Jul.",
+        "status": "Done"
+      },
+      "log3": {
+        "title": "Washing machine drain blocked",
+        "body": "Cleared on site, no parts. Cause was a tenant washing bedding with a loose cover.",
+        "status": "Done"
+      },
+      "log4": {
+        "title": "Repaint, CP-PR1 on turnover",
+        "body": "Two coats, scuffs from the previous tenancy. Deducted from that deposit, not from you.",
+        "status": "Recovered"
+      },
+      "log5": {
+        "title": "Front door lock stiff",
+        "body": "Lubricated, still stiff. Locksmith quoted S$310 for a replacement cylinder, waiting on your tap.",
+        "status": "Awaiting you"
+      },
+      "gal1": {
+        "caption": "Master, move-in, 12 Jun"
+      },
+      "gal2": {
+        "caption": "Living, quarterly, 1 Jul"
+      },
+      "gal3": {
+        "caption": "CP-PR3, move-in, 12 Jun"
+      },
+      "gal4": {
+        "caption": "CP-PR1, after repaint, 2 Jul"
+      },
+      "gal5": {
+        "caption": "Kitchen, quarterly, 1 Jul"
+      },
+      "gal6": {
+        "caption": "CP-PR2, quarterly, 1 Jul"
+      },
+      "gal7": {
+        "caption": "CP-STD1, move-in, 4 Mar"
+      },
+      "gal8": {
+        "caption": "Common, quarterly, 1 Jul"
+      },
+      "notBilled": ", open, not billed",
+      "open": "Open",
+      "docsIntro": "Every document we hold on your unit, in one place. Identity numbers are partly masked under the PDPA, and the full copy is released only if you are legally required to produce it.",
+      "docsNote": "Nothing here is ever emailed around. Documents are viewed in the portal, access is logged, and tenants can see that you looked.",
+      "logIntro": "Every job on the unit, what it cost, who did it and whether the photos came back. Anything over S$300 needs your tap before we spend it.",
+      "galIntro": "A photo set on move-in, on move-out, and every quarter in between. This is the record that settles any argument about condition, and it is why the trial can end with the unit going back as we found it."
     },
     "ask": {
       "kicker": "The next step is a coffee",
@@ -935,6 +1039,52 @@
       },
       "signFine": "Marcus · Makery Pte Ltd · the one who actually turns up",
       "noSpam": "No newsletter. No sequence of five emails. No agent ringing you on a Sunday."
+    },
+    "vocab": {
+      "masterRoom": "Master room",
+      "premiumRoom": "Premium room",
+      "standardRoom": "Standard room",
+      "queenBed": "Queen bed",
+      "superSingleBed": "Super single bed",
+      "superSingle": "Super single",
+      "singleBed": "Single bed",
+      "ensuiteBathroom": "Ensuite bathroom",
+      "studyTable": "Study table",
+      "wardrobe": "Wardrobe",
+      "wifi": "WiFi",
+      "serangoon": "Serangoon",
+      "jurongEast": "Jurong East",
+      "upperThomson": "Upper Thomson"
+    },
+    "district": {
+      "D01": "Raffles Place",
+      "D02": "Tanjong Pagar",
+      "D03": "Tiong Bahru",
+      "D04": "Harbourfront",
+      "D05": "West Coast",
+      "D06": "Clarke Quay",
+      "D07": "Bugis",
+      "D08": "Farrer Park",
+      "D09": "River Valley",
+      "D10": "Holland",
+      "D11": "Novena",
+      "D12": "Toa Payoh",
+      "D13": "Potong Pasir",
+      "D14": "Paya Lebar",
+      "D15": "Katong",
+      "D16": "Bedok",
+      "D17": "Loyang",
+      "D18": "Tampines",
+      "D19": "Serangoon",
+      "D20": "Bishan",
+      "D21": "Upper Bukit Timah",
+      "D22": "Jurong",
+      "D23": "Bukit Batok",
+      "D24": "Tengah",
+      "D25": "Woodlands",
+      "D26": "Upper Thomson",
+      "D27": "Yishun",
+      "D28": "Yio Chu Kang"
     }
   }
 }

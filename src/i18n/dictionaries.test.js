@@ -31,8 +31,10 @@ const ZH = flatten(zh);
    would expect to see unchanged, not a phrase nobody got round to. */
 const SAME_IN_BOTH = new Set([
   'nav.whatsapp',
-  'moveIn.wifi',              // "WiFi"
-  'public.contact.whatsapp',  // "WhatsApp"
+  'moveIn.wifi',                 // "WiFi"
+  'public.contact.whatsapp',     // "WhatsApp"
+  'owner.vocab.wifi',            // "WiFi", the amenity
+  'owner.portal.addressBar',     // a URL in a mock browser chrome
 ]);
 
 test('every English key has a Chinese counterpart', () => {

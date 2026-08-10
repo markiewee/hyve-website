@@ -50,7 +50,12 @@ export default function HomePage() {
   useReveal(rootRef);
 
   const m = useMemo(() => model(estimator), [estimator]);
-  const districtLabel = estimator.district ? `${estimator.district} ${DI[estimator.district]}` : t('owner.hero.typeACode');
+  /* The district NAME comes from the dictionary, not from the DI map, so it
+     reads 实龙岗 in Chinese. The DI map stays the English source of truth and is
+     still what the analytics event and the saved lead record carry. */
+  const districtLabel = estimator.district
+    ? `${estimator.district} ${t(`owner.district.${estimator.district}`)}`
+    : t('owner.hero.typeACode');
 
   /* One handler for the three hero controls. A postal code moves the district and
      the psf with it, which is the only field that changes more than itself. */
