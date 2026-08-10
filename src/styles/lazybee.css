@@ -748,8 +748,25 @@
 .lzb .searchfoot{display:flex;flex-wrap:wrap;gap:var(--s4);justify-content:space-between;align-items:center;
   margin-top:var(--s5);padding-top:var(--s4);border-top:1px solid var(--line)}
 
-.lzb .tabs{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s7)}
-.lzb .tabs button{background:none;cursor:pointer;font:inherit}
+/* .stafftabs, not .tabs. There is already a .lzb .tabs above: the owner page
+   tab strip, underlined and uppercase. Reusing the name gave the room desk that
+   component's type and padding on top of its own chips. */
+.lzb .stafftabs{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s7)}
+/* No `font:inherit` here. The shorthand resets font-family too, which beats the
+   mono coming from .lzb .chip and drops the tab labels into body text. */
+.lzb .stafftabs button{background:none;cursor:pointer;border:1px solid var(--line)}
+
+/* The staff header. design-preview/assets/lazybee.css has a .topbar, but the
+   React copy of this file never took it: the owner page and The Hive each ship
+   their own header instead. This is the room desk's, named so it cannot collide
+   with either. */
+.lzb .stafftop{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  gap:var(--s5);padding:15px clamp(20px,3vw,40px);border-bottom:1px solid var(--line);
+  background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px)}
+.lzb .stafftop .brandlock{display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit}
+.lzb .stafftop .brandlock svg{width:22px;height:auto;fill:var(--accent)}
+.lzb .stafftop .brandlock .wd{font-family:var(--display);letter-spacing:.30em;font-size:15px}
+.lzb .stafftop nav{display:flex;align-items:center;gap:var(--s5)}
 
 /* ── property panel ───────────────────────────────────────────────── */
 .lzb .prop{border:1px solid var(--line);background:var(--surface);padding:clamp(20px,2.6vw,34px);margin-top:var(--s5)}

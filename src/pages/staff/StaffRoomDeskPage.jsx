@@ -93,12 +93,12 @@ export default function StaffRoomDeskPage() {
     <LazybeeRoot>
       <SEO title="Staff Resources" noindex />
 
-      <div className="topbar">
+      <div className="stafftop">
         <span className="brandlock">
           <BeeMark />
           <span className="wd">LAZYBEE</span>
         </span>
-        <nav className="navlinks">
+        <nav>
           <span className="label" style={{ letterSpacing: '.16em' }}>Staff</span>
           <ThemeToggle />
         </nav>
@@ -138,7 +138,7 @@ export default function StaffRoomDeskPage() {
             )
           ) : (
             <section>
-              <div className="tabs">
+              <div className="stafftabs">
                 {properties.map((p) => (
                   <button
                     key={p.code}
