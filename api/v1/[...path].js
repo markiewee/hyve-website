@@ -32,6 +32,7 @@ import {
 } from "../../src/lib/partnerLeads.js";
 import { validateTicket, ticketInsert, ticketView } from "../../src/lib/partnerTickets.js";
 import { sortOnboardings, onboardingView } from "../../src/lib/partnerOnboarding.js";
+import { sortCompliance, complianceView, complianceSummary } from "../../src/lib/partnerCompliance.js";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -351,6 +352,24 @@ async function handleSellState(res, keyRow) {
   ]);
   const shouldSet = new Set((should ?? []).map((r) => r.unit_code));
   return res.status(200).json({ data: (sellable ?? []).map((r) => sellStateView(r, shouldSet)) });
+}
+
+// ── Compliance: what a current tenant is missing ─────────────────────
+async function handleCompliance(res, keyRow, query) {
+  if (keyRow.scope !== "internal")
+    return err(res, 403, "forbidden", "Reading compliance needs an internal-scope key");
+  let q = supabase.from("v_tenant_compliance").select("*").limit(500);
+  if (query.urgency) q = q.eq("urgency", String(query.urgency).toUpperCase());
+  const { data, error: qErr } = await q;
+  if (qErr) return err(res, 500, "internal", "Could not read compliance");
+  const rows = data ?? [];
+  // The summary rides along because the first question anybody asks is how
+  // bad it is, and making every caller count the array themselves is how
+  // two dashboards end up disagreeing about the number.
+  return res.status(200).json({
+    summary: complianceSummary(rows),
+    data: sortCompliance(rows).map(complianceView),
+  });
 }
 
 // ── Onboardings: the half-finished move-ins ──────────────────────────
@@ -785,6 +804,8 @@ export default async function handler(req, res) {
       return handleListTickets(res, keyRow, req.query);
     if (head === "tickets" && (req.method === "PATCH" || req.method === "POST") && second)
       return handleUpdateTicket(req, res, keyRow, second);
+    if (head === "compliance" && req.method === "GET" && !second)
+      return handleCompliance(res, keyRow, req.query);
     if (head === "onboardings" && req.method === "GET" && !second)
       return handleListOnboardings(res, keyRow, req.query);
     if (head === "placements")

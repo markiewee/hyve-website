@@ -77,6 +77,21 @@ curl -s -X POST https://www.lazybee.sg/api/v1/leads/$ID \
 
 It accepts `status`, `lifecycle`, `activation_condition`, `budget_monthly`, `move_in`, `move_out`, `occupants`, `location_preference`, `role`, `next_action`, `next_action_due`, `matched_room_codes`, `property_interest`, `prospect_summary` and `notes`. Anything you omit is left alone. Returns the updated lead, or `404` if there is no such id.
 
+## What a tenant is missing on file
+
+`GET /v1/compliance` (internal scope) checks every current tenant against the required document set. Nothing had ever asked, and the first run answered: 20 of 20 have a gap, 19 have no IRAS stamping recorded, and 7 have no signed agreement in either `tenant_documents` or `onboarding_progress`.
+
+The required set is config, not code. It lives in `public.compliance_requirements` (`doc_kind`, `applies_to`, `accepts[]`, `is_required`, `why`), because whether a short-stay guest needs stamping is a judgement and the person who owns that judgement should be able to change it without a migration and a deploy.
+
+```bash
+curl -s "https://www.lazybee.sg/api/v1/compliance?urgency=CRITICAL" \
+  -H "Authorization: Bearer $LZB_KEY"
+```
+
+`CRITICAL` means no signed agreement exists anywhere, which is the one that is not a filing problem. An agreement counts as held if it is signed in either place we record signing, since the portal writes one and the document store the other and a tenant is no less covered because the paperwork landed in the other one.
+
+Each row carries `next_actions`, and the response leads with a `summary` so callers do not each count the array and disagree about the number. The room and the name travel; `tenant_profile_id` does not, because it addresses the most sensitive file this company holds.
+
 ## Half-finished move-ins
 
 `GET /v1/onboardings` (internal scope) answers the question `onboarding_progress` was never asked: who stopped, at which step, and how long ago. Every step in that table has always carried a timestamp and nothing read them, so the first run found two tenants who moved in on 15 June and never finished, one of them still without a signed tenancy agreement, and two tenancies that began on 1 August with the deposit unpaid.
