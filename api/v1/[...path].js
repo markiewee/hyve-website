@@ -67,7 +67,7 @@ async function authenticate(req) {
   if (!key) return { error: [401, "unauthorized", "Missing or malformed Authorization header"] };
   const { data: keyRow } = await supabase
     .from("channel_api_keys")
-    .select("id, rate_limit_per_min, revoked_at, scope, channel:listing_channels(id, slug, name, enabled, commission_pct, commission_months, gross_up, fee_fixed)")
+    .select("id, label, rate_limit_per_min, revoked_at, scope, channel:listing_channels(id, slug, name, enabled, commission_pct, commission_months, gross_up, fee_fixed)")
     .eq("key_hash", hashKey(key))
     .maybeSingle();
   if (!keyRow || keyRow.revoked_at) return { error: [401, "unauthorized", "Unknown or revoked key"] };
