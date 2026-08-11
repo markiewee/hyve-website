@@ -376,12 +376,17 @@ async function handlePlacements(req, res, keyRow, channel) {
     } catch (e) {
       return err(res, 422, "validation_failed", String(e.message ?? e));
     }
-    const { data: up, error: upErr } = await supabase.from("listing_placements")
+    // NOT `up`: that is the module-level code normaliser called a few lines
+    // above, and a const of the same name in this block put it in the
+    // temporal dead zone. Every POST here threw ReferenceError before it
+    // read a single field, so both platform workers had their placement
+    // writes fail silently for hours while still reporting healthy.
+    const { data: saved, error: upErr } = await supabase.from("listing_placements")
       .upsert({ room_id: room.id, channel_id: channel.id, ...patch }, { onConflict: "room_id,channel_id" })
       .select("id, status, external_id, url, last_pushed_at, last_verified_at")
       .single();
     if (upErr) return err(res, 500, "internal", "Could not record the placement");
-    return res.status(200).json({ ...up, listing_code: room.unit_code });
+    return res.status(200).json({ ...saved, listing_code: room.unit_code });
   }
   return err(res, 405, "method_not_allowed", "Unsupported method");
 }
