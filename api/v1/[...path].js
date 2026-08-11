@@ -36,6 +36,7 @@ import { sortCompliance, complianceView, complianceSummary } from "../../src/lib
 import {
   validatePinUse, attributionFor, commissionFor, shouldSetAttribution,
 } from "../../src/lib/partnerPins.js";
+import { sortStalled, stalledView, pipelineSummary } from "../../src/lib/partnerPipeline.js";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -381,6 +382,21 @@ async function handleGetPin(res, keyRow, pin) {
     commission: commissionFor(r.channel),
     use_count: r.use_count ?? 0,
     last_used_at: r.last_used_at ?? null,
+  });
+}
+
+// ── The pipeline: leads that stopped moving ──────────────────────────
+async function handleStalledLeads(res, keyRow, query) {
+  if (keyRow.scope !== "internal")
+    return err(res, 403, "forbidden", "Reading the pipeline needs an internal-scope key");
+  let q = supabase.from("v_leads_stalled").select("*").limit(500);
+  if (query.status) q = q.eq("status", query.status);
+  const { data, error: qErr } = await q;
+  if (qErr) return err(res, 500, "internal", "Could not read the pipeline");
+  const rows = data ?? [];
+  return res.status(200).json({
+    summary: pipelineSummary(rows),
+    data: sortStalled(rows).map(stalledView),
   });
 }
 
@@ -878,6 +894,8 @@ export default async function handler(req, res) {
       return handleCreateLead(req, res, keyRow, channel);
     if (head === "leads" && req.method === "GET" && !second)
       return handleListLeads(res, keyRow, req.query);
+    if (head === "leads" && req.method === "GET" && second === "stalled")
+      return handleStalledLeads(res, keyRow, req.query);
     if (head === "leads" && (req.method === "PATCH" || req.method === "POST") && second)
       return await handleUpdateLead(req, res, keyRow, second);
     if (head === "leads" && req.method === "GET" && second)
