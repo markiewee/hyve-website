@@ -22,7 +22,7 @@ import { hashKey, parseAuthHeader, allowRequest } from "../../src/lib/partnerAut
 import { calendarView } from "../../src/lib/partnerWindows.js";
 import { mergeProfiles, listingResource, propertyResource } from "../../src/lib/partnerSerialize.js";
 import { EVENT_TYPES, signPayload } from "../../src/lib/partnerWebhooks.js";
-import { validateBooking, bookingView } from "../../src/lib/partnerBookings.js";
+import { validateBooking, bookingView, isIsoDate } from "../../src/lib/partnerBookings.js";
 import { buildPlacementPatch } from "../../src/lib/partnerPlacements.js";
 import { bookingRequestEmail, bookingEmail, bookingCancelledEmail } from "../../src/lib/partnerNotify.js";
 import { sellStateView } from "../../src/lib/partnerSellState.js";
@@ -39,10 +39,16 @@ const MAX_DELIVERY_ATTEMPTS = 8;
 const err = (res, status, code, message) =>
   res.status(status).json({ error: { code, message } });
 
+// Unit codes are stored uppercase; partners send what their templating
+// produces. /listings/ih-std1 returning 404 was pure friction.
+const up = (s) => (typeof s === "string" ? s.trim().toUpperCase() : s);
+
 // ── Partner auth ─────────────────────────────────────────────────────
 // Key -> channel row. Channel must be enabled (the kill switch gates the
-// whole API) and the key not revoked. Rate limit is a fixed one-minute
-// window counted from api_request_log.
+// whole API) and the key not revoked. Rate limiting is one atomic
+// upsert-and-increment in Postgres (fn_rate_bump): the previous version
+// counted api_request_log BEFORE this request's row landed, so any burst
+// of concurrent requests all read the same low count and all passed.
 async function authenticate(req) {
   const key = parseAuthHeader(req.headers.authorization);
   if (!key) return { error: [401, "unauthorized", "Missing or malformed Authorization header"] };
@@ -53,14 +59,12 @@ async function authenticate(req) {
     .maybeSingle();
   if (!keyRow || keyRow.revoked_at) return { error: [401, "unauthorized", "Unknown or revoked key"] };
   if (!keyRow.channel?.enabled) return { error: [403, "channel_disabled", "This channel is not enabled"] };
-  const oneMinAgo = new Date(Date.now() - 60_000).toISOString();
-  const { count } = await supabase
-    .from("api_request_log")
-    .select("id", { count: "exact", head: true })
-    .eq("key_id", keyRow.id)
-    .gte("created_at", oneMinAgo);
-  if (!allowRequest(count ?? 0, keyRow.rate_limit_per_min))
-    return { error: [429, "rate_limited", "Rate limit exceeded; slow down"] };
+  const { data: used, error: rlErr } = await supabase.rpc("fn_rate_bump", { p_key_id: keyRow.id });
+  // A broken limiter fails OPEN: partners losing service to our own
+  // plumbing is worse than a minute of unmetered requests.
+  const slot = Number(used);
+  if (!rlErr && Number.isFinite(slot) && !allowRequest(slot, keyRow.rate_limit_per_min ?? 60))
+    return { error: [429, "rate_limited", "Rate limit exceeded; slow down"], retryAfter: 30 };
   return { keyRow };
 }
 
@@ -214,9 +218,17 @@ const ROOM_FOR_EMAIL = "id, unit_code, name, price_monthly, deposit_months, prop
 
 async function handleCreateBookingRequest(req, res, channel) {
   const b = req.body ?? {};
+  b.listing_code = up(b.listing_code);
   const missing = ["listing_code", "move_in", "duration_months"].filter((f) => !b[f]);
   if (!b.applicant?.name || !b.applicant?.email) missing.push("applicant.name/email");
   if (missing.length) return err(res, 422, "validation_failed", `Missing: ${missing.join(", ")}`);
+  // Reject before Postgres gets a chance to coerce ("01/06/2027" became a
+  // January hold live) or to 500 on garbage like 2027-13-45.
+  if (!isIsoDate(b.move_in))
+    return err(res, 422, "validation_failed", "move_in must be an ISO date (YYYY-MM-DD)");
+  const dur = Number(b.duration_months);
+  if (!Number.isInteger(dur) || dur < 1 || dur > 60)
+    return err(res, 422, "validation_failed", "duration_months must be a whole number of months (1 to 60)");
   const { data: room } = await supabase.from("rooms").select(ROOM_FOR_EMAIL).eq("unit_code", b.listing_code).maybeSingle();
   if (!room) return err(res, 422, "validation_failed", "Unknown listing_code");
 
@@ -259,6 +271,7 @@ async function handleGetBookingRequest(res, channel, id) {
 // overbooks deliberately, so the API records what it is told. ──────────
 async function handleCreateBooking(req, res, channel) {
   const b = req.body ?? {};
+  b.listing_code = up(b.listing_code);
   const v = validateBooking(b);
   if (!v.ok) return err(res, 422, "validation_failed", `Missing or invalid: ${v.missing.join(", ")}`);
   const { data: room } = await supabase.from("rooms").select(ROOM_FOR_EMAIL).eq("unit_code", b.listing_code).maybeSingle();
@@ -348,6 +361,7 @@ async function handlePlacements(req, res, keyRow, channel) {
   }
   if (req.method === "POST") {
     const b = req.body ?? {};
+    b.listing_code = up(b.listing_code);
     if (!b.listing_code) return err(res, 422, "validation_failed", "Missing: listing_code");
     const { data: room } = await supabase.from("rooms").select("id, unit_code").eq("unit_code", b.listing_code).maybeSingle();
     if (!room) return err(res, 422, "validation_failed", "Unknown listing_code");
@@ -446,11 +460,19 @@ export default async function handler(req, res) {
   const [head, second, third] = segs;
 
   if (req.method === "OPTIONS") return res.status(204).end();
+  // Bare /api/v1 used to fall through to Vercel's HTML 404; a JSON pointer
+  // is the only thing an integrating machine can use. No auth: it says
+  // nothing the docs page does not.
+  if (!head || head === "_index")
+    return res.status(200).json({ name: "Lazybee Partner API", version: "v1", docs: "https://www.lazybee.sg/developers" });
   if (head === "internal" && second === "dispatch" && req.method === "POST")
     return handleDispatch(req, res);
 
   const auth = await authenticate(req);
-  if (auth.error) return err(res, ...auth.error);
+  if (auth.error) {
+    if (auth.retryAfter) res.setHeader("Retry-After", String(auth.retryAfter));
+    return err(res, ...auth.error);
+  }
   const { keyRow } = auth;
   const channel = keyRow.channel;
 
@@ -463,9 +485,9 @@ export default async function handler(req, res) {
     if (head === "properties" && req.method === "GET")
       return handleProperties(res, second ?? null);
     if (head === "listings" && req.method === "GET" && third === "calendar")
-      return handleCalendar(res, second);
+      return handleCalendar(res, up(second));
     if (head === "listings" && req.method === "GET")
-      return handleListings(res, channel, req.query, second ?? null);
+      return handleListings(res, channel, req.query, second ? up(second) : null);
     if (head === "booking-requests" && req.method === "POST" && !second)
       return handleCreateBookingRequest(req, res, channel);
     if (head === "booking-requests" && req.method === "GET" && second)
