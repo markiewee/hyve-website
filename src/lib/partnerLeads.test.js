@@ -185,7 +185,9 @@ test("validateLeadUpdate keeps the enum and date rules, drops the reachability o
 
   // Putting a lead back to sleep still needs a condition something can
   // evaluate, or "follow up later" becomes a lie again.
-  assert.equal(validateLeadUpdate({ lifecycle: "STORED", activation_condition: null }).ok, false);
+  const restored = validateLeadUpdate({ lifecycle: "STORED", activation_condition: null });
+  assert.equal(restored.ok, false);
+  assert.equal(restored.missing.length, 1, "the reason should be given once, not twice");
   assert.equal(validateLeadUpdate({
     lifecycle: "STORED", activation_condition: { type: "DATE", on: "2027-01-01" },
   }).ok, true);

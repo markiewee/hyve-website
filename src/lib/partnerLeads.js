@@ -188,11 +188,9 @@ export function validateLeadUpdate(body) {
   delete probe.identifiers;
   const base = validateLead(probe);
   const missing = base.missing.filter((m) => !m.startsWith("one of:") && m !== "name");
-  // Waking a lead means giving it a lifecycle it can actually hold. Going
-  // to STORED without a condition is how "follow up later" became a lie in
-  // the first place, so it is refused here too.
-  if (String(b.lifecycle) === "STORED" && b.activation_condition === null)
-    missing.push("a STORED lead needs an activation_condition");
+  // Sending a lead back to STORED without a condition is still refused;
+  // that check lives in validateLead and its == null catches an explicit
+  // null too, so repeating it here only duplicated the message.
   return { ok: missing.length === 0, missing };
 }
 
