@@ -1,0 +1,117 @@
+/* Partner API docs, notepad style: white page, black monospace, dotted
+   leaders, a sticky left column to navigate. Deliberately matches Mark's
+   machine board (plain, black and white, no animation), not the marketing
+   site theme. Everything is scoped under .dev so no token leaks either way. */
+
+.dev {
+  background: #fff;
+  color: #000;
+  font: 14px/1.6 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  min-height: 100vh;
+}
+
+.dev-wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 24px 90px;
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 48px;
+}
+
+/* left column */
+.dev-nav {
+  position: sticky;
+  top: 110px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dev-nav-head {
+  font-weight: 700;
+  text-transform: lowercase;
+  margin-bottom: 8px;
+}
+.dev-nav a {
+  color: #777;
+  text-decoration: none;
+  text-transform: lowercase;
+}
+.dev-nav a:hover { color: #000; text-decoration: underline; }
+.dev-nav a.on { color: #000; font-weight: 700; }
+.dev-nav-mail {
+  margin-top: 16px;
+  border-top: 1px dotted #aaa;
+  padding-top: 10px;
+  text-transform: none !important;
+}
+
+/* body */
+/* The site's base styles put the display serif on headings and rounded
+   chrome on pre; both must lose inside the notepad. */
+.dev h1, .dev h2,
+.dev .dev-nav-head {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  letter-spacing: 0;
+}
+.dev pre { border-radius: 0; box-shadow: none; }
+
+.dev-h1 {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: lowercase;
+  margin: 0 0 6px;
+}
+.dev-intro { color: #777; margin: 0; }
+.dev-body > hr {
+  border: 0;
+  border-top: 1px solid #000;
+  margin: 22px 0 30px;
+}
+
+.dev-section { margin: 0 0 36px; scroll-margin-top: 120px; }
+.dev-h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: lowercase;
+  margin: 0 0 10px;
+}
+.dev-h2 .dev-dots {
+  flex: 1;
+  border-bottom: 1px dotted #aaa;
+  transform: translateY(-4px);
+}
+
+.dev-p { margin: 0 0 12px; }
+.dev-body code { font: inherit; font-weight: 700; }
+.dev-body a { color: #000; }
+
+.dev-code {
+  border: 1px dotted #aaa;
+  background: #fff;
+  color: #000;
+  padding: 12px 14px;
+  margin: 0 0 14px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.dev-code code { font-weight: 400; }
+
+@media (max-width: 840px) {
+  .dev-wrap { display: block; }
+  .dev-nav {
+    position: static;
+    flex-flow: row wrap;
+    gap: 4px 16px;
+    border-bottom: 1px dotted #aaa;
+    padding-bottom: 14px;
+    margin-bottom: 24px;
+  }
+  .dev-nav-head { width: 100%; margin-bottom: 2px; }
+  .dev-nav-mail { display: none; }
+}
