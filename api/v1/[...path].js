@@ -33,7 +33,9 @@ import {
 import { validateTicket, ticketInsert, ticketView } from "../../src/lib/partnerTickets.js";
 import { sortOnboardings, onboardingView } from "../../src/lib/partnerOnboarding.js";
 import { sortCompliance, complianceView, complianceSummary } from "../../src/lib/partnerCompliance.js";
-import { validatePinUse, attributionFor, commissionFor } from "../../src/lib/partnerPins.js";
+import {
+  validatePinUse, attributionFor, commissionFor, shouldSetAttribution,
+} from "../../src/lib/partnerPins.js";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -532,6 +534,12 @@ async function handleCreateLead(req, res, keyRow, channel) {
   if (!pinCheck.ok) return err(res, pinCheck.status, pinCheck.code, pinCheck.reason);
   const pinResolved = await resolvePin(pinCheck.pin);
   if (pinResolved.error) return err(res, ...pinResolved.error);
+  // The channel the row belongs to, which is the agent's when a PIN was
+  // presented. Used for the insert AND the idempotency lookup: writing the
+  // row under one channel and looking for the retry under another is how a
+  // retried POST becomes a second copy of the same person.
+  const attribution = attributionFor(pinResolved.row, channel);
+  const ownerId = attribution.channel_id ?? channel.id;
   const b = req.body ?? {};
   const v = validateLead(b);
   if (!v.ok) return err(res, 422, "validation_failed", `Missing or invalid: ${v.missing.join(", ")}`);
@@ -540,12 +548,12 @@ async function handleCreateLead(req, res, keyRow, channel) {
   // it already made rather than a second copy of the same human.
   if (b.idempotency_key) {
     const { data: existing } = await supabase.from("leads").select("*")
-      .eq("channel_id", channel.id).eq("idempotency_key", b.idempotency_key).maybeSingle();
+      .eq("channel_id", ownerId).eq("idempotency_key", b.idempotency_key).maybeSingle();
     if (existing) return res.status(200).json({ ...leadView(existing), matched_on: "idempotency_key", created: false });
   }
 
   const { row: found, matched_on } = await matchLead(b);
-  const patch = leadPatch(b, { channelId: channel.id });
+  const patch = leadPatch(b, { channelId: ownerId });
 
   // Aliases accumulate. Losing an old handle breaks the next match, and the
   // whole point is that one person keeps one row as they move platforms.
@@ -563,22 +571,36 @@ async function handleCreateLead(req, res, keyRow, channel) {
       delete patch.status;
     // A name we already have beats a platform display name like "WA User".
     if (found.name && !b.name_authoritative) delete patch.name;
+    // First attribution wins. Riko introduces somebody, the prospect then
+    // messages the WhatsApp line directly, and the brain files an update
+    // with no PIN: without this, that update quietly moves the lead from
+    // Riko's channel to ours and takes his commission with it. Credit is
+    // only ever set on a row that has none.
+    if (!shouldSetAttribution(found.channel_id, attribution)) delete patch.channel_id;
     const { data: updated, error: upErr } = await supabase.from("leads")
       .update(patch).eq("id", found.id).select("*").single();
     if (upErr) return err(res, 500, "internal", "Could not update the lead");
-    return res.status(200).json({ ...leadView(updated), matched_on, created: false });
+    await stampPinUse(pinResolved.row);
+    return res.status(200).json({
+      ...leadView(updated), matched_on, created: false,
+      attributed_to: attribution.attributed_to ?? null,
+    });
   }
 
   const insert = {
     ...patch,
     status: patch.status ?? "new",
-    source: patch.source ?? channel.slug,
+    source: patch.source ?? (pinResolved.row?.channel?.slug ?? channel.slug),
     first_contact_at: b.first_contact_at ?? new Date().toISOString(),
   };
   const { data: created, error: insErr } = await supabase.from("leads")
     .insert(insert).select("*").single();
   if (insErr) return err(res, 500, "internal", "Could not record the lead");
-  return res.status(201).json({ ...leadView(created), matched_on: null, created: true });
+  await stampPinUse(pinResolved.row);
+  return res.status(201).json({
+    ...leadView(created), matched_on: null, created: true,
+    attributed_to: attribution.attributed_to ?? null,
+  });
 }
 
 async function handleListLeads(res, keyRow, query) {

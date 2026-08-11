@@ -56,6 +56,16 @@ export function attributionFor(pinRow, callingChannel) {
 // invented. A channel with no commission recorded returns null rather than
 // zero: "we do not know" and "they get nothing" are different answers and
 // only one of them is safe to put in front of an agent.
+// First attribution wins, and this is the function that says so. An agent
+// introduces somebody, the prospect later messages our own line, and the
+// brain files an update carrying no PIN. Without this rule that update
+// moves the lead onto our channel and takes the agent's commission with it,
+// silently, and the agent has no way to see it happened.
+export function shouldSetAttribution(existingChannelId, attribution) {
+  if (attribution?.attributed_via === "pin") return true;   // an explicit claim
+  return !existingChannelId;                                 // otherwise only fill a blank
+}
+
 export function commissionFor(channel) {
   if (!channel) return null;
   const pct = channel.commission_pct;
