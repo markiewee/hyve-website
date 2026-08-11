@@ -10,8 +10,11 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { LazybeeRoot } from '../../hooks/useLazybeeTheme';
 import { buildUnlock, readUnlock, STORAGE_KEY } from '../../lib/staffPin';
+import { useLanguage } from '../../i18n/LanguageContext';
+import LangSwitch from '../../i18n/LangSwitch';
 
 export default function StaffPinGate({ children }) {
+  const { t } = useLanguage();
   const [open, setOpen] = useState(null); // null while storage is being read
   const [pin, setPin] = useState('');
   const [busy, setBusy] = useState(false);
@@ -60,16 +63,22 @@ export default function StaffPinGate({ children }) {
         style={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}
       >
         <form onSubmit={submit} style={{ maxWidth: 380, margin: '0 auto', width: '100%' }}>
-          <div className="label">Lazybee, internal</div>
+          {/* The switch lives on the gate too. Staff meet this screen before the
+              desk, so a Chinese-reading captain would otherwise have to get past
+              an English wall to reach the language button. */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+            <div className="label">{t('staff.brandNote')}</div>
+            <LangSwitch />
+          </div>
           <h1 className="h1" style={{ fontSize: 'clamp(26px,3vw,36px)', marginTop: 'var(--s3)' }}>
-            Room desk
+            {t('staff.roomDesk')}
           </h1>
           <p className="small" style={{ marginTop: 'var(--s3)' }}>
-            Enter your six digit staff PIN. Ask Mark if you do not have one.
+            {t('staff.pinPrompt')}
           </p>
 
           <div className="field" style={{ marginTop: 'var(--s5)' }}>
-            <label className="label" htmlFor="staff-pin">PIN</label>
+            <label className="label" htmlFor="staff-pin">{t('staff.pin')}</label>
             <input
               className="input"
               id="staff-pin"
@@ -84,7 +93,7 @@ export default function StaffPinGate({ children }) {
             />
             {bad && (
               <div className="error" id="staff-pin-error" role="alert">
-                That PIN was not recognised.
+                {t('staff.pinBad')}
               </div>
             )}
           </div>
@@ -95,7 +104,7 @@ export default function StaffPinGate({ children }) {
             style={{ marginTop: 'var(--s5)', width: '100%' }}
             disabled={pin.length !== 6 || busy}
           >
-            {busy ? 'Checking' : 'Open the room desk'}
+            {busy ? t('staff.checking') : t('staff.openDesk')}
           </button>
         </form>
       </main>

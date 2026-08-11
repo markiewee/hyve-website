@@ -35,6 +35,7 @@ const SAME_IN_BOTH = new Set([
   'public.contact.whatsapp',     // "WhatsApp"
   'owner.vocab.wifi',            // "WiFi", the amenity
   'owner.portal.addressBar',     // a URL in a mock browser chrome
+  'staff.pin',                   // "PIN", the same acronym in both
 ]);
 
 test('every English key has a Chinese counterpart', () => {
