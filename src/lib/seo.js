@@ -115,6 +115,124 @@ export function localBusinessSchemas() {
   }));
 }
 
+/* ── the rooms themselves ─────────────────────────────────────────── */
+
+/** Rooms only. Kitchens, toilets, yards and common areas are not lettable. */
+const LETTABLE = ROOMS.filter((r) => r.code && r.price > 0);
+
+const BOOKING = 'https://book.lazybee.sg';
+const homeOf = (code) => HOMES.find((h) => h.code === code);
+
+/**
+ * One room as schema.org Accommodation.
+ *
+ * There is no `availability` and no `availabilityStarts` on the offer, on
+ * purpose. Everything else in here is a stable fact that only changes when
+ * somebody edits the inventory, but availability changes when a person
+ * signs or moves out, which is not a deploy. Stating it from a build-time
+ * snapshot is how an ad ends up selling a room that is already taken, so
+ * the offer links to the booking page and lets the live system answer.
+ */
+export function accommodationSchema(room) {
+  const home = homeOf(room.home);
+  const url = `${BOOKING}/rooms/${room.code}`;
+  const amenities = Array.isArray(room.am) ? room.am : [];
+  const photos = Array.isArray(room.photos) ? room.photos : [];
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Accommodation',
+    '@id': url,
+    url,
+    identifier: room.ref || room.code,
+    name: home ? `${room.type} at ${home.name}` : room.type,
+    accommodationCategory: room.type,
+    ...(photos.length ? { image: photos.map((src) => `${BASE}${src}`) } : {}),
+    ...(room.sqm
+      ? { floorSize: { '@type': 'QuantitativeValue', value: room.sqm, unitCode: 'MTK' } }
+      : {}),
+    ...(room.occ
+      ? {
+          occupancy: {
+            '@type': 'QuantitativeValue',
+            maxValue: room.occ,
+            unitText: 'person',
+          },
+        }
+      : {}),
+    ...(room.bed
+      ? { bed: { '@type': 'BedDetails', typeOfBed: room.bed, numberOfBeds: 1 } }
+      : {}),
+    ...(room.ensuite ? { numberOfBathroomsTotal: 1 } : {}),
+    ...(amenities.length
+      ? {
+          amenityFeature: amenities.map((name) => ({
+            '@type': 'LocationFeatureSpecification',
+            name,
+            value: true,
+          })),
+        }
+      : {}),
+    ...(home
+      ? {
+          containedInPlace: {
+            '@type': 'ApartmentComplex',
+            name: home.full,
+            address: postalAddress(home.address),
+            ...(Array.isArray(home.ll)
+              ? {
+                  geo: {
+                    '@type': 'GeoCoordinates',
+                    longitude: home.ll[0],
+                    latitude: home.ll[1],
+                  },
+                }
+              : {}),
+          },
+        }
+      : {}),
+    offers: {
+      '@type': 'Offer',
+      url,
+      priceCurrency: 'SGD',
+      /* goodrelations LeaseOut, because this is a tenancy and not a sale. */
+      businessFunction: 'http://purl.org/goodrelations/v1#LeaseOut',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: room.price,
+        priceCurrency: 'SGD',
+        unitCode: 'MON',
+        referenceQuantity: { '@type': 'QuantitativeValue', value: 1, unitCode: 'MON' },
+      },
+      ...(room.min
+        ? {
+            eligibleDuration: {
+              '@type': 'QuantitativeValue',
+              minValue: room.min,
+              unitCode: 'MON',
+            },
+          }
+        : {}),
+      seller: { '@id': `${BASE}/#organization` },
+    },
+  };
+}
+
+/** Every lettable room, in one list, for the page that shows the comb. */
+export function roomListSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    '@id': `${BASE}/#rooms`,
+    name: `${BRAND} rooms`,
+    numberOfItems: LETTABLE.length,
+    itemListElement: LETTABLE.map((room, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: accommodationSchema(room),
+    })),
+  };
+}
+
 /** Legacy single-node builder, kept for the retired /locations route. */
 export function lodgingBusinessSchema() {
   return {
