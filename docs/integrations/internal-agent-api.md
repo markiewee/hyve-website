@@ -77,6 +77,19 @@ curl -s -X POST https://www.lazybee.sg/api/v1/leads/$ID \
 
 It accepts `status`, `lifecycle`, `activation_condition`, `budget_monthly`, `move_in`, `move_out`, `occupants`, `location_preference`, `role`, `next_action`, `next_action_due`, `matched_room_codes`, `property_interest`, `prospect_summary` and `notes`. Anything you omit is left alone. Returns the updated lead, or `404` if there is no such id.
 
+## Half-finished move-ins
+
+`GET /v1/onboardings` (internal scope) answers the question `onboarding_progress` was never asked: who stopped, at which step, and how long ago. Every step in that table has always carried a timestamp and nothing read them, so the first run found two tenants who moved in on 15 June and never finished, one of them still without a signed tenancy agreement, and two tenancies that began on 1 August with the deposit unpaid.
+
+Rows come back worst first. `urgency` is decided by the `v_onboardings_stuck` view rather than by the API, so a dashboard and an agent cannot disagree about what is urgent: `CRITICAL` means the tenancy has already started while the agreement is unsigned or the deposit unpaid, `HIGH` is a stall of two weeks or an unverified ID on an occupied room, then `NORMAL` and `FRESH`.
+
+```bash
+curl -s "https://www.lazybee.sg/api/v1/onboardings?started=true" \
+  -H "Authorization: Bearer $LZB_KEY"
+```
+
+Filters: `urgency` and `started=true` (only rooms somebody is already living in). Each row carries a `next_action` naming what would unstick it, so a chaser does not need its own copy of the step map. The tenant's name and room travel because a chaser cannot chase an anonymous row; the tenancy file does not. No signature, no signed-agreement url, no Stripe session, no profile id.
+
 ## Filing a ticket (nothing dies in chat)
 
 `POST /v1/tickets` (internal scope) exists because `maintenance_tickets.submitted_by` used to be NOT NULL against a portal account, so a fault reported in a house WhatsApp group could not become a ticket at all. It is now attributable to a phone instead.
