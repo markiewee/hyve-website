@@ -41,10 +41,54 @@ Two more fields for observation reports: `observed` stores whatever the agent sa
 
 `should_be_live` is the rule-18 verdict (goes empty inside the sell window with no follow-on booking). Agents must use this endpoint rather than re-deriving the rule client-side, so the rule lives in exactly one place.
 
+## Filing a lead (the CRM write path)
+
+`POST /v1/leads` is how a worker turns a conversation into a row somebody can act on. Before this existed the reply brain answered a prospect, recorded an outcome on the board feed, and left the `leads` table untouched, so "moved to CRM" was narration rather than a fact.
+
+```bash
+curl -s -X POST https://www.lazybee.sg/api/v1/leads \
+  -H "Authorization: Bearer $LZB_KEY" -H "Content-Type: application/json" \
+  -d '{"name":"Jane Tan","phone":"91234567","chat_id":"358",
+       "source":"whatsapp","budget_monthly":1400,"move_in":"2026-09-01",
+       "occupants":1,"matched_room_codes":["CP-MR"],
+       "idempotency_key":"thread-358-2026-08-11"}'
+```
+
+One person, one row. The matcher resolves in order of how much an identifier can be trusted: a normalised phone is definitive, then `chat_id`, then an alias in `identifiers[]`, then email. It never matches on name, because two different Jane Tans are two people. The response says which of those it matched on, and whether it created a row:
+
+```json
+{"id":"...","name":"Jane Tan","phone":"+6591234567","status":"new",
+ "lifecycle":"ACTIVE","matched_on":"phone","created":false}
+```
+
+Two behaviours worth knowing before you wire a worker to this. A lead is never walked backwards: the brain files `status: "new"` on every fresh message, and the endpoint refuses to let that overwrite a lead that already reached `signed`. And handles accumulate rather than replace, so a prospect who arrives as a Carousell username, becomes a WhatsApp LID and finally sends a real number stays one row the whole way.
+
+Send the raw `phone` even when it is not dialable. WhatsApp LID privacy identifiers (`90070873755`, `305823417484`) look like phone numbers and are not; the API keeps them as aliases and leaves the key column null rather than inventing a number that would merge two strangers.
+
+`GET /leads` (internal scope) filters on `lifecycle`, `status` and `phone`. `GET /leads/{id}` reads one.
+
+## Filing a ticket (nothing dies in chat)
+
+`POST /v1/tickets` (internal scope) exists because `maintenance_tickets.submitted_by` used to be NOT NULL against a portal account, so a fault reported in a house WhatsApp group could not become a ticket at all. It is now attributable to a phone instead.
+
+```bash
+curl -s -X POST https://www.lazybee.sg/api/v1/tickets \
+  -H "Authorization: Bearer $LZB_KEY" -H "Content-Type: application/json" \
+  -d '{"listing_code":"CP-MR","description":"No water in the bathroom since this morning",
+       "reporter_phone":"+6591234567","reporter_name":"Jane",
+       "source":"whatsapp","idempotency_key":"ticket-358-2026-08-11"}'
+```
+
+Category and severity are inferred from the text when you do not say, and an explicit value always wins, because the person standing in the flat knows better than a keyword list. Severity is a clock, not an adjective: `URGENT` 4h, `HIGH` 48h, `ROUTINE` 7d, `COSMETIC` 30d, and the returned `due_at` is what the chaser and the board both judge lateness by. URGENT also emails admin@lazybee.sg immediately, because for those a row is not enough.
+
+Pass `property_slug` instead of `listing_code` for shared space: a lift, a corridor light and a front gate belong to a building and to no room.
+
+`GET /tickets?open=true` and `?overdue=true` list work. `PATCH /tickets/{id}` moves it: `status`, `severity`, `scheduled_for`, `resolution_note`, `charge_to_tenant`, and `{"chased": true}` to stamp a nudge and bump the count.
+
 ## What agents read
 
 Grounding for replies and posts comes from `GET /listings` (prices, photos, features, available_from) and `GET /listings/{code}/calendar` (occupancy windows). There is deliberately no tenant identity anywhere on this API; if a task genuinely needs tenant data, it is not an agent task, it goes through Claudine's own session.
 
 ## Not yet on the API
 
-Viewings (`property_viewings`) and the full worker claim/report protocol (`fn_claim_listing_work` / `fn_report_listing_result`) keep their existing paths for now. Migrating each skill onto the API is tracked as follow-up work per skill.
+Onboarding steps, tenant documents and the compliance required-set are still portal-only. Viewings (`property_viewings`) and the full worker claim/report protocol (`fn_claim_listing_work` / `fn_report_listing_result`) keep their existing paths for now. Migrating each skill onto the API is tracked as follow-up work per skill.

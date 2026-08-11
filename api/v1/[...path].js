@@ -26,6 +26,10 @@ import { validateBooking, bookingView, isIsoDate } from "../../src/lib/partnerBo
 import { buildPlacementPatch } from "../../src/lib/partnerPlacements.js";
 import { bookingRequestEmail, bookingEmail, bookingCancelledEmail } from "../../src/lib/partnerNotify.js";
 import { sellStateView } from "../../src/lib/partnerSellState.js";
+import {
+  validateLead, leadPatch, leadView, mergeIdentifiers, normalisePhone,
+} from "../../src/lib/partnerLeads.js";
+import { validateTicket, ticketInsert, ticketView } from "../../src/lib/partnerTickets.js";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -381,6 +385,232 @@ async function handlePlacements(req, res, keyRow, channel) {
   return err(res, 405, "method_not_allowed", "Unsupported method");
 }
 
+// ── Leads: the CRM write path ────────────────────────────────────────
+//
+// The rule the whole CRM hangs on is that the phone number is the person.
+// Everything else (a Carousell handle, a Beeper chat id, a WhatsApp LID)
+// is an alias that attaches to that row, so Utkarsh on Carousell, Utkarsh
+// on the WA line and Utkarsh in a viewing row are one lead and not three.
+//
+// matchLead looks for the person in the order the identifiers can be
+// trusted: a normalised phone is definitive, a chat id is reliable within
+// one platform, and an alias is a last resort. It deliberately does NOT
+// match on name: two different Jane Tans are not one prospect.
+async function matchLead(body) {
+  const phone = normalisePhone(body.phone);
+  if (phone) {
+    const { data } = await supabase.from("leads").select("*").eq("phone_e164", phone)
+      .order("created_at", { ascending: true }).limit(1).maybeSingle();
+    if (data) return { row: data, matched_on: "phone" };
+  }
+  if (body.chat_id) {
+    const { data } = await supabase.from("leads").select("*").eq("chat_id", String(body.chat_id))
+      .order("created_at", { ascending: true }).limit(1).maybeSingle();
+    if (data) return { row: data, matched_on: "chat_id" };
+  }
+  const aliases = [
+    ...(Array.isArray(body.identifiers) ? body.identifiers : []),
+    // A LID arrives in the phone field and is not a phone; it is still the
+    // only handle we have for that person until they send a real number.
+    ...(!phone && body.phone ? [String(body.phone)] : []),
+  ].map((s) => String(s).trim()).filter(Boolean);
+  if (aliases.length) {
+    const { data } = await supabase.from("leads").select("*")
+      .overlaps("identifiers", aliases)
+      .order("created_at", { ascending: true }).limit(1).maybeSingle();
+    if (data) return { row: data, matched_on: "identifier" };
+  }
+  if (body.email) {
+    const { data } = await supabase.from("leads").select("*").eq("email", body.email)
+      .order("created_at", { ascending: true }).limit(1).maybeSingle();
+    if (data) return { row: data, matched_on: "email" };
+  }
+  return { row: null, matched_on: null };
+}
+
+async function handleCreateLead(req, res, keyRow, channel) {
+  const b = req.body ?? {};
+  const v = validateLead(b);
+  if (!v.ok) return err(res, 422, "validation_failed", `Missing or invalid: ${v.missing.join(", ")}`);
+
+  // Same idempotency contract as /bookings: a retried POST returns the row
+  // it already made rather than a second copy of the same human.
+  if (b.idempotency_key) {
+    const { data: existing } = await supabase.from("leads").select("*")
+      .eq("channel_id", channel.id).eq("idempotency_key", b.idempotency_key).maybeSingle();
+    if (existing) return res.status(200).json({ ...leadView(existing), matched_on: "idempotency_key", created: false });
+  }
+
+  const { row: found, matched_on } = await matchLead(b);
+  const patch = leadPatch(b, { channelId: channel.id });
+
+  // Aliases accumulate. Losing an old handle breaks the next match, and the
+  // whole point is that one person keeps one row as they move platforms.
+  const incoming = [
+    ...(Array.isArray(b.identifiers) ? b.identifiers : []),
+    ...(!normalisePhone(b.phone) && b.phone ? [String(b.phone)] : []),
+  ];
+  patch.identifiers = mergeIdentifiers(found?.identifiers, incoming);
+
+  if (found) {
+    // Never downgrade a lead that has already progressed: the brain files
+    // "new" on every fresh message, and letting that overwrite "signed"
+    // would walk a closed deal backwards.
+    if (patch.status && found.status && found.status !== "new" && patch.status === "new")
+      delete patch.status;
+    // A name we already have beats a platform display name like "WA User".
+    if (found.name && !b.name_authoritative) delete patch.name;
+    const { data: updated, error: upErr } = await supabase.from("leads")
+      .update(patch).eq("id", found.id).select("*").single();
+    if (upErr) return err(res, 500, "internal", "Could not update the lead");
+    return res.status(200).json({ ...leadView(updated), matched_on, created: false });
+  }
+
+  const insert = {
+    ...patch,
+    status: patch.status ?? "new",
+    source: patch.source ?? channel.slug,
+    first_contact_at: b.first_contact_at ?? new Date().toISOString(),
+  };
+  const { data: created, error: insErr } = await supabase.from("leads")
+    .insert(insert).select("*").single();
+  if (insErr) return err(res, 500, "internal", "Could not record the lead");
+  return res.status(201).json({ ...leadView(created), matched_on: null, created: true });
+}
+
+async function handleListLeads(res, keyRow, query) {
+  if (keyRow.scope !== "internal")
+    return err(res, 403, "forbidden", "Listing leads needs an internal-scope key");
+  let q = supabase.from("leads").select("*").order("updated_at", { ascending: false }).limit(200);
+  if (query.lifecycle) q = q.eq("lifecycle", String(query.lifecycle).toUpperCase());
+  if (query.status) q = q.eq("status", query.status);
+  if (query.phone) {
+    const p = normalisePhone(query.phone);
+    if (!p) return err(res, 422, "validation_failed", "phone is not a dialable number");
+    q = q.eq("phone_e164", p);
+  }
+  const { data } = await q;
+  return res.status(200).json({ data: (data ?? []).map(leadView) });
+}
+
+async function handleGetLead(res, keyRow, id) {
+  if (keyRow.scope !== "internal")
+    return err(res, 403, "forbidden", "Reading a lead needs an internal-scope key");
+  const { data } = await supabase.from("leads").select("*").eq("id", id).maybeSingle();
+  if (!data) return err(res, 404, "not_found", "No such lead");
+  return res.status(200).json(leadView(data));
+}
+
+// ── Tickets: report to resolved, nothing dies in chat ────────────────
+async function handleCreateTicket(req, res, keyRow, channel) {
+  if (keyRow.scope !== "internal")
+    return err(res, 403, "forbidden", "Filing a ticket needs an internal-scope key");
+  const b = req.body ?? {};
+  if (b.listing_code) b.listing_code = up(b.listing_code);
+  const v = validateTicket(b);
+  if (!v.ok) return err(res, 422, "validation_failed", `Missing or invalid: ${v.missing.join(", ")}`);
+
+  if (b.idempotency_key) {
+    const { data: existing } = await supabase.from("maintenance_tickets")
+      .select("*, room:rooms(unit_code)")
+      .eq("channel_id", channel.id).eq("idempotency_key", b.idempotency_key).maybeSingle();
+    if (existing) return res.status(200).json(ticketView(existing, existing.room?.unit_code ?? null));
+  }
+
+  // A room implies its property. A property alone is legitimate: a lift, a
+  // corridor light and a front gate belong to a building and to no room.
+  let roomId = null, propertyId = null, unitCode = null;
+  if (b.listing_code) {
+    const { data: room } = await supabase.from("rooms")
+      .select("id, unit_code, property_id").eq("unit_code", b.listing_code).maybeSingle();
+    if (!room) return err(res, 422, "validation_failed", "Unknown listing_code");
+    roomId = room.id; propertyId = room.property_id; unitCode = room.unit_code;
+  } else {
+    const { data: prop } = await supabase.from("properties")
+      .select("id").eq("slug", b.property_slug).maybeSingle();
+    if (!prop) return err(res, 422, "validation_failed", "Unknown property_slug");
+    propertyId = prop.id;
+  }
+
+  // Tie the ticket to the person who reported it when we already know them,
+  // so a tenant's history is one thread rather than scattered rows.
+  let leadId = null;
+  const phone = normalisePhone(b.reporter_phone);
+  if (phone) {
+    const { data: lead } = await supabase.from("leads").select("id").eq("phone_e164", phone).maybeSingle();
+    leadId = lead?.id ?? null;
+  }
+
+  const row = ticketInsert(b, { roomId, propertyId, channelId: channel.id, leadId });
+  const { data: created, error: insErr } = await supabase.from("maintenance_tickets")
+    .insert(row).select("*").single();
+  if (insErr) return err(res, 500, "internal", "Could not record the ticket");
+
+  // Urgent work is the one case where a row is not enough: somebody has to
+  // be told while it still matters.
+  if (created.severity === "URGENT") {
+    await sendAdminEmail({
+      subject: `URGENT maintenance: ${unitCode ?? b.property_slug} ${created.category}`,
+      text: [
+        `An urgent maintenance ticket was filed via ${channel.name}.`,
+        ``,
+        `Where:     ${unitCode ?? b.property_slug}`,
+        `Category:  ${created.category}`,
+        `Reported:  ${created.reporter_name ?? "unknown"} ${created.reporter_phone ?? ""}`.trim(),
+        `Due by:    ${created.due_at}`,
+        ``,
+        created.description,
+      ].join("\n"),
+    });
+  }
+  return res.status(201).json(ticketView(created, unitCode));
+}
+
+async function handleListTickets(res, keyRow, query) {
+  if (keyRow.scope !== "internal")
+    return err(res, 403, "forbidden", "Listing tickets needs an internal-scope key");
+  let q = supabase.from("maintenance_tickets")
+    .select("*, room:rooms(unit_code)")
+    .order("due_at", { ascending: true }).limit(200);
+  if (query.status) q = q.eq("status", String(query.status).toUpperCase());
+  if (query.severity) q = q.eq("severity", String(query.severity).toUpperCase());
+  if (query.open === "true") q = q.neq("status", "RESOLVED");
+  if (query.overdue === "true") q = q.neq("status", "RESOLVED").lt("due_at", new Date().toISOString());
+  const { data } = await q;
+  return res.status(200).json({ data: (data ?? []).map((t) => ticketView(t, t.room?.unit_code ?? null)) });
+}
+
+async function handleUpdateTicket(req, res, keyRow, id) {
+  if (keyRow.scope !== "internal")
+    return err(res, 403, "forbidden", "Updating a ticket needs an internal-scope key");
+  const b = req.body ?? {};
+  const patch = { updated_at: new Date().toISOString() };
+  for (const [field, key] of [["status", "status"], ["severity", "severity"]]) {
+    if (b[field] != null) patch[key] = String(b[field]).toUpperCase();
+  }
+  const v = validateTicket({
+    description: "unchanged", property_slug: "unchanged", reporter_phone: "unchanged",
+    status: patch.status, severity: patch.severity,
+  });
+  if (!v.ok) return err(res, 422, "validation_failed", `Invalid: ${v.missing.join(", ")}`);
+  for (const f of ["resolution_note", "scheduled_for", "access_note", "assigned_to",
+                   "charge_to_tenant", "charge_amount"]) {
+    if (b[f] !== undefined) patch[f] = b[f];
+  }
+  // Closing the loop stamps the time; the photo-proof rule is enforced by
+  // the caller that owns the evidence, not here.
+  if (patch.status === "RESOLVED") patch.resolved_at = new Date().toISOString();
+  if (b.chased) {
+    patch.last_chased_at = new Date().toISOString();
+    const { data: cur } = await supabase.from("maintenance_tickets").select("chase_count").eq("id", id).maybeSingle();
+    patch.chase_count = (cur?.chase_count ?? 0) + 1;
+  }
+  const { data: updated, error: upErr } = await supabase.from("maintenance_tickets")
+    .update(patch).eq("id", id).select("*, room:rooms(unit_code)").single();
+  if (upErr || !updated) return err(res, 404, "not_found", "No such ticket");
+  return res.status(200).json(ticketView(updated, updated.room?.unit_code ?? null));
+}
+
 // ── Webhook subscription CRUD ────────────────────────────────────────
 async function handleWebhooks(req, res, channel, id) {
   if (req.method === "GET") {
@@ -502,6 +732,21 @@ export default async function handler(req, res) {
       return handleCancelBooking(res, channel, second);
     if (head === "internal" && second === "sell-state" && req.method === "GET")
       return handleSellState(res, keyRow);
+    // Leads. POST is open to partner scope so a referral carries attribution;
+    // reading the book stays internal, because one partner has no business
+    // browsing another's prospects.
+    if (head === "leads" && req.method === "POST" && !second)
+      return handleCreateLead(req, res, keyRow, channel);
+    if (head === "leads" && req.method === "GET" && !second)
+      return handleListLeads(res, keyRow, req.query);
+    if (head === "leads" && req.method === "GET" && second)
+      return handleGetLead(res, keyRow, second);
+    if (head === "tickets" && req.method === "POST" && !second)
+      return handleCreateTicket(req, res, keyRow, channel);
+    if (head === "tickets" && req.method === "GET" && !second)
+      return handleListTickets(res, keyRow, req.query);
+    if (head === "tickets" && (req.method === "PATCH" || req.method === "POST") && second)
+      return handleUpdateTicket(req, res, keyRow, second);
     if (head === "placements")
       return handlePlacements(req, res, keyRow, channel);
     if (head === "webhooks")
