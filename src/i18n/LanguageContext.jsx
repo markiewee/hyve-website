@@ -51,6 +51,23 @@ export function LanguageProvider({ children }) {
     }
   }
 
+  // A route-level default, for pages whose audience is not the site's audience.
+  // The staff room desk is read by a Chinese rental aggregator, so it opens in
+  // Chinese while the marketing site keeps its English default.
+  //
+  // Deliberately not persisted, and deliberately skipped when the visitor has
+  // already chosen: a real choice outranks a route's opinion, and because
+  // nothing is written, leaving the desk does not turn the rest of the site
+  // Chinese behind you.
+  function preferLanguage(l) {
+    try {
+      if (window.localStorage.getItem("lazybee_lang")) return;
+    } catch {
+      // storage disabled, so there is no stored choice to respect
+    }
+    setLang(l);
+  }
+
   function t(key, params = {}) {
     const keys = key.split(".");
     let val = translations[lang];
@@ -61,7 +78,7 @@ export function LanguageProvider({ children }) {
   }
 
   return (
-    <LanguageContext.Provider value={{ lang, setLanguage, t }}>
+    <LanguageContext.Provider value={{ lang, setLanguage, preferLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );

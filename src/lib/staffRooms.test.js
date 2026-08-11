@@ -9,6 +9,7 @@ import assert from "node:assert/strict";
 import {
   isLettable,
   availabilityStatus,
+  formatDate,
   isSellNow,
   priceLadder,
   roomMatchesSearch,
@@ -36,27 +37,35 @@ test("a room is lettable only with both a type and a price", () => {
 
 test("no next_available and no end date reads as open now", () => {
   const s = availabilityStatus(room(), TODAY);
-  assert.equal(s.label, "Open now");
+  assert.equal(s.key, "staff.room.openNow");
+  assert.equal(s.date, null);
   assert.equal(s.tone, "warn");
 });
 
-test("free now but ending reads as open now with the end date", () => {
+test("free now but ending carries the end date for the caller to format", () => {
   const s = availabilityStatus(room({ available_until: "2026-09-30" }), TODAY);
-  // Sep vs Sept is an ICU difference between Node and the browser, not a bug.
-  // Pin the parts we control and let the platform abbreviate the month.
-  assert.match(s.label, /^Open now, until 30 Sept? 2026$/);
+  assert.equal(s.key, "staff.room.openUntil");
+  assert.equal(s.date, "2026-09-30");
+  assert.equal(s.tone, "warn");
 });
 
 test("a past next_available is open now, not a negative countdown", () => {
   const s = availabilityStatus(room({ next_available: "2026-08-01" }), TODAY);
-  assert.equal(s.label, "Open now");
+  assert.equal(s.key, "staff.room.openNow");
 });
 
 test("inside twelve weeks it opens, beyond it is occupied", () => {
-  assert.match(availabilityStatus(room({ next_available: "2026-10-01" }), TODAY).label, /^Opens /);
+  assert.equal(availabilityStatus(room({ next_available: "2026-10-01" }), TODAY).key, "staff.room.opensOn");
   assert.equal(availabilityStatus(room({ next_available: "2026-10-01" }), TODAY).tone, "warn");
-  assert.match(availabilityStatus(room({ next_available: "2027-06-01" }), TODAY).label, /^Occupied to /);
+  assert.equal(availabilityStatus(room({ next_available: "2027-06-01" }), TODAY).key, "staff.room.occupiedTo");
   assert.equal(availabilityStatus(room({ next_available: "2027-06-01" }), TODAY).tone, "ok");
+});
+
+test("dates render in the reader's language", () => {
+  // Sep vs Sept is an ICU difference between Node and the browser, not a bug.
+  // Pin the parts we control and let the platform abbreviate the month.
+  assert.match(formatDate("2026-09-30"), /^30 Sept? 2026$/);
+  assert.equal(formatDate("2026-09-30", "zh"), "2026年9月30日");
 });
 
 test("the sell window is twelve weeks, inclusive at the boundary", () => {

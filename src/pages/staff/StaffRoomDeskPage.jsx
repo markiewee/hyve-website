@@ -1,11 +1,14 @@
 // The staff room desk at /staff.
 //
-// Replaces StaffResourcePage.jsx. The data layer is carried across unchanged on
-// purpose: the same two queries, the same tables, and above all the same read of
-// rooms.next_available. That column is derived server side by
+// Replaces StaffResourcePage.jsx. Still two reads, and above all still the same
+// read of rooms.next_available. That column is derived server side by
 // fn_recompute_room_availability and the guest booking site reads it too, so
 // recomputing availability here would make lazybee.sg and book.lazybee.sg quote
 // different dates for the same room. Read it, never derive it.
+//
+// The second read changed in Aug 2026. The desk now has a channel partner in it
+// on a dedicated PIN, so the roster comes from housemates_for_staff_pin, which
+// returns nationality, gender and lease end and refuses to return names.
 
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
@@ -25,6 +28,7 @@ import {
   isLettable,
   roomMatchesSearch,
 } from '../../lib/staffRooms';
+import { readPin, STORAGE_KEY } from '../../lib/staffPin';
 import '../../styles/lazybee.css';
 
 const PROPERTY_ORDER = ['CP', 'IH', 'TG'];
@@ -39,14 +43,24 @@ export default function StaffRoomDeskPage() {
 
   useEffect(() => {
     async function fetchData() {
-      const [propRes, tenantRes] = await Promise.all([
+      // The roster used to be a direct select on tenant_profiles, whose only
+      // policy is admin-only, so a PIN holder always saw an empty box. It now
+      // goes through housemates_for_staff_pin, which returns nationality,
+      // gender and lease end for a valid PIN and nothing else: no names, no
+      // identity documents, no rent. A PIN that is unknown or has been disabled
+      // gets an empty set rather than an error.
+      let pin = null;
+      try {
+        pin = readPin(window.localStorage.getItem(STORAGE_KEY), Date.now());
+      } catch {
+        /* storage disabled. No roster, everything else still renders. */
+      }
+
+      const [propRes, mateRes] = await Promise.all([
         supabase.from('properties').select('*, rooms(*)').order('name'),
-        supabase
-          .from('tenant_profiles')
-          .select(
-            'room_id, username, gender, is_active, monthly_rent, moved_in_at, lease_end, tenant_details(full_name, nationality)',
-          )
-          .eq('is_active', true),
+        pin
+          ? supabase.rpc('housemates_for_staff_pin', { p_pin: pin })
+          : Promise.resolve({ data: [] }),
       ]);
 
       if (propRes.error) {
@@ -55,12 +69,11 @@ export default function StaffRoomDeskPage() {
         return;
       }
 
-      // tenantRes failing is not an error worth showing. Signed out, RLS rejects
-      // the read, and the housemates block explains itself rather than the whole
-      // page refusing to render over a roster nobody is entitled to see.
-      const byRoom = {};
-      (tenantRes.data || []).forEach((t) => {
-        (byRoom[t.room_id] ||= []).push(t);
+      // A failed roster read is not worth failing the page over. The rooms are
+      // the point; the housemate block renders its own empty state.
+      const byUnit = {};
+      (mateRes.data || []).forEach((m) => {
+        (byUnit[m.unit_code] ||= []).push(m);
       });
 
       const sorted = PROPERTY_ORDER
@@ -69,7 +82,7 @@ export default function StaffRoomDeskPage() {
       sorted.forEach((p) => {
         (p.rooms || []).sort((a, b) => a.unit_code.localeCompare(b.unit_code));
         (p.rooms || []).forEach((r) => {
-          r.tenant_profiles = byRoom[r.id] || [];
+          r.housemates = byUnit[r.unit_code] || [];
         });
       });
 

@@ -5,22 +5,45 @@
 // keyboard operable for free, and the browser handles the ARIA. The old page used
 // a click handler on a div plus framer-motion for the height, which meant the
 // card was not reachable by keyboard at all.
+//
+// Every string here is keyed. The card used to hold two dozen English literals,
+// which was invisible while only captains read it and obvious the moment a
+// Chinese rental aggregator was given a PIN. Database values go through
+// vocabKey, the enum columns through the small maps below, and the free-text
+// description through its _zh column.
 
 import { availabilityStatus, priceLadder, formatDate, daysUntil } from '../../lib/staffRooms';
 import Caret from './Caret';
 import { useLanguage } from '../../i18n/LanguageContext';
+import { vocabKey, roomDisplayName } from '../../i18n/roomVocab';
+import { localised } from '../../lib/localisedText';
 
 const sgd = (n) => `S$${Number(n).toLocaleString('en-SG')}`;
-const title = (s) => (s ? s.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase()) : '');
 
-function TagRow({ label, list }) {
+// The enum columns. Small, closed, and stored snake_case, so they are mapped
+// here rather than title-cased into whatever English the column happens to hold.
+const ROOM_TYPE_KEY = {
+  master: 'owner.vocab.masterRoom',
+  premium: 'owner.vocab.premiumRoom',
+  standard: 'owner.vocab.standardRoom',
+};
+const BED_KEY = {
+  queen: 'owner.vocab.queenBed',
+  super_single: 'owner.vocab.superSingleBed',
+  single: 'owner.vocab.singleBed',
+};
+const FURNISHING_KEY = {
+  fully_furnished: 'staff.room.fullyFurnished',
+};
+
+function TagRow({ label, list, t }) {
   if (!list?.length) return null;
   return (
     <div style={{ marginTop: 'var(--s5)' }}>
       <div className="label">{label}</div>
       <div className="chips">
         {list.map((a, i) => (
-          <span key={i} className="chip chip-sm">{a}</span>
+          <span key={i} className="chip chip-sm">{t(vocabKey(a))}</span>
         ))}
       </div>
     </div>
@@ -28,28 +51,29 @@ function TagRow({ label, list }) {
 }
 
 export default function RoomCard({ room, property, today }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const status = availabilityStatus(room, today);
   const ladder = priceLadder(room.price_monthly);
   const opensLater = room.next_available && daysUntil(room.next_available, today) > 0;
+  const date = (d) => formatDate(d, lang);
 
   const chips = [
-    room.bed_size && title(room.bed_size),
-    room.max_occupancy > 1 && `Sleeps ${room.max_occupancy}`,
-    room.has_private_bathroom && 'Ensuite',
+    room.bed_size && t(BED_KEY[room.bed_size] ?? room.bed_size),
+    room.max_occupancy > 1 && t('staff.room.sleeps', { n: room.max_occupancy }),
+    room.has_private_bathroom && t('owner.vocab.ensuiteBathroom'),
   ].filter(Boolean);
 
   const specs = [
-    ['Type', title(room.room_type)],
-    ['Size', room.size_sqm ? `${room.size_sqm} sqm` : null],
-    ['Bed', title(room.bed_size)],
-    ['Floor', room.floor],
-    ['Furnishing', title(room.furnishing_level)],
-    ['Deposit', room.deposit_months ? `${room.deposit_months} month${room.deposit_months > 1 ? 's' : ''}` : null],
-    ['Minimum stay', room.min_stay_months ? `${room.min_stay_months} months` : null],
-    ['Maximum pax', room.max_occupancy],
-    ['Aircon', room.has_aircon ? 'Yes' : null],
-    ['Private bathroom', room.has_private_bathroom ? 'Yes' : 'Shared'],
+    [t('staff.room.spec.type'), room.room_type ? t(ROOM_TYPE_KEY[room.room_type] ?? room.room_type) : null],
+    [t('staff.room.spec.size'), room.size_sqm ? t('staff.room.sqm', { n: room.size_sqm }) : null],
+    [t('staff.room.spec.bed'), room.bed_size ? t(BED_KEY[room.bed_size] ?? room.bed_size) : null],
+    [t('staff.room.spec.floor'), room.floor],
+    [t('staff.room.spec.furnishing'), room.furnishing_level ? t(FURNISHING_KEY[room.furnishing_level] ?? room.furnishing_level) : null],
+    [t('staff.room.spec.deposit'), room.deposit_months ? t('staff.room.monthsValue', { n: room.deposit_months }) : null],
+    [t('staff.room.spec.minStay'), room.min_stay_months ? t('staff.room.monthsValue', { n: room.min_stay_months }) : null],
+    [t('staff.room.spec.maxPax'), room.max_occupancy],
+    [t('staff.room.spec.aircon'), room.has_aircon ? t('staff.room.yes') : null],
+    [t('staff.room.spec.privateBathroom'), room.has_private_bathroom ? t('staff.room.yes') : t('staff.room.shared')],
   ].filter(([, v]) => v !== null && v !== undefined && v !== '');
 
   return (
@@ -63,19 +87,23 @@ export default function RoomCard({ room, property, today }) {
                 <span className="label accent" style={{ fontSize: 10 }}>{property.name}</span>
               )}
             </div>
-            <p className="small" style={{ marginTop: 4, color: 'var(--ink)' }}>{room.name}</p>
+            <p className="small" style={{ marginTop: 4, color: 'var(--ink)' }}>
+              {roomDisplayName(room.name, t, lang)}
+            </p>
           </div>
           <Caret />
         </div>
         <div className="roomline">
           <span className="price">{sgd(room.price_monthly)}</span>
-          <span className="fine">per month</span>
+          <span className="fine">{t('staff.room.perMonth')}</span>
           {chips.map((c) => (
             <span key={c} className="chip chip-sm">{c}</span>
           ))}
         </div>
         <div style={{ marginTop: 'var(--s3)' }}>
-          <span className={`badge badge-${status.tone}`}>{status.label}</span>
+          <span className={`badge badge-${status.tone}`}>
+            {t(status.key, { date: status.date ? date(status.date) : '' })}
+          </span>
         </div>
       </summary>
 
@@ -84,8 +112,8 @@ export default function RoomCard({ room, property, today }) {
           <div className="strip">
             {room.photos.map((url, i) => (
               <a key={i} href={url} download={`${room.unit_code}-${i + 1}.jpg`}>
-                <img src={url} alt={`${room.unit_code}, photo ${i + 1}`} loading="lazy" />
-                <span className="dl">Save</span>
+                <img src={url} alt={`${room.unit_code}, ${i + 1}`} loading="lazy" />
+                <span className="dl">{t('staff.room.save')}</span>
               </a>
             ))}
           </div>
@@ -95,10 +123,10 @@ export default function RoomCard({ room, property, today }) {
           <>
             <div className="label" style={{ marginTop: 'var(--s4)' }}>{t('staff.room.priceByLease')}</div>
             <div className="ladder">
-              {ladder.map((t) => (
-                <div key={t.months} className={t.anchor ? 'on' : undefined}>
-                  <div className="t">{t.months} mo</div>
-                  <div className="p">{sgd(t.price)}</div>
+              {ladder.map((rung) => (
+                <div key={rung.months} className={rung.anchor ? 'on' : undefined}>
+                  <div className="t">{t('staff.room.monthsShort', { n: rung.months })}</div>
+                  <div className="p">{sgd(rung.price)}</div>
                 </div>
               ))}
             </div>
@@ -107,13 +135,14 @@ export default function RoomCard({ room, property, today }) {
 
         {opensLater && (
           <div className="note" style={{ marginTop: 'var(--s4)' }}>
-            Early bird, S$50 off the first two months if they commit before{' '}
-            {formatDate(room.next_available)}. Total saving S$100.
+            {t('staff.room.earlyBird', { date: date(room.next_available) })}
           </div>
         )}
 
-        {room.description && (
-          <p className="small" style={{ marginTop: 'var(--s5)' }}>{room.description}</p>
+        {localised(room, 'description', lang) && (
+          <p className="small" style={{ marginTop: 'var(--s5)' }}>
+            {localised(room, 'description', lang)}
+          </p>
         )}
 
         {/* .staffspecs, not .specs. The design system already has a .specs:
@@ -128,14 +157,14 @@ export default function RoomCard({ room, property, today }) {
           ))}
         </div>
 
-        <TagRow label="In the room" list={room.amenities} />
-        <TagRow label="Fixtures" list={room.facilities} />
+        <TagRow label={t('staff.room.inTheRoom')} list={room.amenities} t={t} />
+        <TagRow label={t('staff.room.fixtures')} list={room.facilities} t={t} />
 
         {room.available_until && (
           <div style={{ marginTop: 'var(--s5)' }}>
             <div className="label">{t('staff.room.bookedBehind')}</div>
             <div className="booking">
-              <span>Free now to {formatDate(room.available_until)}</span>
+              <span>{t('staff.room.freeNowTo', { date: date(room.available_until) })}</span>
               <span className="badge badge-warn">{t('staff.room.bridgedGap')}</span>
             </div>
           </div>
@@ -149,7 +178,7 @@ export default function RoomCard({ room, property, today }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            3D tour
+            {t('staff.room.tour3d')}
           </a>
         )}
       </div>

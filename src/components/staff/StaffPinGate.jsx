@@ -14,11 +14,20 @@ import { useLanguage } from '../../i18n/LanguageContext';
 import LangSwitch from '../../i18n/LangSwitch';
 
 export default function StaffPinGate({ children }) {
-  const { t } = useLanguage();
+  const { t, preferLanguage } = useLanguage();
   const [open, setOpen] = useState(null); // null while storage is being read
   const [pin, setPin] = useState('');
   const [busy, setBusy] = useState(false);
   const [bad, setBad] = useState(false);
+
+  // The desk opens in Chinese. Its readers are captains and a Chinese rental
+  // aggregator, not the English-first marketing audience. Set on the gate
+  // rather than the desk so the PIN screen is Chinese too, and safe here in a
+  // way it would not be elsewhere: /staff is absent from ROUTE_META, so it is
+  // never prerendered and there is no static English HTML to mismatch.
+  useEffect(() => {
+    preferLanguage('zh');
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Read in an effect, not in the useState initialiser. The prerender step runs
   // this in Node, where localStorage does not exist, and a mismatched first
@@ -46,7 +55,7 @@ export default function StaffPinGate({ children }) {
       return;
     }
     try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(buildUnlock(Date.now())));
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(buildUnlock(Date.now(), pin)));
     } catch {
       /* not worth blocking entry over, they just retype it next visit */
     }
