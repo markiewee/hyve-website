@@ -389,13 +389,15 @@ async function handleGetPin(res, keyRow, pin) {
 async function handleStalledLeads(res, keyRow, query) {
   if (keyRow.scope !== "internal")
     return err(res, 403, "forbidden", "Reading the pipeline needs an internal-scope key");
-  let q = supabase.from("v_leads_stalled").select("*").limit(500);
-  if (query.status) q = q.eq("status", query.status);
-  const { data, error: qErr } = await q;
+  // Same rule as /compliance: the summary counts everyone stalled, the data
+  // honours the filter. Otherwise "stalled: 4" would mean something
+  // different to every caller depending on what it asked for.
+  const { data, error: qErr } = await supabase.from("v_leads_stalled").select("*").limit(500);
   if (qErr) return err(res, 500, "internal", "Could not read the pipeline");
-  const rows = data ?? [];
+  const all = data ?? [];
+  const rows = query.status ? all.filter((r) => r.status === query.status) : all;
   return res.status(200).json({
-    summary: pipelineSummary(rows),
+    summary: pipelineSummary(all),
     data: sortStalled(rows).map(stalledView),
   });
 }
@@ -431,16 +433,20 @@ async function stampPinUse(pinRow) {
 async function handleCompliance(res, keyRow, query) {
   if (keyRow.scope !== "internal")
     return err(res, 403, "forbidden", "Reading compliance needs an internal-scope key");
-  let q = supabase.from("v_tenant_compliance").select("*").limit(500);
-  if (query.urgency) q = q.eq("urgency", String(query.urgency).toUpperCase());
-  const { data, error: qErr } = await q;
+  // Read the whole population, then filter. The summary must describe
+  // everyone, not whatever survived the query: a caller asking for the
+  // CRITICAL rows and printing "7 of 7 have a gap" states the opposite of
+  // the truth, which is 20 of 20.
+  const { data, error: qErr } = await supabase.from("v_tenant_compliance").select("*").limit(500);
   if (qErr) return err(res, 500, "internal", "Could not read compliance");
-  const rows = data ?? [];
+  const all = data ?? [];
+  const wanted = query.urgency ? String(query.urgency).toUpperCase() : null;
+  const rows = wanted ? all.filter((r) => r.urgency === wanted) : all;
   // The summary rides along because the first question anybody asks is how
   // bad it is, and making every caller count the array themselves is how
   // two dashboards end up disagreeing about the number.
   return res.status(200).json({
-    summary: complianceSummary(rows),
+    summary: complianceSummary(all),
     data: sortCompliance(rows).map(complianceView),
   });
 }
