@@ -67,6 +67,16 @@ Send the raw `phone` even when it is not dialable. WhatsApp LID privacy identifi
 
 `GET /leads` (internal scope) filters on `lifecycle`, `status` and `phone`. `GET /leads/{id}` reads one.
 
+`POST /leads/{id}` (or `PATCH`) moves a lead you already have the id for. This is the safe verb: it cannot create a row and cannot change who somebody is, because `phone`, `email`, `chat_id` and `identifiers` are not accepted on it at all. Use `POST /leads` when you are filing a conversation and need the matcher to work out whose it is; use this when you already know.
+
+```bash
+curl -s -X POST https://www.lazybee.sg/api/v1/leads/$ID \
+  -H "Authorization: Bearer $LZB_KEY" -H "Content-Type: application/json" \
+  -d '{"lifecycle":"ACTIVE","next_action":"reactivated: CP-MR is back on the market"}'
+```
+
+It accepts `status`, `lifecycle`, `activation_condition`, `budget_monthly`, `move_in`, `move_out`, `occupants`, `location_preference`, `role`, `next_action`, `next_action_due`, `matched_room_codes`, `property_interest`, `prospect_summary` and `notes`. Anything you omit is left alone. Returns the updated lead, or `404` if there is no such id.
+
 ## Filing a ticket (nothing dies in chat)
 
 `POST /v1/tickets` (internal scope) exists because `maintenance_tickets.submitted_by` used to be NOT NULL against a portal account, so a fault reported in a house WhatsApp group could not become a ticket at all. It is now attributable to a phone instead.

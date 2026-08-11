@@ -3,7 +3,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   normalisePhone, validateLead, validateActivation, leadPatch,
-  mergeIdentifiers, leadView,
+  mergeIdentifiers, leadView, leadUpdatePatch, validateLeadUpdate,
 } from "./partnerLeads.js";
 
 test("normalisePhone keeps real numbers and refuses WhatsApp LIDs", () => {
@@ -142,4 +142,54 @@ test("leadView exposes an exact key set and prefers the normalised phone", () =>
   assert.ok(!("channel_id" in view));
   assert.ok(!("idempotency_key" in view));
   assert.ok(!("activity_log" in view));
+});
+
+test("leadUpdatePatch cannot change who somebody is", () => {
+  // The whole safety property of the id route. A caller that sends a phone
+  // is either confused or malicious; either way the identity columns are
+  // absent from the patch by construction, so the row keeps its identity.
+  const patch = leadUpdatePatch({
+    lifecycle: "ACTIVE", next_action: "reactivated: date arrived",
+    phone: "91234567", email: "someone@else.com", chat_id: "999",
+    identifiers: ["carousell:someone-else"],
+  });
+  assert.equal(patch.lifecycle, "ACTIVE");
+  assert.equal(patch.next_action, "reactivated: date arrived");
+  for (const k of ["phone", "phone_e164", "email", "chat_id", "identifiers"]) {
+    assert.ok(!(k in patch), `${k} must never appear in an id-addressed update`);
+  }
+  assert.ok(patch.updated_at);
+});
+
+test("leadUpdatePatch leaves out what the caller did not mention", () => {
+  const patch = leadUpdatePatch({ status: "viewing_booked" });
+  assert.deepEqual(Object.keys(patch).sort(), ["status", "updated_at"]);
+  // Null is a real value here: it is how you clear a field on purpose.
+  assert.ok("next_action" in leadUpdatePatch({ next_action: null }));
+
+  const codes = leadUpdatePatch({ matched_room_codes: ["cp-mr", " ih-std1 "] });
+  assert.deepEqual(codes.matched_room_codes, ["CP-MR", "IH-STD1"]);
+});
+
+test("validateLeadUpdate keeps the enum and date rules, drops the reachability one", () => {
+  // An existing row is already reachable, so an update need not prove it.
+  assert.equal(validateLeadUpdate({ lifecycle: "ACTIVE" }).ok, true);
+  assert.equal(validateLeadUpdate({ next_action: "chase them" }).ok, true);
+
+  const bad = validateLeadUpdate({ status: "wandering" });
+  assert.equal(bad.ok, false);
+  assert.ok(bad.missing.some((m) => m.startsWith("status must be one of")));
+  assert.equal(validateLeadUpdate({ move_in: "01/06/2027" }).ok, false);
+  assert.equal(validateLeadUpdate({ occupants: 0 }).ok, false);
+  assert.equal(validateLeadUpdate({ lifecycle: "SOMEDAY" }).ok, false);
+
+  // Putting a lead back to sleep still needs a condition something can
+  // evaluate, or "follow up later" becomes a lie again.
+  assert.equal(validateLeadUpdate({ lifecycle: "STORED", activation_condition: null }).ok, false);
+  assert.equal(validateLeadUpdate({
+    lifecycle: "STORED", activation_condition: { type: "DATE", on: "2027-01-01" },
+  }).ok, true);
+  assert.equal(validateLeadUpdate({
+    lifecycle: "STORED", activation_condition: { type: "DATE", on: "someday" },
+  }).ok, false);
 });

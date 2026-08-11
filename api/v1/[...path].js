@@ -28,6 +28,7 @@ import { bookingRequestEmail, bookingEmail, bookingCancelledEmail } from "../../
 import { sellStateView } from "../../src/lib/partnerSellState.js";
 import {
   validateLead, leadPatch, leadView, mergeIdentifiers, normalisePhone,
+  leadUpdatePatch, validateLeadUpdate,
 } from "../../src/lib/partnerLeads.js";
 import { validateTicket, ticketInsert, ticketView } from "../../src/lib/partnerTickets.js";
 
@@ -502,6 +503,20 @@ async function handleGetLead(res, keyRow, id) {
 }
 
 // ── Tickets: report to resolved, nothing dies in chat ────────────────
+async function handleUpdateLead(req, res, keyRow, id) {
+  if (keyRow.scope !== "internal")
+    return err(res, 403, "forbidden", "Updating a lead needs an internal-scope key");
+  const v = validateLeadUpdate(req.body);
+  if (!v.ok) return err(res, 422, "validation_failed", `Invalid: ${v.missing.join(", ")}`);
+  const patch = leadUpdatePatch(req.body);
+  if (Object.keys(patch).length <= 1)
+    return err(res, 422, "validation_failed", "Nothing to update");
+  const { data: updated, error: upErr } = await supabase.from("leads")
+    .update(patch).eq("id", id).select("*").single();
+  if (upErr || !updated) return err(res, 404, "not_found", "No such lead");
+  return res.status(200).json(leadView(updated));
+}
+
 async function handleCreateTicket(req, res, keyRow, channel) {
   if (keyRow.scope !== "internal")
     return err(res, 403, "forbidden", "Filing a ticket needs an internal-scope key");
@@ -739,6 +754,8 @@ export default async function handler(req, res) {
       return handleCreateLead(req, res, keyRow, channel);
     if (head === "leads" && req.method === "GET" && !second)
       return handleListLeads(res, keyRow, req.query);
+    if (head === "leads" && (req.method === "PATCH" || req.method === "POST") && second)
+      return await handleUpdateLead(req, res, keyRow, second);
     if (head === "leads" && req.method === "GET" && second)
       return handleGetLead(res, keyRow, second);
     if (head === "tickets" && req.method === "POST" && !second)
