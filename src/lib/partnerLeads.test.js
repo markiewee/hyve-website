@@ -48,10 +48,16 @@ test("a lead needs a name and at least one way to reach them again", () => {
   assert.equal(unreachable.ok, false);
   assert.ok(unreachable.missing.some((m) => m.startsWith("one of:")));
 
-  // A LID in the phone field alone leaves us no way to match, but it is
-  // still a handle we can keep, so callers must pass it as an identifier.
+  // Caught in production verification: a platform thread often yields only
+  // a LID, a worker naturally puts it in `phone`, and rejecting that would
+  // drop exactly the leads the platform bots exist to catch. It is a handle,
+  // so it is accepted; leadPatch still refuses to let it become the key.
   const lidOnly = validateLead({ name: "Jane", phone: "90070873755" });
-  assert.equal(lidOnly.ok, false);
+  assert.equal(lidOnly.ok, true);
+  assert.ok(!("phone_e164" in leadPatch({ name: "Jane", phone: "90070873755" })));
+
+  // Whitespace is not a handle.
+  assert.equal(validateLead({ name: "Jane", phone: "   " }).ok, false);
 });
 
 test("validateLead rejects bad enums and dates with named reasons", () => {

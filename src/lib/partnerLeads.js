@@ -69,11 +69,19 @@ export function isIsoDate(s) {
 // A lead needs a name and at least one way to reach the person again.
 // A row with neither is an anonymous sighting, not a lead, and filing it
 // makes the CRM's headline count a lie.
+//
+// "A way to reach them" is deliberately wider than "a dialable number". A
+// platform thread often yields only a WhatsApp LID or a marketplace handle,
+// and that is still the thread we reply on. Rejecting those would drop
+// exactly the leads the platform bots are there to catch, so a raw phone
+// value counts as a handle even when it does not normalise; the write path
+// files it as an alias and leaves the key column null.
 export function validateLead(body) {
   const b = body ?? {};
   const missing = [];
   if (!b.name || !String(b.name).trim()) missing.push("name");
-  const hasHandle = Boolean(normalisePhone(b.phone) || b.chat_id || b.email ||
+  const hasHandle = Boolean(
+    (b.phone != null && String(b.phone).trim()) || b.chat_id || b.email ||
     (Array.isArray(b.identifiers) && b.identifiers.length));
   if (!hasHandle) missing.push("one of: phone, chat_id, email, identifiers[]");
   if (b.status != null && !LEAD_STATUSES.has(b.status))
