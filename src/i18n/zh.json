@@ -1312,7 +1312,8 @@
       "evening": "晚上好，{name}",
       "morningAnon": "早上好",
       "afternoonAnon": "下午好",
-      "eveningAnon": "晚上好"
+      "eveningAnon": "晚上好",
+      "welcome": "这里是 Lazybee 房间台。19 间房的实时房态、价格和空出日期，数据和对外订房网站来自同一个数据库。"
     },
     "tour": {
       "title": "房间台使用说明",

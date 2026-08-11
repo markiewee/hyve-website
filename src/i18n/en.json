@@ -1312,7 +1312,8 @@
       "evening": "Good evening, {name}",
       "morningAnon": "Good morning",
       "afternoonAnon": "Good afternoon",
-      "eveningAnon": "Good evening"
+      "eveningAnon": "Good evening",
+      "welcome": "This is the Lazybee room desk. Live availability, pricing and open dates for all 19 rooms, straight from the same database the booking site reads."
     },
     "tour": {
       "title": "How the room desk works",

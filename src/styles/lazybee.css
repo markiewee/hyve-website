@@ -862,5 +862,9 @@
   color:var(--muted);font-family:var(--mono);font-size:13px;cursor:pointer;transition:color .25s,border-color .25s}
 .lzb .tourbtn:hover{color:var(--ink);border-color:var(--accent)}
 /* ── the greeting ─────────────────────────────────────────────────── */
-.lzb .greet{margin-top:var(--s6)}
-.lzb .greet .h2{font-size:clamp(23px,2.6vw,31px)}
+/* The page's opening. It is the h1 and it is meant to read as one: the desk is
+   a document you are being welcomed into, not a toolbar with a name on it.
+   The default .h1 caps at 18ch, which is right for a marketing headline and
+   wrong for a two word greeting, so the cap is lifted here only. */
+.lzb .greet{margin-top:var(--s6);margin-bottom:var(--s6)}
+.lzb .greet .h1{max-width:none}
