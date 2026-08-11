@@ -179,7 +179,8 @@ export default function StaffRoomDeskPage() {
 
       <main className="wrap-wide" style={{ paddingBottom: 'var(--s9)' }}>
         <div className="greet">
-          <h1 className="h2">{greeting}</h1>
+          <h1 className="h1">{greeting}</h1>
+          <p className="body" style={{ marginTop: 'var(--s4)' }}>{t('staff.greet.welcome')}</p>
         </div>
 
         <section className="sec-sm">
