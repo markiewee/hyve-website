@@ -33,6 +33,7 @@ import {
 import { validateTicket, ticketInsert, ticketView } from "../../src/lib/partnerTickets.js";
 import { sortOnboardings, onboardingView } from "../../src/lib/partnerOnboarding.js";
 import { sortCompliance, complianceView, complianceSummary } from "../../src/lib/partnerCompliance.js";
+import { validatePinUse, attributionFor, commissionFor } from "../../src/lib/partnerPins.js";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -276,7 +277,12 @@ async function handleGetBookingRequest(res, channel, id) {
 
 // ── Bookings: confirmed holds (v1.1). No overlap checks, ever: Mark
 // overbooks deliberately, so the API records what it is told. ──────────
-async function handleCreateBooking(req, res, channel) {
+async function handleCreateBooking(req, res, channel, keyRow) {
+  const pinCheck = validatePinUse(req.body?.channel_pin, keyRow);
+  if (!pinCheck.ok) return err(res, pinCheck.status, pinCheck.code, pinCheck.reason);
+  const resolved = await resolvePin(pinCheck.pin);
+  if (resolved.error) return err(res, ...resolved.error);
+  const attribution = attributionFor(resolved.row, channel);
   const b = req.body ?? {};
   b.listing_code = up(b.listing_code);
   const v = validateBooking(b);
@@ -298,13 +304,17 @@ async function handleCreateBooking(req, res, channel) {
   }).select("id").single();
 
   const { data: created, error: insErr } = await supabase.from("channel_bookings").insert({
-    channel_id: channel.id, room_id: room.id, external_ref: b.external_ref ?? null,
+    channel_id: attribution.channel_id, room_id: room.id, external_ref: b.external_ref ?? null,
     idempotency_key: b.idempotency_key ?? null, starts_on: b.starts_on, ends_on: b.ends_on ?? null,
     guest: b.guest ?? {}, notes: b.note ?? null, calendar_id: cal?.id ?? null,
   }).select("id, starts_on, ends_on, status, external_ref, created_at").single();
   if (insErr) return err(res, 500, "internal", "Could not record the booking");
 
-  await sendAdminEmail(bookingEmail({ channel, room, booking: created, guest: b.guest }));
+  await stampPinUse(resolved.row);
+  await sendAdminEmail(bookingEmail({
+    channel, room, booking: created, guest: b.guest,
+    introducedBy: attribution.attributed_to ?? null,
+  }));
   return res.status(201).json(bookingView(created, room.unit_code));
 }
 
@@ -352,6 +362,51 @@ async function handleSellState(res, keyRow) {
   ]);
   const shouldSet = new Set((should ?? []).map((r) => r.unit_code));
   return res.status(200).json({ data: (sellable ?? []).map((r) => sellStateView(r, shouldSet)) });
+}
+
+async function handleGetPin(res, keyRow, pin) {
+  if (keyRow.scope !== "internal")
+    return err(res, 403, "forbidden", "Reading a PIN needs an internal-scope key");
+  const check = validatePinUse(pin, keyRow);
+  if (!check.ok) return err(res, check.status, check.code, check.reason);
+  const resolved = await resolvePin(check.pin);
+  if (resolved.error) return err(res, ...resolved.error);
+  const r = resolved.row;
+  return res.status(200).json({
+    label: r.label,
+    channel: r.channel?.slug ?? null,
+    enabled: r.enabled,
+    commission: commissionFor(r.channel),
+    use_count: r.use_count ?? 0,
+    last_used_at: r.last_used_at ?? null,
+  });
+}
+
+// ── Agent PINs: attribution for people without an API key ────────────
+//
+// Six agents have had a PIN since the pricing page was built and every one
+// reads use_count 0, because nothing consumed one. A PIN is how somebody
+// without a key gets credited for an introduction.
+async function resolvePin(pin) {
+  if (!pin) return { row: null };
+  const { data } = await supabase.from("channel_pins")
+    .select("pin, label, enabled, channel_id, use_count, last_used_at, channel:listing_channels(id, slug, name, enabled, commission_pct, commission_months, gross_up, fee_fixed)")
+    .eq("pin", pin).maybeSingle();
+  if (!data) return { error: [422, "validation_failed", "No such channel_pin"] };
+  if (!data.enabled) return { error: [403, "forbidden", `The PIN for ${data.label} is disabled`] };
+  if (!data.channel?.enabled)
+    return { error: [403, "channel_disabled", `The channel for ${data.label} is not enabled`] };
+  return { row: data };
+}
+
+// Usage is stamped after the write succeeds, never before. A PIN that shows
+// as used against a booking that failed to save is worse than one that
+// shows unused, because it is evidence of something that did not happen.
+async function stampPinUse(pinRow) {
+  if (!pinRow) return;
+  await supabase.from("channel_pins")
+    .update({ last_used_at: new Date().toISOString(), use_count: (pinRow.use_count ?? 0) + 1 })
+    .eq("pin", pinRow.pin);
 }
 
 // ── Compliance: what a current tenant is missing ─────────────────────
@@ -470,6 +525,13 @@ async function matchLead(body) {
 }
 
 async function handleCreateLead(req, res, keyRow, channel) {
+  // An agent introduces a person before they introduce a booking, so the
+  // PIN has to attach at the lead or the credit is lost by the time money
+  // is involved.
+  const pinCheck = validatePinUse(req.body?.channel_pin, keyRow);
+  if (!pinCheck.ok) return err(res, pinCheck.status, pinCheck.code, pinCheck.reason);
+  const pinResolved = await resolvePin(pinCheck.pin);
+  if (pinResolved.error) return err(res, ...pinResolved.error);
   const b = req.body ?? {};
   const v = validateLead(b);
   if (!v.ok) return err(res, 422, "validation_failed", `Missing or invalid: ${v.missing.join(", ")}`);
@@ -778,7 +840,7 @@ export default async function handler(req, res) {
     if (head === "booking-requests" && req.method === "GET" && second)
       return handleGetBookingRequest(res, channel, second);
     if (head === "bookings" && req.method === "POST" && !second)
-      return handleCreateBooking(req, res, channel);
+      return handleCreateBooking(req, res, channel, keyRow);
     if (head === "bookings" && req.method === "GET" && !second)
       return handleListBookings(res, channel, req.query);
     if (head === "bookings" && req.method === "GET" && second)
@@ -804,6 +866,8 @@ export default async function handler(req, res) {
       return handleListTickets(res, keyRow, req.query);
     if (head === "tickets" && (req.method === "PATCH" || req.method === "POST") && second)
       return handleUpdateTicket(req, res, keyRow, second);
+    if (head === "pins" && req.method === "GET" && second)
+      return handleGetPin(res, keyRow, second);
     if (head === "compliance" && req.method === "GET" && !second)
       return handleCompliance(res, keyRow, req.query);
     if (head === "onboardings" && req.method === "GET" && !second)

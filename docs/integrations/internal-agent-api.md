@@ -77,6 +77,24 @@ curl -s -X POST https://www.lazybee.sg/api/v1/leads/$ID \
 
 It accepts `status`, `lifecycle`, `activation_condition`, `budget_monthly`, `move_in`, `move_out`, `occupants`, `location_preference`, `role`, `next_action`, `next_action_due`, `matched_room_codes`, `property_interest`, `prospect_summary` and `notes`. Anything you omit is left alone. Returns the updated lead, or `404` if there is no such id.
 
+## Agent attribution (the concierge lane)
+
+Six agents and referrers have had a PIN since the channel pricing page was built, and every one of them read `use_count` 0, because nothing anywhere consumed a PIN. They were credentials for a door that had not been cut.
+
+A PIN is how somebody without an API key gets credited. Platforms authenticate as themselves and their bookings are stamped from the key; an agent has six digits instead, and the point of those digits is that a booking they introduced is recorded as theirs and pays what their channel says it pays.
+
+Pass `channel_pin` on `POST /v1/leads` or `POST /v1/bookings`. The agent's channel then wins over the calling key's channel, because who introduced this is exactly the question a PIN answers. Attach it at the lead where you can: an agent introduces a person well before a booking exists, and waiting until money is involved is how the credit gets lost.
+
+```bash
+curl -s -X POST https://www.lazybee.sg/api/v1/leads \
+  -H "Authorization: Bearer $LZB_KEY" -H "Content-Type: application/json" \
+  -d '{"name":"Jane Tan","phone":"91234567","channel_pin":"591886"}'
+```
+
+Two rules worth knowing before you wire anything to this. Only an internal-scope key may present a PIN, because a partner key doing so would be one channel claiming another channel's commission. And a bad PIN is refused loudly (`422` unknown, `403` disabled) rather than ignored: attribution that silently vanishes is somebody's commission silently vanishing, discovered weeks later with nothing to point at.
+
+`GET /v1/pins/{pin}` (internal scope) reads back the label, channel, commission terms and usage. Commission is quoted from the channel and never invented: a channel with nothing recorded returns `null`, not zero, because "we do not know" and "they get nothing" are different answers and only one is safe to put in front of an agent.
+
 ## What a tenant is missing on file
 
 `GET /v1/compliance` (internal scope) checks every current tenant against the required document set. Nothing had ever asked, and the first run answered: 20 of 20 have a gap, 19 have no IRAS stamping recorded, and 7 have no signed agreement in either `tenant_documents` or `onboarding_progress`.
