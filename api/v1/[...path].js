@@ -31,6 +31,7 @@ import {
   leadUpdatePatch, validateLeadUpdate,
 } from "../../src/lib/partnerLeads.js";
 import { validateTicket, ticketInsert, ticketView } from "../../src/lib/partnerTickets.js";
+import { sortOnboardings, onboardingView } from "../../src/lib/partnerOnboarding.js";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -350,6 +351,21 @@ async function handleSellState(res, keyRow) {
   ]);
   const shouldSet = new Set((should ?? []).map((r) => r.unit_code));
   return res.status(200).json({ data: (sellable ?? []).map((r) => sellStateView(r, shouldSet)) });
+}
+
+// ── Onboardings: the half-finished move-ins ──────────────────────────
+async function handleListOnboardings(res, keyRow, query) {
+  if (keyRow.scope !== "internal")
+    return err(res, 403, "forbidden", "Reading onboardings needs an internal-scope key");
+  let q = supabase.from("v_onboardings_stuck").select("*").limit(200);
+  if (query.urgency) q = q.eq("urgency", String(query.urgency).toUpperCase());
+  // The default is the whole stuck list, because the point of this endpoint
+  // is that nobody was looking. `started=true` narrows it to the ones where
+  // somebody is already living in the room.
+  if (query.started === "true") q = q.eq("tenancy_already_started", true);
+  const { data, error: qErr } = await q;
+  if (qErr) return err(res, 500, "internal", "Could not read onboardings");
+  return res.status(200).json({ data: sortOnboardings(data ?? []).map(onboardingView) });
 }
 
 // ── Placements: internal-scope agents report platform listing state ──
@@ -769,6 +785,8 @@ export default async function handler(req, res) {
       return handleListTickets(res, keyRow, req.query);
     if (head === "tickets" && (req.method === "PATCH" || req.method === "POST") && second)
       return handleUpdateTicket(req, res, keyRow, second);
+    if (head === "onboardings" && req.method === "GET" && !second)
+      return handleListOnboardings(res, keyRow, req.query);
     if (head === "placements")
       return handlePlacements(req, res, keyRow, channel);
     if (head === "webhooks")
