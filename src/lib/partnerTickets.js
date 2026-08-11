@@ -180,7 +180,7 @@ export function validateClose(patch, { actor = null } = {}) {
     missing.push("resolution_note is required to resolve a ticket: say what was actually done");
   else if (note.length < 4)
     missing.push("resolution_note must say something: a few characters is not a record");
-  if (!patch?.resolved_by && !actor)
+  if (!patch?.resolved_by && !patch?.resolved_by_label && !actor)
     missing.push("resolved_by is required to resolve a ticket");
   return { ok: missing.length === 0, missing };
 }
@@ -201,6 +201,9 @@ export function ticketView(row, unitCode) {
     last_chased_at: row.last_chased_at ?? null,
     created_at: row.created_at ?? null,
     resolved_at: row.resolved_at ?? null,
+    // Whoever closed it, whichever column holds them. A record that cannot
+    // say who is not a record.
+    resolved_by: row.resolved_by ?? row.resolved_by_label ?? null,
   };
 }
 

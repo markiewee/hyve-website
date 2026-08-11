@@ -55,6 +55,7 @@ const err = (res, status, code, message) =>
 // Unit codes are stored uppercase; partners send what their templating
 // produces. /listings/ih-std1 returning 404 was pure friction.
 const up = (s) => (typeof s === "string" ? s.trim().toUpperCase() : s);
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 // ── Partner auth ─────────────────────────────────────────────────────
 // Key -> channel row. Channel must be enabled (the kill switch gates the
@@ -770,7 +771,14 @@ async function handleUpdateTicket(req, res, keyRow, id) {
     // Fall back to the key that asked. An agent closing on somebody's
     // behalf is still a named actor, which beats the 23 anonymous closes
     // already in the table.
-    patch.resolved_by = b.resolved_by ?? keyRow.label ?? "unknown";
+    // resolved_by is a uuid pointing at a portal account. An agent key is
+    // not one, and writing its name there made every close fail with a
+    // type error that surfaced as "No such ticket". Real accounts go in the
+    // uuid column, everybody else in the text one, and the requirement is
+    // satisfied by either.
+    const named = b.resolved_by ?? null;
+    if (named && UUID_RE.test(String(named))) patch.resolved_by = named;
+    else patch.resolved_by_label = String(named ?? keyRow.label ?? "unknown");
   }
   if (b.chased) {
     patch.last_chased_at = new Date().toISOString();
