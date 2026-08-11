@@ -24,6 +24,7 @@ import {
   faqPageSchema,
   breadcrumbSchema,
   websiteSchema,
+  roomListSchema,
 } from './seo.js';
 
 export const BASE_URL = 'https://www.lazybee.sg';
@@ -102,6 +103,11 @@ export const ROUTE_META = {
       orgSchema(),
       websiteSchema(),
       ...localBusinessSchemas(),
+      /* The rooms themselves. This page is where the comb shows all nineteen,
+         so it is where a machine should be able to read them: type, price,
+         size, occupancy, minimum stay, amenities and the booking link for
+         each one. Before this the whole site published no room data at all. */
+      roomListSchema(),
       faqPageSchema(OWNER_FAQ.map(([q, a]) => ({ q, a }))),
     ],
   },
