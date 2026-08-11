@@ -88,6 +88,25 @@ test("ticketInsert fills severity from the text but an explicit value wins", () 
   assert.equal(told.due_at, plusHours(24 * 7));
 });
 
+test("ticketView carries the chase counters the chaser decides on", () => {
+  // Regression found by running the chaser against production: these were
+  // missing from the view, so every overdue ticket read as chase_count 0
+  // and an ignored fault would have been nudged forever instead of raised.
+  const fresh = ticketView({ id: "1", description: "d" }, null);
+  assert.equal(fresh.chase_count, 0, "a fresh ticket has been chased zero times, not null");
+  assert.equal(fresh.last_chased_at, null);
+
+  const chased = ticketView({
+    id: "1", status: "OPEN", due_at: "2026-08-01T00:00:00Z",
+    chase_count: MAX_CHASES, last_chased_at: "2026-08-11T00:00:00Z",
+  }, null);
+  assert.equal(chased.chase_count, MAX_CHASES);
+  assert.equal(chased.last_chased_at, "2026-08-11T00:00:00Z");
+  // The point of exposing them: a caller holding only the view can reach
+  // the same verdict as a caller holding the row.
+  assert.equal(shouldEscalate(chased, new Date("2026-08-12T00:00:00Z")), true);
+});
+
 test("ticketView never leaks the reporter or internal ids", () => {
   const view = ticketView({
     id: "t1", category: "AC", severity: "HIGH", status: "OPEN",

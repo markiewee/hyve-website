@@ -129,6 +129,10 @@ export function ticketView(row, unitCode) {
     description: row.description ?? null,
     due_at: row.due_at ?? null,
     scheduled_for: row.scheduled_for ?? null,
+    // The chaser decides between nudging and escalating on these two, so a
+    // view that hid them would have let it nudge the same ticket forever.
+    chase_count: row.chase_count ?? 0,
+    last_chased_at: row.last_chased_at ?? null,
     created_at: row.created_at ?? null,
     resolved_at: row.resolved_at ?? null,
   };
