@@ -29,6 +29,13 @@ import {
   roomMatchesSearch,
 } from '../../lib/staffRooms';
 import { readPin, STORAGE_KEY } from '../../lib/staffPin';
+import StaffTutorial from '../../components/staff/StaffTutorial';
+import {
+  greetingKey,
+  tourSeen,
+  buildTourSeen,
+  TOUR_KEY,
+} from '../../lib/staffGreeting';
 import '../../styles/lazybee.css';
 
 const PROPERTY_ORDER = ['CP', 'IH', 'TG'];
@@ -40,6 +47,30 @@ export default function StaffRoomDeskPage() {
   const [error, setError] = useState(null);
   const [search, setSearch] = useState(EMPTY_SEARCH);
   const [current, setCurrent] = useState(PROPERTY_ORDER[0]);
+  const [name, setName] = useState(null);
+  const [tour, setTour] = useState(false);
+
+  // The tour, on this browser's first visit to the desk. Read in an effect for
+  // the same reason the unlock is: the prerender step runs this in Node, where
+  // localStorage does not exist.
+  useEffect(() => {
+    let raw = null;
+    try {
+      raw = window.localStorage.getItem(TOUR_KEY);
+    } catch {
+      /* storage disabled. Show it; a repeat beats never showing it at all. */
+    }
+    if (!tourSeen(raw)) setTour(true);
+  }, []);
+
+  function closeTour() {
+    setTour(false);
+    try {
+      window.localStorage.setItem(TOUR_KEY, buildTourSeen());
+    } catch {
+      /* they will see it again next visit, which is not worth handling */
+    }
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -56,12 +87,20 @@ export default function StaffRoomDeskPage() {
         /* storage disabled. No roster, everything else still renders. */
       }
 
-      const [propRes, mateRes] = await Promise.all([
+      const [propRes, mateRes, nameRes] = await Promise.all([
         supabase.from('properties').select('*, rooms(*)').order('name'),
         pin
           ? supabase.rpc('housemates_for_staff_pin', { p_pin: pin })
           : Promise.resolve({ data: [] }),
+        // Just a first name, for the greeting. Null for an unlock record
+        // written before the PIN was retained, and the greeting drops the name
+        // rather than the whole line.
+        pin
+          ? supabase.rpc('staff_pin_display_name', { p_pin: pin })
+          : Promise.resolve({ data: null }),
       ]);
+
+      setName(nameRes.data || null);
 
       if (propRes.error) {
         setError(propRes.error.message);
@@ -105,6 +144,12 @@ export default function StaffRoomDeskPage() {
   const homeCount = new Set(hits.map(({ property }) => property.code)).size;
   const shown = properties.find((p) => p.code === current);
 
+  // Read off the viewer's own clock, not the server's. Named when we know the
+  // name, unnamed when we do not, rather than greeting an empty string.
+  const greeting = name
+    ? t(greetingKey(new Date()), { name })
+    : t(`${greetingKey(new Date())}Anon`);
+
   return (
     <LazybeeRoot>
       <SEO title="Staff Resources" noindex />
@@ -116,12 +161,27 @@ export default function StaffRoomDeskPage() {
         </span>
         <nav>
           <span className="label" style={{ letterSpacing: '.16em' }}>{t('staff.title')}</span>
+          <button
+            className="tourbtn"
+            type="button"
+            onClick={() => setTour(true)}
+            aria-label={t('staff.tour.replay')}
+            title={t('staff.tour.replay')}
+          >
+            ?
+          </button>
           <ThemeToggle />
           <LangSwitch />
         </nav>
       </div>
 
+      <StaffTutorial open={tour} onClose={closeTour} />
+
       <main className="wrap-wide" style={{ paddingBottom: 'var(--s9)' }}>
+        <div className="greet">
+          <h1 className="h2">{greeting}</h1>
+        </div>
+
         <section className="sec-sm">
           <RoomSearch
             search={search}

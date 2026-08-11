@@ -1305,6 +1305,42 @@
     "roomDesk": "Room desk",
     "pinBad": "That PIN was not recognised.",
     "checking": "Checking",
-    "openDesk": "Open the room desk"
+    "openDesk": "Open the room desk",
+    "greet": {
+      "morning": "Good morning, {name}",
+      "afternoon": "Good afternoon, {name}",
+      "evening": "Good evening, {name}",
+      "morningAnon": "Good morning",
+      "afternoonAnon": "Good afternoon",
+      "eveningAnon": "Good evening"
+    },
+    "tour": {
+      "title": "How the room desk works",
+      "skip": "Skip",
+      "back": "Back",
+      "next": "Next",
+      "done": "Done",
+      "replay": "Show the walkthrough again",
+      "what": {
+        "title": "What this is",
+        "body": "Every room across our three homes in Singapore, with live pricing and the date each one frees up. It reads the same database the public booking site does, so what you see here is what a tenant is quoted."
+      },
+      "search": {
+        "title": "Searching",
+        "body": "Give it a move-in date and a budget and it shows what fits. Flexible widens the date by a month. Budget is a ceiling with a little stretch, so cheaper rooms always show."
+      },
+      "card": {
+        "title": "Reading a room",
+        "body": "Tap any room to open it. Inside are photos you can save, the full specification, what comes with the room, and a 3D tour where one exists."
+      },
+      "badges": {
+        "title": "The availability badge",
+        "body": "Open now means it is empty today. A date means it frees up then. Occupied to a date means somebody is in it until then. Anything opening within twelve weeks is worth actively selling."
+      },
+      "ladder": {
+        "title": "Price by lease length",
+        "body": "Twelve months is the anchor and the price we push. Shorter costs more per month, longer costs less. Quote from the ladder rather than negotiating your own number."
+      }
+    }
   }
 }

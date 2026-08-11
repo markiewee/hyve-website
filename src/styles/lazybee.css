@@ -842,3 +842,25 @@
   .lzb .ladder{grid-template-columns:1fr 1fr}
   .lzb .staffsteps{grid-template-columns:1fr}
 }
+
+/* ── the room desk tour ───────────────────────────────────────────── */
+/* Shown once per browser and replayable from the ? in the header. Its own
+   block because nothing else on the site is modal: the owner portal's document
+   viewer styles itself inline and is not worth generalising into. */
+.lzb .tourwrap{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+  padding:var(--s5);background:color-mix(in srgb,var(--bg) 72%,transparent);backdrop-filter:blur(6px)}
+.lzb .tour{width:100%;max-width:440px;border:1px solid var(--line);background:var(--surface);
+  padding:clamp(22px,3vw,32px);outline:none}
+.lzb .tourhead{display:flex;align-items:center;justify-content:space-between;gap:var(--s4)}
+.lzb .tourdots{display:flex;gap:7px;margin-top:var(--s5)}
+.lzb .tourdots span{width:22px;height:2px;background:var(--line)}
+.lzb .tourdots span.on{background:var(--accent)}
+.lzb .tourfoot{display:flex;align-items:center;justify-content:space-between;gap:var(--s4);margin-top:var(--s5)}
+/* The header's replay button. Round like the theme and language controls
+   beside it, so the three read as one set. */
+.lzb .tourbtn{width:34px;height:34px;border:1px solid var(--line);border-radius:50%;background:transparent;
+  color:var(--muted);font-family:var(--mono);font-size:13px;cursor:pointer;transition:color .25s,border-color .25s}
+.lzb .tourbtn:hover{color:var(--ink);border-color:var(--accent)}
+/* ── the greeting ─────────────────────────────────────────────────── */
+.lzb .greet{margin-top:var(--s6)}
+.lzb .greet .h2{font-size:clamp(23px,2.6vw,31px)}
