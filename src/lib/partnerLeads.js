@@ -155,6 +155,47 @@ export function mergeIdentifiers(existing, incoming) {
   return out;
 }
 
+// Moving a lead by its own id is a different act from filing one by handle,
+// and the difference is identity. POST /leads decides WHO this is, from a
+// phone or a handle, and may create somebody. This one is told who, and so
+// must never touch the columns that answer that question: phone, email,
+// chat_id and identifiers are absent by construction, not by filtering. It
+// is the safe verb for a sweep or an operator moving a known row.
+export const LEAD_UPDATABLE = [
+  "status", "lifecycle", "activation_condition", "budget_monthly",
+  "move_in", "move_out", "occupants", "location_preference", "role",
+  "next_action", "next_action_due", "prospect_summary", "notes",
+];
+
+export function leadUpdatePatch(body, { now = new Date().toISOString() } = {}) {
+  const b = body ?? {};
+  const patch = { updated_at: now };
+  for (const f of LEAD_UPDATABLE) if (b[f] !== undefined) patch[f] = b[f];
+  if (Array.isArray(b.matched_room_codes))
+    patch.matched_room_codes = b.matched_room_codes.map((c) => String(c).trim().toUpperCase());
+  if (Array.isArray(b.property_interest)) patch.property_interest = b.property_interest;
+  return patch;
+}
+
+// The same checks as a fresh lead, minus the ones about being reachable:
+// an existing row already is. Passing a placeholder name and phone keeps a
+// single set of enum and date rules rather than a second, drifting copy.
+export function validateLeadUpdate(body) {
+  const b = body ?? {};
+  const probe = { ...b, name: "unchanged", phone: "91234567" };
+  delete probe.chat_id;
+  delete probe.email;
+  delete probe.identifiers;
+  const base = validateLead(probe);
+  const missing = base.missing.filter((m) => !m.startsWith("one of:") && m !== "name");
+  // Waking a lead means giving it a lifecycle it can actually hold. Going
+  // to STORED without a condition is how "follow up later" became a lie in
+  // the first place, so it is refused here too.
+  if (String(b.lifecycle) === "STORED" && b.activation_condition === null)
+    missing.push("a STORED lead needs an activation_condition");
+  return { ok: missing.length === 0, missing };
+}
+
 export function leadView(row) {
   return {
     id: row.id,
