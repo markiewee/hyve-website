@@ -3,6 +3,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   isPinShaped, mayAttribute, validatePinUse, attributionFor, commissionFor,
+  shouldSetAttribution,
 } from "./partnerPins.js";
 
 test("a PIN is six digits and nothing else", () => {
@@ -68,4 +69,19 @@ test("commission is quoted from the channel, and unknown is not zero", () => {
     { pct: 50, months: 1, fee_fixed: null, gross_up: false });
   assert.deepEqual(commissionFor({ commission_pct: null, commission_months: null, fee_fixed: 300, gross_up: true }),
     { pct: null, months: null, fee_fixed: 300, gross_up: true });
+});
+
+test("the next message must not quietly steal an agent's credit", () => {
+  // Found in live verification: leadPatch rewrites channel_id on every
+  // update, so Riko introduces a prospect, the prospect then messages the
+  // WhatsApp line, the brain files an update with no PIN, and the lead
+  // silently moves off Riko's channel taking his commission with it.
+  const byKey = { attributed_via: "key", channel_id: "ours" };
+  const byPin = { attributed_via: "pin", channel_id: "riko" };
+
+  assert.equal(shouldSetAttribution("riko", byKey), false, "an update with no PIN must not reassign");
+  assert.equal(shouldSetAttribution(null, byKey), true, "but an unattributed lead may be claimed");
+  assert.equal(shouldSetAttribution("riko", byPin), true, "an explicit PIN is a deliberate claim");
+  assert.equal(shouldSetAttribution(undefined, byKey), true);
+  assert.equal(shouldSetAttribution("ours", null), false);
 });
