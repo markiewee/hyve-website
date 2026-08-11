@@ -1,25 +1,40 @@
 // One property: what it is, how you get there, what the rules are, and every
 // room in it.
 //
-// The housemates block tells the truth about why it is empty. tenant_profiles is
-// RLS-protected and the anon key cannot read it, so a signed-out viewer gets an
-// explanation rather than a section that silently disappears. Signed in as staff,
-// the same block fills with the real roster.
+// Two things this panel deliberately does not show, because a channel partner
+// reads it on a dedicated PIN alongside our own captains.
+//
+// No roll at asking. It was the fourth stat tile and it is our monthly revenue
+// if every room lets, which is nobody's business but ours.
+//
+// No housemate names. The roster arrives from housemates_for_staff_pin as
+// nationality, gender and lease end, which is what somebody choosing a room
+// actually wants to know and is the most a six digit code should ever unlock.
 
 import RoomCard from './RoomCard';
 import { isLettable } from '../../lib/staffRooms';
 import { useLanguage } from '../../i18n/LanguageContext';
-
-const sgd = (n) => `S$${Number(n).toLocaleString('en-SG')}`;
+import { localised, localisedList } from '../../lib/localisedText';
+import { nationalityKey, genderKey } from '../../i18n/nationalityVocab';
+import { vocabKey } from '../../i18n/roomVocab';
 
 export default function PropertyPanel({ property, today }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const rooms = (property.rooms || []).filter(isLettable);
   const openNow = rooms.filter(
     (r) => !r.next_available || new Date(r.next_available) <= today,
   ).length;
-  const roll = rooms.reduce((s, r) => s + (r.price_monthly || 0), 0);
-  const housemates = rooms.flatMap((r) => r.tenant_profiles || []);
+  const housemates = rooms.flatMap((r) => r.housemates || []);
+
+  // 2027年3月 in Chinese, March 2027 in English.
+  const untilLabel = (d) => {
+    if (!d) return '';
+    const dt = new Date(d);
+    if (Number.isNaN(dt.getTime())) return '';
+    return lang === 'zh'
+      ? `${dt.getFullYear()}年${dt.getMonth() + 1}月`
+      : dt.toLocaleDateString('en-SG', { month: 'short', year: 'numeric' });
+  };
 
   return (
     <>
@@ -32,34 +47,30 @@ export default function PropertyPanel({ property, today }) {
           <div className="stat"><div className="n">{rooms.length}</div><div className="l">{t('staff.prop.rooms')}</div></div>
           <div className="stat"><div className="n">{openNow}</div><div className="l">{t('staff.prop.openToday')}</div></div>
           <div className="stat"><div className="n">{property.num_bathrooms}</div><div className="l">{t('staff.prop.bathrooms')}</div></div>
-          <div className="stat"><div className="n">{sgd(roll)}</div><div className="l">{t('staff.prop.rollAtAsking')}</div></div>
         </div>
 
-        {property.description && (
-          <p className="body" style={{ marginTop: 'var(--s5)', fontSize: 15.5 }}>{property.description}</p>
+        {localised(property, 'description', lang) && (
+          <p className="body" style={{ marginTop: 'var(--s5)', fontSize: 15.5 }}>
+            {localised(property, 'description', lang)}
+          </p>
         )}
 
         <div className="subsec">
           <div className="label">{t('staff.prop.housemates')}</div>
           {housemates.length > 0 ? (
             <div className="rows" style={{ marginTop: 'var(--s3)' }}>
-              {housemates.map((t, i) => (
-                <div className="row" key={i}>
-                  <span>{t.tenant_details?.full_name || t.username}</span>
-                  <b>{t.tenant_details?.nationality || ''}</b>
+              {housemates.map((m, i) => (
+                <div className="row" key={`${m.unit_code}-${i}`}>
+                  <span>{t(nationalityKey(m.nationality))}</span>
+                  <span className="small">{t(genderKey(m.gender))}</span>
+                  <b className="num">{untilLabel(m.lease_end)}</b>
                 </div>
               ))}
             </div>
           ) : (
-            <div
-              className="empty"
-              style={{ marginTop: 'var(--s3)', padding: 'var(--s5)', textAlign: 'left' }}
-            >
-              <p className="small" style={{ margin: 0 }}>
-                Signed out. The roster reads <span className="num">tenant_profiles</span>, which the
-                anon key cannot see, so this stays empty until a staff account is signed in.
-              </p>
-            </div>
+            <p className="small" style={{ marginTop: 'var(--s3)' }}>
+              {t('staff.prop.noHousemates')}
+            </p>
           )}
         </div>
 
@@ -70,8 +81,8 @@ export default function PropertyPanel({ property, today }) {
               <ul className="bullets">
                 {(property.nearby_mrt || []).map((m, i) => (
                   <li key={i}>
-                    <b style={{ color: 'var(--ink)', fontWeight: 400 }}>{m.station}</b>, {m.line},{' '}
-                    {m.walking_minutes} min walk
+                    <b style={{ color: 'var(--ink)', fontWeight: 400 }}>{t(vocabKey(m.station))}</b>,{' '}
+                    {m.line}, {t('staff.prop.minWalk', { n: m.walking_minutes })}
                   </li>
                 ))}
               </ul>
@@ -82,7 +93,7 @@ export default function PropertyPanel({ property, today }) {
                 {(property.nearby_amenities || []).map((a, i) => (
                   <li key={i}>
                     <b style={{ color: 'var(--ink)', fontWeight: 400 }}>{a.name}</b>,{' '}
-                    {a.walking_minutes} min walk
+                    {t('staff.prop.minWalk', { n: a.walking_minutes })}
                   </li>
                 ))}
               </ul>
@@ -91,7 +102,7 @@ export default function PropertyPanel({ property, today }) {
               <div className="label">{t('staff.prop.facilities')}</div>
               <div className="chips">
                 {(property.facilities || []).map((f, i) => (
-                  <span key={i} className="chip chip-sm">{f}</span>
+                  <span key={i} className="chip chip-sm">{t(vocabKey(f))}</span>
                 ))}
               </div>
             </div>
@@ -103,18 +114,18 @@ export default function PropertyPanel({ property, today }) {
             <div>
               <div className="label">{t('staff.prop.houseRules')}</div>
               <ul className="bullets">
-                {(property.house_rules || []).map((r, i) => <li key={i}>{r}</li>)}
+                {localisedList(property, 'house_rules', lang).map((r, i) => <li key={i}>{r}</li>)}
               </ul>
             </div>
             <div>
               <div className="label">{t('staff.room.inEveryRoom')}</div>
               <div className="chips">
                 {(property.amenities || []).map((a, i) => (
-                  <span key={i} className="chip chip-sm">{a}</span>
+                  <span key={i} className="chip chip-sm">{t(vocabKey(a))}</span>
                 ))}
               </div>
               <div className="label" style={{ marginTop: 'var(--s5)' }}>{t('staff.prop.commonAreas')}</div>
-              <p className="small" style={{ marginTop: 6 }}>{property.common_areas}</p>
+              <p className="small" style={{ marginTop: 6 }}>{t(vocabKey(property.common_areas))}</p>
             </div>
           </div>
         </div>
@@ -125,8 +136,8 @@ export default function PropertyPanel({ property, today }) {
             <div className="strip">
               {property.images.map((url, i) => (
                 <a key={i} href={url} download={`${property.code}-common-${i + 1}.jpg`}>
-                  <img src={url} alt={`${property.name}, common area ${i + 1}`} loading="lazy" />
-                  <span className="dl">Save</span>
+                  <img src={url} alt={`${property.name}, ${i + 1}`} loading="lazy" />
+                  <span className="dl">{t('staff.room.save')}</span>
                 </a>
               ))}
             </div>
@@ -156,13 +167,13 @@ export default function PropertyPanel({ property, today }) {
             rel="noopener noreferrer"
             href={`https://www.google.com/maps/search/?api=1&query=${property.latitude},${property.longitude}`}
           >
-            Open in maps
+            {t('staff.prop.openInMaps')}
           </a>
         </div>
       </div>
 
       <div style={{ marginTop: 'var(--s7)' }}>
-        <div className="label">Rooms, {rooms.length}</div>
+        <div className="label">{t('staff.prop.roomsCount', { n: rooms.length })}</div>
         <div className="rooms">
           {rooms.map((r) => <RoomCard key={r.id} room={r} today={today} />)}
         </div>

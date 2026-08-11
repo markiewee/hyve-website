@@ -8,17 +8,20 @@
 import { BUDGET_STRETCH } from '../../lib/staffRooms';
 import { useLanguage } from '../../i18n/LanguageContext';
 
+// Labels are dictionary keys, not English. The desk is read in Chinese by a
+// channel partner as well as by captains, and a filter you cannot read is a
+// filter you do not use.
 const LOCATIONS = [
-  { code: 'ALL', label: 'All properties' },
-  { code: 'CP', label: 'Chiltern Park, Serangoon' },
-  { code: 'IH', label: 'Ivory Heights, Jurong East' },
-  { code: 'TG', label: 'Thomson Grove, Upper Thomson' },
+  { code: 'ALL', key: 'staff.search.allProperties' },
+  { code: 'CP', key: 'staff.search.locCp' },
+  { code: 'IH', key: 'staff.search.locIh' },
+  { code: 'TG', key: 'staff.search.locTg' },
 ];
 
 const CHIPS = [
-  { key: 'sell', label: 'Sell now, opens within 12 weeks' },
-  { key: 'couple', label: 'Sleeps two' },
-  { key: 'ensuite', label: 'Ensuite' },
+  { key: 'sell', label: 'staff.search.chipSell' },
+  { key: 'couple', label: 'staff.search.chipCouple' },
+  { key: 'ensuite', label: 'staff.search.chipEnsuite' },
 ];
 
 export default function RoomSearch({ search, onChange, onClear, active, count, homeCount }) {
@@ -45,7 +48,7 @@ export default function RoomSearch({ search, onChange, onClear, active, count, h
                 aria-pressed={search.dateMode === mode}
                 onClick={() => set('dateMode', mode)}
               >
-                {mode === 'fixed' ? 'Fixed' : 'Flexible'}
+                {t(mode === 'fixed' ? 'staff.search.fixed' : 'staff.search.flexible')}
               </button>
             ))}
           </div>
@@ -53,7 +56,7 @@ export default function RoomSearch({ search, onChange, onClear, active, count, h
 
         <div className="field" style={{ margin: 0 }}>
           <label className="label" htmlFor="staff-budget">
-            Budget, up to {BUDGET_STRETCH} over
+            {t('staff.search.budget', { n: BUDGET_STRETCH })}
           </label>
           <input
             className="input"
@@ -76,7 +79,7 @@ export default function RoomSearch({ search, onChange, onClear, active, count, h
             onChange={(e) => set('location', e.target.value)}
           >
             {LOCATIONS.map((l) => (
-              <option key={l.code} value={l.code}>{l.label}</option>
+              <option key={l.code} value={l.code}>{t(l.key)}</option>
             ))}
           </select>
           <div className="help">{t('staff.ref.walkTimes')}</div>
@@ -93,7 +96,7 @@ export default function RoomSearch({ search, onChange, onClear, active, count, h
               aria-pressed={!!search[c.key]}
               onClick={() => set(c.key, !search[c.key])}
             >
-              {c.label}
+              {t(c.label)}
             </button>
           ))}
         </div>
@@ -102,9 +105,9 @@ export default function RoomSearch({ search, onChange, onClear, active, count, h
               hearing, but not worth interrupting what is already being read. */}
           <span className="label" style={{ letterSpacing: '.14em' }} aria-live="polite">
             {active
-              ? `${count} ${count === 1 ? 'room' : 'rooms'}${
-                  homeCount ? ` in ${homeCount} ${homeCount === 1 ? 'home' : 'homes'}` : ''
-                }`
+              ? homeCount
+                ? t('staff.search.countRoomsIn', { n: count, h: homeCount })
+                : t('staff.search.countRooms', { n: count })
               : ''}
           </span>
           {active && (

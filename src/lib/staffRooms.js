@@ -32,8 +32,16 @@ export function daysUntil(dateStr, today) {
   return Math.round((atMidnight(dateStr) - atMidnight(today)) / DAY);
 }
 
-export function formatDate(dateStr) {
-  return atMidnight(dateStr).toLocaleDateString("en-SG", {
+export function formatDate(dateStr, lang) {
+  const d = atMidnight(dateStr);
+  // 2026年9月30日 reads as a date to a Chinese reader in a way "30 Sept 2026"
+  // does not. Built by hand rather than through toLocaleDateString("zh-CN"),
+  // whose output varies with the ICU data compiled into whichever Node or
+  // browser is rendering, and this string is asserted in tests.
+  if (lang === "zh") {
+    return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+  }
+  return d.toLocaleDateString("en-SG", {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -48,19 +56,26 @@ export function isLettable(room) {
 
 /**
  * The availability line, worded the way a captain would say it out loud.
- * Returns { label, tone } where tone is 'warn' (sellable) or 'ok' (occupied),
- * matching the .badge-warn / .badge-ok classes in lazybee.css.
+ *
+ * Returns { key, date, tone }, not a finished sentence. The desk is read in
+ * Chinese as well as English, so the wording belongs to the dictionaries and
+ * the date belongs to whichever language is rendering. This function stays
+ * pure and language-free, and the component does `t(key, { date })`.
+ *
+ * tone is 'warn' (sellable) or 'ok' (occupied), matching the .badge-warn and
+ * .badge-ok classes in lazybee.css.
  */
 export function availabilityStatus(room, today) {
   if (!room.next_available) {
     return room.available_until
-      ? { label: `Open now, until ${formatDate(room.available_until)}`, tone: "warn" }
-      : { label: "Open now", tone: "warn" };
+      ? { key: "staff.room.openUntil", date: room.available_until, tone: "warn" }
+      : { key: "staff.room.openNow", date: null, tone: "warn" };
   }
   const d = daysUntil(room.next_available, today);
-  if (d <= 0) return { label: "Open now", tone: "warn" };
-  if (d <= SELL_WINDOW_DAYS) return { label: `Opens ${formatDate(room.next_available)}`, tone: "warn" };
-  return { label: `Occupied to ${formatDate(room.next_available)}`, tone: "ok" };
+  if (d <= 0) return { key: "staff.room.openNow", date: null, tone: "warn" };
+  if (d <= SELL_WINDOW_DAYS)
+    return { key: "staff.room.opensOn", date: room.next_available, tone: "warn" };
+  return { key: "staff.room.occupiedTo", date: room.next_available, tone: "ok" };
 }
 
 /** Worth actively marketing: going empty with nothing booked behind it, inside
