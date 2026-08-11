@@ -42,6 +42,54 @@ test("suggestSeverity catches the things that cannot wait", () => {
   assert.equal(suggestSeverity("paint is peeling and the pipe is leaking"), "HIGH");
 });
 
+test("severity reads real tenant sentences, not a phrasebook", () => {
+  // Every string below is the real text of a ticket that was sitting open in
+  // production, and every one of them was scored ROUTINE by the first
+  // version of this function. That is the regression this test exists for.
+  const real = [
+    ["[Kitchen] Induction stove socket outlet BURNED — safety hazard, tenant told to stop using.", "URGENT"],
+    ["[Door] Front door handle removed — door cannot be opened. Reported by David (CP-PR1) via WhatsApp", "URGENT"],
+    ["[Mold] Mold spreading in IH-PR2 unit — reported by Edward (IH captain) via WhatsApp 15 Jun", "HIGH"],
+    ["[IH-STD3] The aircon is dripping. It drips straight into the door handle and soaks the door", "HIGH"],
+    ["[Balcony] Buzzing sound, suspected loose connection / fixture — needs investigation.", "ROUTINE"],
+    ["[TG-PR3] Wardrobe issue — needs hinge / rail re-fix.", "ROUTINE"],
+  ];
+  for (const [text, want] of real) {
+    assert.equal(suggestSeverity(text), want, `wrong severity for: ${text.slice(0, 50)}`);
+  }
+});
+
+test("the same danger scores the same however it is worded", () => {
+  // The asymmetry that justifies this: an over-rated light bulb costs an
+  // afternoon, an under-rated burned socket is a fire in a building people
+  // sleep in. So wording must not decide safety.
+  for (const t of ["there is a fire", "socket burned", "the plug is burnt",
+                   "smells of burning", "wire melted", "sparks from the switch",
+                   "i got a shock from the tap", "exposed wires in the corridor",
+                   "this is a safety hazard", "the balcony rail is unsafe"]) {
+    assert.equal(suggestSeverity(t), "URGENT", `should be urgent: ${t}`);
+  }
+  // Locked in or out, in either word order.
+  for (const t of ["door won't open", "the door cannot be opened",
+                   "front door handle removed, door cannot be opened",
+                   "unable to lock the front door", "can't close the gate",
+                   "i am locked out", "the lock is broken"]) {
+    assert.equal(suggestSeverity(t), "URGENT", `should be urgent: ${t}`);
+  }
+});
+
+test("severity does not inflate the ordinary", () => {
+  assert.equal(suggestSeverity("light bulb in the corridor needs replacing"), "ROUTINE");
+  assert.equal(suggestSeverity("wardrobe hinge needs a re-fix"), "ROUTINE");
+  assert.equal(suggestSeverity("scuff on the bedroom wall"), "COSMETIC");
+  assert.equal(suggestSeverity("paint is chipped"), "COSMETIC");
+  assert.equal(suggestSeverity(""), "ROUTINE");
+  assert.equal(suggestSeverity(null), "ROUTINE");
+  // A cosmetic word next to a real fault is not cosmetic.
+  assert.equal(suggestSeverity("stain on the ceiling from a leak"), "HIGH");
+  assert.equal(suggestSeverity("scratched the door and now it cannot lock"), "URGENT");
+});
+
 test("suggestCategory routes to the live enum", () => {
   assert.equal(suggestCategory("aircon is dripping"), "AC");
   assert.equal(suggestCategory("toilet won't flush"), "PLUMBING");

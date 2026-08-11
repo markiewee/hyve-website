@@ -39,25 +39,68 @@ export function dueAtFor(severity, fromIso) {
 // on purpose: this only ever SUGGESTS a severity, and a human or the brain
 // can override it. The cost of guessing URGENT wrongly is a Telegram buzz;
 // the cost of missing a real flood is a flooded flat.
-const URGENT_HINTS = [
-  "no power", "no electricity", "power outage", "no water", "burst", "flood",
-  "flooding", "leaking badly", "gas", "smoke", "fire", "sparks", "shock",
-  "locked out", "lockout", "cannot enter", "can't enter", "door won't open",
-  "break in", "broken lock", "no aircon" /* Singapore, in August */,
+// Severity is matched on concepts, not on phrasings.
+//
+// The first version of this was a list of exact phrases, and running it over
+// the eight real open tickets showed what that costs: "socket outlet BURNED
+// - safety hazard" scored ROUTINE because the list knew "fire" but not
+// "burned", "front door handle removed, door cannot be opened" scored
+// ROUTINE because the list knew "door won't open" but not "door cannot be
+// opened", and a corridor light bulb scored HIGH. Tenants do not write from
+// a phrasebook, and the failure is asymmetric: an over-rated bulb costs an
+// afternoon, an under-rated burned socket is a fire in a building people
+// sleep in.
+//
+// So these are word-stem regexes, and the door rule is a relation between
+// two things rather than a fixed sentence.
+const URGENT_PATTERNS = [
+  // Something is burning, has burned, or is about to.
+  /\bburn(t|ed|ing)?\b/, /\bscorch/, /\bmelt(ed|ing)?\b/, /\bsmoke\b|\bsmell(ing|s)? of burning/,
+  /\bfire\b/, /\bspark(s|ing)?\b/, /\bshort circuit/,
+  // Electricity meeting a person.
+  /\bshock(ed|s|ing)?\b/, /\b(exposed|live|bare)\s+wir/, /\belectrocut/,
+  // Gas, which needs no qualifier.
+  /\bgas\b/,
+  // The place is not habitable right now.
+  /\bno\s+(power|electricity|water|aircon|air.?con)\b/, /\bpower\s+(outage|cut|trip|failure)/,
+  /\bflood(s|ing|ed)?\b/, /\bburst\b/, /leaking badly/, /water\s+(pouring|gushing|everywhere)/,
+  /\bceiling\s+(collaps|fall|caving)/,
+  // Somebody said out loud that it is dangerous.
+  /\bhazard(ous)?\b/, /\bdanger(ous)?\b/, /\bunsafe\b/, /\bemergency\b/,
+  // Locked in or locked out. A relation between an opening and a failure to
+  // work it, in either word order, so phrasing does not decide safety.
+  /\block(ed)?\s*out\b/, /\bcan.?t\s+enter\b|\bcannot\s+enter\b/, /\bbreak.?in\b/,
+  /\b(door|gate|window|lock|handle)\b[^.!?]{0,60}\b(can(no|')?t|cannot|unable to|won'?t|will not|refuses to|failed to)\b[^.!?]{0,20}\b(open|close|lock|unlock|shut)/,
+  /\b(can(no|')?t|cannot|unable to|won'?t|will not)\b[^.!?]{0,20}\b(open|close|lock|unlock|shut)\b[^.!?]{0,30}\b(door|gate|window)/,
+  /\bbroken\s+lock\b/, /\block\s+(is\s+)?broken\b/,
 ];
-const HIGH_HINTS = [
-  "leak", "leaking", "not working", "broken", "blocked", "clogged", "no hot water",
-  "toilet", "fridge", "washing machine", "aircon", "air con", "ac not",
+
+// Not an emergency tonight, but it gets worse, spreads, or makes somebody
+// ill if it waits a week.
+const HIGH_PATTERNS = [
+  /\bmou?ld(y|ing)?\b/, /\bdamp\b/, /\bsewage\b/, /\bsewer/,
+  /\b(pest|infest|cockroach|roach|bed.?bug|rodent|rat|mice|mouse|termite)/,
+  /\bno hot water\b/, /\bleak(s|ing|ed)?\b/, /\bdrip(s|ping)?\b/,
+  /\bnot working\b/, /\bbroken\b/, /\bblocked\b/, /\bclogged\b/, /\bchoked\b/,
+  /\btoilet\b/, /\bfridge\b|\brefrigerator\b/, /\bwashing machine\b/,
+  /\baircon\b|\bair.?con\b|\bac not\b/, /\bstove\b|\bhob\b|\binduction\b/,
+  /\bheater\b/, /\bwater heater\b/,
 ];
-const COSMETIC_HINTS = ["paint", "scratch", "scuff", "stain", "chip", "mark on"];
+
+const COSMETIC_PATTERNS = [
+  /\bpaint\b/, /\bscratch(es|ed)?\b/, /\bscuff/, /\bstain(s|ed)?\b/,
+  /\bchip(ped)?\b/, /\bmark on\b/, /\bdiscolou?r/,
+];
 
 export function suggestSeverity(description) {
   const t = String(description ?? "").toLowerCase();
   if (!t.trim()) return "ROUTINE";
-  if (URGENT_HINTS.some((h) => t.includes(h))) return "URGENT";
-  if (COSMETIC_HINTS.some((h) => t.includes(h)) && !HIGH_HINTS.some((h) => t.includes(h)))
+  if (URGENT_PATTERNS.some((p) => p.test(t))) return "URGENT";
+  // Cosmetic only when nothing worse is also being described: "scratched the
+  // door and now it cannot lock" is not a paint job.
+  if (COSMETIC_PATTERNS.some((p) => p.test(t)) && !HIGH_PATTERNS.some((p) => p.test(t)))
     return "COSMETIC";
-  if (HIGH_HINTS.some((h) => t.includes(h))) return "HIGH";
+  if (HIGH_PATTERNS.some((p) => p.test(t))) return "HIGH";
   return "ROUTINE";
 }
 
