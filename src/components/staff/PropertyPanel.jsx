@@ -8,10 +8,12 @@
 
 import RoomCard from './RoomCard';
 import { isLettable } from '../../lib/staffRooms';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 const sgd = (n) => `S$${Number(n).toLocaleString('en-SG')}`;
 
 export default function PropertyPanel({ property, today }) {
+  const { t } = useLanguage();
   const rooms = (property.rooms || []).filter(isLettable);
   const openNow = rooms.filter(
     (r) => !r.next_available || new Date(r.next_available) <= today,
@@ -27,10 +29,10 @@ export default function PropertyPanel({ property, today }) {
         <p className="small" style={{ marginTop: 6 }}>{property.address}</p>
 
         <div className="propmeta">
-          <div className="stat"><div className="n">{rooms.length}</div><div className="l">Rooms</div></div>
-          <div className="stat"><div className="n">{openNow}</div><div className="l">Open today</div></div>
-          <div className="stat"><div className="n">{property.num_bathrooms}</div><div className="l">Bathrooms</div></div>
-          <div className="stat"><div className="n">{sgd(roll)}</div><div className="l">Roll at asking</div></div>
+          <div className="stat"><div className="n">{rooms.length}</div><div className="l">{t('staff.prop.rooms')}</div></div>
+          <div className="stat"><div className="n">{openNow}</div><div className="l">{t('staff.prop.openToday')}</div></div>
+          <div className="stat"><div className="n">{property.num_bathrooms}</div><div className="l">{t('staff.prop.bathrooms')}</div></div>
+          <div className="stat"><div className="n">{sgd(roll)}</div><div className="l">{t('staff.prop.rollAtAsking')}</div></div>
         </div>
 
         {property.description && (
@@ -38,7 +40,7 @@ export default function PropertyPanel({ property, today }) {
         )}
 
         <div className="subsec">
-          <div className="label">Housemates</div>
+          <div className="label">{t('staff.prop.housemates')}</div>
           {housemates.length > 0 ? (
             <div className="rows" style={{ marginTop: 'var(--s3)' }}>
               {housemates.map((t, i) => (
@@ -64,7 +66,7 @@ export default function PropertyPanel({ property, today }) {
         <div className="subsec">
           <div className="grid g3" style={{ gap: 'var(--s6)' }}>
             <div>
-              <div className="label">Nearest MRT</div>
+              <div className="label">{t('staff.prop.nearestMrt')}</div>
               <ul className="bullets">
                 {(property.nearby_mrt || []).map((m, i) => (
                   <li key={i}>
@@ -75,7 +77,7 @@ export default function PropertyPanel({ property, today }) {
               </ul>
             </div>
             <div>
-              <div className="label">Nearby</div>
+              <div className="label">{t('staff.prop.nearby')}</div>
               <ul className="bullets">
                 {(property.nearby_amenities || []).map((a, i) => (
                   <li key={i}>
@@ -86,7 +88,7 @@ export default function PropertyPanel({ property, today }) {
               </ul>
             </div>
             <div>
-              <div className="label">Building facilities</div>
+              <div className="label">{t('staff.prop.facilities')}</div>
               <div className="chips">
                 {(property.facilities || []).map((f, i) => (
                   <span key={i} className="chip chip-sm">{f}</span>
@@ -99,19 +101,19 @@ export default function PropertyPanel({ property, today }) {
         <div className="subsec">
           <div className="grid g2" style={{ gap: 'var(--s6)' }}>
             <div>
-              <div className="label">House rules</div>
+              <div className="label">{t('staff.prop.houseRules')}</div>
               <ul className="bullets">
                 {(property.house_rules || []).map((r, i) => <li key={i}>{r}</li>)}
               </ul>
             </div>
             <div>
-              <div className="label">In every room here</div>
+              <div className="label">{t('staff.room.inEveryRoom')}</div>
               <div className="chips">
                 {(property.amenities || []).map((a, i) => (
                   <span key={i} className="chip chip-sm">{a}</span>
                 ))}
               </div>
-              <div className="label" style={{ marginTop: 'var(--s5)' }}>Common areas</div>
+              <div className="label" style={{ marginTop: 'var(--s5)' }}>{t('staff.prop.commonAreas')}</div>
               <p className="small" style={{ marginTop: 6 }}>{property.common_areas}</p>
             </div>
           </div>
@@ -119,7 +121,7 @@ export default function PropertyPanel({ property, today }) {
 
         {property.images?.length > 0 && (
           <div className="subsec">
-            <div className="label">Common area photos, click to save</div>
+            <div className="label">{t('staff.prop.commonPhotos')}</div>
             <div className="strip">
               {property.images.map((url, i) => (
                 <a key={i} href={url} download={`${property.code}-common-${i + 1}.jpg`}>
@@ -142,7 +144,7 @@ export default function PropertyPanel({ property, today }) {
           }}
         >
           <div>
-            <div className="label">Location</div>
+            <div className="label">{t('staff.prop.location')}</div>
             <p className="small" style={{ marginTop: 6 }}>{property.address}</p>
             <p className="fine num" style={{ marginTop: 4 }}>
               {property.latitude}, {property.longitude}

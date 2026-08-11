@@ -8,6 +8,7 @@
 
 import { availabilityStatus, priceLadder, formatDate, daysUntil } from '../../lib/staffRooms';
 import Caret from './Caret';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 const sgd = (n) => `S$${Number(n).toLocaleString('en-SG')}`;
 const title = (s) => (s ? s.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase()) : '');
@@ -27,6 +28,7 @@ function TagRow({ label, list }) {
 }
 
 export default function RoomCard({ room, property, today }) {
+  const { t } = useLanguage();
   const status = availabilityStatus(room, today);
   const ladder = priceLadder(room.price_monthly);
   const opensLater = room.next_available && daysUntil(room.next_available, today) > 0;
@@ -91,7 +93,7 @@ export default function RoomCard({ room, property, today }) {
 
         {ladder && (
           <>
-            <div className="label" style={{ marginTop: 'var(--s4)' }}>Price by lease length</div>
+            <div className="label" style={{ marginTop: 'var(--s4)' }}>{t('staff.room.priceByLease')}</div>
             <div className="ladder">
               {ladder.map((t) => (
                 <div key={t.months} className={t.anchor ? 'on' : undefined}>
@@ -131,10 +133,10 @@ export default function RoomCard({ room, property, today }) {
 
         {room.available_until && (
           <div style={{ marginTop: 'var(--s5)' }}>
-            <div className="label">Booked behind</div>
+            <div className="label">{t('staff.room.bookedBehind')}</div>
             <div className="booking">
               <span>Free now to {formatDate(room.available_until)}</span>
-              <span className="badge badge-warn">Bridged gap</span>
+              <span className="badge badge-warn">{t('staff.room.bridgedGap')}</span>
             </div>
           </div>
         )}

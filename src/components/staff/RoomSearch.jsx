@@ -6,6 +6,7 @@
 // two disagree.
 
 import { BUDGET_STRETCH } from '../../lib/staffRooms';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 const LOCATIONS = [
   { code: 'ALL', label: 'All properties' },
@@ -21,13 +22,14 @@ const CHIPS = [
 ];
 
 export default function RoomSearch({ search, onChange, onClear, active, count, homeCount }) {
+  const { t } = useLanguage();
   const set = (k, v) => onChange({ ...search, [k]: v });
 
   return (
     <div className="search">
       <div className="searchgrid">
         <div className="field" style={{ margin: 0 }}>
-          <label className="label" htmlFor="staff-date">Move-in date</label>
+          <label className="label" htmlFor="staff-date">{t('staff.search.moveIn')}</label>
           <input
             className="input"
             type="date"
@@ -35,7 +37,7 @@ export default function RoomSearch({ search, onChange, onClear, active, count, h
             value={search.date}
             onChange={(e) => set('date', e.target.value)}
           />
-          <div className="seg" role="group" aria-label="Date flexibility">
+          <div className="seg" role="group" aria-label={t('staff.search.dateFlex')}>
             {['fixed', 'flexible'].map((mode) => (
               <button
                 key={mode}
@@ -62,11 +64,11 @@ export default function RoomSearch({ search, onChange, onClear, active, count, h
             value={search.budget}
             onChange={(e) => set('budget', e.target.value)}
           />
-          <div className="help">Cheaper rooms always show. Blank shows every price.</div>
+          <div className="help">{t('staff.search.priceHint')}</div>
         </div>
 
         <div className="field" style={{ margin: 0 }}>
-          <label className="label" htmlFor="staff-loc">Property</label>
+          <label className="label" htmlFor="staff-loc">{t('staff.search.property')}</label>
           <select
             className="select input"
             id="staff-loc"
@@ -77,7 +79,7 @@ export default function RoomSearch({ search, onChange, onClear, active, count, h
               <option key={l.code} value={l.code}>{l.label}</option>
             ))}
           </select>
-          <div className="help">Walk times are in each property panel.</div>
+          <div className="help">{t('staff.ref.walkTimes')}</div>
         </div>
       </div>
 
@@ -106,7 +108,7 @@ export default function RoomSearch({ search, onChange, onClear, active, count, h
               : ''}
           </span>
           {active && (
-            <button className="btn btn-ghost btn-sm" type="button" onClick={onClear}>Clear</button>
+            <button className="btn btn-ghost btn-sm" type="button" onClick={onClear}>{t('staff.clear')}</button>
           )}
         </div>
       </div>

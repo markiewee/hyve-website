@@ -11,6 +11,8 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import SEO from '../../components/SEO';
 import ThemeToggle from '../../components/ThemeToggle';
+import LangSwitch from '../../i18n/LangSwitch';
+import { useLanguage } from '../../i18n/LanguageContext';
 import { BeeMark } from '../../components/owners/OwnerChrome';
 import { LazybeeRoot } from '../../hooks/useLazybeeTheme';
 import RoomSearch from '../../components/staff/RoomSearch';
@@ -28,6 +30,7 @@ import '../../styles/lazybee.css';
 const PROPERTY_ORDER = ['CP', 'IH', 'TG'];
 
 export default function StaffRoomDeskPage() {
+  const { t } = useLanguage();
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -99,8 +102,9 @@ export default function StaffRoomDeskPage() {
           <span className="wd">LAZYBEE</span>
         </span>
         <nav>
-          <span className="label" style={{ letterSpacing: '.16em' }}>Staff</span>
+          <span className="label" style={{ letterSpacing: '.16em' }}>{t('staff.title')}</span>
           <ThemeToggle />
+          <LangSwitch />
         </nav>
       </div>
 
@@ -117,7 +121,7 @@ export default function StaffRoomDeskPage() {
         </section>
 
         {loading && <div className="skeleton" style={{ height: 320 }} />}
-        {error && <div className="note note-bad">Could not load rooms: {error}</div>}
+        {error && <div className="note note-bad">{t('staff.search.loadFail', { error })}</div>}
 
         {!loading && !error &&
           (active ? (
@@ -129,10 +133,9 @@ export default function StaffRoomDeskPage() {
               </div>
             ) : (
               <div className="empty">
-                <div className="h3">Nothing matches</div>
+                <div className="h3">{t('staff.search.nothing')}</div>
                 <p className="small" style={{ maxWidth: '46ch', margin: '0 auto' }}>
-                  Widen the budget, or switch the date to flexible to include rooms freeing
-                  within thirty days of it.
+                  {t('staff.search.widen')}
                 </p>
               </div>
             )

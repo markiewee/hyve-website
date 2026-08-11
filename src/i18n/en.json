@@ -1086,5 +1086,143 @@
       "D27": "Yishun",
       "D28": "Yio Chu Kang"
     }
+  },
+  "staff": {
+    "title": "Staff",
+    "brandNote": "Lazybee, internal",
+    "pinPrompt": "Enter your six digit staff PIN. Ask Mark if you do not have one.",
+    "pin": "PIN",
+    "save": "Save",
+    "clear": "Clear",
+    "reference": "Reference",
+    "staffResources": "Staff Resources",
+    "search": {
+      "moveIn": "Move-in date",
+      "dateFlex": "Date flexibility",
+      "priceHint": "Cheaper rooms always show. Blank shows every price.",
+      "nothing": "Nothing matches",
+      "widen": "Widen the budget, or switch the date to flexible to include rooms freeing within thirty days of it.",
+      "loadFail": "Could not load rooms: {error}",
+      "property": "Property"
+    },
+    "prop": {
+      "rooms": "Rooms",
+      "openToday": "Open today",
+      "bathrooms": "Bathrooms",
+      "rollAtAsking": "Monthly rent if full",
+      "housemates": "Housemates",
+      "nearestMrt": "Nearest MRT",
+      "facilities": "Building facilities",
+      "commonAreas": "Common areas",
+      "commonPhotos": "Common area photos, click to save",
+      "nearby": "Nearby",
+      "location": "Location",
+      "property": "Property",
+      "houseRules": "House rules"
+    },
+    "room": {
+      "inTheRoom": "In the room",
+      "inEveryRoom": "In every room here",
+      "fixtures": "Fixtures",
+      "bookedBehind": "Booked behind",
+      "bridgedGap": "Bridged gap",
+      "priceByLease": "Price by lease length"
+    },
+    "ref": {
+      "leaseTerms": "Lease terms",
+      "termsIntro": "The terms, in the order they get asked.",
+      "term1": {
+        "k": "Minimum stay",
+        "v": "3 months"
+      },
+      "term2": {
+        "k": "Deposit",
+        "v": "1 month, refundable"
+      },
+      "term3": {
+        "k": "Notice period",
+        "v": "1 month"
+      },
+      "term4": {
+        "k": "Payment",
+        "v": "Bank transfer, due on the 1st"
+      },
+      "included": "In the rent",
+      "excluded": "Not in the rent",
+      "inc1": "High-speed WiFi",
+      "inc2": "Water and electricity, with a monthly AC allowance",
+      "inc3": "Weekly common area cleaning",
+      "inc4": "Fully furnished room",
+      "inc5": "Kitchen, washing machine and dryer access",
+      "exc1": "AC used above the monthly allowance, billed at cost",
+      "exc2": "Personal toiletries, and cleaning inside the bedroom",
+      "moveIn": "Move-in, five steps",
+      "step1": {
+        "t": "Browse or book a viewing",
+        "b": "Two working days of lead time, minimum."
+      },
+      "step2": {
+        "t": "Sign the licence",
+        "b": "Digital, sent from the portal."
+      },
+      "step3": {
+        "t": "Pay deposit and first month",
+        "b": "Bank transfer, reference on the invoice."
+      },
+      "step4": {
+        "t": "Receive access",
+        "b": "Door code and directions, on the day."
+      },
+      "step5": {
+        "t": "Move in",
+        "b": "Captain meets them if it is a first tenancy."
+      },
+      "faq": "Questions that come up every week",
+      "walkTimes": "Walk times are in each property panel.",
+      "q1": {
+        "q": "Can they have guests overnight?",
+        "a": "Yes, with advance notice to the housemates. Three nights or more needs approval from us first."
+      },
+      "q2": {
+        "q": "What is the WiFi like?",
+        "a": "Fibre broadband at every property, 300Mbps or better, and coverage reaches every room."
+      },
+      "q3": {
+        "q": "Is cooking allowed?",
+        "a": "Yes, the shared kitchen is fully equipped. Clean up after, and use the exhaust fan for anything heavily spiced."
+      },
+      "q4": {
+        "q": "How do they report a problem?",
+        "a": "A ticket in the tenant portal, or a WhatsApp message to the SG line. We aim to reply inside 24 hours."
+      },
+      "q5": {
+        "q": "Can they leave early?",
+        "a": "One month of written notice. The deposit may be forfeited depending on the circumstances, so check before promising."
+      },
+      "q6": {
+        "q": "When does the deposit come back?",
+        "a": "Within 14 days of move-out, after the room inspection. Deductions only for damage beyond fair wear."
+      },
+      "q7": {
+        "q": "Are utilities included?",
+        "a": "Water, electricity with a monthly AC allowance, WiFi and weekly common cleaning are all in the rent. AC above the allowance is billed at cost."
+      },
+      "q8": {
+        "q": "Is there parking?",
+        "a": "HDB parking near Chiltern Park and Ivory Heights. Thomson Grove has limited porch parking. Check before committing."
+      },
+      "q9": {
+        "q": "How is AC usage tracked?",
+        "a": "Smart plugs meter each room against its monthly allowance, and any overage is billed the following month."
+      },
+      "q10": {
+        "q": "How much notice does a viewing need?",
+        "a": "Two working days, minimum. A captain has to be lined up to open the unit, so never offer same day or next day."
+      }
+    },
+    "roomDesk": "Room desk",
+    "pinBad": "That PIN was not recognised.",
+    "checking": "Checking",
+    "openDesk": "Open the room desk"
   }
 }
