@@ -24,7 +24,10 @@ export function parseAuthHeader(header) {
   return m[1].startsWith(KEY_PREFIX) ? m[1] : null;
 }
 
-/** Fixed-window limiter decision: `count` requests already seen this minute. */
-export function allowRequest(count, limitPerMin) {
-  return count < limitPerMin;
+/** Fixed-window limiter decision. `used` is this request's slot number from
+ * the atomic counter bump (count AFTER increment, so the first request of a
+ * minute arrives as 1). The old read-then-check version raced: 75 concurrent
+ * requests each read the log before any row landed and all passed. */
+export function allowRequest(used, limitPerMin) {
+  return used <= limitPerMin;
 }

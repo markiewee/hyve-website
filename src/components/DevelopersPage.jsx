@@ -106,7 +106,7 @@ const DevelopersPage = () => {
             <Code>{`{
   "slug": "ivory-heights",
   "profile": { "title": "Ivory Heights", "description": "..." },
-  "media": [ { "url": "https://...jpg", "hero": true } ],
+  "media": [ { "url": "https://...jpg" } ],
   "features": [ "pool", "gym", "near-mrt" ],
   "listing_count": 7,
   "links": {
@@ -122,14 +122,16 @@ const DevelopersPage = () => {
               <code>GET /listings</code> returns every lettable room. Filter with{' '}
               <code>property</code>, <code>available_from</code> and{' '}
               <code>max_rate</code>. Rates are quoted per month for a default 12-month stay;
-              pass <code>duration_months</code> (3 to 36) to quote a different length.{' '}
-              <code>GET /listings/&#123;code&#125;</code> returns one room.
+              pass <code>duration_months</code> (3 to 36; values outside that range are clamped
+              to it) to quote a different length.{' '}
+              <code>GET /listings/&#123;code&#125;</code> returns one room. Codes are uppercase;
+              lowercase is accepted and normalised.
             </P>
             <Code>{`{
   "code": "IH-STD1",
   "property": "ivory-heights",
   "profile": { "title": "Standard Room 1", "description": "..." },
-  "media": [ { "url": "https://...jpg", "hero": true } ],
+  "media": [ { "url": "https://...jpg" } ],
   "features": [ "aircon", "window" ],
   "rate_card": {
     "monthly_rate": 1500,
@@ -169,7 +171,10 @@ const DevelopersPage = () => {
 
           <Section id="booking-requests" title="Booking requests">
             <P>
-              Push a tenant to us with <code>POST /booking-requests</code>. Include an{' '}
+              Push a tenant to us with <code>POST /booking-requests</code>. Required:{' '}
+              <code>listing_code</code>, <code>move_in</code> (ISO <code>YYYY-MM-DD</code>; other
+              date formats are rejected with 422), <code>duration_months</code> (a whole number),{' '}
+              <code>applicant.name</code> and <code>applicant.email</code>. Include an{' '}
               <code>idempotency_key</code> so safe retries never create duplicates. Status
               moves through <code>received</code>, <code>in_review</code>,
               then <code>confirmed</code> or <code>declined</code>;
@@ -194,7 +199,9 @@ const DevelopersPage = () => {
             <P>
               Where a booking request is a lead we review, <code>POST /bookings</code> places a
               confirmed hold that immediately blocks the calendar. Provide <code>starts_on</code>{' '}
-              and optionally <code>ends_on</code> (omit for open-ended), your own{' '}
+              and optionally <code>ends_on</code> (omit for open-ended), both strictly ISO{' '}
+              <code>YYYY-MM-DD</code> (anything else is rejected with 422, never coerced), plus{' '}
+              <code>guest.name</code>, your own{' '}
               <code>external_ref</code>, and an <code>idempotency_key</code>{' '}
               for safe retries. Manage with <code>GET /bookings</code>,{' '}
               <code>GET /bookings/&#123;id&#125;</code> and{' '}
@@ -241,7 +248,10 @@ function verify(secret, body, header) {
 
           <Section id="limits" title="Rate limits and errors">
             <P>
-              Default limit is 60 requests per minute per key; excess returns HTTP 429. Errors always use one envelope:
+              Default limit is 60 requests per minute per key; excess returns HTTP 429 with a{' '}
+              <code>Retry-After</code> header. Pace bursts and back off on 429: sustained rapid
+              bursts from one address can also trip our host&apos;s own network protection, which
+              answers with an HTML challenge no server can pass. Errors always use one envelope:
             </P>
             <Code>{`{ "error": { "code": "validation_failed", "message": "Missing: move_in" } }`}</Code>
           </Section>

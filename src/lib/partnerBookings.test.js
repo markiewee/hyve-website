@@ -1,7 +1,33 @@
 // src/lib/partnerBookings.test.js
 import test from "node:test";
 import assert from "node:assert/strict";
-import { validateBooking, bookingView } from "./partnerBookings.js";
+import { validateBooking, bookingView, isIsoDate } from "./partnerBookings.js";
+
+test("isIsoDate accepts only real YYYY-MM-DD calendar dates", () => {
+  assert.equal(isIsoDate("2027-06-01"), true);
+  assert.equal(isIsoDate("2026-02-28"), true);
+  // the live bug: Postgres coerced these into holds on the wrong dates
+  assert.equal(isIsoDate("01/06/2027"), false);
+  assert.equal(isIsoDate("June 1 2027"), false);
+  // the live 500: a well-shaped string that is not a date
+  assert.equal(isIsoDate("2027-13-45"), false);
+  assert.equal(isIsoDate("2026-02-30"), false);
+  assert.equal(isIsoDate("2026-2-3"), false);
+  assert.equal(isIsoDate(20270601), false);
+  assert.equal(isIsoDate(null), false);
+});
+
+test("validateBooking refuses non-ISO dates with a named reason", () => {
+  const base = { listing_code: "IH-STD1", guest: { name: "Jane" } };
+  const slash = validateBooking({ ...base, starts_on: "01/06/2027" });
+  assert.equal(slash.ok, false);
+  assert.ok(slash.missing.includes("starts_on must be an ISO date (YYYY-MM-DD)"));
+  const worded = validateBooking({ ...base, starts_on: "2027-06-01", ends_on: "June 1 2028" });
+  assert.equal(worded.ok, false);
+  assert.ok(worded.missing.includes("ends_on must be an ISO date (YYYY-MM-DD)"));
+  const garbage = validateBooking({ ...base, starts_on: "2027-13-45" });
+  assert.equal(garbage.ok, false);
+});
 
 test("validateBooking requires listing_code, starts_on and guest.name", () => {
   assert.deepEqual(validateBooking({}), { ok: false, missing: ["listing_code", "starts_on", "guest.name"] });

@@ -24,8 +24,10 @@ test("parseAuthHeader accepts only a well-formed bearer key", () => {
   assert.equal(parseAuthHeader(undefined), null);
 });
 
-test("allowRequest is a strict under-limit check", () => {
-  assert.equal(allowRequest(0, 60), true);
-  assert.equal(allowRequest(59, 60), true);
-  assert.equal(allowRequest(60, 60), false);
+test("allowRequest judges the post-increment slot number", () => {
+  // `used` is count AFTER the atomic bump: request #1 of the minute is 1.
+  assert.equal(allowRequest(1, 60), true);
+  assert.equal(allowRequest(60, 60), true);   // the 60th request is inside 60/min
+  assert.equal(allowRequest(61, 60), false);  // the 61st is not
+  assert.equal(allowRequest(NaN, 60), false); // a broken count never opens the gate here
 });
