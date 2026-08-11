@@ -120,6 +120,14 @@ curl -s "https://www.lazybee.sg/api/v1/compliance?urgency=CRITICAL" \
 
 Each row carries `next_actions`, and the response leads with a `summary` so callers do not each count the array and disagree about the number. The room and the name travel; `tenant_profile_id` does not, because it addresses the most sensitive file this company holds.
 
+### Closing a ticket
+
+`POST /v1/tickets/{id}` with `status: "RESOLVED"` now requires a `resolution_note` saying what was actually done, and an owner. Closing is the moment the system stops looking at a ticket, which makes it the only moment the record can still be made honest.
+
+The discipline half exists already: all 26 resolved tickets carry a note. The other half does not, and 23 of those 26 have no `resolved_by` at all, so the record reads "it was fixed, we think, by someone", which is not something anybody can stand behind three months later. If you do not pass `resolved_by`, the calling key's label is used, because a named agent is still a named actor.
+
+Nothing short of `RESOLVED` is affected: triaging, scheduling and acknowledging are untouched.
+
 ## Half-finished move-ins
 
 `GET /v1/onboardings` (internal scope) answers the question `onboarding_progress` was never asked: who stopped, at which step, and how long ago. Every step in that table has always carried a timestamp and nothing read them, so the first run found two tenants who moved in on 15 June and never finished, one of them still without a signed tenancy agreement, and two tenancies that began on 1 August with the deposit unpaid.

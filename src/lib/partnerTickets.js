@@ -162,6 +162,29 @@ export function ticketInsert(body, { roomId = null, propertyId = null,
   return row;
 }
 
+// Closing a ticket is the moment the system stops looking at it, which
+// makes it the moment to insist on evidence. The operating principles say
+// no unit flips to ready without a photo set; this is the same rule at the
+// only place it can be enforced today, since maintenance_tickets has no
+// photo column: say what was done, and be somebody when you say it.
+//
+// 26 tickets are resolved and every one carries a note, so the discipline
+// already exists. 23 of those 26 have no resolved_by at all, so the other
+// half of it does not, and "it was fixed, we think, by someone" is not a
+// maintenance record anybody can stand behind three months later.
+export function validateClose(patch, { actor = null } = {}) {
+  const missing = [];
+  if (String(patch?.status ?? "").toUpperCase() !== "RESOLVED") return { ok: true, missing };
+  const note = String(patch?.resolution_note ?? "").trim();
+  if (!note)
+    missing.push("resolution_note is required to resolve a ticket: say what was actually done");
+  else if (note.length < 4)
+    missing.push("resolution_note must say something: a few characters is not a record");
+  if (!patch?.resolved_by && !actor)
+    missing.push("resolved_by is required to resolve a ticket");
+  return { ok: missing.length === 0, missing };
+}
+
 export function ticketView(row, unitCode) {
   return {
     id: row.id,

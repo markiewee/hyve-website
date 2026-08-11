@@ -3,7 +3,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   dueAtFor, suggestSeverity, suggestCategory, validateTicket, ticketInsert,
-  ticketView, shouldChase, shouldEscalate, MAX_CHASES,
+  ticketView, shouldChase, shouldEscalate, MAX_CHASES, validateClose,
 } from "./partnerTickets.js";
 
 const T0 = "2026-08-11T12:00:00.000Z";
@@ -196,4 +196,34 @@ test("what stops being chased starts being escalated, never dropped", () => {
   assert.equal(shouldEscalate({ status: "OPEN", due_at: plusHours(-1), chase_count: 0 }, T0), false);
   assert.equal(shouldEscalate({ status: "ESCALATED", due_at: plusHours(-50), chase_count: 9 }, T0), false);
   assert.equal(shouldEscalate({ status: "RESOLVED", due_at: plusHours(-50), chase_count: 9 }, T0), false);
+});
+
+test("a ticket cannot go quiet without saying what happened", () => {
+  // Closing is the moment the system stops looking, which is exactly when
+  // to insist on evidence. Anything short of RESOLVED is untouched: this
+  // must not get in the way of triaging or scheduling.
+  assert.equal(validateClose({ status: "ACKNOWLEDGED" }).ok, true);
+  assert.equal(validateClose({ severity: "URGENT" }).ok, true);
+  assert.equal(validateClose({}).ok, true);
+
+  const bare = validateClose({ status: "RESOLVED" });
+  assert.equal(bare.ok, false);
+  assert.ok(bare.missing.some((m) => m.startsWith("resolution_note is required")));
+  assert.ok(bare.missing.some((m) => m.startsWith("resolved_by is required")));
+
+  // 23 of the 26 resolved tickets in production have no resolved_by, which
+  // is how "it was fixed, we think, by someone" became the record.
+  assert.equal(validateClose({ status: "RESOLVED", resolution_note: "Replaced the socket outlet" }).ok,
+    false, "a note without an owner is still anonymous");
+  assert.equal(validateClose(
+    { status: "RESOLVED", resolution_note: "Replaced the socket outlet" },
+    { actor: "reply-brain" }).ok, true, "the calling key can stand as the owner");
+  assert.equal(validateClose(
+    { status: "RESOLVED", resolution_note: "Replaced the socket outlet", resolved_by: "Kavi" }).ok, true);
+
+  // An empty gesture is not a record.
+  assert.equal(validateClose({ status: "RESOLVED", resolution_note: "   ", resolved_by: "Kavi" }).ok, false);
+  assert.equal(validateClose({ status: "RESOLVED", resolution_note: "ok", resolved_by: "Kavi" }).ok, false);
+  assert.equal(validateClose({ status: "resolved", resolution_note: "Done, new bulb fitted", resolved_by: "Kavi" }).ok,
+    true, "the check is case insensitive, like the rest of the status handling");
 });

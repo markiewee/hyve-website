@@ -30,7 +30,9 @@ import {
   validateLead, leadPatch, leadView, mergeIdentifiers, normalisePhone,
   leadUpdatePatch, validateLeadUpdate,
 } from "../../src/lib/partnerLeads.js";
-import { validateTicket, ticketInsert, ticketView } from "../../src/lib/partnerTickets.js";
+import {
+  validateTicket, ticketInsert, ticketView, validateClose,
+} from "../../src/lib/partnerTickets.js";
 import { sortOnboardings, onboardingView } from "../../src/lib/partnerOnboarding.js";
 import { sortCompliance, complianceView, complianceSummary } from "../../src/lib/partnerCompliance.js";
 import {
@@ -758,9 +760,18 @@ async function handleUpdateTicket(req, res, keyRow, id) {
                    "charge_to_tenant", "charge_amount"]) {
     if (b[f] !== undefined) patch[f] = b[f];
   }
-  // Closing the loop stamps the time; the photo-proof rule is enforced by
-  // the caller that owns the evidence, not here.
-  if (patch.status === "RESOLVED") patch.resolved_at = new Date().toISOString();
+  // Closing the loop stamps the time, and costs evidence. This is the last
+  // moment anything looks at the ticket, so it is the only moment the
+  // record can still be made honest.
+  const closing = validateClose({ ...b, status: patch.status }, { actor: keyRow.label ?? null });
+  if (!closing.ok) return err(res, 422, "validation_failed", closing.missing.join("; "));
+  if (patch.status === "RESOLVED") {
+    patch.resolved_at = new Date().toISOString();
+    // Fall back to the key that asked. An agent closing on somebody's
+    // behalf is still a named actor, which beats the 23 anonymous closes
+    // already in the table.
+    patch.resolved_by = b.resolved_by ?? keyRow.label ?? "unknown";
+  }
   if (b.chased) {
     patch.last_chased_at = new Date().toISOString();
     const { data: cur } = await supabase.from("maintenance_tickets").select("chase_count").eq("id", id).maybeSingle();
