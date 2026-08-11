@@ -77,6 +77,16 @@ curl -s -X POST https://www.lazybee.sg/api/v1/leads/$ID \
 
 It accepts `status`, `lifecycle`, `activation_condition`, `budget_monthly`, `move_in`, `move_out`, `occupants`, `location_preference`, `role`, `next_action`, `next_action_due`, `matched_room_codes`, `property_interest`, `prospect_summary` and `notes`. Anything you omit is left alone. Returns the updated lead, or `404` if there is no such id.
 
+## Leads that stopped moving
+
+`GET /v1/leads/stalled` (internal scope). The leads table had 239 rows and no notion of a stage being overdue, so it silted up: 122 sat at `qualified` with 53 untouched for over a week, and 19 of the 22 at `new` had never been triaged at all. A prospect nobody moved is not a pipeline, it is a list.
+
+Each stage gets its own patience, in `public.lead_stage_policy`, because they are not alike and because how long to wait is a commercial judgement rather than a property of the code. A new enquiry silent two days is dead; a booked viewing with no outcome recorded is our failure and gets two days as well; a cold lead is worth one look a month, not a daily nag. Terminal statuses are excluded, and so are `STORED` leads, which are parked against a condition and belong to the activator rather than the chaser.
+
+Rows come back worst-stage first rather than oldest first, because a viewing nobody followed up is more expensive than a cold lead a month past its nudge, however old that one is.
+
+`auto_closeable` marks rows that Mark's standing rule covers: a first enquiry that went quiet. It is deliberately only a flag. Reading this endpoint never closes anything, and the rule excludes anybody who told us a budget or a room, because that is a real prospect somebody worked for and not a dead contact.
+
 ## Agent attribution (the concierge lane)
 
 Six agents and referrers have had a PIN since the channel pricing page was built, and every one of them read `use_count` 0, because nothing anywhere consumed a PIN. They were credentials for a door that had not been cut.
