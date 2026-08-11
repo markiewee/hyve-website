@@ -227,3 +227,19 @@ test("a ticket cannot go quiet without saying what happened", () => {
   assert.equal(validateClose({ status: "resolved", resolution_note: "Done, new bulb fitted", resolved_by: "Kavi" }).ok,
     true, "the check is case insensitive, like the rest of the status handling");
 });
+
+test("a closer is named whichever column holds them", () => {
+  // resolved_by is a uuid pointing at a portal account. An agent key is not
+  // one, and writing its name there failed the type check and surfaced as
+  // "No such ticket", so every close broke. Either column satisfies the
+  // requirement; neither does not.
+  assert.equal(validateClose(
+    { status: "RESOLVED", resolution_note: "Replaced the socket", resolved_by_label: "reply-brain" }).ok,
+    true, "a named agent is a named closer");
+  assert.equal(validateClose({ status: "RESOLVED", resolution_note: "Replaced the socket" }).ok, false);
+
+  assert.equal(ticketView({ resolved_by_label: "reply-brain" }, null).resolved_by, "reply-brain");
+  assert.equal(ticketView({ resolved_by: "0f6d1a2e-1111-4222-8333-444455556666" }, null).resolved_by,
+    "0f6d1a2e-1111-4222-8333-444455556666");
+  assert.equal(ticketView({}, null).resolved_by, null);
+});
