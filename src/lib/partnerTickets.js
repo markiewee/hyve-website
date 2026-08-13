@@ -235,6 +235,19 @@ export function ticketOpsView(row, unitCode) {
   return { ...ticketView(row, unitCode), reporter_phone: row.reporter_phone ?? null };
 }
 
+// A status change without its timestamp is half a record. A runner set a
+// ticket to ACKNOWLEDGED, acknowledged_at stayed null, and the next cycle
+// read "never acknowledged" and would have messaged the same tenant again
+// every fifteen minutes. The status says what happened; the stamp says when.
+// Never overwrites an existing stamp: the first time is the honest one.
+const STATUS_STAMPS = { ACKNOWLEDGED: "acknowledged_at", TRIAGED: "triaged_at" };
+
+export function statusStamp(status, row = {}, now = new Date().toISOString()) {
+  const column = STATUS_STAMPS[String(status ?? "").toUpperCase()];
+  if (!column || row?.[column]) return {};
+  return { [column]: now };
+}
+
 export function shouldChase(ticket, nowIso = new Date().toISOString()) {
   if (!ticket || ticket.status === "RESOLVED") return false;
   if (!ticket.due_at) return false;

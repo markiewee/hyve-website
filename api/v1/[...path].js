@@ -31,7 +31,7 @@ import {
   leadUpdatePatch, validateLeadUpdate,
 } from "../../src/lib/partnerLeads.js";
 import {
-  validateTicket, ticketInsert, ticketView, ticketOpsView, validateClose,
+  validateTicket, ticketInsert, ticketView, ticketOpsView, validateClose, statusStamp,
 } from "../../src/lib/partnerTickets.js";
 import { sortOnboardings, onboardingView } from "../../src/lib/partnerOnboarding.js";
 import { sortCompliance, complianceView, complianceSummary } from "../../src/lib/partnerCompliance.js";
@@ -808,6 +808,15 @@ async function handleUpdateTicket(req, res, keyRow, id) {
   }
   const closing = validateClose({ ...b, status: patch.status },
     { actor: keyRow.label ?? null, photoCount });
+  // Record when the status changed, not just that it did. Without this a
+  // caller that acknowledges a ticket leaves acknowledged_at null, and
+  // anything asking "has this been picked up yet" reads null forever.
+  if (patch.status) {
+    const { data: current } = await supabase
+      .from("maintenance_tickets").select("acknowledged_at, triaged_at")
+      .eq("id", id).maybeSingle();
+    Object.assign(patch, statusStamp(patch.status, current ?? {}));
+  }
   if (!closing.ok) return err(res, 422, "validation_failed", closing.missing.join("; "));
   if (patch.status === "RESOLVED") {
     patch.resolved_at = new Date().toISOString();
