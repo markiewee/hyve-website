@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import {
   dueAtFor, suggestSeverity, suggestCategory, validateTicket, ticketInsert,
   ticketView, ticketOpsView, shouldChase, shouldEscalate, MAX_CHASES, validateClose,
+  statusStamp,
 } from "./partnerTickets.js";
 
 const T0 = "2026-08-11T12:00:00.000Z";
@@ -297,4 +298,23 @@ test("the view carries what the runner needs to avoid repeating itself", () => {
   assert.equal(bare.acknowledged_at, null);
   assert.equal(bare.assigned_to, null);
   assert.equal(ticketOpsView({ id: "t2" }, null).reporter_phone, null);
+});
+
+test("moving a ticket off OPEN stamps when it happened", () => {
+  // A runner set status to ACKNOWLEDGED and acknowledged_at stayed null, so
+  // the next cycle read "never acknowledged" and would have messaged the
+  // same tenant again every fifteen minutes. The status says what, the
+  // stamp says when, and a status change without its stamp is half a record.
+  const now = "2026-08-13T12:00:00Z";
+  assert.equal(statusStamp("ACKNOWLEDGED", {}, now).acknowledged_at, now);
+  assert.equal(statusStamp("TRIAGED", {}, now).triaged_at, now);
+
+  // Never overwrite a stamp that already exists: the first time is the
+  // honest one.
+  const already = { acknowledged_at: "2026-08-01T00:00:00Z" };
+  assert.equal(statusStamp("ACKNOWLEDGED", already, now).acknowledged_at, undefined);
+
+  // Statuses with no stamp of their own change nothing.
+  assert.deepEqual(statusStamp("IN_PROGRESS", {}, now), {});
+  assert.deepEqual(statusStamp(null, {}, now), {});
 });
