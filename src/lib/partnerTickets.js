@@ -205,6 +205,13 @@ export function ticketView(row, unitCode) {
     // view that hid them would have let it nudge the same ticket forever.
     chase_count: row.chase_count ?? 0,
     last_chased_at: row.last_chased_at ?? null,
+    // Same trap, one step earlier: without acknowledged_at a runner asking
+    // "has this reporter been told anything yet" always reads null and sends
+    // the same acknowledgement to the same tenant on every single cycle.
+    // Operational state, not PII, so it belongs in the default view next to
+    // the chase fields it works with.
+    acknowledged_at: row.acknowledged_at ?? null,
+    assigned_to: row.assigned_to ?? null,
     created_at: row.created_at ?? null,
     resolved_at: row.resolved_at ?? null,
     // Whoever closed it, whichever column holds them. A record that cannot
@@ -218,6 +225,15 @@ export function ticketView(row, unitCode) {
 // being a nudge and becomes a person's problem to escalate.
 export const MAX_CHASES = 3;
 export const CHASE_INTERVAL_HOURS = 24;
+
+// The reporter's number is deliberately absent from ticketView, alongside
+// the internal ids: a ticket read should not hand back a tenant's phone by
+// default. But the runner that acknowledges reporters has to reach them, so
+// it asks for this view explicitly rather than the default one quietly
+// widening for everybody. Internal scope only, like every ticket handler.
+export function ticketOpsView(row, unitCode) {
+  return { ...ticketView(row, unitCode), reporter_phone: row.reporter_phone ?? null };
+}
 
 export function shouldChase(ticket, nowIso = new Date().toISOString()) {
   if (!ticket || ticket.status === "RESOLVED") return false;

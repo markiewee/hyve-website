@@ -3,7 +3,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   dueAtFor, suggestSeverity, suggestCategory, validateTicket, ticketInsert,
-  ticketView, shouldChase, shouldEscalate, MAX_CHASES, validateClose,
+  ticketView, ticketOpsView, shouldChase, shouldEscalate, MAX_CHASES, validateClose,
 } from "./partnerTickets.js";
 
 const T0 = "2026-08-11T12:00:00.000Z";
@@ -266,4 +266,35 @@ test("a resolved ticket needs a photo, not just a sentence", () => {
   // An omitted evidence argument must fail closed, not open: a caller that
   // has not been taught about photos yet cannot quietly resolve without them.
   assert.equal(validateClose(said).ok, false, "no evidence argument means no proof");
+});
+
+test("the view carries what the runner needs to avoid repeating itself", () => {
+  // acknowledged_at was missing from this view, so a runner asking "has this
+  // reporter been told anything yet" always got null and would have sent the
+  // same acknowledgement to the same tenant on every cycle, forever.
+  // reporter_phone was missing too, so it could not have reached them at all.
+  // Both endpoints that expose this are internal-scope only.
+  const row = {
+    id: "t1", severity: "HIGH", status: "OPEN", description: "tap drips",
+    acknowledged_at: "2026-08-13T10:00:00Z", reporter_phone: "+6591234567",
+    assigned_to: "Edward",
+  };
+  const v = ticketView(row, "IH-STD1");
+  assert.equal(v.acknowledged_at, "2026-08-13T10:00:00Z");
+  assert.equal(v.assigned_to, "Edward");
+
+  // The reporter's number stays out of the default view, deliberately: a
+  // ticket read must not hand back a tenant's phone to every caller.
+  assert.ok(!("reporter_phone" in v));
+
+  // The runner that acknowledges reporters asks for it explicitly instead.
+  const ops = ticketOpsView(row, "IH-STD1");
+  assert.equal(ops.reporter_phone, "+6591234567");
+  assert.equal(ops.acknowledged_at, "2026-08-13T10:00:00Z");
+
+  // Absent stays null rather than undefined, so a consumer can trust the shape.
+  const bare = ticketView({ id: "t2" }, null);
+  assert.equal(bare.acknowledged_at, null);
+  assert.equal(bare.assigned_to, null);
+  assert.equal(ticketOpsView({ id: "t2" }, null).reporter_phone, null);
 });

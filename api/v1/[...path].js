@@ -31,7 +31,7 @@ import {
   leadUpdatePatch, validateLeadUpdate,
 } from "../../src/lib/partnerLeads.js";
 import {
-  validateTicket, ticketInsert, ticketView, validateClose,
+  validateTicket, ticketInsert, ticketView, ticketOpsView, validateClose,
 } from "../../src/lib/partnerTickets.js";
 import { sortOnboardings, onboardingView } from "../../src/lib/partnerOnboarding.js";
 import { sortCompliance, complianceView, complianceSummary } from "../../src/lib/partnerCompliance.js";
@@ -741,7 +741,11 @@ async function handleListTickets(res, keyRow, query) {
   if (query.open === "true") q = q.neq("status", "RESOLVED");
   if (query.overdue === "true") q = q.neq("status", "RESOLVED").lt("due_at", new Date().toISOString());
   const { data } = await q;
-  return res.status(200).json({ data: (data ?? []).map((t) => ticketView(t, t.room?.unit_code ?? null)) });
+  // A reporter's number is not part of a normal ticket read. The runner that
+  // acknowledges reporters has to reach them, so it asks for it by name
+  // rather than the default view quietly widening for every caller.
+  const view = query.include === "reporter" ? ticketOpsView : ticketView;
+  return res.status(200).json({ data: (data ?? []).map((t) => view(t, t.room?.unit_code ?? null)) });
 }
 
 async function handleUpdateTicket(req, res, keyRow, id) {
