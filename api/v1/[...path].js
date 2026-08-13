@@ -764,7 +764,21 @@ async function handleUpdateTicket(req, res, keyRow, id) {
   // Closing the loop stamps the time, and costs evidence. This is the last
   // moment anything looks at the ticket, so it is the only moment the
   // record can still be made honest.
-  const closing = validateClose({ ...b, status: patch.status }, { actor: keyRow.label ?? null });
+  //
+  // ticket_photos has existed since the initial schema and nothing has ever
+  // read it, so a close has only ever cost a sentence. Count the photos, but
+  // only when actually resolving: an ordinary triage patch pays nothing.
+  let photoCount = 0;
+  if (patch.status === "RESOLVED") {
+    const { count, error: photoErr } = await supabase
+      .from("ticket_photos")
+      .select("id", { count: "exact", head: true })
+      .eq("ticket_id", id);
+    // A broken count must not let an unevidenced close through: fail closed.
+    photoCount = photoErr ? 0 : Number(count) || 0;
+  }
+  const closing = validateClose({ ...b, status: patch.status },
+    { actor: keyRow.label ?? null, photoCount });
   if (!closing.ok) return err(res, 422, "validation_failed", closing.missing.join("; "));
   if (patch.status === "RESOLVED") {
     patch.resolved_at = new Date().toISOString();

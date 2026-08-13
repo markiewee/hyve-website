@@ -217,14 +217,16 @@ test("a ticket cannot go quiet without saying what happened", () => {
     false, "a note without an owner is still anonymous");
   assert.equal(validateClose(
     { status: "RESOLVED", resolution_note: "Replaced the socket outlet" },
-    { actor: "reply-brain" }).ok, true, "the calling key can stand as the owner");
+    { actor: "reply-brain", photoCount: 1 }).ok, true, "the calling key can stand as the owner");
   assert.equal(validateClose(
-    { status: "RESOLVED", resolution_note: "Replaced the socket outlet", resolved_by: "Kavi" }).ok, true);
+    { status: "RESOLVED", resolution_note: "Replaced the socket outlet", resolved_by: "Kavi" },
+    { photoCount: 1 }).ok, true);
 
   // An empty gesture is not a record.
   assert.equal(validateClose({ status: "RESOLVED", resolution_note: "   ", resolved_by: "Kavi" }).ok, false);
   assert.equal(validateClose({ status: "RESOLVED", resolution_note: "ok", resolved_by: "Kavi" }).ok, false);
-  assert.equal(validateClose({ status: "resolved", resolution_note: "Done, new bulb fitted", resolved_by: "Kavi" }).ok,
+  assert.equal(validateClose({ status: "resolved", resolution_note: "Done, new bulb fitted", resolved_by: "Kavi" },
+    { photoCount: 1 }).ok,
     true, "the check is case insensitive, like the rest of the status handling");
 });
 
@@ -234,7 +236,8 @@ test("a closer is named whichever column holds them", () => {
   // "No such ticket", so every close broke. Either column satisfies the
   // requirement; neither does not.
   assert.equal(validateClose(
-    { status: "RESOLVED", resolution_note: "Replaced the socket", resolved_by_label: "reply-brain" }).ok,
+    { status: "RESOLVED", resolution_note: "Replaced the socket", resolved_by_label: "reply-brain" },
+    { photoCount: 1 }).ok,
     true, "a named agent is a named closer");
   assert.equal(validateClose({ status: "RESOLVED", resolution_note: "Replaced the socket" }).ok, false);
 
@@ -242,4 +245,25 @@ test("a closer is named whichever column holds them", () => {
   assert.equal(ticketView({ resolved_by: "0f6d1a2e-1111-4222-8333-444455556666" }, null).resolved_by,
     "0f6d1a2e-1111-4222-8333-444455556666");
   assert.equal(ticketView({}, null).resolved_by, null);
+});
+
+test("a resolved ticket needs a photo, not just a sentence", () => {
+  // The photos have always existed in ticket_photos and the API has never
+  // looked at them, so "RESOLVED" has meant "someone typed that it is done".
+  // A note is a claim; a photo is evidence.
+  const said = { status: "RESOLVED", resolution_note: "Replaced the socket outlet", resolved_by: "Kavi" };
+
+  const noProof = validateClose(said, { photoCount: 0 });
+  assert.equal(noProof.ok, false);
+  assert.ok(noProof.missing.some((m) => m.includes("photo")));
+
+  assert.equal(validateClose(said, { photoCount: 1 }).ok, true);
+
+  // Photo count is irrelevant to anything that is not a close, so triage
+  // and scheduling stay untouched.
+  assert.equal(validateClose({ status: "ACKNOWLEDGED" }, { photoCount: 0 }).ok, true);
+
+  // An omitted evidence argument must fail closed, not open: a caller that
+  // has not been taught about photos yet cannot quietly resolve without them.
+  assert.equal(validateClose(said).ok, false, "no evidence argument means no proof");
 });

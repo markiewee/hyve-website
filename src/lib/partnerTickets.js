@@ -172,7 +172,7 @@ export function ticketInsert(body, { roomId = null, propertyId = null,
 // already exists. 23 of those 26 have no resolved_by at all, so the other
 // half of it does not, and "it was fixed, we think, by someone" is not a
 // maintenance record anybody can stand behind three months later.
-export function validateClose(patch, { actor = null } = {}) {
+export function validateClose(patch, { actor = null, photoCount = 0 } = {}) {
   const missing = [];
   if (String(patch?.status ?? "").toUpperCase() !== "RESOLVED") return { ok: true, missing };
   const note = String(patch?.resolution_note ?? "").trim();
@@ -182,6 +182,12 @@ export function validateClose(patch, { actor = null } = {}) {
     missing.push("resolution_note must say something: a few characters is not a record");
   if (!patch?.resolved_by && !patch?.resolved_by_label && !actor)
     missing.push("resolved_by is required to resolve a ticket");
+  // A note is a claim, a photo is evidence. ticket_photos has always existed
+  // and nothing ever read it, so "RESOLVED" has meant "someone typed that it
+  // is done". Defaulting to zero fails closed on purpose: a caller that does
+  // not know about photos yet cannot quietly resolve without them.
+  if (!(Number(photoCount) > 0))
+    missing.push("at least one photo is required to resolve a ticket: show the fix");
   return { ok: missing.length === 0, missing };
 }
 
