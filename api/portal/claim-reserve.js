@@ -1,5 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
 import Stripe from "stripe";
+import {
+  pickReusableProfileId,
+  buildProfileSeed,
+  buildOnboardingSeed,
+} from "../../src/lib/reserveOnboarding.js";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -227,7 +232,7 @@ ${proofUrl ? `<p><a href="${proofUrl}">View the screenshot</a> (link valid 3 day
     return res.status(409).json({ error: "room_taken" });
   }
 
-  // 3. Load room to compute rent / deposit.
+  // 3. Load room. Rent and deposit are derived from it inside the seed builders.
   const { data: room, error: roomErr } = await supabase
     .from("rooms")
     .select("price_monthly, deposit_months")
@@ -239,25 +244,48 @@ ${proofUrl ? `<p><a href="${proofUrl}">View the screenshot</a> (link valid 3 day
     return res.status(500).json({ error: "Failed to load room" });
   }
 
-  const monthly_rent = room ? Number(room.price_monthly) || null : null;
-  const deposit_amount =
-    room && room.deposit_months != null && room.price_monthly != null
-      ? Number(room.deposit_months) * Number(room.price_monthly)
-      : null;
+  // The form may carry fresher dates than the stored reserve. Seeding reads
+  // from the reserve, so fold the body values on first.
+  const seedReserve = {
+    ...sr,
+    preferred_move_in: move_in || sr.preferred_move_in,
+    duration_months: duration_months ?? sr.duration_months,
+  };
 
-  // 4. tenant_profile — idempotent.
+  // 4. tenant_profile — idempotent across every reserve for this room+person.
+  //
+  // Keying only on sr.tenant_profile_id was per-row, so a prospect who filled
+  // the reserve form twice got two active profiles on one room. Look across
+  // their sibling reserves first and adopt the profile they already have.
   let tenantProfileId = sr.tenant_profile_id || null;
+
+  if (!tenantProfileId && sr.prospect_email) {
+    const { data: siblings, error: sibErr } = await supabase
+      .from("soft_reserves")
+      .select("id, status, tenant_profile_id, created_at")
+      .eq("room_id", sr.room_id)
+      .eq("prospect_email", sr.prospect_email)
+      .neq("id", sr.id);
+
+    if (sibErr) {
+      console.error("[claim-reserve] sibling reserve lookup failed:", sibErr);
+    } else {
+      tenantProfileId = pickReusableProfileId(siblings);
+      if (tenantProfileId) {
+        console.log(
+          "[claim-reserve] reusing existing tenant_profile",
+          tenantProfileId,
+          "for repeat reserve",
+          sr.id
+        );
+      }
+    }
+  }
 
   if (!tenantProfileId) {
     const { data: profile, error: profErr } = await supabase
       .from("tenant_profiles")
-      .insert({
-        room_id: sr.room_id,
-        property_id: sr.property_id,
-        role: "TENANT",
-        is_active: true,
-        monthly_rent,
-      })
+      .insert(buildProfileSeed({ reserve: seedReserve, room }))
       .select("id")
       .single();
 
@@ -268,20 +296,9 @@ ${proofUrl ? `<p><a href="${proofUrl}">View the screenshot</a> (link valid 3 day
 
     tenantProfileId = profile.id;
 
-    // Insert onboarding_progress for this new profile.
-    const onboardingPayload = {
-      tenant_profile_id: tenantProfileId,
-      room_id: sr.room_id,
-      current_step: "DEPOSIT",
-      status: "ONBOARDING",
-    };
-    if (deposit_amount != null) onboardingPayload.deposit_amount = deposit_amount;
-    const moveInDate = move_in || sr.preferred_move_in;
-    if (moveInDate) onboardingPayload.tenancy_start_date = moveInDate;
-
     const { error: obErr } = await supabase
       .from("onboarding_progress")
-      .insert(onboardingPayload);
+      .insert(buildOnboardingSeed({ tenantProfileId, reserve: seedReserve, room }));
     if (obErr) {
       console.error("[claim-reserve] onboarding_progress insert failed:", obErr);
     }
