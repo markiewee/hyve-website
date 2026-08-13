@@ -31,7 +31,7 @@ import {
   leadUpdatePatch, validateLeadUpdate,
 } from "../../src/lib/partnerLeads.js";
 import {
-  validateTicket, ticketInsert, ticketView, validateClose,
+  validateTicket, ticketInsert, ticketView, ticketOpsView, validateClose,
 } from "../../src/lib/partnerTickets.js";
 import { sortOnboardings, onboardingView } from "../../src/lib/partnerOnboarding.js";
 import { sortCompliance, complianceView, complianceSummary } from "../../src/lib/partnerCompliance.js";
@@ -741,7 +741,36 @@ async function handleListTickets(res, keyRow, query) {
   if (query.open === "true") q = q.neq("status", "RESOLVED");
   if (query.overdue === "true") q = q.neq("status", "RESOLVED").lt("due_at", new Date().toISOString());
   const { data } = await q;
-  return res.status(200).json({ data: (data ?? []).map((t) => ticketView(t, t.room?.unit_code ?? null)) });
+  // A reporter's number is not part of a normal ticket read. The runner that
+  // acknowledges reporters has to reach them, so it asks for it by name
+  // rather than the default view quietly widening for every caller.
+  if (query.include !== "reporter")
+    return res.status(200).json({ data: (data ?? []).map((t) => ticketView(t, t.room?.unit_code ?? null)) });
+
+  // Most tickets were filed from the portal, so they carry submitted_by (an
+  // auth user id) and no phone at all. Without this resolution the runner
+  // can only reach 1 of 9 open reporters. tenant_profiles.user_id is the
+  // hop from that account to the human and their number.
+  const accountIds = [...new Set((data ?? []).map((t) => t.submitted_by).filter(Boolean))];
+  const phoneByAccount = new Map();
+  if (accountIds.length) {
+    const { data: profiles } = await supabase
+      .from("tenant_profiles")
+      .select("user_id, details:tenant_details(phone)")
+      .in("user_id", accountIds);
+    for (const p of profiles ?? []) {
+      const phone = Array.isArray(p.details) ? p.details[0]?.phone : p.details?.phone;
+      if (p.user_id && phone) phoneByAccount.set(p.user_id, phone);
+    }
+  }
+  return res.status(200).json({
+    data: (data ?? []).map((t) => {
+      const view = ticketOpsView(t, t.room?.unit_code ?? null);
+      if (!view.reporter_phone && t.submitted_by)
+        view.reporter_phone = phoneByAccount.get(t.submitted_by) ?? null;
+      return view;
+    }),
+  });
 }
 
 async function handleUpdateTicket(req, res, keyRow, id) {
@@ -764,7 +793,21 @@ async function handleUpdateTicket(req, res, keyRow, id) {
   // Closing the loop stamps the time, and costs evidence. This is the last
   // moment anything looks at the ticket, so it is the only moment the
   // record can still be made honest.
-  const closing = validateClose({ ...b, status: patch.status }, { actor: keyRow.label ?? null });
+  //
+  // ticket_photos has existed since the initial schema and nothing has ever
+  // read it, so a close has only ever cost a sentence. Count the photos, but
+  // only when actually resolving: an ordinary triage patch pays nothing.
+  let photoCount = 0;
+  if (patch.status === "RESOLVED") {
+    const { count, error: photoErr } = await supabase
+      .from("ticket_photos")
+      .select("id", { count: "exact", head: true })
+      .eq("ticket_id", id);
+    // A broken count must not let an unevidenced close through: fail closed.
+    photoCount = photoErr ? 0 : Number(count) || 0;
+  }
+  const closing = validateClose({ ...b, status: patch.status },
+    { actor: keyRow.label ?? null, photoCount });
   if (!closing.ok) return err(res, 422, "validation_failed", closing.missing.join("; "));
   if (patch.status === "RESOLVED") {
     patch.resolved_at = new Date().toISOString();
