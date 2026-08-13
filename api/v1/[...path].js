@@ -744,8 +744,33 @@ async function handleListTickets(res, keyRow, query) {
   // A reporter's number is not part of a normal ticket read. The runner that
   // acknowledges reporters has to reach them, so it asks for it by name
   // rather than the default view quietly widening for every caller.
-  const view = query.include === "reporter" ? ticketOpsView : ticketView;
-  return res.status(200).json({ data: (data ?? []).map((t) => view(t, t.room?.unit_code ?? null)) });
+  if (query.include !== "reporter")
+    return res.status(200).json({ data: (data ?? []).map((t) => ticketView(t, t.room?.unit_code ?? null)) });
+
+  // Most tickets were filed from the portal, so they carry submitted_by (an
+  // auth user id) and no phone at all. Without this resolution the runner
+  // can only reach 1 of 9 open reporters. tenant_profiles.user_id is the
+  // hop from that account to the human and their number.
+  const accountIds = [...new Set((data ?? []).map((t) => t.submitted_by).filter(Boolean))];
+  const phoneByAccount = new Map();
+  if (accountIds.length) {
+    const { data: profiles } = await supabase
+      .from("tenant_profiles")
+      .select("user_id, details:tenant_details(phone)")
+      .in("user_id", accountIds);
+    for (const p of profiles ?? []) {
+      const phone = Array.isArray(p.details) ? p.details[0]?.phone : p.details?.phone;
+      if (p.user_id && phone) phoneByAccount.set(p.user_id, phone);
+    }
+  }
+  return res.status(200).json({
+    data: (data ?? []).map((t) => {
+      const view = ticketOpsView(t, t.room?.unit_code ?? null);
+      if (!view.reporter_phone && t.submitted_by)
+        view.reporter_phone = phoneByAccount.get(t.submitted_by) ?? null;
+      return view;
+    }),
+  });
 }
 
 async function handleUpdateTicket(req, res, keyRow, id) {
