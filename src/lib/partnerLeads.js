@@ -101,6 +101,11 @@ export function validateLead(body) {
   if (!act.ok) missing.push(act.reason);
   if (String(b.lifecycle) === "STORED" && b.activation_condition == null)
     missing.push("a STORED lead needs an activation_condition");
+  // Cold is a decision to wait, and waiting needs a wake-up time: a parked
+  // lead with no date is a person silently dropped (the loops board bans the
+  // same state for the same reason).
+  if (String(b.status) === "cold" && b.next_action_due == null)
+    missing.push("parking a lead cold needs next_action_due: when do we look again");
   return { ok: missing.length === 0, missing };
 }
 

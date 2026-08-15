@@ -195,3 +195,17 @@ test("validateLeadUpdate keeps the enum and date rules, drops the reachability o
     lifecycle: "STORED", activation_condition: { type: "DATE", on: "someday" },
   }).ok, false);
 });
+
+test("parking a lead cold requires a follow-up date", () => {
+  // 16 leads sit at status cold with no date attached, which is the
+  // "waiting on them, forever" state the loops board bans. Cold is fine;
+  // cold with no wake-up date is a person silently dropped.
+  const base = { name: "x", phone: "91234567" };
+  const parked = validateLead({ ...base, status: "cold" });
+  assert.equal(parked.ok, false);
+  assert.ok(parked.missing.some((m) => m.includes("next_action_due")));
+
+  assert.equal(validateLead({ ...base, status: "cold", next_action_due: "2026-09-01" }).ok, true);
+  // Non-cold statuses stay unaffected.
+  assert.equal(validateLead({ ...base, status: "qualified" }).ok, true);
+});
