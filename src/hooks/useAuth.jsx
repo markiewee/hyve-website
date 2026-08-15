@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
+import { withTimeout } from "../lib/withTimeout";
 
 const AuthContext = createContext(null);
 
@@ -91,13 +92,32 @@ export function AuthProvider({ children }) {
       email = `${identifier.toLowerCase().trim()}@portal.lazybee.sg`;
     }
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    // The auth-lock stall was patched for page load on 13 May and 30 May but
+    // the sign-in click stayed unguarded, which is how Julia sat on an
+    // eternal "SIGNING IN..." spinner on 15 Aug. Ten seconds, then a real
+    // error the form can show.
+    const { data, error } = await withTimeout(
+      supabase.auth.signInWithPassword({ email, password }),
+      10_000,
+      "Sign-in timed out. Check your connection and try again.",
+    );
     if (error) throw error;
     if (data.user) {
-      const p = await fetchProfile(data.user.id);
+      const p = await withTimeout(
+        fetchProfile(data.user.id),
+        10_000,
+        "Signed in, but your profile did not load. Try again in a minute.",
+      );
+      if (!p) {
+        // Auth works but no active profile: previously this "succeeded",
+        // navigated to the dashboard and AuthGuard silently bounced back to
+        // the login page. Fail here with words instead.
+        await supabase.auth.signOut().catch(() => {});
+        throw new Error(
+          "Your login works but your account is not set up right. " +
+            "Message us on WhatsApp 8069 5410 and we will sort it out.",
+        );
+      }
       setProfile(p);
     }
     return data;
