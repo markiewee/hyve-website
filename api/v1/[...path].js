@@ -39,6 +39,7 @@ import {
   validatePinUse, attributionFor, commissionFor, shouldSetAttribution,
 } from "../../src/lib/partnerPins.js";
 import { sortStalled, stalledView, pipelineSummary } from "../../src/lib/partnerPipeline.js";
+import { validateCommitment, commitmentView } from "../../src/lib/partnerCommitments.js";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -844,6 +845,102 @@ async function handleUpdateTicket(req, res, keyRow, id) {
 }
 
 // ── Webhook subscription CRUD ────────────────────────────────────────
+// ── Commitments: a promise made in chat becomes a row with a clock ──
+// "we'll confirm timing for someone to come by asap" (12 Aug) created
+// nothing anywhere, so nothing chased it. The reply brain now files what
+// it promises; the nightly audit reads what is still open.
+async function handleCreateCommitment(req, res, keyRow, channel) {
+  const b = req.body ?? {};
+  const v = validateCommitment(b);
+  if (!v.ok) return err(res, 422, "validation_failed", `Missing or invalid: ${v.missing.join(", ")}`);
+
+  if (b.idempotency_key) {
+    const { data: existing } = await supabase.from("commitments").select("*")
+      .eq("channel_id", channel.id).eq("idempotency_key", b.idempotency_key).maybeSingle();
+    if (existing) return res.status(200).json({ ...commitmentView(existing), created: false });
+  }
+
+  const insert = {
+    chat_id: b.chat_id != null ? String(b.chat_id) : null,
+    counterparty: b.counterparty ? String(b.counterparty).slice(0, 200) : null,
+    promise: String(b.promise).trim().slice(0, 1000),
+    due_at: b.due_at ?? null,
+    source: b.source ?? channel.slug,
+    channel_id: channel.id,
+    idempotency_key: b.idempotency_key ?? null,
+  };
+  const { data: created, error: insErr } = await supabase.from("commitments")
+    .insert(insert).select("*").single();
+  if (insErr) return err(res, 500, "internal", "Could not record the commitment");
+  return res.status(201).json({ ...commitmentView(created), created: true });
+}
+
+async function handleListCommitments(res, keyRow, query) {
+  if (keyRow.scope !== "internal")
+    return err(res, 403, "forbidden", "Listing commitments needs an internal-scope key");
+  let q = supabase.from("commitments").select("*").order("made_at", { ascending: true }).limit(200);
+  if (query?.status) q = q.eq("status", String(query.status).toUpperCase());
+  const { data, error: qErr } = await q;
+  if (qErr) return err(res, 500, "internal", "Could not list commitments");
+  return res.status(200).json({ items: (data ?? []).map(commitmentView) });
+}
+
+async function handleCloseCommitment(req, res, keyRow, id) {
+  if (keyRow.scope !== "internal")
+    return err(res, 403, "forbidden", "Closing commitments needs an internal-scope key");
+  const status = String(req.body?.status ?? "").toUpperCase();
+  if (!["KEPT", "DROPPED"].includes(status))
+    return err(res, 422, "validation_failed", "status must be KEPT or DROPPED");
+  const { data, error: upErr } = await supabase.from("commitments")
+    .update({
+      status,
+      closed_at: new Date().toISOString(),
+      close_note: req.body?.close_note ? String(req.body.close_note).slice(0, 500) : null,
+    })
+    .eq("id", id).eq("status", "OPEN").select("*").maybeSingle();
+  if (upErr) return err(res, 500, "internal", "Could not close the commitment");
+  if (!data) return err(res, 404, "not_found", "No OPEN commitment with that id");
+  return res.status(200).json(commitmentView(data));
+}
+
+// ── Resolver: whose room is this phone? ─────────────────────────────
+// The brain files tickets with "listing_code if known" and never knows it,
+// which is one reason zero real WhatsApp tickets existed before 15 Aug.
+// Phone -> active tenant (room attached) or lead, so a report from a known
+// tenant lands on the right room without anyone guessing.
+async function handleResolve(res, keyRow, query) {
+  if (keyRow.scope !== "internal")
+    return err(res, 403, "forbidden", "Resolve needs an internal-scope key");
+  const phone = normalisePhone(query?.phone);
+  if (!phone) return err(res, 422, "validation_failed", "phone is required");
+
+  const { data: details } = await supabase.from("tenant_details")
+    .select("full_name, phone, tenant_profiles!inner(is_active, rooms(unit_code), properties(code, name))")
+    .eq("tenant_profiles.is_active", true)
+    .not("phone", "is", null);
+  const tenant = (details ?? []).find((d) => normalisePhone(d.phone) === phone);
+  if (tenant) {
+    return res.status(200).json({
+      kind: "tenant",
+      name: tenant.full_name ?? null,
+      listing_code: tenant.tenant_profiles?.rooms?.unit_code ?? null,
+      property: tenant.tenant_profiles?.properties?.code ?? null,
+    });
+  }
+
+  const { data: lead } = await supabase.from("leads").select("name, phone_e164, matched_room_codes")
+    .eq("phone_e164", phone).maybeSingle();
+  if (lead) {
+    return res.status(200).json({
+      kind: "lead",
+      name: lead.name ?? null,
+      listing_code: (lead.matched_room_codes ?? [])[0] ?? null,
+      property: null,
+    });
+  }
+  return res.status(200).json({ kind: "unknown", name: null, listing_code: null, property: null });
+}
+
 async function handleWebhooks(req, res, channel, id) {
   if (req.method === "GET") {
     const { data } = await supabase.from("webhook_subscriptions")
@@ -983,6 +1080,14 @@ export default async function handler(req, res) {
       return handleListTickets(res, keyRow, req.query);
     if (head === "tickets" && (req.method === "PATCH" || req.method === "POST") && second)
       return handleUpdateTicket(req, res, keyRow, second);
+    if (head === "commitments" && req.method === "POST" && !second)
+      return handleCreateCommitment(req, res, keyRow, channel);
+    if (head === "commitments" && req.method === "GET" && !second)
+      return handleListCommitments(res, keyRow, req.query);
+    if (head === "commitments" && (req.method === "PATCH" || req.method === "POST") && second)
+      return handleCloseCommitment(req, res, keyRow, second);
+    if (head === "resolve" && req.method === "GET")
+      return handleResolve(res, keyRow, req.query);
     if (head === "pins" && req.method === "GET" && second)
       return handleGetPin(res, keyRow, second);
     if (head === "compliance" && req.method === "GET" && !second)
