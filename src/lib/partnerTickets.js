@@ -22,7 +22,14 @@ export const TICKET_SEVERITIES = new Set(["URGENT", "HIGH", "ROUTINE", "COSMETIC
 export const TICKET_STATUSES = new Set([
   "OPEN", "ACKNOWLEDGED", "TRIAGED", "SCHEDULED", "IN_PROGRESS",
   "AWAITING_PROOF", "WAITING_PARTS", "ESCALATED", "RESOLVED",
+  "CANCELLED", "CLOSED",
 ]);
+
+// The states where the system stops looking. RESOLVED means we fixed it,
+// CANCELLED means MOPS withdrew it, CLOSED means MOPS finished it on their
+// side. Before CANCELLED/CLOSED existed, a MOPS cancel folded into RESOLVED
+// and the June IH-PR2 mold ticket got chased for weeks after it was dead.
+export const TERMINAL_STATUSES = new Set(["RESOLVED", "CANCELLED", "CLOSED"]);
 
 // Hours to deadline. Mirrors public.fn_ticket_due_at; if you change one,
 // change both, and the test at the bottom of this file will tell you.
@@ -249,7 +256,7 @@ export function statusStamp(status, row = {}, now = new Date().toISOString()) {
 }
 
 export function shouldChase(ticket, nowIso = new Date().toISOString()) {
-  if (!ticket || ticket.status === "RESOLVED") return false;
+  if (!ticket || TERMINAL_STATUSES.has(ticket.status)) return false;
   if (!ticket.due_at) return false;
   const now = new Date(nowIso).getTime();
   if (new Date(ticket.due_at).getTime() > now) return false;
@@ -264,7 +271,7 @@ export function shouldChase(ticket, nowIso = new Date().toISOString()) {
 // After MAX_CHASES an overdue ticket stops being chased and starts being
 // escalated: silence is the failure mode this whole file exists to prevent.
 export function shouldEscalate(ticket, nowIso = new Date().toISOString()) {
-  if (!ticket || ticket.status === "RESOLVED" || ticket.status === "ESCALATED") return false;
+  if (!ticket || TERMINAL_STATUSES.has(ticket.status) || ticket.status === "ESCALATED") return false;
   if (!ticket.due_at) return false;
   if (new Date(ticket.due_at).getTime() > new Date(nowIso).getTime()) return false;
   return (ticket.chase_count ?? 0) >= MAX_CHASES;

@@ -10,7 +10,12 @@ const STATUS_CONFIG = {
   IN_PROGRESS: { label: "In Progress", class: "bg-yellow-500/15 text-amber-300" },
   ESCALATED: { label: "Escalated", class: "bg-amber-500/15 text-amber-300" },
   RESOLVED: { label: "Resolved", class: "bg-emerald-500/15 text-emerald-300" },
+  CANCELLED: { label: "Cancelled", class: "bg-surface-container text-muted-foreground" },
+  CLOSED: { label: "Closed", class: "bg-emerald-500/15 text-emerald-300" },
 };
+
+// No actions on a ticket the system has stopped looking at.
+const TERMINAL = new Set(["RESOLVED", "CANCELLED", "CLOSED"]);
 
 export default function TicketCard({ ticket, onAction, onWithdraw }) {
   const {
@@ -147,7 +152,7 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
       {onAction && (
         <div className="flex flex-wrap gap-2 pt-1">
           {/* Flag toggle, always available unless resolved */}
-          {status !== "RESOLVED" && (
+          {!TERMINAL.has(status) && (
             <button
               type="button"
               onClick={() => onAction(id, is_flagged ? "unflag" : "flag")}
@@ -189,7 +194,7 @@ export default function TicketCard({ ticket, onAction, onWithdraw }) {
               Escalate
             </button>
           )}
-          {status !== "RESOLVED" && (
+          {!TERMINAL.has(status) && (
             <button
               type="button"
               onClick={() => onAction(id, "resolve")}

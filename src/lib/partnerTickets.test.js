@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import {
   dueAtFor, suggestSeverity, suggestCategory, validateTicket, ticketInsert,
   ticketView, ticketOpsView, shouldChase, shouldEscalate, MAX_CHASES, validateClose,
-  statusStamp,
+  statusStamp, TICKET_STATUSES,
 } from "./partnerTickets.js";
 
 const T0 = "2026-08-11T12:00:00.000Z";
@@ -317,4 +317,17 @@ test("moving a ticket off OPEN stamps when it happened", () => {
   // Statuses with no stamp of their own change nothing.
   assert.deepEqual(statusStamp("IN_PROGRESS", {}, now), {});
   assert.deepEqual(statusStamp(null, {}, now), {});
+});
+
+test("CANCELLED and CLOSED are terminal: never chased, never escalated", () => {
+  // A MOPS cancel used to fold to RESOLVED because the local enum had no
+  // CANCELLED. Now the statuses exist, and a cancelled ticket that is past
+  // its old due date must not wake the chaser: the June IH-PR2 mold ticket
+  // was chased for weeks after MOPS cancelled it.
+  for (const status of ["CANCELLED", "CLOSED"]) {
+    assert.ok(TICKET_STATUSES.has(status), `${status} must be a valid status`);
+    const stale = { status, due_at: plusHours(-99), chase_count: 0 };
+    assert.equal(shouldChase(stale, T0), false);
+    assert.equal(shouldEscalate({ ...stale, chase_count: 9 }, T0), false);
+  }
 });
