@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import {
   dueAtFor, suggestSeverity, suggestCategory, validateTicket, ticketInsert,
   ticketView, ticketOpsView, shouldChase, shouldEscalate, MAX_CHASES, validateClose,
-  statusStamp, TICKET_STATUSES,
+  statusStamp, TICKET_STATUSES, canPatchStatus,
 } from "./partnerTickets.js";
 
 const T0 = "2026-08-11T12:00:00.000Z";
@@ -330,4 +330,20 @@ test("CANCELLED and CLOSED are terminal: never chased, never escalated", () => {
     assert.equal(shouldChase(stale, T0), false);
     assert.equal(shouldEscalate({ ...stale, chase_count: 9 }, T0), false);
   }
+});
+
+test("a terminal ticket stays terminal: no status patch resurrects it", () => {
+  // 21:30, 15 Aug: the sweeps job pulled two June-CANCELLED tickets out of
+  // an overdue filter that only knew RESOLVED, escalated them through the
+  // API, and Mark approved contractor spend on zombies. Terminal means the
+  // system stopped looking; coming back needs a new ticket, not a patch.
+  for (const dead of ["RESOLVED", "CANCELLED", "CLOSED"]) {
+    const v = canPatchStatus(dead, "ESCALATED");
+    assert.equal(v.ok, false);
+    assert.ok(v.reason.includes("terminal"));
+  }
+  assert.equal(canPatchStatus("OPEN", "ESCALATED").ok, true);
+  assert.equal(canPatchStatus("ACKNOWLEDGED", "RESOLVED").ok, true);
+  // No current status known: allow, the DB constraint still guards values.
+  assert.equal(canPatchStatus(null, "ESCALATED").ok, true);
 });

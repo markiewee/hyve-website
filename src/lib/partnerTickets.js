@@ -255,6 +255,22 @@ export function statusStamp(status, row = {}, now = new Date().toISOString()) {
   return { [column]: now };
 }
 
+// Terminal means the system stopped looking, and nothing quietly starts it
+// looking again. On 15 Aug the sweeps job escalated two June-CANCELLED
+// tickets it found through a stale overdue filter, and contractor spend
+// nearly went out on issues MOPS killed months ago. A dead ticket that is
+// somehow alive again is a NEW ticket with a fresh report behind it.
+export function canPatchStatus(currentStatus, nextStatus) {
+  if (!nextStatus || !currentStatus) return { ok: true, reason: null };
+  if (TERMINAL_STATUSES.has(currentStatus)) {
+    return {
+      ok: false,
+      reason: `ticket is terminal (${currentStatus}); file a new ticket instead of resurrecting this one`,
+    };
+  }
+  return { ok: true, reason: null };
+}
+
 export function shouldChase(ticket, nowIso = new Date().toISOString()) {
   if (!ticket || TERMINAL_STATUSES.has(ticket.status)) return false;
   if (!ticket.due_at) return false;

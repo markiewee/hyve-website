@@ -32,6 +32,7 @@ import {
 } from "../../src/lib/partnerLeads.js";
 import {
   validateTicket, ticketInsert, ticketView, ticketOpsView, validateClose, statusStamp,
+  canPatchStatus,
 } from "../../src/lib/partnerTickets.js";
 import { sortOnboardings, onboardingView } from "../../src/lib/partnerOnboarding.js";
 import { sortCompliance, complianceView, complianceSummary } from "../../src/lib/partnerCompliance.js";
@@ -739,8 +740,12 @@ async function handleListTickets(res, keyRow, query) {
     .order("due_at", { ascending: true }).limit(200);
   if (query.status) q = q.eq("status", String(query.status).toUpperCase());
   if (query.severity) q = q.eq("severity", String(query.severity).toUpperCase());
-  if (query.open === "true") q = q.neq("status", "RESOLVED");
-  if (query.overdue === "true") q = q.neq("status", "RESOLVED").lt("due_at", new Date().toISOString());
+  // Terminal is terminal: an overdue filter that only knew RESOLVED handed
+  // the sweeps two June-CANCELLED tickets on 15 Aug and they came back from
+  // the dead as escalations.
+  const TERMINAL_SQL = "(RESOLVED,CANCELLED,CLOSED)";
+  if (query.open === "true") q = q.not("status", "in", TERMINAL_SQL);
+  if (query.overdue === "true") q = q.not("status", "in", TERMINAL_SQL).lt("due_at", new Date().toISOString());
   const { data } = await q;
   // A reporter's number is not part of a normal ticket read. The runner that
   // acknowledges reporters has to reach them, so it asks for it by name
@@ -814,8 +819,10 @@ async function handleUpdateTicket(req, res, keyRow, id) {
   // anything asking "has this been picked up yet" reads null forever.
   if (patch.status) {
     const { data: current } = await supabase
-      .from("maintenance_tickets").select("acknowledged_at, triaged_at")
+      .from("maintenance_tickets").select("status, acknowledged_at, triaged_at")
       .eq("id", id).maybeSingle();
+    const gate = canPatchStatus(current?.status ?? null, patch.status);
+    if (!gate.ok) return err(res, 409, "terminal_ticket", gate.reason);
     Object.assign(patch, statusStamp(patch.status, current ?? {}));
   }
   if (!closing.ok) return err(res, 422, "validation_failed", closing.missing.join("; "));
