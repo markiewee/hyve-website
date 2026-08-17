@@ -5,7 +5,7 @@ excerpt: >
   Housing for tech and IT professionals moving to Singapore: one-north vs the
   CBD, Tech.Pass vs Employment Pass, and why commute matters less here than in
   most jobs.
-tags: [Tenants, Moving to Singapore]
+tags: [Moving to Singapore, Work]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__marina-bay__aerial-panorama-golden.jpg
 heroAlt: A panorama of Marina Bay in late afternoon light, illustrating housing for tech and it professionals moving to singapore

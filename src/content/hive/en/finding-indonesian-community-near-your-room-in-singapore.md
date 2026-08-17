@@ -4,7 +4,7 @@ date: 2025-01-24
 excerpt: >
   Where Singapore's Indonesian community actually gathers, from Geylang to
   Kampong Glam, and how to pick a co-living room with easy access to it.
-tags: [Moving to Singapore, Tenants]
+tags: [Moving to Singapore]
 author: Lazybee Team
 hero: /sketches/loc-neighbourhood__bugis__covered-market-stalls-crowd.jpg
 heroAlt: The covered market stalls and crowds at Bugis, illustrating finding indonesian community near your room in singapore

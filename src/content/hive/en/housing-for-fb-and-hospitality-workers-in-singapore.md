@@ -5,7 +5,7 @@ excerpt: >
   Housing for F&B and hospitality workers in Singapore: which pass you're
   likely on, why that changes your housing options, and what actually works
   for shift work.
-tags: [Tenants, Moving to Singapore]
+tags: [Work]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__marina-bay__aerial-panorama-golden.jpg
 heroAlt: A panorama of Marina Bay in late afternoon light, illustrating housing for f&b and hospitality workers in singapore

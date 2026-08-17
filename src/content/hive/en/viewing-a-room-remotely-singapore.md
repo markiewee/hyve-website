@@ -4,7 +4,7 @@ date: 2024-10-22
 excerpt: >
   What to ask for in a remote room viewing before moving to Singapore, the red
   flags that mean walk away, and a checklist to run live before you commit.
-tags: [Numbers, Tenants]
+tags: [Operators]
 author: Lazybee Team
 hero: /sketches/interior__coliving-bedroom__bed-desk-window-ceilingfan.jpg
 heroAlt: A co-living bedroom with a single bed, a desk by the window and a ceiling fan, illustrating viewing a room remotely

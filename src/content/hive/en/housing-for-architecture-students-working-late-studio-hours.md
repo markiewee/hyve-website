@@ -4,7 +4,7 @@ date: 2024-11-11
 excerpt: >
   Architecture studio runs on crit deadlines and all-nighters. What actually
   works for housing when your hours don't match a normal roommate's.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-concourse__ticket-machines.jpg
 heroAlt: Ticket machines in an MRT station concourse, illustrating housing for architecture students working late studio hours

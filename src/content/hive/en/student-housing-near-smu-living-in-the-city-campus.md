@@ -4,7 +4,7 @@ date: 2024-09-05
 excerpt: >
   Student housing near SMU explained: where the City Campus actually sits, why
   most students live off-campus, and which MRT-connected areas work best.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__smu__city-block.jpg
 heroAlt: The Singapore Management University campus in the middle of the city, illustrating student housing near smu

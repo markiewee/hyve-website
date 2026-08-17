@@ -5,7 +5,7 @@ excerpt: >
   Big co-living operator vs independent in Singapore: real differences in
   response time, pricing, contracts, and what happens if the operator is
   acquired.
-tags: [Market, Tenants]
+tags: [Operators]
 author: Lazybee Team
 hero: /sketches/loc-housing__condo-towers__facade.jpg
 heroAlt: Singapore condominium towers, the building stock both large and independent co-living operators lease

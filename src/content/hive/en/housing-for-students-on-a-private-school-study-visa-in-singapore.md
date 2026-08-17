@@ -4,7 +4,7 @@ date: 2024-10-22
 excerpt: >
   How the Student's Pass works for private school (PEI) students in Singapore,
   and why your lease needs to match your pass timeline, not a standard year.
-tags: [Moving to Singapore, Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-concourse__ticket-machines.jpg
 heroAlt: Ticket machines in an MRT station concourse, illustrating housing for students on a private school study visa in singapore

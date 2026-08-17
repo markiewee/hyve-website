@@ -5,7 +5,7 @@ excerpt: >
   Moving to Singapore at 18 for uni or your first job? Here's what actually
   changes legally, how to bank, view rooms safely, and find co-living that
   fits.
-tags: [Moving to Singapore, Tenants, Numbers]
+tags: [Moving to Singapore]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-platform__train-arriving.jpg
 heroAlt: A train pulling into an MRT platform, illustrating moving to singapore at 18

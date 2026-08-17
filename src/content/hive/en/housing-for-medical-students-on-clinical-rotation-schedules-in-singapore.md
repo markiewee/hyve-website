@@ -4,7 +4,7 @@ date: 2024-10-04
 excerpt: >
   NUS and NTU medical students rotate hospitals across Singapore every few
   weeks. Why a central, well-connected base beats chasing each posting.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-concourse__ticket-machines.jpg
 heroAlt: Ticket machines in an MRT station concourse, illustrating housing for medical students on clinical rotation schedules in singapore

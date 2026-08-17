@@ -4,7 +4,7 @@ date: 2024-11-14
 excerpt: >
   Housing for interns in Singapore on a 3 to 6 month placement, including pass
   rules, the 3-month minimum stay, and what to book and when.
-tags: [Tenants, Numbers]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-platform__train-arriving.jpg
 heroAlt: A train pulling into an MRT platform, illustrating housing for interns on a 3 to 6 month singapore placement

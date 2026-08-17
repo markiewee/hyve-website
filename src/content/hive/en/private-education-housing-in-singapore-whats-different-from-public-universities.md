@@ -4,7 +4,7 @@ date: 2026-05-22
 excerpt: >
   Private education housing in Singapore means no halls, EduTrust-linked
   Student Pass rules, and city-central campuses, unlike NUS, NTU or SMU.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-concourse__ticket-machines.jpg
 heroAlt: Ticket machines in an MRT station concourse, illustrating private education housing in singapore

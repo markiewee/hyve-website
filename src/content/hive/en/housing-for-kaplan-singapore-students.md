@@ -4,7 +4,7 @@ date: 2026-06-17
 excerpt: >
   Housing for Kaplan Singapore students: where the Odeon 333 campus is, why
   Kaplan doesn't run dorms, and where to actually live nearby.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__kaplan__tower.jpg
 heroAlt: The Kaplan Singapore teaching tower, illustrating housing for kaplan singapore students

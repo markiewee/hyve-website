@@ -4,7 +4,7 @@ date: 2026-06-05
 excerpt: >
   A joo chiat katong rent guide covering shophouse rooms, MRT commute times,
   real prices, and what to check before you sign in the east.
-tags: [Neighbourhoods, Tenants, Numbers]
+tags: [Costs, Neighbourhoods]
 author: Lazybee Team
 hero: /sketches/loc-neighbourhood__joo-chiat__shophouse-facade.jpg
 heroAlt: Peranakan shophouse facades in Joo Chiat, illustrating joo chiat and katong rent guide

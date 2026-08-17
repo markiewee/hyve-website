@@ -4,7 +4,7 @@ date: 2025-05-14
 excerpt: >
   Price per room alone is misleading. A practical framework to compare
   co-living listings in Singapore like for like, variable by variable.
-tags: [Market, Numbers]
+tags: [Operators]
 author: Lazybee Team
 hero: /sketches/loc-housing__condo-towers__facade.jpg
 heroAlt: The facade of a Singapore condominium tower, illustrating how to compare co-living listings in singapore

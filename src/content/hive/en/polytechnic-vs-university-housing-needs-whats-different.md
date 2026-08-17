@@ -4,7 +4,7 @@ date: 2025-03-19
 excerpt: >
   Polytechnic and university students need different things from housing in
   Singapore. Compare age, course length, hostel access and lease strategy.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__aerial-generic__rooftops.jpg
 heroAlt: Singapore rooftops seen from above, illustrating polytechnic vs university housing needs

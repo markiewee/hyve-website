@@ -24,6 +24,21 @@
       "source": "/view/:path*",
       "destination": "https://book.lazybee.sg",
       "statusCode": 301
+    },
+    {
+      "source": "/hive/topic/numbers",
+      "destination": "/hive/topic/costs",
+      "statusCode": 301
+    },
+    {
+      "source": "/hive/topic/market",
+      "destination": "/hive/topic/operators",
+      "statusCode": 301
+    },
+    {
+      "source": "/hive/topic/tenants",
+      "destination": "/hive",
+      "statusCode": 301
     }
   ],
   "rewrites": [

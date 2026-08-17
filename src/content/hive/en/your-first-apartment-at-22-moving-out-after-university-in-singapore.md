@@ -5,7 +5,7 @@ excerpt: >
   Moving out at 22 after university in Singapore? What it actually costs on a
   fresh grad salary, what changes psychologically, and how to do it without
   panic.
-tags: [Students, Tenants, Numbers]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-platform__train-arriving.jpg
 heroAlt: A train pulling into an MRT platform, illustrating your first apartment at 22

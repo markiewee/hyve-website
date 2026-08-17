@@ -4,7 +4,7 @@ date: 2024-09-11
 excerpt: >
   Where JCU Singapore students can actually find housing: campus location,
   nearest MRT, and honest commute times from Lazybee's three co-living houses.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__jcu__pitched-roof.jpg
 heroAlt: The pitched roofline of James Cook University Singapore, illustrating housing near james cook university singapore

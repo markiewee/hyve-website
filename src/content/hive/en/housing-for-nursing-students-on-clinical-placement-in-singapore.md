@@ -4,7 +4,7 @@ date: 2025-07-04
 excerpt: >
   Where nursing students on clinical placement in Singapore should live: NP,
   NYP, and NUS rotation patterns across restructured hospitals, explained.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-concourse__ticket-machines.jpg
 heroAlt: Ticket machines in an MRT station concourse, illustrating housing for nursing students on clinical placement in singapore

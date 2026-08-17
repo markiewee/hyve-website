@@ -5,7 +5,7 @@ excerpt: >
   Where Myanmar students and workers in Singapore can live near Peninsula
   Plaza, with real commute times, what the mall offers, and areas that balance
   both.
-tags: [Students, Moving to Singapore, Tenants]
+tags: [Moving to Singapore, Students]
 author: Lazybee Team
 hero: /sketches/loc-neighbourhood__peninsula-plaza__mall-corner.jpg
 heroAlt: The corner of Peninsula Plaza, illustrating myanmar students and workers in singapore

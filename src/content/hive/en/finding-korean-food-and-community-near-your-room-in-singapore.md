@@ -5,7 +5,7 @@ excerpt: >
   Where to find real Korean food and community in Singapore, and how commute
   time from Serangoon, Jurong East, and Upper Thomson to Tanjong Pagar
   compares.
-tags: [Moving to Singapore, Tenants]
+tags: [Moving to Singapore]
 author: Lazybee Team
 hero: /sketches/loc-neighbourhood__tanjong-pagar__shophouse-street-towers.jpg
 heroAlt: Shophouses in Tanjong Pagar with the towers rising behind them, illustrating finding korean food and community near your room in singapore

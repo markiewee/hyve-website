@@ -5,7 +5,7 @@ excerpt: >
   Hall contracts end before graduation, and graduation ends before your first
   paycheck. Here's how final-year students actually bridge the gap in
   Singapore.
-tags: [Tenants, Numbers]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-platform__train-arriving.jpg
 heroAlt: A train pulling into an MRT platform, illustrating final-year housing

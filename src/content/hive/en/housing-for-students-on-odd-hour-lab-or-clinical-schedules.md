@@ -4,7 +4,7 @@ date: 2026-08-05
 excerpt: >
   Housing advice for students on clinical, lab or studio schedules that don't
   run 9 to 5. What actually matters: transport links, not campus distance.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-concourse__ticket-machines.jpg
 heroAlt: Ticket machines in an MRT station concourse, illustrating housing for students on odd-hour lab or clinical schedules

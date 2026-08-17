@@ -4,7 +4,7 @@ date: 2026-07-28
 excerpt: >
   Housing for aviation industry workers near Changi: who actually works there,
   why shift timing matters more than distance, and an honest read on fit.
-tags: [Tenants, Moving to Singapore]
+tags: [Work, Neighbourhoods]
 author: Lazybee Team
 hero: /sketches/loc-transit__changi-airport__terminal-interior-travellers.jpg
 heroAlt: Travellers inside a Changi Airport terminal, illustrating housing for aviation industry workers near changi

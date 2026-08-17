@@ -4,7 +4,7 @@ date: 2026-06-19
 excerpt: >
   Indian renters in Singapore on a Student Pass, EP or S Pass follow the same
   tenancy law as everyone else. Here's what to check before you sign.
-tags: [Moving to Singapore, Tenants, Rules]
+tags: [Rules, Moving to Singapore]
 author: Lazybee Team
 hero: /sketches/loc-civic__hdb-hub__linkbridge-palms.jpg
 heroAlt: The link bridge and palms outside HDB Hub in Toa Payoh, illustrating what indian renters should know about singapore tenancy law

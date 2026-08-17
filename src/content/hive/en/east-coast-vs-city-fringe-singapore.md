@@ -4,7 +4,7 @@ date: 2024-10-09
 excerpt: >
   East coast vs city fringe in Singapore: rent, commute and lifestyle compared
   honestly, with a scorecard to help you pick where to live.
-tags: [Neighbourhoods, Tenants, Numbers]
+tags: [Costs, Neighbourhoods]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__east-coast-park__cycling-path-trees.jpg
 heroAlt: The cycling path running under the trees at East Coast Park, illustrating east coast vs city fringe

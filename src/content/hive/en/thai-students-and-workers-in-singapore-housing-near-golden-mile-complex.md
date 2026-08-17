@@ -4,7 +4,7 @@ date: 2025-11-14
 excerpt: >
   Thai housing in Singapore near Golden Mile Complex: what happened after its
   2023 redevelopment, where the community moved, and real commute times.
-tags: [Students, Moving to Singapore, Tenants]
+tags: [Moving to Singapore, Students]
 author: Lazybee Team
 hero: /sketches/loc-neighbourhood__golden-mile__tower-greenery.jpg
 heroAlt: The Golden Mile tower with greenery on its terraces, illustrating thai students and workers in singapore

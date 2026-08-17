@@ -5,7 +5,7 @@ excerpt: >
   A scannable off-campus housing checklist for first-time international
   students in Singapore: what to check before viewing, during, and before you
   sign.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-concourse__ticket-machines.jpg
 heroAlt: Ticket machines in an MRT station concourse, illustrating off-campus housing checklist for first-time international students

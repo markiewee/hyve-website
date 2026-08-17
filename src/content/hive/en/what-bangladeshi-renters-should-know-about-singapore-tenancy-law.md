@@ -5,7 +5,7 @@ excerpt: >
   What Bangladeshi renters should know about Singapore tenancy law: Work
   Permit housing rules, HDB restrictions, minimum stay, deposits, and
   documents.
-tags: [Moving to Singapore, Tenants, Rules]
+tags: [Rules, Moving to Singapore]
 author: Lazybee Team
 hero: /sketches/loc-civic__hdb-hub__linkbridge-palms.jpg
 heroAlt: The link bridge and palms outside HDB Hub in Toa Payoh, illustrating what bangladeshi renters should know about singapore tenancy law

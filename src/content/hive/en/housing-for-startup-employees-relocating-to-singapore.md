@@ -5,7 +5,7 @@ excerpt: >
   Housing for startup employees relocating to Singapore: why relocation
   support is thinner than at big firms, and why flexible co-living fits the
   job.
-tags: [Tenants, Moving to Singapore]
+tags: [Moving to Singapore, Work]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__marina-bay__aerial-panorama-golden.jpg
 heroAlt: A panorama of Marina Bay in late afternoon light, illustrating housing for startup employees relocating to singapore

@@ -4,7 +4,7 @@ date: 2024-08-29
 excerpt: >
   Housing options for Bangladeshi students and workers in Singapore differ by
   pass type. Here's what applies to you, and where co-living fits in.
-tags: [Moving to Singapore, Rules]
+tags: [Moving to Singapore, Students]
 author: Lazybee Team
 hero: /sketches/loc-housing__mosque-hdb__heartland-dome.jpg
 heroAlt: Neighbourhood mosque beside HDB blocks, an area many Bangladeshi workers in Singapore rent near

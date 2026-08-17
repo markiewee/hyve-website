@@ -5,7 +5,7 @@ excerpt: >
   Where creative and media pros work in Singapore, EP rules for creative
   roles, and why flexible housing beats a rigid 12-month lease for project
   income.
-tags: [Tenants, Moving to Singapore]
+tags: [Work]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__marina-bay__aerial-panorama-golden.jpg
 heroAlt: A panorama of Marina Bay in late afternoon light, illustrating housing for creative and media professionals in singapore

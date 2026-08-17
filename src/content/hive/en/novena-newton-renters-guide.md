@@ -4,7 +4,7 @@ date: 2025-06-20
 excerpt: >
   A no-nonsense renter's guide to Novena and Newton: MRT access, hospitals,
   food, prices, and how it compares to Balestier and Toa Payoh.
-tags: [Neighbourhoods, Tenants]
+tags: [Neighbourhoods]
 author: Lazybee Team
 hero: /sketches/loc-neighbourhood__novena__glass-mall-street.jpg
 heroAlt: The glass mall frontage at Novena, illustrating novena and newton renter's guide

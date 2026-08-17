@@ -5,7 +5,7 @@ excerpt: >
   Housing for finance and banking professionals in Singapore: why proximity to
   Raffles Place, Marina Bay, and Shenton Way matters more here than in most
   jobs.
-tags: [Tenants, Moving to Singapore]
+tags: [Work]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__marina-bay__aerial-panorama-golden.jpg
 heroAlt: A panorama of Marina Bay in late afternoon light, illustrating housing for finance and banking professionals in singapore

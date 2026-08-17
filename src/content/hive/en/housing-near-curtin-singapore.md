@@ -4,7 +4,7 @@ date: 2026-03-06
 excerpt: >
   Curtin Singapore sits in Science Park II near Haw Par Villa MRT. What the
   area actually offers, and honest commute times from Lazybee's three houses.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__curtin__curved-glass.jpg
 heroAlt: The curved glass frontage of Curtin Singapore, illustrating housing near curtin singapore

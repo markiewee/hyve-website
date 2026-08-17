@@ -4,7 +4,7 @@ date: 2025-03-24
 excerpt: >
   The questions international students should ask a landlord before signing,
   and why each one matters: lease length, deposit, commute, and more.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-concourse__ticket-machines.jpg
 heroAlt: Ticket machines in an MRT station concourse, illustrating what international students should ask before choosing off-campus housing

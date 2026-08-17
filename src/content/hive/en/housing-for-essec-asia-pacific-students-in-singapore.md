@@ -4,7 +4,7 @@ date: 2024-11-08
 excerpt: >
   Where ESSEC Asia-Pacific students actually live in Singapore: campus
   location, program lengths, and furnished co-living options near one-north.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__one-north__fusionopolis-towers.jpg
 heroAlt: The Fusionopolis towers at one-north, illustrating housing for essec asia-pacific students in singapore

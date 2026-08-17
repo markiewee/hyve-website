@@ -4,7 +4,7 @@ date: 2026-01-16
 excerpt: >
   Halls aren't guaranteed for every first-year in Singapore. Compare NUS, NTU
   and SMU hall odds against co-living on cost, rules and independence.
-tags: [Students, Tenants, Numbers]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-platform__train-arriving.jpg
 heroAlt: A train pulling into an MRT platform, illustrating first-year university housing

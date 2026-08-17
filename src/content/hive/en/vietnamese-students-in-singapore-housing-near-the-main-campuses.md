@@ -4,7 +4,7 @@ date: 2025-10-10
 excerpt: >
   Where Vietnamese students should live near NUS, NTU and SMU in Singapore,
   plus the visa rules, community spots, and lease terms that actually matter.
-tags: [Students, Moving to Singapore, Tenants]
+tags: [Moving to Singapore, Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__nus__overpass-trees.jpg
 heroAlt: A pedestrian overpass through the trees on the NUS campus, illustrating vietnamese students in singapore

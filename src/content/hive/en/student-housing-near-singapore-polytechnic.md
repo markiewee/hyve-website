@@ -4,7 +4,7 @@ date: 2026-05-05
 excerpt: >
   Where to live near Singapore Polytechnic's Dover Road campus: best areas,
   MRT access, the 3 month rental rule, and what changes if you're under 18.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__aerial-generic__rooftops.jpg
 heroAlt: Singapore rooftops seen from above, illustrating student housing near singapore polytechnic

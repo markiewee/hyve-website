@@ -4,7 +4,7 @@ date: 2025-10-31
 excerpt: >
   A worked monthly budget for NUS and NTU PhD stipends, how much of it to put
   toward rent, and a money-management framework for fixed-income students.
-tags: [Students, Numbers]
+tags: [Costs, Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-platform__train-arriving.jpg
 heroAlt: Singapore MRT platform, the commute cost every PhD student budgets alongside rent

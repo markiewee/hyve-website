@@ -5,7 +5,7 @@ excerpt: >
   Yes, you can rent Singapore from overseas before you land. Here's what you
   can legally sign remotely, what to check first, and how to avoid a bad
   month.
-tags: [Moving to Singapore, Numbers, Tenants]
+tags: [Moving to Singapore]
 author: Lazybee Team
 hero: /sketches/interior__coliving-bedroom__bed-desk-window-ceilingfan.jpg
 heroAlt: A co-living bedroom with a single bed, a desk by the window and a ceiling fan, illustrating renting in singapore from overseas

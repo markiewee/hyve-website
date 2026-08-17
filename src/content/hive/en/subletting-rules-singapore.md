@@ -5,7 +5,7 @@ excerpt: >
   Can you sublet a room in Singapore? Here's what counts as subletting, when
   it's genuinely allowed, and what breaking a sublet clause actually costs
   you.
-tags: [Rules, Tenants]
+tags: [Rules]
 author: Lazybee Team
 hero: /sketches/loc-civic__ica-building__government-exterior.jpg
 heroAlt: The ICA Building, where Singapore immigration passes are issued, illustrating subletting rules singapore

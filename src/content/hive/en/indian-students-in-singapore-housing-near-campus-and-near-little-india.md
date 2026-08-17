@@ -4,7 +4,7 @@ date: 2024-11-29
 excerpt: >
   Indian students in Singapore: where to live near NUS, NTU, or SMU, real
   commute times to Little India, and the areas that balance both well.
-tags: [Students, Moving to Singapore, Tenants]
+tags: [Moving to Singapore, Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__nus__overpass-trees.jpg
 heroAlt: A pedestrian overpass through the trees on the NUS campus, illustrating indian students in singapore

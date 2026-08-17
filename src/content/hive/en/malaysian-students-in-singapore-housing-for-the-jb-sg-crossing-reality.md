@@ -4,7 +4,7 @@ date: 2025-07-10
 excerpt: >
   Malaysian students in Singapore housing guide: real Causeway crossing times,
   what RTS Link changes, and when living in Singapore beats commuting from JB.
-tags: [Students, Moving to Singapore, Tenants]
+tags: [Moving to Singapore, Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__nus__overpass-trees.jpg
 heroAlt: A pedestrian overpass through the trees on the NUS campus, illustrating malaysian students in singapore

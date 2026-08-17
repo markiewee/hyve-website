@@ -4,7 +4,7 @@ date: 2024-09-18
 excerpt: >
   NUS vs NTU vs SMU off-campus housing compared: SMU sits in the densest
   rental market but costs most, NUS and NTU need a wider search.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__nus__overpass-trees.jpg
 heroAlt: A pedestrian overpass through the trees on the NUS campus, illustrating nus vs ntu vs smu

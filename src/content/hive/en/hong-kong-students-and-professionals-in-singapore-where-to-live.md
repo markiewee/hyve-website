@@ -4,7 +4,7 @@ date: 2025-01-13
 excerpt: >
   Where Hong Kong students and professionals should live in Singapore: CBD
   commutes, campus distances, and how Lazybee's three houses compare.
-tags: [Students, Moving to Singapore, Tenants]
+tags: [Moving to Singapore, Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__nus__overpass-trees.jpg
 heroAlt: A pedestrian overpass through the trees on the NUS campus, illustrating hong kong students and professionals in singapore

@@ -4,7 +4,7 @@ date: 2026-01-13
 excerpt: >
   Doing a double degree that splits you between two campuses? Here's how to
   pick housing for a multi-year, two-campus timetable, not just one semester.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-concourse__ticket-machines.jpg
 heroAlt: Ticket machines in an MRT station concourse, illustrating housing for students doing a double degree across two campuses
