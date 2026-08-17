@@ -11,6 +11,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { notifyMember } from "../../lib/notify";
 import { confirm } from "../../lib/confirm";
 import { PORTAL_HOST } from "../../lib/portal";
+import { needsBackImage, storagePathFrom } from "../../lib/idDocuments";
 
 function DepositProofImage({ url }) {
   const [signedUrl, setSignedUrl] = useState(null);
@@ -665,9 +666,9 @@ export default function AdminOnboardingDetailPage() {
                       { url: tenantDetails.id_back_url, alt: "ID Back" },
                     ].map(({ url, alt }) => url ? (
                       <button key={alt} type="button" onClick={async () => {
-                        let path = url;
-                        if (url.includes("/tenant-documents/")) path = url.split("/tenant-documents/")[1].split("?")[0];
-                        const { data } = await supabase.storage.from("tenant-documents").createSignedUrl(path, 3600);
+                        const { data } = await supabase.storage
+                          .from("tenant-documents")
+                          .createSignedUrl(storagePathFrom(url), 3600);
                         if (data?.signedUrl) window.open(data.signedUrl, "_blank");
                       }} className="text-left">
                         <div className="h-24 w-32 rounded border border-border bg-muted flex items-center justify-center hover:bg-accent transition-colors">
@@ -695,19 +696,32 @@ export default function AdminOnboardingDetailPage() {
                         </div>
                       ))}
                     </div>
-                    {tenantDetails.pass_url && (
-                      <button type="button" onClick={async () => {
-                        let path = tenantDetails.pass_url;
-                        if (path.includes("/tenant-documents/")) path = path.split("/tenant-documents/")[1].split("?")[0];
-                        const { data } = await supabase.storage.from("tenant-documents").createSignedUrl(path, 3600);
-                        if (data?.signedUrl) window.open(data.signedUrl, "_blank");
-                      }} className="text-left">
-                        <div className="h-24 w-32 rounded border border-border bg-muted flex items-center justify-center hover:bg-accent transition-colors">
-                          <span className="material-symbols-outlined text-muted-foreground">badge</span>
+                    <div className="flex gap-3">
+                      {[
+                        { url: tenantDetails.pass_url, alt: "Pass Front" },
+                        { url: tenantDetails.pass_back_url, alt: "Pass Back" },
+                      ].map(({ url, alt }) => url ? (
+                        <button key={alt} type="button" onClick={async () => {
+                          const { data } = await supabase.storage
+                            .from("tenant-documents")
+                            .createSignedUrl(storagePathFrom(url), 3600);
+                          if (data?.signedUrl) window.open(data.signedUrl, "_blank");
+                        }} className="text-left">
+                          <div className="h-24 w-32 rounded border border-border bg-muted flex items-center justify-center hover:bg-accent transition-colors">
+                            <span className="material-symbols-outlined text-muted-foreground">badge</span>
+                          </div>
+                          <p className="text-[10px] text-primary mt-1 hover:underline">{alt}, click to view</p>
+                        </button>
+                      ) : null)}
+                      {/* A card pass with no back on file predates us asking for
+                          one. Say so, rather than showing a tidy single image
+                          that looks like a complete record. */}
+                      {needsBackImage({ kind: "PASS", type: tenantDetails.pass_type }) && !tenantDetails.pass_back_url && (
+                        <div className="h-24 w-32 rounded border border-dashed border-destructive/50 bg-destructive/5 flex items-center justify-center px-2">
+                          <p className="text-[10px] text-destructive text-center leading-tight">Back of pass missing</p>
                         </div>
-                        <p className="text-[10px] text-primary mt-1 hover:underline">Work Pass, click to view</p>
-                      </button>
-                    )}
+                      )}
+                    </div>
                   </div>
                 )}
 

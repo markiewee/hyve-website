@@ -5,6 +5,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
+import { needsBackImage, passLabel } from "../../lib/idDocuments";
 
 const RESIDENCY_OPTIONS = [
   { value: "SINGAPOREAN", label: "Singaporean / PR" },
@@ -104,6 +105,15 @@ export default function IdScanForm({ onboarding, advanceStep }) {
   const passInputRef = useRef(null);
   const [passFile, setPassFile] = useState(null);
   const [passPreview, setPassPreview] = useState(td.pass_url || null);
+  const passBackInputRef = useRef(null);
+  const [passBackFile, setPassBackFile] = useState(null);
+  const [passBackPreview, setPassBackPreview] = useState(td.pass_back_url || null);
+
+  // Which of these documents is a card with two sides. Rules live in
+  // src/lib/idDocuments.js so the onboarding step and the pass-renewal page
+  // cannot drift apart on what they ask for.
+  const passNeedsBack = needsBackImage({ kind: "PASS", type: passType });
+  const idNeedsBack = needsBackImage({ kind: "ID", type: idType });
 
   function handleChange(e) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -223,7 +233,15 @@ export default function IdScanForm({ onboarding, advanceStep }) {
       return;
     }
     if (isForeigner && !passFile && !passPreview) {
-      setError("Please upload a photo of your pass (Work Permit / EP / S Pass).");
+      setError(
+        passNeedsBack
+          ? `Please upload a photo of the front of your ${passLabel(passType)}.`
+          : `Please upload your ${passLabel(passType)}.`
+      );
+      return;
+    }
+    if (isForeigner && passNeedsBack && !passBackFile && !passBackPreview) {
+      setError(`Please upload a photo of the back of your ${passLabel(passType)}. Both sides are required.`);
       return;
     }
     if (expiryWarning === "expired") {
@@ -241,7 +259,10 @@ export default function IdScanForm({ onboarding, advanceStep }) {
     try {
       const frontUrl = frontFile ? await uploadPhoto(frontFile, "front") : td.id_front_url;
       const backUrl = backFile ? await uploadPhoto(backFile, "back") : (td.id_back_url || null);
-      const passUrl = passFile ? await uploadPhoto(passFile, "pass") : (td.pass_url || null);
+      const passUrl = passFile ? await uploadPhoto(passFile, "pass-front") : (td.pass_url || null);
+      const passBackUrl = passBackFile
+        ? await uploadPhoto(passBackFile, "pass-back")
+        : (td.pass_back_url || null);
 
       const { error: upsertError } = await supabase
         .from("tenant_details")
@@ -257,6 +278,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
             pass_number: isForeigner ? passNumber.trim() : null,
             pass_expiry: isForeigner ? passExpiry : null,
             pass_url: passUrl,
+            pass_back_url: isForeigner ? passBackUrl : null,
             updated_at: new Date().toISOString(),
           },
           { onConflict: "tenant_profile_id" }
@@ -408,7 +430,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
       </div>
 
       {/* Back photo (NRIC only) */}
-      {idType === "NRIC" && (
+      {idNeedsBack && (
         <div>
           <Label className="block mb-2">
             Back of NRIC{" "}
@@ -531,18 +553,43 @@ export default function IdScanForm({ onboarding, advanceStep }) {
             </div>
           </div>
 
-          {/* Pass photo upload */}
+          {/* Pass photo, front. A card pass also needs its back: the sector,
+              the employer and the issue details are all on that side, and it
+              is the half an MOM check actually asks for. An IPA is a letter
+              and a passport is one photo page, so neither is asked for one. */}
           <div>
-            <Label className="block mb-2">Pass Photo <span className="text-muted-foreground font-normal">(required)</span></Label>
+            <Label className="block mb-2">
+              {passNeedsBack ? "Front of Pass" : "Pass Document"}{" "}
+              <span className="text-muted-foreground font-normal">(required)</span>
+            </Label>
             <div className="flex items-center gap-3">
               <Button type="button" variant="outline" onClick={() => passInputRef.current?.click()}>
-                {passFile ? "Change" : "Upload Pass"}
+                {passFile ? "Change" : passNeedsBack ? "Upload Front" : "Upload Pass"}
               </Button>
               <input ref={passInputRef} type="file" accept="image/*" className="hidden"
                 onChange={(e) => { const f = e.target.files?.[0]; if (f) { setPassFile(f); setPassPreview(URL.createObjectURL(f)); } }} />
-              {passPreview && <img src={passPreview} alt="Pass" className="h-16 w-24 object-cover rounded border border-border" />}
+              {passPreview && <img src={passPreview} alt="Pass front" className="h-16 w-24 object-cover rounded border border-border" />}
             </div>
           </div>
+
+          {passNeedsBack && (
+            <div>
+              <Label className="block mb-2">
+                Back of Pass <span className="text-muted-foreground font-normal">(required)</span>
+              </Label>
+              <p className="text-xs text-muted-foreground mb-2">
+                The side with your employer or school and the pass details.
+              </p>
+              <div className="flex items-center gap-3">
+                <Button type="button" variant="outline" onClick={() => passBackInputRef.current?.click()}>
+                  {passBackFile ? "Change" : "Upload Back"}
+                </Button>
+                <input ref={passBackInputRef} type="file" accept="image/*" className="hidden"
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) { setPassBackFile(f); setPassBackPreview(URL.createObjectURL(f)); } }} />
+                {passBackPreview && <img src={passBackPreview} alt="Pass back" className="h-16 w-24 object-cover rounded border border-border" />}
+              </div>
+            </div>
+          )}
 
           {/* Pass number + expiry */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
