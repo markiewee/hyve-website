@@ -52,7 +52,7 @@ export default function AdminDocumentsPage() {
   const fetchData = useCallback(async () => {
     const [tplRes, tenantRes] = await Promise.all([
       supabase.from("document_templates").select("*").order("created_at", { ascending: false }),
-      supabase.from("tenant_profiles").select("id, role, username, monthly_rent, room_id, property_id, rooms(unit_code, name), properties(name, address, common_areas), tenant_details(full_name, email, id_number, phone), onboarding_progress(id, deposit_amount, licence_period, tenancy_start_date, tenancy_end_date, ref_number, extra_terms)")
+      supabase.from("tenant_profiles").select("id, role, username, monthly_rent, room_id, property_id, rooms(unit_code, name), properties(name, address, common_areas), tenant_details(full_name, email, id_number, phone, emergency_contact_name, emergency_contact_phone), onboarding_progress(id, deposit_amount, licence_period, tenancy_start_date, tenancy_end_date, ref_number, extra_terms)")
         .eq("role", "TENANT").eq("is_active", true),
     ]);
     setTemplates(tplRes.data ?? []);
@@ -159,6 +159,8 @@ export default function AdminDocumentsPage() {
       TENANT_NAME: tenant?.tenant_details?.full_name || tenant?.username || "",
       ID_NUMBER: tenant?.tenant_details?.id_number || "Pending ID verification",
       PHONE: tenant?.tenant_details?.phone || "",
+      EMERGENCY_CONTACT_NAME: tenant?.tenant_details?.emergency_contact_name || "Not provided",
+      EMERGENCY_CONTACT_PHONE: tenant?.tenant_details?.emergency_contact_phone || "Not provided",
       EMAIL: tenant?.tenant_details?.email || "",
       ROOM_CODE: tenant?.rooms?.unit_code || "",
       ROOM_NAME: tenant?.rooms?.name || "",
@@ -256,6 +258,8 @@ export default function AdminDocumentsPage() {
         TENANT_NAME: tenant?.tenant_details?.full_name || "",
         ID_NUMBER: tenant?.tenant_details?.id_number || "",
         PHONE: tenant?.tenant_details?.phone || "",
+        EMERGENCY_CONTACT_NAME: tenant?.tenant_details?.emergency_contact_name || "Not provided",
+        EMERGENCY_CONTACT_PHONE: tenant?.tenant_details?.emergency_contact_phone || "Not provided",
         ROOM_CODE: tenant?.rooms?.unit_code || "",
         PROPERTY_NAME: tenant?.properties?.name || "",
         PROPERTY_ADDRESS: tenant?.properties?.address || "",
