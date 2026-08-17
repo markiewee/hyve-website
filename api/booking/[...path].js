@@ -1164,7 +1164,13 @@ export default async function handler(req, res) {
         return await handleCreate(req, res);
       case "cancel":
         return await handleCancel(req, res);
+      // A vercel.json rewrite sends /api/owners/lead here, but a rewrite does not
+      // change req.url, so the /api/booking/ strip above leaves the original path
+      // intact and the route arrives as "api/owners/lead". Both spellings resolve,
+      // the same way the auth routes accept two forms.
       case "owner-lead":
+      case "api/owners/lead":
+      case "owners/lead":
         return await handleOwnerLead(req, res);
       case "leads-off-horizon":
         return await handleOffHorizonLead(req, res);
