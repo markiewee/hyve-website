@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import {
   RESERVE_FIRST_STEP,
   addMonthsMinusADay,
+  monthSpan,
   pickReusableProfileId,
   buildProfileSeed,
   buildOnboardingSeed,
@@ -113,4 +114,46 @@ test("dead reserves and empty ones never donate a profile", () => {
     { id: "y", status: "expired", tenant_profile_id: "profile-exp", created_at: "2026-08-02T00:00:00Z" },
     { id: "z", status: "reserved", tenant_profile_id: null, created_at: "2026-08-03T00:00:00Z" },
   ]), null);
+});
+
+// Defect 4: the derived end date was a guess. Real tenancies rarely land on
+// start + N months, so an admin had to correct Julia's end date by hand after the
+// fact. When the prospect states a move-out date, that date is the tenancy end.
+test("an explicit move-out date beats the derived one", () => {
+  const reserve = {
+    room_id: "room-1",
+    property_id: "prop-1",
+    preferred_move_in: "2026-09-08",
+    preferred_move_out: "2026-12-19",
+    duration_months: 3,
+  };
+
+  const seed = buildOnboardingSeed({ tenantProfileId: "tp-1", reserve, room: null });
+  assert.equal(seed.tenancy_start_date, "2026-09-08");
+  assert.equal(seed.tenancy_end_date, "2026-12-19");
+
+  const profile = buildProfileSeed({ reserve, room: null });
+  assert.equal(profile.lease_end, "2026-12-19");
+  assert.equal(profile.lease_months, 3);
+});
+
+test("without a move-out date we still derive the end from the duration", () => {
+  const reserve = {
+    room_id: "room-1",
+    property_id: "prop-1",
+    preferred_move_in: "2026-09-08",
+    duration_months: 3,
+  };
+  assert.equal(
+    buildOnboardingSeed({ tenantProfileId: "tp-1", reserve, room: null }).tenancy_end_date,
+    "2026-12-07"
+  );
+  assert.equal(buildProfileSeed({ reserve, room: null }).lease_months, 3);
+});
+
+test("monthSpan counts calendar months, floored at one", () => {
+  assert.equal(monthSpan("2026-09-08", "2026-12-19"), 3);
+  assert.equal(monthSpan("2026-09-08", "2027-09-07"), 12);
+  assert.equal(monthSpan("2026-09-08", "2026-09-20"), 1);
+  assert.equal(monthSpan("", "2026-12-19"), 0);
 });

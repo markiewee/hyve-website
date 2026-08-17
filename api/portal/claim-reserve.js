@@ -187,7 +187,7 @@ ${proofUrl ? `<p><a href="${proofUrl}">View the screenshot</a> (link valid 3 day
     return res.status(200).json({ ok: true, emailed: true });
   }
 
-  const { token, email, password, name, move_in, duration_months, has_pass } =
+  const { token, email, password, name, move_in, move_out, duration_months, has_pass } =
     req.body || {};
 
   if (!token || !email || !password) {
@@ -249,6 +249,7 @@ ${proofUrl ? `<p><a href="${proofUrl}">View the screenshot</a> (link valid 3 day
   const seedReserve = {
     ...sr,
     preferred_move_in: move_in || sr.preferred_move_in,
+    preferred_move_out: move_out || sr.preferred_move_out,
     duration_months: duration_months ?? sr.duration_months,
   };
 
@@ -378,6 +379,7 @@ ${proofUrl ? `<p><a href="${proofUrl}">View the screenshot</a> (link valid 3 day
     prospect_email: email,
     prospect_name: name || sr.prospect_name,
     preferred_move_in: move_in || sr.preferred_move_in,
+    preferred_move_out: move_out || sr.preferred_move_out,
     duration_months: duration_months ?? sr.duration_months,
     has_pass: has_pass === true,
     updated_at: new Date().toISOString(),
