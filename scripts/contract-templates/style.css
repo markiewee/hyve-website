@@ -104,12 +104,19 @@ body {
   background:var(--green); color:var(--band-ink);
   margin:var(--s7) 0;
 }
-.terms > div { padding:var(--s5) var(--s4); border-left:1px solid rgba(237,230,218,.14) }
+/* Labels sit on the cell floor so they stay on one line with each other even
+   when a long date wraps to two lines above them. */
+.terms > div { padding:var(--s5) var(--s4); border-left:1px solid rgba(237,230,218,.14);
+  display:flex; flex-direction:column; justify-content:space-between }
 .terms > div:first-child { border-left:0 }
 .terms .n {
   font-family:var(--mono); font-weight:700;
-  font-size:clamp(19px,2.4vw,27px); line-height:1.05; letter-spacing:-.03em;
+  /* Sized for the longest real value, a formatted date such as "15 August 2026".
+     Mono is wide, so a display size overflows the cell and collides with its
+     neighbour. Wrapping is allowed as the last resort. */
+  font-size:clamp(14px,1.6vw,17px); line-height:1.32; letter-spacing:-.02em;
   color:var(--band-num); font-variant-numeric:tabular-nums;
+  overflow-wrap:anywhere;
 }
 .terms .l {
   margin-top:10px; font-family:var(--mono); font-size:10px; letter-spacing:.18em;
@@ -140,14 +147,13 @@ body {
   border-bottom:1px solid var(--line);
 }
 
-/* key/value rows, hairline separated, no boxes */
+/* Key/value rows, hairline separated, no boxes.
+   The rule is a border-bottom on every cell rather than a border-top with the
+   first row exempted: a .kv-full cell shifts what "the first row" means, which
+   left the two cells beside it with mismatched rules. */
 .kv { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 var(--s7) }
-.kv > div { padding:var(--s4) 0; border-top:1px solid var(--line) }
-.kv > div:nth-child(-n+2) { border-top:0; padding-top:0 }
-@media (max-width:640px) {
-  .kv { grid-template-columns:minmax(0,1fr) }
-  .kv > div:nth-child(2) { border-top:1px solid var(--line); padding-top:var(--s4) }
-}
+.kv > div { padding:0 0 var(--s4); border-bottom:1px solid var(--line); margin-top:var(--s4) }
+@media (max-width:640px) { .kv { grid-template-columns:minmax(0,1fr) } }
 .kv-full { grid-column:1 / -1 }
 
 /* ── clauses ─────────────────────────────────────────────────────── */
@@ -155,7 +161,7 @@ body {
   padding:var(--s5) 0; border-top:1px solid var(--line); break-inside:avoid }
 .clause:first-of-type { border-top:0 }
 .clause > .no {
-  font-family:var(--mono); font-size:12px; letter-spacing:.04em; color:var(--accent-text);
+  font-family:var(--mono); font-size:13px; letter-spacing:.04em; color:var(--accent-text);
   font-variant-numeric:tabular-nums; padding-top:3px;
 }
 .clause > .body-col > h3 {
