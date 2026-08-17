@@ -4,7 +4,7 @@ date: 2025-02-06
 excerpt: >
   The checklist of hidden fees co-living Singapore rooms can add on top of
   rent, which are normal, which are red flags, and how to audit any contract.
-tags: [Market, Numbers]
+tags: [Costs]
 author: Lazybee Team
 hero: /sketches/loc-housing__condo-towers__facade.jpg
 heroAlt: The facade of a Singapore condominium tower, illustrating hidden fees to check before you sign a co-living lease

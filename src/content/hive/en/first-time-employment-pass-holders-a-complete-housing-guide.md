@@ -4,7 +4,7 @@ date: 2024-12-26
 excerpt: >
   First-time Employment Pass holder in Singapore? Here's what you need to
   rent: the salary threshold, documents, lease length, and mistakes to avoid.
-tags: [Tenants, Moving to Singapore]
+tags: [Work]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__marina-bay__aerial-panorama-golden.jpg
 heroAlt: A panorama of Marina Bay in late afternoon light, illustrating first-time employment pass holders

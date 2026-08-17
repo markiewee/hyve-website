@@ -4,7 +4,7 @@ date: 2025-11-04
 excerpt: >
   Housing for international school teachers moving to Singapore: where the
   schools are, EP basics, housing allowances, and July/August lease timing.
-tags: [Tenants, Moving to Singapore]
+tags: [Moving to Singapore, Students]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__marina-bay__aerial-panorama-golden.jpg
 heroAlt: A panorama of Marina Bay in late afternoon light, illustrating housing for international school teachers moving to singapore

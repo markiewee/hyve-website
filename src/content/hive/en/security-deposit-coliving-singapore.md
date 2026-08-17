@@ -5,7 +5,7 @@ excerpt: >
   How much security deposit coliving Singapore rooms actually charge, what
   landlords can legally deduct, and the exact steps to get your full deposit
   back.
-tags: [Rules, Tenants, Numbers]
+tags: [Rules, Costs]
 author: Lazybee Team
 hero: /sketches/loc-civic__ica-building__government-exterior.jpg
 heroAlt: The ICA Building, where Singapore immigration passes are issued, illustrating security deposits in co-living singapore

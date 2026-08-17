@@ -4,7 +4,7 @@ date: 2026-04-09
 excerpt: >
   Sri Lankan students and workers in Singapore: real commute times to NUS,
   NTU, SMU and the CBD, and where to live for both study and work life.
-tags: [Students, Moving to Singapore, Tenants]
+tags: [Moving to Singapore, Students]
 author: Lazybee Team
 hero: /sketches/loc-neighbourhood__amoy-street__shophouse-facade-banner.jpg
 heroAlt: Shophouse facades on Amoy Street, illustrating sri lankan students and workers in singapore

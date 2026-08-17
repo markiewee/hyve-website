@@ -4,7 +4,7 @@ date: 2026-03-20
 excerpt: >
   A practical housing guide for 22 year olds in Singapore: the budget rule of
   thumb, what to check before signing, and when to time it around a new job.
-tags: [Tenants, Numbers]
+tags: [Work]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-platform__train-arriving.jpg
 heroAlt: A train pulling into an MRT platform, illustrating first job, first apartment

@@ -4,7 +4,7 @@ date: 2026-04-10
 excerpt: >
   Housing for INSEAD Singapore students: how the 10-month MBA's campus split
   affects lease length, and what actually clears the 3-month minimum stay.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__one-north__curved-glass-towers.jpg
 heroAlt: The curved glass towers of one-north, illustrating housing for insead singapore students

@@ -5,7 +5,7 @@ excerpt: >
   Housing for engineers on project-based contracts in Singapore: why short,
   flexible leases beat a 2-year tenancy when your contract runs 6 months to 2
   years.
-tags: [Tenants, Moving to Singapore]
+tags: [Work]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__marina-bay__aerial-panorama-golden.jpg
 heroAlt: A panorama of Marina Bay in late afternoon light, illustrating housing for engineers on project-based contracts in singapore

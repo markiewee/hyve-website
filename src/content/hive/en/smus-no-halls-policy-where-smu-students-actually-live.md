@@ -4,7 +4,7 @@ date: 2025-07-11
 excerpt: >
   Does SMU have halls of residence? Barely. Here's the real capacity, why it's
   so small, and where SMU students end up living instead.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__smu__city-block.jpg
 heroAlt: The Singapore Management University campus in the middle of the city, illustrating smu's no-halls policy

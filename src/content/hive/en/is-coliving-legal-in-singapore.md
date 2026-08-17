@@ -4,7 +4,7 @@ date: 2025-06-02
 excerpt: >
   Yes, co-living is legal in Singapore under URA and HDB rules. Here's the
   minimum stay, occupancy caps, and what actually counts as a breach in 2026.
-tags: [Rules, Tenants]
+tags: [Rules]
 author: Lazybee Team
 hero: /sketches/loc-civic__ica-building__government-exterior.jpg
 heroAlt: The ICA Building, where Singapore immigration passes are issued, illustrating is co-living legal in singapore? the rules, explained

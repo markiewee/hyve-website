@@ -5,7 +5,7 @@ excerpt: >
   Moving to Singapore from Vietnam? Here's the pass you need, realistic
   housing costs, and where co-living fits for Vietnamese professionals and
   students.
-tags: [Moving to Singapore, Tenants]
+tags: [Moving to Singapore]
 author: Lazybee Team
 hero: /sketches/loc-neighbourhood__joo-chiat__shophouse-facade.jpg
 heroAlt: Peranakan shophouse facades in Joo Chiat, illustrating moving to singapore from vietnam

@@ -4,7 +4,7 @@ date: 2026-05-22
 excerpt: >
   Why new Singapore PRs rent for years before buying: the 3-year HDB wait,
   simpler renting rules than a work pass, and how to budget while you wait.
-tags: [Tenants, Moving to Singapore]
+tags: [Work]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__marina-bay__aerial-panorama-golden.jpg
 heroAlt: A panorama of Marina Bay in late afternoon light, illustrating housing for new permanent residents still renting before buying

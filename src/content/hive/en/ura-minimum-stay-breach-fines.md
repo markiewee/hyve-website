@@ -4,7 +4,7 @@ date: 2026-08-17
 excerpt: >
   URA minimum stay breach explained: what counts as a breach, who is liable
   (owner, operator or tenant), and the real fines, up to S$200,000 per charge.
-tags: [Rules, Tenants]
+tags: [Rules]
 author: Lazybee Team
 hero: /sketches/loc-civic__ica-building__government-exterior.jpg
 heroAlt: The ICA Building, where Singapore immigration passes are issued, illustrating ura minimum stay breach

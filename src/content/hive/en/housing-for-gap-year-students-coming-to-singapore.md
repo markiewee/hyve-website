@@ -4,7 +4,7 @@ date: 2026-06-29
 excerpt: >
   Planning a gap year in Singapore? How the 3-month minimum stay rule affects
   internships, volunteering, and language courses, and where to actually live.
-tags: [Students, Tenants, Numbers]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-platform__train-arriving.jpg
 heroAlt: A train pulling into an MRT platform, illustrating housing for gap year students coming to singapore

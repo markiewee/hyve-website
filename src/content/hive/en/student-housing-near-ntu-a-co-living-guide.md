@@ -4,7 +4,7 @@ date: 2026-05-13
 excerpt: >
   Student housing near NTU explained: campus location, the free shuttle bus,
   and which nearby towns (Jurong East, Boon Lay, Pioneer) actually work.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__ntu__learning-hub-landmark.jpg
 heroAlt: The NTU Learning Hub, the university's landmark stacked building, illustrating student housing near ntu

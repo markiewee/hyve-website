@@ -4,7 +4,7 @@ date: 2025-05-26
 excerpt: >
   NUS Law just moved to Kent Ridge, SMU Law is already in the city. Where law
   students should actually live for internships, moots, and networking.
-tags: [Students, Neighbourhoods, Rules]
+tags: [Rules, Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-concourse__ticket-machines.jpg
 heroAlt: Ticket machines in an MRT station concourse, illustrating housing for law students near the cbd in singapore

@@ -4,7 +4,7 @@ date: 2026-06-05
 excerpt: >
   Stamp duty on a room rental in Singapore is 0.4% of total rent, due within
   14 days of signing. Here's who pays and what happens if you miss the window.
-tags: [Rules, Tenants]
+tags: [Rules]
 author: Lazybee Team
 hero: /sketches/loc-civic__ica-building__government-exterior.jpg
 heroAlt: The ICA Building, where Singapore immigration passes are issued, illustrating do i pay stamp duty on a room rental in singapore?

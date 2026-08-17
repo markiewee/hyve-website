@@ -4,7 +4,7 @@ date: 2026-03-26
 excerpt: >
   Wifi, cleaning, utilities, aircon servicing: what co-living rent usually
   covers, what varies by operator, and a checklist to run on any listing.
-tags: [Numbers, Tenants]
+tags: [Costs]
 author: Lazybee Team
 hero: /sketches/interior__coliving-bedroom__bed-desk-window-ceilingfan.jpg
 heroAlt: A co-living bedroom with a single bed, a desk by the window and a ceiling fan, illustrating what's actually included in co-living rent in singapore

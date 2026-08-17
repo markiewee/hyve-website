@@ -4,7 +4,7 @@ date: 2026-06-24
 excerpt: >
   Where Korean students should live in Singapore to stay close to Tanjong
   Pagar's Korean community, with real commute distances to NUS, NTU, and SMU.
-tags: [Students, Moving to Singapore, Tenants]
+tags: [Moving to Singapore, Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__nus__overpass-trees.jpg
 heroAlt: A pedestrian overpass through the trees on the NUS campus, illustrating korean students in singapore

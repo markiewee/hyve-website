@@ -4,7 +4,7 @@ date: 2025-05-05
 excerpt: >
   Where to live by commute time to Singapore's CBD: real MRT times, 10 areas
   within 30 minutes of Raffles Place, and how to test any listing.
-tags: [Neighbourhoods, Tenants]
+tags: [Neighbourhoods]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-train__interior-commuters.jpg
 heroAlt: Commuters standing inside an MRT carriage, illustrating where to live by commute time to the cbd

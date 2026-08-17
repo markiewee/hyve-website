@@ -5,7 +5,7 @@ excerpt: >
   Yes, on a normal salary, if you budget past rent. Real room price ranges,
   the 9 costs nobody mentions, and a readiness checklist before you give
   notice.
-tags: [Numbers, Tenants]
+tags: [Costs]
 author: Lazybee Team
 hero: /sketches/loc-housing__hdb-estate__void-deck-blocks-trees.jpg
 heroAlt: HDB blocks and trees above an open void deck, illustrating can you afford to move out in singapore on a normal salary?

@@ -4,7 +4,7 @@ date: 2026-02-13
 excerpt: >
   Honest housing guide for LASALLE students: McNally Street campus location,
   real commute times from Lazybee, and what arts students need in a room.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__lasalle__mcnally.jpg
 heroAlt: The McNally campus of LASALLE College of the Arts, illustrating housing for lasalle college of the arts students

@@ -4,7 +4,7 @@ date: 2025-02-03
 excerpt: >
   Where Chinese students should live in Singapore near NUS, NTU, and SMU: real
   commute times, safety, community, and what actually matters on a viewing.
-tags: [Students, Moving to Singapore, Tenants]
+tags: [Moving to Singapore, Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__nus__overpass-trees.jpg
 heroAlt: A pedestrian overpass through the trees on the NUS campus, illustrating chinese students in singapore

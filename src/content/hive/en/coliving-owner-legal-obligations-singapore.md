@@ -5,7 +5,7 @@ excerpt: >
   What Singapore law actually requires from a co-living owner: minimum stay,
   occupancy caps, MCST limits, and why the operator's signature doesn't cover
   you.
-tags: [Market, Rules]
+tags: [Rules]
 author: Lazybee Team
 hero: /sketches/loc-housing__modern-tower__glass-base-cbd.jpg
 heroAlt: The glass base of a modern tower in the CBD, illustrating what the law actually lets you do as a co-living owner in singapore

@@ -5,7 +5,7 @@ excerpt: >
   Didn't get balloted into an NUS, NTU, or SMU hall? Here's how fast
   short-notice student housing actually moves, and the mistakes to avoid under
   pressure.
-tags: [Students, Tenants, Numbers]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-platform__train-arriving.jpg
 heroAlt: A train pulling into an MRT platform, illustrating short-notice housing for students who failed to secure halls

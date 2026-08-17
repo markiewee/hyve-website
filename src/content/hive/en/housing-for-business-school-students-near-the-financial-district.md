@@ -4,7 +4,7 @@ date: 2026-06-11
 excerpt: >
   Housing for business school students near the financial district: why NUS
   Biz and NTU NBS aren't actually near the CBD, and where to live anyway.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-concourse__ticket-machines.jpg
 heroAlt: Ticket machines in an MRT station concourse, illustrating housing for business school students near the financial district

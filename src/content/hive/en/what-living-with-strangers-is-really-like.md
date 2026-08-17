@@ -4,7 +4,7 @@ date: 2025-03-04
 excerpt: >
   Living with strangers coliving Singapore style: what's genuinely good,
   what's genuinely annoying, and how to set yourself up before you sign.
-tags: [Numbers, Tenants]
+tags: [Costs]
 author: Lazybee Team
 hero: /sketches/loc-housing__hdb-estate__void-deck-blocks-trees.jpg
 heroAlt: HDB blocks and trees above an open void deck, illustrating what living with strangers is really like

@@ -5,7 +5,7 @@ excerpt: >
   Housing for maritime and shipping professionals in Singapore: why most
   shore-based roles sit in the CBD, not the port, and what that means for
   where you live.
-tags: [Tenants, Moving to Singapore]
+tags: [Work]
 author: Lazybee Team
 hero: /sketches/people-work__psa-port__gantry-cranes-containers.jpg
 heroAlt: Gantry cranes over stacked containers at the PSA port, illustrating housing for maritime and shipping professionals in singapore

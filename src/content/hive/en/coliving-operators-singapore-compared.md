@@ -4,7 +4,7 @@ date: 2026-06-29
 excerpt: >
   A straight comparison of Singapore's main co-living operators in 2026: what
   they offer, roughly what they cost, and how to actually compare them.
-tags: [Market, Numbers]
+tags: [Operators]
 author: Lazybee Team
 hero: /sketches/loc-housing__condo-towers__facade.jpg
 heroAlt: The facade of a Singapore condominium tower, illustrating co-living operators in singapore compared (2026)

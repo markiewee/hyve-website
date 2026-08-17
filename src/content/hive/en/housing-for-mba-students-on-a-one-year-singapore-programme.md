@@ -4,7 +4,7 @@ date: 2026-06-08
 excerpt: >
   Housing for MBA students on a one-year Singapore programme: why a
   calendar-year lease is the wrong tool, and what to book instead.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-concourse__ticket-machines.jpg
 heroAlt: Ticket machines in an MRT station concourse, illustrating housing for mba students on a one-year singapore programme

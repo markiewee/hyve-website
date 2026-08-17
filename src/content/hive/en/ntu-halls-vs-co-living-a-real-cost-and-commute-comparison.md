@@ -4,7 +4,7 @@ date: 2024-12-31
 excerpt: >
   Real NTU hall fees, guest rules and commute times compared against
   co-living, including the Jurong East route to Lazybee's Ivory Heights house.
-tags: [Students, Neighbourhoods, Numbers]
+tags: [Costs, Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__ntu__learning-hub-landmark.jpg
 heroAlt: The NTU Learning Hub, the university's landmark stacked building, illustrating ntu halls vs co-living

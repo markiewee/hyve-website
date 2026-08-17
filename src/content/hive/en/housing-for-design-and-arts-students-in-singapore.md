@@ -4,7 +4,7 @@ date: 2026-04-29
 excerpt: >
   What design and arts students in Singapore actually need from a room: space
   for portfolio work, quiet for late studio nights, and where that leaves you.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-concourse__ticket-machines.jpg
 heroAlt: Ticket machines in an MRT station concourse, illustrating housing for design and arts students in singapore

@@ -4,7 +4,7 @@ date: 2025-04-23
 excerpt: >
   Find Singapore's Thai food and community hubs today, from Aperia Mall to
   Balestier, and see how close each sits to Lazybee's co-living rooms.
-tags: [Moving to Singapore, Tenants]
+tags: [Moving to Singapore]
 author: Lazybee Team
 hero: /sketches/loc-neighbourhood__golden-mile__tower-greenery.jpg
 heroAlt: The Golden Mile tower with greenery on its terraces, illustrating finding thai community and food near your room in singapore

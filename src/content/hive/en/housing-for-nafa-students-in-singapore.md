@@ -4,7 +4,7 @@ date: 2026-07-21
 excerpt: >
   Honest housing guide for NAFA students: where the Bencoolen Street campus
   sits, real commute times, and what an arts student actually needs in a room.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__nafa__bencoolen.jpg
 heroAlt: The Nanyang Academy of Fine Arts campus on Bencoolen Street, illustrating housing for nafa students in singapore

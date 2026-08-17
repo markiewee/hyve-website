@@ -4,7 +4,7 @@ date: 2026-06-26
 excerpt: >
   Where Indonesian students in Singapore actually live, which areas suit which
   campuses, and what rent and moving costs realistically look like in 2026.
-tags: [Students, Moving to Singapore, Tenants]
+tags: [Costs, Moving to Singapore]
 author: Lazybee Team
 hero: /sketches/loc-campus__nus__overpass-trees.jpg
 heroAlt: A pedestrian overpass through the trees on the NUS campus, illustrating indonesian students in singapore

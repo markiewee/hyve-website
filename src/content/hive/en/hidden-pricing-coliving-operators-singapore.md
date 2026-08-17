@@ -5,7 +5,7 @@ excerpt: >
   Some co-living operators in Singapore hide pricing behind a WhatsApp
   enquiry. Here's why that pattern tends to cost renters more, and how to get
   a real number fast.
-tags: [Market, Numbers]
+tags: [Operators, Costs]
 author: Lazybee Team
 hero: /sketches/loc-housing__condo-towers__facade.jpg
 heroAlt: The facade of a Singapore condominium tower, illustrating why operators who hide prices cost you more

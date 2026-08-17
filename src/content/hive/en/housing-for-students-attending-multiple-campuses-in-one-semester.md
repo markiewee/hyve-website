@@ -5,7 +5,7 @@ excerpt: >
   Housing for students attending multiple campuses in one semester: how to
   pick a base when your timetable splits across two sites, without a full
   double degree.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-concourse__ticket-machines.jpg
 heroAlt: Ticket machines in an MRT station concourse, illustrating housing for students attending multiple campuses in one semester

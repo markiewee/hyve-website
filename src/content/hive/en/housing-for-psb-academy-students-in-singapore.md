@@ -4,7 +4,7 @@ date: 2026-04-03
 excerpt: >
   Housing for PSB Academy students in Singapore: where the City and Cathay
   campuses actually are, and how to find a room near either one.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__mdis__block.jpg
 heroAlt: The main teaching block at MDIS, illustrating housing for psb academy students in singapore

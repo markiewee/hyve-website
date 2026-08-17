@@ -4,7 +4,7 @@ date: 2025-06-04
 excerpt: >
   Master's student housing in Singapore differs from undergrad: no guaranteed
   hall spot, a shorter lease window, and a different budget to work with.
-tags: [Students, Tenants, Numbers]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-platform__train-arriving.jpg
 heroAlt: A train pulling into an MRT platform, illustrating housing for master's students in singapore

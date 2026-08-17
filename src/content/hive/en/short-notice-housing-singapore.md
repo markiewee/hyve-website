@@ -5,7 +5,7 @@ excerpt: >
   Need a room in Singapore this week? Here's what's actually realistic:
   co-living, serviced apartments, hotels, and how to avoid a bad decision
   under pressure.
-tags: [Numbers, Tenants]
+tags: [Costs]
 author: Lazybee Team
 hero: /sketches/loc-housing__hdb-estate__void-deck-blocks-trees.jpg
 heroAlt: HDB blocks and trees above an open void deck, illustrating i need an urgent room in singapore on short notice

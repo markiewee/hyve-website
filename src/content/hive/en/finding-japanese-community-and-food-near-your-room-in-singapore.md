@@ -5,7 +5,7 @@ excerpt: >
   Where to find real Japanese food and community in Singapore, from Cuppage
   Plaza to Meidi-Ya, and how commute from Lazybee's three neighbourhoods
   compares.
-tags: [Moving to Singapore, Tenants]
+tags: [Moving to Singapore]
 author: Lazybee Team
 hero: /sketches/loc-neighbourhood__cuppage-plaza__mall-corner.jpg
 heroAlt: The corner of Cuppage Plaza, illustrating finding japanese community and food near your room in singapore

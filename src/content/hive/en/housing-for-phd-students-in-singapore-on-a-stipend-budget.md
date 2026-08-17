@@ -4,7 +4,7 @@ date: 2025-06-30
 excerpt: >
   What NUS and NTU PhD stipends actually pay, what that buys in Singapore's
   rental market, and which neighbourhoods and room types make sense.
-tags: [Students, Tenants, Numbers]
+tags: [Costs, Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-platform__train-arriving.jpg
 heroAlt: A train pulling into an MRT platform, illustrating housing for phd students in singapore on a stipend budget

@@ -5,7 +5,7 @@ excerpt: >
   Student housing near Nanyang Polytechnic: where NYP actually sits, the
   nearest MRT, and the real off-campus options around Ang Mo Kio and Yio Chu
   Kang.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__nanyang-poly__courtyard-palms.jpg
 heroAlt: A palm lined courtyard at Nanyang Polytechnic, illustrating student housing near nanyang polytechnic

@@ -5,7 +5,7 @@ excerpt: >
   Housing for trailing spouses and partners of EP holders in Singapore: the
   Dependant's Pass basics, work rules, and why flexible rooms fit the first
   months.
-tags: [Tenants, Moving to Singapore]
+tags: [Work]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__marina-bay__aerial-panorama-golden.jpg
 heroAlt: A panorama of Marina Bay in late afternoon light, illustrating housing for trailing spouses and partners of ep holders in singapore

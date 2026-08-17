@@ -4,7 +4,7 @@ date: 2025-03-25
 excerpt: >
   NUS and NTU only guarantee halls for 2 years. Here's the checklist for
   moving out in your second or third year: budget, timing, and what changes.
-tags: [Tenants, Numbers]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-platform__train-arriving.jpg
 heroAlt: A train pulling into an MRT platform, illustrating moving out of halls in your second year

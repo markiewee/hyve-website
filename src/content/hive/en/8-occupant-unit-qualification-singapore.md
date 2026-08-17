@@ -4,7 +4,7 @@ date: 2025-06-25
 excerpt: >
   8 occupants are allowed only in HDB flats of 4 rooms or larger, or private
   units of at least 90 sq m strata area, registered with HDB or URA.
-tags: [Rules, Numbers]
+tags: [Rules]
 author: Lazybee Team
 hero: /sketches/loc-civic__ica-building__government-exterior.jpg
 heroAlt: Singapore government building where HDB and URA register units approved for eight occupants

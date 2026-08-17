@@ -4,7 +4,7 @@ date: 2026-03-13
 excerpt: >
   Moving to Singapore from Japan? Here's the pass you need, realistic housing
   costs, and how co-living fits your first few months.
-tags: [Moving to Singapore, Tenants]
+tags: [Moving to Singapore]
 author: Lazybee Team
 hero: /sketches/loc-neighbourhood__cuppage-plaza__mall-corner.jpg
 heroAlt: The corner of Cuppage Plaza, illustrating moving to singapore from japan

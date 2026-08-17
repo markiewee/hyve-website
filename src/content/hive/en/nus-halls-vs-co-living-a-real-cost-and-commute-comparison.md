@@ -4,7 +4,7 @@ date: 2026-06-17
 excerpt: >
   NUS hall rates, meal plans and rules versus co-living, with real weekly fees
   and honest commute times from Kent Ridge to the west side.
-tags: [Students, Neighbourhoods, Numbers]
+tags: [Costs, Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__nus__overpass-trees.jpg
 heroAlt: A pedestrian overpass through the trees on the NUS campus, illustrating nus halls vs co-living

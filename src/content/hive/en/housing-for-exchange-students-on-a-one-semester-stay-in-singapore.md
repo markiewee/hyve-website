@@ -4,7 +4,7 @@ date: 2026-08-18
 excerpt: >
   Housing for exchange students in Singapore: why halls aren't guaranteed, and
   which lease terms actually match a one-semester exchange.
-tags: [Students, Tenants, Numbers]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-platform__train-arriving.jpg
 heroAlt: A train pulling into an MRT platform, illustrating housing for exchange students on a one-semester stay in singapore

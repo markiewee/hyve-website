@@ -4,7 +4,7 @@ date: 2026-02-17
 excerpt: >
   Most Singapore schools don't guarantee student housing. Here's who actually
   offers it, who doesn't, and how to plan off-campus housing on time.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-concourse__ticket-machines.jpg
 heroAlt: Ticket machines in an MRT station concourse, illustrating housing for students whose university doesn't guarantee halls

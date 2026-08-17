@@ -39,21 +39,38 @@ export const DEFAULT_OG_IMAGE = `${BASE_URL}/og-default.png`;
    archive and told a reader nothing, the same reason the nav item became Blog.
    The /hive URL is unchanged, so no redirect and no lost link equity. */
 export const HIVE_TITLE = 'The Lazybee blog';
+
+/* Rewritten 18 Aug 2026. The old blurb ran "what a unit earns, what the rules
+   mean, what breaks in year two" and closed on "no lead magnets and no gated
+   PDFs". Three-part lists and a flourish to finish are the house style of every
+   AI-written landing page on the internet, which is the opposite of the point
+   here: the whole claim is that a person who runs the houses wrote this. Say
+   the plain thing. */
 export const HIVE_BLURB =
-  'Everything we pick up running nineteen rooms across three Singapore homes, written down. ' +
-  'What a unit actually earns once the void is counted, what the rules mean on a Tuesday rather ' +
-  'than in a circular, what breaks in year two and what it costs. No lead magnets and no gated PDFs.';
+  'What we have learned running co-living in Singapore over the past three years.';
+
+/* The meta description is a separate string from the on-page blurb on purpose.
+   The blurb wants to be one short line under a headline; a search snippet gets
+   cut off around 155 characters and wants every one of them working. Same
+   claim, different job. */
+export const HIVE_DESCRIPTION =
+  'What we have learned running co-living in Singapore over the past three years. ' +
+  'Nineteen rooms across three houses, and what each one actually costs to run.';
 
 /* Per language masthead copy. Only the visible languages need it: a hidden
    language has no index page to put it on. Written rather than machine
    translated, because it is the first thing a Mandarin reader sees. */
 export const HIVE_COPY = {
-  en: { title: HIVE_TITLE, blurb: HIVE_BLURB, kicker: 'Notes from the houses' },
+  en: {
+    title: HIVE_TITLE, blurb: HIVE_BLURB, description: HIVE_DESCRIPTION,
+    kicker: 'Notes from the houses',
+  },
   zh: {
     title: 'Lazybee 博客',
-    blurb:
-      '我们在新加坡三处房子、十九个房间的日常运营记录。一个单位扣掉空置期之后到底赚多少，' +
-      '条例落到具体某一天该怎么做，第二年会坏什么、修起来多少钱。没有引流噱头，也没有留了邮箱才能下载的文件。',
+    blurb: '这三年我们在新加坡做共居，学到的东西都写在这里。',
+    description:
+      '这三年我们在新加坡做共居，学到的东西都写在这里。三处房子、十九个房间：' +
+      '实际能租多少钱，条例到底要求什么，东西坏了修一次要花多少。',
     kicker: '来自房子的笔记',
   },
 };
@@ -176,8 +193,8 @@ export function indexMeta(page = 1, lang = DEFAULT_LANG) {
     title: `${copy.title}${suffix} | Lazybee`,
     description:
       page > 1
-        ? `Page ${page} of the Lazybee journal. What we learn running co-living in Singapore: the numbers, the rules, the operations and what things actually cost.`
-        : copy.blurb,
+        ? `Page ${page} of what we have learned running co-living in Singapore.`
+        : (copy.description || copy.blurb),
     canonical: hiveUrl(path),
     lastmod: newestDate(items),
     ogImage: absolute(items[0]?.hero),
@@ -186,7 +203,7 @@ export function indexMeta(page = 1, lang = DEFAULT_LANG) {
     prev: page === 2 ? hiveUrl(root) : page > 2 ? hiveUrl(`${root}/page/${page - 1}`) : null,
     next: page < archive.pageCount ? hiveUrl(`${root}/page/${page + 1}`) : null,
     schema: [
-      listSchema(`${copy.title}${suffix}`, copy.blurb, path, items, lang),
+      listSchema(`${copy.title}${suffix}`, copy.description || copy.blurb, path, items, lang),
       breadcrumbSchema([{ name: 'Home', path: '/' }, { name: copy.title, path: root }]),
     ],
   };

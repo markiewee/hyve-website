@@ -4,7 +4,7 @@ date: 2025-10-21
 excerpt: >
   Shipping furniture vs a furnished rental in Singapore: real cost ranges,
   what furnished actually includes, and when shipping pays off.
-tags: [Numbers, Tenants]
+tags: [Costs]
 author: Lazybee Team
 hero: /sketches/interior__coliving-bedroom__bed-desk-window-ceilingfan.jpg
 heroAlt: A co-living bedroom with a single bed, a desk by the window and a ceiling fan, illustrating shipping furniture vs renting furnished in singapore

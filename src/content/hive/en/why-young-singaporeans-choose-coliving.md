@@ -4,7 +4,7 @@ date: 2026-07-31
 excerpt: >
   Why Singaporeans choose co-living over staying home, waiting on a BTO, or
   renting alone in 2026, and what's actually driving the shift.
-tags: [Numbers, Tenants]
+tags: [Costs]
 author: Lazybee Team
 hero: /sketches/loc-housing__hdb-estate__void-deck-blocks-trees.jpg
 heroAlt: HDB blocks and trees above an open void deck, illustrating why young singaporeans are choosing co-living

@@ -4,7 +4,7 @@ date: 2025-05-28
 excerpt: >
   A practical Tiong Bahru rent guide: what you actually pay for, how it
   compares to Everton Park and Outram, and what to check before you view.
-tags: [Neighbourhoods, Tenants, Numbers]
+tags: [Costs, Neighbourhoods]
 author: Lazybee Team
 hero: /sketches/loc-neighbourhood__tiong-bahru__walkway-trees.jpg
 heroAlt: A shaded walkway between the Tiong Bahru blocks, illustrating tiong bahru renter's guide

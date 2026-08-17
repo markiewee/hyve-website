@@ -4,7 +4,7 @@ date: 2024-09-27
 excerpt: >
   Turning 21 mid-lease in Singapore usually changes nothing legally. Here's
   why, and when it actually matters.
-tags: [Tenants, Numbers]
+tags: [Costs]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-platform__train-arriving.jpg
 heroAlt: A train pulling into an MRT platform, illustrating turning 21 mid-lease in singapore

@@ -4,7 +4,7 @@ date: 2026-05-29
 excerpt: >
   A full guide to Lazybee's three houses: Chiltern Park, Ivory Heights,
   Thomson Grove. Neighbourhoods, room types, and what to check on a viewing.
-tags: [Neighbourhoods, Tenants]
+tags: [Neighbourhoods]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__hdb-estate__aerial-dense.jpg
 heroAlt: A dense HDB estate seen from the air, illustrating chiltern park, ivory heights, thomson grove

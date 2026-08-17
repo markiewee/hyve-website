@@ -4,7 +4,7 @@ date: 2024-12-27
 excerpt: >
   Where to find Chinese community, groceries, and food in Singapore, and how
   it shapes which co-living neighbourhood fits your room search.
-tags: [Moving to Singapore, Tenants]
+tags: [Moving to Singapore]
 author: Lazybee Team
 hero: /sketches/loc-neighbourhood__chinatown__aerial-shophouse-roofs.jpg
 heroAlt: Chinatown shophouse roofs seen from above, illustrating finding chinese community and food near your room in singapore

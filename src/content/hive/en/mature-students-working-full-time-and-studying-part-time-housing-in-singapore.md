@@ -4,7 +4,7 @@ date: 2025-08-12
 excerpt: >
   Working full-time and studying part-time at SUSS, NUS, or NTU? What matters
   in housing, and why co-living can fit better than the alternatives.
-tags: [Students, Tenants, Numbers]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-transit__mrt-platform__train-arriving.jpg
 heroAlt: A train pulling into an MRT platform, illustrating mature students working full-time and studying part-time

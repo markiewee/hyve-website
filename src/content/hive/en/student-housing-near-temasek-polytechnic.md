@@ -4,7 +4,7 @@ date: 2025-12-12
 excerpt: >
   Temasek Polytechnic sits in Tampines near Tampines West MRT. What housing
   actually looks like nearby, plus an honest look at the commute from Lazybee.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__temasek-poly__curved-courtyard.jpg
 heroAlt: The curved courtyard at Temasek Polytechnic, illustrating student housing near temasek polytechnic

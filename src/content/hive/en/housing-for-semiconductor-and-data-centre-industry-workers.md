@@ -5,7 +5,7 @@ excerpt: >
   Housing for semiconductor and data centre industry workers in Singapore:
   which towns put you near the fabs and DC clusters, and how shift work
   changes your pick.
-tags: [Tenants, Moving to Singapore]
+tags: [Work]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__marina-bay__aerial-panorama-golden.jpg
 heroAlt: A panorama of Marina Bay in late afternoon light, illustrating housing for semiconductor and data centre industry workers

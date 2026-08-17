@@ -4,7 +4,7 @@ date: 2025-01-24
 excerpt: >
   Hong Kong vs Singapore rent compared with real numbers: per-sqft cost, room
   sizes, deposits, lease terms, and what's actually included.
-tags: [Moving to Singapore, Tenants, Numbers]
+tags: [Costs]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__marina-bay__mbs-helix-artscience-skyline.jpg
 heroAlt: Marina Bay Sands, the Helix Bridge and the ArtScience Museum against the skyline, illustrating hong kong vs singapore rent

@@ -4,7 +4,7 @@ date: 2026-07-30
 excerpt: >
   Student housing near SUSS explained: where the Clementi campus actually is,
   and how housing needs differ for full-time and part-time SUSS students.
-tags: [Students, Neighbourhoods]
+tags: [Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__suss-clementi__plaza-sculpture.jpg
 heroAlt: A sculpture on the plaza at SUSS in Clementi, illustrating student housing near suss

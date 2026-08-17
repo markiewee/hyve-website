@@ -5,7 +5,7 @@ excerpt: >
   Where Japanese students and expats actually live in Singapore, from
   Orchard's Cuppage Plaza to Clementi, and how Lazybee's three houses connect
   to each.
-tags: [Students, Moving to Singapore, Tenants]
+tags: [Moving to Singapore, Students]
 author: Lazybee Team
 hero: /sketches/loc-campus__nus__overpass-trees.jpg
 heroAlt: A pedestrian overpass through the trees on the NUS campus, illustrating japanese students and expats in singapore

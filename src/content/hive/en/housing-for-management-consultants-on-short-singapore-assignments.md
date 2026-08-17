@@ -4,7 +4,7 @@ date: 2026-08-18
 excerpt: >
   Housing for management consultants on short Singapore assignments, and why
   the 3-month minimum stay law matters more here than for any other segment.
-tags: [Tenants, Moving to Singapore]
+tags: [Work]
 author: Lazybee Team
 hero: /sketches/loc-cityscape__marina-bay__aerial-panorama-golden.jpg
 heroAlt: A panorama of Marina Bay in late afternoon light, illustrating housing for management consultants on short singapore assignments

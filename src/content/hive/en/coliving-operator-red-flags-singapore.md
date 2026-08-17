@@ -5,7 +5,7 @@ excerpt: >
   The co-living operator red flags Singapore property owners should check
   before handing over a unit, plus a simple due-diligence process to run
   first.
-tags: [Market, Rules]
+tags: [Operators, Rules]
 author: Lazybee Team
 hero: /sketches/loc-housing__modern-tower__glass-base-cbd.jpg
 heroAlt: The glass base of a modern tower in the CBD, illustrating co-living operator red flags
