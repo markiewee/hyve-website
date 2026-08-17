@@ -133,7 +133,14 @@ body {
   font-family:var(--mono); font-size:10.5px; letter-spacing:.22em;
   text-transform:uppercase; color:var(--faint);
 }
-.val { font-family:var(--body); font-weight:400; font-size:15px; color:var(--ink); margin-top:6px }
+/* Values are tenant-supplied and unbounded: a long legal name, a 20-character
+   passport number, a full unit address. Nothing here may clip or overflow, so
+   the label sits above and the value takes the whole width of its cell and
+   wraps, breaking mid-token only if there is no space to break at. */
+.val {
+  font-family:var(--body); font-weight:400; font-size:15px; color:var(--ink);
+  margin-top:6px; overflow-wrap:anywhere; hyphens:auto;
+}
 .val-mono { font-family:var(--mono); font-size:14px; letter-spacing:-.01em; font-variant-numeric:tabular-nums }
 .prose { font-size:15px; line-height:1.72; color:var(--muted); max-width:64ch }
 .prose b, .prose strong { color:var(--ink); font-weight:500 }
@@ -150,10 +157,13 @@ body {
 /* Key/value rows, hairline separated, no boxes.
    The rule is a border-bottom on every cell rather than a border-top with the
    first row exempted: a .kv-full cell shifts what "the first row" means, which
-   left the two cells beside it with mismatched rules. */
-.kv { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 var(--s7) }
-.kv > div { padding:0 0 var(--s4); border-bottom:1px solid var(--line); margin-top:var(--s4) }
-@media (max-width:640px) { .kv { grid-template-columns:minmax(0,1fr) } }
+   left the two cells beside it with mismatched rules.
+
+   A cell never narrows past 300px: it drops to one per row instead, so a long
+   name or address always has room rather than being squeezed into a half
+   column. */
+.kv { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:0 var(--s7) }
+.kv > div { padding:0 0 var(--s4); border-bottom:1px solid var(--line); margin-top:var(--s4); min-width:0 }
 .kv-full { grid-column:1 / -1 }
 
 /* ── clauses ─────────────────────────────────────────────────────── */
