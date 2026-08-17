@@ -1,0 +1,680 @@
+{
+  "interior-civic__library__bookshelves": {
+    "en": "Tall library bookshelves receding down a reading aisle",
+    "zh": "图书馆里一排排高书架，沿着阅览通道向里延伸",
+    "my": "စာကြည့်တိုက်အတွင်း စာအုပ်စင်မြင့်များ တန်းစီလျက်",
+    "bn": "লাইব্রেরির উঁচু বইয়ের তাক, পড়ার সারি ধরে ভিতরে চলে গেছে"
+  },
+  "interior-social__restaurant__booths": {
+    "en": "Empty booth seating in a casual restaurant",
+    "zh": "一家家常餐厅里空着的卡座",
+    "my": "စားသောက်ဆိုင်တစ်ခုအတွင်း လူမရှိသော ထိုင်ခုံနေရာများ",
+    "bn": "একটি সাধারণ রেস্তোরাঁর ফাঁকা বসার বুথ"
+  },
+  "interior-work__boardroom__long-table": {
+    "en": "A long boardroom table ringed with empty chairs",
+    "zh": "会议室里一张长桌，四周是空着的椅子",
+    "my": "အစည်းအဝေးခန်းရှိ စားပွဲရှည်နှင့် ပတ်လည်ရှိ ကုလားထိုင်အလွတ်များ",
+    "bn": "বোর্ডরুমের লম্বা টেবিল ঘিরে ফাঁকা চেয়ার"
+  },
+  "interior-work__corridor__institutional-windows": {
+    "en": "A bare institutional corridor lit by a run of windows",
+    "zh": "一条朴素的机构走廊，一侧是连排窗户",
+    "my": "ပြတင်းပေါက်တန်းရှိသော ရိုးရှင်းသည့် ရုံးတွင်းစင်္ကြံ",
+    "bn": "জানালার সারি দেওয়া একটি সাদামাটা প্রাতিষ্ঠানিক করিডোর"
+  },
+  "interior-work__office-lobby__people": {
+    "en": "People crossing an office lobby at street level",
+    "zh": "人们穿过临街的办公楼大堂",
+    "my": "လမ်းမဘက်ရှိ ရုံးခန်းဧည့်ခန်းကို ဖြတ်သန်းသွားလာနေသူများ",
+    "bn": "রাস্তার পাশের অফিস লবি পেরিয়ে যাচ্ছেন কয়েকজন"
+  },
+  "interior-work__office__desks-chairs-empty": {
+    "en": "An open plan office of empty desks and chairs",
+    "zh": "开放式办公室里空着的工位和椅子",
+    "my": "ဖွင့်လှစ်ထားသော ရုံးခန်းအတွင်း စားပွဲနှင့် ကုလားထိုင်အလွတ်များ",
+    "bn": "খোলা অফিসে সারি সারি ফাঁকা ডেস্ক আর চেয়ার"
+  },
+  "interior__coliving-bedroom__bed-desk-window-ceilingfan": {
+    "en": "A co-living bedroom with a single bed, a desk by the window and a ceiling fan",
+    "zh": "合租公寓的卧室，一张单人床、靠窗的书桌和一台吊扇",
+    "my": "အတူနေအခန်းတစ်ခန်း၊ တစ်ယောက်အိပ်ကုတင်၊ ပြတင်းဘေးစားပွဲနှင့် မျက်နှာကျက်ပန်ကာ",
+    "bn": "কো-লিভিং শোবার ঘর, একটি সিঙ্গেল বিছানা, জানালার পাশে ডেস্ক আর সিলিং ফ্যান"
+  },
+  "interior__coliving-bedroom__lamp-plant": {
+    "en": "A co-living bedroom corner with a reading lamp and a potted plant",
+    "zh": "合租卧室的一角，一盏阅读灯和一盆绿植",
+    "my": "အတူနေအိပ်ခန်းထောင့်၊ စာဖတ်မီးအိမ်နှင့် အပင်အိုးတစ်လုံး",
+    "bn": "কো-লিভিং ঘরের এক কোণে পড়ার বাতি আর একটি টবের গাছ"
+  },
+  "interior__coliving-kitchen__galley-shelving-dining": {
+    "en": "A galley kitchen with open shelving running through to a shared dining table",
+    "zh": "狭长型厨房，开放式置物架一直延伸到共用餐桌",
+    "my": "ရှည်မျောမျောမီးဖိုချောင်၊ ဖွင့်ထားသောစင်များမှ စားပွဲအထိ ဆက်စပ်နေသည်",
+    "bn": "লম্বাটে রান্নাঘর, খোলা তাক থেকে শুরু হয়ে যৌথ খাবার টেবিল পর্যন্ত"
+  },
+  "interior__coliving-kitchen__people-laptop-dining": {
+    "en": "Housemates at a shared kitchen table, one of them working on a laptop",
+    "zh": "室友们围坐在共用餐桌旁，其中一人在用笔记本电脑办公",
+    "my": "အတူနေသူများ မီးဖိုချောင်စားပွဲတွင်၊ တစ်ဦးက laptop ဖြင့် အလုပ်လုပ်နေသည်",
+    "bn": "যৌথ রান্নাঘরের টেবিলে বাড়ির লোকজন, একজন ল্যাপটপে কাজ করছেন"
+  },
+  "interior__coliving-living-room__sofas": {
+    "en": "Sofas arranged around a shared co-living living room",
+    "zh": "合租客厅里围成一圈的沙发",
+    "my": "အတူနေဧည့်ခန်းအတွင်း ဝိုင်းထားသော ဆိုဖာများ",
+    "bn": "কো-লিভিং বসার ঘরে গোল করে সাজানো সোফা"
+  },
+  "interior__coliving-studio__bicycle-desk": {
+    "en": "A studio room with a bicycle parked beside the desk",
+    "zh": "一间开间房，自行车停在书桌旁边",
+    "my": "studio အခန်းတစ်ခန်း၊ စားပွဲဘေးတွင် စက်ဘီးရပ်ထားသည်",
+    "bn": "একটি স্টুডিও ঘর, ডেস্কের পাশে সাইকেল রাখা"
+  },
+  "interior__lazybee-cp__bedroom-chair": {
+    "en": "A bedroom at the Lazybee Chiltern Park house, bed and an armchair",
+    "zh": "Lazybee 位于 Chiltern Park 的卧室，一张床和一把扶手椅",
+    "my": "Lazybee ၏ Chiltern Park အိပ်ခန်း၊ ကုတင်နှင့် လက်တင်ကုလားထိုင်",
+    "bn": "Lazybee-র Chiltern Park শোবার ঘর, একটি বিছানা আর একটি আরামকেদারা"
+  },
+  "interior__lazybee-cp__dining-sofa-common": {
+    "en": "The common area at Chiltern Park, dining table beside the sofas",
+    "zh": "Chiltern Park 的公共区域，餐桌紧挨着沙发",
+    "my": "Chiltern Park ရှိ အများသုံးနေရာ၊ စားပွဲနှင့် ဆိုဖာ ကပ်လျက်",
+    "bn": "Chiltern Park-এর সাধারণ এলাকা, সোফার পাশেই খাবার টেবিল"
+  },
+  "interior__lazybee-cp__gym-treadmills": {
+    "en": "Treadmills in the condominium gym at Chiltern Park",
+    "zh": "Chiltern Park 小区健身房里的跑步机",
+    "my": "Chiltern Park အားကစားခန်းမရှိ စက်ပေါ်လမ်းလျှောက်စက်များ",
+    "bn": "Chiltern Park কনডোর জিমে ট্রেডমিল"
+  },
+  "interior__lazybee-cp__kitchen-fridge": {
+    "en": "The shared kitchen at Chiltern Park with the house fridge",
+    "zh": "Chiltern Park 的共用厨房和公共冰箱",
+    "my": "Chiltern Park ရှိ အများသုံးမီးဖိုချောင်နှင့် ရေခဲသေတ္တာ",
+    "bn": "Chiltern Park-এর যৌথ রান্নাঘর আর বাড়ির ফ্রিজ"
+  },
+  "interior__lazybee-cp__studio-sofa-bed": {
+    "en": "A studio room at Chiltern Park with a sofa at the foot of the bed",
+    "zh": "Chiltern Park 的一间开间房，床尾放着一张沙发",
+    "my": "Chiltern Park studio အခန်း၊ ကုတင်ခြေရင်းတွင် ဆိုဖာတစ်လုံး",
+    "bn": "Chiltern Park-এর স্টুডিও ঘর, বিছানার পায়ের দিকে একটি সোফা"
+  },
+  "interior__lazybee-ih__empty-room-shelving": {
+    "en": "An empty room at Ivory Heights, shelving built into the wall",
+    "zh": "Ivory Heights 的一间空房，墙面嵌入式置物架",
+    "my": "Ivory Heights ရှိ အခန်းလွတ်တစ်ခန်း၊ နံရံတွင် စင်တပ်ထားသည်",
+    "bn": "Ivory Heights-এর একটি ফাঁকা ঘর, দেয়ালে গাঁথা তাক"
+  },
+  "interior__lazybee-tg__common-area-windows": {
+    "en": "The common area at Thomson Grove under a wall of windows",
+    "zh": "Thomson Grove 的公共区域，整面墙的窗户",
+    "my": "Thomson Grove ရှိ အများသုံးနေရာ၊ နံရံတစ်ခုလုံး ပြတင်းပေါက်",
+    "bn": "Thomson Grove-এর সাধারণ এলাকা, পুরো দেয়াল জুড়ে জানালা"
+  },
+  "interior__lazybee-tg__lounge-sofa-plants": {
+    "en": "The lounge at Thomson Grove, sofa and houseplants",
+    "zh": "Thomson Grove 的休息区，沙发与室内绿植",
+    "my": "Thomson Grove အနားယူခန်း၊ ဆိုဖာနှင့် အိမ်တွင်းအပင်များ",
+    "bn": "Thomson Grove-এর লাউঞ্জ, সোফা আর ঘরের গাছ"
+  },
+  "loc-campus__curtin__curved-glass": {
+    "en": "The curved glass frontage of Curtin Singapore",
+    "zh": "科廷大学新加坡校区的弧形玻璃立面",
+    "my": "Curtin Singapore ၏ အကွေးဖန်သားမျက်နှာစာ",
+    "bn": "Curtin Singapore-এর বাঁকানো কাচের সামনের দিক"
+  },
+  "loc-campus__curtin__glass-facade-canopy-planting": {
+    "en": "Curtin Singapore behind its entrance canopy and planting",
+    "zh": "科廷大学新加坡校区，入口雨棚与绿化带后的建筑",
+    "my": "Curtin Singapore၊ ဝင်ပေါက်အမိုးနှင့် အပင်များနောက်ကွယ်မှ အဆောက်အအုံ",
+    "bn": "Curtin Singapore, প্রবেশপথের ছাউনি আর গাছপালার পিছনে"
+  },
+  "loc-campus__jcu__pitched-roof": {
+    "en": "The pitched roofline of James Cook University Singapore",
+    "zh": "詹姆斯库克大学新加坡校区的坡屋顶轮廓",
+    "my": "James Cook University Singapore ၏ စောင်းအမိုးပုံသဏ္ဌာန်",
+    "bn": "James Cook University Singapore-এর ঢালু ছাদের রেখা"
+  },
+  "loc-campus__kaplan__tower": {
+    "en": "The Kaplan Singapore teaching tower",
+    "zh": "楷博高等教育新加坡校区的教学楼",
+    "my": "Kaplan Singapore သင်ကြားရေးအဆောက်အအုံ",
+    "bn": "Kaplan Singapore-এর শিক্ষাভবন"
+  },
+  "loc-campus__lasalle__mcnally": {
+    "en": "The McNally campus of LASALLE College of the Arts",
+    "zh": "拉萨尔艺术学院麦纳利校区",
+    "my": "LASALLE အနုပညာကောလိပ်၏ McNally ကျောင်းဝင်း",
+    "bn": "LASALLE College of the Arts-এর McNally ক্যাম্পাস"
+  },
+  "loc-campus__mdis__block": {
+    "en": "The main teaching block at MDIS",
+    "zh": "新加坡管理发展学院的主教学楼",
+    "my": "MDIS ၏ အဓိကသင်ကြားရေးအဆောက်အအုံ",
+    "bn": "MDIS-এর প্রধান শিক্ষাভবন"
+  },
+  "loc-campus__nafa__bencoolen": {
+    "en": "The Nanyang Academy of Fine Arts campus on Bencoolen Street",
+    "zh": "位于明古连街的南洋艺术学院校区",
+    "my": "Bencoolen လမ်းပေါ်ရှိ Nanyang Academy of Fine Arts ကျောင်းဝင်း",
+    "bn": "Bencoolen Street-এ Nanyang Academy of Fine Arts ক্যাম্পাস"
+  },
+  "loc-campus__nanyang-poly__courtyard-palms": {
+    "en": "A palm lined courtyard at Nanyang Polytechnic",
+    "zh": "南洋理工学院里棕榈树环绕的庭院",
+    "my": "Nanyang Polytechnic ရှိ ထန်းပင်များဝန်းရံသော ဝင်း",
+    "bn": "Nanyang Polytechnic-এর তালগাছে ঘেরা উঠোন"
+  },
+  "loc-campus__ngee-ann-poly__circular-building": {
+    "en": "The circular building at the heart of Ngee Ann Polytechnic",
+    "zh": "义安理工学院中心的环形建筑",
+    "my": "Ngee Ann Polytechnic အလယ်ဗဟိုရှိ စက်ဝိုင်းပုံအဆောက်အအုံ",
+    "bn": "Ngee Ann Polytechnic-এর কেন্দ্রে গোলাকার ভবন"
+  },
+  "loc-campus__ntu__learning-hub-landmark": {
+    "en": "The NTU Learning Hub, the university's landmark stacked building",
+    "zh": "南洋理工大学学习中心，校园里最具标志性的叠层建筑",
+    "my": "NTU Learning Hub၊ တက္ကသိုလ်၏ အထင်ကရ အထပ်ဆင့်အဆောက်အအုံ",
+    "bn": "NTU Learning Hub, বিশ্ববিদ্যালয়ের চেনা স্তরে স্তরে গড়া ভবন"
+  },
+  "loc-campus__nus-kent-ridge__overpass-trees": {
+    "en": "A tree lined overpass on the NUS Kent Ridge campus",
+    "zh": "新加坡国立大学肯特岗校区一条绿树成荫的人行天桥",
+    "my": "NUS Kent Ridge ကျောင်းဝင်းရှိ သစ်ပင်စိမ်းစိုသော လူကူးတံတား",
+    "bn": "NUS Kent Ridge ক্যাম্পাসে গাছে ঘেরা একটি ওভারপাস"
+  },
+  "loc-campus__nus__overpass-trees": {
+    "en": "A pedestrian overpass through the trees on the NUS campus",
+    "zh": "新加坡国立大学校园里穿过树林的人行天桥",
+    "my": "NUS ကျောင်းဝင်းအတွင်း သစ်ပင်များကြားမှ လူကူးတံတား",
+    "bn": "NUS ক্যাম্পাসে গাছের ভিতর দিয়ে যাওয়া পথচারী সেতু"
+  },
+  "loc-campus__republic-poly__waterfront": {
+    "en": "The waterfront edge of Republic Polytechnic",
+    "zh": "共和理工学院临水的一侧",
+    "my": "Republic Polytechnic ၏ ရေစပ်ဘက်ခြမ်း",
+    "bn": "Republic Polytechnic-এর জলের ধারের দিকটা"
+  },
+  "loc-campus__sit-punggol__modern-blocks": {
+    "en": "The new teaching blocks of SIT at Punggol",
+    "zh": "新加坡理工大学榜鹅校区的新教学楼",
+    "my": "Punggol ရှိ SIT ၏ သင်ကြားရေးအဆောက်အအုံအသစ်များ",
+    "bn": "Punggol-এ SIT-এর নতুন শিক্ষাভবনগুলি"
+  },
+  "loc-campus__smu__city-block": {
+    "en": "The Singapore Management University campus in the middle of the city",
+    "zh": "位于市中心的新加坡管理大学校园",
+    "my": "မြို့လယ်ခေါင်ရှိ Singapore Management University ကျောင်းဝင်း",
+    "bn": "শহরের ঠিক মাঝখানে Singapore Management University ক্যাম্পাস"
+  },
+  "loc-campus__suss-clementi__plaza-sculpture": {
+    "en": "A sculpture on the plaza at SUSS in Clementi",
+    "zh": "新跃社科大学金文泰校区广场上的雕塑",
+    "my": "Clementi ရှိ SUSS ကွင်းပြင်ပေါ်က ပန်းပုရုပ်",
+    "bn": "Clementi-তে SUSS-এর চত্বরে একটি ভাস্কর্য"
+  },
+  "loc-campus__sutd__curved-building": {
+    "en": "The curved main building at the Singapore University of Technology and Design",
+    "zh": "新加坡科技设计大学的弧形主楼",
+    "my": "Singapore University of Technology and Design ၏ အကွေးအဆောက်အအုံ",
+    "bn": "Singapore University of Technology and Design-এর বাঁকানো মূল ভবন"
+  },
+  "loc-campus__temasek-poly__curved-courtyard": {
+    "en": "The curved courtyard at Temasek Polytechnic",
+    "zh": "淡马锡理工学院的弧形庭院",
+    "my": "Temasek Polytechnic ရှိ အကွေးပုံဝင်း",
+    "bn": "Temasek Polytechnic-এর বাঁকানো উঠোন"
+  },
+  "loc-cityscape__aerial-generic__rooftops": {
+    "en": "Singapore rooftops seen from above",
+    "zh": "俯瞰新加坡的屋顶",
+    "my": "အထက်မှ မြင်ရသော စင်ကာပူအိမ်ခေါင်မိုးများ",
+    "bn": "উপর থেকে দেখা সিঙ্গাপুরের ছাদগুলি"
+  },
+  "loc-cityscape__biopolis__linkbridges-research-park": {
+    "en": "Link bridges between the research buildings at Biopolis",
+    "zh": "启奥生物医药园各研究楼之间的连廊",
+    "my": "Biopolis သုတေသနအဆောက်အအုံများကြားရှိ ဆက်သွယ်တံတားများ",
+    "bn": "Biopolis-এর গবেষণা ভবনগুলির মাঝে সংযোগ সেতু"
+  },
+  "loc-cityscape__east-coast-park__cycling-path-trees": {
+    "en": "The cycling path running under the trees at East Coast Park",
+    "zh": "东海岸公园里穿过树荫的自行车道",
+    "my": "East Coast Park ရှိ သစ်ပင်အောက်မှ စက်ဘီးလမ်း",
+    "bn": "East Coast Park-এ গাছের নিচ দিয়ে চলে যাওয়া সাইকেল পথ"
+  },
+  "loc-cityscape__gardens-by-the-bay__cloud-forest-interior": {
+    "en": "Inside the Cloud Forest dome at Gardens by the Bay",
+    "zh": "滨海湾花园云雾林温室内部",
+    "my": "Gardens by the Bay ရှိ Cloud Forest အတွင်းပိုင်း",
+    "bn": "Gardens by the Bay-এর Cloud Forest গম্বুজের ভিতর"
+  },
+  "loc-cityscape__hdb-estate__aerial-dense": {
+    "en": "A dense HDB estate seen from the air",
+    "zh": "从空中看密集的组屋区",
+    "my": "အထက်မှ မြင်ရသော သိပ်သည်းသည့် HDB ရပ်ကွက်",
+    "bn": "উপর থেকে দেখা ঘনবসতিপূর্ণ HDB এলাকা"
+  },
+  "loc-cityscape__hong-kong__harbour-skyline": {
+    "en": "The Hong Kong harbour skyline",
+    "zh": "香港维港天际线",
+    "my": "ဟောင်ကောင် ဆိပ်ကမ်းမြို့ပြရှုခင်း",
+    "bn": "হংকং বন্দরের আকাশরেখা"
+  },
+  "loc-cityscape__marina-bay__aerial-panorama-dusk": {
+    "en": "Marina Bay at dusk, seen across the water",
+    "zh": "黄昏时分隔水远眺滨海湾",
+    "my": "နေဝင်ချိန် ရေပြင်ကိုကျော်၍ မြင်ရသော Marina Bay",
+    "bn": "সন্ধ্যায় জলের ওপার থেকে দেখা Marina Bay"
+  },
+  "loc-cityscape__marina-bay__aerial-panorama-golden": {
+    "en": "A panorama of Marina Bay in late afternoon light",
+    "zh": "午后光线下的滨海湾全景",
+    "my": "နေလယ်လွန်အလင်းအောက်မှ Marina Bay ရှုခင်းကျယ်",
+    "bn": "বিকেলের আলোয় Marina Bay-এর বিস্তৃত দৃশ্য"
+  },
+  "loc-cityscape__marina-bay__apple-sphere-night": {
+    "en": "The glass sphere on the water at Marina Bay after dark",
+    "zh": "夜色中滨海湾水面上的玻璃球形建筑",
+    "my": "ညအချိန် Marina Bay ရေပြင်ပေါ်ရှိ ဖန်သားလုံးပုံအဆောက်အအုံ",
+    "bn": "রাতে Marina Bay-এর জলের ওপর কাচের গোলাকার ভবন"
+  },
+  "loc-cityscape__marina-bay__mbs-helix-artscience-skyline": {
+    "en": "Marina Bay Sands, the Helix Bridge and the ArtScience Museum against the skyline",
+    "zh": "滨海湾金沙、螺旋桥与艺术科学博物馆构成的天际线",
+    "my": "Marina Bay Sands၊ Helix တံတားနှင့် ArtScience ပြတိုက်ပါဝင်သော မြို့ပြရှုခင်း",
+    "bn": "Marina Bay Sands, Helix সেতু আর ArtScience জাদুঘর নিয়ে আকাশরেখা"
+  },
+  "loc-cityscape__one-north__curved-glass-towers": {
+    "en": "The curved glass towers of one-north",
+    "zh": "纬壹科技城的弧形玻璃塔楼",
+    "my": "one-north ရှိ အကွေးဖန်သားအမြင့်အဆောက်အအုံများ",
+    "bn": "one-north-এর বাঁকানো কাচের টাওয়ার"
+  },
+  "loc-cityscape__one-north__fusionopolis-towers": {
+    "en": "The Fusionopolis towers at one-north",
+    "zh": "纬壹科技城的启汇城塔楼",
+    "my": "one-north ရှိ Fusionopolis အဆောက်အအုံများ",
+    "bn": "one-north-এর Fusionopolis টাওয়ারগুলি"
+  },
+  "loc-cityscape__residential-estate__aerial-towers": {
+    "en": "Residential towers in a Singapore estate seen from above",
+    "zh": "俯瞰新加坡某住宅区的高层楼群",
+    "my": "စင်ကာပူရပ်ကွက်တစ်ခုရှိ လူနေတိုက်များကို အထက်မှမြင်ရပုံ",
+    "bn": "উপর থেকে দেখা সিঙ্গাপুরের একটি আবাসিক এলাকার টাওয়ার"
+  },
+  "loc-cityscape__urban-plaza__aerial-model-view": {
+    "en": "An urban plaza seen from directly overhead",
+    "zh": "正上方俯视的城市广场",
+    "my": "တည့်တည့်အထက်မှ မြင်ရသော မြို့တွင်းကွင်းပြင်",
+    "bn": "ঠিক উপর থেকে দেখা একটি শহুরে চত্বর"
+  },
+  "loc-civic__hdb-hub__linkbridge-palms": {
+    "en": "The link bridge and palms outside HDB Hub in Toa Payoh",
+    "zh": "大巴窑建屋发展局中心外的连廊与棕榈树",
+    "my": "Toa Payoh ရှိ HDB Hub အပြင်ဘက် ဆက်သွယ်တံတားနှင့် ထန်းပင်များ",
+    "bn": "Toa Payoh-তে HDB Hub-এর বাইরে সংযোগ সেতু আর তালগাছ"
+  },
+  "loc-civic__ica-building__government-exterior": {
+    "en": "The ICA Building, where Singapore immigration passes are issued",
+    "zh": "移民与关卡局大楼，新加坡各类准证在此签发",
+    "my": "ICA အဆောက်အအုံ၊ စင်ကာပူလူဝင်မှုကြီးကြပ်ရေးပါမစ်များ ထုတ်ပေးရာနေရာ",
+    "bn": "ICA ভবন, যেখানে সিঙ্গাপুরের ইমিগ্রেশন পাস দেওয়া হয়"
+  },
+  "loc-civic__office-tower__looking-up": {
+    "en": "An office tower seen looking straight up from the pavement",
+    "zh": "从人行道仰望一栋写字楼",
+    "my": "လမ်းဘေးမှ အထက်သို့ မော်၍ မြင်ရသော ရုံးအဆောက်အအုံ",
+    "bn": "ফুটপাত থেকে সোজা উপরের দিকে তাকিয়ে দেখা একটি অফিস টাওয়ার"
+  },
+  "loc-civic__parliament__elephant-statue": {
+    "en": "The bronze elephant outside Singapore's old Parliament House",
+    "zh": "新加坡旧国会大厦外的铜象雕塑",
+    "my": "စင်ကာပူ လွှတ်တော်ဟောင်းရှေ့ရှိ ကြေးဆင်ရုပ်",
+    "bn": "সিঙ্গাপুরের পুরনো পার্লামেন্ট ভবনের বাইরে ব্রোঞ্জের হাতি"
+  },
+  "loc-food__hawker-centre__building-exterior": {
+    "en": "The exterior of a Singapore hawker centre",
+    "zh": "新加坡一处小贩中心的外观",
+    "my": "စင်ကာပူ hawker centre တစ်ခု၏ အပြင်ပုံစံ",
+    "bn": "একটি সিঙ্গাপুরি হকার সেন্টারের বাইরের দিক"
+  },
+  "loc-food__kopitiam__hawker-people-eating": {
+    "en": "People eating at a kopitiam",
+    "zh": "人们在咖啡店里用餐",
+    "my": "kopitiam တွင် လူများ စားသောက်နေကြသည်",
+    "bn": "কোপিতিয়ামে লোকজন খাচ্ছেন"
+  },
+  "loc-food__newton-food-centre__outdoor-seating": {
+    "en": "The outdoor seating at Newton Food Centre",
+    "zh": "纽顿熟食中心的户外座位",
+    "my": "Newton Food Centre ရှိ အပြင်ဘက်ထိုင်ခုံများ",
+    "bn": "Newton Food Centre-এর খোলা জায়গার বসার ব্যবস্থা"
+  },
+  "loc-food__supermarket__aisle-shelves": {
+    "en": "A supermarket aisle stacked to the ceiling",
+    "zh": "超市货架从地面一直堆到顶层",
+    "my": "စူပါမားကက်စင်များ အထက်ထိ ပစ္စည်းများ စီထားသည်",
+    "bn": "সুপারমার্কেটের তাক ছাদ পর্যন্ত সাজানো"
+  },
+  "loc-food__wet-market__stalls-shoppers": {
+    "en": "Shoppers moving between stalls at a wet market",
+    "zh": "顾客在巴刹的摊位之间穿行",
+    "my": "စျေးဝယ်သူများ ရေစိုစျေးရှိ ဆိုင်ခန်းများကြားတွင်",
+    "bn": "কাঁচাবাজারের দোকানের ফাঁকে ক্রেতারা"
+  },
+  "loc-housing__condo-towers__facade": {
+    "en": "The facade of a Singapore condominium tower",
+    "zh": "新加坡一栋公寓楼的立面",
+    "my": "စင်ကာပူ condominium အဆောက်အအုံ၏ မျက်နှာစာ",
+    "bn": "একটি সিঙ্গাপুরি কনডোমিনিয়াম টাওয়ারের সামনের দিক"
+  },
+  "loc-housing__condo__pool-tropical-planting": {
+    "en": "A condominium pool surrounded by tropical planting",
+    "zh": "热带绿植环绕的公寓泳池",
+    "my": "အပူပိုင်းအပင်များဝန်းရံသော condominium ရေကူးကန်",
+    "bn": "গ্রীষ্মমণ্ডলীয় গাছপালায় ঘেরা কনডোর সুইমিং পুল"
+  },
+  "loc-housing__hdb-estate__void-deck-blocks-trees": {
+    "en": "HDB blocks and trees above an open void deck",
+    "zh": "组屋楼与树木，下方是开敞的底层空间",
+    "my": "HDB တိုက်များနှင့် သစ်ပင်များ၊ အောက်ထပ်တွင် void deck ပွင့်လင်းနေသည်",
+    "bn": "HDB ব্লক আর গাছ, নিচে খোলা ভয়েড ডেক"
+  },
+  "loc-housing__lazybee-ih__apartment-blocks-trees": {
+    "en": "The apartment blocks at Ivory Heights behind mature trees",
+    "zh": "Ivory Heights 的公寓楼掩映在大树之后",
+    "my": "သစ်ပင်ကြီးများနောက်ကွယ်မှ Ivory Heights တိုက်များ",
+    "bn": "বড় গাছের আড়ালে Ivory Heights-এর ব্লকগুলি"
+  },
+  "loc-housing__lazybee-tg__apartment-blocks-pool": {
+    "en": "The blocks at Thomson Grove looking over the pool",
+    "zh": "从泳池望向 Thomson Grove 的公寓楼",
+    "my": "ရေကူးကန်မှ ကြည့်ရသော Thomson Grove တိုက်များ",
+    "bn": "পুলের দিক থেকে দেখা Thomson Grove-এর ব্লক"
+  },
+  "loc-housing__modern-tower__glass-base-cbd": {
+    "en": "The glass base of a modern tower in the CBD",
+    "zh": "中央商务区一栋现代塔楼的玻璃底层",
+    "my": "CBD ရှိ ခေတ်မီအဆောက်အအုံတစ်ခု၏ ဖန်သားအောက်ခြေ",
+    "bn": "CBD-তে একটি আধুনিক টাওয়ারের কাচের নিচের অংশ"
+  },
+  "loc-housing__mosque-hdb__heartland-dome": {
+    "en": "A mosque dome among HDB blocks in the heartlands",
+    "zh": "组屋区之间的清真寺穹顶",
+    "my": "HDB ရပ်ကွက်များကြားရှိ ဗလီ ခေါင်းလောင်းအမိုး",
+    "bn": "HDB ব্লকের মাঝে একটি মসজিদের গম্বুজ"
+  },
+  "loc-housing__void-deck__corridor-columns": {
+    "en": "The columns and corridor of an HDB void deck",
+    "zh": "组屋底层空间的柱廊与通道",
+    "my": "HDB void deck ရှိ တိုင်များနှင့် လမ်းကြား",
+    "bn": "HDB ভয়েড ডেকের থাম আর করিডোর"
+  },
+  "loc-neighbourhood__amoy-street__shophouse-facade-banner": {
+    "en": "Shophouse facades on Amoy Street",
+    "zh": "厦门街上的店屋立面",
+    "my": "Amoy Street ပေါ်ရှိ shophouse မျက်နှာစာများ",
+    "bn": "Amoy Street-এর শপহাউসের সামনের দিক"
+  },
+  "loc-neighbourhood__bugis__covered-market-stalls-crowd": {
+    "en": "The covered market stalls and crowds at Bugis",
+    "zh": "武吉士有顶棚的市集摊位与人流",
+    "my": "Bugis ရှိ အမိုးပါစျေးဆိုင်ခန်းများနှင့် လူစည်ကားမှု",
+    "bn": "Bugis-এর ছাউনি দেওয়া বাজারের দোকান আর ভিড়"
+  },
+  "loc-neighbourhood__bukit-timah__leafy-road": {
+    "en": "A leafy road in Bukit Timah",
+    "zh": "武吉知马一条绿树成荫的马路",
+    "my": "Bukit Timah ရှိ သစ်ပင်စိမ်းစိုသော လမ်းတစ်လမ်း",
+    "bn": "Bukit Timah-র গাছে ঘেরা একটি রাস্তা"
+  },
+  "loc-neighbourhood__chinatown__aerial-shophouse-roofs": {
+    "en": "Chinatown shophouse roofs seen from above",
+    "zh": "从空中看牛车水的店屋屋顶",
+    "my": "အထက်မှ မြင်ရသော Chinatown shophouse အမိုးများ",
+    "bn": "উপর থেকে দেখা Chinatown-এর শপহাউসের ছাদ"
+  },
+  "loc-neighbourhood__clementi__hdb-towers-street-market": {
+    "en": "HDB towers over the street market in Clementi",
+    "zh": "金文泰的组屋楼与楼下的街市",
+    "my": "Clementi ရှိ HDB တိုက်များနှင့် အောက်ရှိ လမ်းဘေးစျေး",
+    "bn": "Clementi-র HDB টাওয়ার আর নিচের রাস্তার বাজার"
+  },
+  "loc-neighbourhood__cuppage-plaza__mall-corner": {
+    "en": "The corner of Cuppage Plaza",
+    "zh": "国泰广场的转角",
+    "my": "Cuppage Plaza ၏ ထောင့်",
+    "bn": "Cuppage Plaza-র কোণ"
+  },
+  "loc-neighbourhood__golden-mile__tower-greenery": {
+    "en": "The Golden Mile tower with greenery on its terraces",
+    "zh": "黄金坊大厦与阳台上的绿化",
+    "my": "Golden Mile အဆောက်အအုံနှင့် ဝရန်တာများပေါ်က စိမ်းလန်းမှု",
+    "bn": "Golden Mile ভবন আর তার বারান্দার সবুজ"
+  },
+  "loc-neighbourhood__joo-chiat__shophouse-facade": {
+    "en": "Peranakan shophouse facades in Joo Chiat",
+    "zh": "如切区的土生华人店屋立面",
+    "my": "Joo Chiat ရှိ Peranakan shophouse မျက်နှာစာများ",
+    "bn": "Joo Chiat-এর পেরানাকান শপহাউসের সামনের দিক"
+  },
+  "loc-neighbourhood__little-india__festive-garlands-shophouse": {
+    "en": "Festive garlands strung across a shophouse in Little India",
+    "zh": "小印度店屋前挂满节庆花环",
+    "my": "Little India shophouse ရှေ့တွင် ပွဲတော်ပန်းကုံးများ ချိတ်ဆွဲထားသည်",
+    "bn": "Little India-র শপহাউসের সামনে উৎসবের মালা ঝুলছে"
+  },
+  "loc-neighbourhood__lucky-plaza__mall-orchard": {
+    "en": "Lucky Plaza on Orchard Road",
+    "zh": "乌节路上的幸运商业中心",
+    "my": "Orchard Road ပေါ်ရှိ Lucky Plaza",
+    "bn": "Orchard Road-এ Lucky Plaza"
+  },
+  "loc-neighbourhood__novena__glass-mall-street": {
+    "en": "The glass mall frontage at Novena",
+    "zh": "诺维娜的玻璃商场临街面",
+    "my": "Novena ရှိ ဖန်သားကုန်တိုက် လမ်းမျက်နှာစာ",
+    "bn": "Novena-র কাচের শপিং মলের রাস্তার দিক"
+  },
+  "loc-neighbourhood__orchard-road__tree-lined-street": {
+    "en": "The tree lined stretch of Orchard Road",
+    "zh": "乌节路绿树成荫的一段",
+    "my": "Orchard Road ၏ သစ်ပင်စီထားသော အပိုင်း",
+    "bn": "Orchard Road-এর গাছে ঘেরা অংশ"
+  },
+  "loc-neighbourhood__peninsula-plaza__mall-corner": {
+    "en": "The corner of Peninsula Plaza",
+    "zh": "半岛广场的转角",
+    "my": "Peninsula Plaza ၏ ထောင့်",
+    "bn": "Peninsula Plaza-র কোণ"
+  },
+  "loc-neighbourhood__tanjong-pagar__shophouse-street-towers": {
+    "en": "Shophouses in Tanjong Pagar with the towers rising behind them",
+    "zh": "丹戎巴葛的店屋，身后是高楼",
+    "my": "Tanjong Pagar shophouse များ၊ နောက်တွင် အမြင့်တိုက်များ",
+    "bn": "Tanjong Pagar-এর শপহাউস, পিছনে উঁচু টাওয়ার"
+  },
+  "loc-neighbourhood__tiong-bahru__walkway-trees": {
+    "en": "A shaded walkway between the Tiong Bahru blocks",
+    "zh": "中峇鲁楼群之间的树荫步道",
+    "my": "Tiong Bahru တိုက်များကြားရှိ အရိပ်ရလမ်း",
+    "bn": "Tiong Bahru-র ব্লকের মাঝে ছায়াঘেরা পথ"
+  },
+  "loc-neighbourhood__toa-payoh__dragon-playground-hdb": {
+    "en": "The dragon playground in front of the HDB blocks at Toa Payoh",
+    "zh": "大巴窑组屋前的龙形游乐场",
+    "my": "Toa Payoh HDB တိုက်များရှေ့ရှိ နဂါးကစားကွင်း",
+    "bn": "Toa Payoh-র HDB ব্লকের সামনে ড্রাগন খেলার মাঠ"
+  },
+  "loc-transit__bus-interchange__bus-signage-boards": {
+    "en": "Buses and destination boards at a Singapore bus interchange",
+    "zh": "新加坡巴士转换站的车辆与路线指示牌",
+    "my": "စင်ကာပူဘတ်စ်ကားဂိတ်ရှိ ကားများနှင့် လမ်းကြောင်းဆိုင်းဘုတ်များ",
+    "bn": "সিঙ্গাপুরের বাস ইন্টারচেঞ্জে বাস আর রুটের বোর্ড"
+  },
+  "loc-transit__bus-stop__shelter-street": {
+    "en": "A covered bus stop on a Singapore street",
+    "zh": "新加坡街边一处带顶棚的巴士站",
+    "my": "စင်ကာပူလမ်းဘေးရှိ အမိုးပါဘတ်စ်ကားမှတ်တိုင်",
+    "bn": "সিঙ্গাপুরের রাস্তায় ছাউনি দেওয়া একটি বাস স্টপ"
+  },
+  "loc-transit__changi-airport__terminal-interior-travellers": {
+    "en": "Travellers inside a Changi Airport terminal",
+    "zh": "樟宜机场航站楼内的旅客",
+    "my": "Changi လေဆိပ် အဆောက်အအုံအတွင်းရှိ ခရီးသည်များ",
+    "bn": "Changi Airport টার্মিনালের ভিতরে যাত্রীরা"
+  },
+  "loc-transit__lrt__elevated-train": {
+    "en": "An LRT train on its elevated track",
+    "zh": "行驶在高架轨道上的轻轨列车",
+    "my": "အမြင့်လမ်းပေါ်တွင် ပြေးဆွဲနေသော LRT ရထား",
+    "bn": "উঁচু লাইনের ওপর দিয়ে চলা একটি LRT ট্রেন"
+  },
+  "loc-transit__mrt-concourse__ticket-machines": {
+    "en": "Ticket machines in an MRT station concourse",
+    "zh": "地铁站大堂里的售票机",
+    "my": "MRT ဘူတာခန်းမရှိ လက်မှတ်စက်များ",
+    "bn": "MRT স্টেশনের কনকোর্সে টিকিট মেশিন"
+  },
+  "loc-transit__mrt-platform__train-arriving": {
+    "en": "A train pulling into an MRT platform",
+    "zh": "列车正驶入地铁站台",
+    "my": "MRT ပလက်ဖောင်းသို့ ဝင်လာနေသော ရထား",
+    "bn": "MRT প্ল্যাটফর্মে ঢুকছে একটি ট্রেন"
+  },
+  "loc-transit__mrt-station__escalators": {
+    "en": "Escalators running down into an MRT station",
+    "zh": "通往地铁站内的自动扶梯",
+    "my": "MRT ဘူတာအတွင်းသို့ ဆင်းသွားသော စက်လှေကား",
+    "bn": "MRT স্টেশনে নেমে যাওয়া এসকেলেটর"
+  },
+  "loc-transit__mrt-station__exterior-angular-roof": {
+    "en": "The angular roof of an MRT station from outside",
+    "zh": "从外部看地铁站的折线形屋顶",
+    "my": "အပြင်မှ မြင်ရသော MRT ဘူတာ၏ ထောင့်ကျအမိုး",
+    "bn": "বাইরে থেকে দেখা MRT স্টেশনের কোণাকুণি ছাদ"
+  },
+  "loc-transit__mrt-train__interior-commuters": {
+    "en": "Commuters standing inside an MRT carriage",
+    "zh": "地铁车厢内站立的通勤者",
+    "my": "MRT တွဲအတွင်း ရပ်နေကြသော ခရီးသည်များ",
+    "bn": "MRT কামরার ভিতরে দাঁড়িয়ে থাকা যাত্রীরা"
+  },
+  "loc-transit__woodlands-causeway__border-crossing": {
+    "en": "The Woodlands Causeway crossing between Singapore and Johor",
+    "zh": "连接新加坡与柔佛的兀兰长堤关卡",
+    "my": "စင်ကာပူနှင့် ဂျိုဟိုးကြား Woodlands Causeway နယ်စပ်ဂိတ်",
+    "bn": "সিঙ্গাপুর আর জোহরের মাঝে Woodlands Causeway সীমান্ত"
+  },
+  "object__cardboard-stack__corrugated-abstract": {
+    "en": "A stack of flattened cardboard moving boxes",
+    "zh": "一摞压平的纸箱",
+    "my": "ခေါက်ထားသော ကတ္တူပုံးအထပ်",
+    "bn": "চ্যাপ্টা করে রাখা কার্ডবোর্ড বাক্সের স্তূপ"
+  },
+  "object__coffee-cups__overhead-table-hands": {
+    "en": "Coffee cups on a table seen from above",
+    "zh": "从上方俯拍桌上的咖啡杯",
+    "my": "စားပွဲပေါ်ရှိ ကော်ဖီခွက်များကို အထက်မှ ရိုက်ထားသည်",
+    "bn": "উপর থেকে তোলা টেবিলের ওপর কফির কাপ"
+  },
+  "object__keyboard-mouse__hands-closeup": {
+    "en": "Hands at a keyboard and mouse",
+    "zh": "双手放在键盘和鼠标上",
+    "my": "ကီးဘုတ်နှင့် မောက်စ်ပေါ်ရှိ လက်များ",
+    "bn": "কিবোর্ড আর মাউসে রাখা হাত"
+  },
+  "object__keys__hand-holding-closeup": {
+    "en": "A hand holding a set of keys",
+    "zh": "一只手拿着一串钥匙",
+    "my": "သော့တွဲတစ်ခုကို ကိုင်ထားသော လက်",
+    "bn": "এক গোছা চাবি ধরে থাকা একটি হাত"
+  },
+  "object__lab-instrument__equipment": {
+    "en": "A piece of laboratory instrumentation",
+    "zh": "一台实验室仪器",
+    "my": "ဓာတ်ခွဲခန်းသုံး စက်ကိရိယာတစ်ခု",
+    "bn": "একটি পরীক্ষাগারের যন্ত্র"
+  },
+  "object__laptop-coffee__desk-closeup": {
+    "en": "A laptop and a coffee on a desk",
+    "zh": "书桌上的笔记本电脑和一杯咖啡",
+    "my": "စားပွဲပေါ်ရှိ laptop နှင့် ကော်ဖီတစ်ခွက်",
+    "bn": "ডেস্কের ওপর ল্যাপটপ আর এক কাপ কফি"
+  },
+  "object__noodle-bowl__overhead-dish": {
+    "en": "A bowl of noodles seen from above",
+    "zh": "从上方俯拍的一碗面",
+    "my": "အထက်မှ ရိုက်ထားသော ခေါက်ဆွဲတစ်ပွဲ",
+    "bn": "উপর থেকে তোলা এক বাটি নুডলস"
+  },
+  "object__paperwork__fountain-pen-documents": {
+    "en": "A fountain pen resting on a set of documents",
+    "zh": "一支钢笔搁在一叠文件上",
+    "my": "စာရွက်စာတမ်းအထပ်ပေါ်တွင် တင်ထားသော ဖောင်တိန်",
+    "bn": "একগুচ্ছ কাগজপত্রের ওপর রাখা একটি ফাউন্টেন পেন"
+  },
+  "object__suitcase__vintage-single": {
+    "en": "A single suitcase standing on its own",
+    "zh": "一只独自立着的行李箱",
+    "my": "တစ်လုံးတည်း ရပ်နေသော ခရီးဆောင်သေတ္တာ",
+    "bn": "একা দাঁড়িয়ে থাকা একটি সুটকেস"
+  },
+  "object__taxi__car": {
+    "en": "A taxi waiting at the kerb",
+    "zh": "一辆在路边等客的出租车",
+    "my": "လမ်းဘေးတွင် စောင့်နေသော တက္ကစီ",
+    "bn": "রাস্তার ধারে অপেক্ষায় থাকা একটি ট্যাক্সি"
+  },
+  "people-student__graduation__gowns-hall-crowd": {
+    "en": "Graduates in gowns filling a hall",
+    "zh": "礼堂里挤满身穿学士袍的毕业生",
+    "my": "ဘွဲ့ဝတ်စုံဝတ်ဆင်ထားသူများဖြင့် ပြည့်နေသော ခန်းမ",
+    "bn": "গাউন পরা স্নাতকদের ভিড়ে ভরা হল"
+  },
+  "people-student__student-portrait__backpack-desk-phone": {
+    "en": "A student at a desk with a backpack and a phone",
+    "zh": "一名学生坐在书桌前，背着背包，手里拿着手机",
+    "my": "ကျောပိုးအိတ်နှင့် ဖုန်းကိုင်ကာ စားပွဲတွင် ထိုင်နေသော ကျောင်းသားတစ်ဦး",
+    "bn": "ব্যাকপ্যাক আর ফোন হাতে ডেস্কে বসা একজন শিক্ষার্থী"
+  },
+  "people-work__chef__griddle-kitchen": {
+    "en": "A chef working a griddle in a commercial kitchen",
+    "zh": "厨师在商用厨房的铁板前忙碌",
+    "my": "စီးပွားဖြစ်မီးဖိုချောင်တွင် ဖုတ်ပြားရှေ့၌ အလုပ်လုပ်နေသော စားဖိုမှူး",
+    "bn": "বাণিজ্যিক রান্নাঘরে গ্রিডলে কাজ করছেন একজন শেফ"
+  },
+  "people-work__construction-site__cranes-materials": {
+    "en": "Cranes and stacked materials on a construction site",
+    "zh": "工地上的吊车与堆放的材料",
+    "my": "ဆောက်လုပ်ရေးလုပ်ငန်းခွင်ရှိ ကရိန်းများနှင့် စုပုံထားသော ပစ္စည်းများ",
+    "bn": "নির্মাণস্থলে ক্রেন আর স্তূপ করা মালপত্র"
+  },
+  "people-work__construction__hardhat-harness-workers": {
+    "en": "Construction workers in hard hats and safety harnesses",
+    "zh": "戴安全帽、系安全带的建筑工人",
+    "my": "ဦးထုပ်ခိုင်နှင့် ဘေးကင်းကြိုးဝတ်ဆင်ထားသော ဆောက်လုပ်ရေးလုပ်သားများ",
+    "bn": "হেলমেট আর নিরাপত্তা বেল্ট পরা নির্মাণ শ্রমিকরা"
+  },
+  "people-work__ground-crew__aircraft-landing-gear-tarmac": {
+    "en": "Airport ground crew working beside an aircraft on the tarmac",
+    "zh": "停机坪上，地勤人员在飞机旁作业",
+    "my": "လေယာဉ်ရပ်နားရာကွင်းပြင်တွင် လေယာဉ်ဘေး၌ အလုပ်လုပ်နေသော မြေပြင်ဝန်ထမ်းများ",
+    "bn": "টারম্যাকে উড়োজাহাজের পাশে কাজ করছেন গ্রাউন্ড ক্রু"
+  },
+  "people-work__lab-technician__machine-labcoat": {
+    "en": "A technician in a lab coat operating a machine",
+    "zh": "身穿白大褂的技术员在操作仪器",
+    "my": "ဓာတ်ခွဲခန်းဝတ်ရုံဖြင့် စက်ကို ကိုင်တွယ်နေသော နည်းပညာရှင်",
+    "bn": "ল্যাব কোট পরে যন্ত্র চালাচ্ছেন একজন টেকনিশিয়ান"
+  },
+  "people-work__psa-port__gantry-cranes-containers": {
+    "en": "Gantry cranes over stacked containers at the PSA port",
+    "zh": "港务集团码头上堆叠集装箱的门式起重机",
+    "my": "PSA ဆိပ်ကမ်းရှိ ကွန်တိန်နာများအထက်မှ ကရိန်းကြီးများ",
+    "bn": "PSA বন্দরে স্তূপ করা কনটেইনারের ওপর গ্যান্ট্রি ক্রেন"
+  }
+}
