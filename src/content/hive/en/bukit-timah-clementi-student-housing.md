@@ -1,6 +1,6 @@
 ---
 title: "Student Housing in Bukit Timah and Clementi: Where to Live Near NUS and NTU"
-date: 2026-08-18
+date: 2026-06-05
 excerpt: >
   Where NUS and NTU students should live: Bukit Timah, Clementi, and 9 more
   areas, plus the 3 month rental rule every student needs to know.
@@ -26,7 +26,7 @@ That geography is why this guide covers two areas that don't touch each other on
 
 ## The Student Rental Market in 2026
 
-On-campus housing is still the cheapest legal option, when you can get it. NTU's cheaper hall rooms run in the low hundreds of dollars a month, with the full range across room types landing roughly between S$400 and S$700+ a month depending on type and air conditioning [VERIFY: current NTU hall rates against the live Student Housing Portal]. NUS is similar in shape: hall rooms start from around S$494 a month for AY2026-27, with Prince George's Park Residences billed weekly instead, from roughly S$145 to S$240 a week depending on room type, across an 18-week first semester and a 17-week second one [VERIFY: current OSA rate sheet, these figures move most years].
+On-campus housing is still the cheapest legal option, when you can get it. NTU's cheaper hall rooms run in the low hundreds of dollars a month, with the full range across room types landing roughly between S$400 and S$700+ a month depending on type and air conditioning, and current rates are on NTU's Student Housing Portal. NUS is similar in shape: hall rooms start from around S$494 a month for AY2026-27, with Prince George's Park Residences billed weekly instead, from roughly S$145 to S$240 a week depending on room type, across an 18-week first semester and a 17-week second one. These figures move most years, so check the current NUS Office of Student Affairs rate sheet.
 
 Off campus, the range is wider. A shared room in an HDB flat typically runs S$700 to S$1,200 a month. A managed studio or a room in a student residence sits around S$1,200 to S$1,800. A whole private apartment starts from about S$1,800 and climbs from there depending on size and area. Co-living rooms, which bundle furnishing, utilities, and wifi into one price, tend to land in the HDB-room-to-studio range rather than at the top.
 

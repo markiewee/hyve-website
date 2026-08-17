@@ -1,6 +1,6 @@
 ---
 title: "Which Units Qualify for 8 Occupants in Singapore"
-date: 2026-08-18
+date: 2025-06-25
 excerpt: >
   8 occupants are allowed only in HDB flats of 4 rooms or larger, or private
   units of at least 90 sq m strata area, registered with HDB or URA.
@@ -112,7 +112,7 @@ Yes, if its strata or lot area is 90 sqm or more, the same threshold as any othe
 No. Meeting the size threshold makes a unit eligible, but the higher cap only applies once it's registered with URA or HDB. An eligible but unregistered unit is still capped at six.
 
 **What happens when the relaxation expires at the end of 2028?**
-As it stands, the cap reverts to six unless a further extension is announced. [VERIFY: whether a further extension or permanent change is confirmed closer to the 2028 date, since URA has already extended this once.]
+As it stands, the cap reverts to six unless a further extension is announced. URA has already extended this cap once, so confirm the current position on the URA website before planning around the 2028 date.
 
 **Does Lazybee run any eight-occupant units?**
 Our rooms are let individually rather than as whole-unit eight-person arrangements, each on Singapore's standard minimum stay and occupancy rules. For a compliant room rather than a whole-unit conversion, current availability is listed at lazybee.sg.

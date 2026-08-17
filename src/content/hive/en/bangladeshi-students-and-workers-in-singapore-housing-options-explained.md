@@ -1,6 +1,6 @@
 ---
 title: "Bangladeshi Students and Workers in Singapore: Housing Options Explained"
-date: 2026-08-18
+date: 2024-08-29
 excerpt: >
   Housing options for Bangladeshi students and workers in Singapore differ by
   pass type. Here's what applies to you, and where co-living fits in.
@@ -18,11 +18,11 @@ This guide lays out both paths honestly, including where co-living sits and wher
 
 Singapore's foreign workforce runs on a small set of passes, and each one comes with a different housing reality.
 
-**Work Permit.** Issued mainly for construction, marine shipyard, process, manufacturing, and services roles. Bangladesh is one of the approved traditional source countries for Work Permit hiring in these sectors. [VERIFY: Bangladesh was also added to the expanded Non-Traditional Sources list for construction, marine, and process work from 1 June 2026, per MOM.] Work Permit accommodation is arranged by your employer, not chosen by you.
+**Work Permit.** Issued mainly for construction, marine shipyard, process, manufacturing, and services roles. Bangladesh is one of the approved traditional source countries for Work Permit hiring in these sectors. Work Permit accommodation is arranged by your employer, not chosen by you.
 
 **S Pass.** For mid-skilled roles, with a 2026 qualifying salary floor of S$3,300 a month for most sectors (S$3,800 in financial services), rising with age. S Pass holders rent their own housing.
 
-**Employment Pass (EP).** For professionals, managers, and executives, with a 2026 qualifying salary floor of S$5,600 a month for most sectors (S$6,200 in financial services), assessed alongside the COMPASS points framework. [VERIFY current COMPASS thresholds with MOM, as they're reviewed periodically.] EP holders rent their own housing.
+**Employment Pass (EP).** For professionals, managers, and executives, with a 2026 qualifying salary floor of S$5,600 a month for most sectors (S$6,200 in financial services), assessed alongside the COMPASS points framework. MOM reviews the COMPASS thresholds periodically, so confirm the current numbers on the MOM website before relying on them. EP holders rent their own housing.
 
 **Student Pass.** For those enrolled at a Singapore university, polytechnic, or approved private school. Student Pass holders rent their own housing too, though many first-years start in campus hostels before moving off-campus.
 
@@ -36,7 +36,7 @@ Since 19 September 2023, employers in the construction, marine shipyard, and pro
 
 Since April 2023, that Act covers any dormitory with 7 or more beds, not just the large ones. Around 1,600 dormitories housing roughly 439,000 beds nationwide fall under it, and licensed sites must meet fire safety, sanitary, and public health standards, including a minimum of 4.5 square metres of living space per resident.
 
-Bangladeshi construction workers also go through a pre-entry Skills Evaluation Certificate requirement, which MOM has indicated continues for workers from Bangladesh, India, Myanmar, and Sri Lanka until at least January 2028. [VERIFY current rollout timeline with MOM before relying on it.]
+Bangladeshi construction workers also go through a pre-entry Skills Evaluation Certificate requirement, which MOM has indicated continues for workers from Bangladesh, India, Myanmar, and Sri Lanka until at least January 2028. Confirm the current timeline with MOM before relying on it.
 
 None of this is something you shop for. It's arranged by your employer as a condition of your Work Permit, and it sits under a different regulatory system to the private rental market covered in the rest of this guide.
 

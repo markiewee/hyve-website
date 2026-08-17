@@ -1,6 +1,6 @@
 ---
 title: "Big Co-Living Operator vs Independent: What Actually Changes for You"
-date: 2026-08-18
+date: 2026-07-01
 excerpt: >
   Big co-living operator vs independent in Singapore: real differences in
   response time, pricing, contracts, and what happens if the operator is

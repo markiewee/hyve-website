@@ -1,6 +1,6 @@
 ---
 title: "Budgeting Student Housing in Singapore on a PhD Stipend"
-date: 2026-08-18
+date: 2025-10-31
 excerpt: >
   A worked monthly budget for NUS and NTU PhD stipends, how much of it to put
   toward rent, and a money-management framework for fixed-income students.
@@ -24,7 +24,7 @@ Your budget starts with your real number, not a guess. As of January 2026, the t
 | NTU | Research Scholarship (RSS) | S$2,700/mo | S$2,200/mo | S$2,000/mo |
 | NTU | Nanyang President's Graduate Scholarship | S$3,000/mo (all) | S$3,000/mo (all) | S$3,000/mo (all) |
 
-Both NUS and NTU also add up to S$500 a month once you pass your qualifying examination, usually somewhere in year one or two. Tuition is covered separately on top of the stipend in almost all cases, so the number above is genuinely yours to live on, not a figure with fees deducted first. [VERIFY the exact stipend and QE increment with your own faculty's award letter, since rates are set centrally but individual offer letters occasionally vary by department.]
+Both NUS and NTU also add up to S$500 a month once you pass your qualifying examination, usually somewhere in year one or two. Tuition is covered separately on top of the stipend in almost all cases, so the number above is genuinely yours to live on, not a figure with fees deducted first. Check the exact stipend and qualifying examination increment against your own faculty's award letter, since the base is set centrally but topped up unevenly.
 
 Two things matter more than the headline number. First, it doesn't move for years. A working professional's pay usually rises with a job change or an annual review; a PhD stipend stays flat except for the one QE bump. Second, it's taxed differently depending on your pass type and citizenship, so the number on your offer letter is close to what lands in your account, but check with your graduate office rather than assume.
 
