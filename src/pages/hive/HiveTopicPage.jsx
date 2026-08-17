@@ -52,7 +52,6 @@ export default function HiveTopicPage() {
         title={topic.label}
         blurb={`Everything we have written about ${topic.label.toLowerCase()} while running nineteen rooms across three Singapore homes. Newest first, all of it, nothing held back for a mailing list.`}
         count={topic.articles.length}
-        cadence="On the blog"
       />
 
       <main className="wrap hivemain" id="top">
