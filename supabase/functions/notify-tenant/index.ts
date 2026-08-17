@@ -603,12 +603,12 @@ async function buildEmail(
       return {
         subject: "Your Lazybee owner portal sign-in link",
         html: generic({
-          badge: "Owner Portal",
+          badge: "Owner portal",
           headline: "Sign in to your owner portal",
           greeting: `Hi ${firstName},`,
           paragraphs: [
             "Here is your secure sign-in link for the Lazybee owner portal. It signs you in directly, no password needed.",
-            `The link is valid for 24 hours and can be used once. Need a new one? Go to the <a href="${PORTAL_BASE}/portal/login" style="color:#006b5f">portal sign-in page</a>, choose "Property owner? Sign in with an email link", and a fresh link will be sent to you.`,
+            `The link is valid for 24 hours and can be used once. Need a new one? Go to the <a href="${PORTAL_BASE}/portal/login" style="color:#8A6733">portal sign-in page</a>, choose "Property owner? Sign in with an email link", and a fresh link will be sent to you.`,
           ],
           cta: { label: "View Portal", url: details.action_link },
           ctaCaption: "Signs you in directly",
@@ -621,16 +621,161 @@ async function buildEmail(
       return {
         subject: `Your owner portal for ${propertyName} is ready`,
         html: generic({
-          badge: "Owner Portal",
+          badge: "Owner portal",
           headline: "Your owner portal is ready",
           greeting: `Hi ${firstName},`,
           paragraphs: [
             `We've set up a private owner portal for <strong>${escape(propertyName)}</strong>. It shows who is staying in your unit, with passport / ID and immigration pass details and move-in / move-out dates, and lets you view and download each resident's ID and passport.`,
             "The button below signs you in directly, no password needed.",
-            `Any time you want back in, go to the <a href="${PORTAL_BASE}/portal/login" style="color:#006b5f">portal sign-in page</a>, choose "Property owner? Sign in with an email link", enter this email address, and a fresh link will be sent to you.`,
+            `Any time you want back in, go to the <a href="${PORTAL_BASE}/portal/login" style="color:#8A6733">portal sign-in page</a>, choose "Property owner? Sign in with an email link", enter this email address, and a fresh link will be sent to you.`,
           ],
           cta: { label: "View Portal", url: details.action_link },
           ctaCaption: "Signs you in directly",
+        }),
+      };
+    }
+
+    // Something landed in the portal: a message, a maintenance notice, a house
+    // notice, a document. One template, four kinds, because they are the same
+    // email with a different noun.
+    //
+    // The body carries a preview, never the full text. Two reasons: the click
+    // has to land in the portal for the reply to happen in one place, and a
+    // house notice should not sit in plaintext in a mailbox forever.
+    case "PORTAL_NOTICE": {
+      const kind = String(details.kind || "MESSAGE").toUpperCase();
+      const isUrgentNotice = details.priority === "URGENT";
+      const scope = details.scope ? String(details.scope) : "your house";
+
+      const KINDS: Record<
+        string,
+        { badge: string; headline: string; lead: string; cta: string; caption: string; path: string }
+      > = {
+        MESSAGE: {
+          badge: "New message",
+          headline: "You have a new message.",
+          lead: `<strong>${escape(String(details.from_name || "Someone"))}</strong> sent you a message in your Lazybee portal.`,
+          cta: "Read & Reply",
+          caption: "Reply from inside the portal",
+          path: `/portal/messages/${details.thread_id ?? ""}`,
+        },
+        MAINTENANCE: {
+          badge: "Maintenance notice",
+          headline: "There's a maintenance notice for your place.",
+          lead: `A maintenance notice has been posted for <strong>${escape(scope)}</strong>. Have a read so you know what to expect and when.`,
+          cta: "Read the Notice",
+          caption: "Posted by Lazybee ops",
+          path: "/portal/notices",
+        },
+        NOTICE: {
+          badge: "House notice",
+          headline: "There's a new notice for your house.",
+          lead: `A new notice has been posted for <strong>${escape(scope)}</strong>. It's in your portal now.`,
+          cta: "Read the Notice",
+          caption: "Posted by Lazybee ops",
+          path: "/portal/notices",
+        },
+        DOCUMENT: {
+          badge: "New document",
+          headline: "A new document is in your portal.",
+          lead: `<strong>${escape(String(details.subject || "A document"))}</strong> has been added to your documents.`,
+          cta: "View Document",
+          caption: "Download any time",
+          path: "/portal/documents",
+        },
+      };
+      const k = KINDS[kind] ?? KINDS.MESSAGE;
+
+      const rows: Detail[] = [];
+      if (details.from_name)
+        rows.push({
+          label: "From",
+          value: `<strong>${escape(String(details.from_name))}</strong>${details.from_role ? ` &middot; ${escape(String(details.from_role))}` : ""}`,
+        });
+      if (details.subject && kind !== "DOCUMENT")
+        rows.push({ label: "Subject", value: escape(String(details.subject)) });
+      if (details.preview)
+        rows.push({
+          label: "Preview",
+          value: `<span style="color:#5C5247">&ldquo;${escape(String(details.preview))}&rdquo;</span>`,
+        });
+      if (details.posted_at) rows.push({ label: "Posted", value: escape(String(details.posted_at)) });
+      if (details.window)
+        rows.push({ label: "Window", value: `<strong>${escape(String(details.window))}</strong>` });
+
+      const subject =
+        kind === "MESSAGE"
+          ? `New message from ${details.from_name} in your Lazybee portal`
+          : kind === "DOCUMENT"
+            ? `New document: ${details.subject}`
+            : `${isUrgentNotice ? "[Important] " : ""}${details.subject || k.badge} at ${scope}`;
+
+      return {
+        subject,
+        html: (isUrgentNotice ? urgent : generic)({
+          preheader: details.preview ? String(details.preview) : k.headline,
+          badge: isUrgentNotice ? "Important notice" : k.badge,
+          headline: k.headline,
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            k.lead,
+            "Open it in the portal to read the full thing and reply. Everything stays in one place, so nothing gets lost in a chat thread.",
+          ],
+          details: rows,
+          cta: { label: k.cta, url: `${PORTAL_BASE}${k.path}` },
+          ctaCaption: k.caption,
+        }),
+      };
+    }
+
+    // The quiet-prospect nudge. Someone enquired, we replied, they went dark.
+    //
+    // Two links on purpose. "Still keen" books a viewing; "found somewhere
+    // else" closes the lead in the CRM. The negative path is the valuable one:
+    // it is the only thing that stops the chaser without a human reading the
+    // thread, and 207 of the leads in the table are already closed_lost.
+    case "LEAD_STILL_INTERESTED": {
+      const roomLabel = String(details.room_label || "the room");
+      const propertyName = String(details.property_name || "our place");
+      const rows: Detail[] = [
+        { label: "Room", value: `<strong>${escape(roomLabel)}</strong>` },
+        { label: "House", value: escape(propertyName) },
+      ];
+      if (details.available_from)
+        rows.push({ label: "Free from", value: `<strong>${escape(String(details.available_from))}</strong>` });
+      if (details.enquired_on)
+        rows.push({ label: "You asked", value: escape(String(details.enquired_on)) });
+
+      return {
+        subject: `Still keen on ${roomLabel}?`,
+        html: generic({
+          preheader: `The room at ${propertyName} is still going. One tap either way.`,
+          badge: "Still looking?",
+          headline: "Are you still after a room?",
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            `You asked about <strong>${escape(roomLabel)}</strong> at <strong>${escape(propertyName)}</strong> a little while back and we never heard how you got on.`,
+            "No pressure at all. It's still available, so if you're still looking we'd love to show you around. If you've already found a place, just tap the second link and we'll stop emailing you.",
+          ],
+          money: details.price
+            ? {
+                label: "Monthly, all in",
+                value: `SGD ${escape(String(details.price))}`,
+                footnote: details.available_from
+                  ? `Available from ${escape(String(details.available_from))}`
+                  : null,
+              }
+            : null,
+          details: rows,
+          cta: {
+            label: "Yes, book a viewing",
+            url: `${PORTAL_BASE}/book/${details.property_slug}/${details.room_slug}`,
+          },
+          ctaCaption: "Takes about 30 seconds",
+          secondary: {
+            label: "I've found somewhere else, stop emailing me",
+            url: `${PORTAL_BASE}/leads/close?t=${details.close_token}`,
+          },
         }),
       };
     }
@@ -647,9 +792,31 @@ function days(n: number | string): string {
 
 // ─── Main handler ──────────────────────────────────────────────────
 
+/**
+ * Events addressed to a lead rather than a tenant. These carry their own
+ * recipient in `details` and must skip the tenant lookup entirely: a
+ * prospect has no tenant_profiles row, so getTenantContext would find
+ * nothing and the send would 400.
+ */
+const LEAD_EVENTS = new Set(["LEAD_STILL_INTERESTED"]);
+
 Deno.serve(async (req) => {
   try {
     const { event_type, tenant_profile_id, details = {} } = await req.json();
+
+    if (LEAD_EVENTS.has(event_type)) {
+      if (!details.email) {
+        return new Response(JSON.stringify({ error: "details.email required for lead events" }), { status: 400 });
+      }
+      const leadName = String(details.first_name || "there");
+      const leadBuilt = await buildEmail(event_type, "", details, leadName);
+      if (!leadBuilt) {
+        return new Response(JSON.stringify({ error: `Unknown event_type: ${event_type}` }), { status: 400 });
+      }
+      await sendEmail(String(details.email), leadBuilt.subject, leadBuilt.html);
+      return new Response(JSON.stringify({ sent: true, event_type, email: details.email }), { status: 200 });
+    }
+
     if (!event_type || !tenant_profile_id) {
       return new Response(JSON.stringify({ error: "event_type and tenant_profile_id required" }), { status: 400 });
     }
