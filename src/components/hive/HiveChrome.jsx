@@ -77,7 +77,7 @@ export function HiveFooter() {
  * real grout lines at a different scale and pitch and read as a moire rather than
  * as texture. One comb, and it is the one in the photo.
  */
-export function HiveBanner({ kicker, title, blurb, count, subjects, cadence = 'Monthly at most' }) {
+export function HiveBanner({ kicker, title, blurb, count, subjects, cadence = 'Things we picked up running coliving' }) {
   return (
     <header className="hivebanner">
       {/* Decorative, so no alt text and no <img>: it carries no information the
