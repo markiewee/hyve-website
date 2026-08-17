@@ -630,7 +630,8 @@
       "sqft": "{n} sqft",
       "bedrooms": "Bedrooms",
       "cta": "Show me the split",
-      "trial": "Ninety days to decide · nothing to pay · nothing to sign today"
+      "trial": "Ninety days to decide · nothing to pay · nothing to sign today",
+      "tenantLink": "Looking for a room to rent instead?"
     },
     "split": {
       "title": "A lease pays you a number. A year pays you what actually happened.",
@@ -679,79 +680,6 @@
       "p2": "A share flips it. We earn nothing until your floor is paid and the running costs are covered. Empty rooms come out of our side first. There is no version of this where we do well and you do not.",
       "p3": "That is the whole argument. Not that we are nicer, but that we have deliberately taken the structure where the only way we make money in year two is to keep your unit full in year one."
     },
-    "compare": {
-      "title": "Three ways to own the same unit.",
-      "sub": "The honest version, including the parts that are worse for us.",
-      "head1": "Agent, then a fixed lease",
-      "head2": "Run it yourself, room by room",
-      "head3": "Lazybee, floor plus share",
-      "earn": {
-        "k": "What you earn",
-        "a": "One number, fixed for the term",
-        "b": "Everything, minus everything",
-        "us": "A floor, plus half of everything above it"
-      },
-      "locked": {
-        "k": "Locked in for",
-        "a": "Two or three years, from signature",
-        "b": "Nothing, it is all on you",
-        "us": "Ninety days, then it is your call"
-      },
-      "cost": {
-        "k": "Cost to find out",
-        "a": "An agent's time, then a decision",
-        "b": "Your evenings",
-        "us": "Nothing. We spend first, you decide after"
-      },
-      "void": {
-        "k": "The empty month",
-        "a": "Yours, at every turnover",
-        "b": "Yours",
-        "us": "Ours. The floor still lands on the first"
-      },
-      "finding": {
-        "k": "Finding tenants",
-        "a": "Two portals, then waiting",
-        "b": "You, every single time",
-        "us": "Fourteen channels, most of them outside Singapore"
-      },
-      "commission": {
-        "k": "Agent commission",
-        "a": "Half a month, again at every renewal",
-        "b": "None",
-        "us": "None, ever"
-      },
-      "furniture": {
-        "k": "Furniture and fit-out",
-        "a": "Yours, or you let it bare and price it lower",
-        "b": "Yours",
-        "us": "Ours, at our cost, to one standard"
-      },
-      "twoam": {
-        "k": "Who answers at 2am",
-        "a": "You",
-        "b": "You",
-        "us": "A house captain who lives in the building"
-      },
-      "hours": {
-        "k": "Your hours a month",
-        "a": "Two to four, spiking at turnover",
-        "b": "Eight to fifteen",
-        "us": "None, unless you want them"
-      },
-      "see": {
-        "k": "What you can see",
-        "a": "A bank transfer",
-        "b": "Everything, because you are doing it",
-        "us": "Everything, live, in an owner portal"
-      },
-      "arrears": {
-        "k": "If a tenant stops paying",
-        "a": "Your problem, and your lawyer",
-        "b": "Your problem",
-        "us": "Ours. It does not touch your floor"
-      }
-    },
     "trial": {
       "kicker": "No commitment",
       "title": "Ninety days, then decide.",
@@ -784,25 +712,19 @@
       "string2": "That is the whole of the small print. We would rather put it on the page than bury it in a clause you find in month four."
     },
     "legal": {
-      "title": "The boring part, done properly.",
-      "sub": "Three things go wrong for owners who let room by room: the stay is too short, the unit is over-occupied, and nobody can produce a document when it is asked for. We run all three as checklists, not as promises.",
       "stay": {
-        "label": "Minimum stay",
         "head": "Never short-let",
         "body": "Every tenancy is written at three months or longer, inside the URA rule for private homes. No nightly stays, no exceptions, no letter from the authorities."
       },
       "occ": {
-        "label": "Occupancy",
         "head": "Inside the cap",
         "body": "We let to the occupancy limit for your property type and write that limit into the agreement, so an extra body cannot quietly appear."
       },
       "data": {
-        "label": "Data",
         "head": "PDPA, and GDPR",
         "body": "Tenant identity documents are collected once, stored encrypted, masked in the portal, and deleted on schedule. Our tenants come from Europe too, so we hold to GDPR as well."
       },
       "stamp": {
-        "label": "Stamping",
         "head": "IRAS, by us",
         "body": "Every agreement is stamped, and we do the stamping for tenants who have no Singapore bank account yet. The certificate sits in your portal."
       }
@@ -889,116 +811,6 @@
       "listAUnit": "List a unit like this",
       "mrtWalk": "{station} MRT, {minutes} minutes on foot."
     },
-    "portal": {
-      "title": "You see exactly what we see.",
-      "opex": "Running costs, itemised",
-      "floor": "Your floor",
-      "upside": "Your share of the upside",
-      "pdf": "Download August as PDF",
-      "csv": "Export twelve months to CSV",
-      "maintYtd": "Maintenance, year to date",
-      "chargedYou": "Charged to you",
-      "intro": "A share only feels risky when it is a black box. So it is not one. You get an owner login on the day you sign. Everything below is a real view from a real month, with tenant names and identity numbers masked the way they are masked for us too.",
-      "addressBar": "OWNER.LAZYBEE.SG · CHILTERN PARK 135",
-      "tab1": "Statement",
-      "tab2": "Tenant documents",
-      "tab3": "Maintenance log",
-      "tab4": "Inspection photos",
-      "tile1": "Gross, August",
-      "tile2": "Your payout",
-      "tile3": "Rooms let",
-      "tile4": "Next transfer",
-      "doc1": {
-        "title": "Licence agreement, CP-PR3",
-        "meta": "Signed 12 Jun 2026 · PDF, 740 KB",
-        "status": "Current"
-      },
-      "doc2": {
-        "title": "IRAS stamp certificate, CP-PR3",
-        "meta": "Stamped 13 Jun 2026 · we filed it",
-        "status": "Stamped"
-      },
-      "doc3": {
-        "title": "Identity document, tenant CP-PR3",
-        "meta": "Passport · S••••827Z · masked under PDPA",
-        "status": "Masked"
-      },
-      "doc4": {
-        "title": "Proof of employment, tenant CP-PR3",
-        "meta": "Letter of employment · verified 10 Jun 2026",
-        "status": "Verified"
-      },
-      "doc5": {
-        "title": "Licence agreement, CP-PR2",
-        "meta": "Signed 2 Dec 2025 · renewal due 1 Dec 2026",
-        "status": "Renewal due"
-      },
-      "doc6": {
-        "title": "Handover inventory, whole unit",
-        "meta": "48 items, photographed · signed by both sides",
-        "status": "Signed"
-      },
-      "doc7": {
-        "title": "Fire safety and appliance certificates",
-        "meta": "Aircon, water heater, extinguisher · next check Mar 2027",
-        "status": "In date"
-      },
-      "log1": {
-        "title": "Aircon servicing, all four units",
-        "body": "Quarterly service by Kavi. Filters washed, gas topped in the master. 6 photos returned.",
-        "status": "Done"
-      },
-      "log2": {
-        "title": "Water heater replaced, shared bathroom",
-        "body": "Old unit failed on the 20th, tenant had cold water for two days. Replaced with a Rheem 25L. Your approval logged 21 Jul.",
-        "status": "Done"
-      },
-      "log3": {
-        "title": "Washing machine drain blocked",
-        "body": "Cleared on site, no parts. Cause was a tenant washing bedding with a loose cover.",
-        "status": "Done"
-      },
-      "log4": {
-        "title": "Repaint, CP-PR1 on turnover",
-        "body": "Two coats, scuffs from the previous tenancy. Deducted from that deposit, not from you.",
-        "status": "Recovered"
-      },
-      "log5": {
-        "title": "Front door lock stiff",
-        "body": "Lubricated, still stiff. Locksmith quoted S$310 for a replacement cylinder, waiting on your tap.",
-        "status": "Awaiting you"
-      },
-      "gal1": {
-        "caption": "Master, move-in, 12 Jun"
-      },
-      "gal2": {
-        "caption": "Living, quarterly, 1 Jul"
-      },
-      "gal3": {
-        "caption": "CP-PR3, move-in, 12 Jun"
-      },
-      "gal4": {
-        "caption": "CP-PR1, after repaint, 2 Jul"
-      },
-      "gal5": {
-        "caption": "Kitchen, quarterly, 1 Jul"
-      },
-      "gal6": {
-        "caption": "CP-PR2, quarterly, 1 Jul"
-      },
-      "gal7": {
-        "caption": "CP-STD1, move-in, 4 Mar"
-      },
-      "gal8": {
-        "caption": "Common, quarterly, 1 Jul"
-      },
-      "notBilled": ", open, not billed",
-      "open": "Open",
-      "docsIntro": "Every document we hold on your unit, in one place. Identity numbers are partly masked under the PDPA, and the full copy is released only if you are legally required to produce it.",
-      "docsNote": "Nothing here is ever emailed around. Documents are viewed in the portal, access is logged, and tenants can see that you looked.",
-      "logIntro": "Every job on the unit, what it cost, who did it and whether the photos came back. Anything over S$300 needs your tap before we spend it.",
-      "galIntro": "A photo set on move-in, on move-out, and every quarter in between. This is the record that settles any argument about condition, and it is why the trial can end with the unit going back as we found it."
-    },
     "ask": {
       "kicker": "The next step is a coffee",
       "title1": "Marcus will come to you",
@@ -1038,7 +850,10 @@
         "b": "Whether you go ahead or not. If your unit is not a fit he will say so at the table rather than send you a polite email next week."
       },
       "signFine": "Marcus · Makery Pte Ltd · the one who actually turns up",
-      "noSpam": "No newsletter. No sequence of five emails. No agent ringing you on a Sunday."
+      "noSpam": "No newsletter. No sequence of five emails. No agent ringing you on a Sunday.",
+      "sending": "Sending...",
+      "failed": "That did not send.",
+      "failedWhatsapp": "Message us on WhatsApp instead."
     },
     "vocab": {
       "masterRoom": "Master room",

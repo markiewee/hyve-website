@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { HOMES, ROOMS, HOME_HERO, roomsForHome, isLet } from '../../data/lazybeeRooms';
-import { COMPARE_HEADS, COMPARE_ROWS, ZEROS, TRIAL_KEEPS, COMPLIANCE, POSTS } from '../../data/ownerPage';
+import { ZEROS, TRIAL_KEEPS, POSTS } from '../../data/ownerPage';
 import { ARTICLES } from '../../lib/hiveContent';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { vocabKey } from '../../i18n/roomVocab';
@@ -32,37 +32,6 @@ export function AlignmentSection() {
         <p className="body rv">{t('owner.why.p1')}</p>
         <p className="body rv">{t('owner.why.p2')}</p>
         <p className="body rv">{t('owner.why.p3')}</p>
-      </div>
-    </section>
-  );
-}
-
-export function CompareSection() {
-  const { t } = useLanguage();
-  return (
-    <section className="wrap sec rule" id="compare">
-      <h2 className="h1 rv">{t('owner.compare.title')}</h2>
-      <p className="body rv" style={{ marginTop: 18 }}>
-        {t('owner.compare.sub')}
-      </p>
-      <div className="cmpwrap rv">
-        <table className="cmp">
-          <thead>
-            <tr>
-              <th />
-              {COMPARE_HEADS.map((h, i) => (
-                <th key={h} className={i === 2 ? 'us' : undefined}>{t(h)}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {COMPARE_ROWS.map(([k, a, b, us]) => (
-              <tr key={k}>
-                <td>{t(k)}</td><td>{t(a)}</td><td>{t(b)}</td><td className="us">{t(us)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </div>
     </section>
   );
@@ -108,27 +77,6 @@ export function TrialSection() {
   );
 }
 
-
-export function ComplianceSection() {
-  const { t } = useLanguage();
-  return (
-    <section className="wrap sec rule" id="legal">
-      <h2 className="h1 rv">{t('owner.legal.title')}</h2>
-      <p className="body rv" style={{ marginTop: 18 }}>
-        {t('owner.legal.sub')}
-      </p>
-      <div className="deal rv">
-        {COMPLIANCE.map(([label, head, body]) => (
-          <div key={head}>
-            <span className="label">{t(label)}</span>
-            <h3>{t(head)}</h3>
-            <p>{t(body)}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 /** The three homes, photographed, with a bar per cell and how many are let. */
 export function HomesStrip() {
@@ -177,33 +125,19 @@ export function HiveSection() {
     <section className="wrap sec" id="thehive">
       <div className="label rv">{t('owner.hive.kicker')}</div>
       <h2 className="h1 rv" style={{ marginTop: 14 }}>{t('owner.hive.title')}</h2>
-      <p className="body rv" style={{ marginTop: 18 }}>
-        {t('owner.hive.body')}
-      </p>
-      <div className="posts">
-        {recent.length > 0
-          ? recent.map((a) => (
-            <Link className="post rv" to={a.path} key={a.slug}>
-              <div className="im"><img src={a.hero || '/photos/cp/Common-1.jpg'} alt={a.heroAlt || ''} loading="lazy" /></div>
-              <div className="bd">
-                <div className="label">{a.tags[0] || 'Lazybee'}</div>
-                <h3>{a.title}</h3>
-                <p>{a.excerpt}</p>
-              </div>
+      <ul className="rv" style={{ listStyle: 'none', padding: 0, margin: '24px 0 0' }}>
+        {(recent.length > 0
+          ? recent.map((a) => [a.slug, a.path, a.title])
+          : POSTS.map(([, , title]) => [title, '/hive', title])
+        ).map(([key, path, title]) => (
+          <li key={key} style={{ borderTop: '1px solid var(--rule, rgba(255,255,255,.14))' }}>
+            <Link to={path} style={{ display: 'block', padding: '16px 0', textDecoration: 'none' }}>
+              {title}
             </Link>
-          ))
-          : POSTS.map(([img, kicker, title, body]) => (
-            <article className="post rv" key={title}>
-              <div className="im"><img src={img} alt="" loading="lazy" /></div>
-              <div className="bd">
-                <div className="label">{kicker}</div>
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </div>
-            </article>
-          ))}
-      </div>
-      <p className="rv" style={{ marginTop: 'var(--s6)' }}>
+          </li>
+        ))}
+      </ul>
+      <p className="rv" style={{ marginTop: 'var(--s5)' }}>
         <Link className="btn btn-ghost" to="/hive">{t('owner.hive.cta')}</Link>
       </p>
     </section>

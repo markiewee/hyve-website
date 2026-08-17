@@ -21,9 +21,12 @@ export function BeeMark() {
    spent that budget on charm: one is the live grid of real rooms at real prices,
    the other is the earnings estimator. Guides is a real route rather than an
    anchor, so it carries a `to` instead of a section id. */
+/* `nav.compare` used to open the comparison table. That section was retired for
+   repeating the estimator, so the label now opens the alignment section, which
+   is the argument it was always pointing at. */
 const NAV = [
   ['nav.earnings', 'split'],
-  ['nav.compare', 'compare'],
+  ['nav.compare', 'why'],
   ['nav.portfolio', 'comb'],
   ['nav.guides', null, '/hive'],
   ['nav.estimate', 'ask'],
@@ -63,6 +66,16 @@ export function OwnerHeader({ heroRef }) {
             ? <Link key={key} to={to}>{t(key)}</Link>
             : <a key={key} href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollToId(id); }}>{t(key)}</a>
         ))}
+        {/* This page sells to owners, but lazybee.sg is the brand address a tenant
+            types. Without this the only route to the booking site is clicking a cell
+            inside the comb, which a room-hunter has no reason to try. */}
+        <a
+          className="navbook"
+          href={BOOKING_URL}
+          onClick={() => track(EVENTS.BROWSE_ROOMS_CLICK, { placement: 'nav' })}
+        >
+          {t('nav.findRoom')}
+        </a>
         <ThemeToggle />
         <LangSwitch />
       </nav>

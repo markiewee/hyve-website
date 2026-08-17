@@ -15,13 +15,11 @@ import { OwnerHeader, OwnerFooter } from './owners/OwnerChrome';
 import HeroSection from './owners/HeroSection';
 import SplitSection from './owners/SplitSection';
 import CombSection from './owners/CombSection';
-import PortalSection from './owners/PortalSection';
 import ReachSection from './owners/ReachSection';
 import FaqSection from './owners/FaqSection';
 import AskSection from './owners/AskSection';
 import {
-  GreenBand, AlignmentSection, CompareSection, TrialSection,
-  ComplianceSection, HomesStrip, HiveSection,
+  GreenBand, AlignmentSection, TrialSection, HomesStrip, HiveSection,
 } from './owners/StaticSections';
 
 import '../styles/lazybee.css';
@@ -109,11 +107,8 @@ export default function HomePage() {
         <CombSection />
         <GreenBand />
         <AlignmentSection />
-        <CompareSection />
         <TrialSection />
-        <PortalSection />
         <ReachSection />
-        <ComplianceSection />
         <HomesStrip />
         <HiveSection />
         <FaqSection />
