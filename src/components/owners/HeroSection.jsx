@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { HOMES, HOME_HERO } from '../../data/lazybeeRooms';
 import { scrollToId } from '../../lib/scrollToId';
+import { BOOKING_URL } from '../../lib/booking';
+import { track, EVENTS } from '../../lib/analytics';
 import { useLanguage } from '../../i18n/LanguageContext';
 
 /* Which variant sets its second line in italic. The line break is a dictionary
@@ -118,6 +120,12 @@ export default function HeroSection({ heroRef, variant, estimator, districtLabel
           </button>
         </form>
         <p className="trial">{t('owner.hero.trial')}</p>
+        {/* The quiet half of the split audience: a tenant who typed lazybee.sg. */}
+        <p className="herotenant">
+          <a href={BOOKING_URL} onClick={() => track(EVENTS.BROWSE_ROOMS_CLICK, { placement: 'hero' })}>
+            {t('owner.hero.tenantLink')}
+          </a>
+        </p>
       </div>
 
       <div className="where">

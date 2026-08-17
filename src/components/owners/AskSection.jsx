@@ -18,10 +18,13 @@ export default function AskSection({ m, estimator, variant, copy }) {
   const [postal, setPostal] = useState('');
   const [contact, setContact] = useState('');
   const [lead, setLead] = useState(null);
+  const [sending, setSending] = useState(false);
+  const [failed, setFailed] = useState(false);
   const reportRef = useRef(null);
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
+    if (sending) return;
     const payload = {
       source: 'lazybee.sg/owners',
       hero_variant: variant,
@@ -42,6 +45,26 @@ export default function AskSection({ m, estimator, variant, copy }) {
       captured_at: new Date().toISOString(),
     };
     track(EVENTS.OWNER_LEAD_SUBMITTED, payload);
+
+    // The email IS the pipeline: there is no table behind this. So the success
+    // card is only shown once the send is actually confirmed. Showing it on a
+    // failed send is what silently binned every previous lead.
+    setSending(true);
+    setFailed(false);
+    try {
+      const r = await fetch('/api/owners/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!r.ok) throw new Error(`lead ${r.status}`);
+    } catch (err) {
+      console.error('[owner-lead] submit failed', err);
+      setSending(false);
+      setFailed(true);
+      return;
+    }
+    setSending(false);
     setLead(payload);
     // the report replaces the form, so put the reader on it
     requestAnimationFrame(() => {
@@ -95,8 +118,23 @@ export default function AskSection({ m, estimator, variant, copy }) {
               value={contact}
               onChange={(e) => setContact(e.target.value)}
             />
-            <button className="btn btn-accent" type="submit">{t('owner.ask.submit')}</button>
+            <button className="btn btn-accent" type="submit" disabled={sending}>
+              {sending ? t('owner.ask.sending') : t('owner.ask.submit')}
+            </button>
           </form>
+        )}
+
+        {/* No table behind this form, so a failed send would lose the lead. Hand
+            the owner a route they control rather than a false confirmation. */}
+        {failed && !lead && (
+          <p className="askfail rv" role="alert">
+            {t('owner.ask.failed')}{' '}
+            <a href={`https://wa.me/6580695410?text=${encodeURIComponent(
+              `Hi Lazybee, I own a unit${postal ? ` at ${postal}` : ''} and would like the earnings breakdown.`
+            )}`}>
+              {t('owner.ask.failedWhatsapp')}
+            </a>
+          </p>
         )}
 
         {lead && (

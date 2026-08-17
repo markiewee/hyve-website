@@ -32,6 +32,10 @@
       "destination": "/api/booking/lead-close"
     },
     {
+      "source": "/api/owners/lead",
+      "destination": "/api/booking/owner-lead"
+    },
+    {
       "source": "/api/v1",
       "destination": "/api/v1/_index"
     },

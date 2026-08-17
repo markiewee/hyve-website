@@ -41,6 +41,24 @@ export function addMonthsMinusADay(startDate, months) {
 }
 
 /**
+ * Calendar months between two ISO dates, floored at 1. Zero if either is missing.
+ *
+ * Mirrors AdminOnboardingPage.jsx and hyve-booking's lib/tenancyDates.ts, so a tenancy
+ * has the same stated length on the booking site, in the database and on the admin
+ * screen. Deliberately ignores the day of month, exactly as the admin screen does.
+ *
+ * @returns {number}
+ */
+export function monthSpan(start, end) {
+  const s = /^(\d{4})-(\d{2})/.exec(String(start ?? ""));
+  const e = /^(\d{4})-(\d{2})/.exec(String(end ?? ""));
+  if (!s || !e) return 0;
+
+  const months = (Number(e[1]) - Number(s[1])) * 12 + (Number(e[2]) - Number(s[2]));
+  return months > 0 ? months : 1;
+}
+
+/**
  * Given every other soft_reserve for the same room and prospect, return the
  * tenant_profile_id we should reuse instead of minting a new one.
  *
@@ -57,6 +75,23 @@ export function pickReusableProfileId(siblingReserves) {
     .sort((a, b) => String(a.created_at || "").localeCompare(String(b.created_at || "")));
 
   return usable.length > 0 ? usable[0].tenant_profile_id : null;
+}
+
+/**
+ * The tenancy end date for a reserve.
+ *
+ * The prospect's own move-out date wins whenever they gave one. Real tenancies rarely
+ * land exactly on start + N months, so the derived value used to be wrong often enough
+ * that an admin had to correct it by hand afterwards. The derivation stays as the
+ * fallback for reserves taken before the booking form asked for a move-out date.
+ *
+ * @returns {string|null} "YYYY-MM-DD", or null if neither source can supply one.
+ */
+function tenancyEnd(reserve, moveIn) {
+  return (
+    reserve.preferred_move_out ||
+    addMonthsMinusADay(moveIn, Number(reserve.duration_months))
+  );
 }
 
 function depositAmount(room) {
@@ -89,11 +124,10 @@ export function buildProfileSeed({ reserve, room }) {
   if (moveIn) {
     seed.moved_in_at = moveIn;
 
-    const months = Number(r.duration_months);
-    const end = addMonthsMinusADay(moveIn, months);
+    const end = tenancyEnd(r, moveIn);
     if (end) {
       seed.lease_end = end;
-      seed.lease_months = months;
+      seed.lease_months = monthSpan(moveIn, end);
     }
   }
 
@@ -123,7 +157,7 @@ export function buildOnboardingSeed({ tenantProfileId, reserve, room }) {
   const moveIn = r.preferred_move_in || null;
   if (moveIn) {
     seed.tenancy_start_date = moveIn;
-    const end = addMonthsMinusADay(moveIn, Number(r.duration_months));
+    const end = tenancyEnd(r, moveIn);
     if (end) seed.tenancy_end_date = end;
   }
 
