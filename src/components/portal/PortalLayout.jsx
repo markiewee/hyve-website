@@ -5,6 +5,7 @@ import { useLanguage } from "../../i18n/LanguageContext";
 import PortalTour from "./PortalTour";
 import { useNeedsOutcomeCount } from "../../hooks/useNeedsOutcomeCount";
 import Wordmark from "../Wordmark";
+import PassExpiryBanner from "./PassExpiryBanner";
 
 function useNavLinks(role, needsOutcome = 0) {
   const { t } = useLanguage();
@@ -421,6 +422,9 @@ export default function PortalLayout({ children }) {
         {/* pt-16 on mobile clears the fixed hamburger, which otherwise sits on
             top of the first line of every page. */}
         <div className="px-6 pt-16 pb-28 md:pt-8 md:pb-10 lg:px-12 lg:py-10 max-w-7xl mx-auto">
+          {/* Above the page, not inside it: a tenant who opens /portal/billing
+              to pay rent has to see this too, not only the dashboard. */}
+          <PassExpiryBanner details={profile?.tenant_details} />
           {children}
         </div>
       </main>

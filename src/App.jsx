@@ -51,6 +51,7 @@ import CaptainClaimsPage from './pages/portal/CaptainClaimsPage';
 import CaptainClaimFormPage from './pages/portal/CaptainClaimFormPage';
 import TenantDocumentsPage from './pages/portal/TenantDocumentsPage';
 import MemberSettingsPage from './pages/portal/MemberSettingsPage';
+import PassUpdatePage from './pages/portal/PassUpdatePage';
 import HelpPage from './pages/portal/HelpPage';
 import InvestorDashboardPage from './pages/portal/InvestorDashboardPage';
 import InvestorReportsPage from './pages/portal/InvestorReportsPage';
@@ -197,6 +198,14 @@ function AppContent() {
             element={
               <AuthGuard>
                 <PropertyGuidePage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/portal/pass"
+            element={
+              <AuthGuard>
+                <PassUpdatePage />
               </AuthGuard>
             }
           />
