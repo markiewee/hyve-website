@@ -88,6 +88,13 @@ export function listSchema(name, description, path, articles) {
 
 /* ── the head, per route ──────────────────────────────────────────── */
 
+/* Sitemap lastmod. The prerender used to stamp the build date on every URL,
+   which told Google that all eighteen pages changed on every deploy and taught
+   it to discount the signal entirely. These carry the real dates instead. */
+export function newestDate(articles) {
+  return articles.map((a) => a.date).filter(Boolean).sort().pop() || null;
+}
+
 /** /hive and /hive/page/N. */
 export function indexMeta(page = 1) {
   const path = page > 1 ? `/hive/page/${page}` : '/hive';
@@ -100,6 +107,7 @@ export function indexMeta(page = 1) {
         ? `Page ${page} of the Lazybee journal. What we learn running co-living in Singapore: the numbers, the rules, the operations and what things actually cost.`
         : HIVE_BLURB,
     canonical: hiveUrl(path),
+    lastmod: newestDate(items),
     ogImage: absolute(items[0]?.hero),
     ogType: 'website',
     prev: page === 2 ? hiveUrl('/hive') : page > 2 ? hiveUrl(`/hive/page/${page - 1}`) : null,
@@ -121,6 +129,7 @@ export function topicMeta(topic) {
     title: `${topic.label} | ${HIVE_TITLE} | Lazybee`,
     description,
     canonical: hiveUrl(path),
+    lastmod: newestDate(topic.articles),
     ogImage: absolute(topic.articles[0]?.hero),
     ogType: 'website',
     schema: [
@@ -140,6 +149,7 @@ export function articleMeta(article) {
     title: `${article.title} | ${HIVE_TITLE} | Lazybee`,
     description: describe(article),
     canonical: hiveUrl(article.path),
+    lastmod: article.updated || article.date,
     ogImage: absolute(article.hero),
     ogType: 'article',
     schema: [
