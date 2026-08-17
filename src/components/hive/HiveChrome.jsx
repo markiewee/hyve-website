@@ -68,36 +68,14 @@ export function HiveFooter() {
 }
 
 /**
- * A quiet comb behind the banner. Drawn once, as static markup rather than in an
- * effect, so it is in the HTML a crawler receives and does not depend on a script
- * having run. aria-hidden because it is texture, not information.
- */
-function CombTexture() {
-  const R = 17, SQ3 = Math.sqrt(3), W = 1600, H = 460;
-  const cells = [];
-  for (let r = -1; r <= Math.ceil(H / (1.5 * R)) + 1; r += 1) {
-    for (let q = -2; q <= Math.ceil(W / (SQ3 * R)) + 2; q += 1) {
-      const x = SQ3 * R * (q + r / 2), y = 1.5 * R * r;
-      if (x < -R || x > W + R) continue;
-      const pts = [];
-      for (let i = 0; i < 6; i += 1) {
-        const a = ((90 + 60 * i) * Math.PI) / 180;
-        pts.push(`${(x + R * 0.92 * Math.cos(a)).toFixed(1)},${(y - R * 0.92 * Math.sin(a)).toFixed(1)}`);
-      }
-      cells.push(<polygon key={`${r}-${q}`} points={pts.join(' ')} />);
-    }
-  }
-  return (
-    <div className="cells" aria-hidden="true">
-      <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice">{cells}</svg>
-    </div>
-  );
-}
-
-/**
  * The green masthead. `count` is passed in by each route rather than hardcoded,
  * which is the other prototype defect: its "8 pieces" was a literal that never
  * moved when the filter changed.
+ *
+ * There used to be a drawn SVG comb layered over the photograph here. It is gone.
+ * The photograph is itself a hexagon tile wall, so the drawn comb sat on top of
+ * real grout lines at a different scale and pitch and read as a moire rather than
+ * as texture. One comb, and it is the one in the photo.
  */
 export function HiveBanner({ kicker, title, blurb, count, subjects, cadence = 'Monthly at most' }) {
   return (
@@ -106,7 +84,6 @@ export function HiveBanner({ kicker, title, blurb, count, subjects, cadence = 'M
           heading does not already state, and a screen reader announcing a tile
           wall before the masthead is noise. */}
       <div className="shot" aria-hidden="true" />
-      <CombTexture />
       <div className="wrap bin">
         <div className="label">{kicker}</div>
         <h1 className="display">{title}</h1>
