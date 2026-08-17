@@ -2,19 +2,33 @@
 //
 // The Hive's route table and the <head> for every route in it.
 //
-// This is data, not JSX, for the same reason src/lib/siteMeta.js is on the
-// prerender branch: the metadata has to end up in bytes that a crawler which does
-// not run JavaScript can read. The prerender step on feat/seo-prerender can
-// enumerate the Hive without knowing anything about markdown:
+// This is data, not JSX, because the metadata has to end up in bytes that a
+// crawler which does not run JavaScript can read. scripts/prerender.mjs
+// enumerates the Hive without knowing anything about markdown:
 //
 //   import { HIVE_ROUTES, HIVE_ROUTE_META } from './lib/hiveRoutes.js';
 //
 // HIVE_ROUTES is an array of paths. HIVE_ROUTE_META maps each path to
-// { title, description, canonical, ogImage, ogType, schema() }, matching the
-// shape ROUTE_META already uses there.
+// { title, description, canonical, ogImage, ogType, lang, htmlLang, ogLocale,
+//   alternates, schema() }, matching the shape ROUTE_META uses.
+//
+// ── alternates ───────────────────────────────────────────────────────
+// Every article route carries the full reciprocal hreflang set for its cluster,
+// including a self reference and an x-default pointing at English. Google
+// discards a cluster that is not reciprocal, so these are derived from the
+// archive rather than declared per file: a variant cannot be listed on one page
+// and missing from another.
+//
+// This is what makes the Burmese and Bengali articles viable at all. Nothing on
+// the site links to them, so hreflang against a well linked English page, plus
+// a sitemap entry, is their entire route to being discovered.
 
-import { ARCHIVE, PAGE_COUNT } from './hiveContent.js';
-import { pageOf, relatedTo } from './hiveArticles.js';
+import {
+  ARCHIVE, PAGE_COUNT, archiveFor, HIVE_ROUTES as ROUTE_LIST, variantsFor,
+} from './hiveContent.js';
+import {
+  pageOf, relatedTo, langMeta, langRoot, DEFAULT_LANG, LANGUAGES, VISIBLE_LANGS,
+} from './hiveArticles.js';
 import { markdownToText } from './markdown.js';
 import { breadcrumbSchema } from './seo.js';
 
@@ -30,14 +44,60 @@ export const HIVE_BLURB =
   'What a unit actually earns once the void is counted, what the rules mean on a Tuesday rather ' +
   'than in a circular, what breaks in year two and what it costs. No lead magnets and no gated PDFs.';
 
+/* Per language masthead copy. Only the visible languages need it: a hidden
+   language has no index page to put it on. Written rather than machine
+   translated, because it is the first thing a Mandarin reader sees. */
+export const HIVE_COPY = {
+  en: { title: HIVE_TITLE, blurb: HIVE_BLURB, kicker: 'Notes from the houses' },
+  zh: {
+    title: 'Lazybee 博客',
+    blurb:
+      '我们在新加坡三处房子、十九个房间的日常运营记录。一个单位扣掉空置期之后到底赚多少，' +
+      '条例落到具体某一天该怎么做，第二年会坏什么、修起来多少钱。没有引流噱头，也没有留了邮箱才能下载的文件。',
+    kicker: '来自房子的笔记',
+  },
+};
+
 export const hiveUrl = (path) => `${BASE_URL}${path}`;
 
 const absolute = (src) => (src && src.startsWith('/') ? `${BASE_URL}${src}` : src || DEFAULT_OG_IMAGE);
+
+const copyFor = (lang) => HIVE_COPY[lang] || HIVE_COPY[DEFAULT_LANG];
 
 /** A description that is never empty and never longer than a search snippet. */
 export function describe(article) {
   const text = article.excerpt || markdownToText(article.body);
   return text.length > 300 ? `${text.slice(0, 297).trimEnd()}...` : text;
+}
+
+/* ── hreflang ─────────────────────────────────────────────────────── */
+
+/**
+ * The reciprocal alternate set for one article, self included, plus x-default.
+ *
+ * x-default points at English because English is what a searcher with no
+ * matching locale should land on, and because English is the only variant
+ * guaranteed to exist for any given piece.
+ */
+export function alternatesFor(article) {
+  const variants = variantsFor(article);
+  const list = variants.map(({ lang, article: a }) => ({
+    hreflang: langMeta(lang).hreflang,
+    href: hiveUrl(a.path),
+  }));
+  const english = variants.find((v) => v.lang === DEFAULT_LANG);
+  if (english) list.push({ hreflang: 'x-default', href: hiveUrl(english.article.path) });
+  return list;
+}
+
+/** The same, for listing pages, which cluster across visible languages only. */
+export function indexAlternates(page = 1) {
+  const suffix = page > 1 ? `/page/${page}` : '';
+  const list = VISIBLE_LANGS
+    .filter((code) => archiveFor(code).articles.length)
+    .map((code) => ({ hreflang: langMeta(code).hreflang, href: hiveUrl(`${langRoot(code)}${suffix}`) }));
+  if (list.length > 1) list.push({ hreflang: 'x-default', href: hiveUrl(`${langRoot(DEFAULT_LANG)}${suffix}`) });
+  return list.length > 1 ? list : [];
 }
 
 /* ── structured data ──────────────────────────────────────────────── */
@@ -53,7 +113,7 @@ export function articleSchema(article) {
     image: absolute(article.hero),
     keywords: article.tags.join(', '),
     wordCount: markdownToText(article.body).split(/\s+/).filter(Boolean).length,
-    inLanguage: 'en-SG',
+    inLanguage: langMeta(article.lang).schemaLang,
     author: { '@type': 'Person', name: article.author },
     publisher: {
       '@type': 'Organization',
@@ -61,18 +121,19 @@ export function articleSchema(article) {
       logo: { '@type': 'ImageObject', url: `${BASE_URL}/lazybee-logo.png` },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': hiveUrl(article.path) },
-    isPartOf: { '@type': 'Blog', name: HIVE_TITLE, url: hiveUrl('/hive') },
+    isPartOf: { '@type': 'Blog', name: copyFor(article.lang).title, url: hiveUrl(langRoot(article.lang)) },
   };
 }
 
-export function listSchema(name, description, path, articles) {
+export function listSchema(name, description, path, articles, lang = DEFAULT_LANG) {
   return {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name,
     description,
     url: hiveUrl(path),
-    isPartOf: { '@type': 'Blog', name: HIVE_TITLE, url: hiveUrl('/hive') },
+    inLanguage: langMeta(lang).schemaLang,
+    isPartOf: { '@type': 'Blog', name: copyFor(lang).title, url: hiveUrl(langRoot(lang)) },
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: articles.length,
@@ -95,68 +156,89 @@ export function newestDate(articles) {
   return articles.map((a) => a.date).filter(Boolean).sort().pop() || null;
 }
 
-/** /hive and /hive/page/N. */
-export function indexMeta(page = 1) {
-  const path = page > 1 ? `/hive/page/${page}` : '/hive';
-  const items = pageOf(ARCHIVE.articles, page);
+/** The language part of every route's head, shared by all three route kinds. */
+const langBits = (lang) => ({
+  lang,
+  htmlLang: langMeta(lang).htmlLang,
+  ogLocale: langMeta(lang).ogLocale,
+});
+
+/** /hive and /hive/page/N, and their /hive/zh equivalents. */
+export function indexMeta(page = 1, lang = DEFAULT_LANG) {
+  const root = langRoot(lang);
+  const path = page > 1 ? `${root}/page/${page}` : root;
+  const archive = archiveFor(lang);
+  const items = pageOf(archive.articles, page);
+  const copy = copyFor(lang);
   const suffix = page > 1 ? `, page ${page}` : '';
   return {
-    title: `${HIVE_TITLE}${suffix} | Lazybee`,
+    ...langBits(lang),
+    title: `${copy.title}${suffix} | Lazybee`,
     description:
       page > 1
         ? `Page ${page} of the Lazybee journal. What we learn running co-living in Singapore: the numbers, the rules, the operations and what things actually cost.`
-        : HIVE_BLURB,
+        : copy.blurb,
     canonical: hiveUrl(path),
     lastmod: newestDate(items),
     ogImage: absolute(items[0]?.hero),
     ogType: 'website',
-    prev: page === 2 ? hiveUrl('/hive') : page > 2 ? hiveUrl(`/hive/page/${page - 1}`) : null,
-    next: page < PAGE_COUNT ? hiveUrl(`/hive/page/${page + 1}`) : null,
+    alternates: indexAlternates(page),
+    prev: page === 2 ? hiveUrl(root) : page > 2 ? hiveUrl(`${root}/page/${page - 1}`) : null,
+    next: page < archive.pageCount ? hiveUrl(`${root}/page/${page + 1}`) : null,
     schema: [
-      listSchema(`${HIVE_TITLE}${suffix}`, HIVE_BLURB, path, items),
-      breadcrumbSchema([{ name: 'Home', path: '/' }, { name: HIVE_TITLE, path: '/hive' }]),
+      listSchema(`${copy.title}${suffix}`, copy.blurb, path, items, lang),
+      breadcrumbSchema([{ name: 'Home', path: '/' }, { name: copy.title, path: root }]),
     ],
   };
 }
 
-/** /hive/topic/:tag. */
-export function topicMeta(topic) {
-  const path = `/hive/topic/${topic.slug}`;
+/** /hive/topic/:tag. English only for now, see buildArchive. */
+export function topicMeta(topic, lang = DEFAULT_LANG) {
+  const path = `${langRoot(lang)}/topic/${topic.slug}`;
   const description =
     `Everything we have written about ${topic.label.toLowerCase()} while running co-living in Singapore. ` +
     `${topic.articles.length} ${topic.articles.length === 1 ? 'piece' : 'pieces'} on the blog, all of it from our own operation.`;
   return {
-    title: `${topic.label} | ${HIVE_TITLE} | Lazybee`,
+    ...langBits(lang),
+    title: `${topic.label} | ${copyFor(lang).title} | Lazybee`,
     description,
     canonical: hiveUrl(path),
     lastmod: newestDate(topic.articles),
     ogImage: absolute(topic.articles[0]?.hero),
     ogType: 'website',
+    alternates: [],
     schema: [
-      listSchema(`${topic.label} in ${HIVE_TITLE}`, description, path, topic.articles),
+      listSchema(`${topic.label} in ${copyFor(lang).title}`, description, path, topic.articles, lang),
       breadcrumbSchema([
         { name: 'Home', path: '/' },
-        { name: HIVE_TITLE, path: '/hive' },
+        { name: copyFor(lang).title, path: langRoot(lang) },
         { name: topic.label, path },
       ]),
     ],
   };
 }
 
-/** /hive/:slug. */
+/** /hive/:slug, /hive/zh/:slug, /hive/my/:slug, /hive/bn/:slug. */
 export function articleMeta(article) {
+  const lang = article.lang;
   return {
-    title: `${article.title} | ${HIVE_TITLE} | Lazybee`,
+    ...langBits(lang),
+    title: `${article.title} | ${copyFor(lang).title} | Lazybee`,
     description: describe(article),
     canonical: hiveUrl(article.path),
     lastmod: article.updated || article.date,
     ogImage: absolute(article.hero),
     ogType: 'article',
+    /* A hidden article is still indexable. It has to be: being found in search
+       is the only reason it was written. What makes it hidden is that nothing
+       links to it, which is a property of the site's markup, not of this head. */
+    hidden: article.hidden,
+    alternates: alternatesFor(article),
     schema: [
       articleSchema(article),
       breadcrumbSchema([
         { name: 'Home', path: '/' },
-        { name: HIVE_TITLE, path: '/hive' },
+        { name: copyFor(lang).title, path: langRoot(lang) },
         { name: article.title, path: article.path },
       ]),
     ],
@@ -165,13 +247,28 @@ export function articleMeta(article) {
 
 /* ── the table the prerender step reads ───────────────────────────── */
 
-/** Every Hive URL, in crawl order. */
-export const HIVE_ROUTES = [
-  '/hive',
-  ...Array.from({ length: Math.max(0, PAGE_COUNT - 1) }, (_, i) => `/hive/page/${i + 2}`),
-  ...ARCHIVE.topics.map((t) => `/hive/topic/${t.slug}`),
-  ...ARCHIVE.articles.map((a) => a.path),
-];
+/** Every Hive URL, in crawl order, every language, hidden ones included. */
+export const HIVE_ROUTES = ROUTE_LIST;
+
+/**
+ * Take a Hive path apart into { lang, kind, ... }.
+ *
+ * Language first, because '/hive/zh/foo' and '/hive/foo' differ only by a
+ * segment that is itself a legal article slug shape. The language segment is
+ * matched against the closed LANGUAGES set rather than any-two-letters, so an
+ * English article slugged "id" or "it" is still an article.
+ */
+export function parseHivePath(path) {
+  const rest = path.replace(/^\/hive\/?/, '');
+  const parts = rest ? rest.split('/') : [];
+  let lang = DEFAULT_LANG;
+  if (parts.length && LANGUAGES[parts[0]] && parts[0] !== DEFAULT_LANG) lang = parts.shift();
+
+  if (!parts.length) return { lang, kind: 'index', page: 1 };
+  if (parts[0] === 'page') return { lang, kind: 'index', page: Number(parts[1]) || 1 };
+  if (parts[0] === 'topic') return { lang, kind: 'topic', slug: parts[1] };
+  return { lang, kind: 'article', slug: parts[0] };
+}
 
 /**
  * path to metadata, with schema() as a function so it matches the ROUTE_META
@@ -179,13 +276,13 @@ export const HIVE_ROUTES = [
  */
 export const HIVE_ROUTE_META = Object.fromEntries(
   HIVE_ROUTES.map((path) => {
+    const at = parseHivePath(path);
     let meta;
-    if (path === '/hive') meta = indexMeta(1);
-    else if (path.startsWith('/hive/page/')) meta = indexMeta(Number(path.split('/').pop()));
-    else if (path.startsWith('/hive/topic/')) {
-      meta = topicMeta(ARCHIVE.topics.find((t) => t.slug === path.split('/').pop()));
+    if (at.kind === 'index') meta = indexMeta(at.page, at.lang);
+    else if (at.kind === 'topic') {
+      meta = topicMeta(archiveFor(at.lang).topics.find((t) => t.slug === at.slug), at.lang);
     } else {
-      meta = articleMeta(ARCHIVE.articles.find((a) => a.path === path));
+      meta = articleMeta(archiveFor(at.lang).articles.find((a) => a.slug === at.slug));
     }
     const { schema, ...rest } = meta;
     return [path, { ...rest, schema: () => schema }];
@@ -193,4 +290,4 @@ export const HIVE_ROUTE_META = Object.fromEntries(
 );
 
 /** Related reading, re-exported so a page component has one import for the Hive. */
-export { relatedTo };
+export { relatedTo, PAGE_COUNT, ARCHIVE };

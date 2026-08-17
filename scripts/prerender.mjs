@@ -27,6 +27,12 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
+/* Imported from source rather than from the SSR bundle because hiveArticles.js
+   is deliberately dependency free and runs in plain Node. The audit below has to
+   count words by the same rule the article records were built with, or a Burmese
+   article passes one check and fails the other. */
+import { countWords } from '../src/lib/hiveArticles.js';
+
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = join(ROOT, 'dist');
 const SSR_ENTRY = join(ROOT, 'dist-ssr', 'entry-server.js');
@@ -57,6 +63,20 @@ function stripShellSeo(head) {
 }
 
 function headFor(meta, canonical, schemas, siteName, ogImage) {
+  /* Reciprocal hreflang. Google discards a cluster whose members do not all
+     point at each other, so these come from the route table rather than from
+     anything hand maintained.
+
+     This is also the only reason the unlisted Burmese and Bengali articles are
+     findable. Nothing on the site links to them, so their entire route to being
+     discovered is a sitemap entry plus being named as an alternate of an English
+     page that does have inbound links. Which does mean those URLs appear in the
+     English page's markup: as <link> elements in the head, invisible to a reader
+     and unclickable in the page, but present in view source. There is no version
+     of a working hreflang cluster where they are not. */
+  const alternates = (meta.alternates || []).map(
+    (a) => `<link rel="alternate" hreflang="${esc(a.hreflang)}" href="${esc(a.href)}" />`,
+  );
   const tags = [
     `<title>${esc(meta.title)}</title>`,
     `<meta name="description" content="${esc(meta.description)}" />`,
@@ -68,7 +88,8 @@ function headFor(meta, canonical, schemas, siteName, ogImage) {
     `<meta property="og:description" content="${esc(meta.description)}" />`,
     `<meta property="og:url" content="${esc(canonical)}" />`,
     `<meta property="og:image" content="${esc(ogImage)}" />`,
-    `<meta property="og:locale" content="en_SG" />`,
+    `<meta property="og:locale" content="${esc(meta.ogLocale || 'en_SG')}" />`,
+    ...alternates,
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${esc(meta.title)}" />`,
     `<meta name="twitter:description" content="${esc(meta.description)}" />`,
@@ -93,7 +114,10 @@ function audit(html) {
     .replace(/\s+/g, ' ')
     .trim();
   return {
-    words: text ? text.split(' ').length : 0,
+    /* countWords, not split(' '), because Burmese does not put spaces between
+       words: a whole Burmese article splits into a couple of dozen tokens and
+       trips the thin-content check below. */
+    words: countWords(text),
     h1: (body.match(/<h1[\s>]/gi) || []).length,
     links: (body.match(/<a[\s>]/gi) || []).length,
     jsonLdBlocks: (html.match(/application\/ld\+json/gi) || []).length,
@@ -158,6 +182,12 @@ for (const route of PRERENDER_ROUTES) {
   );
   page = page.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`);
 
+  /* The shell is authored as lang="en". A Burmese page that claims to be English
+     is read aloud by a screen reader in the wrong voice, offered the wrong
+     Chrome translate prompt, and given a weaker language signal than the
+     hreflang cluster is asserting. */
+  page = page.replace(/<html\s+lang="[^"]*"/i, `<html lang="${esc(meta.htmlLang || 'en')}"`);
+
   const outPath = route === '/' ? join(DIST, 'index.html') : join(DIST, route.slice(1), 'index.html');
   mkdirSync(dirname(outPath), { recursive: true });
   writeFileSync(outPath, page);
@@ -193,15 +223,36 @@ const PRIORITY = {
   '/cookie-policy': '0.3',
 };
 const today = new Date().toISOString().slice(0, 10);
+
+/* Every prerendered route, in every language, including the Burmese and Bengali
+   articles nothing on the site links to. For those this file is not one
+   discovery path among several, it is the only one: an orphan page that is not
+   in the sitemap is a page Google has no way to learn exists.
+
+   Each entry also carries its hreflang cluster as xhtml:link, which is Google's
+   documented way to declare alternates for pages that are not internally linked.
+   The same set is in each page's head; stating it here as well means a crawler
+   that reads the sitemap and has not yet fetched the English page still sees the
+   relationship. */
+const sitemapEntry = (r) => {
+  const meta = ALL_ROUTE_META[r] || {};
+  const alts = (meta.alternates || [])
+    .map((a) => `\n    <xhtml:link rel="alternate" hreflang="${a.hreflang}" href="${a.href}" />`)
+    .join('');
+  return (
+    `  <url>\n    <loc>${canonicalFor(r)}</loc>` +
+    `\n    <lastmod>${meta.lastmod || today}</lastmod>` +
+    `\n    <changefreq>${CHANGEFREQ[r] || 'monthly'}</changefreq>` +
+    `\n    <priority>${PRIORITY[r] || '0.5'}</priority>` +
+    `${alts}\n  </url>`
+  );
+};
+
 const sitemap =
   '<?xml version="1.0" encoding="UTF-8"?>\n' +
-  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-  PRERENDER_ROUTES.map(
-    (r) =>
-      `  <url><loc>${canonicalFor(r)}</loc><lastmod>${ALL_ROUTE_META[r]?.lastmod || today}</lastmod>` +
-      `<changefreq>${CHANGEFREQ[r] || 'monthly'}</changefreq>` +
-      `<priority>${PRIORITY[r] || '0.5'}</priority></url>`,
-  ).join('\n') +
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"' +
+  ' xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' +
+  PRERENDER_ROUTES.map(sitemapEntry).join('\n') +
   '\n</urlset>\n';
 writeFileSync(join(DIST, 'sitemap.xml'), sitemap);
 
@@ -222,7 +273,11 @@ const rssDate = (d) => new Date(`${d}T09:00:00+08:00`).toUTCString();
    ever describe pages the site actually renders. An article route is one whose
    meta declares ogType 'article'; its date and tags are read back out of the
    Article JSON-LD that already sits in its <head>. */
-const feedItems = PRERENDER_ROUTES.filter((r) => ALL_ROUTE_META[r]?.ogType === 'article')
+/* English only. The channel declares <language>en-SG</language>, and an article
+   published in a public feed is not an unlisted article. */
+const feedItems = PRERENDER_ROUTES.filter(
+  (r) => ALL_ROUTE_META[r]?.ogType === 'article' && (ALL_ROUTE_META[r]?.lang || 'en') === 'en',
+)
   .map((r) => {
     const meta = ALL_ROUTE_META[r];
     const article = (meta.schema() || []).find((s) => s['@type'] === 'Article') || {};
@@ -271,7 +326,13 @@ for (const r of results) {
 }
 console.log(`\n  react-helmet-async emitted tags server-side: ${helmetWorked ? 'yes' : 'no'}`);
 console.log(`  dist/app.html written as the noindex shell for /portal/* and unlisted routes`);
-console.log(`  dist/sitemap.xml regenerated with ${PRERENDER_ROUTES.length} urls`);
+const byLang = {};
+for (const r of PRERENDER_ROUTES) {
+  const l = ALL_ROUTE_META[r]?.lang || 'en';
+  byLang[l] = (byLang[l] || 0) + 1;
+}
+const langSummary = Object.entries(byLang).map(([l, n]) => `${l}:${n}`).join(' ');
+console.log(`  dist/sitemap.xml regenerated with ${PRERENDER_ROUTES.length} urls (${langSummary})`);
 console.log(`  dist/feed.xml written with ${feedItems.length} items\n`);
 
 if (failures.length) {

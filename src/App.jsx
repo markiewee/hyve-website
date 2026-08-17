@@ -117,12 +117,22 @@ function AppContent() {
               which stays its own short-form operational-diary archive. */}
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
-          {/* The Hive. Ordered static segments first so /hive/page/2 and
-              /hive/topic/rules can never be read as an article slug. */}
-          <Route path="/hive" element={<HiveIndexPage />} />
-          <Route path="/hive/page/:page" element={<HiveIndexPage />} />
+          {/* The Hive. Static segments first so /hive/page/2, /hive/topic/rules
+              and the language roots can never be read as an article slug. React
+              Router ranks static above dynamic anyway; the order is kept
+              explicit because the cost of getting it wrong is a whole language
+              silently resolving to a missing article. */}
+          <Route path="/hive" element={<HiveIndexPage lang="en" />} />
+          <Route path="/hive/page/:page" element={<HiveIndexPage lang="en" />} />
           <Route path="/hive/topic/:tag" element={<HiveTopicPage />} />
-          <Route path="/hive/:slug" element={<HiveArticlePage />} />
+          <Route path="/hive/zh" element={<HiveIndexPage lang="zh" />} />
+          <Route path="/hive/zh/page/:page" element={<HiveIndexPage lang="zh" />} />
+          <Route path="/hive/zh/:slug" element={<HiveArticlePage lang="zh" />} />
+          {/* Unlisted. Reachable by URL, in the sitemap, indexable, and linked
+              from nowhere on this site. See src/lib/hiveArticles.js. */}
+          <Route path="/hive/my/:slug" element={<HiveArticlePage lang="my" />} />
+          <Route path="/hive/bn/:slug" element={<HiveArticlePage lang="bn" />} />
+          <Route path="/hive/:slug" element={<HiveArticlePage lang="en" />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faqs" element={<FAQsPage />} />
           <Route path="/developers" element={<DevelopersPage />} />

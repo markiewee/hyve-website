@@ -18,7 +18,7 @@ import { LazybeeRoot } from '../../hooks/useLazybeeTheme';
 import { useRef } from 'react';
 import { Navigate, useParams, Link } from 'react-router-dom';
 
-import { ARCHIVE, topicBySlug } from '../../lib/hiveContent';
+import { archiveFor, topicBySlug, DEFAULT_LANG } from '../../lib/hiveContent';
 import { topicMeta, HIVE_TITLE } from '../../lib/hiveRoutes';
 import { usePageMeta } from '../../lib/pageMeta';
 import { useReveal } from '../../hooks/useReveal';
@@ -58,7 +58,7 @@ export default function HiveTopicPage() {
       <main className="wrap hivemain" id="top">
         {lead && <LeadCard article={lead} kicker="Most recent" />}
 
-        <TopicChips topics={ARCHIVE.topics} activeSlug={topic.slug} />
+        <TopicChips topics={archiveFor(DEFAULT_LANG).topics} activeSlug={topic.slug} />
 
         {rest.length > 0 && (
           <div className="list">

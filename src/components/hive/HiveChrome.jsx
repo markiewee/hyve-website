@@ -22,11 +22,39 @@ import { Link } from 'react-router-dom';
 import { BeeMark } from '../owners/OwnerChrome';
 import { BOOKING_URL } from '../../lib/booking';
 import { useLanguage } from '../../i18n/LanguageContext';
-import LangSwitch from '../../i18n/LangSwitch';
 import ThemeToggle from '../ThemeToggle';
+import { VISIBLE_LANGS, LANGUAGES, langRoot, DEFAULT_LANG } from '../../lib/hiveContent';
+
+/**
+ * The EN / 中文 control, for Hive pages only.
+ *
+ * On the rest of the site language is a stored preference that re-renders the
+ * page in place. That cannot work here. A prerendered page is one language in
+ * the bytes a crawler reads, and a language chosen without changing the URL
+ * cannot be linked, shared or indexed. So on the blog the control is a real
+ * anchor to a real URL, and the two indexes are two pages.
+ *
+ * Only the visible languages ever appear. There is no control anywhere on this
+ * site that reaches a Burmese or Bengali article.
+ */
+function HiveLangLinks({ lang }) {
+  const others = VISIBLE_LANGS.filter((c) => c !== lang);
+  if (!others.length) return null;
+  return others.map((code) => (
+    <Link
+      key={code}
+      className="langbtn"
+      to={langRoot(code)}
+      lang={LANGUAGES[code].htmlLang}
+      hrefLang={LANGUAGES[code].hreflang}
+    >
+      {code === DEFAULT_LANG ? 'EN' : LANGUAGES[code].label}
+    </Link>
+  ));
+}
 
 /** Static header. Real links, so every Hive page is reachable without JavaScript. */
-export function HiveHeader() {
+export function HiveHeader({ lang = DEFAULT_LANG }) {
   const { t } = useLanguage();
   return (
     <header className="hivehead">
@@ -39,9 +67,9 @@ export function HiveHeader() {
         <a href={BOOKING_URL}>{t('nav.findRoom')}</a>
         {/* Named Guides here too. The archive is called the Hive internally and
             lives at /hive, but a reader has to be told what is in it. */}
-        <Link to="/hive" aria-current="page">{t('nav.guides')}</Link>
+        <Link to={langRoot(lang)} aria-current="page">{t('nav.guides')}</Link>
         <ThemeToggle />
-        <LangSwitch />
+        <HiveLangLinks lang={lang} />
       </nav>
     </header>
   );
@@ -108,17 +136,18 @@ export function HiveBanner({ kicker, title, blurb, count, subjects, cadence = 'T
  * be crawled. Here each one is a real page: /hive/topic/rules exists, has its own
  * title, and lists every article carrying that tag.
  */
-export function TopicChips({ topics, activeSlug }) {
+export function TopicChips({ topics, activeSlug, lang = DEFAULT_LANG }) {
+  const root = langRoot(lang);
   return (
     <nav className="filters" aria-label="Subjects">
-      <Link className={`chip${activeSlug ? '' : ' on'}`} to="/hive" aria-current={activeSlug ? undefined : 'page'}>
+      <Link className={`chip${activeSlug ? '' : ' on'}`} to={root} aria-current={activeSlug ? undefined : 'page'}>
         All
       </Link>
       {topics.map((t) => (
         <Link
           key={t.slug}
           className={`chip${activeSlug === t.slug ? ' on' : ''}`}
-          to={`/hive/topic/${t.slug}`}
+          to={`${root}/topic/${t.slug}`}
           aria-current={activeSlug === t.slug ? 'page' : undefined}
         >
           {t.label} <span className="cnt">{t.articles.length}</span>
@@ -178,10 +207,10 @@ export function ArticleCard({ article }) {
  * well as in the head, which is what tells a crawler these pages are one sequence
  * rather than a set of near duplicates.
  */
-export function Pagination({ page, pageCount }) {
+export function Pagination({ page, pageCount, root = '/hive' }) {
   const { t } = useLanguage();
   if (pageCount <= 1) return null;
-  const href = (p) => (p === 1 ? '/hive' : `/hive/page/${p}`);
+  const href = (p) => (p === 1 ? root : `${root}/page/${p}`);
 
   /* Up to nine numbers are all shown. Past that the row is windowed to the first
      page, the last page and the two either side of this one, so the control stays
