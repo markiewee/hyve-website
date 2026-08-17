@@ -87,8 +87,8 @@ function wordmark() {
     <tr><td style="padding:0 0 26px 0">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td width="44" style="background:${T.accent};height:2px;line-height:2px;font-size:2px">&nbsp;</td>
-          <td style="background:${T.line};height:1px;line-height:1px;font-size:1px">&nbsp;</td>
+          <td width="44" bgcolor="${T.accent}" style="background-color:${T.accent};height:2px;line-height:2px;font-size:2px">&nbsp;</td>
+          <td bgcolor="${T.line}" style="background-color:${T.line};height:1px;line-height:1px;font-size:1px">&nbsp;</td>
         </tr>
       </table>
     </td></tr>`;
@@ -100,15 +100,21 @@ function wordmark() {
 function moneyBand(money, urgent) {
   if (!money) return "";
   const bg = urgent ? T.bad : T.band;
-  const mut = urgent ? "#E4C4BC" : T.bandMut;
-  const num = urgent ? "#F4DDD6" : T.bandNum;
+  // Raised off the earlier pastels. These sit on a saturated block, so they
+  // need to survive a client that renders the block slightly lighter, and the
+  // number is the single thing the reader must not be able to skim past.
+  const mut = urgent ? "#F0CFC7" : T.bandMut;
+  const num = urgent ? "#FFF3F0" : T.bandNum;
   const foot = money.footnote
     ? `<div style="font-family:${F.mono};font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:${mut};padding-top:10px">${escape(money.footnote)}</div>`
     : "";
+  // bgcolor attribute AND background-color longhand, on both table and cell.
+  // The `background` shorthand alone is dropped by several clients, which
+  // leaves pale type on the cream ground and the amount effectively invisible.
   return `
     <tr><td style="padding:0 0 30px 0">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${bg};border-radius:2px">
-        <tr><td style="padding:24px 26px">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${bg}" style="background-color:${bg};border-radius:2px">
+        <tr><td bgcolor="${bg}" style="background-color:${bg};padding:24px 26px;border-radius:2px">
           <div style="font-family:${F.mono};font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:${mut};padding-bottom:12px">${escape(money.label)}</div>
           <div style="font-family:${F.mono};font-weight:700;font-size:38px;line-height:1;letter-spacing:-.035em;color:${num}">${escape(money.value)}</div>
           ${foot}
@@ -140,7 +146,7 @@ function detailsTable(details) {
 
 /* Inline code chip, used for payment refs and credentials. */
 function chip(v) {
-  return `<span style="font-family:${F.mono};font-size:13px;background:${T.surface};border:1px solid ${T.line};border-radius:2px;padding:3px 8px;color:${T.ink};letter-spacing:.02em">${escape(v)}</span>`;
+  return `<span style="font-family:${F.mono};font-size:13px;background-color:${T.surface};border:1px solid ${T.line};border-radius:2px;padding:3px 8px;color:${T.ink};letter-spacing:.02em">${escape(v)}</span>`;
 }
 
 function renderEmail(opts) {
@@ -167,6 +173,14 @@ function renderEmail(opts) {
        </td></tr>`
     : "";
 
+  /* A full-bleed bar across the head of the card. Reserved for mail where the
+     reader needs to know what this is before they read a word of it: at
+     present, the final notice and nothing else. Used on everything it would
+     stop meaning anything. */
+  const banner = opts.banner
+    ? `<tr><td bgcolor="${T.bad}" align="center" style="background-color:${T.bad};padding:15px 20px;font-family:${F.mono};font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:#FFF3F0;line-height:1.5">${escape(opts.banner)}</td></tr>`
+    : "";
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -177,23 +191,26 @@ function renderEmail(opts) {
 <title>${escape(opts.headline)}</title>
 <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant+Garamond:wght@300;400&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body style="margin:0;padding:0;background:${T.bg};font-family:${F.body};color:${T.ink};-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%">
+<body style="margin:0;padding:0;background-color:${T.bg};font-family:${F.body};color:${T.ink};-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%">
 <div style="display:none;max-height:0;overflow:hidden;color:transparent;opacity:0">${escape(preheader)}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${T.bg}" style="background:${T.bg}">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${T.bg}" style="background-color:${T.bg}">
   <tr><td align="center" style="padding:40px 16px 56px 16px">
     <table role="presentation" width="580" cellpadding="0" cellspacing="0" border="0" style="max-width:580px;width:100%">
 
       ${wordmark()}
 
       <!-- Card -->
-      <tr><td style="background:${T.raised};border:1px solid ${T.line};border-radius:2px;padding:38px 36px 36px 36px">
+      <tr><td bgcolor="${T.raised}" style="background-color:${T.raised};border:1px solid ${T.line};border-radius:2px">
+       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        ${banner}
+        <tr><td style="padding:38px 36px 36px 36px">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
 
           <!-- Eyebrow -->
           <tr><td style="padding:0 0 18px 0">
             <table role="presentation" cellpadding="0" cellspacing="0" border="0">
               <tr>
-                <td width="18" style="background:${rule};height:1px;line-height:1px;font-size:1px">&nbsp;</td>
+                <td width="18" bgcolor="${rule}" style="background-color:${rule};height:1px;line-height:1px;font-size:1px">&nbsp;</td>
                 <td style="padding-left:10px;font-family:${F.mono};font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:${eyebrowFg}">${escape(opts.badge)}</td>
               </tr>
             </table>
@@ -212,12 +229,14 @@ function renderEmail(opts) {
 
           <!-- CTA -->
           <tr><td align="center" style="padding:0">
-            <a href="${escape(opts.cta.url)}" style="display:inline-block;padding:16px 30px;background:${T.ink};color:${T.bg};text-decoration:none;border-radius:999px;font-family:${F.mono};font-weight:500;font-size:11.5px;letter-spacing:.15em;text-transform:uppercase">${escape(opts.cta.label)}</a>
+            <a href="${escape(opts.cta.url)}" style="display:inline-block;padding:16px 30px;background-color:${T.ink};color:${T.bg};text-decoration:none;border-radius:999px;font-family:${F.mono};font-weight:500;font-size:11.5px;letter-spacing:.15em;text-transform:uppercase">${escape(opts.cta.label)}</a>
           </td></tr>
           ${ctaCaption}
           ${secondary}
 
         </table>
+        </td></tr>
+       </table>
       </td></tr>
 
       <!-- Footer -->

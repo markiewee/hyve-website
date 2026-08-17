@@ -81,6 +81,34 @@ test("empty paragraphs are dropped rather than rendered as blank space", () => {
   assert.equal(html.split('<p style="margin:0 0 18px 0">').length - 1, 2, "greeting + one para");
 });
 
+// This shipped broken once. The band carried only the `background` shorthand
+// on a <table>, which several clients drop, leaving pale type on the cream
+// ground and the amount owed effectively invisible. Every coloured surface
+// now needs the bgcolor attribute and the background-color longhand.
+test("every coloured surface survives a client that drops the background shorthand", () => {
+  const html = urgent(input);
+  assert.ok(html.includes('bgcolor="#8C3A2B"'), "band needs the bgcolor attribute");
+  assert.ok(html.includes("background-color:#8C3A2B"), "band needs the longhand");
+  assert.equal(
+    /style="[^"]*background:#/.test(html),
+    false,
+    "no bare background shorthand may carry a colour"
+  );
+});
+
+test("the green band is hardened the same way", () => {
+  const html = generic(input);
+  assert.ok(html.includes('bgcolor="#0E2E20"'));
+  assert.ok(html.includes("background-color:#0E2E20"));
+});
+
+test("the banner renders full bleed and only when asked for", () => {
+  const withBanner = urgent({ ...input, banner: "Final notice before termination of tenancy" });
+  assert.ok(withBanner.includes("Final notice before termination of tenancy"));
+  assert.ok(withBanner.includes('bgcolor="#8C3A2B"'));
+  assert.ok(!generic(input).includes("Final notice before termination"), "absent by default");
+});
+
 test("renders under Gmail's 102kb clipping threshold", () => {
   assert.ok(Buffer.byteLength(generic(input)) < 102 * 1024);
 });

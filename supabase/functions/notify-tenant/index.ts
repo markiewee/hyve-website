@@ -577,22 +577,35 @@ async function buildEmail(
 
     case "INVOICE_FINAL_NOTICE": {
       return {
-        subject: `FINAL NOTICE: Invoice ${details.invoice_code}`,
+        subject: `FINAL NOTICE: ${details.deadline ? `pay by ${details.deadline}` : "7 days"} or we begin ending your tenancy`,
         html: urgent({
+          preheader: `Invoice ${details.invoice_code} is ${days(details.days_overdue)} overdue. This is the last notice before we act.`,
+          banner: "Final notice before termination of tenancy",
           badge: "Final notice",
-          headline: "This is a final notice.",
+          headline: "We are preparing to end your tenancy.",
           greeting: `Hi ${firstName},`,
           paragraphs: [
-            `Your invoice is now <strong>${days(details.days_overdue)}</strong> overdue and a second 5% late fee has been applied.`,
-            "Per your licence agreement, continued non-payment is grounds for termination of your tenancy.",
-            "<strong>Please settle the full amount within 7 days</strong>, or contact us immediately to discuss. Otherwise we will issue formal notice to vacate and apply the deposit against what is owed.",
+            `Your rent is <strong>${days(details.days_overdue)}</strong> overdue. A second 5% late fee has been applied and the balance below is now payable in full.`,
+            "<strong>This is the last email you will receive before we act.</strong> Under your licence agreement, non-payment of this length is grounds for terminating your right to occupy the room.",
+            details.deadline
+              ? `If the full amount does not reach us by <strong>${escape(String(details.deadline))}</strong>, we will issue formal notice to vacate, apply your deposit against the arrears, and hold you liable for whatever remains. Moving out does not clear the balance.`
+              : "If the full amount does not reach us within <strong>7 days</strong>, we will issue formal notice to vacate, apply your deposit against the arrears, and hold you liable for whatever remains. Moving out does not clear the balance.",
+            "If you cannot pay this in one go, reply to this email today and tell us what you can do. We would far rather agree a plan with you than take this any further, but we cannot do that if we do not hear from you.",
           ],
           money: {
-            label: "Total outstanding",
+            label: "Payable in full",
             value: `SGD ${escape(String(details.amount))}`,
-            footnote: `Includes SGD ${escape(String(details.late_fee))} in late fees`,
+            footnote: details.deadline
+              ? `By ${escape(String(details.deadline))} &middot; includes SGD ${escape(String(details.late_fee))} in late fees`
+              : `Includes SGD ${escape(String(details.late_fee))} in late fees`,
           },
-          details: [{ label: "Invoice", value: chip(String(details.invoice_code)) }],
+          details: [
+            { label: "Invoice", value: chip(String(details.invoice_code)) },
+            { label: "Overdue", value: `<strong>${days(details.days_overdue)}</strong>` },
+            ...(details.deadline
+              ? [{ label: "Pay by", value: `<strong>${escape(String(details.deadline))}</strong>` }]
+              : []),
+          ],
           cta: { label: "Pay Now", url: `${PORTAL_BASE}/portal/billing/${details.invoice_id}` },
           ctaCaption: "Or reply to this email today",
         }),

@@ -1100,7 +1100,12 @@ export default async function handler(req, res) {
         return await handleCancel(req, res);
       case "leads-off-horizon":
         return await handleOffHorizonLead(req, res);
+      // Both spellings on purpose. A Vercel rewrite does not rewrite req.url,
+      // so depending on how the params resolve this arrives as either the
+      // destination path or the pretty source path. Accepting both means the
+      // opt-out link cannot 404 on a routing detail.
       case "lead-close":
+      case "leads/close":
         return await handleLeadClose(req, res);
       case "admin-lead-reminder":
         return await handleAdminLeadReminder(req, res);

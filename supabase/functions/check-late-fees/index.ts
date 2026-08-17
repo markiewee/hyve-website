@@ -52,6 +52,22 @@ function monthLabel(dateStr: string): string {
   return new Date(dateStr).toLocaleString("en-SG", { month: "long", year: "numeric" });
 }
 
+/**
+ * The final notice gives seven days. A named date is harder to argue with and
+ * harder to misremember than "within 7 days", and it is the one line in that
+ * email a reader will act on, so it gets computed rather than left relative.
+ */
+function deadlineFromToday(todayIso: string, addDays: number): string {
+  const d = new Date(`${todayIso}T00:00:00+08:00`);
+  d.setDate(d.getDate() + addDays);
+  return d.toLocaleDateString("en-SG", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Asia/Singapore",
+  });
+}
+
 
 Deno.serve(async (req) => {
   try {
@@ -147,6 +163,8 @@ Deno.serve(async (req) => {
         late_fee: round2(currentFee + rung.newFee).toFixed(2),
         estimated_late_fee: rung.estimatedLateFee.toFixed(2),
         payment_ref: rp.payment_ref,
+        deadline:
+          rung.event === "INVOICE_FINAL_NOTICE" ? deadlineFromToday(today, 7) : undefined,
       });
       results.push(`${rp.payment_ref}: ${rung.event} (${daysOverdue} days)`);
 
