@@ -239,10 +239,6 @@ table.tbl td:not(:first-child) { font-family:var(--mono); font-variant-numeric:t
   display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--s7); break-inside:avoid }
 @media (max-width:640px) { .sign { grid-template-columns:minmax(0,1fr) } }
 .sign .rule { height:74px; border-bottom:1px solid var(--ink); position:relative; margin-top:var(--s5) }
-.sign .rule .hand {
-  position:absolute; left:2px; bottom:10px;
-  font-family:var(--head); font-style:italic; font-size:23px; color:var(--ink);
-}
 .sign .rule .ghost {
   position:absolute; left:2px; bottom:10px;
   font-family:var(--head); font-style:italic; font-size:23px; color:var(--line);
