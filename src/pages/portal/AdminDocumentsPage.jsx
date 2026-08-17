@@ -3,7 +3,6 @@ import { supabase } from "../../lib/supabase";
 import PortalLayout from "../../components/portal/PortalLayout";
 import PdfFieldPlacer from "../../components/portal/PdfFieldPlacer";
 import { stampPdf, fetchPdfBytes } from "../../lib/pdfStamp";
-import { notifyMember } from "../../lib/notify";
 import { generateFeeScheduleHtml } from "../../lib/feeSchedule";
 
 const DOC_TYPES = ["LICENCE_AGREEMENT", "NOTICE_OF_TERMINATION", "MOVE_IN_CHECKLIST", "MOVE_OUT_CHECKLIST", "HOUSE_RULES", "OTHER"];
@@ -324,10 +323,10 @@ export default function AdminDocumentsPage() {
         file_url: fileUrl,
       });
 
-      // Notify member that their TA is ready to sign
-      try {
-        await notifyMember(sendTenantId, "TA_READY", {});
-      } catch (_) { /* non-blocking */ }
+      // TA_READY is fired by the trg_notify_ta_ready trigger on
+      // onboarding_progress, so every route that puts a signable document in
+      // front of a tenant notifies them, not just this one. Calling it here as
+      // well would send the tenant two identical emails.
 
       setMessage({ type: "success", text: `Document generated and sent to ${tenant?.tenant_details?.full_name || "member"}.` });
       setShowSend(false);
