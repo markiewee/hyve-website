@@ -12,6 +12,8 @@
 //   GET  /api/booking/auth/login              → admin-gated OAuth init
 //   GET  /api/booking/auth/callback           → OAuth callback, displays refresh token once
 //   GET  /api/booking/cron                    → runs reminder sweep (CRON_SECRET-gated)
+//   POST /api/booking/owner-lead              → owner lead from lazybee.sg, emailed out
+//                                               (public path /api/owners/lead, see vercel.json)
 //
 // Spec: docs/superpowers/specs/2026-05-06-lazybee-viewing-booking-v2-design.md
 
@@ -1003,6 +1005,134 @@ async function handleCron(req, res) {
   });
 }
 
+// ── owner leads (lazybee.sg homepage) ─────────────────────────────────
+//
+// Reached as POST /api/owners/lead, rewritten here by vercel.json. It lives in
+// this catch-all rather than its own file only because the Hobby plan caps the
+// repo at 12 functions, which is the same reason the viewing routes were
+// consolidated here in the first place.
+//
+// The homepage has always computed a full brief for the owner. Until now that
+// brief died in the browser: the form called `track()`, `track()` no-ops when
+// PostHog has no key, and PostHog has no key in production. Every owner who
+// filled the form was dropped silently.
+//
+// This is deliberately email-only: Mark works the leads from his inbox, so
+// there is no table to keep in sync. The consequence is that a failed send
+// loses the lead, which is exactly the bug being removed, so this route must
+// report failure honestly and let the form offer a WhatsApp fallback. Never
+// return 200 for a send we did not make.
+
+const OWNER_NOTIFY_TO = (process.env.RESERVE_NOTIFY_TO || "admin@hyve.sg,mark@meetmillia.com")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+/** Same verified sender the portal already uses for tenant mail. */
+async function sendOwnerEmail(to, subject, html, replyTo) {
+  if (!process.env.RESEND_API_KEY) throw new Error("RESEND_API_KEY not configured");
+  const r = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: "Lazybee Co-living <hello@lazybee.sg>",
+      reply_to: replyTo || "hello@lazybee.sg",
+      to: Array.isArray(to) ? to : [to],
+      subject,
+      html,
+    }),
+  });
+  const text = await r.text();
+  if (!r.ok) throw new Error(`resend ${r.status}: ${text.slice(0, 300)}`);
+  return text;
+}
+
+const ownerEsc = (v) =>
+  String(v ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+
+const ownerSgd = (n) =>
+  Number.isFinite(Number(n)) ? `S$${Math.round(Number(n)).toLocaleString("en-SG")}` : "";
+
+/** An owner who typed an email gets a reply-to; a phone number does not. */
+function ownerReplyTo(contact) {
+  const c = String(contact || "").trim();
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c) ? c : null;
+}
+
+function ownerLeadHtml(b) {
+  const rows = [
+    ["Contact", b.contact],
+    ["Postal code", b.postal_code],
+    ["District", [b.district, b.district_name].filter(Boolean).join(" ")],
+    ["Floor area", b.floor_area_sqft ? `${Number(b.floor_area_sqft).toLocaleString("en-SG")} sqft` : ""],
+    ["Bedrooms", b.bedrooms],
+    ["psf used", b.psf_used],
+    ["Market rent", b.market_rent_monthly ? `${ownerSgd(b.market_rent_monthly)} / mo` : ""],
+    ["Floor we would offer", b.floor_offered_monthly ? `${ownerSgd(b.floor_offered_monthly)} / mo` : ""],
+    ["Modelled owner year", ownerSgd(b.modelled_owner_year)],
+    ["Fixed lease year", ownerSgd(b.modelled_lease_year)],
+    ["Uplift", b.uplift_pct != null ? `${b.uplift_pct}%` : ""],
+    ["Hero variant", b.hero_variant],
+    ["Captured", b.captured_at],
+  ]
+    .filter(([, v]) => v !== "" && v != null)
+    .map(
+      ([k, v]) =>
+        `<tr><td style="padding:6px 16px 6px 0;color:#888;white-space:nowrap">${ownerEsc(k)}</td>` +
+        `<td style="padding:6px 0"><strong>${ownerEsc(v)}</strong></td></tr>`
+    )
+    .join("");
+
+  const a = b.assumptions || {};
+  return `<p style="font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#B08D4F;margin:0 0 10px">New owner lead</p>
+<h2 style="font-weight:400;margin:0 0 4px">${ownerEsc(b.district_name || b.postal_code || "Unit")}</h2>
+<p style="color:#888;margin:0 0 18px">From ${ownerEsc(b.source || "lazybee.sg")}</p>
+<table style="border-collapse:collapse;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px">${rows}</table>
+<p style="color:#888;font-size:12px;margin-top:18px">Assumptions used: uplift ${ownerEsc(a.uplift)}, opex ${ownerEsc(a.opex)}, floor ${ownerEsc(a.floor_pct)}, share ${ownerEsc(a.share)}.</p>
+<p style="color:#888;font-size:12px">The owner has been told someone will reach out within a day.</p>`;
+}
+
+async function handleOwnerLead(req, res) {
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return res.status(405).json({ error: "method_not_allowed" });
+  }
+
+  const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {};
+  const contact = String(body.contact || "").trim();
+
+  // The contact is the only thing that makes a lead actionable.
+  if (!contact) return res.status(400).json({ error: "contact_required" });
+
+  const where =
+    [body.district, body.district_name].filter(Boolean).join(" ") || body.postal_code || "Singapore";
+  const size = body.floor_area_sqft
+    ? `, ${Number(body.floor_area_sqft).toLocaleString("en-SG")} sqft`
+    : "";
+
+  try {
+    await sendOwnerEmail(
+      OWNER_NOTIFY_TO,
+      `New owner lead: ${where}${size}`,
+      ownerLeadHtml(body),
+      ownerReplyTo(contact)
+    );
+  } catch (err) {
+    // Loud on purpose. A silent failure here is the original bug.
+    console.error("[owner-lead] send failed", { contact, where, error: String(err) });
+    return res.status(502).json({ error: "send_failed" });
+  }
+
+  return res.status(200).json({ ok: true });
+}
+
 // ── dispatcher ────────────────────────────────────────────────────────
 
 export default async function handler(req, res) {
@@ -1034,6 +1164,8 @@ export default async function handler(req, res) {
         return await handleCreate(req, res);
       case "cancel":
         return await handleCancel(req, res);
+      case "owner-lead":
+        return await handleOwnerLead(req, res);
       case "leads-off-horizon":
         return await handleOffHorizonLead(req, res);
       case "admin-lead-reminder":

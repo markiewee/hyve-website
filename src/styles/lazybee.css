@@ -81,6 +81,10 @@
 .lzb .wrap{max-width:1220px;margin:0 auto;padding-left:clamp(20px,4vw,58px);padding-right:clamp(20px,4vw,58px)}
 .lzb .wrap-wide{max-width:1560px;margin:0 auto;padding-left:clamp(20px,3vw,40px);padding-right:clamp(20px,3vw,40px)}
 .lzb .sec{padding-top:clamp(58px,7vw,110px);padding-bottom:clamp(58px,7vw,110px)}
+/* The owner homepage runs long, and 84px of air either side of nine sections is
+   1,500px of scrolling on its own. Tighter rhythm on this page only, so the
+   essays under /hive keep their reading room. */
+.lzb main#top .sec{padding-top:clamp(40px,4.6vw,72px);padding-bottom:clamp(40px,4.6vw,72px)}
 .lzb .sec-sm{padding-top:var(--s7);padding-bottom:var(--s7)}
 .lzb .rule{border-top:1px solid var(--line)}
 .lzb .stack > * + *{margin-top:var(--s4)}
@@ -218,6 +222,22 @@
 .lzb .navlinks a{text-decoration:none;color:inherit;opacity:.72;transition:.25s}
 .lzb .navlinks a:hover,.lzb .navlinks a[aria-current]{opacity:1}
 .lzb .navlinks a[aria-current]{color:var(--accent-text)}
+
+/* The tenant door. Brass pill so a room-hunter finds it on a page that is
+   otherwise entirely addressed to owners. Full opacity: it must not read as
+   one more muted nav item. */
+.lzb .navlinks a.navbook{opacity:1;border:1px solid var(--accent);color:var(--accent-text);
+  border-radius:999px;padding:8px 16px;white-space:nowrap;min-height:36px;display:inline-flex;
+  align-items:center}
+.lzb .navlinks a.navbook:hover{background:var(--accent);color:var(--on-accent)}
+.lzb .herotenant{margin-top:14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;opacity:.72}
+.lzb .herotenant a{color:inherit;text-decoration:none;border-bottom:1px solid currentColor;
+  padding-bottom:2px}
+.lzb .herotenant a:hover{opacity:1;color:var(--accent-text)}
+@media (max-width:760px){
+  .lzb .navlinks a.navbook{padding:7px 12px;font-size:11px}
+}
 
 /* ── states ───────────────────────────────────────────────────────── */
 .lzb .empty{border:1px dashed var(--line);padding:clamp(28px,4vw,54px);text-align:center}
