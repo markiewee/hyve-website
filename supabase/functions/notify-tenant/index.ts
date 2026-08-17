@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { generic, urgent, escape, chip } from "../_shared/emailShell.js";
 
 const supabase = createClient(
   Deno.env.get("SUPABASE_URL")!,
@@ -11,132 +12,9 @@ const NOTIFY_SECRET = Deno.env.get("NOTIFY_SECRET") || "";
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") || "";
 
 const PORTAL_BASE = "https://www.lazybee.sg";
-const LOGO_URL = `${PORTAL_BASE}/lazybee_green.png`;
-const HERO_GENERIC = `${PORTAL_BASE}/hero_email_generic.jpg`;
-const HERO_URGENT = `${PORTAL_BASE}/hero_email_urgent.jpg`;
 
-// ─── Email layout helpers ──────────────────────────────────────────
-// Email-safe HTML: table layouts, inline CSS, hex colors, no JS,
-// no Tailwind utility classes (Tailwind CDN script is stripped by Gmail/Outlook).
-
+/** A label/value pair rendered as one hairline-separated row. */
 type Detail = { label: string; value: string };
-
-interface LayoutInput {
-  preheader?: string;            // shown in inbox preview
-  badge: string;                 // "MEMBER UPDATE" etc.
-  headline: string;
-  greeting?: string;             // "Hi Mark,"
-  paragraphs: string[];
-  details?: Detail[];
-  cta: { label: string; url: string };
-  ctaCaption?: string;           // small caption under the CTA
-}
-
-function escape(s: string): string {
-  return String(s ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
-
-function detailsTable(details: Detail[] | undefined, accent: string): string {
-  if (!details || !details.length) return "";
-  const rows = details
-    .map(
-      (d) => `
-        <tr>
-          <td style="padding:8px 16px 8px 0;color:#6e7976;font-size:13px;vertical-align:top;white-space:nowrap">${escape(d.label)}</td>
-          <td style="padding:8px 0;color:#191c20;font-size:14px;vertical-align:top">${d.value}</td>
-        </tr>`
-    )
-    .join("");
-  return `
-    <tr>
-      <td style="padding:0 0 28px 0">
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;border:1px solid #e1e2e8;border-left:3px solid ${accent};border-radius:12px">
-          <tr><td style="padding:16px 20px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${rows}</table></td></tr>
-        </table>
-      </td>
-    </tr>`;
-}
-
-function renderEmail(opts: LayoutInput & { variant: "generic" | "urgent" }): string {
-  const isUrgent = opts.variant === "urgent";
-  const primary = isUrgent ? "#ba1a1a" : "#006b5f";
-  const badgeBg = isUrgent ? "#ffdad6" : "#d7e6e2";
-  const badgeFg = isUrgent ? "#93000a" : "#005047";
-  const heroSrc = isUrgent ? HERO_URGENT : HERO_GENERIC;
-  const subBrand = isUrgent ? "Lazybee Updates" : "Lazybee Co-living";
-
-  const preheader = opts.preheader || opts.headline;
-  const greeting = opts.greeting ? `<p style="margin:0 0 16px 0">${escape(opts.greeting)}</p>` : "";
-  const paras = opts.paragraphs
-    .map((p) => `<p style="margin:0 0 16px 0">${p}</p>`)
-    .join("");
-  const ctaCaption = opts.ctaCaption
-    ? `<tr><td align="center" style="padding:12px 0 0 0;font-size:11px;color:#6e7976;letter-spacing:0.15em;text-transform:uppercase">${escape(opts.ctaCaption)}</td></tr>`
-    : "";
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${escape(opts.headline)}</title>
-</head>
-<body style="margin:0;padding:0;background:#f8f9ff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:#191c20;-webkit-font-smoothing:antialiased">
-<div style="display:none;max-height:0;overflow:hidden;color:transparent">${escape(preheader)}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f8f9ff">
-  <tr><td align="center" style="padding:32px 16px">
-    <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;width:100%">
-      <!-- Header -->
-      <tr><td style="padding:0 0 24px 0;font-size:18px;font-weight:700;color:${primary};letter-spacing:-0.3px">${subBrand}</td></tr>
-      <!-- Hero -->
-      <tr><td style="padding:0 0 24px 0">
-        <img src="${heroSrc}" alt="" width="560" style="display:block;width:100%;max-width:560px;height:auto;border-radius:16px;border:0">
-      </td></tr>
-      <!-- Badge -->
-      <tr><td style="padding:0 0 12px 0">
-        <span style="display:inline-block;padding:6px 12px;background:${badgeBg};color:${badgeFg};border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase">${escape(opts.badge)}</span>
-      </td></tr>
-      <!-- Headline -->
-      <tr><td style="padding:0 0 20px 0;font-size:30px;font-weight:800;line-height:1.1;letter-spacing:-1px;color:#191c20">${escape(opts.headline)}</td></tr>
-      <!-- Body -->
-      <tr><td style="padding:0 0 24px 0;font-size:15px;line-height:1.65;color:#3e4946">
-        ${greeting}
-        ${paras}
-      </td></tr>
-      ${detailsTable(opts.details, primary)}
-      <!-- CTA -->
-      <tr><td align="center" style="padding:0">
-        <a href="${escape(opts.cta.url)}" style="display:inline-block;padding:14px 32px;background:${primary};color:#ffffff;text-decoration:none;border-radius:999px;font-weight:700;font-size:15px;letter-spacing:0.2px">${escape(opts.cta.label)}</a>
-      </td></tr>
-      ${ctaCaption}
-      <!-- Footer -->
-      <tr><td align="center" style="padding:48px 0 0 0">
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-          <tr><td style="border-top:1px solid #e1e2e8;height:1px;line-height:1px;font-size:1px">&nbsp;</td></tr>
-        </table>
-      </td></tr>
-      <tr><td align="center" style="padding:24px 0 0 0">
-        <p style="margin:0 0 4px 0;font-size:12px;font-weight:600;color:#191c20">Lazybee Co-living HQ</p>
-        <p style="margin:0 0 16px 0;font-size:11px;color:#6e7976">39 Jalan Kelulut, Singapore 809056</p>
-        <p style="margin:0;font-size:10px;color:#9aa3a1;letter-spacing:0.2em;text-transform:uppercase">&copy; 2026 Lazybee Living</p>
-        <p style="margin:8px 0 0 0;font-size:11px;color:#6e7976">
-          <a href="${PORTAL_BASE}/privacy-policy" style="color:#6e7976;text-decoration:underline">Privacy</a>
-          &nbsp;&middot;&nbsp;
-          <a href="mailto:hello@lazybee.sg?subject=Unsubscribe" style="color:#6e7976;text-decoration:underline">Unsubscribe</a>
-        </p>
-      </td></tr>
-    </table>
-  </td></tr>
-</table>
-</body>
-</html>`;
-}
-
-const generic = (o: LayoutInput) => renderEmail({ ...o, variant: "generic" });
-const urgent = (o: LayoutInput) => renderEmail({ ...o, variant: "urgent" });
 
 // ─── Send via Resend (or NOTIFY_URL fallback) ──────────────────────
 
@@ -245,7 +123,7 @@ async function buildEmail(
         },
         RESOLVED: {
           headline: `Your ${cat} request is resolved.`,
-          lead: `Good news — this is now marked as resolved. Reply to this email or open a new ticket if anything still isn't right.`,
+          lead: `Good news, this is now marked as resolved. Reply to this email or open a new ticket if anything still isn't right.`,
           cta: "View in Portal",
           caption: "Issue closed",
         },
@@ -260,7 +138,7 @@ async function buildEmail(
       const detailRows: Detail[] = [
         {
           label: "Issue",
-          value: `<strong>${escape(ticket_category || "Maintenance")}</strong>${unitCode ? ` &middot; <span style="font-family:monospace;background:#eff4ff;padding:2px 8px;border-radius:4px;font-size:12px">${escape(unitCode)}</span>` : ""}`,
+          value: `<strong>${escape(ticket_category || "Maintenance")}</strong>${unitCode ? ` &middot; ${chip(unitCode)}` : ""}`,
         },
       ];
       if (description) detailRows.push({ label: "Reported", value: escape(description) });
@@ -310,14 +188,14 @@ async function buildEmail(
             "Your licence agreement has been uploaded and is ready for your digital signature. It takes about 2 minutes.",
           ],
           cta: { label: "Sign Now", url: `${PORTAL_BASE}/portal/onboarding` },
-          ctaCaption: "Signed digitally — no printing",
+          ctaCaption: "Signed digitally, no printing",
         }),
       };
 
     case "AC_THRESHOLD_WARNING": {
       const { hours_used, free_hours } = details;
       return {
-        subject: `AC usage alert — ${Math.round(hours_used)}/${free_hours} free hours`,
+        subject: `AC usage alert: ${Math.round(hours_used)} of ${free_hours} free hours`,
         html: urgent({
           badge: "Usage Alert",
           headline: "You're approaching your free AC hours.",
@@ -335,7 +213,7 @@ async function buildEmail(
     case "MEMBER_CREATED": {
       const { username, password, login_url } = details;
       return {
-        subject: "Welcome to Lazybee — your account is ready",
+        subject: "Welcome to Lazybee, your account is ready",
         html: generic({
           badge: "Welcome",
           headline: "Your member account is ready.",
@@ -344,8 +222,8 @@ async function buildEmail(
             "Welcome to the Lazybee community. Use the credentials below to sign in for the first time, then change your password from the settings page.",
           ],
           details: [
-            { label: "Username", value: `<code style="font-family:monospace;background:#eff4ff;padding:2px 8px;border-radius:4px;font-size:13px">${escape(username)}</code>` },
-            { label: "Password", value: `<code style="font-family:monospace;background:#eff4ff;padding:2px 8px;border-radius:4px;font-size:13px">${escape(password)}</code>` },
+            { label: "Username", value: chip(String(username)) },
+            { label: "Password", value: chip(String(password)) },
           ],
           cta: { label: "Log In", url: login_url || `${PORTAL_BASE}/portal/login` },
           ctaCaption: "Change your password after first login",
@@ -365,7 +243,7 @@ async function buildEmail(
           greeting: `Hi ${firstName},`,
           paragraphs: [
             "We received a request to reset the password for your Lazybee portal account. Click the button below to choose a new one.",
-            `This link expires in ${ttl} minutes. If you didn't request a reset, you can ignore this email — your password won't change.`,
+            `This link expires in ${ttl} minutes. If you didn't request a reset, you can ignore this email and your password won't change.`,
           ],
           cta: { label: "Reset Password", url: reset_url },
           ctaCaption: "One-time use link",
@@ -390,20 +268,29 @@ async function buildEmail(
       };
     }
 
+    // Retained as the generic arrears fallback. The nightly ladder no longer
+    // sends this: check-late-fees now emits a specific INVOICE_* event per
+    // rung, because every rung used to send this one email and a tenant three
+    // days late read the same words as one twenty-nine days late.
     case "RENT_OVERDUE": {
       const { month, amount, days_overdue, late_fee } = details;
       const dayWord = days_overdue === 1 ? "day" : "days";
       return {
-        subject: `Rent overdue — ${month} (${days_overdue} ${dayWord})`,
+        subject: `Rent overdue: ${month} (${days_overdue} ${dayWord})`,
         html: urgent({
-          badge: "Payment Overdue",
-          headline: "Your rent payment is overdue.",
+          badge: "Payment overdue",
+          headline: "Your rent is overdue.",
           greeting: `Hi ${firstName},`,
           paragraphs: [
-            `Your rent for <strong>${escape(month)}</strong> of <strong>SGD ${escape(String(amount))}</strong> is now <strong>${days_overdue} ${dayWord}</strong> past due.`,
+            `Your rent for <strong>${escape(month)}</strong> is now <strong>${days_overdue} ${dayWord}</strong> past due.`,
             late_fee ? `A late fee of <strong>SGD ${escape(String(late_fee))}</strong> may apply.` : "",
-            "Please make your payment as soon as possible to avoid further charges.",
+            "Please make payment as soon as you can to avoid further charges.",
           ].filter(Boolean),
+          money: {
+            label: "Outstanding",
+            value: `SGD ${escape(String(amount))}`,
+            footnote: `${days_overdue} ${dayWord} past due`,
+          },
           cta: { label: "Pay Now", url: `${PORTAL_BASE}/portal/billing` },
           ctaCaption: "Settle to clear all late fees",
         }),
@@ -418,18 +305,23 @@ async function buildEmail(
     case "RENT_DUE": {
       const { month: dueMonth, amount: dueAmount, due_date, payment_ref, prorated_note } = details;
       return {
-        subject: `Rent for ${dueMonth} — SGD ${escape(String(dueAmount))}`,
+        subject: `Rent for ${dueMonth}, SGD ${escape(String(dueAmount))} due`,
         html: generic({
-          badge: "Rent Due",
+          badge: "Rent due",
           headline: `Your rent for ${escape(String(dueMonth))}.`,
           greeting: `Hi ${firstName},`,
           paragraphs: [
-            `<strong>SGD ${escape(String(dueAmount))}</strong> is due by <strong>${escape(String(due_date))}</strong>.`,
             prorated_note ? escape(String(prorated_note)) : "",
             payment_ref
-              ? `Please put <strong>${escape(String(payment_ref))}</strong> in the reference field when you transfer. That code is how the payment is matched to you automatically, and without it we have to chase you to confirm it arrived.`
+              ? "Please put the reference below in the transfer field. That code is how the payment is matched to you automatically, and without it we have to chase you to confirm it arrived."
               : "",
           ].filter(Boolean),
+          money: {
+            label: "Amount due",
+            value: `SGD ${escape(String(dueAmount))}`,
+            footnote: `Due ${escape(String(due_date))}`,
+          },
+          details: payment_ref ? [{ label: "Payment ref", value: chip(String(payment_ref)) }] : [],
           cta: { label: "View Billing", url: `${PORTAL_BASE}/portal/billing` },
           ctaCaption: payment_ref ? `Reference: ${payment_ref}` : undefined,
         }),
@@ -439,14 +331,19 @@ async function buildEmail(
     case "RENT_PAID": {
       const { month: paidMonth, amount: paidAmount } = details;
       return {
-        subject: `Payment confirmed — ${paidMonth}`,
+        subject: `Payment confirmed for ${paidMonth}`,
         html: generic({
-          badge: "Payment Received",
-          headline: "Thanks — payment confirmed.",
+          badge: "Payment received",
+          headline: "Thanks, payment confirmed.",
           greeting: `Hi ${firstName},`,
           paragraphs: [
-            `We've received your rent payment of <strong>SGD ${escape(String(paidAmount))}</strong> for <strong>${escape(paidMonth)}</strong>. You're all set for this month.`,
+            `We've received your rent for <strong>${escape(paidMonth)}</strong>. You're all set for this month.`,
           ],
+          money: {
+            label: "Received",
+            value: `SGD ${escape(String(paidAmount))}`,
+            footnote: escape(String(paidMonth)),
+          },
           cta: { label: "View Billing", url: `${PORTAL_BASE}/portal/billing` },
         }),
       };
@@ -488,7 +385,7 @@ async function buildEmail(
     case "ONBOARDING_COMPLETE": {
       const { room_code, property_name } = details;
       return {
-        subject: "Welcome home — onboarding complete",
+        subject: "Welcome home, onboarding complete",
         html: generic({
           badge: "All Set",
           headline: "You're an active member.",
@@ -505,15 +402,25 @@ async function buildEmail(
 
     case "INVOICE_ISSUED": {
       return {
-        subject: `Invoice ${details.invoice_code} — SGD ${details.amount}`,
+        subject: `Invoice ${details.invoice_code} for SGD ${details.amount}`,
         html: generic({
-          badge: "New Invoice",
-          headline: `Your invoice ${details.invoice_code} is ready.`,
+          badge: "New invoice",
+          headline: "Your invoice is ready.",
           greeting: `Hi ${firstName},`,
           paragraphs: [
-            `Your invoice <strong>${escape(details.invoice_code)}</strong> for <strong>SGD ${escape(String(details.amount))}</strong> is ready to view and pay.`,
+            "Your invoice is up in the portal. You can pay it there by card, or transfer and use the reference below.",
           ],
-          details: [{ label: "Due", value: `<strong>${escape(details.due_date)}</strong>` }],
+          money: {
+            label: "Amount due",
+            value: `SGD ${escape(String(details.amount))}`,
+            footnote: `Due ${escape(String(details.due_date))}`,
+          },
+          details: [
+            { label: "Invoice", value: chip(String(details.invoice_code)) },
+            ...(details.payment_ref
+              ? [{ label: "Payment ref", value: chip(String(details.payment_ref)) }]
+              : []),
+          ],
           cta: { label: "View & Pay", url: `${PORTAL_BASE}/portal/billing/${details.invoice_id}` },
         }),
       };
@@ -521,14 +428,22 @@ async function buildEmail(
 
     case "INVOICE_UPDATED": {
       return {
-        subject: `Invoice ${details.invoice_code} updated — new total SGD ${details.amount}`,
+        subject: `Invoice ${details.invoice_code} updated, new total SGD ${details.amount}`,
         html: generic({
-          badge: "Invoice Updated",
-          headline: `Your invoice has new charges.`,
+          badge: "Invoice updated",
+          headline: "Your invoice has new charges.",
           greeting: `Hi ${firstName},`,
           paragraphs: [
-            `Your invoice <strong>${escape(details.invoice_code)}</strong> has been updated with usage charges. New total: <strong>SGD ${escape(String(details.amount))}</strong>.`,
+            "We've added this month's usage to your invoice. Nothing else has changed.",
           ],
+          money: {
+            label: "New total",
+            value: `SGD ${escape(String(details.amount))}`,
+            footnote: details.previous_amount
+              ? `Was SGD ${escape(String(details.previous_amount))}`
+              : null,
+          },
+          details: [{ label: "Invoice", value: chip(String(details.invoice_code)) }],
           cta: { label: "View Details", url: `${PORTAL_BASE}/portal/billing/${details.invoice_id}` },
         }),
       };
@@ -536,14 +451,19 @@ async function buildEmail(
 
     case "INVOICE_PAID": {
       return {
-        subject: `Payment received — invoice ${details.invoice_code}`,
+        subject: `Payment received for invoice ${details.invoice_code}`,
         html: generic({
-          badge: "Payment Received",
-          headline: "Thanks — payment received.",
+          badge: "Payment received",
+          headline: "Thanks, that's settled.",
           greeting: `Hi ${firstName},`,
           paragraphs: [
-            `We've received your payment of <strong>SGD ${escape(String(details.amount))}</strong>. Invoice <strong>${escape(details.invoice_code)}</strong> is now fully paid.`,
+            "We've received your payment and the invoice is now fully paid. A receipt is in your portal whenever you need it.",
           ],
+          money: {
+            label: "Paid",
+            value: `SGD ${escape(String(details.amount))}`,
+            footnote: escape(String(details.invoice_code)),
+          },
           cta: { label: "View Billing", url: `${PORTAL_BASE}/portal/billing` },
         }),
       };
@@ -551,15 +471,21 @@ async function buildEmail(
 
     case "INVOICE_OVERDUE": {
       return {
-        subject: `Invoice ${details.invoice_code} overdue — late fee applied`,
+        subject: `Invoice ${details.invoice_code} overdue, late fee applied`,
         html: urgent({
           badge: "Overdue",
-          headline: `Your invoice is overdue.`,
+          headline: "Your invoice is overdue.",
           greeting: `Hi ${firstName},`,
           paragraphs: [
-            `Your invoice <strong>${escape(details.invoice_code)}</strong> is <strong>${days(details.days_overdue)}</strong> overdue. A late fee of <strong>SGD ${escape(String(details.late_fee))}</strong> has been applied.`,
-            "Please settle the outstanding amount as soon as possible.",
+            `Your invoice is <strong>${days(details.days_overdue)}</strong> overdue and a 5% late fee has been applied.`,
+            "Please settle the outstanding amount as soon as you can.",
           ],
+          money: {
+            label: "Now owing",
+            value: `SGD ${escape(String(details.amount))}`,
+            footnote: `Includes SGD ${escape(String(details.late_fee))} late fee`,
+          },
+          details: [{ label: "Invoice", value: chip(String(details.invoice_code)) }],
           cta: { label: "Pay Now", url: `${PORTAL_BASE}/portal/billing/${details.invoice_id}` },
         }),
       };
@@ -567,16 +493,21 @@ async function buildEmail(
 
     case "INVOICE_LATE_NOTICE": {
       return {
-        subject: `Friendly reminder — rent for ${details.month_label || "this month"} is overdue`,
+        subject: `Friendly reminder: rent for ${details.month_label || "this month"} is overdue`,
         html: generic({
-          badge: "Payment Reminder",
-          headline: `Just a heads up — your rent is overdue.`,
+          badge: "Payment reminder",
+          headline: "Just a heads up on your rent.",
           greeting: `Hi ${firstName},`,
           paragraphs: [
-            `We noticed your invoice <strong>${escape(details.invoice_code)}</strong> for <strong>SGD ${escape(String(details.amount))}</strong> hasn't come through yet.`,
-            "If you've already paid, ignore this — it can take a day to clear. Otherwise, please settle it when you get a chance.",
+            "Your invoice hasn't come through yet. If you've already paid, ignore this, bank transfers can take a day to clear.",
+            "Otherwise, whenever you get a chance.",
           ],
-          details: [{ label: "Outstanding", value: `<strong>SGD ${escape(String(details.amount))}</strong>` }],
+          money: {
+            label: "Outstanding",
+            value: `SGD ${escape(String(details.amount))}`,
+            footnote: details.month_label ? `For ${escape(String(details.month_label))}` : null,
+          },
+          details: [{ label: "Invoice", value: chip(String(details.invoice_code)) }],
           cta: { label: "View & Pay", url: `${PORTAL_BASE}/portal/billing/${details.invoice_id}` },
         }),
       };
@@ -584,15 +515,21 @@ async function buildEmail(
 
     case "INVOICE_LATE_FEE_WARNING": {
       return {
-        subject: `Late fee will be applied tomorrow — invoice ${details.invoice_code}`,
+        subject: `Late fee applies tomorrow on invoice ${details.invoice_code}`,
         html: urgent({
-          badge: "Late Fee Tomorrow",
-          headline: `Pay today to avoid a late fee.`,
+          badge: "Late fee tomorrow",
+          headline: "Pay today to avoid the late fee.",
           greeting: `Hi ${firstName},`,
           paragraphs: [
-            `Your invoice <strong>${escape(details.invoice_code)}</strong> for <strong>SGD ${escape(String(details.amount))}</strong> is now <strong>${days(details.days_overdue)}</strong> overdue.`,
-            `If it's not settled by tomorrow, a <strong>5% late fee (~SGD ${escape(String(details.estimated_late_fee))})</strong> will be added to your invoice automatically.`,
+            `Your invoice is now <strong>${days(details.days_overdue)}</strong> overdue. If it isn't settled by tomorrow, a 5% late fee is added automatically.`,
+            "If something's gone wrong with the payment, reply to this email and we'll sort it out.",
           ],
+          money: {
+            label: "Outstanding",
+            value: `SGD ${escape(String(details.amount))}`,
+            footnote: `Late fee if unpaid: SGD ${escape(String(details.estimated_late_fee))}`,
+          },
+          details: [{ label: "Invoice", value: chip(String(details.invoice_code)) }],
           cta: { label: "Pay Now", url: `${PORTAL_BASE}/portal/billing/${details.invoice_id}` },
         }),
       };
@@ -601,10 +538,10 @@ async function buildEmail(
     case "INVOICE_OVERDUE_REMINDER": {
       const d = Number(details.days_overdue);
       const tier = d >= 25 ? "final" : d >= 15 ? "firm" : "soft";
-      const badge = tier === "final" ? "Urgent — Final Reminders" : tier === "firm" ? "Outstanding Balance" : "Still Outstanding";
+      const badge = tier === "final" ? "Urgent, final reminder" : tier === "firm" ? "Outstanding Balance" : "Still Outstanding";
       const headline =
         tier === "final"
-          ? `Last reminders before escalation.`
+          ? `Last reminder before escalation.`
           : tier === "firm"
             ? `Your invoice is still unpaid.`
             : `Just a follow-up on your unpaid invoice.`;
@@ -617,16 +554,22 @@ async function buildEmail(
       return {
         subject:
           tier === "final"
-            ? `URGENT — Invoice ${details.invoice_code} is ${d} days overdue`
+            ? `URGENT: invoice ${details.invoice_code} is ${d} days overdue`
             : `Reminder: invoice ${details.invoice_code} is ${d} days overdue`,
         html: (tier === "soft" ? generic : urgent)({
           badge,
           headline,
           greeting: `Hi ${firstName},`,
           paragraphs: [
-            `Your invoice <strong>${escape(details.invoice_code)}</strong> is now <strong>${days(d)}</strong> overdue with <strong>SGD ${escape(String(details.amount))}</strong> outstanding.`,
+            `Your invoice is now <strong>${days(d)}</strong> overdue.`,
             closing,
           ],
+          money: {
+            label: "Outstanding",
+            value: `SGD ${escape(String(details.amount))}`,
+            footnote: `${days(d)} overdue`,
+          },
+          details: [{ label: "Invoice", value: chip(String(details.invoice_code)) }],
           cta: { label: "Pay Now", url: `${PORTAL_BASE}/portal/billing/${details.invoice_id}` },
         }),
       };
@@ -634,17 +577,37 @@ async function buildEmail(
 
     case "INVOICE_FINAL_NOTICE": {
       return {
-        subject: `FINAL NOTICE — Invoice ${details.invoice_code} (eviction proceedings)`,
+        subject: `FINAL NOTICE: ${details.deadline ? `pay by ${details.deadline}` : "7 days"} or we begin ending your tenancy`,
         html: urgent({
-          badge: "Final Notice",
-          headline: `This is a final notice before eviction.`,
+          preheader: `Invoice ${details.invoice_code} is ${days(details.days_overdue)} overdue. This is the last notice before we act.`,
+          banner: "Final notice before termination of tenancy",
+          badge: "Final notice",
+          headline: "We are preparing to end your tenancy.",
           greeting: `Hi ${firstName},`,
           paragraphs: [
-            `Your invoice <strong>${escape(details.invoice_code)}</strong> for <strong>SGD ${escape(String(details.amount))}</strong> is now <strong>${days(details.days_overdue)}</strong> overdue.`,
-            `A second 5% late fee of <strong>SGD ${escape(String(details.late_fee))}</strong> has been applied. Per your licence agreement, continued non-payment is grounds for termination of your tenancy.`,
-            `<strong>Please settle the full outstanding amount within 7 days</strong>, or contact us immediately to discuss. Failure to do so will result in formal notice to vacate and the deposit being forfeited toward outstanding amounts.`,
+            `Your rent is <strong>${days(details.days_overdue)}</strong> overdue. A second 5% late fee has been applied and the balance below is now payable in full.`,
+            "<strong>This is the last email you will receive before we act.</strong> Under your licence agreement, non-payment of this length is grounds for terminating your right to occupy the room.",
+            details.deadline
+              ? `If the full amount does not reach us by <strong>${escape(String(details.deadline))}</strong>, we will issue formal notice to vacate, apply your deposit against the arrears, and hold you liable for whatever remains. Moving out does not clear the balance.`
+              : "If the full amount does not reach us within <strong>7 days</strong>, we will issue formal notice to vacate, apply your deposit against the arrears, and hold you liable for whatever remains. Moving out does not clear the balance.",
+            "If you cannot pay this in one go, reply to this email today and tell us what you can do. We would far rather agree a plan with you than take this any further, but we cannot do that if we do not hear from you.",
+          ],
+          money: {
+            label: "Payable in full",
+            value: `SGD ${escape(String(details.amount))}`,
+            footnote: details.deadline
+              ? `By ${escape(String(details.deadline))} · includes SGD ${escape(String(details.late_fee))} in late fees`
+              : `Includes SGD ${escape(String(details.late_fee))} in late fees`,
+          },
+          details: [
+            { label: "Invoice", value: chip(String(details.invoice_code)) },
+            { label: "Overdue", value: `<strong>${days(details.days_overdue)}</strong>` },
+            ...(details.deadline
+              ? [{ label: "Pay by", value: `<strong>${escape(String(details.deadline))}</strong>` }]
+              : []),
           ],
           cta: { label: "Pay Now", url: `${PORTAL_BASE}/portal/billing/${details.invoice_id}` },
+          ctaCaption: "Or reply to this email today",
         }),
       };
     }
@@ -653,12 +616,12 @@ async function buildEmail(
       return {
         subject: "Your Lazybee owner portal sign-in link",
         html: generic({
-          badge: "Owner Portal",
+          badge: "Owner portal",
           headline: "Sign in to your owner portal",
           greeting: `Hi ${firstName},`,
           paragraphs: [
             "Here is your secure sign-in link for the Lazybee owner portal. It signs you in directly, no password needed.",
-            `The link is valid for 24 hours and can be used once. Need a new one? Go to the <a href="${PORTAL_BASE}/portal/login" style="color:#006b5f">portal sign-in page</a>, choose "Property owner? Sign in with an email link", and a fresh link will be sent to you.`,
+            `The link is valid for 24 hours and can be used once. Need a new one? Go to the <a href="${PORTAL_BASE}/portal/login" style="color:#8A6733">portal sign-in page</a>, choose "Property owner? Sign in with an email link", and a fresh link will be sent to you.`,
           ],
           cta: { label: "View Portal", url: details.action_link },
           ctaCaption: "Signs you in directly",
@@ -671,16 +634,161 @@ async function buildEmail(
       return {
         subject: `Your owner portal for ${propertyName} is ready`,
         html: generic({
-          badge: "Owner Portal",
+          badge: "Owner portal",
           headline: "Your owner portal is ready",
           greeting: `Hi ${firstName},`,
           paragraphs: [
             `We've set up a private owner portal for <strong>${escape(propertyName)}</strong>. It shows who is staying in your unit, with passport / ID and immigration pass details and move-in / move-out dates, and lets you view and download each resident's ID and passport.`,
             "The button below signs you in directly, no password needed.",
-            `Any time you want back in, go to the <a href="${PORTAL_BASE}/portal/login" style="color:#006b5f">portal sign-in page</a>, choose "Property owner? Sign in with an email link", enter this email address, and a fresh link will be sent to you.`,
+            `Any time you want back in, go to the <a href="${PORTAL_BASE}/portal/login" style="color:#8A6733">portal sign-in page</a>, choose "Property owner? Sign in with an email link", enter this email address, and a fresh link will be sent to you.`,
           ],
           cta: { label: "View Portal", url: details.action_link },
           ctaCaption: "Signs you in directly",
+        }),
+      };
+    }
+
+    // Something landed in the portal: a message, a maintenance notice, a house
+    // notice, a document. One template, four kinds, because they are the same
+    // email with a different noun.
+    //
+    // The body carries a preview, never the full text. Two reasons: the click
+    // has to land in the portal for the reply to happen in one place, and a
+    // house notice should not sit in plaintext in a mailbox forever.
+    case "PORTAL_NOTICE": {
+      const kind = String(details.kind || "MESSAGE").toUpperCase();
+      const isUrgentNotice = details.priority === "URGENT";
+      const scope = details.scope ? String(details.scope) : "your house";
+
+      const KINDS: Record<
+        string,
+        { badge: string; headline: string; lead: string; cta: string; caption: string; path: string }
+      > = {
+        MESSAGE: {
+          badge: "New message",
+          headline: "You have a new message.",
+          lead: `<strong>${escape(String(details.from_name || "Someone"))}</strong> sent you a message in your Lazybee portal.`,
+          cta: "Read & Reply",
+          caption: "Reply from inside the portal",
+          path: `/portal/messages/${details.thread_id ?? ""}`,
+        },
+        MAINTENANCE: {
+          badge: "Maintenance notice",
+          headline: "There's a maintenance notice for your place.",
+          lead: `A maintenance notice has been posted for <strong>${escape(scope)}</strong>. Have a read so you know what to expect and when.`,
+          cta: "Read the Notice",
+          caption: "Posted by Lazybee ops",
+          path: "/portal/notices",
+        },
+        NOTICE: {
+          badge: "House notice",
+          headline: "There's a new notice for your house.",
+          lead: `A new notice has been posted for <strong>${escape(scope)}</strong>. It's in your portal now.`,
+          cta: "Read the Notice",
+          caption: "Posted by Lazybee ops",
+          path: "/portal/notices",
+        },
+        DOCUMENT: {
+          badge: "New document",
+          headline: "A new document is in your portal.",
+          lead: `<strong>${escape(String(details.subject || "A document"))}</strong> has been added to your documents.`,
+          cta: "View Document",
+          caption: "Download any time",
+          path: "/portal/documents",
+        },
+      };
+      const k = KINDS[kind] ?? KINDS.MESSAGE;
+
+      const rows: Detail[] = [];
+      if (details.from_name)
+        rows.push({
+          label: "From",
+          value: `<strong>${escape(String(details.from_name))}</strong>${details.from_role ? ` &middot; ${escape(String(details.from_role))}` : ""}`,
+        });
+      if (details.subject && kind !== "DOCUMENT")
+        rows.push({ label: "Subject", value: escape(String(details.subject)) });
+      if (details.preview)
+        rows.push({
+          label: "Preview",
+          value: `<span style="color:#5C5247">&ldquo;${escape(String(details.preview))}&rdquo;</span>`,
+        });
+      if (details.posted_at) rows.push({ label: "Posted", value: escape(String(details.posted_at)) });
+      if (details.window)
+        rows.push({ label: "Window", value: `<strong>${escape(String(details.window))}</strong>` });
+
+      const subject =
+        kind === "MESSAGE"
+          ? `New message from ${details.from_name} in your Lazybee portal`
+          : kind === "DOCUMENT"
+            ? `New document: ${details.subject}`
+            : `${isUrgentNotice ? "[Important] " : ""}${details.subject || k.badge} at ${scope}`;
+
+      return {
+        subject,
+        html: (isUrgentNotice ? urgent : generic)({
+          preheader: details.preview ? String(details.preview) : k.headline,
+          badge: isUrgentNotice ? "Important notice" : k.badge,
+          headline: k.headline,
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            k.lead,
+            "Open it in the portal to read the full thing and reply. Everything stays in one place, so nothing gets lost in a chat thread.",
+          ],
+          details: rows,
+          cta: { label: k.cta, url: `${PORTAL_BASE}${k.path}` },
+          ctaCaption: k.caption,
+        }),
+      };
+    }
+
+    // The quiet-prospect nudge. Someone enquired, we replied, they went dark.
+    //
+    // Two links on purpose. "Still keen" books a viewing; "found somewhere
+    // else" closes the lead in the CRM. The negative path is the valuable one:
+    // it is the only thing that stops the chaser without a human reading the
+    // thread, and 207 of the leads in the table are already closed_lost.
+    case "LEAD_STILL_INTERESTED": {
+      const roomLabel = String(details.room_label || "the room");
+      const propertyName = String(details.property_name || "our place");
+      const rows: Detail[] = [
+        { label: "Room", value: `<strong>${escape(roomLabel)}</strong>` },
+        { label: "House", value: escape(propertyName) },
+      ];
+      if (details.available_from)
+        rows.push({ label: "Free from", value: `<strong>${escape(String(details.available_from))}</strong>` });
+      if (details.enquired_on)
+        rows.push({ label: "You asked", value: escape(String(details.enquired_on)) });
+
+      return {
+        subject: `Still keen on ${roomLabel}?`,
+        html: generic({
+          preheader: `The room at ${propertyName} is still going. One tap either way.`,
+          badge: "Still looking?",
+          headline: "Are you still after a room?",
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            `You asked about <strong>${escape(roomLabel)}</strong> at <strong>${escape(propertyName)}</strong> a little while back and we never heard how you got on.`,
+            "No pressure at all. It's still available, so if you're still looking we'd love to show you around. If you've already found a place, just tap the second link and we'll stop emailing you.",
+          ],
+          money: details.price
+            ? {
+                label: "Monthly, all in",
+                value: `SGD ${escape(String(details.price))}`,
+                footnote: details.available_from
+                  ? `Available from ${escape(String(details.available_from))}`
+                  : null,
+              }
+            : null,
+          details: rows,
+          cta: {
+            label: "Yes, book a viewing",
+            url: `${PORTAL_BASE}/book/${details.property_slug}/${details.room_slug}`,
+          },
+          ctaCaption: "Takes about 30 seconds",
+          secondary: {
+            label: "I've found somewhere else, stop emailing me",
+            url: `${PORTAL_BASE}/leads/close?t=${details.close_token}`,
+          },
         }),
       };
     }
@@ -697,9 +805,54 @@ function days(n: number | string): string {
 
 // ─── Main handler ──────────────────────────────────────────────────
 
+/**
+ * Events addressed to a lead rather than a tenant. These carry their own
+ * recipient in `details` and must skip the tenant lookup entirely: a
+ * prospect has no tenant_profiles row, so getTenantContext would find
+ * nothing and the send would 400.
+ */
+const LEAD_EVENTS = new Set(["LEAD_STILL_INTERESTED"]);
+
+/**
+ * Events that render but do not send to the tenant without a human first.
+ *
+ * INVOICE_FINAL_NOTICE states we will issue notice to vacate and apply the
+ * deposit against what is owed. That is a legal posture, not a chase, and it
+ * should not leave the building because a cron counted to twenty-nine. The
+ * late fee still applies on schedule; only the email waits.
+ */
+const HELD_EVENTS = new Set(["INVOICE_FINAL_NOTICE"]);
+
+const ADMIN_EMAIL = Deno.env.get("LAZYBEE_ADMIN_EMAIL") || "admin@lazybee.sg";
+
+/** Prepended to a held email so the ops inbox knows what it is looking at. */
+function heldBanner(wouldSendTo: string, who: string): string {
+  return `<div style="background:#241C16;color:#F6F2EA;padding:18px 22px;
+font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.7">
+<strong style="letter-spacing:.18em;text-transform:uppercase">Held for approval</strong><br>
+This final notice was generated by the arrears ladder and has <strong>not</strong> been sent.<br>
+Recipient if approved: <strong>${escape(who)} &lt;${escape(wouldSendTo)}&gt;</strong><br>
+The late fee has already been applied. Forward this message to the tenant to send it.
+</div>`;
+}
+
 Deno.serve(async (req) => {
   try {
     const { event_type, tenant_profile_id, details = {} } = await req.json();
+
+    if (LEAD_EVENTS.has(event_type)) {
+      if (!details.email) {
+        return new Response(JSON.stringify({ error: "details.email required for lead events" }), { status: 400 });
+      }
+      const leadName = String(details.first_name || "there");
+      const leadBuilt = await buildEmail(event_type, "", details, leadName);
+      if (!leadBuilt) {
+        return new Response(JSON.stringify({ error: `Unknown event_type: ${event_type}` }), { status: 400 });
+      }
+      await sendEmail(String(details.email), leadBuilt.subject, leadBuilt.html);
+      return new Response(JSON.stringify({ sent: true, event_type, email: details.email }), { status: 200 });
+    }
+
     if (!event_type || !tenant_profile_id) {
       return new Response(JSON.stringify({ error: "event_type and tenant_profile_id required" }), { status: 400 });
     }
@@ -712,6 +865,21 @@ Deno.serve(async (req) => {
     const built = await buildEmail(event_type, tenant_profile_id, details, ctx.firstName);
     if (!built) {
       return new Response(JSON.stringify({ error: `Unknown event_type: ${event_type}` }), { status: 400 });
+    }
+
+    // A held event is fully rendered but delivered to the ops inbox instead of
+    // the tenant. Mark reads the exact email that would have gone out and
+    // decides. Nothing about the fee schedule changes; only the send waits.
+    if (HELD_EVENTS.has(event_type)) {
+      await sendEmail(
+        ADMIN_EMAIL,
+        `[HOLD, approve before sending] ${built.subject}`,
+        heldBanner(ctx.email, ctx.fullName || ctx.firstName) + built.html
+      );
+      return new Response(
+        JSON.stringify({ held: true, event_type, would_send_to: ctx.email }),
+        { status: 200 }
+      );
     }
 
     await sendEmail(ctx.email, built.subject, built.html);

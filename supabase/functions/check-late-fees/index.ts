@@ -1,4 +1,4 @@
-// check-late-fees — the arrears ladder, repointed onto rent_payments.
+// check-late-fees: the arrears ladder, repointed onto rent_payments.
 //
 // What this replaces. The previous version read `invoices`, which has had one
 // row in its entire life, while the business writes `rent_payments`, which has
@@ -12,6 +12,7 @@
 // automatically would send wrong numbers to real tenants.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { selectRung, round2, CAP_DAYS } from "../_shared/arrearsLadder.js";
 
 const supabase = createClient(
   Deno.env.get("SUPABASE_URL")!,
@@ -24,10 +25,9 @@ const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 /** Nothing before this month is ever chased automatically. See the note above. */
 const LADDER_STARTS = "2026-08-01";
 
-/** Automated chasing stops here; past this it is a conversation, not an email. */
-const CAP_DAYS = 30;
-
-const LATE_FEE_RATE = 0.05;
+// The rungs, the 5% rate and the 30-day cap now live in _shared/arrearsLadder.js
+// so they can be unit tested without a database. CAP_DAYS is re-exported from
+// there and used below only for the log line.
 
 async function notify(
   tenant_profile_id: string,
@@ -52,12 +52,26 @@ function monthLabel(dateStr: string): string {
   return new Date(dateStr).toLocaleString("en-SG", { month: "long", year: "numeric" });
 }
 
-function round2(n: number): number {
-  return Math.round(n * 100) / 100;
+/**
+ * The final notice gives seven days. A named date is harder to argue with and
+ * harder to misremember than "within 7 days", and it is the one line in that
+ * email a reader will act on, so it gets computed rather than left relative.
+ */
+function deadlineFromToday(todayIso: string, addDays: number): string {
+  const d = new Date(`${todayIso}T00:00:00+08:00`);
+  d.setDate(d.getDate() + addDays);
+  return d.toLocaleDateString("en-SG", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Asia/Singapore",
+  });
 }
 
-Deno.serve(async (_req) => {
+
+Deno.serve(async (req) => {
   try {
+    const dryRun = new URL(req.url).searchParams.get("dry") === "1";
     const now = new Date();
     const today = now.toLocaleDateString("en-CA", { timeZone: "Asia/Singapore" });
     const results: string[] = [];
@@ -95,100 +109,79 @@ Deno.serve(async (_req) => {
         continue;
       }
 
-      const lastDays = Number(rp.last_reminder_days_overdue ?? 0);
-      const feeCount = Number(rp.late_fee_count ?? 0);
       const currentFee = Number(rp.late_fee ?? 0);
       const outstanding = round2(
         Number(rp.rent_amount) + currentFee - Number(rp.paid_amount ?? 0)
       );
 
-      if (outstanding <= 0) {
-        results.push(`${rp.payment_ref}: nothing outstanding, skipped`);
+      // Which rung fires today, if any. Pure decision, tested in
+      // _shared/arrearsLadder.test.js. Each rung names its own template, which
+      // is the point of this change: every rung used to send RENT_OVERDUE, so
+      // a tenant three days late read the same words as one twenty-nine days
+      // late while the fees quietly escalated underneath.
+      const rung = selectRung({
+        daysOverdue,
+        lastRemindedAtDays: Number(rp.last_reminder_days_overdue ?? 0),
+        feeCount: Number(rp.late_fee_count ?? 0),
+        outstanding,
+        currentFee,
+      });
+
+      if (!rung.event) {
+        results.push(`${rp.payment_ref}: ${rung.reason}`);
         continue;
       }
 
-      const base = {
-        month: monthLabel(rp.month),
-        amount: outstanding.toFixed(2),
-        days_overdue: daysOverdue,
-        payment_ref: rp.payment_ref,
-      };
-
-      let acted = false;
       const patch: Record<string, unknown> = {};
-
-      // ── 29+ days: final notice, second 5% ──────────────────────────────
-      if (daysOverdue >= 29 && lastDays < 29) {
-        let secondFee = 0;
-        if (feeCount < 2) {
-          secondFee = round2(outstanding * LATE_FEE_RATE);
-          patch.late_fee = round2(currentFee + secondFee);
-          patch.late_fee_count = feeCount + 1;
-          patch.late_fee_applied_at = now.toISOString();
-        }
-        await notify(rp.tenant_profile_id, "RENT_OVERDUE", {
-          ...base,
-          late_fee: secondFee.toFixed(2),
-          final_notice: true,
-        });
-        results.push(`${rp.payment_ref}: FINAL NOTICE, second fee $${secondFee}`);
-        acted = true;
-      }
-      // ── 7+ days, every other day: reminder ─────────────────────────────
-      else if (daysOverdue >= 7 && (daysOverdue - 7) % 2 === 0 && lastDays < daysOverdue) {
-        await notify(rp.tenant_profile_id, "RENT_OVERDUE", {
-          ...base,
-          late_fee: currentFee.toFixed(2),
-        });
-        results.push(`${rp.payment_ref}: reminder (${daysOverdue} days)`);
-        acted = true;
-      }
-      // ── 5+ days: first 5% fee ──────────────────────────────────────────
-      else if (daysOverdue >= 5 && feeCount < 1) {
-        const firstFee = round2(outstanding * LATE_FEE_RATE);
-        patch.late_fee = round2(currentFee + firstFee);
-        patch.late_fee_count = 1;
+      if (rung.newFee > 0) {
+        patch.late_fee = round2(currentFee + rung.newFee);
+        patch.late_fee_count = rung.newFeeCount;
         patch.late_fee_applied_at = now.toISOString();
-        await notify(rp.tenant_profile_id, "RENT_OVERDUE", {
-          ...base,
-          late_fee: firstFee.toFixed(2),
-        });
-        results.push(`${rp.payment_ref}: late fee $${firstFee} applied (${daysOverdue} days)`);
-        acted = true;
-      }
-      // ── 4 days: the fee lands tomorrow ─────────────────────────────────
-      else if (daysOverdue === 4 && lastDays < 4) {
-        await notify(rp.tenant_profile_id, "RENT_OVERDUE", {
-          ...base,
-          late_fee: round2(outstanding * LATE_FEE_RATE).toFixed(2),
-          warning_only: true,
-        });
-        results.push(`${rp.payment_ref}: late fee warning (${daysOverdue} days)`);
-        acted = true;
-      }
-      // ── 3 days: friendly nudge, no fee ─────────────────────────────────
-      else if (daysOverdue === 3 && lastDays < 3) {
-        await notify(rp.tenant_profile_id, "RENT_OVERDUE", { ...base, late_fee: null });
-        results.push(`${rp.payment_ref}: friendly notice (${daysOverdue} days)`);
-        acted = true;
       }
 
-      if (acted) {
-        patch.last_reminder_at = now.toISOString();
-        patch.last_reminder_days_overdue = daysOverdue;
-        patch.is_late = true;
-        // Deliberately NOT touching status: OVERDUE is a display state, and
-        // moving a SUBMITTED row backwards would hide a tenant's proof.
-        if (rp.status === "PENDING") patch.status = "OVERDUE";
+      // The amount quoted must include the fee applied in this same pass, or
+      // the tenant is told to pay less than the row now says they owe.
+      const owedNow = round2(outstanding + rung.newFee);
 
-        const { error: upErr } = await supabase
-          .from("rent_payments")
-          .update(patch)
-          .eq("id", rp.id);
-        if (upErr) {
-          console.error(`[check-late-fees] ${rp.payment_ref}: ${upErr.message}`);
-          results.push(`${rp.payment_ref}: UPDATE FAILED, ${upErr.message}`);
-        }
+      // Dry run prints the decision and touches nothing: no email, no fee, no
+      // row update. Used to eyeball a change against real arrears before it
+      // can reach a tenant.
+      if (dryRun) {
+        results.push(
+          `${rp.payment_ref}: WOULD SEND ${rung.event} (${daysOverdue} days, ` +
+            `SGD ${owedNow.toFixed(2)}, fee +${rung.newFee.toFixed(2)})`
+        );
+        continue;
+      }
+
+      await notify(rp.tenant_profile_id, rung.event, {
+        invoice_code: rp.payment_ref,
+        invoice_id: rp.id,
+        month_label: monthLabel(rp.month),
+        amount: owedNow.toFixed(2),
+        days_overdue: daysOverdue,
+        late_fee: round2(currentFee + rung.newFee).toFixed(2),
+        estimated_late_fee: rung.estimatedLateFee.toFixed(2),
+        payment_ref: rp.payment_ref,
+        deadline:
+          rung.event === "INVOICE_FINAL_NOTICE" ? deadlineFromToday(today, 7) : undefined,
+      });
+      results.push(`${rp.payment_ref}: ${rung.event} (${daysOverdue} days)`);
+
+      patch.last_reminder_at = now.toISOString();
+      patch.last_reminder_days_overdue = daysOverdue;
+      patch.is_late = true;
+      // Deliberately NOT touching status: OVERDUE is a display state, and
+      // moving a SUBMITTED row backwards would hide a tenant's proof.
+      if (rp.status === "PENDING") patch.status = "OVERDUE";
+
+      const { error: upErr } = await supabase
+        .from("rent_payments")
+        .update(patch)
+        .eq("id", rp.id);
+      if (upErr) {
+        console.error(`[check-late-fees] ${rp.payment_ref}: ${upErr.message}`);
+        results.push(`${rp.payment_ref}: UPDATE FAILED, ${upErr.message}`);
       }
     }
 
