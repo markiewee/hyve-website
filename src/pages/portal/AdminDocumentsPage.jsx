@@ -9,6 +9,15 @@ import { generateFeeScheduleHtml } from "../../lib/feeSchedule";
 const DOC_TYPES = ["LICENCE_AGREEMENT", "NOTICE_OF_TERMINATION", "MOVE_IN_CHECKLIST", "MOVE_OUT_CHECKLIST", "HOUSE_RULES", "OTHER"];
 const DOC_TYPE_LABELS = { LICENCE_AGREEMENT: "Licence Agreement", NOTICE_OF_TERMINATION: "Notice of Termination", MOVE_IN_CHECKLIST: "Move-in Checklist", MOVE_OUT_CHECKLIST: "Move-out Checklist", HOUSE_RULES: "House Rules", OTHER: "Other" };
 
+/** Placeholders that are legitimately empty. Annex E only exists when there are
+ *  tenant-specific terms, so a blank one must render as nothing rather than as the
+ *  literal "[EXTRA_TERMS]" the missing-data marker would otherwise leave behind. */
+const OPTIONAL_PLACEHOLDERS = new Set(["EXTRA_TERMS"]);
+
+/** "8 September 2026", or "" when there is no date. */
+const fmtDate = (d) =>
+  d ? new Date(d).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }) : "";
+
 const DEFAULT_SIG_CONFIG = {
   tenant: { page: "last", x: 50, y: 120, width: 200, height: 80, label: "Member Signature" },
   admin: { page: "last", x: 350, y: 120, width: 200, height: 80, label: "Licensor Signature" },
@@ -141,7 +150,6 @@ export default function AdminDocumentsPage() {
     if (!tenant) return;
 
     const ob = tenant?.onboarding_progress;
-    const fmtDate = (d) => d ? new Date(d).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }) : "";
     // Auto-generate fee schedule with prorated first/last months
     const feeDates = {};
     const feeScheduleRows = generateFeeScheduleHtml(ob?.tenancy_start_date, ob?.tenancy_end_date, tenant?.monthly_rent);
@@ -174,9 +182,12 @@ export default function AdminDocumentsPage() {
       const res = await fetch("/templates/licence-agreement.html");
       let html = await res.text();
 
-      // Fill placeholders
+      // Fill placeholders. A missing value leaves a visible [MARKER] on purpose, so
+      // nobody sends out an agreement with a hole in it. Optional sections are blank
+      // by design and must not be marked.
       for (const [key, val] of Object.entries(values)) {
-        html = html.replaceAll(`{{${key}}}`, val || `[${key}]`);
+        const fallback = OPTIONAL_PLACEHOLDERS.has(key) ? "" : `[${key}]`;
+        html = html.replaceAll(`{{${key}}}`, val || fallback);
       }
       // Clear remaining unfilled FEE_DATE placeholders
       html = html.replace(/\{\{FEE_DATE_\d+\}\}/g, "-");
@@ -241,7 +252,6 @@ export default function AdminDocumentsPage() {
       const ob = tenant?.onboarding_progress;
 
       // Build auto-fill values from member data
-      const fmtDate = (d) => d ? new Date(d).toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" }) : "";
       const autoValues = {
         TENANT_NAME: tenant?.tenant_details?.full_name || "",
         ID_NUMBER: tenant?.tenant_details?.id_number || "",
@@ -389,7 +399,7 @@ export default function AdminDocumentsPage() {
                     <p><span className="text-foreground-variant">Name:</span> <strong>{t?.tenant_details?.full_name || "-"}</strong></p>
                     <p><span className="text-foreground-variant">Room:</span> <strong>{t?.rooms?.unit_code}, {t?.rooms?.name}</strong></p>
                     <p><span className="text-foreground-variant">Rent:</span> <strong>SGD {t?.monthly_rent || "-"}</strong> · <span className="text-foreground-variant">Deposit:</span> <strong>SGD {ob?.deposit_amount || "-"}</strong></p>
-                    <p><span className="text-foreground-variant">Period:</span> <strong>{ob?.licence_period || "-"}</strong></p>
+                    <p><span className="text-foreground-variant">Term:</span> <strong>{fmtDate(ob?.tenancy_start_date) || "-"}</strong> to <strong>{fmtDate(ob?.tenancy_end_date) || "-"}</strong>{ob?.licence_period ? ` · ${ob.licence_period}` : ""}</p>
                     <p><span className="text-foreground-variant">Ref:</span> <strong>{ob?.ref_number || "-"}</strong></p>
                   </div>
                 );
