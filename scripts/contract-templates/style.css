@@ -159,10 +159,13 @@ body {
    first row exempted: a .kv-full cell shifts what "the first row" means, which
    left the two cells beside it with mismatched rules.
 
-   A cell never narrows past 300px: it drops to one per row instead, so a long
-   name or address always has room rather than being squeezed into a half
-   column. */
-.kv { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:0 var(--s7) }
+   One field per row, label above and value below, each with the full measure.
+   A two column grid was tighter but had no good answer for a value we cannot
+   size in advance: an 80 character legal name or a 20 character passport number
+   was squeezed into half the page, and any field promoted to full width left
+   its neighbour alone on a row with a rule that stopped halfway. One column has
+   no such edge case and gives every value all the room there is. */
+.kv { display:grid; grid-template-columns:minmax(0,1fr) }
 .kv > div { padding:0 0 var(--s4); border-bottom:1px solid var(--line); margin-top:var(--s4); min-width:0 }
 .kv-full { grid-column:1 / -1 }
 
