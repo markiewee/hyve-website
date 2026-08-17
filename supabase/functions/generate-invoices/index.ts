@@ -5,6 +5,29 @@ const supabase = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
 );
 
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+
+/** A failed email must not undo a correct invoice. The row exists either way. */
+async function notify(
+  tenant_profile_id: string,
+  event_type: string,
+  details: Record<string, unknown>
+) {
+  try {
+    await fetch(`${SUPABASE_URL}/functions/v1/notify-tenant`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${SERVICE_KEY}`,
+      },
+      body: JSON.stringify({ event_type, tenant_profile_id, details }),
+    });
+  } catch (e) {
+    console.error(`[generate-invoices] ${event_type} notify failed:`, e);
+  }
+}
+
 /**
  * Invoice Code: {3-digit property}{1-digit room}{3-digit seq}
  * TG=100, CP=200, IH=300
@@ -118,9 +141,23 @@ Deno.serve(async (req) => {
         await supabase.from("invoice_line_items").insert({
           invoice_id: invoice.id,
           category: "RENT",
-          description: `Rent — ${new Date(targetMonth).toLocaleDateString("en-SG", { month: "long", year: "numeric" })}`,
+          description: `Rent, ${new Date(targetMonth).toLocaleDateString("en-SG", { month: "long", year: "numeric" })}`,
           amount: Number(tenant.monthly_rent),
           billing_type: "PRE",
+        });
+
+        // Tell the tenant the invoice exists. Without this the row appears in
+        // the portal and nothing ever says so, which is most of why an invoice
+        // goes unpaid long enough for the arrears ladder to pick it up.
+        await notify(tenant.id, "INVOICE_ISSUED", {
+          invoice_id: invoice.id,
+          invoice_code: invoiceCode,
+          amount: Number(tenant.monthly_rent).toFixed(2),
+          due_date: new Date(targetMonth).toLocaleDateString("en-SG", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          }),
         });
 
         results.push(`${room.unit_code}: ${invoiceCode} created ($${tenant.monthly_rent})`);
@@ -162,7 +199,7 @@ Deno.serve(async (req) => {
             await supabase.from("invoice_line_items").insert({
               invoice_id: inv.id,
               category: "AC_OVERAGE",
-              description: `AC overage — ${acUsage.overage_hours} hours @ $0.30/hr`,
+              description: `AC overage, ${acUsage.overage_hours} hours at $0.30/hr`,
               amount: Math.round(acAmount * 100) / 100,
               billing_type: "POST",
               source_id: acUsage.id,
@@ -206,15 +243,25 @@ Deno.serve(async (req) => {
         }
 
         if (addedAmount > 0) {
-          const newSubtotal = Number(inv.subtotal) + addedAmount;
+          const newSubtotal = Math.round((Number(inv.subtotal) + addedAmount) * 100) / 100;
           await supabase
             .from("invoices")
             .update({
-              subtotal: Math.round(newSubtotal * 100) / 100,
-              total_due: Math.round(newSubtotal * 100) / 100,
+              subtotal: newSubtotal,
+              total_due: newSubtotal,
               updated_at: new Date().toISOString(),
             })
             .eq("id", inv.id);
+
+          // The total moved after the tenant was already told what it was, so
+          // say so. Silent upward revisions are how a disputed bill starts.
+          await notify(inv.tenant_profile_id, "INVOICE_UPDATED", {
+            invoice_id: inv.id,
+            invoice_code: inv.invoice_code,
+            amount: newSubtotal.toFixed(2),
+            previous_amount: Number(inv.subtotal).toFixed(2),
+          });
+
           results.push(`${inv.invoice_code}: added $${addedAmount.toFixed(2)} in post-consumption charges`);
         } else {
           results.push(`${inv.invoice_code}: no post-consumption charges`);

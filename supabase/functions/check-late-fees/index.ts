@@ -1,4 +1,4 @@
-// check-late-fees — the arrears ladder, repointed onto rent_payments.
+// check-late-fees: the arrears ladder, repointed onto rent_payments.
 //
 // What this replaces. The previous version read `invoices`, which has had one
 // row in its entire life, while the business writes `rent_payments`, which has
