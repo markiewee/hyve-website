@@ -142,7 +142,14 @@ body {
   font-family:var(--mono); font-size:10.5px; letter-spacing:.22em;
   text-transform:uppercase; color:var(--faint);
 }
-.val { font-family:var(--body); font-weight:400; font-size:15px; color:var(--ink); margin-top:6px }
+/* Values are tenant-supplied and unbounded: a long legal name, a 20-character
+   passport number, a full unit address. Nothing here may clip or overflow, so
+   the label sits above and the value takes the whole width of its cell and
+   wraps, breaking mid-token only if there is no space to break at. */
+.val {
+  font-family:var(--body); font-weight:400; font-size:15px; color:var(--ink);
+  margin-top:6px; overflow-wrap:anywhere; hyphens:auto;
+}
 .val-mono { font-family:var(--mono); font-size:14px; letter-spacing:-.01em; font-variant-numeric:tabular-nums }
 .prose { font-size:15px; line-height:1.72; color:var(--muted); max-width:64ch }
 .prose b, .prose strong { color:var(--ink); font-weight:500 }
@@ -159,10 +166,13 @@ body {
 /* Key/value rows, hairline separated, no boxes.
    The rule is a border-bottom on every cell rather than a border-top with the
    first row exempted: a .kv-full cell shifts what "the first row" means, which
-   left the two cells beside it with mismatched rules. */
-.kv { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 var(--s7) }
-.kv > div { padding:0 0 var(--s4); border-bottom:1px solid var(--line); margin-top:var(--s4) }
-@media (max-width:640px) { .kv { grid-template-columns:minmax(0,1fr) } }
+   left the two cells beside it with mismatched rules.
+
+   A cell never narrows past 300px: it drops to one per row instead, so a long
+   name or address always has room rather than being squeezed into a half
+   column. */
+.kv { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:0 var(--s7) }
+.kv > div { padding:0 0 var(--s4); border-bottom:1px solid var(--line); margin-top:var(--s4); min-width:0 }
 .kv-full { grid-column:1 / -1 }
 
 /* ── clauses ─────────────────────────────────────────────────────── */
@@ -311,9 +321,9 @@ table.tbl td:not(:first-child) { font-family:var(--mono); font-variant-numeric:t
 <section class="sec">
 <h2>The Tenant</h2>
 <div class="kv">
-<div><p class="label">Full legal name</p><p class="val">{{TENANT_NAME}}</p></div>
+<div class="kv-full"><p class="label">Full legal name</p><p class="val">{{TENANT_NAME}}</p></div>
 <div><p class="label">ID / passport number</p><p class="val val-mono">{{ID_NUMBER}}</p></div>
-<div><p class="label">Email, for notices</p><p class="val">{{EMAIL}}</p></div>
+<div class="kv-full"><p class="label">Email, for notices</p><p class="val">{{EMAIL}}</p></div>
 <div><p class="label">Contact number</p><p class="val val-mono">{{PHONE}}</p></div>
 </div>
 </section>
@@ -323,7 +333,7 @@ table.tbl td:not(:first-child) { font-family:var(--mono); font-variant-numeric:t
 <div class="kv">
 <div class="kv-full"><p class="label">Property</p><p class="val">{{PROPERTY_ADDRESS}}</p></div>
 <div><p class="label">Room, exclusive possession</p><p class="val">{{ROOM_NAME}}</p></div>
-<div><p class="label">Common areas, shared use</p><p class="val">{{COMMON_AREAS}}</p></div>
+<div class="kv-full"><p class="label">Common areas, shared use</p><p class="val">{{COMMON_AREAS}}</p></div>
 </div>
 </section>
 
@@ -333,9 +343,9 @@ table.tbl td:not(:first-child) { font-family:var(--mono); font-variant-numeric:t
 <div><p class="label">Bank</p><p class="val">DBS</p></div>
 <div><p class="label">Account number</p><p class="val val-mono">8852-1511-4103</p></div>
 <div><p class="label">Account name, FAST / GIRO</p><p class="val">Makery Pte. Ltd.</p></div>
-<div><p class="label">Account name, MEPS / local TT</p><p class="val">Aspire FT Pte. Ltd. on behalf of Makery Pte. Ltd.</p></div>
+<div class="kv-full"><p class="label">Account name, MEPS / local TT</p><p class="val">Aspire FT Pte. Ltd. on behalf of Makery Pte. Ltd.</p></div>
 <div><p class="label">SWIFT BIC</p><p class="val val-mono">DBSSSGSG</p></div>
-<div><p class="label">Air conditioning surcharge</p><p class="val">Above 10 hours a day, S$0.30 per hour, billed monthly</p></div>
+<div class="kv-full"><p class="label">Air conditioning surcharge</p><p class="val">Above 10 hours a day, S$0.30 per hour, billed monthly</p></div>
 </div>
 </section>
 
@@ -542,7 +552,7 @@ table.tbl td:not(:first-child) { font-family:var(--mono); font-variant-numeric:t
 <div class="block">
 <h4>Landlord</h4>
 <div class="kv">
-<div><p class="label">Name</p><p class="val">Makery Pte. Ltd.</p></div>
+<div class="kv-full"><p class="label">Name</p><p class="val">Makery Pte. Ltd.</p></div>
 <div><p class="label">UEN</p><p class="val val-mono">202345973G</p></div>
 <div><p class="label">Nature of business</p><p class="val">Property management</p></div>
 <div><p class="label">Main contact</p><p class="val">Wee Yi Ren Mark, Director</p></div>
@@ -554,9 +564,9 @@ table.tbl td:not(:first-child) { font-family:var(--mono); font-variant-numeric:t
 <div class="block">
 <h4>Tenant</h4>
 <div class="kv">
-<div><p class="label">Name</p><p class="val">{{TENANT_NAME}}</p></div>
+<div class="kv-full"><p class="label">Name</p><p class="val">{{TENANT_NAME}}</p></div>
 <div><p class="label">ID / passport number</p><p class="val val-mono">{{ID_NUMBER}}</p></div>
-<div><p class="label">Email, for notices</p><p class="val">{{EMAIL}}</p></div>
+<div class="kv-full"><p class="label">Email, for notices</p><p class="val">{{EMAIL}}</p></div>
 <div><p class="label">Contact number</p><p class="val val-mono">{{PHONE}}</p></div>
 <div class="kv-full"><p class="label">Permitted occupiers</p><p class="val">{{TENANT_NAME}} only</p></div>
 </div>
@@ -576,9 +586,9 @@ table.tbl td:not(:first-child) { font-family:var(--mono); font-variant-numeric:t
 <div class="kv">
 <div><p class="label">Rent</p><p class="val val-mono">S${{MONTHLY_RENT}} per month</p></div>
 <div><p class="label">Security deposit</p><p class="val val-mono">S${{DEPOSIT_AMOUNT}}</p></div>
-<div><p class="label">Included in rent</p><p class="val">Electricity, water, gas, wireless internet, weekly cleaning of the common areas</p></div>
-<div><p class="label">Air conditioning surcharge</p><p class="val">Above 10 hours a day, S$0.30 per hour, billed monthly</p></div>
-<div><p class="label">Late payment interest</p><p class="val">S$10 per day on any sum overdue by more than 7 days</p></div>
+<div class="kv-full"><p class="label">Included in rent</p><p class="val">Electricity, water, gas, wireless internet, weekly cleaning of the common areas</p></div>
+<div class="kv-full"><p class="label">Air conditioning surcharge</p><p class="val">Above 10 hours a day, S$0.30 per hour, billed monthly</p></div>
+<div class="kv-full"><p class="label">Late payment interest</p><p class="val">S$10 per day on any sum overdue by more than 7 days</p></div>
 <div><p class="label">Payment method</p><p class="val">Bank transfer</p></div>
 </div>
 </div>
@@ -588,8 +598,8 @@ table.tbl td:not(:first-child) { font-family:var(--mono); font-variant-numeric:t
 <div class="kv">
 <div><p class="label">Commencement date</p><p class="val val-mono">{{START_DATE}}</p></div>
 <div><p class="label">Expiry date</p><p class="val val-mono">{{END_DATE}}</p></div>
-<div><p class="label">Term</p><p class="val">{{START_DATE}} to {{END_DATE}}</p></div>
-<div><p class="label">Minimum occupation</p><p class="val">3 months before any early termination notice may take effect</p></div>
+<div class="kv-full"><p class="label">Term</p><p class="val">{{START_DATE}} to {{END_DATE}}</p></div>
+<div class="kv-full"><p class="label">Minimum occupation</p><p class="val">3 months before any early termination notice may take effect</p></div>
 </div>
 </div>
 </section>
