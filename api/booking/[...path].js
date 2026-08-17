@@ -35,6 +35,7 @@ import {
   listUpcomingWindows,
   validateBookingAttempt,
 } from "../../src/lib/viewingClustering.js";
+import { verifyLeadToken } from "../../src/lib/leadCloseToken.js";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -1005,6 +1006,69 @@ async function handleCron(req, res) {
 
 // ── dispatcher ────────────────────────────────────────────────────────
 
+/* ── lead opt-out ───────────────────────────────────────────────────
+   The "I've found somewhere else" link in LEAD_STILL_INTERESTED.
+
+   This lives here rather than in its own api/leads/close.js because the
+   project sits exactly on the 12 serverless function cap; a thirteenth
+   file fails the deploy. vercel.json rewrites the pretty /leads/close
+   URL onto this route, since a rewrite costs no function slot.
+
+   Returns HTML, not JSON: a human clicked this from their mail client. */
+function leadClosePage(title, body) {
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${title}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Inter+Tight:wght@300&display=swap" rel="stylesheet">
+</head><body style="margin:0;background:#F6F2EA;color:#241C16;
+font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+font-weight:300;display:grid;place-items:center;min-height:100vh;text-align:center;padding:24px">
+<div style="max-width:44ch">
+<p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:34px;font-weight:300;
+line-height:1.1;letter-spacing:-.015em;margin:0 0 14px">${title}</p>
+<p style="color:#5C5247;font-size:16px;line-height:1.7;margin:0">${body}</p>
+<p style="margin:28px 0 0 0;font-family:ui-monospace,Menlo,monospace;font-size:10px;
+letter-spacing:.26em;text-transform:uppercase;color:#7C7263">Lazybee</p>
+</div></body></html>`;
+}
+
+async function handleLeadClose(req, res) {
+  const secret = process.env.LEAD_TOKEN_SECRET;
+  res.setHeader("Content-Type", "text/html; charset=utf-8");
+
+  // Without a secret configured every token would verify as null anyway, but
+  // failing loudly in the log beats silently telling everyone their link died.
+  if (!secret) {
+    console.error("[lead-close] LEAD_TOKEN_SECRET is not set");
+    return res
+      .status(500)
+      .send(leadClosePage("Something went wrong.", "Email hello@lazybee.sg and we'll take you off the list."));
+  }
+
+  const leadId = verifyLeadToken(req.query?.t, secret);
+  if (!leadId) {
+    return res
+      .status(400)
+      .send(leadClosePage("That link didn't work.", "Drop us a line at hello@lazybee.sg and we'll take you off the list."));
+  }
+
+  const { error } = await supabase
+    .from("leads")
+    .update({ status: "closed_lost", notes: "Closed by prospect via email opt-out" })
+    .eq("id", leadId);
+
+  if (error) {
+    console.error("[lead-close]", leadId, error.message);
+    return res
+      .status(500)
+      .send(leadClosePage("Something went wrong.", "Email hello@lazybee.sg and we'll sort it out."));
+  }
+
+  return res
+    .status(200)
+    .send(leadClosePage("Done, you're off the list.", "We won't email you about this room again. All the best with the search."));
+}
+
 export default async function handler(req, res) {
   // CORS headers (vercel.json also sets these but be explicit)
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -1036,6 +1100,8 @@ export default async function handler(req, res) {
         return await handleCancel(req, res);
       case "leads-off-horizon":
         return await handleOffHorizonLead(req, res);
+      case "lead-close":
+        return await handleLeadClose(req, res);
       case "admin-lead-reminder":
         return await handleAdminLeadReminder(req, res);
       case "admin-calendar":

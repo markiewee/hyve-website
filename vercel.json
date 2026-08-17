@@ -28,6 +28,10 @@
   ],
   "rewrites": [
     {
+      "source": "/leads/close",
+      "destination": "/api/booking/lead-close"
+    },
+    {
       "source": "/api/v1",
       "destination": "/api/v1/_index"
     },
