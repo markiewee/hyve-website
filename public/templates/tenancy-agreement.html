@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary": "#ffffff",
+              "secondary-fixed": "#dae2fd",
+              "on-error": "#ffffff",
+              "primary-container": "#14b8a6",
+              "on-secondary-fixed": "#131b2e",
+              "outline-variant": "#bbcac6",
+              "outline": "#6c7a77",
+              "tertiary-fixed": "#ffdbd0",
+              "primary-fixed-dim": "#4fdbc8",
+              "tertiary-container": "#f38764",
+              "on-surface-variant": "#3c4947",
+              "primary-fixed": "#71f8e4",
+              "inverse-on-surface": "#eff1f3",
+              "primary": "#006b5f",
+              "on-tertiary-fixed-variant": "#7c2d11",
+              "tertiary": "#9b4426",
+              "on-tertiary-container": "#6c2106",
+              "surface-dim": "#d8dadc",
+              "inverse-surface": "#2d3133",
+              "secondary": "#565e74",
+              "surface-container-low": "#f2f4f6",
+              "on-secondary-container": "#5c647a",
+              "on-surface": "#191c1e",
+              "on-secondary": "#ffffff",
+              "background": "#f7f9fb",
+              "surface": "#f7f9fb",
+              "on-primary-fixed-variant": "#005048",
+              "surface-variant": "#e0e3e5",
+              "surface-container-lowest": "#ffffff",
+              "surface-bright": "#f7f9fb",
+              "error-container": "#ffdad6",
+              "tertiary-fixed-dim": "#ffb59e",
+              "surface-tint": "#006b5f",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#bec6e0",
+              "on-primary-container": "#00423b",
+              "on-primary": "#ffffff",
+              "on-background": "#191c1e",
+              "secondary-container": "#dae2fd",
+              "on-error-container": "#93000a",
+              "on-primary-fixed": "#00201c",
+              "surface-container-highest": "#e0e3e5",
+              "on-tertiary-fixed": "#3a0b00",
+              "surface-container": "#eceef0",
+              "on-secondary-fixed-variant": "#3f465c",
+              "inverse-primary": "#4fdbc8",
+              "error": "#ba1a1a"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .page-break {
+            page-break-after: always;
+        }
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        @media print {
+            nav, footer { display: none !important; }
+            main { box-shadow: none !important; margin: 0 !important; padding: 2rem !important; }
+        }
+        .clause-text {
+            font-size: 0.875rem;
+            line-height: 1.75;
+            color: #3c4947;
+        }
+        .clause-text strong {
+            color: #191c1e;
+        }
+        .sub-clause {
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .sub-sub-clause {
+            padding-left: 3rem;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- Top Navigation Bar -->
+<nav class="bg-white border-b-0 bg-slate-50 flex justify-between items-center w-full px-8 py-4 max-w-5xl mx-auto sticky top-0 z-50">
+<div class="text-xl font-bold tracking-tighter text-teal-700 font-headline">
+            Lazybee Living
+        </div>
+<div class="flex items-center gap-6">
+<button onclick="window.print()" class="text-slate-500 hover:bg-slate-100 p-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined">print</span>
+</button>
+<button class="text-slate-500 hover:bg-slate-100 p-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+<button class="text-slate-500 hover:bg-slate-100 p-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</nav>
+
+<!-- Main Document Canvas -->
+<main class="max-w-4xl mx-auto my-12 bg-surface-container-lowest shadow-sm p-12 md:p-20">
+
+<!-- Document Header -->
+<header class="mb-16">
+<div class="flex justify-between items-start mb-12">
+<div class="space-y-1">
+<p class="font-label text-xs tracking-[0.2em] uppercase text-primary font-semibold">Legal Documentation</p>
+<h1 class="font-headline text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface">Tenancy Agreement</h1>
+</div>
+<div class="text-right">
+<p class="font-label text-[10px] uppercase text-outline mb-1">Agreement ID</p>
+<p class="font-headline font-bold text-on-surface">{{REF_NUMBER}}</p>
+</div>
+</div>
+<div class="h-1 w-24 bg-primary-container"></div>
+</header>
+
+<!-- Document Content -->
+<div class="space-y-16">
+
+<!-- Section: Preamble -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Parties</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Identification of the Landlord and the Tenant entering into this Agreement.</p>
+</aside>
+<div class="flex-1 bg-surface-container-low p-8 rounded-lg">
+<p class="clause-text mb-6">This tenancy agreement (the "Agreement") is made on <strong>{{DATE}}</strong> (hereinafter referred to as the "Effective Date").</p>
+<p class="clause-text font-semibold mb-2">BETWEEN:</p>
+<div class="clause-text space-y-2 mb-6">
+<p>(1) <strong>Makery Pte. Ltd.</strong> (UEN 202345973G) (the "Landlord");</p>
+<p>(2) <strong>{{TENANT_NAME}}</strong> (the "Tenant");</p>
+<p>(collectively referred to as the "Parties" and each a "Party").</p>
+</div>
+<p class="clause-text font-semibold mb-2">BACKGROUND:</p>
+<div class="clause-text space-y-3">
+<p>(A) The Landlord is the head tenant of the property at {{PROPERTY_ADDRESS}} (the "Property") and is authorised by the registered owner to sub-let rooms within the Property.</p>
+<p>(B) The Landlord agrees to let, and the Tenant agrees to take, exclusive possession of the room described in Annex A (the "Room"), together with the shared right to use the Common Areas, on the terms set out in this Agreement.</p>
+<p>(C) This Agreement is a tenancy. The Tenant has exclusive possession of the Room for the Term, subject only to the Landlord's rights of access set out in Clause 9.</p>
+<p>(D) By signing below, the Tenant accepts and agrees to be bound by all the terms and conditions of this Tenancy Agreement.</p>
+</div>
+<p class="clause-text mt-6 font-semibold">IT IS HEREBY AGREED as follows:</p>
+</div>
+</div>
+</section>
+
+<!-- Section: Tenant Details -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Tenant Details</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Primary identification and contact information for the registered Tenant.</p>
+</aside>
+<div class="flex-1 bg-surface-container-low p-8 rounded-lg">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Full Legal Name</label>
+<p class="font-headline font-semibold text-on-surface">{{TENANT_NAME}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Email Address</label>
+<p class="font-headline font-semibold text-on-surface">{{EMAIL}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">ID / Passport Number</label>
+<p class="font-headline font-semibold text-on-surface">{{ID_NUMBER}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Contact Number</label>
+<p class="font-headline font-semibold text-on-surface">{{PHONE}}</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section: Property Details -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Demised Premises</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">The Room let to the Tenant and the Common Areas shared with other occupiers.</p>
+</aside>
+<div class="flex-1 space-y-4">
+<div class="p-6 bg-surface-container rounded-lg border border-outline-variant/30">
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Property</label>
+<p class="font-headline font-bold text-lg text-on-surface">{{PROPERTY_ADDRESS}}</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="p-6 bg-surface-container rounded-lg">
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Room (exclusive possession)</label>
+<p class="font-body text-on-surface">{{ROOM_NAME}}</p>
+</div>
+<div class="p-6 bg-surface-container rounded-lg">
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Common Area(s) (shared use)</label>
+<p class="font-body text-on-surface">{{COMMON_AREAS}}</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section: Term & Rent -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Term &amp; Rent</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Defined duration and financial obligations for the tenancy.</p>
+</aside>
+<div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-primary/5 p-6 rounded-lg border-b-2 border-primary">
+<label class="block font-label text-[10px] uppercase tracking-wider text-primary mb-1">Monthly Rent</label>
+<p class="font-headline text-2xl font-extrabold text-on-surface">S${{MONTHLY_RENT}}</p>
+</div>
+<div class="bg-surface-container-high p-6 rounded-lg">
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Commencement Date</label>
+<p class="font-headline font-bold text-on-surface">{{START_DATE}}</p>
+</div>
+<div class="bg-surface-container-high p-6 rounded-lg">
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Expiry Date</label>
+<p class="font-headline font-bold text-on-surface">{{END_DATE}}</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section: Miscellaneous Fees -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Miscellaneous Fees</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Additional charges applicable during the tenancy.</p>
+</aside>
+<div class="flex-1 bg-surface-container-low p-8 rounded-lg">
+<div class="grid grid-cols-1 gap-y-6">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Air Conditioning Surcharge</label>
+<p class="font-body text-on-surface">Usage above 10 hours/day: <strong>S$0.30/hour</strong>, billed monthly</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section: Payment Details -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Payment Details</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Bank account and payment instructions for remitting Rent.</p>
+</aside>
+<div class="flex-1 bg-surface-container-low p-8 rounded-lg">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Bank</label>
+<p class="font-headline font-semibold text-on-surface">DBS</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Account Name (FAST / ACH / GIRO)</label>
+<p class="font-headline font-semibold text-on-surface">Makery Pte. Ltd.</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Account Name (MEPS / Local TT)</label>
+<p class="font-headline font-semibold text-on-surface">Aspire FT Pte. Ltd. on behalf of Makery Pte. Ltd.</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Account Number</label>
+<p class="font-headline font-semibold text-on-surface">8852-1511-4103</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">SWIFT BIC</label>
+<p class="font-headline font-semibold text-on-surface">DBSSSGSG</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 1 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">1. Definitions and Interpretation</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>1.1</strong> In this Agreement, unless the context otherwise requires:</p>
+<div class="sub-clause space-y-2">
+<p>"Common Areas" means the parts of the Property that are not let exclusively to any occupier, as described in Annex A, which the Tenant may use in common with the Landlord and other occupiers.</p>
+<p>"Rent" means the monthly rent specified in Annex A.</p>
+<p>"Room" means the room let to the Tenant with exclusive possession, as specified in Annex A.</p>
+<p>"Security Deposit" means the deposit specified in Annex A, held by the Landlord as security for the Tenant's performance of this Agreement.</p>
+<p>"Term" means the period from the Commencement Date to the Expiry Date, both specified in Annex A.</p>
+<p>"Commencement Date" means the date specified in Annex A on which the tenancy begins, conditional on the Security Deposit and the first month's Rent having cleared.</p>
+</div>
+<p><strong>1.2</strong> In this Agreement:</p>
+<div class="sub-clause space-y-2">
+<p>1.2.1 the headings are for convenience only and do not affect interpretation;</p>
+<p>1.2.2 words in the singular include the plural and vice versa;</p>
+<p>1.2.3 a reference to a Party includes that Party's successors and permitted assigns;</p>
+<p>1.2.4 references to "Agreement" and "this Agreement" are references to this Agreement, including its Annexes, which form an integral part of it, as amended in writing from time to time.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 2 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">2. Rent and Payment</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>2.1</strong> The Tenant shall pay the Landlord Rent of <strong>S${{MONTHLY_RENT}}</strong> per calendar month, in advance and without deduction or set-off.</p>
+<p><strong>2.2</strong> Rent is due on the payment dates set out in the fee schedule at Annex D. Where the tenancy begins or ends part-way through a month, the Rent for that month is pro-rated on a daily basis.</p>
+<p><strong>2.3</strong> Rent and all other sums are payable to the account specified under Payment Details. The Tenant bears any bank charges imposed by the remitting bank.</p>
+<p><strong>2.4</strong> If any sum remains unpaid for seven (7) days after its due date, the Landlord may charge interest on the outstanding amount at the rate stated in Annex A from the due date until payment is received in full.</p>
+<p><strong>2.5</strong> Miscellaneous Fees, including the air conditioning surcharge specified in Annex A, are billed monthly in arrears and payable within seven (7) days of the Landlord's invoice.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 3 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">3. Security Deposit</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>3.1</strong> On or before the Commencement Date the Tenant shall pay the Landlord a Security Deposit of <strong>S${{DEPOSIT_AMOUNT}}</strong>, as specified in Annex A.</p>
+<p><strong>3.2</strong> The Security Deposit is held as security for the due performance of the Tenant's obligations. It does not bear interest and shall not be treated as payment of Rent for any month, including the last month of the Term.</p>
+<p><strong>3.3</strong> The Landlord may deduct from the Security Deposit any Rent or other sums outstanding, the cost of making good damage beyond fair wear and tear, the cost of replacing missing items, and any cleaning required beyond normal end-of-tenancy cleaning.</p>
+<p><strong>3.4</strong> The balance of the Security Deposit shall be refunded to the Tenant within thirty (30) days after the Tenant has vacated the Room and returned all keys and access devices, together with a written account of any deductions.</p>
+<p><strong>3.5</strong> If the Tenant terminates the tenancy before the Expiry Date other than under Clause 10.3, the Security Deposit is forfeited to the Landlord without prejudice to the Landlord's other rights.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 4 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">4. Stamp Duty</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Required for estate access cards and for any pass or immigration application.</p>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>4.1</strong> Stamp duty on this Agreement is payable to the Inland Revenue Authority of Singapore and is, by law, the responsibility of the Tenant.</p>
+<p><strong>4.2</strong> As a matter of service, and at no additional charge, the Landlord will arrange and pay for the e-stamping of this Agreement on the Tenant's behalf, and will provide the Tenant with the stamp certificate. The Tenant need not hold a Singapore bank account to obtain a stamped copy.</p>
+<p><strong>4.3</strong> The Tenant shall present the stamp certificate together with photographic identification to the estate management office when applying for access cards, and to any authority that requires evidence of residence.</p>
+<p><strong>4.4</strong> Where the Tenant chooses to e-stamp the Agreement personally, the Tenant shall provide the Landlord with a copy of the stamp certificate within seven (7) days of the Commencement Date.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 5 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">5. Tenant's Covenants</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p>The Tenant agrees with the Landlord:</p>
+<p><strong>5.1</strong> To pay the Rent and all other sums due under this Agreement on time.</p>
+<p><strong>5.2</strong> To use the Room and the Common Areas solely as a private residence for the Tenant and any occupier named in Annex A, and for no other purpose.</p>
+<p><strong>5.3</strong> To keep the Room in good and clean condition, fair wear and tear excepted, and to keep the Common Areas tidy and fit for shared use.</p>
+<p><strong>5.4</strong> To bear the cost of repairing or replacing any item damaged by the Tenant or the Tenant's guests, and to bear the cost of minor repairs to the Room up to <strong>S$150</strong> per item per occurrence. Repairs above that amount are the Landlord's responsibility under Clause 6.2 unless the damage was caused by the Tenant.</p>
+<p><strong>5.5</strong> Not to assign, sub-let, part with possession of, or share the Room with any person who is not named in this Agreement.</p>
+<p><strong>5.6</strong> Not to make any alteration or addition to the Room or the Property, and not to affix anything to walls, ceilings or doors in a way that leaves damage, without the Landlord's prior written consent.</p>
+<p><strong>5.7</strong> Not to do anything that is a nuisance, annoyance, or danger to the Landlord, the other occupiers, or the neighbours, and not to cause the Landlord to be in breach of the by-laws of the estate.</p>
+<p><strong>5.8</strong> Not to use the Room or the Property for any unlawful purpose, and to comply at all times with the laws of the Republic of Singapore, including immigration and work pass requirements.</p>
+<p><strong>5.9</strong> To hold and maintain a valid pass permitting residence in Singapore for the whole of the Term, and to notify the Landlord immediately if that pass is cancelled, refused, or not renewed.</p>
+<p><strong>5.10</strong> To notify the Landlord promptly of any defect, damage, leak, or pest issue affecting the Room or the Property.</p>
+<p><strong>5.11</strong> To permit the Landlord access in accordance with Clause 9.</p>
+<p><strong>5.12</strong> At the end of the Term, to yield up the Room and return all keys and access devices in the condition required by Clause 11.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 6 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">6. Landlord's Covenants</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p>The Landlord agrees with the Tenant:</p>
+<p><strong>6.1</strong> That the Tenant may quietly hold and enjoy the Room for the Term without interruption by the Landlord or any person lawfully claiming through the Landlord, subject to the Tenant paying the Rent and observing this Agreement.</p>
+<p><strong>6.2</strong> To keep the structure, the roof, the main drains, the water and electrical installations, and the air conditioning system of the Property in proper repair and working order, except where the need for repair was caused by the Tenant or the Tenant's guests.</p>
+<p><strong>6.3</strong> To pay the head rent, the property tax, and the maintenance or service charges payable to the estate management, so that nothing done or omitted by the Landlord puts the Tenant's occupation at risk.</p>
+<p><strong>6.4</strong> To attend to reported defects within a reasonable time, and to attend to any defect that makes the Room unsafe or uninhabitable as a matter of urgency.</p>
+<p><strong>6.5</strong> To arrange servicing of the air conditioning serving the Room at reasonable intervals.</p>
+<p><strong>6.6</strong> To furnish the Room and the Common Areas as described in Annex B, and to keep those items in working order except where damaged by the Tenant.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 7 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">7. Occupancy and Guests</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>7.1</strong> Only the Tenant and any occupier named in Annex A may reside in the Room.</p>
+<p><strong>7.2</strong> The Tenant may host guests. A guest may stay overnight for no more than three (3) consecutive nights, and no more than seven (7) nights in any calendar month, without the Landlord's prior written consent.</p>
+<p><strong>7.3</strong> The Tenant is responsible for the conduct of the Tenant's guests as if it were the Tenant's own, including any damage they cause and any breach of the House Rules at Annex C.</p>
+<p><strong>7.4</strong> The Tenant shall not advertise, list, or offer the Room or any part of the Property for short-term accommodation on any platform.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 8 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">8. Utilities and Services</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>8.1</strong> The Rent includes electricity, water, gas, wireless internet, and the cleaning of the Common Areas at the frequency stated in Annex A.</p>
+<p><strong>8.2</strong> The air conditioning surcharge in Annex A applies to usage above the stated daily allowance and is billed separately under Clause 2.5.</p>
+<p><strong>8.3</strong> The Landlord is not liable for any interruption to a utility or service caused by the supplier, the estate management, or any cause outside the Landlord's reasonable control, but shall take reasonable steps to have the supply restored.</p>
+<p><strong>8.4</strong> The Tenant shall not use the Room in a way that places an unreasonable load on the electrical installation, and shall not operate any high-consumption appliance not supplied by the Landlord without prior written consent.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 9 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">9. Access and Inspection</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>9.1</strong> The Tenant has exclusive possession of the Room. The Landlord and any person authorised by the Landlord may enter the Room only:</p>
+<div class="sub-clause space-y-2">
+<p>9.1.1 with at least twenty-four (24) hours' written notice, at a reasonable hour, to inspect the state of repair, to carry out repairs, or to show the Room to a prospective tenant during the last two (2) months of the Term; or</p>
+<p>9.1.2 without notice, in an emergency involving a risk to life, health, or the fabric of the Property, such as fire, flood, gas escape, or a report of a serious incident.</p>
+</div>
+<p><strong>9.2</strong> The Landlord retains a key to the Room for the purposes set out in Clause 9.1 and shall not use it for any other purpose.</p>
+<p><strong>9.3</strong> The Tenant shall not change the lock to the Room, or add any lock, without the Landlord's prior written consent, and shall provide the Landlord with a key to any lock so consented to.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 10 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">10. Term, Renewal and Termination</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>10.1</strong> The tenancy runs for the Term specified in Annex A and expires on the Expiry Date without the need for notice.</p>
+<p><strong>10.2</strong> If the Tenant wishes to renew, the Tenant shall give the Landlord written notice at least one (1) month before the Expiry Date. Renewal is at the Landlord's discretion and on the terms then offered.</p>
+<p><strong>10.3</strong> Either Party may terminate this Agreement before the Expiry Date by giving one (1) month's written notice, provided that the tenancy has run for at least three (3) months on the date the notice takes effect. Rent remains payable to the end of the notice period.</p>
+<p><strong>10.4</strong> The Landlord may terminate this Agreement immediately by written notice if:</p>
+<div class="sub-clause space-y-2">
+<p>10.4.1 any Rent remains unpaid for fourteen (14) days after its due date, whether formally demanded or not;</p>
+<p>10.4.2 the Tenant is in material breach of this Agreement and has failed to remedy that breach within seven (7) days of written notice requiring it;</p>
+<p>10.4.3 the Tenant no longer holds a valid pass permitting residence in Singapore; or</p>
+<p>10.4.4 the Tenant uses the Room or the Property for an unlawful purpose.</p>
+</div>
+<p><strong>10.5</strong> Termination does not affect any right or remedy that has already accrued to either Party.</p>
+<p><strong>10.6</strong> Where the Tenant vacates before the Expiry Date other than under Clause 10.3, the Tenant remains liable for the Rent until the earlier of the Expiry Date or the date a replacement tenant takes occupation, together with the Landlord's reasonable costs of re-letting.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 11 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">11. Expiry and Handover</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>11.1</strong> On or before the Expiry Date the Tenant shall remove all personal belongings, return the Room and the items listed in Annex B in the same condition as at the start of the Term, fair wear and tear excepted, and return all keys and access devices.</p>
+<p><strong>11.2</strong> The Room shall be handed back clean. If professional cleaning is required beyond normal end-of-tenancy cleaning, the cost is deductible from the Security Deposit.</p>
+<p><strong>11.3</strong> Any belongings left in the Room or the Common Areas more than seven (7) days after the Tenant has vacated may be disposed of by the Landlord, and the cost of disposal is deductible from the Security Deposit.</p>
+<p><strong>11.4</strong> If the Tenant remains in occupation after the Expiry Date without the Landlord's written agreement, the Tenant shall pay double the daily Rent for each day of holding over, without creating a new tenancy.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 12 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">12. Estate Management and House Rules</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>12.1</strong> The Tenant acknowledges and agrees to comply with the House Rules at Annex C, and with the by-laws and regulations of the estate management of the Property.</p>
+<p><strong>12.2</strong> Access cards, keys, and other access devices remain the property of the Landlord or the estate management. The Tenant shall pay the replacement cost of any that are lost, damaged, or not returned.</p>
+<p><strong>12.3</strong> The Tenant shall register with the estate management office where required, and shall provide the documents that office reasonably requires, including the stamp certificate under Clause 4.3.</p>
+<p><strong>12.4</strong> The Landlord may amend the House Rules on reasonable written notice where required by the estate management or by law, or where necessary for the safety or quiet enjoyment of the occupiers. No amendment may increase the Rent or shorten the Term.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 13 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">13. Indemnity</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>13.1</strong> The Tenant shall indemnify the Landlord against all claims, damages, costs, and expenses arising from any breach of this Agreement by the Tenant, or from any act or omission of the Tenant or the Tenant's guests, except to the extent caused by the Landlord's own negligence or breach.</p>
+<p><strong>13.2</strong> This indemnity survives the expiry or termination of this Agreement.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 14 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">14. Insurance</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>14.1</strong> The Landlord insures the structure and the Landlord's own contents. That insurance does not cover the Tenant's personal belongings.</p>
+<p><strong>14.2</strong> The Tenant is responsible for insuring the Tenant's own belongings and is encouraged to hold personal contents and liability insurance for the Term.</p>
+<p><strong>14.3</strong> The Tenant shall not do anything that invalidates the Landlord's insurance or increases the premium payable, and shall reimburse the Landlord for any increase caused by the Tenant.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 15 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">15. Limitation of Liability</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>15.1</strong> Nothing in this Agreement limits or excludes either Party's liability for death or personal injury caused by negligence, for fraud, or for any liability that cannot lawfully be limited.</p>
+<p><strong>15.2</strong> Subject to Clause 15.1, the Landlord is not liable for the loss of or damage to the Tenant's belongings, however caused, unless caused by the Landlord's negligence or breach of this Agreement.</p>
+<p><strong>15.3</strong> Subject to Clause 15.1, the Landlord's total liability under this Agreement shall not exceed a sum equal to two (2) months' Rent.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 16 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">16. Force Majeure</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>16.1</strong> Neither Party is liable for any failure or delay in performing its obligations, other than an obligation to pay money, caused by an event beyond its reasonable control, including fire, flood, epidemic, act of government, or failure of a public utility.</p>
+<p><strong>16.2</strong> If such an event renders the Room uninhabitable, the Rent shall abate from the date the Room becomes uninhabitable until it is fit for occupation again. If the Room remains uninhabitable for more than thirty (30) days, either Party may terminate this Agreement by written notice, and the Landlord shall refund any Rent paid in advance for the period after termination.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 17 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">17. Notices</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>17.1</strong> Any notice under this Agreement shall be in writing.</p>
+<p><strong>17.2</strong> Notices from the Landlord to the Tenant shall be sent to the email address specified in Annex A, and are deemed received on the day of sending unless a delivery failure is received.</p>
+<p><strong>17.3</strong> Notices from the Tenant to the Landlord shall be sent to hello@lazybee.sg, and are deemed received on the next working day.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 18 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">18. Waiver</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>18.1</strong> No failure or delay by either Party in exercising a right under this Agreement operates as a waiver of that right, and no single or partial exercise prevents any further exercise of it.</p>
+<p><strong>18.2</strong> The acceptance of Rent by the Landlord after a breach is not a waiver of that breach.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 19 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">19. Assignment</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>19.1</strong> The Tenant shall not assign, transfer, or otherwise deal with this Agreement or any right under it.</p>
+<p><strong>19.2</strong> The Landlord may assign or transfer this Agreement on written notice to the Tenant, provided the Tenant's rights under it are not diminished.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 20 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">20. Severability</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>20.1</strong> If any provision of this Agreement is held to be invalid or unenforceable, that provision shall be severed and the remainder shall continue in full force and effect.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 21 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">21. Entire Agreement</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>21.1</strong> This Agreement, including its Annexes, constitutes the entire agreement between the Parties in relation to the Room and supersedes all prior discussions, representations, and arrangements.</p>
+<p><strong>21.2</strong> No variation of this Agreement is effective unless made in writing and signed by both Parties.</p>
+</div>
+</div>
+</section>
+
+<!-- CLAUSE 22 -->
+<section>
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">22. Governing Law and Dispute Resolution</h2>
+</aside>
+<div class="flex-1 p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p><strong>22.1</strong> This Agreement is governed by and construed in accordance with the laws of Singapore. The Parties irrevocably submit to the exclusive jurisdiction of the Singapore courts.</p>
+<p><strong>22.2</strong> Before commencing proceedings, the Parties shall attempt in good faith to resolve any dispute by discussion, and may refer the dispute to mediation at the Singapore Mediation Centre.</p>
+<p><strong>22.3</strong> The Tenant and the Tenant's guests shall not use the Room or the Property in any manner that infringes the laws of the Republic of Singapore, including its rules, regulations, and by-laws.</p>
+</div>
+</div>
+</section>
+
+<!-- ANNEX A -->
+<section class="pt-12 border-t border-surface-variant">
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Annex A</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Tenant details, the Room, rent structure, and term.</p>
+</aside>
+<div class="flex-1 space-y-6">
+
+<div class="p-6 bg-surface-container-low rounded-lg">
+<h4 class="font-headline font-bold text-on-surface mb-4">Landlord Details</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12 clause-text">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Name</label>
+<p class="font-semibold text-on-surface">Makery Pte. Ltd.</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">UEN</label>
+<p class="font-semibold text-on-surface">202345973G</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Nature of Business</label>
+<p class="font-semibold text-on-surface">Property Management</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Main Contact</label>
+<p class="font-semibold text-on-surface">Wee Yi Ren Mark, Director</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Telephone</label>
+<p class="font-semibold text-on-surface">81333757</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Email</label>
+<p class="font-semibold text-on-surface">hello@lazybee.sg</p>
+</div>
+</div>
+</div>
+
+<div class="p-6 bg-surface-container-low rounded-lg">
+<h4 class="font-headline font-bold text-on-surface mb-4">Tenant Details</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12 clause-text">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Name</label>
+<p class="font-semibold text-on-surface">{{TENANT_NAME}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">ID / Passport Number</label>
+<p class="font-semibold text-on-surface">{{ID_NUMBER}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Email (for notices)</label>
+<p class="font-semibold text-on-surface">{{EMAIL}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Contact Number</label>
+<p class="font-semibold text-on-surface">{{PHONE}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Permitted Occupiers</label>
+<p class="font-semibold text-on-surface">{{TENANT_NAME}} only</p>
+</div>
+</div>
+</div>
+
+<div class="p-6 bg-surface-container-low rounded-lg">
+<h4 class="font-headline font-bold text-on-surface mb-4">The Room</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12 clause-text">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Property</label>
+<p class="font-semibold text-on-surface">{{PROPERTY_ADDRESS}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Room</label>
+<p class="font-semibold text-on-surface">{{ROOM_NAME}}</p>
+</div>
+</div>
+</div>
+
+<div class="p-6 bg-surface-container-low rounded-lg">
+<h4 class="font-headline font-bold text-on-surface mb-4">Common Areas</h4>
+<div class="clause-text">
+<p>{{COMMON_AREAS}}</p>
+</div>
+</div>
+
+<div class="p-6 bg-surface-container-low rounded-lg">
+<h4 class="font-headline font-bold text-on-surface mb-4">Rent and Fees</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12 clause-text">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Rent</label>
+<p class="font-semibold text-on-surface">S${{MONTHLY_RENT}} per month</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Security Deposit</label>
+<p class="font-semibold text-on-surface">S${{DEPOSIT_AMOUNT}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Miscellaneous Fee</label>
+<p class="font-semibold text-on-surface">Air conditioning usage above 10 hours a day, S$0.30/hour, billed monthly</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Included in Rent</label>
+<p class="font-semibold text-on-surface">Electricity, water, gas, wireless internet, weekly cleaning of the Common Areas</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Late Payment Interest</label>
+<p class="font-semibold text-on-surface">S$10 per day on any sum overdue by more than 7 days</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Payment Method</label>
+<p class="font-semibold text-on-surface">Bank transfer</p>
+</div>
+</div>
+</div>
+
+<div class="p-6 bg-surface-container-low rounded-lg">
+<h4 class="font-headline font-bold text-on-surface mb-4">Term</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12 clause-text">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Commencement Date</label>
+<p class="font-semibold text-on-surface">{{START_DATE}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Expiry Date</label>
+<p class="font-semibold text-on-surface">{{END_DATE}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Term</label>
+<p class="font-semibold text-on-surface">{{START_DATE}} to {{END_DATE}}</p>
+</div>
+<div>
+<label class="block font-label text-[10px] uppercase tracking-wider text-outline mb-1">Minimum Occupation</label>
+<p class="font-semibold text-on-surface">3 months before any early termination notice may take effect</p>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ANNEX B: INVENTORY -->
+<section class="pt-8">
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Annex B</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Inventory and condition of the Room at handover.</p>
+</aside>
+<div class="flex-1 space-y-4">
+<div class="p-6 bg-surface-container-low rounded-lg clause-text space-y-4">
+<p>The Room is let furnished. The following items are provided by the Landlord and are to be returned in the same condition at the end of the Term, fair wear and tear excepted:</p>
+<div class="space-y-3">
+<div class="flex gap-4"><span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(1)</span><p>Bed frame and mattress, with mattress protector;</p></div>
+<div class="flex gap-4"><span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(2)</span><p>Wardrobe or clothing storage;</p></div>
+<div class="flex gap-4"><span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(3)</span><p>Desk and chair;</p></div>
+<div class="flex gap-4"><span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(4)</span><p>Air conditioning unit serving the Room;</p></div>
+<div class="flex gap-4"><span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(5)</span><p>Ceiling or standing light fittings, curtains or blinds;</p></div>
+<div class="flex gap-4"><span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(6)</span><p>Keys and access devices, as recorded at handover;</p></div>
+<div class="flex gap-4"><span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(7)</span><p>Shared use of the kitchen, laundry, and living areas and the appliances in them.</p></div>
+</div>
+<p class="pt-2">The condition of each item is recorded photographically in the move-in checklist completed by the Tenant on or before the Commencement Date. That checklist forms part of this Annex. Any discrepancy must be reported to the Landlord within three (3) days of the Commencement Date, failing which the Room and its contents are taken to have been received in good condition.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ANNEX C: HOUSE RULES -->
+<section class="pt-8">
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Annex C</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">House Rules, community standards and conduct requirements.</p>
+</aside>
+<div class="flex-1 space-y-4">
+
+<div class="p-6 bg-surface-container-low rounded-lg clause-text">
+<p class="mb-4">The Tenant acknowledges and agrees to the following House Rules:</p>
+<div class="space-y-4">
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(1)</span>
+<p>Keys, key cards and other items used to gain physical access to the Room or the Property remain the property of the Landlord or the estate management. The Tenant shall safeguard them and shall be liable for replacement fees should any be lost, stolen or destroyed;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(2)</span>
+<p>The Tenant shall promptly notify the Landlord should any key, key card or access device be lost, stolen or destroyed;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(3)</span>
+<p>Quiet hours are observed from 10.00pm to 8.00am. Noise shall be kept at a level that does not disturb the other occupiers or the neighbours at any time;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(4)</span>
+<p>Smoking, including electronic cigarettes and vaporisers, is not permitted anywhere within the Property;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(5)</span>
+<p>Cats are permitted with the Landlord's prior written consent. No other pet may be kept without prior written consent. The Tenant is responsible for any damage, cleaning, or pest treatment arising from a pet;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(6)</span>
+<p>The kitchen, laundry and living areas are shared. The Tenant shall clean up after use, shall not leave personal items in the Common Areas, and shall remove personal food items that have expired;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(7)</span>
+<p>Refuse shall be bagged and disposed of in the designated chute or bin. Recyclables shall be separated where the estate requires it;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(8)</span>
+<p>Parties and gatherings that exceed the guest limits in Clause 7.2 are not permitted without the Landlord's prior written consent;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(9)</span>
+<p>Candles, incense, portable gas stoves, and other open flames are not permitted anywhere within the Property;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(10)</span>
+<p>Illegal drugs and unlicensed firearms are strictly prohibited. Any breach is a material breach entitling the Landlord to terminate immediately under Clause 10.4;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(11)</span>
+<p>The Tenant shall comply with the by-laws and regulations of the estate management, including rules on facility booking, visitor parking, and moving in or out;</p>
+</div>
+
+<div class="flex gap-4">
+<span class="font-headline font-bold text-primary text-sm min-w-[2rem]">(12)</span>
+<p>The Tenant shall not conduct any business, trade, or commercial filming from the Property.</p>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ANNEX D: FEE SCHEDULE -->
+<section class="pt-8">
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="w-full md:w-1/3">
+<h2 class="font-headline text-xl font-bold text-on-surface border-l-4 border-primary-container pl-4">Annex D</h2>
+<p class="mt-2 text-sm text-on-surface-variant leading-relaxed">Fee Schedule, monthly rent payment dates.</p>
+</aside>
+<div class="flex-1">
+<div class="bg-surface-container-low rounded-lg overflow-hidden">
+<div class="grid grid-cols-3 gap-px bg-surface-variant text-sm">
+<!-- Header -->
+<div class="bg-primary/5 p-4 font-headline font-bold text-on-surface">Purpose</div>
+<div class="bg-primary/5 p-4 font-headline font-bold text-on-surface">Amount</div>
+<div class="bg-primary/5 p-4 font-headline font-bold text-on-surface">Date</div>
+<!-- Rows, dynamically generated -->
+{{FEE_SCHEDULE_ROWS}}
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- EXTRA TERMS (optional, only rendered if content provided) -->
+{{EXTRA_TERMS}}
+
+<!-- Section: Execution & Signatures -->
+<section class="pt-12 border-t border-surface-variant">
+<div class="flex flex-col md:flex-row gap-12">
+<div class="flex-1 space-y-10">
+<div class="space-y-6">
+<label class="block font-label text-[10px] uppercase tracking-widest text-outline">Name of Landlord / Signature of Landlord</label>
+<div class="h-20 border-b border-on-surface w-full relative">
+<div class="absolute bottom-4 left-4">
+<p class="font-headline italic text-on-surface">Lazybee Operations</p>
+</div>
+</div>
+<div class="flex justify-between text-[10px] uppercase font-bold text-outline">
+<span>Wee Yi Ren Mark</span>
+<span>Date: ____ / ____ / ____</span>
+</div>
+</div>
+</div>
+<div class="flex-1 space-y-10">
+<div class="space-y-6">
+<label class="block font-label text-[10px] uppercase tracking-widest text-outline">Name of Tenant / Signature of Tenant</label>
+<div class="h-20 border-b border-on-surface w-full relative">
+<span class="absolute bottom-2 left-0 font-headline italic text-on-surface/30">Sign here</span>
+</div>
+<div class="flex justify-between text-[10px] uppercase font-bold text-outline">
+<span>{{TENANT_NAME}}</span>
+<span>Date: ____ / ____ / ____</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+</div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-50 w-full px-8 py-12 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-slate-200/50 mt-auto">
+<div class="font-body text-xs tracking-wide uppercase text-slate-500">
+            &copy; 2026 Lazybee Living &middot; Makery Pte. Ltd. All rights reserved. Confidential Tenancy Documentation.
+        </div>
+<div class="flex gap-8">
+<a class="font-body text-xs tracking-wide uppercase text-slate-500 hover:text-teal-500 transition-colors" href="#">Terms of Service</a>
+<a class="font-body text-xs tracking-wide uppercase text-slate-500 hover:text-teal-500 transition-colors" href="#">Privacy Policy</a>
+<a class="font-body text-xs tracking-wide uppercase text-slate-500 hover:text-teal-500 transition-colors" href="#">Contact Support</a>
+</div>
+</footer>
+</body></html>
