@@ -138,7 +138,7 @@ async function buildEmail(
       const detailRows: Detail[] = [
         {
           label: "Issue",
-          value: `<strong>${escape(ticket_category || "Maintenance")}</strong>${unitCode ? ` &middot; <span style="font-family:monospace;background:#eff4ff;padding:2px 8px;border-radius:4px;font-size:12px">${escape(unitCode)}</span>` : ""}`,
+          value: `<strong>${escape(ticket_category || "Maintenance")}</strong>${unitCode ? ` &middot; ${chip(unitCode)}` : ""}`,
         },
       ];
       if (description) detailRows.push({ label: "Reported", value: escape(description) });
@@ -222,8 +222,8 @@ async function buildEmail(
             "Welcome to the Lazybee community. Use the credentials below to sign in for the first time, then change your password from the settings page.",
           ],
           details: [
-            { label: "Username", value: `<code style="font-family:monospace;background:#eff4ff;padding:2px 8px;border-radius:4px;font-size:13px">${escape(username)}</code>` },
-            { label: "Password", value: `<code style="font-family:monospace;background:#eff4ff;padding:2px 8px;border-radius:4px;font-size:13px">${escape(password)}</code>` },
+            { label: "Username", value: chip(String(username)) },
+            { label: "Password", value: chip(String(password)) },
           ],
           cta: { label: "Log In", url: login_url || `${PORTAL_BASE}/portal/login` },
           ctaCaption: "Change your password after first login",
@@ -596,7 +596,7 @@ async function buildEmail(
             label: "Payable in full",
             value: `SGD ${escape(String(details.amount))}`,
             footnote: details.deadline
-              ? `By ${escape(String(details.deadline))} &middot; includes SGD ${escape(String(details.late_fee))} in late fees`
+              ? `By ${escape(String(details.deadline))} · includes SGD ${escape(String(details.late_fee))} in late fees`
               : `Includes SGD ${escape(String(details.late_fee))} in late fees`,
           },
           details: [
