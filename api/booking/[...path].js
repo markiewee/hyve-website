@@ -976,33 +976,25 @@ async function handleCron(req, res) {
     console.error("[booking/cron] off-horizon sweep fatal:", err);
   }
 
-  // Daily cron — broadened window 12-36h to catch all next-day viewings
-  const lo24 = new Date(now + 12 * 60 * 60 * 1000).toISOString();
-  const hi24 = new Date(now + 36 * 60 * 60 * 1000).toISOString();
-
-  const { data: due24, error: err24 } = await supabase
-    .from("property_viewings")
-    .select("id")
-    .eq("status", "confirmed")
-    .is("reminder_24h_sent_at", null)
-    .gte("slot_start", lo24)
-    .lte("slot_start", hi24);
-  if (err24) {
-    console.error("[booking/cron] 24h sweep error:", err24);
-    return res.status(500).json({ error: err24.message });
-  }
-
-  const r24 = { count: due24?.length || 0, results: [] };
-  for (const v of due24 || []) {
-    await fireNotify("viewing-reminder-24h", v.id);
-    r24.results.push({ id: v.id });
-  }
+  // The 24h viewing reminder used to run here and it stopped working on
+  // 17 Jul 2026. Vercel crons hit the deployment URL, and this project's
+  // deployment URLs sit behind SSO, so this handler quietly became
+  // unreachable. It now runs as the pg_cron job `viewing-reminder-24h` on
+  // hyve-iot (migration 20260824000000), which is the same scheduler that
+  // already runs rent, late fees and the partner worker.
+  //
+  // Deliberately not left running in both places: two schedulers racing on the
+  // same reminder_24h_sent_at flag would double-send to a prospect.
+  //
+  // The off-horizon lead sweep above is still here and is still exposed to the
+  // exact same reachability problem. Zero lead reminders have fired since
+  // 17 Jul either. Tracked separately, same fix.
 
   return res.status(200).json({
     ok: true,
     ts: new Date().toISOString(),
     off_horizon: offHorizonSweep,
-    reminder_24h: r24,
+    reminder_24h: { moved_to: "pg_cron:viewing-reminder-24h" },
   });
 }
 
