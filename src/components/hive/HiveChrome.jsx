@@ -102,6 +102,10 @@ function CombTexture() {
 export function HiveBanner({ kicker, title, blurb, count, subjects, cadence = 'Monthly at most' }) {
   return (
     <header className="hivebanner">
+      {/* Decorative, so no alt text and no <img>: it carries no information the
+          heading does not already state, and a screen reader announcing a tile
+          wall before the masthead is noise. */}
+      <div className="shot" aria-hidden="true" />
       <CombTexture />
       <div className="wrap bin">
         <div className="label">{kicker}</div>

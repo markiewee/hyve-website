@@ -73,6 +73,8 @@ function headFor(meta, canonical, schemas, siteName, ogImage) {
     `<meta name="twitter:title" content="${esc(meta.title)}" />`,
     `<meta name="twitter:description" content="${esc(meta.description)}" />`,
     `<meta name="twitter:image" content="${esc(ogImage)}" />`,
+    // Feed autodiscovery. Without this the feed exists but nothing finds it.
+    `<link rel="alternate" type="application/rss+xml" title="The Hive" href="https://www.lazybee.sg/feed.xml" />`,
     ...schemas.map((s) => `<script type="application/ld+json">${jsonLd(s)}</script>`),
   ];
   return tags.map((t) => `    ${t}`).join('\n');
@@ -123,7 +125,7 @@ if (!shell.includes('<div id="root"></div>')) {
 }
 
 const mod = await import(pathToFileURL(SSR_ENTRY).href);
-const { render, ALL_ROUTE_META, PRERENDER_ROUTES, canonicalFor, SITE_NAME, DEFAULT_OG_IMAGE } = mod;
+const { render, ALL_ROUTE_META, PRERENDER_ROUTES, canonicalFor, SITE_NAME, DEFAULT_OG_IMAGE, BASE_URL } = mod;
 
 /* The SPA shell, kept as-is for every route we do not prerender. It is marked
    noindex because it has no content: if a crawler ever reaches it directly we
@@ -196,12 +198,70 @@ const sitemap =
   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
   PRERENDER_ROUTES.map(
     (r) =>
-      `  <url><loc>${canonicalFor(r)}</loc><lastmod>${today}</lastmod>` +
+      `  <url><loc>${canonicalFor(r)}</loc><lastmod>${ALL_ROUTE_META[r]?.lastmod || today}</lastmod>` +
       `<changefreq>${CHANGEFREQ[r] || 'monthly'}</changefreq>` +
       `<priority>${PRIORITY[r] || '0.5'}</priority></url>`,
   ).join('\n') +
   '\n</urlset>\n';
 writeFileSync(join(DIST, 'sitemap.xml'), sitemap);
+
+
+/* ── RSS ──────────────────────────────────────────────────────────────
+   A blog without a feed is invisible to readers, aggregators and the AI
+   crawlers robots.txt deliberately welcomes. Built from the same ARTICLES the
+   site renders so it can never describe posts that are not there. */
+const xmlEsc = (v) =>
+  String(v ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+
+const rssDate = (d) => new Date(`${d}T09:00:00+08:00`).toUTCString();
+/* Built from ALL_ROUTE_META rather than from the markdown, so the feed can only
+   ever describe pages the site actually renders. An article route is one whose
+   meta declares ogType 'article'; its date and tags are read back out of the
+   Article JSON-LD that already sits in its <head>. */
+const feedItems = PRERENDER_ROUTES.filter((r) => ALL_ROUTE_META[r]?.ogType === 'article')
+  .map((r) => {
+    const meta = ALL_ROUTE_META[r];
+    const article = (meta.schema() || []).find((s) => s['@type'] === 'Article') || {};
+    return {
+      path: r,
+      title: article.headline || meta.title,
+      description: meta.description || '',
+      date: article.datePublished || meta.lastmod,
+      tags: String(article.keywords || '').split(',').map((t) => t.trim()).filter(Boolean),
+    };
+  })
+  .sort((a, b) => String(b.date).localeCompare(String(a.date)))
+  .slice(0, 20);
+
+const feedUpdated = feedItems[0] ? rssDate(feedItems[0].date) : new Date().toUTCString();
+const rss =
+  '<?xml version="1.0" encoding="UTF-8"?>\n' +
+  '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n<channel>\n' +
+  `  <title>${xmlEsc(`The Hive | ${SITE_NAME}`)}</title>\n` +
+  `  <link>${BASE_URL}/hive</link>\n` +
+  `  <description>${xmlEsc('What we learn running co-living in Singapore: the numbers, the rules, the operations and what things actually cost.')}</description>\n` +
+  '  <language>en-SG</language>\n' +
+  `  <lastBuildDate>${feedUpdated}</lastBuildDate>\n` +
+  `  <atom:link href="${BASE_URL}/feed.xml" rel="self" type="application/rss+xml" />\n` +
+  feedItems
+    .map(
+      (a) =>
+        '  <item>\n' +
+        `    <title>${xmlEsc(a.title)}</title>\n` +
+        `    <link>${BASE_URL}${a.path}</link>\n` +
+        `    <guid isPermaLink="true">${BASE_URL}${a.path}</guid>\n` +
+        `    <pubDate>${rssDate(a.date)}</pubDate>\n` +
+        a.tags.map((t) => `    <category>${xmlEsc(t)}</category>\n`).join('') +
+        `    <description>${xmlEsc(a.description)}</description>\n` +
+        '  </item>',
+    )
+    .join('\n') +
+  '\n</channel>\n</rss>\n';
+writeFileSync(join(DIST, 'feed.xml'), rss);
 
 const pad = (s, n) => String(s).padEnd(n);
 console.log('\nprerender');
@@ -211,7 +271,8 @@ for (const r of results) {
 }
 console.log(`\n  react-helmet-async emitted tags server-side: ${helmetWorked ? 'yes' : 'no'}`);
 console.log(`  dist/app.html written as the noindex shell for /portal/* and unlisted routes`);
-console.log(`  dist/sitemap.xml regenerated with ${PRERENDER_ROUTES.length} urls\n`);
+console.log(`  dist/sitemap.xml regenerated with ${PRERENDER_ROUTES.length} urls`);
+console.log(`  dist/feed.xml written with ${feedItems.length} items\n`);
 
 if (failures.length) {
   console.error('prerender failed:\n' + failures.map((f) => `  - ${f}`).join('\n'));
