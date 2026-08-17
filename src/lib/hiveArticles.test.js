@@ -18,11 +18,21 @@ import {
 import { renderMarkdown, markdownToText } from './markdown.js';
 
 const CONTENT = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'content', 'hive');
+
+/* One directory per language now, so this walks a level deeper than it used to.
+   Reading all of them rather than only en/ is deliberate: the frontmatter and
+   no-dash checks below should hold for a Burmese article exactly as much as for
+   an English one, and those are the articles nobody will browse past by
+   accident. */
 const realFiles = () =>
   Object.fromEntries(
-    readdirSync(CONTENT)
-      .filter((f) => f.endsWith('.md'))
-      .map((f) => [join(CONTENT, f), readFileSync(join(CONTENT, f), 'utf8')]),
+    readdirSync(CONTENT, { withFileTypes: true })
+      .filter((d) => d.isDirectory())
+      .flatMap((d) =>
+        readdirSync(join(CONTENT, d.name))
+          .filter((f) => f.endsWith('.md'))
+          .map((f) => [join(CONTENT, d.name, f), readFileSync(join(CONTENT, d.name, f), 'utf8')]),
+      ),
   );
 
 /** A synthetic archive of n articles, for the sizes we do not have content for yet. */
