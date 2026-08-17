@@ -23,6 +23,18 @@ const supabase = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
 );
 
+import {
+  fmtDateTime,
+  buildIcs,
+  b64,
+  tplConfirmation,
+  tplCaptainNotify,
+  tplAdminNotify,
+  tplReminder24h,
+  tplCancelled,
+  tplOffHorizonReminder,
+} from "../_shared/viewingEmails.js";
+
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") || "";
 const SENDER = "Lazybee Co-living <hello@lazybee.sg>";
 const ADMIN_EMAIL = Deno.env.get("LAZYBEE_ADMIN_EMAIL") || "admin@lazybee.sg";
@@ -64,131 +76,6 @@ async function sendEmail(opts: {
   const text = await r.text();
   if (!r.ok) throw new Error(`resend ${r.status}: ${text.slice(0, 500)}`);
   return text;
-}
-
-// ── Date / time helpers (Asia/Singapore) ──────────────────────────────
-const TZ = "Asia/Singapore";
-
-function fmtDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-SG", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    timeZone: TZ,
-  });
-}
-
-function fmtTime(iso: string): string {
-  return new Date(iso).toLocaleTimeString("en-SG", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-    timeZone: TZ,
-  });
-}
-
-function fmtDateTime(iso: string): string {
-  return `${fmtDate(iso)}, ${fmtTime(iso)}`;
-}
-
-// .ics generation (no extra deps)
-function toIcsDateUtc(iso: string): string {
-  // RFC5545 UTC: 20260510T030000Z
-  const d = new Date(iso);
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return (
-    d.getUTCFullYear().toString() +
-    pad(d.getUTCMonth() + 1) +
-    pad(d.getUTCDate()) +
-    "T" +
-    pad(d.getUTCHours()) +
-    pad(d.getUTCMinutes()) +
-    pad(d.getUTCSeconds()) +
-    "Z"
-  );
-}
-
-function escapeIcs(s: string): string {
-  return String(s)
-    .replace(/\\/g, "\\\\")
-    .replace(/\n/g, "\\n")
-    .replace(/,/g, "\\,")
-    .replace(/;/g, "\\;");
-}
-
-function buildIcs(args: {
-  uid: string;
-  start: string;
-  end: string;
-  summary: string;
-  description: string;
-  location: string;
-  status?: "CONFIRMED" | "CANCELLED";
-}): string {
-  const lines = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Lazybee Co-living//Viewing//EN",
-    "CALSCALE:GREGORIAN",
-    "METHOD:" + (args.status === "CANCELLED" ? "CANCEL" : "REQUEST"),
-    "BEGIN:VEVENT",
-    `UID:${args.uid}@lazybee.sg`,
-    `DTSTAMP:${toIcsDateUtc(new Date().toISOString())}`,
-    `DTSTART:${toIcsDateUtc(args.start)}`,
-    `DTEND:${toIcsDateUtc(args.end)}`,
-    `SUMMARY:${escapeIcs(args.summary)}`,
-    `DESCRIPTION:${escapeIcs(args.description)}`,
-    `LOCATION:${escapeIcs(args.location)}`,
-    `STATUS:${args.status || "CONFIRMED"}`,
-    "END:VEVENT",
-    "END:VCALENDAR",
-  ];
-  return lines.join("\r\n");
-}
-
-function b64(s: string): string {
-  // btoa supports utf-8 only via TextEncoder roundtrip
-  const bytes = new TextEncoder().encode(s);
-  let bin = "";
-  bytes.forEach((b) => (bin += String.fromCharCode(b)));
-  return btoa(bin);
-}
-
-function escapeHtml(s: string): string {
-  return String(s ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-// ── Branded HTML shell ────────────────────────────────────────────────
-function shell(args: { title: string; preheader?: string; bodyHtml: string }): string {
-  const pre = args.preheader || "";
-  return `
-  <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:600px;margin:0 auto;background:#f5f7fa;padding:16px 0;">
-    <div style="display:none;font-size:1px;color:#f5f7fa;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">${escapeHtml(pre)}</div>
-    <div style="background:#006b5f;padding:32px;text-align:center;border-radius:12px 12px 0 0;">
-      <h1 style="color:white;margin:0;font-size:24px;font-weight:800;">${escapeHtml(args.title)}</h1>
-    </div>
-    <div style="padding:32px;background:white;border-radius:0 0 12px 12px;">
-      ${args.bodyHtml}
-      <p style="font-size:12px;color:#bbcac6;margin-top:32px;">— Lazybee Co-living · <a href="${PUBLIC_SITE_URL}" style="color:#bbcac6;">lazybee.sg</a></p>
-    </div>
-  </div>`;
-}
-
-function detailsTable(rows: Array<[string, string]>): string {
-  const tr = rows
-    .filter(([, v]) => v && v.length)
-    .map(
-      ([k, v]) =>
-        `<tr><td style="padding:8px 0;color:#6c7a77;font-weight:700;">${escapeHtml(k)}:</td><td style="padding:8px 0;">${escapeHtml(v)}</td></tr>`
-    )
-    .join("");
-  return `<div style="background:#f8f9ff;border-radius:12px;padding:24px;margin:24px 0;"><table style="width:100%;font-size:14px;color:#121c2a;">${tr}</table></div>`;
 }
 
 // ── Lookup helpers ────────────────────────────────────────────────────
@@ -236,12 +123,36 @@ async function sendWhatsApp(chatId: string | null, text: string) {
   }
 }
 
-async function loadCaptain(captain_id: string | null): Promise<{ email: string | null; name: string; phone: string | null }> {
-  if (!captain_id) return { email: null, name: "House Captain", phone: null };
+async function loadCaptain(
+  captain_id: string | null,
+  property_id?: string | null
+): Promise<{ email: string | null; name: string; phone: string | null }> {
+  let id = captain_id;
+
+  // Bookings do not reliably carry a captain: every viewing on the books right
+  // now has captain_id null, which is why a prospect was told their house
+  // captain was called "House Captain". Each property that has one has exactly
+  // one active HOUSE_CAPTAIN row carrying its property_id, so ask the property.
+  // Chiltern Park genuinely has none, and that is a real answer rather than a
+  // gap: those emails read as self-serve on the door code.
+  if (!id && property_id) {
+    const { data: byProperty } = await supabase
+      .from("tenant_profiles")
+      .select("id")
+      .eq("role", "HOUSE_CAPTAIN")
+      .eq("property_id", property_id)
+      .eq("is_active", true)
+      .is("archived_at", null)
+      .limit(1)
+      .maybeSingle();
+    id = byProperty?.id ?? null;
+  }
+
+  if (!id) return { email: null, name: "House Captain", phone: null };
   const { data: captain } = await supabase
     .from("tenant_profiles")
     .select("user_id, tenant_details(full_name, email, phone)")
-    .eq("id", captain_id)
+    .eq("id", id)
     .single();
   let email = captain?.tenant_details?.email || null;
   const name = captain?.tenant_details?.full_name || "House Captain";
@@ -251,250 +162,6 @@ async function loadCaptain(captain_id: string | null): Promise<{ email: string |
     email = userData?.user?.email || null;
   }
   return { email, name, phone };
-}
-
-// ── Templates ─────────────────────────────────────────────────────────
-
-function tplConfirmation(args: {
-  viewing: any;
-  captain: { name: string; phone: string | null };
-  cancelUrl: string;
-}) {
-  const { viewing, captain, cancelUrl } = args;
-  const slotIso = viewing.slot_start || `${viewing.viewing_date}T${viewing.viewing_time}+08:00`;
-  const slotEndIso = viewing.slot_end || slotIso;
-  const propertyName = viewing.properties?.name || "Lazybee property";
-  const propertyAddress = viewing.properties?.address || "";
-  const propertyCode = viewing.properties?.code || "";
-  const roomName = viewing.rooms?.name || viewing.rooms?.unit_code || "any available room";
-
-  const html = shell({
-    title: "Viewing confirmed",
-    preheader: `${propertyName} on ${fmtDateTime(slotIso)}`,
-    bodyHtml: `
-      <p style="font-size:16px;color:#121c2a;">Hi ${escapeHtml(viewing.prospect_name || "there")},</p>
-      <p style="font-size:15px;color:#3c4947;">Your viewing is locked in. Looking forward to showing you around.</p>
-      ${detailsTable([
-        ["When", fmtDateTime(slotIso)],
-        ["Property", `${propertyName}${propertyCode ? ` (${propertyCode})` : ""}`],
-        ["Address", propertyAddress],
-        ["Room", roomName],
-        ["House captain", captain.name + (captain.phone ? ` — ${captain.phone}` : "")],
-      ])}
-      <p style="font-size:14px;color:#3c4947;">A calendar invite is attached. We'll send a reminder 24 hours and 2 hours before with the door code and meeting point.</p>
-      <p style="font-size:14px;color:#3c4947;margin-top:24px;">
-        Need to cancel? <a href="${cancelUrl}" style="color:#006b5f;">Cancel this viewing</a>.
-      </p>
-    `,
-  });
-
-  const ics = buildIcs({
-    uid: viewing.id,
-    start: slotIso,
-    end: slotEndIso,
-    summary: `Lazybee viewing — ${propertyName}`,
-    description: `Lazybee room viewing.\nProperty: ${propertyName}\nRoom: ${roomName}\nCaptain: ${captain.name}${captain.phone ? " " + captain.phone : ""}\n\nCancel: ${cancelUrl}`,
-    location: propertyAddress || propertyName,
-    status: "CONFIRMED",
-  });
-
-  return {
-    subject: `Viewing confirmed — ${propertyName} · ${fmtDateTime(slotIso)}`,
-    html,
-    attachments: [
-      { filename: "viewing.ics", content: b64(ics), content_type: "text/calendar; charset=utf-8; method=REQUEST" },
-    ],
-  };
-}
-
-function tplCaptainNotify(args: { viewing: any; captainName: string }) {
-  const { viewing, captainName } = args;
-  const slotIso = viewing.slot_start || `${viewing.viewing_date}T${viewing.viewing_time}+08:00`;
-  const propertyName = viewing.properties?.name || "your property";
-  const roomName = viewing.rooms?.name || viewing.rooms?.unit_code || "any available";
-  const html = shell({
-    title: "New viewing booked",
-    preheader: `${viewing.prospect_name} at ${propertyName} on ${fmtDateTime(slotIso)}`,
-    bodyHtml: `
-      <p style="font-size:16px;color:#121c2a;">Hi ${escapeHtml(captainName)},</p>
-      <p style="font-size:15px;color:#3c4947;">A prospect just booked a viewing — please be there.</p>
-      ${detailsTable([
-        ["When", fmtDateTime(slotIso)],
-        ["Property", propertyName],
-        ["Room", roomName],
-        ["Prospect", viewing.prospect_name || "—"],
-        ["Email", viewing.prospect_email || "—"],
-        ["Phone", viewing.prospect_phone || "—"],
-        ["Source", viewing.source || "—"],
-        ["Notes", viewing.special_notes || "—"],
-      ])}
-      <p style="font-size:13px;color:#6c7a77;">Manage in your portal: <a href="${PUBLIC_SITE_URL}/portal/viewings" style="color:#006b5f;">${PUBLIC_SITE_URL}/portal/viewings</a></p>
-    `,
-  });
-  return {
-    subject: `New viewing: ${viewing.prospect_name} · ${propertyName} · ${fmtDateTime(slotIso)}`,
-    html,
-  };
-}
-
-function tplAdminNotify(args: { viewing: any }) {
-  const { viewing } = args;
-  const slotIso = viewing.slot_start || `${viewing.viewing_date}T${viewing.viewing_time}+08:00`;
-  const propertyName = viewing.properties?.name || "—";
-  const propertyCode = viewing.properties?.code || "";
-  const roomName = viewing.rooms?.name || viewing.rooms?.unit_code || "(flexible)";
-  const html = shell({
-    title: "Viewing booked",
-    bodyHtml: `
-      ${detailsTable([
-        ["When", fmtDateTime(slotIso)],
-        ["Property", `${propertyName} (${propertyCode})`],
-        ["Room", roomName],
-        ["Prospect", viewing.prospect_name || "—"],
-        ["Contact", `${viewing.prospect_email || "—"} / ${viewing.prospect_phone || "—"}`],
-        ["Source", viewing.source || "—"],
-      ])}
-      <p style="font-size:13px;color:#6c7a77;">View in admin: <a href="${PUBLIC_SITE_URL}/portal/admin/viewings" style="color:#006b5f;">${PUBLIC_SITE_URL}/portal/admin/viewings</a></p>
-    `,
-  });
-  return {
-    subject: `[Lazybee] Viewing: ${viewing.prospect_name} · ${propertyCode} · ${fmtDateTime(slotIso)}`,
-    html,
-  };
-}
-
-function tplReminder24h(args: {
-  viewing: any;
-  captain: { name: string; phone: string | null };
-  cancelUrl: string;
-}) {
-  const { viewing, captain, cancelUrl } = args;
-  const slotIso = viewing.slot_start || `${viewing.viewing_date}T${viewing.viewing_time}+08:00`;
-  const propertyName = viewing.properties?.name || "Lazybee";
-  const propertyAddress = viewing.properties?.address || "";
-  const accessCode =
-    viewing.access_code ||
-    viewing.rooms?.access_code ||
-    viewing.properties?.default_access_code ||
-    null;
-  const securityInstructions =
-    viewing.security_instructions ||
-    viewing.rooms?.security_instructions ||
-    viewing.properties?.default_security_instructions ||
-    null;
-  const captainLine = captain.phone
-    ? `${captain.name} — ${captain.phone}`
-    : captain.name && captain.name !== "House Captain"
-      ? captain.name
-      : "Self-serve — use the code above";
-
-  const html = shell({
-    title: "Tomorrow: viewing details inside",
-    preheader: `${propertyName} on ${fmtDateTime(slotIso)} — door code + meeting point`,
-    bodyHtml: `
-      <p style="font-size:16px;color:#121c2a;">Hi ${escapeHtml(viewing.prospect_name || "there")},</p>
-      <p style="font-size:15px;color:#3c4947;">Quick reminder — your Lazybee viewing is tomorrow. Everything you need to get in is below.</p>
-      ${detailsTable([
-        ["When", fmtDateTime(slotIso)],
-        ["Property", propertyName],
-        ["Address", propertyAddress],
-        ["Door code", accessCode || "Message us on WhatsApp on arrival"],
-        ["Contact", captainLine],
-        ["Mailbox / parking", securityInstructions || "—"],
-      ])}
-      <p style="font-size:14px;color:#3c4947;">Running late or something came up? WhatsApp us, or <a href="${cancelUrl}" style="color:#006b5f;">cancel here</a> so we can free the slot.</p>
-    `,
-  });
-  return { subject: `Tomorrow: viewing at ${propertyName}`, html };
-}
-
-function tplCancelled(args: { viewing: any; recipientType: "prospect" | "captain" | "admin"; cancelUrl: string }) {
-  const { viewing, recipientType } = args;
-  const slotIso = viewing.slot_start || `${viewing.viewing_date}T${viewing.viewing_time}+08:00`;
-  const slotEndIso = viewing.slot_end || slotIso;
-  const propertyName = viewing.properties?.name || "Lazybee";
-  const propertyCode = viewing.properties?.code || "";
-  const roomName = viewing.rooms?.name || viewing.rooms?.unit_code || "(flexible)";
-
-  let body: string;
-  if (recipientType === "prospect") {
-    body = `
-      <p style="font-size:16px;color:#121c2a;">Hi ${escapeHtml(viewing.prospect_name || "there")},</p>
-      <p style="font-size:15px;color:#3c4947;">Your viewing has been cancelled. No worries — when you're ready, you can <a href="${PUBLIC_SITE_URL}/book" style="color:#006b5f;">book a new slot</a>.</p>
-      ${detailsTable([
-        ["Was", fmtDateTime(slotIso)],
-        ["Property", propertyName],
-      ])}
-    `;
-  } else if (recipientType === "captain") {
-    body = `
-      <p style="font-size:15px;color:#3c4947;">A viewing at your property was cancelled.</p>
-      ${detailsTable([
-        ["Was", fmtDateTime(slotIso)],
-        ["Property", propertyName],
-        ["Room", roomName],
-        ["Prospect", viewing.prospect_name || "—"],
-      ])}
-      <p style="font-size:13px;color:#6c7a77;">No action needed — the slot is freed up automatically.</p>
-    `;
-  } else {
-    body = `
-      ${detailsTable([
-        ["Cancelled", fmtDateTime(slotIso)],
-        ["Property", `${propertyName} (${propertyCode})`],
-        ["Room", roomName],
-        ["Prospect", viewing.prospect_name || "—"],
-        ["Contact", `${viewing.prospect_email || "—"} / ${viewing.prospect_phone || "—"}`],
-      ])}
-    `;
-  }
-
-  const html = shell({ title: "Viewing cancelled", bodyHtml: body });
-
-  // .ics CANCEL for prospect (helps remove the event from their cal)
-  const attachments =
-    recipientType === "prospect"
-      ? [
-          {
-            filename: "viewing-cancelled.ics",
-            content: b64(
-              buildIcs({
-                uid: viewing.id,
-                start: slotIso,
-                end: slotEndIso,
-                summary: `Lazybee viewing — ${propertyName}`,
-                description: "Cancelled.",
-                location: viewing.properties?.address || propertyName,
-                status: "CANCELLED",
-              })
-            ),
-            content_type: "text/calendar; charset=utf-8; method=CANCEL",
-          },
-        ]
-      : undefined;
-
-  return {
-    subject: `Viewing cancelled — ${propertyName} · ${fmtDateTime(slotIso)}`,
-    html,
-    attachments,
-  };
-}
-
-// ── V3 off-horizon reminder template ─────────────────────────────────
-function tplOffHorizonReminder(lead: any) {
-  const property = (lead.property_interest && lead.property_interest[0]) || "Lazybee";
-  const targetDate = lead.intent?.target_move_in_date || "your move-in window";
-  const html = shell({
-    title: "Slots are open — ready to view?",
-    bodyHtml: `
-      <p style="font-size:16px;color:#121c2a;">Hi ${escapeHtml(lead.name || "there")},</p>
-      <p style="font-size:15px;color:#3c4947;">You mentioned a move-in around <strong>${escapeHtml(targetDate)}</strong>. We've got viewing slots open at <strong>${escapeHtml(property)}</strong> over the next two weekends.</p>
-      <p style="font-size:15px;color:#3c4947;">Want to lock one in?</p>
-      <p style="font-size:14px;color:#3c4947;margin-top:24px;">Please let me know if you have any questions.</p>
-      <p style="font-size:15px;margin-top:8px;"><a href="${PUBLIC_SITE_URL}/book" style="color:#006b5f;font-weight:bold;">${PUBLIC_SITE_URL}/book</a></p>
-    `,
-  });
-  return { subject: `Slots open at ${property} — ready to view?`, html };
 }
 
 function whatsAppOffHorizonText(lead: any) {
@@ -511,29 +178,14 @@ function whatsAppOffHorizonText(lead: any) {
 }
 
 // ── Legacy fallback (V1 captain notify) ───────────────────────────────
+// Kept alive for callers that post without an `event`. It used to carry a
+// fourth hand-rolled copy of the captain email; it now sends the same one
+// everything else does, so a copy or design change cannot miss this path.
 async function legacyCaptainNotify(viewing: any) {
-  const captain = await loadCaptain(viewing.captain_id);
-  const propertyName = viewing.properties?.name || "Property";
-  const roomName = viewing.rooms?.name || viewing.rooms?.unit_code || "Any available room";
-  const slotIso = viewing.slot_start || `${viewing.viewing_date}T${viewing.viewing_time}+08:00`;
-
-  const html = shell({
-    title: "New Viewing Request",
-    bodyHtml: `
-      <p style="font-size:16px;color:#121c2a;">Hi ${escapeHtml(captain.name)},</p>
-      <p style="font-size:15px;color:#3c4947;">A prospect has booked a viewing at your property.</p>
-      ${detailsTable([
-        ["When", fmtDateTime(slotIso)],
-        ["Property", propertyName],
-        ["Room", roomName],
-        ["Prospect", viewing.prospect_name || "—"],
-      ])}
-      <p style="font-size:13px;color:#6c7a77;">Manage in <a href="${PUBLIC_SITE_URL}/portal/viewings" style="color:#006b5f;">your portal</a>.</p>
-    `,
-  });
-  const subject = `New Viewing: ${viewing.prospect_name} at ${propertyName} — ${fmtDate(slotIso)}`;
-  if (captain.email) await sendEmail({ to: captain.email, subject, html });
-  await sendEmail({ to: ADMIN_EMAIL, subject, html });
+  const captain = await loadCaptain(viewing.captain_id, viewing.property_id);
+  const t = tplCaptainNotify({ viewing, captainName: captain.name });
+  if (captain.email) await sendEmail({ to: captain.email, subject: t.subject, html: t.html });
+  await sendEmail({ to: ADMIN_EMAIL, subject: t.subject, html: t.html });
   return { sent: true, captain_email: captain.email, admin_email: ADMIN_EMAIL };
 }
 
@@ -559,7 +211,7 @@ async function dispatch(event: string, ids: { viewing_id?: string; lead_id?: str
   // Viewing-targeted events from here
   if (!ids.viewing_id) throw new Error("viewing_id required");
   const viewing = await loadViewing(ids.viewing_id);
-  const captain = await loadCaptain(viewing.captain_id);
+  const captain = await loadCaptain(viewing.captain_id, viewing.property_id);
   const cancelUrl = viewing.cancel_token
     ? `${PUBLIC_SITE_URL}/book/cancel?token=${encodeURIComponent(viewing.cancel_token)}`
     : `${PUBLIC_SITE_URL}/book`;

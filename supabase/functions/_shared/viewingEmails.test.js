@@ -19,6 +19,12 @@ import {
   mapsUrl,
 } from "./viewingEmails.js";
 
+/** Decode an attachment the way the edge runtime encodes it. Deliberately
+    not Buffer: this file has to run under the same web globals the function
+    ships to. */
+const unb64 = (s) =>
+  new TextDecoder().decode(Uint8Array.from(atob(s), (c) => c.charCodeAt(0)));
+
 const viewing = {
   id: "8be235ce-e86c-4494-ba34-918083c2c3a9",
   prospect_name: "Mark",
@@ -121,14 +127,14 @@ test("the confirmation still attaches a calendar invite", () => {
   const { attachments } = tplConfirmation({ viewing, captain, cancelUrl });
   assert.equal(attachments.length, 1);
   assert.equal(attachments[0].filename, "viewing.ics");
-  const ics = Buffer.from(attachments[0].content, "base64").toString("utf8");
+  const ics = unb64(attachments[0].content);
   assert.ok(ics.includes("BEGIN:VEVENT"));
   assert.ok(ics.includes("STATUS:CONFIRMED"));
 });
 
 test("a cancelled viewing sends the prospect a CANCEL invite so it leaves their calendar", () => {
   const { attachments } = tplCancelled({ viewing, recipientType: "prospect", cancelUrl });
-  const ics = Buffer.from(attachments[0].content, "base64").toString("utf8");
+  const ics = unb64(attachments[0].content);
   assert.ok(ics.includes("STATUS:CANCELLED"));
   assert.ok(ics.includes("METHOD:CANCEL"));
   assert.equal(tplCancelled({ viewing, recipientType: "admin", cancelUrl }).attachments, undefined);
@@ -150,4 +156,14 @@ test("a missing contact detail reads as words, not a stray symbol", () => {
 
 test("mapsUrl escapes an address with a unit number in it", () => {
   assert.ok(mapsUrl("#08-33, Blk 122").includes("%2308-33"));
+});
+
+test("the calendar invite survives a comma in the address and an accent in a name", () => {
+  const finn = { ...viewing, prospect_name: "Julia Rönkkö" };
+  const { attachments } = tplConfirmation({ viewing: finn, captain, cancelUrl });
+  const ics = unb64(attachments[0].content);
+  // Commas separate fields in RFC5545, so an unescaped one truncates LOCATION
+  // and the invite drops the prospect at the wrong block.
+  assert.ok(ics.includes("LOCATION:#08-33\\, Blk 122"), ics.split("\r\n").find((l) => l.startsWith("LOCATION")));
+  assert.ok(ics.includes("Singapore 600122"), "address was truncated");
 });

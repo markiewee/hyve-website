@@ -43,32 +43,57 @@ export function mapsUrl(address) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
 }
 
+/** btoa only takes latin-1, so utf-8 goes through TextEncoder first. A prospect
+    called Rönkkö breaks the naive version. */
 export function b64(s) {
-  if (typeof btoa === "function") {
-    return btoa(unescape(encodeURIComponent(s)));
-  }
-  return Buffer.from(s, "utf8").toString("base64");
+  const bytes = new TextEncoder().encode(s);
+  let bin = "";
+  bytes.forEach((b) => (bin += String.fromCharCode(b)));
+  return btoa(bin);
 }
 
-function icsStamp(iso) {
-  return new Date(iso).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+/** RFC5545 UTC: 20260822T051500Z */
+function toIcsDateUtc(iso) {
+  const d = new Date(iso);
+  const pad = (n) => String(n).padStart(2, "0");
+  return (
+    d.getUTCFullYear().toString() +
+    pad(d.getUTCMonth() + 1) +
+    pad(d.getUTCDate()) +
+    "T" +
+    pad(d.getUTCHours()) +
+    pad(d.getUTCMinutes()) +
+    pad(d.getUTCSeconds()) +
+    "Z"
+  );
+}
+
+/** Commas and semicolons are field separators in RFC5545. Every Lazybee address
+    has commas in it, so skipping this truncates LOCATION in the invite. */
+function escapeIcs(s) {
+  return String(s)
+    .replace(/\\/g, "\\\\")
+    .replace(/\n/g, "\\n")
+    .replace(/,/g, "\\,")
+    .replace(/;/g, "\\;");
 }
 
 export function buildIcs({ uid, start, end, summary, description, location, status }) {
   return [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Lazybee//Viewings//EN",
-    `METHOD:${status === "CANCELLED" ? "CANCEL" : "REQUEST"}`,
+    "PRODID:-//Lazybee Co-living//Viewing//EN",
+    "CALSCALE:GREGORIAN",
+    "METHOD:" + (status === "CANCELLED" ? "CANCEL" : "REQUEST"),
     "BEGIN:VEVENT",
     `UID:${uid}@lazybee.sg`,
-    `DTSTAMP:${icsStamp(new Date().toISOString())}`,
-    `DTSTART:${icsStamp(start)}`,
-    `DTEND:${icsStamp(end)}`,
-    `SUMMARY:${summary}`,
-    `DESCRIPTION:${String(description).replace(/\n/g, "\\n")}`,
-    `LOCATION:${location}`,
-    `STATUS:${status}`,
+    `DTSTAMP:${toIcsDateUtc(new Date().toISOString())}`,
+    `DTSTART:${toIcsDateUtc(start)}`,
+    `DTEND:${toIcsDateUtc(end)}`,
+    `SUMMARY:${escapeIcs(summary)}`,
+    `DESCRIPTION:${escapeIcs(description)}`,
+    `LOCATION:${escapeIcs(location)}`,
+    `STATUS:${status || "CONFIRMED"}`,
     "END:VEVENT",
     "END:VCALENDAR",
   ].join("\r\n");
@@ -223,7 +248,10 @@ export function tplReminder24h({ viewing, captain, cancelUrl }) {
 
 /* ── prospect: cancelled ──────────────────────────────────────────── */
 
-export function tplCancelled({ viewing, recipientType, cancelUrl: _cancelUrl }) {
+/* No cancelUrl here on purpose: offering "cancel this viewing" inside the mail
+   telling you it is already cancelled is the kind of detail that makes people
+   trust the rest of it less. The prospect gets a rebook link instead. */
+export function tplCancelled({ viewing, recipientType }) {
   const slotIso = slotOf(viewing);
   const slotEndIso = viewing.slot_end || slotIso;
   const p = propertyOf(viewing);
