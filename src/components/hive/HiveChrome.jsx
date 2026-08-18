@@ -87,6 +87,10 @@ export function HiveFooter() {
         Makery Pte Ltd · Singapore ·{' '}
         <Link to="/hive" style={{ textDecoration: 'none' }}>{t('nav.guides')}</Link> ·{' '}
         <a href={BOOKING_URL} className="accent" style={{ textDecoration: 'none' }}>Find a room</a> ·{' '}
+        {/* Plain email on purpose. WhatsApp is blocked in mainland China, and it
+            is the only contact route the rest of the site offers, so a Chinese
+            reader of these articles had no way to reach us before signing. */}
+        <a href="mailto:hello@lazybee.sg" style={{ textDecoration: 'none' }}>hello@lazybee.sg</a> ·{' '}
         <Link to="/privacy-policy" style={{ textDecoration: 'none' }}>Privacy</Link> ·{' '}
         <Link to="/terms-of-service" style={{ textDecoration: 'none' }}>Terms</Link> ·{' '}
         <Link to="/contact" style={{ textDecoration: 'none' }}>Contact</Link>
