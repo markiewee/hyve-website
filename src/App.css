@@ -1,17 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* Fix Leaflet map tiles broken by Tailwind base img styles */
-.leaflet-container img {
-  max-width: none !important;
-  max-height: none !important;
-}
-
-/* Lazybee honey tint on map tiles */
-.lazybee-map-tiles {
-  filter: hue-rotate(15deg) saturate(0.7) brightness(1.05) sepia(0.15);
-}
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

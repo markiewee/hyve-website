@@ -9,7 +9,41 @@
 // notices, and there is no way to un-publish a thing that was never meant to be
 // browsable in the first place.
 
-import { describe, it, expect } from 'vitest';
+// Run with: node --test src/lib/hiveMultilingual.test.js
+//
+// This imported `expect` from vitest until 18 Aug 2026, and vitest is not a
+// dependency of this repo and never has been, so the file threw on import and
+// the 54 assertions below had never run. The leak guards in particular were
+// protecting nothing. Rather than rewrite every assertion into node:assert and
+// risk mistranslating one, the matchers used here are shimmed onto the runner
+// the other 46 test files already use.
+
+import { describe, it } from 'node:test';
+import assert from 'node:assert/strict';
+
+const contains = (actual, v) =>
+  typeof actual === 'string' ? actual.includes(v) : Array.from(actual).includes(v);
+
+function matchers(actual, negated) {
+  const ok = (cond, msg) => assert.ok(negated ? !cond : cond, msg);
+  return {
+    toBe: (v) => ok(Object.is(actual, v), `expected ${JSON.stringify(actual)} ${negated ? 'not ' : ''}to be ${JSON.stringify(v)}`),
+    toEqual: (v) =>
+      negated ? assert.notDeepStrictEqual(actual, v) : assert.deepStrictEqual(actual, v),
+    toContain: (v) =>
+      ok(contains(actual, v), `expected ${JSON.stringify(actual)} ${negated ? 'not ' : ''}to contain ${JSON.stringify(v)}`),
+    toHaveLength: (n) => ok(actual.length === n, `expected length ${negated ? 'not ' : ''}${n}, got ${actual.length}`),
+    toBeGreaterThan: (n) => ok(actual > n, `expected ${actual} ${negated ? 'not ' : ''}> ${n}`),
+    toBeLessThan: (n) => ok(actual < n, `expected ${actual} ${negated ? 'not ' : ''}< ${n}`),
+    toBeTruthy: () => ok(Boolean(actual), `expected ${JSON.stringify(actual)} ${negated ? 'not ' : ''}to be truthy`),
+    toMatch: (re) => ok(re.test(String(actual)), `expected ${JSON.stringify(actual)} ${negated ? 'not ' : ''}to match ${re}`),
+    toThrow: () => (negated ? assert.doesNotThrow(actual) : assert.throws(actual)),
+  };
+}
+
+function expect(actual) {
+  return { ...matchers(actual, false), not: matchers(actual, true) };
+}
 import {
   buildArchive, hiveRoutes, countWords, readingMinutes, relatedTo, neighboursOf,
   variantsOf, langFromPath, tagLabel, formatDate, TAG_LABELS,
