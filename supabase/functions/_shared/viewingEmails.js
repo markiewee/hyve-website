@@ -246,6 +246,106 @@ export function tplReminder24h({ viewing, captain, cancelUrl }) {
   return { subject: `Tomorrow: your viewing at ${p.name}`, html };
 }
 
+/* ── moved ────────────────────────────────────────────────────────── */
+
+/**
+ * A viewing that moved.
+ *
+ * Sent to the prospect with a fresh invite so their calendar follows, and to
+ * the captain and the ops inbox, because a captain who turns up on the old
+ * Saturday is exactly the failure this is meant to prevent. Says the old time
+ * as well as the new one: "your viewing is confirmed" with no reference to what
+ * it used to be reads like a duplicate booking.
+ */
+export function tplRescheduled({ viewing, captain, cancelUrl, previousStart, recipientType = "prospect" }) {
+  const slotIso = slotOf(viewing);
+  const slotEndIso = viewing.slot_end || slotIso;
+  const p = propertyOf(viewing);
+  const room = roomOf(viewing) || "any available room";
+  const when = fmtDateTime(slotIso);
+  const was = previousStart ? fmtDateTime(previousStart) : null;
+
+  const details = [
+    { label: "New time", value: escape(when) },
+    ...(was ? [{ label: "Was", value: `<s>${escape(was)}</s>` }] : []),
+    { label: "Property", value: escape(p.code ? `${p.name} (${p.code})` : p.name) },
+  ];
+  if (p.address) details.push({ label: "Address", value: addressValue(p.address) });
+  details.push({ label: "Room", value: escape(room) });
+
+  if (recipientType === "prospect") {
+    const cap = captainValue(captain);
+    if (cap) details.push({ label: "Showing you around", value: cap });
+
+    const html = generic({
+      preheader: `Moved to ${when} at ${p.name}`,
+      badge: "Viewing moved",
+      headline: "Your viewing has moved.",
+      greeting: `Hi ${viewing.prospect_name || "there"},`,
+      paragraphs: [
+        "All sorted. Your new time is below and a fresh calendar invite is attached, so you can delete the old one.",
+        "We will send the door code and where to meet the day before, as usual.",
+      ],
+      details,
+      cta: { label: "Get Directions", url: p.address ? mapsUrl(p.address) : `${PUBLIC_SITE_URL}/book` },
+      ctaCaption: "Need to change it again? Use the link below",
+      secondary: { label: "Change or cancel this viewing", url: cancelUrl },
+    });
+
+    const ics = buildIcs({
+      uid: viewing.id,
+      start: slotIso,
+      end: slotEndIso,
+      summary: `Lazybee viewing, ${p.name}`,
+      description: `Lazybee room viewing.\nProperty: ${p.name}\nRoom: ${room}\n\nChange or cancel: ${cancelUrl}`,
+      location: p.address || p.name,
+      status: "CONFIRMED",
+    });
+
+    return {
+      subject: `Moved: your viewing is now ${when}`,
+      html,
+      attachments: [
+        {
+          filename: "viewing.ics",
+          content: b64(ics),
+          content_type: "text/calendar; charset=utf-8; method=REQUEST",
+        },
+      ],
+    };
+  }
+
+  const forCaptain = recipientType === "captain";
+  details.push({ label: "Prospect", value: escape(viewing.prospect_name || "Not given") });
+  if (!forCaptain) {
+    details.push({
+      label: "Contact",
+      value: escape(`${viewing.prospect_email || "No email"} / ${viewing.prospect_phone || "No phone"}`),
+    });
+  }
+
+  return {
+    subject: `Viewing moved: ${viewing.prospect_name} is now ${when}`,
+    html: generic({
+      preheader: `${viewing.prospect_name} moved to ${when}`,
+      badge: "Viewing moved",
+      headline: forCaptain ? "A viewing at your place moved." : "A viewing moved.",
+      paragraphs: [
+        forCaptain
+          ? "The prospect changed the time themselves. The new slot is below. Nothing else for you to do."
+          : "The prospect moved this themselves through the link in their email.",
+      ],
+      details,
+      cta: {
+        label: forCaptain ? "Open Portal" : "View in Admin",
+        url: forCaptain
+          ? `${PUBLIC_SITE_URL}/portal/viewings`
+          : `${PUBLIC_SITE_URL}/portal/admin/viewings`,
+      },
+    }),
+  };
+}
+
 /* ── prospect: cancelled ──────────────────────────────────────────── */
 
 /* No cancelUrl here on purpose: offering "cancel this viewing" inside the mail
