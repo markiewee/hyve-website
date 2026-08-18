@@ -996,6 +996,7 @@
       "bookedBehind": "后续已订",
       "bridgedGap": "衔接空档",
       "priceByLease": "按租期定价",
+      "channelRate": "{channel} 渠道价",
       "openNow": "现在可租",
       "openUntil": "现在可租，至{date}",
       "opensOn": "{date}起可租",

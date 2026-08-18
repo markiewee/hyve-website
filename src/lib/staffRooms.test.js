@@ -15,6 +15,9 @@ import {
   roomMatchesSearch,
   EMPTY_SEARCH,
   isSearchActive,
+  quotedMonthly,
+  quotedLadder,
+  quotedOf,
 } from "./staffRooms.js";
 
 const TODAY = new Date("2026-08-10T00:00:00");
@@ -130,4 +133,80 @@ test("an untouched search is not active, any one control makes it active", () =>
   assert.equal(isSearchActive({ ...EMPTY_SEARCH, sell: true }), true);
   // dateMode alone is not a filter: it only qualifies a date.
   assert.equal(isSearchActive({ ...EMPTY_SEARCH, dateMode: "flexible" }), false);
+});
+
+// ── channel pricing on the desk ─────────────────────────────────────────────
+//
+// The desk showed rooms.price_monthly to everybody for the whole time Lili and
+// Fiona held PINs, so these assert the two halves of the fix: a partner sees
+// their own price everywhere, and an internal PIN sees exactly what it saw
+// before any of this existed.
+
+const WELCOMESTAY = { slug: "welcomestay", commission_pct: 0.05, gross_up: true };
+const GOODLIFE = { slug: "goodlife", commission_months: 1, gross_up: true };
+const ABSORBED = { slug: "absorbed", commission_pct: 0.15, gross_up: false };
+
+test("a null channel quotes base, unchanged, at every rung", () => {
+  // The regression that matters most: captains and Mark must not move.
+  assert.equal(quotedMonthly(1000, null), 1000);
+  assert.deepEqual(quotedLadder(1000, null), priceLadder(1000));
+});
+
+test("a percentage channel grosses up so we still net base", () => {
+  // 1000 / 0.95 = 1052.63, and 5% of 1053 comes back off it.
+  assert.equal(quotedMonthly(1000, WELCOMESTAY), 1053);
+  assert.equal(quotedMonthly(2200, WELCOMESTAY), 2316);
+});
+
+test("a months channel uplifts by lease length, so the rungs differ", () => {
+  // One month of commission is half of a two month lease and a twelfth of a
+  // twelve month one. A single uplift reused across the ladder would be wrong
+  // on three of the four rungs, and worst on the short ones.
+  const ladder = quotedLadder(1000, GOODLIFE);
+  const at = (m) => ladder.find((r) => r.months === m).price;
+
+  // 3 months: base+100 = 1100, uplifted by 3/2.
+  assert.equal(at(3), 1650);
+  // 12 months: base = 1000, uplifted by 12/11.
+  assert.equal(at(12), 1091);
+  // 24 months: base-50 = 950, uplifted by 24/23.
+  assert.equal(at(24), 991);
+  // Strictly increasing uplift as the lease shortens, never a flat multiple.
+  assert.ok(at(3) / 1100 > at(12) / 1000);
+});
+
+test("the ladder adjustment is grossed up too, not bolted on after", () => {
+  // The three month rung is base+100 quoted through the channel, not the
+  // twelve month quote plus a bare 100. Otherwise the extra 100 carries no
+  // commission and we pay it out of margin.
+  const at3 = quotedLadder(1000, WELCOMESTAY).find((r) => r.months === 3).price;
+  assert.equal(at3, quotedMonthly(1100, WELCOMESTAY, 3));
+  assert.notEqual(at3, quotedMonthly(1000, WELCOMESTAY) + 100);
+});
+
+test("a channel we absorb the cost of quotes base", () => {
+  assert.equal(quotedMonthly(1000, ABSORBED), 1000);
+});
+
+test("quotedOf prefers the stamped price and falls back to base", () => {
+  assert.equal(quotedOf({ price_monthly: 1000, quoted_monthly: 1053 }), 1053);
+  assert.equal(quotedOf({ price_monthly: 1000 }), 1000);
+  assert.equal(quotedOf({}), null);
+});
+
+test("the budget filter reads the price the viewer is actually shown", () => {
+  // An agent typing 1000 means the numbers on their screen. A 1000 room quoted
+  // to them at 1053 is still inside the stretch; one quoted at 1300 is not.
+  const room = { price_monthly: 1000, quoted_monthly: 1053, room_type: "standard" };
+  const search = { ...EMPTY_SEARCH, budget: "1000" };
+  assert.equal(roomMatchesSearch(room, "IH", search, TODAY), true);
+
+  const pricey = { ...room, quoted_monthly: 1300 };
+  assert.equal(roomMatchesSearch(pricey, "IH", search, TODAY), false);
+
+  // And the same room, unstamped, still matches on base as it always did.
+  assert.equal(
+    roomMatchesSearch({ price_monthly: 1000, room_type: "standard" }, "IH", search, TODAY),
+    true,
+  );
 });

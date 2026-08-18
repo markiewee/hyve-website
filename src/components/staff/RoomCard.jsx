@@ -12,7 +12,7 @@
 // vocabKey, the enum columns through the small maps below, and the free-text
 // description through its _zh column.
 
-import { availabilityStatus, priceLadder, formatDate, daysUntil } from '../../lib/staffRooms';
+import { availabilityStatus, priceLadder, quotedOf, formatDate, daysUntil } from '../../lib/staffRooms';
 import Caret from './Caret';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { vocabKey, roomDisplayName } from '../../i18n/roomVocab';
@@ -50,10 +50,14 @@ function TagRow({ label, list, t }) {
   );
 }
 
-export default function RoomCard({ room, property, today }) {
+export default function RoomCard({ room, property, today, channel }) {
   const { t, lang } = useLanguage();
   const status = availabilityStatus(room, today);
-  const ladder = priceLadder(room.price_monthly);
+  // Both stamped by the desk once the channel behind the PIN is known. The
+  // fallbacks are what an internal PIN gets, and are the pre-channel behaviour
+  // unchanged.
+  const price = quotedOf(room);
+  const ladder = room.quoted_ladder ?? priceLadder(room.price_monthly);
   const opensLater = room.next_available && daysUntil(room.next_available, today) > 0;
   const date = (d) => formatDate(d, lang);
 
@@ -94,8 +98,16 @@ export default function RoomCard({ room, property, today }) {
           <Caret />
         </div>
         <div className="roomline">
-          <span className="price">{sgd(room.price_monthly)}</span>
+          <span className="price">{sgd(price)}</span>
           <span className="fine">{t('staff.room.perMonth')}</span>
+          {/* Whose rate this is. A partner reading a number with no label has
+              no way to tell our base from their own, and the whole risk of
+              this change is somebody quoting the wrong one of the two. */}
+          {channel && (
+            <span className="chip chip-sm accent">
+              {t('staff.room.channelRate', { channel: channel.name })}
+            </span>
+          )}
           {chips.map((c) => (
             <span key={c} className="chip chip-sm">{c}</span>
           ))}

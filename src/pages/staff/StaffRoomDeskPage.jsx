@@ -27,6 +27,9 @@ import {
   isSearchActive,
   isLettable,
   roomMatchesSearch,
+  quotedOf,
+  quotedMonthly,
+  quotedLadder,
 } from '../../lib/staffRooms';
 import { readPin, STORAGE_KEY } from '../../lib/staffPin';
 import StaffTutorial from '../../components/staff/StaffTutorial';
@@ -48,6 +51,7 @@ export default function StaffRoomDeskPage() {
   const [search, setSearch] = useState(EMPTY_SEARCH);
   const [current, setCurrent] = useState(PROPERTY_ORDER[0]);
   const [name, setName] = useState(null);
+  const [channel, setChannel] = useState(null);
   const [tour, setTour] = useState(false);
 
   // The tour, on this browser's first visit to the desk. Read in an effect for
@@ -87,7 +91,7 @@ export default function StaffRoomDeskPage() {
         /* storage disabled. No roster, everything else still renders. */
       }
 
-      const [propRes, mateRes, nameRes] = await Promise.all([
+      const [propRes, mateRes, nameRes, chanRes] = await Promise.all([
         supabase.from('properties').select('*, rooms(*)').order('name'),
         pin
           ? supabase.rpc('housemates_for_staff_pin', { p_pin: pin })
@@ -98,9 +102,22 @@ export default function StaffRoomDeskPage() {
         pin
           ? supabase.rpc('staff_pin_display_name', { p_pin: pin })
           : Promise.resolve({ data: null }),
+        // Which channel this PIN sells on, and therefore which price it is
+        // shown. Empty for Mark, for the captains, and for any PIN whose
+        // channel has been disabled, and empty means quote at base.
+        pin
+          ? supabase.rpc('channel_for_staff_pin', { p_pin: pin })
+          : Promise.resolve({ data: [] }),
       ]);
 
       setName(nameRes.data || null);
+
+      // A failed or empty channel read leaves this null, and null prices every
+      // room at base. That is the safe direction: a partner shown our base
+      // price costs us one commission and they will tell us, where a captain
+      // shown a partner's marked-up price quotes it to a real prospect.
+      const chan = (chanRes.data || [])[0] || null;
+      setChannel(chan);
 
       if (propRes.error) {
         setError(propRes.error.message);
@@ -118,10 +135,16 @@ export default function StaffRoomDeskPage() {
       const sorted = PROPERTY_ORDER
         .map((code) => propRes.data.find((p) => p.code === code))
         .filter(Boolean);
+      // Price every room once, here, rather than in each of the four places
+      // that used to read price_monthly off the row. The card, the ladder, the
+      // budget filter and the results sort then cannot disagree with each
+      // other, which is the failure this whole change exists to prevent.
       sorted.forEach((p) => {
         (p.rooms || []).sort((a, b) => a.unit_code.localeCompare(b.unit_code));
         (p.rooms || []).forEach((r) => {
           r.housemates = byUnit[r.unit_code] || [];
+          r.quoted_monthly = quotedMonthly(r.price_monthly, chan);
+          r.quoted_ladder = quotedLadder(r.price_monthly, chan);
         });
       });
 
@@ -139,7 +162,7 @@ export default function StaffRoomDeskPage() {
     ? properties
         .flatMap((p) => (p.rooms || []).filter(isLettable).map((room) => ({ room, property: p })))
         .filter(({ room, property }) => roomMatchesSearch(room, property.code, search, today))
-        .sort((a, b) => (a.room.price_monthly || 0) - (b.room.price_monthly || 0))
+        .sort((a, b) => (quotedOf(a.room) || 0) - (quotedOf(b.room) || 0))
     : [];
   const homeCount = new Set(hits.map(({ property }) => property.code)).size;
   const shown = properties.find((p) => p.code === current);
@@ -202,7 +225,7 @@ export default function StaffRoomDeskPage() {
             hits.length > 0 ? (
               <div className="rooms">
                 {hits.map(({ room, property }) => (
-                  <RoomCard key={room.id} room={room} property={property} today={today} />
+                  <RoomCard key={room.id} room={room} property={property} today={today} channel={channel} />
                 ))}
               </div>
             ) : (
@@ -228,7 +251,7 @@ export default function StaffRoomDeskPage() {
                   </button>
                 ))}
               </div>
-              {shown && <PropertyPanel property={shown} today={today} />}
+              {shown && <PropertyPanel property={shown} today={today} channel={channel} />}
             </section>
           ))}
 
