@@ -79,6 +79,7 @@ export default function HiveIndexPage({ lang = DEFAULT_LANG }) {
         blurb={page > 1 ? null : copy.blurb}
         count={archive.articles.length}
         subjects={archive.topics.length || undefined}
+        lang={lang}
       />
 
       <main className="wrap hivemain" id="top">
@@ -99,7 +100,7 @@ export default function HiveIndexPage({ lang = DEFAULT_LANG }) {
           </div>
         )}
 
-        <Pagination page={page} pageCount={archive.pageCount} root={root} />
+        <Pagination page={page} pageCount={archive.pageCount} root={root} lang={lang} />
       </main>
 
       <HiveFooter />
