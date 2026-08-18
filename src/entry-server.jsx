@@ -7,7 +7,7 @@
 // Two deliberate decisions:
 //
 // 1. This file declares its own small route table instead of importing App.jsx.
-//    App.jsx imports every portal page, which drags react-pdf, leaflet,
+//    App.jsx imports every portal page, which drags react-pdf,
 //    react-signature-canvas and the Supabase-backed auth tree into a Node bundle
 //    that has no business loading any of it. The marketing routes are the only
 //    ones we prerender, so the server only needs to know about the marketing
