@@ -279,6 +279,81 @@ async function buildEmail(
       };
     }
 
+    // The other daily chaser, and daily for the same reason. An unsigned
+    // licence is not a missing form, it is the absence of the one document
+    // that says what the rent is, what the deposit covers and how much notice
+    // either side has to give. Edward has been in IH-PR2 for over three
+    // hundred days on nothing. The portal now refuses to let a tenant walk
+    // past their own agreement, but that only catches someone who opens the
+    // portal, so this email keeps arriving until they do.
+    //
+    // It stops when ta_signed_at is set, which is exactly what signing does.
+    // No snooze and no "sent already" flag, on purpose: the way to make this
+    // email stop is to sign the agreement it is about.
+    case "TA_UNSIGNED": {
+      const { days_outstanding, moved_in_at, unit_code, property_name, has_moved_in } = details;
+      const outstanding = Number(days_outstanding ?? 0);
+      const movedInOn = moved_in_at
+        ? new Date(`${String(moved_in_at).slice(0, 10)}T00:00:00+08:00`).toLocaleDateString("en-SG", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+            timeZone: "Asia/Singapore",
+          })
+        : null;
+      const room = unit_code
+        ? `${chip(String(unit_code))}${property_name ? ` &middot; ${escape(String(property_name))}` : ""}`
+        : escape(String(property_name || "your room"));
+      const roomPlain = unit_code ? escape(String(unit_code)) : "your room";
+
+      // Two registers, one event. Someone whose move-in is still ahead of them
+      // is being reminded. Someone already sleeping in the room is being told
+      // that we are both exposed, and the words should not pretend otherwise.
+      const headline = has_moved_in
+        ? "You have moved in without a signed agreement."
+        : "Your agreement is still waiting for your signature.";
+
+      const opening = has_moved_in
+        ? `You moved into <strong>${roomPlain}</strong> ${days(outstanding)} ago${movedInOn ? ` on <strong>${escape(movedInOn)}</strong>` : ""}, and your licence agreement is still unsigned.`
+        : `Your move-in at <strong>${roomPlain}</strong> is ${days(Math.abs(outstanding))} away${movedInOn ? `, on <strong>${escape(movedInOn)}</strong>` : ""}, and your licence agreement is still unsigned.`;
+
+      const secondLine = has_moved_in
+        ? "That agreement is what records your rent, your deposit and your notice period. Until it is signed there is nothing in writing holding either of us to any of it, which is a bad position for you as much as for us."
+        : "The agreement records your rent, your deposit and your notice period, and we need it signed before you collect your keys.";
+
+      const thirdLine =
+        "Signing takes about 2 minutes in your portal. It is digital, so there is nothing to print and nothing to post back. If something in the agreement looks wrong, reply to this email before you sign and we will correct it rather than leaving it open.";
+
+      const detailRows: Detail[] = [
+        { label: "Room", value: room },
+        {
+          label: has_moved_in ? "Moved in" : "Move-in",
+          value: escape(movedInOn || "Date not on file"),
+        },
+      ];
+      if (has_moved_in) {
+        detailRows.push({ label: "Unsigned for", value: escape(days(outstanding)) });
+      }
+
+      return {
+        subject: has_moved_in
+          ? `Action needed: ${days(outstanding)} in your room, agreement still unsigned`
+          : "Action needed: your licence agreement is still unsigned",
+        html: generic({
+          preheader: has_moved_in
+            ? `You have been at ${unit_code ? String(unit_code) : "Lazybee"} for ${days(outstanding)} on an unsigned agreement.`
+            : "Your licence agreement is waiting for your signature before move-in.",
+          badge: "Action required",
+          headline,
+          greeting: `Hi ${firstName},`,
+          paragraphs: [opening, secondLine, thirdLine],
+          details: detailRows,
+          cta: { label: "Sign Your Agreement", url: `${PORTAL_BASE}/portal/onboarding` },
+          ctaCaption: "This email repeats daily until your agreement is signed",
+        }),
+      };
+    }
+
     case "AC_THRESHOLD_WARNING": {
       const { hours_used, free_hours } = details;
       return {
