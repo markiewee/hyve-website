@@ -173,7 +173,7 @@ function UnsignedView({ onboarding, pdfUrl, advanceStep, refetch, navigate }) {
 
 // ─── TENANT_SIGNED STATE ───────────────────────────────────────────────────────
 
-function TenantSignedView({ onboarding }) {
+function TenantSignedView({ onboarding, advanceStep }) {
   const [signedUrl, setSignedUrl] = useState(null);
 
   useEffect(() => {
@@ -235,13 +235,25 @@ function TenantSignedView({ onboarding }) {
           </a>
         </div>
       )}
+
+      {/* Forward navigation: nothing here blocks the tenant, so let them move on */}
+      {advanceStep && (
+        <div className="flex justify-end pt-4 border-t border-border">
+          <Button type="button" onClick={() => advanceStep(null)}>
+            Continue
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
 
 // ─── FULLY_EXECUTED STATE ──────────────────────────────────────────────────────
 
-function FullyExecutedView({ onboarding }) {
+function FullyExecutedView({ onboarding, advanceStep }) {
   const [downloading, setDownloading] = useState(false);
 
   async function handleDownload() {
@@ -339,6 +351,18 @@ function FullyExecutedView({ onboarding }) {
           {downloading ? "Preparing…" : "Download Agreement"}
         </Button>
       )}
+
+      {/* Forward navigation: the agreement is done, so this is a real next step */}
+      {advanceStep && (
+        <div className="flex justify-end pt-4 border-t border-border">
+          <Button type="button" onClick={() => advanceStep(null)}>
+            Continue
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
@@ -402,11 +426,11 @@ export default function AgreementViewer({ onboarding, advanceStep, refetch }) {
   }
 
   if (signingStatus === "FULLY_EXECUTED") {
-    return <FullyExecutedView onboarding={onboarding} />;
+    return <FullyExecutedView onboarding={onboarding} advanceStep={advanceStep} />;
   }
 
   if (signingStatus === "TENANT_SIGNED") {
-    return <TenantSignedView onboarding={onboarding} />;
+    return <TenantSignedView onboarding={onboarding} advanceStep={advanceStep} />;
   }
 
   // UNSIGNED, if PDF URL failed to resolve, show "being prepared"
