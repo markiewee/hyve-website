@@ -16,6 +16,7 @@
 // are deliberately no ratings or review counts because we do not have real ones.
 
 import { HIVE_ROUTES, HIVE_ROUTE_META } from './hiveRoutes.js';
+import { hasTestimonials, reviewSchemaFor } from '../data/testimonials.js';
 import { HOMES } from '../data/lazybeeRooms.js';
 import { FAQ as OWNER_FAQ } from '../data/ownerPage.js';
 import {
@@ -175,9 +176,67 @@ export const ROUTE_META = {
    on disk rather than declared by hand. Spreading them in here means adding an
    article automatically adds it to the prerender and to the sitemap, with no
    second list to keep in step. */
-export const ALL_ROUTE_META = { ...ROUTE_META, ...HIVE_ROUTE_META };
 
-export const PRERENDER_ROUTES = [...Object.keys(ROUTE_META), ...HIVE_ROUTES];
+/**
+ * Resident reviews, in English and Chinese.
+ *
+ * Unlisted: nothing on the site links here, it is not in the nav and not in the
+ * footer. It is indexable and it is in the sitemap, because being read by
+ * search engines and by the assistants people now ask for housing
+ * recommendations is the only reason it exists. Same trick the Burmese and
+ * Bengali Hive articles use.
+ *
+ * Gated on there being something to show. An empty reviews page is a soft 404
+ * to a crawler and a dead end to a reader, so with no testimonials collected
+ * these routes are simply not built and not listed. Adding the first real quote
+ * to src/data/testimonials.js publishes them, with no second list to remember.
+ */
+const REVIEW_ROUTE_META = {
+  '/reviews': {
+    title: 'Resident reviews | Lazybee co-living Singapore',
+    description:
+      'Real reviews from people who have lived in Lazybee co-living rooms in Singapore, at Chiltern ' +
+      'Park, Ivory Heights and Thomson Grove. In their own words, published with their consent.',
+    lang: 'en',
+    htmlLang: 'en',
+    ogLocale: 'en_SG',
+    alternates: [
+      { hreflang: 'en', href: `${BASE_URL}/reviews` },
+      { hreflang: 'zh-Hans', href: `${BASE_URL}/zh/reviews` },
+      { hreflang: 'x-default', href: `${BASE_URL}/reviews` },
+    ],
+    schema: () => [orgSchema(), crumb('Reviews', '/reviews'), reviewSchemaFor('en')].filter(Boolean),
+  },
+
+  '/zh/reviews': {
+    title: 'Lazybee 住客评价',
+    description:
+      'Lazybee 新加坡共居公寓的真实住客评价，来自 Chiltern Park、Ivory Heights 与 Thomson Grove 的住客本人，' +
+      '均已获得本人同意刊登。',
+    lang: 'zh',
+    htmlLang: 'zh-Hans',
+    ogLocale: 'zh_CN',
+    alternates: [
+      { hreflang: 'en', href: `${BASE_URL}/reviews` },
+      { hreflang: 'zh-Hans', href: `${BASE_URL}/zh/reviews` },
+      { hreflang: 'x-default', href: `${BASE_URL}/reviews` },
+    ],
+    schema: () => [orgSchema(), crumb('\u4f4f\u5ba2\u8bc4\u4ef7', '/zh/reviews'), reviewSchemaFor('zh')].filter(Boolean),
+  },
+};
+
+/* Only the language variants that actually have quotes in them. */
+const LIVE_REVIEW_ROUTES = Object.fromEntries(
+  Object.entries(REVIEW_ROUTE_META).filter(([, m]) => hasTestimonials(m.lang))
+);
+
+export const ALL_ROUTE_META = { ...ROUTE_META, ...LIVE_REVIEW_ROUTES, ...HIVE_ROUTE_META };
+
+export const PRERENDER_ROUTES = [
+  ...Object.keys(ROUTE_META),
+  ...Object.keys(LIVE_REVIEW_ROUTES),
+  ...HIVE_ROUTES,
+];
 
 /** Absolute canonical for a route. Always self-referencing, never the homepage. */
 export function canonicalFor(route) {
