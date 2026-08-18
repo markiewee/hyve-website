@@ -996,6 +996,7 @@
       "bookedBehind": "Booked behind",
       "bridgedGap": "Bridged gap",
       "priceByLease": "Price by lease length",
+      "channelRate": "{channel} rate",
       "openNow": "Open now",
       "openUntil": "Open now, until {date}",
       "opensOn": "Opens {date}",

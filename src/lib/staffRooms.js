@@ -4,6 +4,12 @@
 // `today` is always a parameter. Reading the clock inside these functions would
 // make every test depend on the day it runs, and the availability wording is the
 // one thing on the page that must not drift.
+//
+// The prices are a parameter in the same spirit. A room has one base price and
+// what the viewer is quoted depends on which channel their PIN belongs to, so
+// every price on this page is derived here and never read raw off the row.
+
+import { quotedPrice } from "../../supabase/functions/_shared/channelPricing.js";
 
 /** The twelve week sell window from CLAUDE.md rule 18: viewing to move-in runs
  *  four to eight weeks, so anything opening inside twelve is worth marketing. */
@@ -98,6 +104,50 @@ export function priceLadder(basePrice) {
   ];
 }
 
+/** The lease length the headline price and every ordering decision quote at.
+ *  Twelve is the ladder's anchor, so the big number on the card and the rung we
+ *  highlight underneath it are the same number rather than two prices for the
+ *  same room. */
+export const ANCHOR_MONTHS = 12;
+
+/**
+ * What this desk's viewer is quoted for a room, per month.
+ *
+ * `channel` is null for Mark and the captains, and quotedPrice returns the base
+ * unchanged for a null channel, so the internal desk renders exactly what it
+ * rendered before this existed. That equivalence is the point and it is
+ * asserted in the tests: a regression here shows a captain a partner's price.
+ */
+export function quotedMonthly(basePrice, channel, months = ANCHOR_MONTHS) {
+  if (!basePrice) return null;
+  return quotedPrice(basePrice, channel, months);
+}
+
+/**
+ * The ladder, priced for this channel.
+ *
+ * Each rung is quoted at ITS OWN lease length rather than uplifting the twelve
+ * month figure, because for a channel billed in months the uplift is a function
+ * of the lease: Fiona's one month is L/(L-1), which is 1.5x over three months
+ * and 1.09x over twelve. Uplifting one figure and reusing it would overcharge
+ * the long leases and undercharge the short ones, and the short ones are where
+ * the error is largest.
+ *
+ * The +100/+50/-50 adjustments are applied to the BASE first and the result is
+ * then quoted, so the uplift covers the adjusted price. Adding them afterwards
+ * would leave the extra $100 on a three month lease ungrossed, and we would pay
+ * the commission on it out of our own margin.
+ */
+export function quotedLadder(basePrice, channel) {
+  const ladder = priceLadder(basePrice);
+  if (!ladder) return null;
+  if (!channel) return ladder;
+  return ladder.map((rung) => ({
+    ...rung,
+    price: quotedPrice(rung.price, channel, rung.months),
+  }));
+}
+
 export const EMPTY_SEARCH = {
   date: "",
   dateMode: "fixed",
@@ -121,11 +171,29 @@ export function isSearchActive(s) {
   );
 }
 
+/**
+ * The price this viewer sees for a room, whatever channel they are on.
+ *
+ * The desk stamps quoted_monthly onto each row once, after it has resolved the
+ * channel behind the PIN, and everything downstream reads it through here. The
+ * fallback is not decoration: it is what a captain, an internal PIN and every
+ * existing test get, and it must stay identical to the old behaviour.
+ *
+ * Filtering and sorting have to agree with the number on the card. An agent
+ * types "1000" into the budget box meaning the prices they are looking at, so
+ * comparing that against our base would show them rooms they cannot sell at
+ * that budget and hide ones they can.
+ */
+export function quotedOf(room) {
+  return room?.quoted_monthly ?? room?.price_monthly ?? null;
+}
+
 export function roomMatchesSearch(room, propertyCode, s, today) {
   if (s.budget) {
     const b = Number(s.budget);
-    if (!room.price_monthly) return false;
-    if (room.price_monthly > b + BUDGET_STRETCH) return false;
+    const price = quotedOf(room);
+    if (!price) return false;
+    if (price > b + BUDGET_STRETCH) return false;
   }
   if (s.location && s.location !== "ALL" && propertyCode !== s.location) return false;
   if (s.sell && !isSellNow(room, today)) return false;
