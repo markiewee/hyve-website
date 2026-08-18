@@ -135,6 +135,29 @@ User-agent: PetalBot
 Allow: /
 Disallow: /portal/
 
+# Chinese search engine crawlers. The site serves mainland readers directly
+# (custom domain is not GFW-blocked; verified 18 Aug 2026 from 269 probe nodes
+# inside China, 200 OK, about a second). These four are the index behind the
+# Chinese AI answer engines: Baidu behind ERNIE, Sogou behind Tencent Yuanbao
+# and WeChat search, Shenma behind Alibaba's Quark, and 360. Bytespider, which
+# feeds ByteDance's Doubao, is already named above.
+
+User-agent: Baiduspider
+Allow: /
+Disallow: /portal/
+
+User-agent: Sogou web spider
+Allow: /
+Disallow: /portal/
+
+User-agent: YisouSpider
+Allow: /
+Disallow: /portal/
+
+User-agent: 360Spider
+Allow: /
+Disallow: /portal/
+
 User-agent: SemrushBot-OCOB
 Allow: /
 Disallow: /portal/
