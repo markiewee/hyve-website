@@ -153,20 +153,12 @@ function UnsignedView({ onboarding, pdfUrl, advanceStep, refetch, navigate }) {
         {signing ? "Signing…" : "Sign Agreement"}
       </Button>
 
-      {advanceStep && (
-        <div className="mt-4">
-          <button
-            type="button"
-            onClick={() => advanceStep(null)}
-            className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
-          >
-            Skip for now
-          </button>
-          <p className="text-xs text-muted-foreground mt-1">
-            You can sign the agreement later from your Documents page
-          </p>
-        </div>
-      )}
+      {/* No way past this screen except signing, on purpose. A tenant looking
+          at their own agreement has everything they need to finish it, and the
+          old "Skip for now" link is how people ended up living in a room for
+          months on an unsigned licence. The two branches further down, where no
+          document exists yet, keep their skip link: there is genuinely nothing
+          to sign there and taking it away would strand them. */}
     </div>
   );
 }
