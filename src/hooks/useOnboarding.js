@@ -30,7 +30,31 @@ export const STEP_LABELS = {
 export const REGISTRATION_STEPS = ["WELCOME", "PERSONAL_DETAILS", "ID_VERIFICATION", "SIGN_TA"];
 export const ONBOARDING_STEPS = ["DEPOSIT", "HOUSE_RULES", "MOVE_IN_INSTRUCTIONS", "MOVE_IN_CHECKLIST"];
 
+// Dashboard access is granted by EITHER of two branches, and the pair is strictly
+// more permissive than the step branch alone, so no tenant can ever lose access
+// that they have today.
+//
+// The step branch is the original rule. It is retained because legacy tenants
+// were onboarded before or outside this wizard and sit at current_step = ACTIVE
+// with completion timestamps that were never backfilled. Dropping it would lock
+// nine paying tenants out of their own dashboard.
+//
+// The derived branch exists so that a rewind cannot revoke access that has
+// genuinely been earned. current_step moves backwards both by accident (the Back
+// button writes it straight back to the row) and on purpose (an admin rewinding a
+// tenant to force a re-do), and a tenant whose timestamps say they finished
+// onboarding keeps their dashboard through either.
 const DASHBOARD_ACCESS_STEPS = ["MOVE_IN_CHECKLIST", "ACTIVE", "END_OF_TENANCY"];
+
+// The steps standing between a tenant and the move-in-checklist stage that
+// actually record a timestamp. WELCOME and MOVE_IN_INSTRUCTIONS record none.
+const DASHBOARD_ACCESS_COMPLETIONS = [
+  "PERSONAL_DETAILS",
+  "ID_VERIFICATION",
+  "SIGN_TA",
+  "DEPOSIT",
+  "HOUSE_RULES",
+];
 
 export function useOnboarding(profileId) {
   const [onboarding, setOnboarding] = useState(null);
@@ -63,8 +87,6 @@ export function useOnboarding(profileId) {
   }, [fetchOnboarding]);
 
   const currentStep = onboarding?.current_step ?? "PERSONAL_DETAILS";
-  const hasDashboardAccess = DASHBOARD_ACCESS_STEPS.includes(currentStep);
-  const needsOnboarding = !hasDashboardAccess;
 
   // Check which steps are completed (have a completion timestamp)
   const completionFields = {
@@ -80,6 +102,17 @@ export function useOnboarding(profileId) {
     const field = completionFields[step];
     return field ? !!onboarding?.[field] : false;
   }
+
+  // Additive, never subtractive: at/past the old step boundary, OR the timestamps
+  // say they are onboarded. On the derived branch an unsigned agreement is an
+  // absolute bar, and beyond that either having finished the move-in checklist or
+  // having cleared every milestone ahead of it counts as onboarded.
+  const hasDashboardAccess =
+    DASHBOARD_ACCESS_STEPS.includes(currentStep) ||
+    (isStepCompleted("SIGN_TA") &&
+      (isStepCompleted("MOVE_IN_CHECKLIST") ||
+        DASHBOARD_ACCESS_COMPLETIONS.every((step) => isStepCompleted(step))));
+  const needsOnboarding = !hasDashboardAccess;
 
   const currentIndex = STEPS.indexOf(currentStep);
   const canGoBack = currentIndex > 0;

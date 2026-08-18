@@ -584,6 +584,18 @@ function OnboardingContent() {
                         ? `Registration ${REGISTRATION_STEPS.indexOf(currentStep) + 1} of ${REGISTRATION_STEPS.length}`
                         : `Move-in ${ONBOARDING_STEPS.indexOf(currentStep) + 1} of ${ONBOARDING_STEPS.length}`}
                     </p>
+                    {isStepCompleted(currentStep) ? (
+                      <button
+                        type="button"
+                        onClick={() => advanceStep(null)}
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent text-white font-['Inter'] font-medium text-sm hover:opacity-90 transition-colors"
+                      >
+                        Continue
+                        <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                      </button>
+                    ) : (
+                      <div />
+                    )}
                   </div>
                 )}
               </div>
