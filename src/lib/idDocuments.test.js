@@ -8,6 +8,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  isIpa,
+  IPA_GRACE_DAYS,
   needsBackImage,
   passLabel,
   passStatus,
@@ -158,4 +160,69 @@ test("a bare path is already a path", () => {
 test("nothing in gives nothing out", () => {
   assert.equal(storagePathFrom(null), null);
   assert.equal(storagePathFrom(""), null);
+});
+
+/* ── IPA: a promise of a pass, not a pass ─────────────────────────── */
+
+test("an IPA is recognised however it was typed into the admin form", () => {
+  assert.equal(isIpa("IPA"), true);
+  assert.equal(isIpa("In-Principle Approval (IPA)"), true);
+  // The real value on Ilse's row today.
+  assert.equal(isIpa("Student Pass (IPA granted, not yet issued)"), true);
+  assert.equal(isIpa("STUDENT_PASS"), false);
+  assert.equal(isIpa(null), false);
+});
+
+test("the grace period is two weeks from arrival", () => {
+  assert.equal(IPA_GRACE_DAYS, 14);
+});
+
+test("an IPA holder inside the grace period is left alone", () => {
+  // Ilse: moved in 5 Aug, 13 days ago. Due tomorrow, not today.
+  const s = passStatus(
+    { pass_type: "Student Pass (IPA granted, not yet issued)", pass_expiry: null, moved_in_at: "2026-08-05" },
+    TODAY
+  );
+  assert.equal(s.state, "IPA_PENDING");
+  assert.equal(s.blocking, false);
+  assert.equal(s.daysHere, 13);
+  assert.equal(s.daysLeft, 1);
+});
+
+test("an IPA holder past two weeks gets chased", () => {
+  const s = passStatus(
+    { pass_type: "IPA", pass_expiry: "2026-12-20", moved_in_at: "2026-08-01" },
+    TODAY
+  );
+  assert.equal(s.state, "IPA_GRACE_ELAPSED");
+  assert.equal(s.blocking, true);
+  assert.equal(s.daysHere, 17);
+});
+
+test("an IPA that has not moved in yet has no clock running", () => {
+  // Julia: IPA valid to December, moves in 8 Sep. Nothing to collect yet, and
+  // her IPA's own expiry date is irrelevant to whether she holds a card.
+  const s = passStatus(
+    { pass_type: "IPA", pass_expiry: "2026-12-20", moved_in_at: "2026-09-08" },
+    TODAY
+  );
+  assert.equal(s.state, "IPA_PENDING");
+  assert.equal(s.blocking, false);
+});
+
+test("a long-dated IPA is still chased, because the date is not the point", () => {
+  // The trap this rule exists to close: an IPA valid until 2027 would read as
+  // a perfectly valid pass on expiry alone, and it is still not a pass.
+  const s = passStatus(
+    { pass_type: "IPA", pass_expiry: "2027-12-31", moved_in_at: "2026-06-01" },
+    TODAY
+  );
+  assert.equal(s.state, "IPA_GRACE_ELAPSED");
+  assert.equal(s.blocking, true);
+});
+
+test("an IPA with no move-in date on file does not get chased on a guess", () => {
+  const s = passStatus({ pass_type: "IPA", pass_expiry: null, moved_in_at: null }, TODAY);
+  assert.equal(s.state, "IPA_PENDING");
+  assert.equal(s.blocking, false);
 });

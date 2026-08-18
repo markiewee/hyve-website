@@ -212,7 +212,7 @@ async function buildEmail(
     // into the future, so the way to make this email stop is to fix the thing
     // it is about.
     case "PASS_EXPIRED": {
-      const { pass_type, pass_expiry, days_expired } = details;
+      const { pass_type, pass_expiry, days_expired, reason } = details;
       const label = prettyPassType(pass_type);
       const dayWord = days_expired === 1 ? "day" : "days";
       const expiredOn = pass_expiry
@@ -223,25 +223,57 @@ async function buildEmail(
             timeZone: "Asia/Singapore",
           })
         : null;
+
+      // An IPA is a promise of a pass, not a pass. Two weeks after arrival we
+      // chase it on exactly the same daily cadence as an expired card, but the
+      // words have to be true: telling someone their IPA "has expired" when it
+      // runs to December is both wrong and the kind of thing that makes a
+      // tenant ignore the next email as well.
+      const isIpaGrace = reason === "IPA_GRACE_ELAPSED";
+
+      const headline = isIpaGrace
+        ? "We still need your actual pass."
+        : `Your ${label} has expired.`;
+
+      const opening = isIpaGrace
+        ? `You moved in ${days_expired} ${dayWord} ago on an <strong>In-Principle Approval</strong>, which is the letter rather than the pass itself. Once your card has been issued we need a photo of it.`
+        : expiredOn
+          ? `Our records show your <strong>${escape(label)}</strong> expired on <strong>${escape(expiredOn)}</strong>, ${days_expired} ${dayWord} ago.`
+          : `Our records show your <strong>${escape(label)}</strong> has expired.`;
+
+      const secondLine = isIpaGrace
+        ? "We are required to hold a valid pass for everyone living in the property, and an IPA does not count once you have arrived. Uploading it takes about a minute in your portal."
+        : "We are required to hold a valid pass for everyone living in the property, so we need a photo of your renewed one. It takes about a minute in your portal.";
+
+      const thirdLine = isIpaGrace
+        ? "If your card has not been issued yet, upload your IPA again and reply to this email to tell us where it stands. We would rather know than keep asking."
+        : "If you have already renewed it, please upload it anyway so our records match. If your renewal is still being processed, upload the acknowledgement and reply to this email to let us know.";
+
       return {
-        subject: `Action needed: your ${label} has expired`,
+        subject: isIpaGrace
+          ? "Action needed: we still need your pass"
+          : `Action needed: your ${label} has expired`,
         html: urgent({
-          preheader: `Your ${label} expired${expiredOn ? ` on ${expiredOn}` : ""}. We need the renewed one.`,
+          preheader: isIpaGrace
+            ? "You moved in on an IPA. We need the pass itself now."
+            : `Your ${label} expired${expiredOn ? ` on ${expiredOn}` : ""}. We need the renewed one.`,
           badge: "Action required",
-          headline: `Your ${label} has expired.`,
+          headline,
           greeting: `Hi ${firstName},`,
-          paragraphs: [
-            expiredOn
-              ? `Our records show your <strong>${escape(label)}</strong> expired on <strong>${escape(expiredOn)}</strong>, ${days_expired} ${dayWord} ago.`
-              : `Our records show your <strong>${escape(label)}</strong> has expired.`,
-            "We are required to hold a valid pass for everyone living in the property, so we need a photo of your renewed one. It takes about a minute in your portal.",
-            "If you have already renewed it, please upload it anyway so our records match. If your renewal is still being processed, upload the acknowledgement and reply to this email to let us know.",
-          ],
-          details: [
-            { label: "Pass", value: escape(label) },
-            { label: "Expired", value: escape(expiredOn || "Date not on file") },
-          ],
-          cta: { label: "Upload Renewed Pass", url: `${PORTAL_BASE}/portal/pass` },
+          paragraphs: [opening, secondLine, thirdLine],
+          details: isIpaGrace
+            ? [
+                { label: "On file", value: escape(label) },
+                { label: "Needed", value: "The issued pass card, both sides" },
+              ]
+            : [
+                { label: "Pass", value: escape(label) },
+                { label: "Expired", value: escape(expiredOn || "Date not on file") },
+              ],
+          cta: {
+            label: isIpaGrace ? "Upload Your Pass" : "Upload Renewed Pass",
+            url: `${PORTAL_BASE}/portal/pass`,
+          },
           ctaCaption: "This email repeats daily until your pass is updated",
         }),
       };

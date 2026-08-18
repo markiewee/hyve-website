@@ -424,7 +424,15 @@ export default function PortalLayout({ children }) {
         <div className="px-6 pt-16 pb-28 md:pt-8 md:pb-10 lg:px-12 lg:py-10 max-w-7xl mx-auto">
           {/* Above the page, not inside it: a tenant who opens /portal/billing
               to pay rent has to see this too, not only the dashboard. */}
-          <PassExpiryBanner details={profile?.tenant_details} />
+          {/* moved_in_at lives on the profile, not on tenant_details, and the
+              IPA rule is measured from arrival, so the banner needs both. */}
+          <PassExpiryBanner
+            details={
+              profile?.tenant_details
+                ? { ...profile.tenant_details, moved_in_at: profile.moved_in_at }
+                : null
+            }
+          />
           {children}
         </div>
       </main>

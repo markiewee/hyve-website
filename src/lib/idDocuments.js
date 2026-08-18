@@ -31,6 +31,17 @@ const PASS_LABELS = {
     warning later is too late to act on. */
 export const EXPIRING_SOON_DAYS = 30;
 
+/** How long after arrival an IPA holder has to produce the real card. An IPA is
+    the letter MOM or ICA issues before the pass exists; two weeks is Mark's
+    rule and roughly what collection actually takes. */
+export const IPA_GRACE_DAYS = 14;
+
+/** Free text on the admin form, so match rather than compare. One of the two
+    rows on file reads "Student Pass (IPA granted, not yet issued)". */
+export function isIpa(type) {
+  return Boolean(type) && /ipa|in-principle/i.test(type);
+}
+
 /**
  * Does this document need a photo of its back?
  *
@@ -76,7 +87,7 @@ function daysUntil(iso, from) {
  *
  * `blocking` marks the states that earn an unmissable prompt in the portal.
  *
- * @param {{pass_type?: string|null, pass_expiry?: string|null}|null} details
+ * @param {{pass_type?: string|null, pass_expiry?: string|null, moved_in_at?: string|null}|null} details
  * @param {Date|number} [now]
  */
 export function passStatus(details, now = new Date()) {
@@ -85,6 +96,33 @@ export function passStatus(details, now = new Date()) {
 
   if (!type) {
     return { state: "NOT_APPLICABLE", blocking: false, daysLeft: null, type: null, expiry: null };
+  }
+
+  // An IPA is a promise of a pass, not a pass, and its own expiry date says
+  // nothing about whether the holder ever collected the card. Judge it on how
+  // long the tenant has been here instead. Before they arrive there is nothing
+  // to collect, so the clock does not start.
+  if (isIpa(type)) {
+    const movedIn = details?.moved_in_at ?? null;
+    const daysHere = movedIn ? -daysUntil(String(movedIn).slice(0, 10), now) : null;
+    if (daysHere !== null && daysHere > IPA_GRACE_DAYS) {
+      return {
+        state: "IPA_GRACE_ELAPSED",
+        blocking: true,
+        daysLeft: null,
+        daysHere,
+        type,
+        expiry,
+      };
+    }
+    return {
+      state: "IPA_PENDING",
+      blocking: false,
+      daysLeft: daysHere === null ? null : IPA_GRACE_DAYS - daysHere,
+      daysHere,
+      type,
+      expiry,
+    };
   }
 
   const daysLeft = expiry ? daysUntil(expiry, now) : null;

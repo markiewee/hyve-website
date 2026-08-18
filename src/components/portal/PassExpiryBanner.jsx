@@ -19,7 +19,8 @@ export default function PassExpiryBanner({ details }) {
   const location = useLocation();
   const status = passStatus(details);
 
-  if (status.state === "NOT_APPLICABLE" || status.state === "VALID") return null;
+  if (status.state === "NOT_APPLICABLE" || status.state === "VALID" || status.state === "IPA_PENDING")
+    return null;
   // Already on the page that fixes it. Repeating the demand above the form is
   // nagging, not helping.
   if (location.pathname === "/portal/pass") return null;
@@ -43,6 +44,11 @@ export default function PassExpiryBanner({ details }) {
       heading: "We need your pass details",
       body: `We have a ${label} on file for you but no expiry date, so we cannot tell whether it is still valid. Please upload it and confirm the dates.`,
       cta: "Add pass details",
+    },
+    IPA_GRACE_ELAPSED: {
+      heading: "We still need your actual pass",
+      body: `You moved in ${status.daysHere} days ago on an In-Principle Approval, which is the letter rather than the pass itself. Once your card has been issued we need a photo of both sides. If it is not out yet, upload the IPA again and tell us where it stands.`,
+      cta: "Upload your pass",
     },
     EXPIRING_SOON: {
       heading: "Your pass expires soon",
