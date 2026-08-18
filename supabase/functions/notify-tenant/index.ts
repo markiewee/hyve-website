@@ -69,6 +69,20 @@ async function getTenantContext(tenantProfileId: string) {
 
 // ─── Event handlers ────────────────────────────────────────────────
 
+/** "STUDENT_PASS" reads as "Student Pass", "S_PASS" as "S Pass", "IPA" stays
+    "IPA". Generic on purpose: a second copy of the label map in src/lib would
+    be one more thing to keep in step, and values typed by hand into the admin
+    form (there are two on file) pass through unchanged. */
+function prettyPassType(raw?: string | null): string {
+  if (!raw) return "pass";
+  if (raw.includes(" ")) return raw; // already written out by a human
+  return raw
+    .split("_")
+    .map((w) => (w.length <= 3 && w === w.toUpperCase() ? w : w.charAt(0) + w.slice(1).toLowerCase()))
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
 interface BuiltEmail {
   subject: string;
   html: string;
@@ -191,6 +205,47 @@ async function buildEmail(
           ctaCaption: "Signed digitally, no printing",
         }),
       };
+
+    // Chased daily, on purpose. A pass that ran out is not a reminder, it is a
+    // resident we are not allowed to house, and one nudge that lands on a busy
+    // Tuesday achieves nothing. The cron stops the moment pass_expiry moves
+    // into the future, so the way to make this email stop is to fix the thing
+    // it is about.
+    case "PASS_EXPIRED": {
+      const { pass_type, pass_expiry, days_expired } = details;
+      const label = prettyPassType(pass_type);
+      const dayWord = days_expired === 1 ? "day" : "days";
+      const expiredOn = pass_expiry
+        ? new Date(`${pass_expiry}T00:00:00+08:00`).toLocaleDateString("en-SG", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+            timeZone: "Asia/Singapore",
+          })
+        : null;
+      return {
+        subject: `Action needed: your ${label} has expired`,
+        html: urgent({
+          preheader: `Your ${label} expired${expiredOn ? ` on ${expiredOn}` : ""}. We need the renewed one.`,
+          badge: "Action required",
+          headline: `Your ${label} has expired.`,
+          greeting: `Hi ${firstName},`,
+          paragraphs: [
+            expiredOn
+              ? `Our records show your <strong>${escape(label)}</strong> expired on <strong>${escape(expiredOn)}</strong>, ${days_expired} ${dayWord} ago.`
+              : `Our records show your <strong>${escape(label)}</strong> has expired.`,
+            "We are required to hold a valid pass for everyone living in the property, so we need a photo of your renewed one. It takes about a minute in your portal.",
+            "If you have already renewed it, please upload it anyway so our records match. If your renewal is still being processed, upload the acknowledgement and reply to this email to let us know.",
+          ],
+          details: [
+            { label: "Pass", value: escape(label) },
+            { label: "Expired", value: escape(expiredOn || "Date not on file") },
+          ],
+          cta: { label: "Upload Renewed Pass", url: `${PORTAL_BASE}/portal/pass` },
+          ctaCaption: "This email repeats daily until your pass is updated",
+        }),
+      };
+    }
 
     case "AC_THRESHOLD_WARNING": {
       const { hours_used, free_hours } = details;
