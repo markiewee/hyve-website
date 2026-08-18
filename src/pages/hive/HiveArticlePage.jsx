@@ -29,9 +29,8 @@ import {
   articleBySlug, ALL_ARTICLES, relatedTo, neighboursOf, variantsFor,
   DEFAULT_LANG, LANGUAGES, langRoot,
 } from '../../lib/hiveContent';
-import { articleMeta, HIVE_COPY } from '../../lib/hiveRoutes';
+import { articleMeta, HIVE_COPY, uiFor } from '../../lib/hiveRoutes';
 import { renderMarkdown } from '../../lib/markdown';
-import { slugify } from '../../lib/hiveArticles';
 import { usePageMeta } from '../../lib/pageMeta';
 import { useReveal } from '../../hooks/useReveal';
 import { useScrollTop } from '../../hooks/useScrollTop';
@@ -49,6 +48,7 @@ export default function HiveArticlePage({ lang = DEFAULT_LANG }) {
   useScrollTop(slug);
 
   const copy = HIVE_COPY[lang] || HIVE_COPY[DEFAULT_LANG];
+  const ui = uiFor(lang);
   usePageMeta(article ? articleMeta(article) : { title: `${copy.title} | Lazybee`, robots: 'noindex,follow' });
 
   /* Parsing markdown is cheap, but it is pure and it runs on every theme toggle
@@ -64,10 +64,13 @@ export default function HiveArticlePage({ lang = DEFAULT_LANG }) {
   const blogRoot = hidden ? '/hive' : langRoot(lang);
   const blogLabel = hidden ? HIVE_COPY[DEFAULT_LANG].title : copy.title;
 
-  /* Topic hubs are English only, so tags are links in English and plain labels
-     everywhere else. A chip pointing at /hive/topic/x from a Chinese page would
-     be a link out of the language; from a hidden page it would be a leak. */
-  const tagsAreLinks = lang === DEFAULT_LANG;
+  /* Every visible language has its own subject hubs, at the same slugs, so a
+     Mandarin chip links to /hive/zh/topic/costs and stays inside its language.
+     A hidden language has no hubs by design, so its chips are plain labels:
+     a link to /hive/topic/costs would be a leak out of an unlisted page, and a
+     hub of its own would be exactly the crawlable listing it must not have. */
+  const tagsAreLinks = !hidden;
+  const topicRoot = langRoot(lang);
 
   const related = relatedTo(article, ALL_ARTICLES);
   const { newer, older } = neighboursOf(article, ALL_ARTICLES);
@@ -93,7 +96,7 @@ export default function HiveArticlePage({ lang = DEFAULT_LANG }) {
             {tagsAreLinks && article.tags[0] && (
               <>
                 <span aria-hidden="true">/</span>
-                <Link to={`/hive/topic/${slugify(article.tags[0])}`}>{article.tags[0]}</Link>
+                <Link to={`${topicRoot}/topic/${article.tagSlugs[0]}`}>{article.tagLabels[0]}</Link>
               </>
             )}
           </nav>
@@ -106,7 +109,7 @@ export default function HiveArticlePage({ lang = DEFAULT_LANG }) {
               <span className="label">
                 <time dateTime={article.date}>{article.dateLabel}</time>
               </span>
-              <span className="label">{article.readingMinutes} min read</span>
+              <span className="label">{article.readingMinutes} {ui.minRead}</span>
             </div>
           </header>
 
@@ -124,18 +127,22 @@ export default function HiveArticlePage({ lang = DEFAULT_LANG }) {
           <footer className="post-foot">
             {article.tags.length > 0 && (
               <div className="taglist">
-                <span className="label">Filed under</span>
-                {article.tags.map((t) => (
+                <span className="label">{ui.filedUnder}</span>
+                {article.tags.map((t, i) => (
                   tagsAreLinks
-                    ? <Link key={t} className="chip" to={`/hive/topic/${slugify(t)}`}>{t}</Link>
-                    : <span key={t} className="chip">{t}</span>
+                    ? (
+                      <Link key={t} className="chip" to={`${topicRoot}/topic/${article.tagSlugs[i]}`}>
+                        {article.tagLabels[i]}
+                      </Link>
+                    )
+                    : <span key={t} className="chip">{article.tagLabels[i]}</span>
                 ))}
               </div>
             )}
 
             {readElsewhere.length > 0 && (
               <div className="taglist">
-                <span className="label">Also available in</span>
+                <span className="label">{ui.alsoIn}</span>
                 {readElsewhere.map(({ lang: code, article: a }) => (
                   <Link key={code} className="chip" to={a.path} lang={LANGUAGES[code].htmlLang}>
                     {LANGUAGES[code].label}
@@ -147,13 +154,13 @@ export default function HiveArticlePage({ lang = DEFAULT_LANG }) {
             <div className="nextprev">
               {newer ? (
                 <Link className="np" to={newer.path} rel="prev">
-                  <span className="label">Newer</span>
+                  <span className="label">{ui.newer}</span>
                   <span className="t">{newer.title}</span>
                 </Link>
               ) : <span />}
               {older && (
                 <Link className="np right" to={older.path} rel="next">
-                  <span className="label">Older</span>
+                  <span className="label">{ui.older}</span>
                   <span className="t">{older.title}</span>
                 </Link>
               )}
@@ -163,11 +170,11 @@ export default function HiveArticlePage({ lang = DEFAULT_LANG }) {
 
         {related.length > 0 && (
           <section className="wrap relatedbox">
-            <h2 className="h2">More from the blog</h2>
+            <h2 className="h2">{ui.more}</h2>
             <div className="list">
               {related.map((a) => <ArticleCard key={a.slug} article={a} />)}
             </div>
-            <p className="small backline"><Link to={blogRoot}>Everything we have written</Link></p>
+            <p className="small backline"><Link to={blogRoot}>{ui.everything}</Link></p>
           </section>
         )}
 

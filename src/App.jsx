@@ -128,6 +128,7 @@ function AppContent() {
           <Route path="/hive/topic/:tag" element={<HiveTopicPage />} />
           <Route path="/hive/zh" element={<HiveIndexPage lang="zh" />} />
           <Route path="/hive/zh/page/:page" element={<HiveIndexPage lang="zh" />} />
+          <Route path="/hive/zh/topic/:tag" element={<HiveTopicPage lang="zh" />} />
           <Route path="/hive/zh/:slug" element={<HiveArticlePage lang="zh" />} />
           {/* Unlisted. Reachable by URL, in the sitemap, indexable, and linked
               from nowhere on this site. See src/lib/hiveArticles.js. */}

@@ -199,11 +199,69 @@ export function slugify(s) {
     .replace(/^-+|-+$/g, '');
 }
 
-/** "2026-08-04" to "4 Aug 2026". Parsed as UTC so the day never slips by one. */
-export function formatDate(iso) {
+/* ── the tag vocabulary ───────────────────────────────────────────── */
+
+/**
+ * The seven subjects, and what each is called in each language.
+ *
+ * The English tag is the canonical identity. It is what every .md file writes
+ * in its frontmatter, in every language, and its slug is the hub URL in every
+ * language: /hive/topic/costs in English, /hive/zh/topic/costs in Mandarin.
+ * The two differ only by the label printed on the chip.
+ *
+ * Keeping the URL English is deliberate on three counts. slugify() reduces any
+ * string with no Latin characters to the empty string, so a Chinese tag would
+ * either need percent encoding to survive a URL or would collide with every
+ * other Chinese tag on one broken path. A shared slug also makes the hubs a
+ * reciprocal hreflang cluster, which is what lets Google treat the Mandarin
+ * hub as the translation of the English one rather than as a thin duplicate.
+ * And a label can be reworded in one language without moving a page.
+ *
+ * A tag absent from this table still works: it falls back to the English
+ * string, which is what a translation would have shown anyway.
+ */
+export const TAG_LABELS = {
+  Students: {
+    en: 'Students', zh: '学生', my: 'ကျောင်းသားများ', bn: 'শিক্ষার্থী',
+  },
+  'Moving to Singapore': {
+    en: 'Moving to Singapore', zh: '搬来新加坡', my: 'စင်ကာပူသို့ ပြောင်းရွှေ့ခြင်း', bn: 'সিঙ্গাপুরে আসা',
+  },
+  Costs: {
+    en: 'Costs', zh: '费用', my: 'ကုန်ကျစရိတ်', bn: 'খরচ',
+  },
+  Work: {
+    en: 'Work', zh: '工作', my: 'အလုပ်', bn: 'কাজ',
+  },
+  Neighbourhoods: {
+    en: 'Neighbourhoods', zh: '区域', my: 'ရပ်ကွက်များ', bn: 'এলাকা',
+  },
+  Rules: {
+    en: 'Rules', zh: '条例', my: 'စည်းမျဉ်းများ', bn: 'নিয়ম',
+  },
+  Operators: {
+    en: 'Operators', zh: '营运商', my: 'အော်ပရေတာများ', bn: 'অপারেটর',
+  },
+};
+
+/** What one tag is called in one language. Falls back to the English tag. */
+export function tagLabel(tag, lang = DEFAULT_LANG) {
+  const entry = TAG_LABELS[tag];
+  return (entry && entry[lang]) || tag;
+}
+
+/**
+ * "2026-08-04" to "4 Aug 2026", or the same date written the way the reader's
+ * language writes it: 2026年8月4日, ၂၀၂၆ ဩဂုတ် ၄, ৪ আগস্ট, ২০২৬.
+ *
+ * Parsed as UTC so the day never slips by one, and formatted through each
+ * language's own schemaLang. The machine readable date is unaffected: the
+ * <time datetime> attribute and every schema field still carry the ISO string.
+ */
+export function formatDate(iso, lang = DEFAULT_LANG) {
   const d = new Date(`${String(iso).slice(0, 10)}T00:00:00Z`);
   if (Number.isNaN(d.getTime())) return String(iso);
-  return new Intl.DateTimeFormat('en-GB', {
+  return new Intl.DateTimeFormat(langMeta(lang).schemaLang, {
     day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC',
   }).format(d);
 }
@@ -289,10 +347,15 @@ export function parseArticle(path, raw) {
     translationKey: slugify(data.translationKey || fileSlug),
     title: String(data.title || fileSlug),
     date: String(data.date || '').slice(0, 10),
-    dateLabel: formatDate(data.date || ''),
+    dateLabel: formatDate(data.date || '', lang),
     excerpt: String(data.excerpt || ''),
+    /* Three parallel arrays over the same subjects. `tags` is the canonical
+       English identity that every language's file carries; `tagSlugs` is the
+       hub URL, shared across languages; `tagLabels` is the only one a reader
+       ever sees, and is the reason a Mandarin card no longer says WORK. */
     tags,
     tagSlugs: tags.map(slugify),
+    tagLabels: tags.map((t) => tagLabel(t, lang)),
     author: String(data.author || 'Lazybee'),
     hero: data.hero ? String(data.hero) : null,
     heroAlt: data.heroAlt ? String(data.heroAlt) : '',
@@ -331,18 +394,21 @@ export function buildArchive(files) {
   for (const code of LANG_CODES) {
     const articles = all.filter((a) => a.lang === code);
 
-    /* Topic hubs are English only for now. slugify() strips everything outside
-       [a-z0-9], so a Chinese or Burmese tag slugifies to the empty string and
-       every tag in that language would collide on one broken hub URL. Tags are
-       still parsed and still ride along in the Article schema; they just do not
-       mint routes until slugify handles non-Latin scripts. */
+    /* A subject hub per visible language. The slug comes from the English tag,
+       so the Mandarin hub sits at /hive/zh/topic/costs and clusters with the
+       English one; only the label is translated. See TAG_LABELS.
+
+       Hidden languages get no hubs. A hub is a listing page, and a listing page
+       is exactly the thing an unlisted language must not have: it would be a
+       crawlable index of articles that nothing on the site is supposed to
+       reach. Their tags still render, as plain labels rather than links. */
     const byTag = new Map();
-    if (code === DEFAULT_LANG) {
+    if (!LANGUAGES[code].hidden) {
       for (const a of articles) {
-        a.tags.forEach((label, i) => {
+        a.tags.forEach((tag, i) => {
           const s = a.tagSlugs[i];
           if (!s) return;
-          if (!byTag.has(s)) byTag.set(s, { slug: s, label, articles: [] });
+          if (!byTag.has(s)) byTag.set(s, { slug: s, tag, label: tagLabel(tag, code), articles: [] });
           byTag.get(s).articles.push(a);
         });
       }

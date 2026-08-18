@@ -12,7 +12,8 @@
 import { describe, it, expect } from 'vitest';
 import {
   buildArchive, hiveRoutes, countWords, readingMinutes, relatedTo, neighboursOf,
-  variantsOf, langFromPath, LANGUAGES, HIDDEN_LANGS, VISIBLE_LANGS,
+  variantsOf, langFromPath, tagLabel, formatDate, TAG_LABELS,
+  LANGUAGES, HIDDEN_LANGS, VISIBLE_LANGS,
 } from './hiveArticles.js';
 
 const md = (title, extra = '') => `---
@@ -173,5 +174,92 @@ describe('counting words in scripts that do not space them', () => {
 
   it('never reports zero minutes for a real article', () => {
     expect(readingMinutes('short')).toBe(1);
+  });
+});
+
+describe('a tag is one subject with a label per language', () => {
+  const zh = archive.byLang.zh.articles[0];
+  const en = archive.byLang.en.articles.find((a) => a.slug === 'alpha');
+  const bn = archive.byLang.bn.articles.find((a) => a.slug === 'alpha');
+
+  it('carries the canonical English tag in every language, so the hubs are one set', () => {
+    expect(zh.tags).toEqual(en.tags);
+    expect(bn.tags).toEqual(en.tags);
+  });
+
+  it('gives every language the same hub slug, which is what lets the hubs cluster', () => {
+    expect(zh.tagSlugs).toEqual(en.tagSlugs);
+    expect(bn.tagSlugs).toEqual(en.tagSlugs);
+    expect(zh.tagSlugs.every((s) => /^[a-z0-9-]+$/.test(s))).toBe(true);
+  });
+
+  /* The bug this file exists to keep fixed: a Mandarin card printing WORK. */
+  it('shows the reader a label in their own language', () => {
+    expect(zh.tagLabels).toEqual(['学生', '条例']);
+    expect(bn.tagLabels).toEqual(['শিক্ষার্থী', 'নিয়ম']);
+    expect(en.tagLabels).toEqual(en.tags);
+  });
+
+  it('falls back to the English tag rather than rendering undefined', () => {
+    expect(tagLabel('Not A Real Tag', 'zh')).toBe('Not A Real Tag');
+    expect(tagLabel('Students', 'xx')).toBe('Students');
+  });
+
+  it('has a label in all four languages for every tag in the vocabulary', () => {
+    for (const [tag, labels] of Object.entries(TAG_LABELS)) {
+      for (const code of Object.keys(LANGUAGES)) {
+        expect(labels[code], `${tag} in ${code}`).toBeTruthy();
+      }
+    }
+  });
+});
+
+describe('subject hubs per language', () => {
+  it('builds a hub set for every visible language', () => {
+    for (const code of VISIBLE_LANGS) {
+      expect(archive.byLang[code].topics.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('labels each language\'s hubs in that language', () => {
+    const zhStudents = archive.byLang.zh.topics.find((t) => t.slug === 'students');
+    const enStudents = archive.byLang.en.topics.find((t) => t.slug === 'students');
+    expect(zhStudents.label).toBe('学生');
+    expect(enStudents.label).toBe('Students');
+    expect(zhStudents.slug).toBe(enStudents.slug);
+  });
+
+  /* A hub is a listing page, and a listing page is the one thing an unlisted
+     language must never have. This is the same promise as the leak tests. */
+  it('builds no hub for a hidden language, and mints no hub route for one', () => {
+    for (const code of HIDDEN_LANGS) {
+      expect(archive.byLang[code].topics).toEqual([]);
+    }
+    expect(routes.some((r) => /\/hive\/(my|bn)\/topic\//.test(r))).toBe(false);
+  });
+
+  it('routes the Mandarin hubs, because the sitemap is built from this', () => {
+    expect(routes).toContain('/hive/zh/topic/students');
+    expect(routes).toContain('/hive/topic/students');
+  });
+});
+
+describe('dates are written the way each language writes them', () => {
+  it('formats per language and never returns the raw ISO string', () => {
+    expect(formatDate('2025-06-25', 'en')).toBe('25 Jun 2025');
+    expect(formatDate('2025-06-25', 'zh')).toBe('2025年6月25日');
+    for (const code of Object.keys(LANGUAGES)) {
+      expect(formatDate('2025-06-25', code)).not.toBe('2025-06-25');
+    }
+  });
+
+  it('keeps the machine readable date untouched on the article record', () => {
+    const zh = archive.byLang.zh.articles[0];
+    expect(zh.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(zh.dateLabel).not.toBe(zh.date);
+  });
+
+  it('survives a date it cannot parse', () => {
+    expect(formatDate('not a date', 'zh')).toBe('not a date');
   });
 });

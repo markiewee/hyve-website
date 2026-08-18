@@ -1,6 +1,12 @@
 // src/pages/hive/HiveTopicPage.jsx
 //
-// /hive/topic/:tag
+// /hive/topic/:tag, and /hive/zh/topic/:tag.
+//
+// The hub slug is the English tag in every language, so these two are the same
+// subject in two languages and hreflang to each other. Only the chip label and
+// the surrounding copy are translated. Unlisted languages get no hub at all:
+// a hub is a listing page, which is the one thing an unlisted language must
+// not have.
 //
 // The topic hubs are what keep the long tail two clicks from the homepage. /hive
 // carries the most recent fifty; a hub carries every article on its subject, no
@@ -18,8 +24,8 @@ import { LazybeeRoot } from '../../hooks/useLazybeeTheme';
 import { useRef } from 'react';
 import { Navigate, useParams, Link } from 'react-router-dom';
 
-import { archiveFor, topicBySlug, DEFAULT_LANG } from '../../lib/hiveContent';
-import { topicMeta, HIVE_TITLE } from '../../lib/hiveRoutes';
+import { archiveFor, topicBySlug, DEFAULT_LANG, langRoot } from '../../lib/hiveContent';
+import { topicMeta, HIVE_COPY } from '../../lib/hiveRoutes';
 import { usePageMeta } from '../../lib/pageMeta';
 import { useReveal } from '../../hooks/useReveal';
 import { useScrollTop } from '../../hooks/useScrollTop';
@@ -29,35 +35,38 @@ import {
 
 import '../../styles/lazybee.css';
 
-export default function HiveTopicPage() {
+export default function HiveTopicPage({ lang = DEFAULT_LANG }) {
   const { tag } = useParams();
-  const topic = topicBySlug(tag);
+  const topic = topicBySlug(tag, lang);
+  const copy = HIVE_COPY[lang] || HIVE_COPY[DEFAULT_LANG];
+  const root = langRoot(lang);
 
   const rootRef = useRef(null);
   useReveal(rootRef, tag);
   useScrollTop(tag);
 
-  usePageMeta(topic ? topicMeta(topic) : { title: `${HIVE_TITLE} | Lazybee`, robots: 'noindex,follow' });
+  usePageMeta(topic ? topicMeta(topic, lang) : { title: `${copy.title} | Lazybee`, robots: 'noindex,follow' });
 
-  if (!topic) return <Navigate to="/hive" replace />;
+  if (!topic) return <Navigate to={root} replace />;
 
   const [lead, ...rest] = topic.articles;
 
   return (
     <LazybeeRoot className="lzb hive" ref={rootRef}>
-      <HiveHeader />
+      <HiveHeader lang={lang} />
 
       <HiveBanner
-        kicker={<>Notes from the houses · <Link to="/hive" className="bannerlink">all subjects</Link></>}
+        kicker={<>{copy.kicker} · <Link to={root} className="bannerlink">{copy.allSubjects}</Link></>}
         title={topic.label}
-        blurb={`Everything we have written about ${topic.label.toLowerCase()} while running nineteen rooms across three Singapore homes. Newest first, all of it, nothing held back for a mailing list.`}
+        blurb={copy.topicBlurb(topic.label)}
         count={topic.articles.length}
+        lang={lang}
       />
 
       <main className="wrap hivemain" id="top">
-        {lead && <LeadCard article={lead} kicker="Most recent" />}
+        {lead && <LeadCard article={lead} kicker={copy.mostRecent} />}
 
-        <TopicChips topics={archiveFor(DEFAULT_LANG).topics} activeSlug={topic.slug} />
+        <TopicChips topics={archiveFor(lang).topics} activeSlug={topic.slug} lang={lang} />
 
         {rest.length > 0 && (
           <div className="list">
@@ -66,7 +75,7 @@ export default function HiveTopicPage() {
         )}
 
         <p className="small backline">
-          <Link to="/hive">Back to everything on the blog</Link>
+          <Link to={root}>{copy.backToAll}</Link>
         </p>
       </main>
 

@@ -24,6 +24,7 @@ import { BOOKING_URL } from '../../lib/booking';
 import { useLanguage } from '../../i18n/LanguageContext';
 import ThemeToggle from '../ThemeToggle';
 import { VISIBLE_LANGS, LANGUAGES, langRoot, DEFAULT_LANG } from '../../lib/hiveContent';
+import { uiFor } from '../../lib/hiveRoutes';
 
 /**
  * The EN / 中文 control, for Hive pages only.
@@ -109,7 +110,8 @@ export function HiveFooter() {
  * real grout lines at a different scale and pitch and read as a moire rather than
  * as texture. One comb, and it is the one in the photo.
  */
-export function HiveBanner({ kicker, title, blurb, count, subjects, cadence = null }) {
+export function HiveBanner({ kicker, title, blurb, count, subjects, cadence = null, lang = DEFAULT_LANG }) {
+  const ui = uiFor(lang);
   return (
     <header className="hivebanner">
       {/* Decorative, so no alt text and no <img>: it carries no information the
@@ -121,9 +123,9 @@ export function HiveBanner({ kicker, title, blurb, count, subjects, cadence = nu
         <h1 className="display">{title}</h1>
         {blurb && <p className="blurb">{blurb}</p>}
         <div className="bmeta">
-          <span><b>{count}</b> {count === 1 ? 'piece' : 'pieces'}</span>
+          <span><b>{count}</b> {ui.pieces(count)}</span>
           {subjects !== undefined && (
-            <span><b>{subjects}</b> {subjects === 1 ? 'subject' : 'subjects'}</span>
+            <span><b>{subjects}</b> {ui.subjects(subjects)}</span>
           )}
           {cadence && <span><b>{cadence}</b></span>}
         </div>
@@ -142,10 +144,11 @@ export function HiveBanner({ kicker, title, blurb, count, subjects, cadence = nu
  */
 export function TopicChips({ topics, activeSlug, lang = DEFAULT_LANG }) {
   const root = langRoot(lang);
+  const ui = uiFor(lang);
   return (
     <nav className="filters" aria-label="Subjects">
       <Link className={`chip${activeSlug ? '' : ' on'}`} to={root} aria-current={activeSlug ? undefined : 'page'}>
-        All
+        {ui.all}
       </Link>
       {topics.map((t) => (
         <Link
@@ -163,16 +166,19 @@ export function TopicChips({ topics, activeSlug, lang = DEFAULT_LANG }) {
 
 /** The oversized card at the top of a listing. Always the newest of whatever is being listed. */
 export function LeadCard({ article, kicker }) {
+  /* Off the article rather than a prop: a card can appear in a listing whose
+     language is its own, and the reading time belongs to the piece. */
+  const ui = uiFor(article.lang);
   return (
     <Link className="lead-post rv" to={article.path}>
       {article.hero && (
         <div className="im"><img src={article.hero} alt={article.heroAlt || ''} /></div>
       )}
       <div className="bd">
-        <div className="label">{kicker} · {article.tags[0] || 'Lazybee'}</div>
+        <div className="label">{kicker} · {article.tagLabels[0] || 'Lazybee'}</div>
         <h2 className="h1 leadtitle">{article.title}</h2>
         <p className="body leadbody">{article.excerpt}</p>
-        <div className="label leadmeta">{article.dateLabel} · {article.readingMinutes} min read</div>
+        <div className="label leadmeta">{article.dateLabel} · {article.readingMinutes} {ui.minRead}</div>
       </div>
     </Link>
   );
@@ -187,17 +193,21 @@ export function LeadCard({ article, kicker }) {
  * risk with no upside, and observer callbacks are throttled in background tabs.
  */
 export function ArticleCard({ article }) {
+  const ui = uiFor(article.lang);
   return (
     <Link className="item" to={article.path}>
       {article.hero && (
         <div className="im"><img src={article.hero} alt={article.heroAlt || ''} loading="lazy" /></div>
       )}
-      <div className="label cardtag">{article.tags.join(' · ')}</div>
+      {/* tagLabels, not tags. Every language's markdown carries the canonical
+          English tag so the hubs stay one shared set of URLs, which meant a
+          Mandarin card was printing WORK over a Mandarin headline. */}
+      <div className="label cardtag">{article.tagLabels.join(' · ')}</div>
       <div className="h">{article.title}</div>
       <p className="small carddek">{article.excerpt}</p>
       <div className="meta">
         <span className="fine">{article.dateLabel}</span>
-        <span className="fine">{article.readingMinutes} min read</span>
+        <span className="fine">{article.readingMinutes} {ui.minRead}</span>
       </div>
     </Link>
   );
@@ -211,8 +221,9 @@ export function ArticleCard({ article }) {
  * well as in the head, which is what tells a crawler these pages are one sequence
  * rather than a set of near duplicates.
  */
-export function Pagination({ page, pageCount, root = '/hive' }) {
+export function Pagination({ page, pageCount, root = '/hive', lang = DEFAULT_LANG }) {
   const { t } = useLanguage();
+  const ui = uiFor(lang);
   if (pageCount <= 1) return null;
   const href = (p) => (p === 1 ? root : `${root}/page/${p}`);
 
@@ -228,7 +239,7 @@ export function Pagination({ page, pageCount, root = '/hive' }) {
 
   return (
     <nav className="pager" aria-label={t('nav.guides')}>
-      {page > 1 && <Link className="pg prev" rel="prev" to={href(page - 1)}>Newer</Link>}
+      {page > 1 && <Link className="pg prev" rel="prev" to={href(page - 1)}>{ui.newer}</Link>}
       <ol className="pgnums">
         {pages.map((p, i) => (
           <li key={p}>
@@ -236,12 +247,12 @@ export function Pagination({ page, pageCount, root = '/hive' }) {
             {p === page ? (
               <span className="pg on" aria-current="page">{p}</span>
             ) : (
-              <Link className="pg" to={href(p)} aria-label={`Page ${p}`}>{p}</Link>
+              <Link className="pg" to={href(p)} aria-label={ui.page(p)}>{p}</Link>
             )}
           </li>
         ))}
       </ol>
-      {page < pageCount && <Link className="pg next" rel="next" to={href(page + 1)}>Older</Link>}
+      {page < pageCount && <Link className="pg next" rel="next" to={href(page + 1)}>{ui.older}</Link>}
     </nav>
   );
 }

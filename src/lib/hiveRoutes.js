@@ -64,6 +64,14 @@ export const HIVE_COPY = {
   en: {
     title: HIVE_TITLE, blurb: HIVE_BLURB, description: HIVE_DESCRIPTION,
     kicker: 'Notes from the houses',
+    allSubjects: 'all subjects',
+    mostRecent: 'Most recent',
+    backToAll: 'Back to everything on the blog',
+    topicBlurb: (label) =>
+      `Everything we have written about ${label.toLowerCase()} while running co-living in Singapore.`,
+    topicDescription: (label, n) =>
+      `Everything we have written about ${label.toLowerCase()} while running co-living in Singapore. ` +
+      `${n} ${n === 1 ? 'piece' : 'pieces'} on the blog, all of it from our own operation.`,
   },
   zh: {
     title: 'Lazybee 博客',
@@ -72,8 +80,53 @@ export const HIVE_COPY = {
       '这三年我们在新加坡做共居，学到的东西都写在这里。三处房子、十九个房间：' +
       '实际能租多少钱，条例到底要求什么，东西坏了修一次要花多少。',
     kicker: '来自房子的笔记',
+    allSubjects: '全部主题',
+    mostRecent: '最新一篇',
+    backToAll: '回到博客全部文章',
+    topicBlurb: (label) => `我们在新加坡做共居这几年，关于${label}写过的全部内容。`,
+    topicDescription: (label, n) =>
+      `我们在新加坡做共居这几年，关于${label}写过的全部内容。博客上共 ${n} 篇，全部来自自家的运营。`,
   },
 };
+
+/**
+ * The furniture around an article, in all four languages.
+ *
+ * Separate from HIVE_COPY because that covers the masthead, and only a listed
+ * language has a masthead. These strings appear on article pages, which every
+ * language has, unlisted ones included: a Bengali article that says "Filed
+ * under" and "min read" around Bengali prose is a page that reads as machine
+ * output to the only reader it was written for.
+ */
+export const HIVE_UI = {
+  en: {
+    filedUnder: 'Filed under', alsoIn: 'Also available in',
+    newer: 'Newer', older: 'Older', minRead: 'min read',
+    more: 'More from the blog', everything: 'Everything we have written',
+    all: 'All', page: (n) => `Page ${n}`, pieces: (n) => (n === 1 ? 'piece' : 'pieces'),
+    subjects: (n) => (n === 1 ? 'subject' : 'subjects'),
+  },
+  zh: {
+    filedUnder: '归类于', alsoIn: '其他语言版本',
+    newer: '更新的一篇', older: '更早的一篇', minRead: '分钟阅读',
+    more: '博客上的更多内容', everything: '我们写过的全部内容',
+    all: '全部', page: (n) => `第 ${n} 页`, pieces: () => '篇', subjects: () => '个主题',
+  },
+  my: {
+    filedUnder: 'ခေါင်းစဉ်', alsoIn: 'အခြားဘာသာစကားဖြင့်',
+    newer: 'နောက်ပိုင်း', older: 'အစောပိုင်း', minRead: 'မိနစ် ဖတ်ရန်',
+    more: 'ဘလော့ဂ်မှ နောက်ထပ်', everything: 'ကျွန်ုပ်တို့ ရေးသားခဲ့သမျှ',
+    all: 'အားလုံး', page: (n) => `စာမျက်နှာ ${n}`, pieces: () => 'ပုဒ်', subjects: () => 'ခေါင်းစဉ်',
+  },
+  bn: {
+    filedUnder: 'বিষয়', alsoIn: 'অন্য ভাষায়',
+    newer: 'নতুন', older: 'পুরোনো', minRead: 'মিনিট পড়া',
+    more: 'ব্লগ থেকে আরও', everything: 'আমরা যা কিছু লিখেছি',
+    all: 'সব', page: (n) => `পৃষ্ঠা ${n}`, pieces: () => 'টি লেখা', subjects: () => 'টি বিষয়',
+  },
+};
+
+export const uiFor = (lang) => HIVE_UI[lang] || HIVE_UI[DEFAULT_LANG];
 
 export const hiveUrl = (path) => `${BASE_URL}${path}`;
 
@@ -117,6 +170,27 @@ export function indexAlternates(page = 1) {
   return list.length > 1 ? list : [];
 }
 
+/**
+ * The same, for a subject hub.
+ *
+ * The hubs cluster because they share a slug: /hive/topic/costs and
+ * /hive/zh/topic/costs are the same subject in two languages, which is exactly
+ * what hreflang is for. Without this each would look to Google like a thin
+ * listing page duplicating the other's article set.
+ */
+export function topicAlternates(slug) {
+  const list = VISIBLE_LANGS
+    .filter((code) => archiveFor(code).topics.some((t) => t.slug === slug))
+    .map((code) => ({
+      hreflang: langMeta(code).hreflang,
+      href: hiveUrl(`${langRoot(code)}/topic/${slug}`),
+    }));
+  if (list.length > 1) {
+    list.push({ hreflang: 'x-default', href: hiveUrl(`${langRoot(DEFAULT_LANG)}/topic/${slug}`) });
+  }
+  return list.length > 1 ? list : [];
+}
+
 /* ── structured data ──────────────────────────────────────────────── */
 
 export function articleSchema(article) {
@@ -128,7 +202,9 @@ export function articleSchema(article) {
     datePublished: article.date,
     dateModified: article.date,
     image: absolute(article.hero),
-    keywords: article.tags.join(', '),
+    /* The reader's language, not the canonical English tag. These are the
+       words someone searching in Mandarin would actually type. */
+    keywords: article.tagLabels.join(', '),
     wordCount: markdownToText(article.body).split(/\s+/).filter(Boolean).length,
     inLanguage: langMeta(article.lang).schemaLang,
     author: { '@type': 'Person', name: article.author },
@@ -209,26 +285,27 @@ export function indexMeta(page = 1, lang = DEFAULT_LANG) {
   };
 }
 
-/** /hive/topic/:tag. English only for now, see buildArchive. */
+/** /hive/topic/:tag, and its /hive/zh equivalent. Visible languages only. */
 export function topicMeta(topic, lang = DEFAULT_LANG) {
   const path = `${langRoot(lang)}/topic/${topic.slug}`;
-  const description =
-    `Everything we have written about ${topic.label.toLowerCase()} while running co-living in Singapore. ` +
-    `${topic.articles.length} ${topic.articles.length === 1 ? 'piece' : 'pieces'} on the blog, all of it from our own operation.`;
+  const copy = copyFor(lang);
+  const description = copy.topicDescription(topic.label, topic.articles.length);
   return {
     ...langBits(lang),
-    title: `${topic.label} | ${copyFor(lang).title} | Lazybee`,
+    title: `${topic.label} | ${copy.title} | Lazybee`,
     description,
     canonical: hiveUrl(path),
     lastmod: newestDate(topic.articles),
     ogImage: absolute(topic.articles[0]?.hero),
     ogType: 'website',
-    alternates: [],
+    alternates: topicAlternates(topic.slug),
     schema: [
-      listSchema(`${topic.label} in ${copyFor(lang).title}`, description, path, topic.articles, lang),
+      /* Separator rather than "X in Y": the English preposition read as
+         machine translation once this string had a Mandarin version. */
+      listSchema(`${topic.label} · ${copy.title}`, description, path, topic.articles, lang),
       breadcrumbSchema([
         { name: 'Home', path: '/' },
-        { name: copyFor(lang).title, path: langRoot(lang) },
+        { name: copy.title, path: langRoot(lang) },
         { name: topic.label, path },
       ]),
     ],
