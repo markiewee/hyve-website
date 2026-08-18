@@ -14,6 +14,7 @@ import {
   tplAdminNotify,
   tplReminder24h,
   tplCancelled,
+  tplRescheduled,
   tplOffHorizonReminder,
   fmtDateTime,
   mapsUrl,
@@ -59,6 +60,8 @@ const ALL = () => [
   tplCancelled({ viewing, recipientType: "prospect", cancelUrl }),
   tplCancelled({ viewing, recipientType: "captain", cancelUrl }),
   tplCancelled({ viewing, recipientType: "admin", cancelUrl }),
+  tplRescheduled({ viewing, captain, cancelUrl, previousStart: '2026-08-15T05:15:00+00:00' }),
+  tplRescheduled({ viewing, captain, cancelUrl, previousStart: '2026-08-15T05:15:00+00:00', recipientType: 'captain' }),
   tplOffHorizonReminder(lead),
 ];
 
@@ -166,4 +169,48 @@ test("the calendar invite survives a comma in the address and an accent in a nam
   // and the invite drops the prospect at the wrong block.
   assert.ok(ics.includes("LOCATION:#08-33\\, Blk 122"), ics.split("\r\n").find((l) => l.startsWith("LOCATION")));
   assert.ok(ics.includes("Singapore 600122"), "address was truncated");
+});
+
+/* ── moved viewings ───────────────────────────────────────────────── */
+
+const PREV = "2026-08-15T05:15:00+00:00";
+
+test("a moved viewing says what it moved from, not just to", () => {
+  // "Your viewing is confirmed" with no reference to the old time reads like a
+  // second booking, and the prospect turns up twice or not at all.
+  const { html, subject } = tplRescheduled({ viewing, captain, cancelUrl, previousStart: PREV });
+  assert.ok(html.includes("22 August 2026"), "missing the new time");
+  assert.ok(html.includes("15 August 2026"), "missing the old time");
+  assert.ok(html.includes("<s>"), "the old time should read as struck through");
+  assert.ok(subject.toLowerCase().startsWith("moved"), subject);
+});
+
+test("the prospect gets a fresh invite so their calendar follows", () => {
+  const { attachments } = tplRescheduled({ viewing, captain, cancelUrl, previousStart: PREV });
+  assert.equal(attachments.length, 1);
+  const ics = unb64(attachments[0].content);
+  assert.ok(ics.includes("STATUS:CONFIRMED"));
+  // Same UID as the original, which is what makes a calendar move the existing
+  // entry rather than add a second one next to it.
+  assert.ok(ics.includes(`UID:${viewing.id}@lazybee.sg`));
+});
+
+test("the captain is told, because turning up on the old Saturday is the whole risk", () => {
+  const cap = tplRescheduled({ viewing, captain, cancelUrl, previousStart: PREV, recipientType: "captain" });
+  assert.ok(cap.html.includes("22 August 2026"));
+  assert.ok(cap.html.includes("Nothing else for you to do"));
+  assert.equal(cap.attachments, undefined, "only the prospect needs the invite");
+});
+
+test("admin sees the contact details the captain does not need", () => {
+  const admin = tplRescheduled({ viewing, captain, cancelUrl, previousStart: PREV, recipientType: "admin" });
+  assert.ok(admin.html.includes("markwee99@gmail.com"));
+  const cap = tplRescheduled({ viewing, captain, cancelUrl, previousStart: PREV, recipientType: "captain" });
+  assert.ok(!cap.html.includes("markwee99@gmail.com"));
+});
+
+test("a move with no previous time on file still renders", () => {
+  const { html } = tplRescheduled({ viewing, captain, cancelUrl, previousStart: null });
+  assert.ok(html.includes("22 August 2026"));
+  assert.ok(!html.includes("<s>"), "no struck-through row when there is nothing to strike");
 });

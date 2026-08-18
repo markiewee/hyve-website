@@ -29,7 +29,7 @@ import {
 } from "../../src/lib/bookingHelpers.js";
 import {
   getAvailableSlots,
-  cancelEvent,
+  cancelEvent, createEvent,
   listBookingCalendarState,
 } from "../../src/lib/googleCalendar.js";
 import {
@@ -113,7 +113,7 @@ function addMinutesIso(iso, mins) {
   return `${local.getUTCFullYear()}-${pad(local.getUTCMonth() + 1)}-${pad(local.getUTCDate())}T${pad(local.getUTCHours())}:${pad(local.getUTCMinutes())}:${pad(local.getUTCSeconds())}${offset}`;
 }
 
-async function fireNotify(event, viewingId) {
+async function fireNotify(event, viewingId, extra = {}) {
   try {
     const r = await fetch(`${process.env.VITE_IOT_SUPABASE_URL}/functions/v1/viewing-notify`, {
       method: "POST",
@@ -121,7 +121,7 @@ async function fireNotify(event, viewingId) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.IOT_SUPABASE_SERVICE_ROLE_KEY}`,
       },
-      body: JSON.stringify({ event, viewing_id: viewingId }),
+      body: JSON.stringify({ event, viewing_id: viewingId, ...extra }),
     });
     if (!r.ok) {
       const text = await r.text().catch(() => "");
@@ -835,6 +835,150 @@ async function handleCancel(req, res) {
   return res.status(200).json({ success: true });
 }
 
+/**
+ * Move a viewing rather than lose it.
+ *
+ * Same token as cancel, deliberately. That token already authorises the more
+ * destructive of the two actions, so minting a second one would add a column
+ * and a class of "wrong link" support message for no security gained.
+ *
+ * GET  → the viewing, plus what the caller is allowed to do with it.
+ * POST → { slot_start } moves it.
+ *
+ * The new slot is not checked for a clash on purpose. The page only offers
+ * slots the windows endpoint reports as open, and beyond that we do not
+ * auto-decline on an overlap: that is Mark's standing rule and it is his call
+ * to make, not a validation rule buried in an API.
+ */
+const MAX_RESCHEDULES = 3;
+const RESCHEDULE_LEAD_MS = 2 * 24 * 60 * 60 * 1000;
+
+async function handleReschedule(req, res) {
+  const token = req.query?.token;
+  if (!token || typeof token !== "string" || token.length < 16) {
+    return res.status(400).json({ error: "Invalid token" });
+  }
+
+  const { data: viewing, error: fetchErr } = await supabase
+    .from("property_viewings")
+    .select(
+      "id, status, slot_start, slot_end, prospect_name, prospect_email, prospect_phone, gcal_event_id, source, reschedule_count, property_id, properties(name, code, address), rooms(name, unit_code)"
+    )
+    .eq("cancel_token", token)
+    .maybeSingle();
+  if (fetchErr) {
+    console.error("[booking/reschedule] fetch error:", fetchErr);
+    return res.status(500).json({ error: "Lookup failed" });
+  }
+  if (!viewing) return res.status(404).json({ error: "Viewing not found" });
+
+  const moves = viewing.reschedule_count || 0;
+  const isPast = new Date(viewing.slot_start).getTime() < Date.now();
+  const canMove =
+    viewing.status !== "cancelled" && !isPast && moves < MAX_RESCHEDULES;
+
+  if (req.method === "GET") {
+    return res.status(200).json({
+      viewing: {
+        id: viewing.id,
+        status: viewing.status,
+        slot_start: viewing.slot_start,
+        slot_end: viewing.slot_end,
+        prospect_name: viewing.prospect_name,
+        property_name: viewing.properties?.name || null,
+        property_code: viewing.properties?.code || null,
+        room_name: viewing.rooms?.name || viewing.rooms?.unit_code || null,
+      },
+      can_reschedule: canMove,
+      can_cancel: viewing.status !== "cancelled" && !isPast,
+      reschedules_used: moves,
+      reschedules_allowed: MAX_RESCHEDULES,
+    });
+  }
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+
+  if (viewing.status === "cancelled") {
+    return res.status(409).json({ error: "This viewing was cancelled. Book a new one." });
+  }
+  if (isPast) {
+    return res.status(409).json({ error: "This viewing has already happened." });
+  }
+  if (moves >= MAX_RESCHEDULES) {
+    return res.status(409).json({
+      error: "This viewing has been moved a few times already. Message us and we will sort it out.",
+    });
+  }
+
+  const slotStart = String(req.body?.slot_start || "");
+  const startMs = new Date(slotStart).getTime();
+  if (!slotStart || Number.isNaN(startMs)) {
+    return res.status(400).json({ error: "slot_start required" });
+  }
+  /* Same two days of notice a new booking needs. A captain cannot be summoned
+     tomorrow morning because a form allowed it. */
+  if (startMs < Date.now() + RESCHEDULE_LEAD_MS) {
+    return res.status(400).json({ error: "Please pick a slot at least two days from now." });
+  }
+
+  const durationMs =
+    new Date(viewing.slot_end).getTime() - new Date(viewing.slot_start).getTime() || 30 * 60 * 1000;
+  const slotEnd = new Date(startMs + durationMs).toISOString();
+
+  const { error: updErr } = await supabase
+    .from("property_viewings")
+    .update({
+      slot_start: new Date(startMs).toISOString(),
+      slot_end: slotEnd,
+      reschedule_count: moves + 1,
+      rescheduled_at: new Date().toISOString(),
+      /* Clear the day-before flag or the moved viewing never gets its reminder:
+         the sweep only looks at rows where this is null, so a viewing that was
+         already reminded and then pushed a week would go quiet. */
+      reminder_24h_sent_at: null,
+    })
+    .eq("id", viewing.id);
+  if (updErr) {
+    console.error("[booking/reschedule] update error:", updErr);
+    return res.status(500).json({ error: "Reschedule failed" });
+  }
+
+  /* The calendar entry moves by being replaced. googleCalendar exposes create
+     and cancel and no patch, and these two are the pair the booking and cancel
+     paths already exercise daily. A failure here must not fail the reschedule:
+     the database is the record, the calendar is a convenience. */
+  let newEventId = viewing.gcal_event_id;
+  try {
+    if (viewing.gcal_event_id) await cancelEvent(viewing.gcal_event_id);
+    const created = await createEvent({
+      summary: `Lazybee viewing, ${viewing.properties?.name || "property"}`,
+      description: `${viewing.prospect_name || "Prospect"}\n${viewing.prospect_email || ""} ${viewing.prospect_phone || ""}`.trim(),
+      start: new Date(startMs).toISOString(),
+      end: slotEnd,
+    });
+    if (created?.id) {
+      newEventId = created.id;
+      await supabase.from("property_viewings").update({ gcal_event_id: created.id }).eq("id", viewing.id);
+    }
+  } catch (err) {
+    console.error("[booking/reschedule] gcal move non-fatal:", err);
+  }
+
+  /* The old time goes with it. "Your viewing is confirmed" with no reference to
+     what it used to be reads like a second booking, not a change. */
+  Promise.allSettled([
+    fireNotify("viewing-rescheduled", viewing.id, { previous_start: viewing.slot_start }),
+  ]).catch(() => {});
+
+  return res.status(200).json({
+    success: true,
+    slot_start: new Date(startMs).toISOString(),
+    slot_end: slotEnd,
+    reschedules_used: moves + 1,
+    reschedules_allowed: MAX_RESCHEDULES,
+    gcal_event_id: newEventId,
+  });
+}
+
 async function handleAuthLogin(req, res) {
   if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
   if (!(await isAdmin(req))) {
@@ -1220,6 +1364,8 @@ export default async function handler(req, res) {
         return await handleCreate(req, res);
       case "cancel":
         return await handleCancel(req, res);
+      case "reschedule":
+        return await handleReschedule(req, res);
       // A vercel.json rewrite sends /api/owners/lead here, but a rewrite does not
       // change req.url, so the /api/booking/ strip above leaves the original path
       // intact and the route arrives as "api/owners/lead". Both spellings resolve,

@@ -32,6 +32,7 @@ import {
   tplAdminNotify,
   tplReminder24h,
   tplCancelled,
+  tplRescheduled,
   tplOffHorizonReminder,
 } from "../_shared/viewingEmails.js";
 
@@ -190,7 +191,10 @@ async function legacyCaptainNotify(viewing: any) {
 }
 
 // ── Dispatcher ────────────────────────────────────────────────────────
-async function dispatch(event: string, ids: { viewing_id?: string; lead_id?: string }) {
+async function dispatch(
+  event: string,
+  ids: { viewing_id?: string; lead_id?: string; previous_start?: string | null }
+) {
   // Lead-targeted events branch first
   if (event === "lead-off-horizon-reminder") {
     if (!ids.lead_id) throw new Error("lead_id required");
@@ -249,6 +253,24 @@ async function dispatch(event: string, ids: { viewing_id?: string; lead_id?: str
         .eq("id", viewing.id);
       return { sent: true, to: viewing.prospect_email, cc: ADMIN_EMAIL };
     }
+    case "viewing-rescheduled": {
+      const previousStart = ids.previous_start ?? null;
+      const out: Record<string, unknown> = {};
+      if (viewing.prospect_email) {
+        const t = tplRescheduled({ viewing, captain, cancelUrl, previousStart, recipientType: "prospect" });
+        await sendEmail({ to: viewing.prospect_email, subject: t.subject, html: t.html, attachments: t.attachments });
+        out.prospect = viewing.prospect_email;
+      }
+      if (captain.email) {
+        const t = tplRescheduled({ viewing, captain, cancelUrl, previousStart, recipientType: "captain" });
+        await sendEmail({ to: captain.email, subject: t.subject, html: t.html });
+        out.captain = captain.email;
+      }
+      const t = tplRescheduled({ viewing, captain, cancelUrl, previousStart, recipientType: "admin" });
+      await sendEmail({ to: ADMIN_EMAIL, subject: t.subject, html: t.html, cc: [ADMIN_CC] });
+      out.admin = ADMIN_EMAIL;
+      return { sent: true, ...out };
+    }
     case "viewing-cancelled": {
       const out: Record<string, unknown> = {};
       if (viewing.prospect_email) {
@@ -277,6 +299,7 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const event = body?.event as string | undefined;
     const viewing_id = body?.viewing_id as string | undefined;
+    const previous_start = (body?.previous_start as string | null | undefined) ?? null;
     const lead_id = body?.lead_id as string | undefined;
 
     if (!viewing_id && !lead_id) {
@@ -299,7 +322,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const result = await dispatch(event, { viewing_id, lead_id });
+    const result = await dispatch(event, { viewing_id, lead_id, previous_start });
     return new Response(JSON.stringify(result), {
       status: 200,
       headers: { "Content-Type": "application/json" },
