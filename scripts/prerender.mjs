@@ -318,6 +318,43 @@ const rss =
   '\n</channel>\n</rss>\n';
 writeFileSync(join(DIST, 'feed.xml'), rss);
 
+/* A per-language index of the archive, for the other Lazybee surfaces to read.
+   book.lazybee.sg shows three articles above its footer and used to carry its own
+   hardcoded copies of them, written before this archive existed. They were never
+   updated, and all three pointed at slugs that were never published, so every card
+   on that page led to the generic home page.
+
+   Built from ALL_ROUTE_META like the sitemap and the feed, so it cannot name an
+   article the site does not render. Grouped by language rather than filtered to
+   English like feed.xml above, because the consumer has to show a reader the
+   language they are already reading in. Unlike the feed this includes the hidden
+   languages: it is not a public feed, it is a list for our own surfaces, and a
+   Burmese reader arriving on one is the entire point of those translations. */
+const articlesByLang = {};
+for (const r of PRERENDER_ROUTES) {
+  const meta = ALL_ROUTE_META[r];
+  if (meta?.ogType !== 'article') continue;
+  const article = (meta.schema() || []).find((s) => s['@type'] === 'Article') || {};
+  const lang = meta.lang || 'en';
+  (articlesByLang[lang] ||= []).push({
+    path: r,
+    url: `${BASE_URL}${r}`,
+    lang,
+    title: article.headline || meta.title,
+    excerpt: meta.description || '',
+    date: article.datePublished || meta.lastmod || today,
+    tags: String(article.keywords || '').split(',').map((t) => t.trim()).filter(Boolean),
+  });
+}
+for (const list of Object.values(articlesByLang)) {
+  list.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+}
+mkdirSync(join(DIST, 'hive'), { recursive: true });
+writeFileSync(
+  join(DIST, 'hive', 'articles.json'),
+  `${JSON.stringify({ generated: today, base: BASE_URL, languages: articlesByLang }, null, 2)}\n`,
+);
+
 const pad = (s, n) => String(s).padEnd(n);
 console.log('\nprerender');
 console.log(`  ${pad('route', 20)}${pad('words', 8)}${pad('h1', 4)}${pad('links', 7)}${pad('json-ld', 9)}canonical`);
@@ -333,7 +370,12 @@ for (const r of PRERENDER_ROUTES) {
 }
 const langSummary = Object.entries(byLang).map(([l, n]) => `${l}:${n}`).join(' ');
 console.log(`  dist/sitemap.xml regenerated with ${PRERENDER_ROUTES.length} urls (${langSummary})`);
-console.log(`  dist/feed.xml written with ${feedItems.length} items\n`);
+console.log(`  dist/feed.xml written with ${feedItems.length} items`);
+console.log(
+  `  dist/hive/articles.json written (${Object.entries(articlesByLang)
+    .map(([l, a]) => `${l}:${a.length}`)
+    .join(' ')})\n`,
+);
 
 if (failures.length) {
   console.error('prerender failed:\n' + failures.map((f) => `  - ${f}`).join('\n'));
