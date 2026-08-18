@@ -677,7 +677,7 @@ const $=id=>document.getElementById(id);
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const sgd=n=>'S$'+Math.round(n).toLocaleString('en-SG');
 const HOMES=window.HOMES, ROOMS=window.ROOMS;
-const HERO={CP:'photos/cp-hero.jpg',IH:'photos/ih-hero.jpg',TG:'photos/tg-hero.jpg'};
+const HERO={CP:'../public/photos/cp-hero.jpg',IH:'../public/photos/ih-hero.jpg',TG:'../public/photos/tg-hero.jpg'};
 const byHome=c=>ROOMS.filter(r=>r.home===c);
 const isLet=r=>new Date(r.next)>TODAY;
 const openNow=ROOMS.filter(r=>!isLet(r));
@@ -941,10 +941,10 @@ $('log').innerHTML=LOG.map(l=>'<div class="e"><div class="dt">'+l[0]+'</div>'+
  '<div style="text-align:right"><div class="num" style="font-size:13px">'+l[3]+'</div>'+
  '<span class="badge badge-'+l[4]+'" style="margin-top:7px">'+l[5]+'</span></div></div>').join('');
 
-const GAL=[['photos/cp/MBR.jpg','Master, move-in, 12 Jun'],['photos/cp/Common-1.jpg','Living, quarterly, 1 Jul'],
- ['photos/cp/PR3.jpg','CP-PR3, move-in, 12 Jun'],['photos/cp/PR1.jpg','CP-PR1, after repaint, 2 Jul'],
- ['photos/cp/Common-2.jpg','Kitchen, quarterly, 1 Jul'],['photos/cp/PR2.jpg','CP-PR2, quarterly, 1 Jul'],
- ['photos/cp/STD1.jpg','CP-STD1, move-in, 4 Mar'],['photos/cp/Common-3.jpg','Common, quarterly, 1 Jul']];
+const GAL=[['../public/photos/cp/MBR.jpg','Master, move-in, 12 Jun'],['../public/photos/cp/Common-1.jpg','Living, quarterly, 1 Jul'],
+ ['../public/photos/cp/PR3.jpg','CP-PR3, move-in, 12 Jun'],['../public/photos/cp/PR1.jpg','CP-PR1, after repaint, 2 Jul'],
+ ['../public/photos/cp/Common-2.jpg','Kitchen, quarterly, 1 Jul'],['../public/photos/cp/PR2.jpg','CP-PR2, quarterly, 1 Jul'],
+ ['../public/photos/cp/STD1.jpg','CP-STD1, move-in, 4 Mar'],['../public/photos/cp/Common-3.jpg','Common, quarterly, 1 Jul']];
 $('gal').innerHTML=GAL.map(g=>'<figure><img src="'+g[0]+'" alt="'+g[1]+'" loading="lazy">'+
  '<figcaption>'+g[1]+'</figcaption></figure>').join('');
 
@@ -991,11 +991,11 @@ $('homes').innerHTML=HOMES.map(h=>{
 }).join('');
 
 const POSTS=[
- ['photos/cp/Common-1.jpg','Numbers','What a Singapore condo actually earns',
+ ['../public/photos/cp/Common-1.jpg','Numbers','What a Singapore condo actually earns',
   'We took the headline rent on a three bedder in D19 and subtracted every real cost for a year. The gap between the number on the listing and the number in the bank is about a month and a half.'],
- ['photos/tg-lounge.jpg','Rules','The three month rule, in practice',
+ ['../public/photos/tg-lounge.jpg','Rules','The three month rule, in practice',
   'URA says three months minimum on a private home. Here is what that means for how you write the agreement, what happens when a tenant leaves early, and the one mistake that gets owners a letter.'],
- ['photos/ih/PR1.jpg','Operations','What breaks, and what it costs',
+ ['../public/photos/ih/PR1.jpg','Operations','What breaks, and what it costs',
   'Two years of maintenance logs across nineteen cells. Water heaters go first, aircon servicing is the only thing worth doing on a schedule, and repainting on turnover pays for itself.']];
 $('posts').innerHTML=POSTS.map(p=>'<a class="post rv" href="hive.html"><div class="im"><img src="'+p[0]+'" alt="" loading="lazy"></div>'+
  '<div class="bd"><div class="label">'+p[1]+'</div><h3>'+p[2]+'</h3><p>'+p[3]+'</p></div></a>').join('');

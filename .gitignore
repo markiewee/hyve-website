@@ -1,5 +1,10 @@
 .vercel
-node_modules/
+# No trailing slash on purpose. A trailing slash matches only a directory,
+# so `node_modules/` did not match a SYMLINK named node_modules, and one was
+# committed pointing at this repo's own absolute path. That symlink is what
+# broke the build on 18 Aug 2026, and a fresh clone on any other machine got
+# a dangling link. Without the slash both shapes are ignored.
+node_modules
 .env
 dist/
 dist-ssr/
