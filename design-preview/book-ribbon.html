@@ -423,9 +423,9 @@ const state={month:null,home:'',ensuite:false,couple:false,budget:''};
 
 /* ── hero ──────────────────────────────────────────────────────── */
 const HERO_SHOTS=[
-  {src:'photos/tg-hero.jpg',name:'Thomson Grove',area:'Upper Thomson'},
-  {src:'photos/cp-hero.jpg',name:'Chiltern Park',area:'Serangoon'},
-  {src:'photos/ih-hero.jpg',name:'Ivory Heights',area:'Jurong East'},
+  {src:'../public/photos/tg-hero.jpg',name:'Thomson Grove',area:'Upper Thomson'},
+  {src:'../public/photos/cp-hero.jpg',name:'Chiltern Park',area:'Serangoon'},
+  {src:'../public/photos/ih-hero.jpg',name:'Ivory Heights',area:'Jurong East'},
 ];
 $('shots').innerHTML=HERO_SHOTS.map((s,i)=>`<img src="${s.src}" alt="" class="${i===0?'on':''}">`).join('');
 let shotI=0;
@@ -603,7 +603,7 @@ $('incl').innerHTML=INCL.map(([t,d])=>
    <p style="margin-top:11px;font-size:15.5px;line-height:1.68;color:var(--muted)">${d}</p></div>`).join('');
 
 /* ── homes ─────────────────────────────────────────────────────── */
-const HERO_BY_CODE={CP:'photos/cp-hero.jpg',IH:'photos/ih-hero.jpg',TG:'photos/tg-hero.jpg'};
+const HERO_BY_CODE={CP:'../public/photos/cp-hero.jpg',IH:'../public/photos/ih-hero.jpg',TG:'../public/photos/tg-hero.jpg'};
 $('homeGrid').innerHTML=HOMES.map(h=>{
   const rs=ROOMS.filter(r=>r.home===h.code);
   const lo=Math.min(...rs.map(r=>r.price)), hi=Math.max(...rs.map(r=>r.price));

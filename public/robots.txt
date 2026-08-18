@@ -4,75 +4,97 @@
 # them is the point: they are the search surface we care about, and none of them
 # are blocked below.
 #
-# The only closed door is /portal/, which is the authenticated tenant, captain,
-# landlord and admin area. There is nothing behind it a crawler can reach anyway,
-# and the pages it would see are served a noindex shell.
+# Two closed doors. /portal/ is the authenticated tenant, captain, landlord and
+# admin area. There is nothing behind it a crawler can reach anyway, and the
+# pages it would see are served a noindex shell.
+#
+# /pitchv1/ is an investor deck that nothing on the site links to and that is not
+# in the sitemap, so it was only ever reachable by someone who had the URL. It
+# was nonetheless open to every crawler listed below, including the AI ones we
+# deliberately invite. The link still resolves for anyone we sent it to; it just
+# stops being something a search engine can hand to a stranger.
 
 User-agent: *
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 # Search
 User-agent: Googlebot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: Bingbot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 # AI training and AI answer crawlers, allowed deliberately
 User-agent: GPTBot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: OAI-SearchBot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: ChatGPT-User
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: ClaudeBot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: Claude-Web
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: anthropic-ai
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: PerplexityBot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: Perplexity-User
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: Google-Extended
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: Applebot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: Applebot-Extended
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: Amazonbot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: meta-externalagent
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 # Crawlers that feed model training corpora and AI answer engines. Named
 # explicitly even though the wildcard block above already allows them, because several
@@ -82,58 +104,72 @@ Disallow: /portal/
 User-agent: CCBot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: Bytespider
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: Meta-ExternalFetcher
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: FacebookBot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: cohere-ai
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: cohere-training-data-crawler
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: MistralAI-User
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: DuckAssistBot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: YouBot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: AI2Bot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: Diffbot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: omgilibot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: Timpibot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: PetalBot
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 # Chinese search engine crawlers. The site serves mainland readers directly
 # (custom domain is not GFW-blocked; verified 18 Aug 2026 from 269 probe nodes
@@ -145,21 +181,26 @@ Disallow: /portal/
 User-agent: Baiduspider
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: Sogou web spider
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: YisouSpider
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: 360Spider
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 User-agent: SemrushBot-OCOB
 Allow: /
 Disallow: /portal/
+Disallow: /pitchv1/
 
 Sitemap: https://www.lazybee.sg/sitemap.xml

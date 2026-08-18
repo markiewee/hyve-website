@@ -342,7 +342,7 @@ function firstFreeIdx(r){for(let i=0;i<MONTHS.length;i++) if(openFrom(r)<=MONTHS
 const state={month:'',home:'',budget:'',ensuite:false,couple:false};
 
 /* ── hero carousel ─────────────────────────────────────────────── */
-const HERO={CP:'photos/cp-hero.jpg',IH:'photos/ih-hero.jpg',TG:'photos/tg-hero.jpg'};
+const HERO={CP:'../public/photos/cp-hero.jpg',IH:'../public/photos/ih-hero.jpg',TG:'../public/photos/tg-hero.jpg'};
 const AREA={CP:'Serangoon',IH:'Jurong East',TG:'Upper Thomson'};
 const ORDER=['TG','CP','IH'];
 const SLIDES=ORDER.filter(c=>HOMES.some(h=>h.code===c)).map(c=>{
