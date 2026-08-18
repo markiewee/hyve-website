@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './components/HomePage';
 import FAQsPage from './components/FAQsPage';
+import ReviewsPage from './components/ReviewsPage';
 import DevelopersPage from './components/DevelopersPage';
 import ContactPage from './components/ContactPage';
 import PrivacyPolicy from './components/PrivacyPolicy';
@@ -136,6 +137,10 @@ function AppContent() {
           <Route path="/hive/:slug" element={<HiveArticlePage lang="en" />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faqs" element={<FAQsPage />} />
+          {/* Unlisted. Linked from nowhere on this site, indexable, in the
+              sitemap once there is a real quote to show. */}
+          <Route path="/reviews" element={<ReviewsPage lang="en" />} />
+          <Route path="/zh/reviews" element={<ReviewsPage lang="zh" />} />
           <Route path="/developers" element={<DevelopersPage />} />
           <Route path="/about" element={<Navigate to="/" replace />} />
           <Route path="/residents" element={<Navigate to="/" replace />} />

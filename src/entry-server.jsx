@@ -31,6 +31,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './components/HomePage';
 import FAQsPage from './components/FAQsPage';
+import ReviewsPage from './components/ReviewsPage';
 import DevelopersPage from './components/DevelopersPage';
 import ContactPage from './components/ContactPage';
 import PrivacyPolicy from './components/PrivacyPolicy';
@@ -45,6 +46,12 @@ export { ROUTE_META, ALL_ROUTE_META, PRERENDER_ROUTES, canonicalFor, BASE_URL, S
 const STATIC_PAGES = {
   '/': HomePage,
   '/faqs': FAQsPage,
+  /* Unlisted, indexable. Only reached by the prerender when
+     src/data/testimonials.js has a quote in it, but registered
+     unconditionally: a page that exists in the router and not here fails the
+     build with "no page registered", which is how this one was caught. */
+  '/reviews': ReviewsPage,
+  '/zh/reviews': ReviewsPage,
   '/developers': DevelopersPage,
   '/contact': ContactPage,
   '/privacy-policy': PrivacyPolicy,
@@ -84,6 +91,8 @@ export function render(url) {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/faqs" element={<FAQsPage />} />
+              <Route path="/reviews" element={<ReviewsPage lang="en" />} />
+              <Route path="/zh/reviews" element={<ReviewsPage lang="zh" />} />
               <Route path="/developers" element={<DevelopersPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
