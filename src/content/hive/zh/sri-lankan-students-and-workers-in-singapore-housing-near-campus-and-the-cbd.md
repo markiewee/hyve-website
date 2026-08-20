@@ -67,10 +67,10 @@ Lazybee在新加坡运营三栋房子，每一栋都对应上表中略有不同�
 
 - **三个月是新加坡任何私人租赁的法定最短租期**，无论是组屋（HDB）、私人公寓还是有地住宅皆然。任何营运商，包括共居营运商，都不能合法地提供更短的租期。
 - **许可协议（licence agreement）适用于合住房屋中的一个房间，租赁合约（tenancy agreement）适用于整个单位。**付押金之前，先弄清楚自己签的是哪一种。
-- **确认你的准证类型符合营运商或房东的要求。**学生准证、家属准证（DP）或工作准证，各自需要略有不同的证件要求。我们的[就业准证、S 准证或学生准证租房指南](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)对此有完整说明。
+- **确认你的准证类型符合营运商或房东的要求。**学生准证、家属准证（DP）或工作准证，各自需要略有不同的证件要求。我们的[就业准证、S 准证或学生准证租房指南](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)对此有完整说明。
 - **让租期与你实际的课程或合约期限相匹配**，而不是房东默认提供的12个月。
-- **地图上看起来较短的地铁车程，实际通勤时间不一定更短。**我们的[按前往中央商务区通勤时间挑选住处指南](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore)详细说明如何在预订前测试房源的实际通勤时间，我们的[新加坡国立大学与南洋理工大学学生住宿指南](https://lazybee.sg/blog/bukit-timah-clementi-student-housing)则更深入地介绍校园那一侧的情况。
-- **要为每月的总花费做预算，而不只是租金。**我们的[2026年租房预算细目](https://lazybee.sg/blog/cost-of-renting-singapore-2026-budget)展示了把水电费和网络费都算进去之后，切合实际的每月总支出。
+- **地图上看起来较短的地铁车程，实际通勤时间不一定更短。**我们的[按前往中央商务区通勤时间挑选住处指南](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)详细说明如何在预订前测试房源的实际通勤时间，我们的[新加坡国立大学与南洋理工大学学生住宿指南](https://www.lazybee.sg/hive/zh/bukit-timah-clementi-student-housing)则更深入地介绍校园那一侧的情况。
+- **要为每月的总花费做预算，而不只是租金。**我们的[2026年租房预算细目](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget)展示了把水电费和网络费都算进去之后，切合实际的每月总支出。
 
 ![中峇鲁楼群之间的树荫步道](/sketches/loc-neighbourhood__tiong-bahru__walkway-trees.jpg)
 

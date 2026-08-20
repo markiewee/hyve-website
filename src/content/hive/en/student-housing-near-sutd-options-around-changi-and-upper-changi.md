@@ -68,7 +68,7 @@ We'd rather say that plainly than oversell a commute that doesn't hold up. If yo
 
 Where a Lazybee house can still make sense: if you're a graduate student who's mostly working remotely and only on campus a couple of days a week, if your course load is light enough that the odd long commute isn't a daily grind, or if you're weighing SUTD against other priorities like community, price, or a longer-term base in Singapore beyond just this degree.
 
-For a fuller sense of what living further from a specific workplace or campus but closer to a different kind of neighbourhood actually trades off, our [east coast vs city fringe comparison](https://lazybee.sg/blog/east-coast-vs-city-fringe-singapore) walks through that trade-off in more general terms, and the same logic applies to picking a house relative to any single fixed point like a campus. Our [guide to all three Lazybee houses](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) has the full detail on each one if that trade-off works for you.
+For a fuller sense of what living further from a specific workplace or campus but closer to a different kind of neighbourhood actually trades off, our [east coast vs city fringe comparison](https://www.lazybee.sg/hive/east-coast-vs-city-fringe-singapore) walks through that trade-off in more general terms, and the same logic applies to picking a house relative to any single fixed point like a campus. Our [guide to all three Lazybee houses](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) has the full detail on each one if that trade-off works for you.
 
 ## A Connection Worth Watching
 
@@ -79,7 +79,7 @@ The Thomson-East Coast Line's fifth stage, adding Bedok South and Sungei Bedok s
 
 ## Booking Safely, Whichever Area You Choose
 
-Wherever you end up renting near SUTD, the same basics protect you. No private lease in Singapore can run under three months, co-living included. Match your lease length to your Student Pass validity rather than a landlord's default 12-month term, since a pass usually renews yearly with your enrolment ([our guide to renting on a Student Pass](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers this). And if you're booking before you land, insist on a video walkthrough and never send a deposit before a signed agreement, a pattern covered in our [guide to viewing a room remotely](https://lazybee.sg/blog/viewing-a-room-remotely-singapore).
+Wherever you end up renting near SUTD, the same basics protect you. No private lease in Singapore can run under three months, co-living included. Match your lease length to your Student Pass validity rather than a landlord's default 12-month term, since a pass usually renews yearly with your enrolment ([our guide to renting on a Student Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers this). And if you're booking before you land, insist on a video walkthrough and never send a deposit before a signed agreement, a pattern covered in our [guide to viewing a room remotely](https://www.lazybee.sg/hive/viewing-a-room-remotely-singapore).
 
 ## Frequently Asked Questions
 

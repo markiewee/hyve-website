@@ -44,7 +44,7 @@ heroAlt: 午后光线下的滨海湾全景
 
 这是 2027 年 1 月 1 日预定上调之前的现行水平。除了薪资底线，大多数申请人还必须通过 COMPASS，一个涵盖薪资、学历、员工国籍多元度、本地招聘支持，以及在相关情况下紧缺技能加分的计分框架。六项标准合计至少要拿到 40 分。月薪 S$22,500 或以上的申请人，或者受聘期不超过一个月的申请人，可完全豁免 COMPASS。
 
-简单说：创意总监、艺术总监或制片人申请就业准证（EP），走的是和任何其他一般行业岗位一样的薪资和计分测试。没有让它更容易的特别通道，也没有让它更难的。至于准证批下来之后租房的具体流程，可参考我们的指南：[在新加坡以就业准证（EP）、S 准证或学生准证租房](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)。
+简单说：创意总监、艺术总监或制片人申请就业准证（EP），走的是和任何其他一般行业岗位一样的薪资和计分测试。没有让它更容易的特别通道，也没有让它更难的。至于准证批下来之后租房的具体流程，可参考我们的指南：[在新加坡以就业准证（EP）、S 准证或学生准证租房](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)。
 
 ![一支钢笔搁在一叠文件上](/sketches/object__paperwork__fountain-pen-documents.jpg)
 
@@ -88,7 +88,7 @@ heroAlt: 午后光线下的滨海湾全景
 
 Lazybee 在新加坡经营三处共居房子：实龙岗的 Chiltern Park、裕廊东的 Ivory Heights，以及伦多附近的 Thomson Grove。三处都不在 one-north 或 CBD 里面，所以如果你的工作固定在 Mediapolis 或 CBD 的广告公司，请像对待任何一份工作那样把通勤算进去。共居解决的是租约结构：一间私人房间、全包式定价，以及一份不逼你在签字前就猜出自己十二个月后收入的承诺期。
 
-想更完整了解各区实际租金水平，可参考我们的[新加坡各区共居费用指南](https://lazybee.sg/blog/coliving-cost-by-district-singapore)。如果你是在新加坡开启或重启职业生涯的人，正在更广泛地比较共居和其他住宿选择，我们为[三十多岁转行来新加坡的人写的住宿指南](https://lazybee.sg/blog/career-switchers-in-their-30s-moving-to-singapore-a-housing-guide)从另一个角度涵盖了很多相同的内容。想更近距离了解 Lazybee 这三处房子本身，可以读[Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)。
+想更完整了解各区实际租金水平，可参考我们的[新加坡各区共居费用指南](https://www.lazybee.sg/blog/coliving-cost-by-district-singapore)。如果你是在新加坡开启或重启职业生涯的人，正在更广泛地比较共居和其他住宿选择，我们为[三十多岁转行来新加坡的人写的住宿指南](https://www.lazybee.sg/blog/career-switchers-in-their-30s-moving-to-singapore-a-housing-guide)从另一个角度涵盖了很多相同的内容。想更近距离了解 Lazybee 这三处房子本身，可以读[Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)。
 
 ![开放式办公室里空着的工位和椅子](/sketches/interior-work__office__desks-chairs-empty.jpg)
 

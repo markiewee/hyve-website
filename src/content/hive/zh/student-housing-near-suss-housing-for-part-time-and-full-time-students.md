@@ -55,13 +55,13 @@ SUSS不像新加坡国立大学（NUS）或南洋理工大学（NTU）那样设�
 - **配备家具的房间，且已包含WiFi和水电网费**，因为大多数全日制学生并不适合为一两年的居住添置家具、之后又要处理掉。
 - **一个在考试季和课业压力下也真正住得下去的居住环境**，而不是功能上说不清楚、租金也不好谈的地方。
 
-我们的[按通勤时间选住处指南](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore)讲解了如何用真实的上课时间表来测试实际通勤，而不是单凭地图猜测；如果你一开始就在权衡申请宿舍还是直接租房，也值得读一读我们的[大一新生：宿舍与共居对比指南](https://lazybee.sg/blog/first-year-university-housing-halls-vs-co-living-in-singapore)。
+我们的[按通勤时间选住处指南](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)讲解了如何用真实的上课时间表来测试实际通勤，而不是单凭地图猜测；如果你一开始就在权衡申请宿舍还是直接租房，也值得读一读我们的[大一新生：宿舍与共居对比指南](https://www.lazybee.sg/hive/zh/first-year-university-housing-halls-vs-co-living-in-singapore)。
 
 ![南洋理工大学学习中心，校园里最具标志性的叠层建筑](/sketches/loc-campus__ntu__learning-hub-landmark.jpg)
 
 ## 非全日制在职SUSS学生该注意什么
 
-如果你是SUSS的非全日制学生，白天全职工作，晚上或周末上课，你面对的考量完全不同，值得单独详细说明，而不是在这里简单带过。我们在[新加坡在职人士非全日制进修住房指南](https://lazybee.sg/blog/mature-students-working-full-time-and-studying-part-time-housing-in-singapore)中做了详细说明，讲解了为什么多年期租约、在职人士居住环境，以及一个能同时兼顾办公室和教室的通勤，比单纯靠近某一个校区更重要。如果这正是你的情况，建议阅读那篇指南了解全貌。
+如果你是SUSS的非全日制学生，白天全职工作，晚上或周末上课，你面对的考量完全不同，值得单独详细说明，而不是在这里简单带过。我们在[新加坡在职人士非全日制进修住房指南](https://www.lazybee.sg/hive/zh/mature-students-working-full-time-and-studying-part-time-housing-in-singapore)中做了详细说明，讲解了为什么多年期租约、在职人士居住环境，以及一个能同时兼顾办公室和教室的通勤，比单纯靠近某一个校区更重要。如果这正是你的情况，建议阅读那篇指南了解全貌。
 
 ![一名学生坐在书桌前，背着背包，手里拿着手机](/sketches/people-student__student-portrait__backpack-desk-phone.jpg)
 
@@ -69,7 +69,7 @@ SUSS不像新加坡国立大学（NUS）或南洋理工大学（NTU）那样设�
 
 Lazybee在新加坡运营三栋共居屋：实龙岗的Chiltern Park、裕廊东的Ivory Heights，以及靠近Lentor、蔡厝港路附近的Thomson Grove。每一栋都位于成熟地铁线上，住户也都是在职专业人士与学生混合，而非纯本科生群体，这对两类SUSS学生各有不同的适配之处。位于裕廊东的Ivory Heights更靠近岛屿西侧、也就是金文泰校区所在的方向，对权衡通勤的全日制学生比较实用；而对于真正限制条件是工作地点、而非单一校门的非全日制学生来说，三栋房子都适用。
 
-每间房都配备家具，WiFi和水电网费都包含在租金里，租期条款直接公布在房源上，而不是逐间房间谈。这通常比自己去找私人房东更适合SUSS学生的情况，不论限制条件是学期时间表，还是一边全职工作一边修读的多年期非全日制课程。我们的[三栋房子完整指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)逐间房间做了介绍。
+每间房都配备家具，WiFi和水电网费都包含在租金里，租期条款直接公布在房源上，而不是逐间房间谈。这通常比自己去找私人房东更适合SUSS学生的情况，不论限制条件是学期时间表，还是一边全职工作一边修读的多年期非全日制课程。我们的[三栋房子完整指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)逐间房间做了介绍。
 
 ## 几个常见问题
 
@@ -83,7 +83,7 @@ Lazybee在新加坡运营三栋共居屋：实龙岗的Chiltern Park、裕廊东
 不，早已不是这样了。SUSS最初是一所专注于非全日制、面向在职人士的院校，但自2014年起已在非全日制课程之外同时招收全日制本科生，如今两类学生都在校园里。
 
 **全日制和非全日制SUSS学生应该住同一类地方吗？**
-不一定。全日制学生主要优化的是校区通勤距离和适合学生的居住环境，而全职工作的非全日制学生优化的是一个能同时兼顾工作和上课的通勤，再加上更长、更稳定的租期。关于第二种情况，请参见我们专门针对[在职人士非全日制进修的住房指南](https://lazybee.sg/blog/mature-students-working-full-time-and-studying-part-time-housing-in-singapore)。
+不一定。全日制学生主要优化的是校区通勤距离和适合学生的居住环境，而全职工作的非全日制学生优化的是一个能同时兼顾工作和上课的通勤，再加上更长、更稳定的租期。关于第二种情况，请参见我们专门针对[在职人士非全日制进修的住房指南](https://www.lazybee.sg/hive/zh/mature-students-working-full-time-and-studying-part-time-housing-in-singapore)。
 
 **共居适合SUSS学生吗？**
 对两类学生通常都适用，因为配备家具、租期条款公开透明的房间，省去了找房东、买家具这些行政事务，而这些正是初次租房者或忙碌的在职人士通常没时间处理的。

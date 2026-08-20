@@ -87,6 +87,6 @@ Ivory Heights এবং Chiltern Park দুটোই MRT ইন্টারচ�
 
 ## পরবর্তী ধাপ
 
-এই তিনটির মধ্যে যদি একটি সঠিক মনে হয়, পরবর্তী পদক্ষেপ হলো [lazybee.sg](https://lazybee.sg)-র মাধ্যমে একটি ভিউয়িং বুক করা, যাতে সরাসরি রুম এবং বাড়ি দেখা যায়। আগে বাজেট তুলনা করতে চান? আমাদের [সিঙ্গাপুরে 2026 সালে ভাড়ার খরচ](https://lazybee.sg/blog/cost-of-renting-singapore-2026-budget) সম্পর্কিত গাইডটি এর সঙ্গে পড়ার জন্য একটি উপযোগী সঙ্গী।
+এই তিনটির মধ্যে যদি একটি সঠিক মনে হয়, পরবর্তী পদক্ষেপ হলো [lazybee.sg](https://lazybee.sg)-র মাধ্যমে একটি ভিউয়িং বুক করা, যাতে সরাসরি রুম এবং বাড়ি দেখা যায়। আগে বাজেট তুলনা করতে চান? আমাদের [সিঙ্গাপুরে 2026 সালে ভাড়ার খরচ](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget) সম্পর্কিত গাইডটি এর সঙ্গে পড়ার জন্য একটি উপযোগী সঙ্গী।
 
 সূত্র: [URA, Short-Term Accommodation guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/); [URA, Renting Property guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/)।

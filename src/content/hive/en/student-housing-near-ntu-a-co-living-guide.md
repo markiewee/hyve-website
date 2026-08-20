@@ -47,7 +47,7 @@ If you're living off campus, this internal shuttle only matters once you've alre
 
 **Jurong East.** One MRT stop further in on the East-West Line, then a change to the Pioneer shuttle or the 179/199 service. Realistic door-to-door time runs longer, often 30 to 40 minutes depending on the connection, since it adds a transfer on top of the ride ([Rome2Rio](https://www.rome2rio.com/s/Jurong-East-MRT-Station/Nanyang-Technological-University)). It's a genuine tradeoff, not a shortcut, but Jurong East is also a major MRT interchange (North-South and East-West Lines meet there), which matters if you're travelling into town regularly for internships, part-time work, or just a change of scenery from campus life.
 
-For a broader look at how commute time and rent trade off against each other across Singapore generally, our [guide to choosing where to live by commute time](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore) covers the underlying logic, most of which applies here too, just anchored to Pioneer or Boon Lay instead of the CBD.
+For a broader look at how commute time and rent trade off against each other across Singapore generally, our [guide to choosing where to live by commute time](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) covers the underlying logic, most of which applies here too, just anchored to Pioneer or Boon Lay instead of the CBD.
 
 
 ![A train pulling into an MRT platform](/sketches/loc-transit__mrt-platform__train-arriving.jpg)
@@ -86,7 +86,7 @@ If you're weighing the actual cost difference between staying in halls and renti
 
 Lazybee runs a co-living house at Ivory Heights in Jurong East, a short walk from the MRT interchange and a direct ride from Pioneer and Boon Lay on the East-West Line. It's a genuinely relevant base for NTU students who want the bigger town centre, easier access into the city, and a furnished room with utilities and wifi already sorted, without needing to arrange any of that separately after landing.
 
-For a full look at Lazybee's three houses across Singapore, including what's nearby and what a room actually includes, see our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide). Current room availability is always on [lazybee.sg](https://lazybee.sg), since that's the only place the numbers stay current.
+For a full look at Lazybee's three houses across Singapore, including what's nearby and what a room actually includes, see our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide). Current room availability is always on [lazybee.sg](https://lazybee.sg), since that's the only place the numbers stay current.
 
 ## Frequently Asked Questions
 

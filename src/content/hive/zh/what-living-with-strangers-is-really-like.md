@@ -96,7 +96,7 @@ heroAlt: 组屋楼与树木，下方是开敞的底层空间
 | 是独立卫浴还是共享卫浴，共用的人数是多少？ | 这是共居生活里最重要的一个决定 |
 | 入住前能不能先看房间和公共区域？ | 亲自看或视频看都行。一个干脆的「可以」，才是你想要的答案 |
 
-在签约前，把这些问题都问清楚，比看房源照片更能说明真实的日常生活是什么样子。关于不同营运商在这方面的比较，[我们的对比文章](https://lazybee.sg/blog/coliving-operators-singapore-compared)有更深入的分析，另外，在决定入住任何地方之前，也值得先了解一下[新加坡合租房实际的法规要求](https://lazybee.sg/blog/is-coliving-legal-in-singapore)。
+在签约前，把这些问题都问清楚，比看房源照片更能说明真实的日常生活是什么样子。关于不同营运商在这方面的比较，[我们的对比文章](https://www.lazybee.sg/hive/zh/coliving-operators-singapore-compared)有更深入的分析，另外，在决定入住任何地方之前，也值得先了解一下[新加坡合租房实际的法规要求](https://www.lazybee.sg/hive/zh/is-coliving-legal-in-singapore)。
 
 ![Chiltern Park 的公共区域，餐桌紧挨着沙发](/sketches/interior__lazybee-cp__dining-sofa-common.jpg)
 

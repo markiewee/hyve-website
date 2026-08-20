@@ -32,7 +32,7 @@ heroAlt: 新加坡国立大学校园里穿过树林的人行天桥
 
 ## 丹戎巴葛距离新加坡国立大学、南洋理工大学、新加坡管理大学有多远？
 
-丹戎巴葛本身就位于中央商务区（CBD）的边缘，往返中央商务区及其周边的一般通勤情况，我们已在[按通勤时间选择住处的中央商务区指南](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore)中介绍过，因此本节只聚焦本篇指南真正需要的具体距离：丹戎巴葛距离各个校园有多远。
+丹戎巴葛本身就位于中央商务区（CBD）的边缘，往返中央商务区及其周边的一般通勤情况，我们已在[按通勤时间选择住处的中央商务区指南](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)中介绍过，因此本节只聚焦本篇指南真正需要的具体距离：丹戎巴葛距离各个校园有多远。
 
 **到新加坡管理大学**，丹戎巴葛距离很近。搭乘地铁前往新加坡管理大学，在政府大厦换乘，约需 12 分钟，从丹戎巴葛出口 C 搭乘 SBS Transit 直达巴士，所需时间也差不多（[Rome2Rio](https://www.rome2rio.com/s/Tanjong-Pagar-MRT-Station/Singapore-Management-University)）。由于新加坡管理大学的校园就在市中心，这是三所大学中通勤时间最短的，而且差距明显。
 
@@ -64,13 +64,13 @@ Lazybee 在新加坡各处运营三处共居房源，每一处前往丹戎巴葛
 | Thomson Grove，靠近伦多 | 汤申-东海岸线到麦士威站，再步行约 500 米（约 6 分钟）到丹戎巴葛地铁站与餐厅聚集地 | 三者中最后一段步行距离最短 | 便于晚间前往厦门街 |
 | Chiltern Park，实龙岗 | 东北线前往欧南园站，再转乘东西线一站 | 换乘一次，25 至 30 分钟 | 实龙岗有两条线路，路线选择更灵活 |
 
-关于这三处房源、房型配置与周边社区的完整介绍，请参阅我们的[Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)。
+关于这三处房源、房型配置与周边社区的完整介绍，请参阅我们的[Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)。
 
 ## 根据校园选择合适的房源
 
 如果南洋理工大学是你的首选，Ivory Heights 显然是最佳选择：它位于同一条东西线上，既通往先驱站、文礼站，也通往丹戎巴葛，因此校园与社区都无需换乘即可到达，尤其是前往丹戎巴葛这一段。
 
-如果新加坡国立大学或新加坡管理大学是你的首选，并且想更均衡地权衡通勤与前往丹戎巴葛的便利度，那么 Thomson Grove 前往麦士威站的最后一段步行距离最短，使其最靠近韩国人聚集区本身；而 Chiltern Park 从实龙岗出发拥有环线与东北线双线路，如果你的每日通勤安排会随学期变化，路线选择会更灵活。新加坡国立大学和新加坡管理大学都不与这三处房源中的任何一处位于同一条线上，因此在这两种情况下，你权衡的都是真实的取舍，而不是找到一处能同时满足所有需求的房源。如果你想把这些路线与岛上其他区域做比较，我们的[中央商务区通勤指南](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore)会是更合适的参考。
+如果新加坡国立大学或新加坡管理大学是你的首选，并且想更均衡地权衡通勤与前往丹戎巴葛的便利度，那么 Thomson Grove 前往麦士威站的最后一段步行距离最短，使其最靠近韩国人聚集区本身；而 Chiltern Park 从实龙岗出发拥有环线与东北线双线路，如果你的每日通勤安排会随学期变化，路线选择会更灵活。新加坡国立大学和新加坡管理大学都不与这三处房源中的任何一处位于同一条线上，因此在这两种情况下，你权衡的都是真实的取舍，而不是找到一处能同时满足所有需求的房源。如果你想把这些路线与岛上其他区域做比较，我们的[中央商务区通勤指南](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)会是更合适的参考。
 
 ![中峇鲁楼群之间的树荫步道](/sketches/loc-neighbourhood__tiong-bahru__walkway-trees.jpg)
 
@@ -80,11 +80,11 @@ Lazybee 在新加坡各处运营三处共居房源，每一处前往丹戎巴葛
 
 **一间已经准备就绪的房间。** 从韩国带着有限的行李、在本地又没有人脉的情况下搬家，和本地人搬家完全不同。一间已配备家具、包含无线网络与水电的房间，能在你还没搞清楚最近的韩国超市在哪里之前，就先去掉入住第一周的一个真实压力来源。
 
-**先核实房源，再做决定。** 无论是通过中介、房源网站，还是类似微信的群聊，从海外未经查看就预订，在任何地方都有相同的风险：价格低得不合理、还没看房就要求交押金、或者房源图片是从真实房产照片盗用的。如果无法亲自看房，一定要坚持要求视频看房，并在汇款前，在房地产代理理事会（Council for Estate Agencies）网站上核实中介的注册信息。我们关于[远程看房](https://lazybee.sg/blog/viewing-a-room-remotely-singapore)的指南对此有更详细的说明。
+**先核实房源，再做决定。** 无论是通过中介、房源网站，还是类似微信的群聊，从海外未经查看就预订，在任何地方都有相同的风险：价格低得不合理、还没看房就要求交押金、或者房源图片是从真实房产照片盗用的。如果无法亲自看房，一定要坚持要求视频看房，并在汇款前，在房地产代理理事会（Council for Estate Agencies）网站上核实中介的注册信息。我们关于[远程看房](https://www.lazybee.sg/hive/zh/viewing-a-room-remotely-singapore)的指南对此有更详细的说明。
 
 ## 让租期与学生准证相匹配
 
-新加坡的私人租赁市场有一条硬性底线：租期不得低于三个月，这一规则适用于所有出租方，共居也不例外。超过这条底线之后，租期长度应与你的学生准证有效期匹配，而不是房东默认的 12 个月租期，因为学生准证通常会随你的学籍一起每年续签。我们关于[持学生准证、就业准证、S 准证租房](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)的指南对此有详细说明。
+新加坡的私人租赁市场有一条硬性底线：租期不得低于三个月，这一规则适用于所有出租方，共居也不例外。超过这条底线之后，租期长度应与你的学生准证有效期匹配，而不是房东默认的 12 个月租期，因为学生准证通常会随你的学籍一起每年续签。我们关于[持学生准证、就业准证、S 准证租房](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)的指南对此有详细说明。
 
 ![地铁站大堂里的售票机](/sketches/loc-transit__mrt-concourse__ticket-machines.jpg)
 

@@ -17,7 +17,7 @@ heroAlt: 俯瞰新加坡的屋顶
 
 新加坡理工学院（SP）的主校园沿多佛路而建，位于新加坡岛西南部，第5邮区。多佛地铁站（EW22）就在校园旁边，近到大多数学生可以直接从月台步行到教室。这也让新加坡理工学院与新加坡国立大学的肯特岗（Kent Ridge）校园处于同一条东西地铁线走廊上，往波那维斯达和一新（one-north）方向只隔一站。
 
-由于两所校园共享同一条走廊，适用于新加坡国立大学住宿的大部分内容，在这里同样适用。如果你想在同一片区域内比较更多选择，可以参考我们的[武吉知马与金文泰学生住宿指南](https://lazybee.sg/blog/bukit-timah-clementi-student-housing)，其中更详细地介绍了这一带的11个区域。
+由于两所校园共享同一条走廊，适用于新加坡国立大学住宿的大部分内容，在这里同样适用。如果你想在同一片区域内比较更多选择，可以参考我们的[武吉知马与金文泰学生住宿指南](https://www.lazybee.sg/hive/zh/bukit-timah-clementi-student-housing)，其中更详细地介绍了这一带的11个区域。
 
 ## 新加坡的理工学院不像大学那样设有宿舍系统
 
@@ -51,7 +51,7 @@ heroAlt: 俯瞰新加坡的屋顶
 
 新加坡大多数理工学院学生是在完成O水准会考后直接升学的，这通常意味着他们开始修读文凭课程时大约是17到19岁，平均年龄比经过初级学院或更长升学路径、刚入学的新加坡国立大学或南洋理工大学本科生要小。在开始找房之前，了解这个年龄差是有必要的，因为它会影响谁能在合约上签字。
 
-在新加坡，大多数合约（包括标准的房间租赁合约）的法定签约年龄是18岁，而不是21岁。18或19岁的理工学院学生可以以自己的名义签署共居或租赁合约，没有问题。我们的[新加坡21岁以下租房指南](https://lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires)对此有完整说明，包括唯一真正的例外情况（长期土地租约），但这不适用于普通的房间租赁。
+在新加坡，大多数合约（包括标准的房间租赁合约）的法定签约年龄是18岁，而不是21岁。18或19岁的理工学院学生可以以自己的名义签署共居或租赁合约，没有问题。我们的[新加坡21岁以下租房指南](https://www.lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires)对此有完整说明，包括唯一真正的例外情况（长期土地租约），但这不适用于普通的房间租赁。
 
 | 签约时的年龄 | 谁来签字 |
 |---|---|
@@ -78,7 +78,7 @@ heroAlt: 俯瞰新加坡的屋顶
 
 ## Lazybee适合放在哪里
 
-Lazybee在新加坡运营三处共居公寓，其中与新加坡理工学院衔接最好的是位于裕廊东（Jurong East）的Ivory Heights。它就在东西地铁线上，与多佛站是同一条线，前往校园无需换乘。位于实龙岗（Serangoon）的Chiltern Park和靠近莲多（Lentor）的Thomson Grove距离更远，前往多佛至少需要换乘一次，但如果你想在全岛范围内比较更多选择，这两处依然是可行的方案。三处公寓的完整详情，包括周边环境和房型配置，请见我们的[Chiltern Park、Ivory Heights与Thomson Grove指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)。
+Lazybee在新加坡运营三处共居公寓，其中与新加坡理工学院衔接最好的是位于裕廊东（Jurong East）的Ivory Heights。它就在东西地铁线上，与多佛站是同一条线，前往校园无需换乘。位于实龙岗（Serangoon）的Chiltern Park和靠近莲多（Lentor）的Thomson Grove距离更远，前往多佛至少需要换乘一次，但如果你想在全岛范围内比较更多选择，这两处依然是可行的方案。三处公寓的完整详情，包括周边环境和房型配置，请见我们的[Chiltern Park、Ivory Heights与Thomson Grove指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)。
 
 每间房间都配备家具，水电和网络费用已包含在内，如果你正准备开始第一门文凭课程，不想在迎新周同时还要张罗床垫和路由器，这一点会很有帮助。最新的空房情况和条款，始终以[lazybee.sg](https://lazybee.sg)上的信息为准，而不是本指南这类固定内容。
 
@@ -94,7 +94,7 @@ Lazybee在新加坡运营三处共居公寓，其中与新加坡理工学院衔�
 多佛本身距离最近，金文泰和波那维斯达距离一站地铁，购物选择更多，住房类型也更丰富。联邦、女皇镇和西海岸距离更远，总体上也更实惠。
 
 **18岁的理工学院学生可以独自签署租赁合约吗？**
-可以。新加坡对三年以下标准房间租赁合约的法定签约年龄是18岁，而不是21岁。完整的法律说明请见我们的[21岁以下租房指南](https://lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires)。
+可以。新加坡对三年以下标准房间租赁合约的法定签约年龄是18岁，而不是21岁。完整的法律说明请见我们的[21岁以下租房指南](https://www.lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires)。
 
 **仍是17岁的学生该怎么办？**
 未满18岁者不具备完全的独立签约能力，因此通常由父母或法定监护人作为合约的签署方或联合签署人。具体流程请直接向相关营运商确认。

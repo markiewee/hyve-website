@@ -54,7 +54,7 @@ Lazybee 在新加坡经营三间共居房子，选哪一间，取决于你每天
 
 **如果你是到中央商务区或金融区上班**，Thomson Grove 沿汤申东海岸线直达滨海湾，是三间里单线路程最短的选择，Ivory Heights 走东西线进莱佛士坊也不落后多少。**如果你的校园是南洋理工大学**，Ivory Heights 与它同在一条线上，不用转车。**如果你的校园是新加坡管理大学**，因为它在市中心，三间房子都需要花一点时间通勤，但 Thomson Grove 那条直通市区的线让它略占优势。
 
-三间房子的完整细节、房间配置和社区特色，都在我们的[Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)里。
+三间房子的完整细节、房间配置和社区特色，都在我们的[Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)里。
 
 ## 通勤之外还要看什么
 
@@ -62,11 +62,11 @@ Lazybee 在新加坡经营三间共居房子，选哪一间，取决于你每天
 
 **一间已经布置好的房间。** 无论你是拖着一个行李箱来念大学，还是为了一份已经定好入职日期的工作搬过来，一间附家具、包含无线网络和水电的房间，能在你还没实际摸清通勤路线之前，就先省掉第一周一整类的杂务。
 
-**先核实房源再付钱。** 从香港未看房就下订，风险和从任何地方下订一样：价格低得不合理、看房前就要求先付押金，或是从真实物业上抄来的房源。如果你无法亲自看房，一定要坚持要求视频看房，并在汇钱之前，到房地产代理理事会（Council for Estate Agencies）网站查核中介的注册资格。我们关于[远程看房](https://lazybee.sg/blog/viewing-a-room-remotely-singapore)的指南对这点有更深入的说明。
+**先核实房源再付钱。** 从香港未看房就下订，风险和从任何地方下订一样：价格低得不合理、看房前就要求先付押金，或是从真实物业上抄来的房源。如果你无法亲自看房，一定要坚持要求视频看房，并在汇钱之前，到房地产代理理事会（Council for Estate Agencies）网站查核中介的注册资格。我们关于[远程看房](https://www.lazybee.sg/hive/zh/viewing-a-room-remotely-singapore)的指南对这点有更深入的说明。
 
 ## 让租期配合你的准证
 
-新加坡的私人住宅物业不得出租少于三个月，这个下限适用于所有营运商，共居也包括在内。超过这个下限之后，租期长度应该配合你的学生准证或就业准证 (EP) 的有效期，而不是默认签一份标准的 12 个月合约，因为这两类准证的续期时间，通常都跟你的在学状态或雇佣合约挂钩。我们关于[持就业准证 (EP)、S 准证或学生准证租房](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)的指南对此有更详细的说明。
+新加坡的私人住宅物业不得出租少于三个月，这个下限适用于所有营运商，共居也包括在内。超过这个下限之后，租期长度应该配合你的学生准证或就业准证 (EP) 的有效期，而不是默认签一份标准的 12 个月合约，因为这两类准证的续期时间，通常都跟你的在学状态或雇佣合约挂钩。我们关于[持就业准证 (EP)、S 准证或学生准证租房](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)的指南对此有更详细的说明。
 
 ![南洋理工大学学习中心，校园里最具标志性的叠层建筑](/sketches/loc-campus__ntu__learning-hub-landmark.jpg)
 

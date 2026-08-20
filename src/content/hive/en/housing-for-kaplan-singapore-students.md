@@ -52,7 +52,7 @@ Signing a room for a full year when your foundation diploma wraps in eight month
 
 Degrees are awarded by partner universities including Aston, Birmingham City, Monash, Murdoch, Northumbria, University College Dublin and Portsmouth, not by Kaplan itself.
 
-If you're arranging a room from overseas before you've even landed, our guide to [renting in Singapore from overseas](https://lazybee.sg/blog/renting-singapore-from-overseas) covers what you can realistically sort out before arrival and what has to wait until you're on the ground. And if you're here on a Student's Pass specifically, [renting on a Student's Pass versus an EP or S Pass](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through what landlords typically ask for.
+If you're arranging a room from overseas before you've even landed, our guide to [renting in Singapore from overseas](https://www.lazybee.sg/hive/renting-singapore-from-overseas) covers what you can realistically sort out before arrival and what has to wait until you're on the ground. And if you're here on a Student's Pass specifically, [renting on a Student's Pass versus an EP or S Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through what landlords typically ask for.
 
 
 ![A tree lined overpass on the NUS Kent Ridge campus](/sketches/loc-campus__nus-kent-ridge__overpass-trees.jpg)
@@ -97,7 +97,7 @@ Serangoon is a good example of how that trade-off plays out well. It's a proper 
 
 Lazybee runs a co-living house at Chiltern Park in Serangoon, close to Lorong Chuan MRT on the Circle Line, the same line that runs directly through Bras Basah, a short walk from Kaplan's Odeon 333 campus. Rooms come furnished with utilities and wifi included, which matters if you're arriving in Singapore for the first time without a local bank account or a way to set up your own internet connection on day one.
 
-For a full look at Lazybee's three houses across Singapore, including Chiltern Park's neighbourhood and what a room actually includes, see our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide). Current room availability and lease terms are always live on [lazybee.sg](https://lazybee.sg), since that's the only place the numbers stay accurate.
+For a full look at Lazybee's three houses across Singapore, including Chiltern Park's neighbourhood and what a room actually includes, see our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide). Current room availability and lease terms are always live on [lazybee.sg](https://lazybee.sg), since that's the only place the numbers stay accurate.
 
 ## Frequently Asked Questions
 

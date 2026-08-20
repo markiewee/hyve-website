@@ -63,14 +63,14 @@ This is a starting map, not an exhaustive one. The real test for any specific ro
 
 ## How to Judge Any Room by Its Actual Commute to SMU
 
-Rather than re-deriving commute math here, the mechanics are covered properly in our guide on [working out commute time by MRT](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore): how to add walking and waiting time on both ends, why a direct line beats a shorter-looking route with a transfer, and a checklist to run against any listing before you commit. The same logic applies to a campus commute as it does to an office commute. Swap "CBD" for "Bras Basah" and the method holds.
+Rather than re-deriving commute math here, the mechanics are covered properly in our guide on [working out commute time by MRT](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore): how to add walking and waiting time on both ends, why a direct line beats a shorter-looking route with a transfer, and a checklist to run against any listing before you commit. The same logic applies to a campus commute as it does to an office commute. Swap "CBD" for "Bras Basah" and the method holds.
 
 
 ![A train pulling into an MRT platform](/sketches/loc-transit__mrt-platform__train-arriving.jpg)
 
 ## Picking a Line Before Picking a Neighbourhood
 
-If rent is the bigger constraint than location, it's worth searching by MRT line rather than by neighbourhood name, since a line's rent tends to drop the further it runs from the centre while the ride itself stays direct. Our piece on [which MRT lines run cheapest](https://lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore) breaks down how rent tracks the rail map station by station. For an SMU student, the version of that question is simply: which stations on the Circle Line or Downtown Line get you to Bras Basah or Bencoolen without a change, and how far out does the rent actually start to drop.
+If rent is the bigger constraint than location, it's worth searching by MRT line rather than by neighbourhood name, since a line's rent tends to drop the further it runs from the centre while the ride itself stays direct. Our piece on [which MRT lines run cheapest](https://www.lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore) breaks down how rent tracks the rail map station by station. For an SMU student, the version of that question is simply: which stations on the Circle Line or Downtown Line get you to Bras Basah or Bencoolen without a change, and how far out does the rent actually start to drop.
 
 ## Mistakes to Avoid When Choosing Housing Near SMU
 
@@ -84,7 +84,7 @@ If rent is the bigger constraint than location, it's worth searching by MRT line
 
 Lazybee runs co-living rooms across three houses in Singapore, including Chiltern Park, which sits near Lorong Chuan, a station directly on the Circle Line, the same line that runs beneath SMU at Bras Basah. For a student who wants a shorter, direct ride to the City Campus without paying Central Area rent, that's a genuinely useful position on the map, not just a nearby dot.
 
-Rooms come furnished, bills and wifi are included, and leases are built around the length of a semester or a course rather than the standard two-year tenancy that most private rentals expect, which matters if you're only in Singapore for part of your degree. Current availability across all three houses is listed on [lazybee.sg](https://lazybee.sg), and our [guide to Chiltern Park, Ivory Heights and Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) covers what each house is actually like to live in.
+Rooms come furnished, bills and wifi are included, and leases are built around the length of a semester or a course rather than the standard two-year tenancy that most private rentals expect, which matters if you're only in Singapore for part of your degree. Current availability across all three houses is listed on [lazybee.sg](https://lazybee.sg), and our [guide to Chiltern Park, Ivory Heights and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) covers what each house is actually like to live in.
 
 
 ![Ticket machines in an MRT station concourse](/sketches/loc-transit__mrt-concourse__ticket-machines.jpg)

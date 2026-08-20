@@ -91,6 +91,6 @@ Yes. Since the three houses differ in room mix and neighbourhood, viewing more t
 
 ## Next step
 
-If one of these three feels like the right fit, the next move is booking a viewing through [lazybee.sg](https://lazybee.sg) to see the actual room and house in person. Comparing budgets first? Our guide to the [cost of renting in Singapore in 2026](https://lazybee.sg/blog/cost-of-renting-singapore-2026-budget) is a useful companion read alongside this one.
+If one of these three feels like the right fit, the next move is booking a viewing through [lazybee.sg](https://lazybee.sg) to see the actual room and house in person. Comparing budgets first? Our guide to the [cost of renting in Singapore in 2026](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget) is a useful companion read alongside this one.
 
 Sources: [URA, Short-Term Accommodation guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/); [URA, Renting Property guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/).

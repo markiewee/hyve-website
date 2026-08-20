@@ -46,7 +46,7 @@ heroAlt: 组屋楼与树木，下方是开敞的底层空间
 5. **你自己的人脉网络。** 同事、校友群和共享办公空间，往往在房间对外公开发布之前就已经知道消息。
 6. **本地 Facebook 和社区租房群组。** 核实速度较慢，骗局风险也更高，但确实会出现真实房源，尤其是租期中途空出的房间。
 
-如果你想更全面地了解共居相比服务式公寓或酒店，除了速度之外还有哪些差别，[我们的对比文章](https://lazybee.sg/blog/coliving-vs-serviced-apartment-vs-hotel-singapore)深入讨论了成本和适配度。
+如果你想更全面地了解共居相比服务式公寓或酒店，除了速度之外还有哪些差别，[我们的对比文章](https://www.lazybee.sg/blog/coliving-vs-serviced-apartment-vs-hotel-singapore)深入讨论了成本和适配度。
 
 ![合租客厅里围成一圈的沙发](/sketches/interior__coliving-living-room__sofas.jpg)
 

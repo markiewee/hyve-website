@@ -60,7 +60,7 @@ Polytechnic students in Singapore are typically 17 to 19 years old, since most e
 
 Polytechnic students here are typically 17 to 19, since most enrol straight after O-Levels, which puts this age range right at the edge of the rule.
 
-For where the confusion around "21" actually comes from, see our guide to [under-21 renting in Singapore](https://lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires).
+For where the confusion around "21" actually comes from, see our guide to [under-21 renting in Singapore](https://www.lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires).
 
 
 ![Escalators running down into an MRT station](/sketches/loc-transit__mrt-station__escalators.jpg)
@@ -90,7 +90,7 @@ Tampines West MRT (DT31) on the Downtown Line is closest, an easy walk from camp
 No. Lazybee's three houses, Chiltern Park (Serangoon), Ivory Heights (Jurong East), and Thomson Grove (near Lentor), are all in the central or northern parts of Singapore, roughly 50 to 75 minutes from TP by public transport. For a short daily commute to campus, housing directly in Tampines or Bedok Reservoir is the better fit.
 
 **Can a Temasek Polytechnic student rent a room on their own?**
-If you're 18 or older, yes, you can sign a standard room licence yourself. If you're 17, a parent or guardian typically needs to be the named party or co-signatory. See our full guide to [under-21 renting in Singapore](https://lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires) for the detail.
+If you're 18 or older, yes, you can sign a standard room licence yourself. If you're 17, a parent or guardian typically needs to be the named party or co-signatory. See our full guide to [under-21 renting in Singapore](https://www.lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires) for the detail.
 
 **What kind of housing is available near TP?**
 Mostly shared rooms in HDB flats across Tampines and Bedok Reservoir, plus condo rooms at a premium in the newer developments nearby. Dedicated co-living options are limited this far east.

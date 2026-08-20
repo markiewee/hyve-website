@@ -12,7 +12,7 @@ heroAlt: Ticket machines in an MRT station concourse, illustrating housing for s
 
 If you're starting at a Singapore school and assuming a hall or hostel room will just turn up, stop and check your school's actual policy first. Most schools here don't guarantee housing at all. NUS guarantees nothing, at any year. NTU guarantees a place only for your first two years, then you're competing on points. SMU runs a few hundred beds against more than 12,000 students, which functions as no guarantee in practice. Private institutions and polytechnics mostly don't offer on-campus housing in the first place. The safe assumption, almost everywhere, is that you'll need to arrange your own room.
 
-This piece is the broad map across every type of institution. If you want the detailed NUS/NTU balloting mechanics and odds, we've covered that separately in our [NUS/NTU halls guide](https://lazybee.sg/blog/getting-into-nus-or-ntu-halls-what-happens-if-you-dont). If SMU is your school specifically, our [SMU no-halls piece](https://lazybee.sg/blog/smus-no-halls-policy-where-smu-students-actually-live) goes deep on where SMU students actually end up living.
+This piece is the broad map across every type of institution. If you want the detailed NUS/NTU balloting mechanics and odds, we've covered that separately in our [NUS/NTU halls guide](https://www.lazybee.sg/hive/getting-into-nus-or-ntu-halls-what-happens-if-you-dont). If SMU is your school specifically, our [SMU no-halls piece](https://www.lazybee.sg/hive/smus-no-halls-policy-where-smu-students-actually-live) goes deep on where SMU students actually end up living.
 
 ## Why Singapore Is Different From "Guaranteed First-Year Housing" Countries
 
@@ -28,9 +28,9 @@ Don't import a "housing will be sorted" assumption from another country's system
 
 **NTU** guarantees a hall place for your first two years, tied to your year of admission, a genuine guarantee rather than a priority ranking. That ends after year two. From year three, NTU runs a points-based system built on the CCA and hall involvement you racked up the year before, so a quiet first two years leaves you thin on points exactly when the guarantee runs out.
 
-Full mechanics, points tiers, and realistic odds for both schools are in our [NUS/NTU halls guide](https://lazybee.sg/blog/getting-into-nus-or-ntu-halls-what-happens-if-you-dont).
+Full mechanics, points tiers, and realistic odds for both schools are in our [NUS/NTU halls guide](https://www.lazybee.sg/hive/getting-into-nus-or-ntu-halls-what-happens-if-you-dont).
 
-**SMU** doesn't run a hall system in any meaningful sense. Its main residence, Prinsep Street Residences, houses up to 250 students, prioritised for postgraduate research students first. Add SMU's leased beds in a few partner buildings and total capacity still sits around 400 to 500 beds against a student population of more than 12,000 ([SMU statistical highlights, Sep 2025](https://www.smu.edu.sg/sites/default/files/smu/statistical_highlights_20250915.pdf)), not a fallback most students can plan around. Full detail on where SMU students actually live is in our [SMU housing guide](https://lazybee.sg/blog/smus-no-halls-policy-where-smu-students-actually-live).
+**SMU** doesn't run a hall system in any meaningful sense. Its main residence, Prinsep Street Residences, houses up to 250 students, prioritised for postgraduate research students first. Add SMU's leased beds in a few partner buildings and total capacity still sits around 400 to 500 beds against a student population of more than 12,000 ([SMU statistical highlights, Sep 2025](https://www.smu.edu.sg/sites/default/files/smu/statistical_highlights_20250915.pdf)), not a fallback most students can plan around. Full detail on where SMU students actually live is in our [SMU housing guide](https://www.lazybee.sg/hive/smus-no-halls-policy-where-smu-students-actually-live).
 
 | Institution | Guarantee | How places are actually allocated |
 |---|---|---|
@@ -72,7 +72,7 @@ Whatever school you're at, the fix is the same: plan on the assumption that a gu
 
 **4 to 6 weeks out**, most halls, residences, and points-based systems have published or are close to publishing results. If you know by then you're not getting a place, that's still workable timing for a furnished room, though your choice of area narrows.
 
-**Inside the final two weeks**, you're in short-notice territory. Still solvable, but the margin for a bad decision under pressure goes up. If you're in that window now, our [short-notice housing guide](https://lazybee.sg/blog/short-notice-housing-for-students-who-failed-to-secure-halls) walks through the mistakes students make when rushing and a checklist to avoid them.
+**Inside the final two weeks**, you're in short-notice territory. Still solvable, but the margin for a bad decision under pressure goes up. If you're in that window now, our [short-notice housing guide](https://www.lazybee.sg/hive/short-notice-housing-for-students-who-failed-to-secure-halls) walks through the mistakes students make when rushing and a checklist to avoid them.
 
 | Time before term | Where you stand | What to do |
 |---|---|---|
@@ -109,7 +109,7 @@ Generally not for the general student body. Most local polytechnic students comm
 It varies and generally isn't guaranteed. Some, like MDIS, run a genuinely large residence, but even there places are limited per intake. Others offer little or no institutional housing. Ask admissions directly and get the answer in writing.
 
 **How early should I start looking for off-campus housing if I'm not counting on a hall place?**
-Roughly 8 to 12 weeks before term starts gives real choice. If you're inside the final two weeks, it's still solvable but requires moving fast, which our [short-notice housing guide](https://lazybee.sg/blog/short-notice-housing-for-students-who-failed-to-secure-halls) covers in detail.
+Roughly 8 to 12 weeks before term starts gives real choice. If you're inside the final two weeks, it's still solvable but requires moving fast, which our [short-notice housing guide](https://www.lazybee.sg/hive/short-notice-housing-for-students-who-failed-to-secure-halls) covers in detail.
 
 **Is co-living cheaper or more expensive than a university hall?**
 It depends, but co-living is usually priced closer to the open rental market than to a subsidised hall rate, so budget accordingly. What co-living offers instead is certainty: a specific room, shown as available right now, rather than a result you're waiting on.

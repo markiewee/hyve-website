@@ -46,7 +46,7 @@ In practice, that shows up in what people actually prioritise on a room search:
 - **Undergrads** more often optimise hard for price first, then commute to campus, and are willing to trade privacy (shared rooms, more housemates) to hit a lower number.
 - **Master's students** more often have room in the budget to prioritise a private room over a shared one, a shorter commute to the CBD as well as campus (since a chunk of master's cohorts work part-time or network actively during the programme), and move-in speed over squeezing out the cheapest possible rate.
 
-None of that is a rule. Plenty of master's students are on a tight scholarship stipend and every dollar counts, in which case our guide on [housing for PhD students on a stipend budget](https://lazybee.sg/blog/housing-for-phd-students-in-singapore-on-a-stipend-budget) covers a lot of the same budgeting logic, even though it's written for the PhD case. But if you're coming in with savings from a few years of work, it's worth being deliberate about what you're actually paying for rather than defaulting to the cheapest room on the market out of undergrad habit.
+None of that is a rule. Plenty of master's students are on a tight scholarship stipend and every dollar counts, in which case our guide on [housing for PhD students on a stipend budget](https://www.lazybee.sg/hive/housing-for-phd-students-in-singapore-on-a-stipend-budget) covers a lot of the same budgeting logic, even though it's written for the PhD case. But if you're coming in with savings from a few years of work, it's worth being deliberate about what you're actually paying for rather than defaulting to the cheapest room on the market out of undergrad habit.
 
 
 ![The NTU Learning Hub, the university's landmark stacked building](/sketches/loc-campus__ntu__learning-hub-landmark.jpg)
@@ -67,7 +67,7 @@ None of that is a rule. Plenty of master's students are on a tight scholarship s
 
 ## Where Should You Actually Live?
 
-This still comes down to which campus you're at, same as for undergrads. Our guide on [where Chinese students live near NUS, NTU and SMU](https://lazybee.sg/blog/chinese-students-in-singapore-where-to-live-near-nus-ntu-and-smu) breaks down the actual commute geography for all three campuses, and it applies just as well to a master's student as an undergrad, since the MRT lines don't care what degree you're doing. If NUS is your campus, the [Bukit Timah and Clementi corridor guide](https://lazybee.sg/blog/bukit-timah-clementi-student-housing) covers the belt most students end up in.
+This still comes down to which campus you're at, same as for undergrads. Our guide on [where Chinese students live near NUS, NTU and SMU](https://www.lazybee.sg/hive/chinese-students-in-singapore-where-to-live-near-nus-ntu-and-smu) breaks down the actual commute geography for all three campuses, and it applies just as well to a master's student as an undergrad, since the MRT lines don't care what degree you're doing. If NUS is your campus, the [Bukit Timah and Clementi corridor guide](https://www.lazybee.sg/hive/bukit-timah-clementi-student-housing) covers the belt most students end up in.
 
 The one thing worth weighing differently as a master's student: since your commute pattern might include internships, part-time work, or networking events in the CBD alongside classes, it's worth checking commute time to both, not just to campus, before you commit to a room.
 

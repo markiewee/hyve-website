@@ -94,6 +94,6 @@ Chiltern Park 和 Thomson Grove 大致相当，都在 30 到 35 分钟区间，�
 
 ## 下一步
 
-如果 Chiltern Park 或 Thomson Grove 的通勤时间符合你的作息，下一步就是通过 [lazybee.sg](https://lazybee.sg) 预约看房，亲自看看实际的房间和这个家。想更完整地把三间房子放在一起比较，可以看我们的 [Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)，里面除了通勤，还写了房型组合和社区特色。
+如果 Chiltern Park 或 Thomson Grove 的通勤时间符合你的作息，下一步就是通过 [lazybee.sg](https://lazybee.sg) 预约看房，亲自看看实际的房间和这个家。想更完整地把三间房子放在一起比较，可以看我们的 [Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)，里面除了通勤，还写了房型组合和社区特色。
 
 资料来源：[市区重建局（URA），短期住宿指南](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/)；[市区重建局（URA），房屋出租指南](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/)。

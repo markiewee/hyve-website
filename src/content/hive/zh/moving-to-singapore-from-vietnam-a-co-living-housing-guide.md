@@ -22,13 +22,13 @@ heroAlt: 如切区的土生华人店屋立面
 - **工作准证**：适用于其他获批准的工作行业，须符合来源国及配额规定。
 - **学生准证**：适用于入读新加坡认可院校，包括新加坡国立大学、南洋理工大学、新加坡管理大学及各理工学院。
 
-这些数字会随人力部政策调整，做规划前请先到人力部官网确认最新数据。至于各准证对租房具体意味着什么，我们的[就业准证、S 准证与学生准证租房对比指南](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)已有详细说明，这里不再重复。
+这些数字会随人力部政策调整，做规划前请先到人力部官网确认最新数据。至于各准证对租房具体意味着什么，我们的[就业准证、S 准证与学生准证租房对比指南](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)已有详细说明，这里不再重复。
 
 ## 越南公民入境新加坡需要签证吗？
 
 短期访问不需要。根据两国之间的标准安排，持越南护照者可享最多 30 天的新加坡免签入境。这足以应付求职面试、看房行程，或是实地了解各个区域。
 
-但这不能替代工作准证或学生准证。免签入境章无法让你签署居住租约，任何正规营运商都不会让你这么做。我们的文章[海外人士如何在新加坡租房](https://lazybee.sg/blog/renting-singapore-from-overseas)详细说明了准证签发前你能锁定什么、不能锁定什么，[外国人可以在新加坡租房吗](https://lazybee.sg/blog/can-foreigners-rent-in-singapore)则说明了准证签发后，任何正规营运商会核查哪些文件。
+但这不能替代工作准证或学生准证。免签入境章无法让你签署居住租约，任何正规营运商都不会让你这么做。我们的文章[海外人士如何在新加坡租房](https://www.lazybee.sg/hive/zh/renting-singapore-from-overseas)详细说明了准证签发前你能锁定什么、不能锁定什么，[外国人可以在新加坡租房吗](https://www.lazybee.sg/blog/can-foreigners-rent-in-singapore)则说明了准证签发后，任何正规营运商会核查哪些文件。
 
 ![移民与关卡局大楼，新加坡各类准证在此签发](/sketches/loc-civic__ica-building__government-exterior.jpg)
 
@@ -46,13 +46,13 @@ heroAlt: 如切区的土生华人店屋立面
 | 日常开销（食材、交通等） | 单人每月 S$500-900，依生活方式而异 |
 | 开设银行账户 | 通常免费，最低初始存款依银行而定，介于 S$0-1,000 |
 
-至于租金之外还有哪些额外开支，我们的[2026 年新加坡租房真实成本指南](https://lazybee.sg/blog/cost-of-renting-singapore-2026-budget)和[第一个月搬家费用指南](https://lazybee.sg/blog/first-month-moving-costs-singapore)有逐项说明。这里不列出固定房价，因为价格会随实时房源变动。目前的房间及完整月租数字，可在[lazybee.sg](https://lazybee.sg)查看。
+至于租金之外还有哪些额外开支，我们的[2026 年新加坡租房真实成本指南](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget)和[第一个月搬家费用指南](https://www.lazybee.sg/blog/first-month-moving-costs-singapore)有逐项说明。这里不列出固定房价，因为价格会随实时房源变动。目前的房间及完整月租数字，可在[lazybee.sg](https://lazybee.sg)查看。
 
 ## 越南外派人士和学生通常住在哪里？
 
 新加坡并没有单一的「越南人聚居区」，但如切（Joo Chiat）算是最接近的枢纽地带。如切路沿线有像 Viet Valuemart 这样的越南杂货店，Long Phung 和 Pho 99 等餐厅也吸引了一批想家的常客。
 
-不过，大多数越南专业人士和学生最终还是根据通勤到公司或校园的便利程度来选房，而不是看住处离杂货店有多近。Lazybee 的三处房源分别位于 Chiltern Park（实龙岗，靠近两条地铁线）、Ivory Heights（靠近裕廊东转乘站）和 Thomson Grove（靠近 Lentor），如果你在权衡通勤和社区氛围，这三处能提供不错的选择范围。我们的[Chiltern Park、Ivory Heights、Thomson Grove 指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)对每一处都有更详细的介绍。
+不过，大多数越南专业人士和学生最终还是根据通勤到公司或校园的便利程度来选房，而不是看住处离杂货店有多近。Lazybee 的三处房源分别位于 Chiltern Park（实龙岗，靠近两条地铁线）、Ivory Heights（靠近裕廊东转乘站）和 Thomson Grove（靠近 Lentor），如果你在权衡通勤和社区氛围，这三处能提供不错的选择范围。我们的[Chiltern Park、Ivory Heights、Thomson Grove 指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)对每一处都有更详细的介绍。
 
 ![一支钢笔搁在一叠文件上](/sketches/object__paperwork__fountain-pen-documents.jpg)
 
@@ -71,8 +71,8 @@ heroAlt: 如切区的土生华人店屋立面
 1. **开设银行账户。** 星展银行（DBS）、华侨银行（OCBC）和大华银行（UOB）都接受持就业准证和 S 准证者开户，须出示准证正本、护照及新加坡地址证明。星展和大华通常需要亲临分行办理，华侨银行则可部分线上开户。最低初始存款从 S$0（DBS Multiplier）到约 S$1,000（OCBC 360、UOB One）不等。
 2. **办一张本地 SIM 卡。** 新加坡号码能加快银行开户和租房文书的办理速度。
 3. **确认你在越南的税务身份。** 根据越南与新加坡的双重征税协定，非税务居民在新加坡赚取的薪资不会在越南被重复征税。如果你仍是越南税务居民，越南会对全球收入征税，但会抵免已在新加坡缴纳的税款。具体情况请咨询税务顾问确认，不要自行假设。
-4. **处理租约印花税**（如适用），税率固定、截止日期也固定。我们的[房间租赁印花税指南](https://lazybee.sg/blog/stamp-duty-room-rental-singapore)有最新税率和办理流程。
-5. **按顺序走完入住清单。** 我们的[新加坡搬迁清单](https://lazybee.sg/blog/relocation-checklist-singapore)把准证、银行、电话和地址登记依序整理在一起。
+4. **处理租约印花税**（如适用），税率固定、截止日期也固定。我们的[房间租赁印花税指南](https://www.lazybee.sg/hive/zh/stamp-duty-room-rental-singapore)有最新税率和办理流程。
+5. **按顺序走完入住清单。** 我们的[新加坡搬迁清单](https://www.lazybee.sg/blog/relocation-checklist-singapore)把准证、银行、电话和地址登记依序整理在一起。
 
 ## 汇款回家
 
@@ -82,7 +82,7 @@ heroAlt: 如切区的土生华人店屋立面
 
 ## 落地前先订好房间
 
-你不需要人在新加坡才能订房。Lazybee 的房源在[lazybee.sg](https://lazybee.sg)上直接显示真实空房情况和完整月租数字，等你准备好实地看房，就可以[预约看房](https://book.lazybee.sg)；如果你人还在越南，也可以安排远程看房。若要在未实地查看的情况下就下定，我们的[远程看房指南](https://lazybee.sg/blog/viewing-a-room-remotely-singapore)值得先读一读。
+你不需要人在新加坡才能订房。Lazybee 的房源在[lazybee.sg](https://lazybee.sg)上直接显示真实空房情况和完整月租数字，等你准备好实地看房，就可以[预约看房](https://book.lazybee.sg)；如果你人还在越南，也可以安排远程看房。若要在未实地查看的情况下就下定，我们的[远程看房指南](https://www.lazybee.sg/hive/zh/viewing-a-room-remotely-singapore)值得先读一读。
 
 ## 从越南搬家：常见问题解答
 

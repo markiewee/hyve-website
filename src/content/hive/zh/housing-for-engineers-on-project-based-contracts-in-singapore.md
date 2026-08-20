@@ -70,7 +70,7 @@ heroAlt: 午后光线下的滨海湾全景
 | 经常在大士工业带现场工作 | 高。它位置远在大多数住宅区的西边，并随着大士超级港口分阶段建设持续到 2027 年而扩张 |
 | 轮班工作或与承包商一早开工 | 高，不论在哪个园区。缩短通勤的意义比办公桌型职位大得多 |
 
-如果你的工作具体属于海事、船厂或港口领域，而不是一般建筑或基建，我们的[新加坡海事与航运专业人士住宿指南](https://lazybee.sg/blog/housing-for-maritime-and-shipping-professionals-in-singapore)对通勤与轮班班表的问题谈得更深入。如果你从事的是半导体或数据中心的建设与装修，请改看[半导体与数据中心行业从业者住宿指南](https://lazybee.sg/blog/housing-for-semiconductor-and-data-centre-industry-workers)，因为那一行有自己围绕兀兰和淡滨尼晶圆厂走廊等地的工地聚落逻辑。
+如果你的工作具体属于海事、船厂或港口领域，而不是一般建筑或基建，我们的[新加坡海事与航运专业人士住宿指南](https://www.lazybee.sg/hive/zh/housing-for-maritime-and-shipping-professionals-in-singapore)对通勤与轮班班表的问题谈得更深入。如果你从事的是半导体或数据中心的建设与装修，请改看[半导体与数据中心行业从业者住宿指南](https://www.lazybee.sg/hive/zh/housing-for-semiconductor-and-data-centre-industry-workers)，因为那一行有自己围绕兀兰和淡滨尼晶圆厂走廊等地的工地聚落逻辑。
 
 ![开放式办公室里空着的工位和椅子](/sketches/interior-work__office__desks-chairs-empty.jpg)
 
@@ -105,6 +105,6 @@ Lazybee 在新加坡各处经营共居房间，附家具，含无线网络和水
 只有当你日常实际的工作就发生在那些园区的现场时才需要。裕廊岛进出只靠一条堤道，也不在地铁网络上，而大士工业带位置远在大多数住宅区的西边，所以经常要在那里现场工作的职位会因为通勤较短而受益。办公室型或靠近中央商业区的项目职位不需要为此优化。
 
 **这跟给半导体或海事从业者的住宿建议不同吗？**
-不同。这份指南谈的是一般项目制工程、建筑和基建工作。芯片与数据中心建设职位，请看我们的[半导体与数据中心行业住宿指南](https://lazybee.sg/blog/housing-for-semiconductor-and-data-centre-industry-workers)。海事、船厂和港口职位，请看我们的[海事与航运专业人士住宿指南](https://lazybee.sg/blog/housing-for-maritime-and-shipping-professionals-in-singapore)。
+不同。这份指南谈的是一般项目制工程、建筑和基建工作。芯片与数据中心建设职位，请看我们的[半导体与数据中心行业住宿指南](https://www.lazybee.sg/hive/zh/housing-for-semiconductor-and-data-centre-industry-workers)。海事、船厂和港口职位，请看我们的[海事与航运专业人士住宿指南](https://www.lazybee.sg/hive/zh/housing-for-maritime-and-shipping-professionals-in-singapore)。
 
 资料来源：[国内税务局 (IRAS)，租赁房产的印花税](https://www.iras.gov.sg/taxes/stamp-duty/for-property/renting-a-property)；[国内税务局 (IRAS)，租约或租赁合约的印花税加盖](https://www.iras.gov.sg/digital-services/stamp-duty/stamping-lease-tenancy)；[人力部 (MOM)，就业准证资格](https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility)；[人力部 (MOM)，S 准证资格](https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility)。

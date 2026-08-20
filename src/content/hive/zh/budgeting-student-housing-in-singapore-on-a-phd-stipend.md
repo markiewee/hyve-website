@@ -98,6 +98,6 @@ heroAlt: 列车正驶入地铁站台
 
 上面的算式里共居不只出现一次，原因不是营销，是算术。一间全包房间，把水电、网络和清洁折进同一个固定数字，等于移除了好几项让紧绷的津贴预算难以月月守住的浮动项目。这种可预测性在固定收入上比在能吸收突发账单的薪水上更重要。
 
-Lazybee 在 [Chiltern Park、Ivory Heights 和 Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) 的房间都是这样设置的，房租是一个全包数字，而不是一个标价再加一叠独立账单。如果你想更细地衡量搬入成本和第一个月的算法，我们那篇 [新加坡首月搬家成本](https://lazybee.sg/blog/first-month-moving-costs-singapore) 逐步走过这笔缓冲的计算方式。目前的房源空房情况以及每个房源包含哪些项目，都列在 [lazybee.sg](https://lazybee.sg) 上，事先公开，方便你把真实数字直接填进上面那张表。
+Lazybee 在 [Chiltern Park、Ivory Heights 和 Thomson Grove](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide) 的房间都是这样设置的，房租是一个全包数字，而不是一个标价再加一叠独立账单。如果你想更细地衡量搬入成本和第一个月的算法，我们那篇 [新加坡首月搬家成本](https://www.lazybee.sg/blog/first-month-moving-costs-singapore) 逐步走过这笔缓冲的计算方式。目前的房源空房情况以及每个房源包含哪些项目，都列在 [lazybee.sg](https://lazybee.sg) 上，事先公开，方便你把真实数字直接填进上面那张表。
 
 资料来源：[市区重建局 (URA)，短期住宿指引](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/)；[市区重建局 (URA)，房屋出租指引](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/)；[组屋 (HDB)，出租整套组屋：相关规定](https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-a-flat/regulations)；[国内税务局 (IRAS)，租房印花税](https://www.iras.gov.sg/taxes/stamp-duty/for-property/renting-a-property)；[国内税务局 (IRAS)，租约或租赁的加盖印花](https://www.iras.gov.sg/digital-services/stamp-duty/stamping-lease-tenancy)。

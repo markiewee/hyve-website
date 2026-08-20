@@ -47,7 +47,7 @@ NYP's own course page tells prospective students they'll need "the physical stam
 
 That has two direct housing consequences. First, your commute needs to be short and reliable at an hour when buses run less frequently and you don't want to be waiting on a platform half-asleep. Second, your home needs to let you get up, eat, and leave quietly without disturbing housemates who might be asleep, or without you having to tiptoe around a shared bathroom queue at 5:45am.
 
-If you want the broader playbook for living well on an odd-hours schedule, shift-proofing your sleep, kitchen access, and household rhythm, we've written a general guide for that separately: see our piece on [housing for students on odd-hour lab or clinical schedules](https://lazybee.sg/blog/housing-for-students-on-odd-hour-lab-or-clinical-schedules). This article focuses on what's specific to nursing.
+If you want the broader playbook for living well on an odd-hours schedule, shift-proofing your sleep, kitchen access, and household rhythm, we've written a general guide for that separately: see our piece on [housing for students on odd-hour lab or clinical schedules](https://www.lazybee.sg/hive/housing-for-students-on-odd-hour-lab-or-clinical-schedules). This article focuses on what's specific to nursing.
 
 ## Why proximity to your campus doesn't solve the housing problem
 
@@ -93,7 +93,7 @@ Lazybee runs three co-living houses across Singapore, each sitting near a differ
 | Chiltern Park, Serangoon | Lorong Chuan MRT, plus the Serangoon interchange on the North East and Circle Lines | Two-line interchange access across the north and east |
 | Thomson Grove | Lentor MRT on the Thomson-East Coast Line, with Yio Chu Kang on the North-South Line also reachable | Two lines within reach for a rotating posting |
 
-Each is a private, furnished room with utilities and wifi already included, so there's no separate billing admin to manage on top of a placement schedule. For the full picture of what each house and neighbourhood offers, see our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide). If you're comparing this against a medical student's rotation schedule instead of a nursing one, our companion piece on [housing for medical students on clinical rotation schedules](https://lazybee.sg/blog/housing-for-medical-students-on-clinical-rotation-schedules-in-singapore) covers that separate system. Current room availability is always live on [lazybee.sg](https://lazybee.sg), since postings and pricing shift throughout the year.
+Each is a private, furnished room with utilities and wifi already included, so there's no separate billing admin to manage on top of a placement schedule. For the full picture of what each house and neighbourhood offers, see our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide). If you're comparing this against a medical student's rotation schedule instead of a nursing one, our companion piece on [housing for medical students on clinical rotation schedules](https://www.lazybee.sg/hive/housing-for-medical-students-on-clinical-rotation-schedules-in-singapore) covers that separate system. Current room availability is always live on [lazybee.sg](https://lazybee.sg), since postings and pricing shift throughout the year.
 
 ## Frequently Asked Questions
 

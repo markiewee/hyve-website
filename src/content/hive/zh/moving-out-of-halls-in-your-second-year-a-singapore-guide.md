@@ -51,11 +51,11 @@ heroAlt: 列车正驶入地铁站台
 
 **6. 按通勤情况筛选，而不只是看价格。** 通勤现在成了一项宿舍从未向你收取的日常成本，包括时间和车费。一间便宜SGD 100、但单程通勤多花40分钟的房间，把整个学期算进去，很少会是更划算的选择。
 
-**7. 在比较两间房之前，先弄清楚租金实际包含什么。** 「每月SGD X」在不同营运商那里含义可能不同。要具体问清楚水电、Wi-Fi和清洁是否已包含在租金里，还是要另外收费，因为很多学生的预算就是在这个环节爆掉的。我们的[共居租金实际包含哪些项目](https://lazybee.sg/blog/whats-included-in-coliving-rent-singapore)一文逐条说明了要检查哪些内容。
+**7. 在比较两间房之前，先弄清楚租金实际包含什么。** 「每月SGD X」在不同营运商那里含义可能不同。要具体问清楚水电、Wi-Fi和清洁是否已包含在租金里，还是要另外收费，因为很多学生的预算就是在这个环节爆掉的。我们的[共居租金实际包含哪些项目](https://www.lazybee.sg/hive/zh/whats-included-in-coliving-rent-singapore)一文逐条说明了要检查哪些内容。
 
 **8. 签约前先读清楚租期条款。** 宿舍是一个学期或一个学年的承诺，有固定的结束日期。校外的租赁合约或许可条款差别很大：有些要求六个月或十二个月，另一些（尤其是共居营运商）则提供更短、更灵活的租期，更贴合学生的实际时间安排。如果你的毕业或交换计划还不确定，即使价格看起来吸引人，一份又长又死板的租约也不适合你。
 
-**9. 弄清楚押金和退租条款。** 要确切知道什么情况会导致扣款，以及如果要提前退租需要提前多久通知。这一点对学生来说比对大多数其他租客都更重要，因为假期、交换项目和海外实习都可能改变你实际的搬出日期。我们关于[新加坡共居押金](https://lazybee.sg/blog/security-deposit-coliving-singapore)的文章说明了行业标准做法。
+**9. 弄清楚押金和退租条款。** 要确切知道什么情况会导致扣款，以及如果要提前退租需要提前多久通知。这一点对学生来说比对大多数其他租客都更重要，因为假期、交换项目和海外实习都可能改变你实际的搬出日期。我们关于[新加坡共居押金](https://www.lazybee.sg/hive/zh/security-deposit-coliving-singapore)的文章说明了行业标准做法。
 
 **10. 把搬家安排在学期之间的空档，而不是学期中。** 在繁忙的学期周搬家，本身就是在考试和课业之外额外增加的压力。如果抽签结果或宿舍通知在时间上给了你一点弹性，就利用假期真正完成搬家，而不是开学第一周才搬。
 
@@ -80,7 +80,7 @@ heroAlt: 列车正驶入地铁站台
 
 Lazybee 在 Chiltern Park、Ivory Heights 和 Thomson Grove 三处营运共居房间，这些地区都在NUS和NTU的可达范围内。房间自带家具，租金已包含水电、Wi-Fi和定期清洁，一步到位省去了上面大部分的前期准备事项。租期设计得比标准私人租赁更短、更灵活，如果你的学期或交换安排还无法提前一年确定，这一点尤为重要。
 
-如果宿舍抽签结果不如意，你正在权衡各种选择，我们关于[Chiltern Park、Ivory Heights 和 Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)的指南介绍了每个地点实际的居住体验。在做出决定之前，想了解更完整的预算情况，可以参考[我们的2026年新加坡租房成本指南](https://lazybee.sg/blog/cost-of-renting-singapore-2026-budget)。
+如果宿舍抽签结果不如意，你正在权衡各种选择，我们关于[Chiltern Park、Ivory Heights 和 Thomson Grove](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)的指南介绍了每个地点实际的居住体验。在做出决定之前，想了解更完整的预算情况，可以参考[我们的2026年新加坡租房成本指南](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget)。
 
 房间空缺情况和当前价格显示在[lazybee.sg](https://lazybee.sg)网站上，而不是本文中，因为这些信息会随着房间租出而变化。如果觉得某间房合适，最好的下一步就是直接在网站上预约看房。
 

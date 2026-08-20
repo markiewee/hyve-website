@@ -78,7 +78,7 @@ Every non-Singaporean studying here for more than 30 days needs a Student's Pass
 
 ## What Does It Actually Cost to Live Here?
 
-Room and rent costs in Singapore don't move much by nationality, they move by area, room type, and what's bundled into the price. A full, current breakdown of rent bands, deposits, utilities, and a realistic monthly budget is already covered in our [cost of renting in Singapore 2026 guide](https://lazybee.sg/blog/cost-of-renting-singapore-2026-budget), and the same numbers apply whether you're arriving from Jakarta, Surabaya, or anywhere else.
+Room and rent costs in Singapore don't move much by nationality, they move by area, room type, and what's bundled into the price. A full, current breakdown of rent bands, deposits, utilities, and a realistic monthly budget is already covered in our [cost of renting in Singapore 2026 guide](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget), and the same numbers apply whether you're arriving from Jakarta, Surabaya, or anywhere else.
 
 What's specific to planning a move from Indonesia is the currency side of it. Deposit plus advance rent is usually two to three months paid upfront, and converting a lump sum from IDR to SGD ahead of a move means exchange rate movement is a real planning variable, not a rounding error. Building in a currency buffer, and moving that lump sum earlier rather than at the last minute if the rate looks favourable, is worth doing before deposit day rather than after.
 
@@ -108,13 +108,13 @@ It depends on how much weight you put on food and community access versus commut
 No. The S$30 application fee and S$60 issuance fee are the same for every nationality that requires a Student's Pass, set by ICA.
 
 **Is co-living a good fit for a first move from Indonesia?**
-It removes a lot of the planning load a first-time renter faces, since utilities, wifi, and furnishing are usually bundled into one number instead of several separate bills and deposits to set up from scratch. Our guide on [what's actually included in co-living rent](https://lazybee.sg/blog/whats-included-in-coliving-rent-singapore) breaks down what that typically covers.
+It removes a lot of the planning load a first-time renter faces, since utilities, wifi, and furnishing are usually bundled into one number instead of several separate bills and deposits to set up from scratch. Our guide on [what's actually included in co-living rent](https://www.lazybee.sg/hive/whats-included-in-coliving-rent-singapore) breaks down what that typically covers.
 
 **How far in advance should I book a room before the semester starts?**
-Earlier than most people plan for, particularly around the August intake when demand across the whole rental market peaks at once. Our [housing timeline guide](https://lazybee.sg/blog/how-far-ahead-book-housing-singapore) covers when to start looking for your specific intake.
+Earlier than most people plan for, particularly around the August intake when demand across the whole rental market peaks at once. Our [housing timeline guide](https://www.lazybee.sg/blog/how-far-ahead-book-housing-singapore) covers when to start looking for your specific intake.
 
 ## Where to Go From Here
 
-If you've settled on which part of Singapore fits your campus and budget, current room availability across Lazybee's three houses, Chiltern Park in Serangoon, Ivory Heights in Jurong East, and Thomson Grove near Lentor, is listed with real terms at [lazybee.sg](https://lazybee.sg). For a closer look at each house and its neighbourhood, our [full guide to all three](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) is the natural next read.
+If you've settled on which part of Singapore fits your campus and budget, current room availability across Lazybee's three houses, Chiltern Park in Serangoon, Ivory Heights in Jurong East, and Thomson Grove near Lentor, is listed with real terms at [lazybee.sg](https://lazybee.sg). For a closer look at each house and its neighbourhood, our [full guide to all three](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) is the natural next read.
 
 Sources: [URA, Short-Term Accommodation guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/); [URA, Renting Property guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/); [MOM, S Pass eligibility](https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility); [ICA, Apply for a Student's Pass](https://www.ica.gov.sg/reside/STP/apply).

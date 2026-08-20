@@ -58,7 +58,7 @@ TP还设有自己的巴士转换站，接送来自岛屿东部各处的学生。
 
 本地理工学院学生一般是17到19岁，因为大多数人是在考完O水准会考后直接入学的，这个年龄段正好卡在这条规定的边缘。
 
-关于"21岁"这个说法到底从何而来的困惑，可以参考我们的指南：[新加坡21岁以下租房指南](https://lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires)。
+关于"21岁"这个说法到底从何而来的困惑，可以参考我们的指南：[新加坡21岁以下租房指南](https://www.lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires)。
 
 ![通往地铁站内的自动扶梯](/sketches/loc-transit__mrt-station__escalators.jpg)
 
@@ -86,7 +86,7 @@ TP还设有自己的巴士转换站，接送来自岛屿东部各处的学生。
 没有。Lazybee的三间房子，Chiltern Park（实龙岗）、Ivory Heights（裕廊东）和Thomson Grove（立通附近），都位于新加坡的中部或北部，搭公共交通到TP大约要50到75分钟。如果想要每天短通勤到校，直接位于淡滨尼或勿洛蓄水池的住宿更合适。
 
 **淡马锡理工学院的学生可以自己租房吗？**
-如果你已满18岁，可以，你能自己签署标准的房间租赁协议。如果你是17岁，通常需要父母或监护人作为签约方或联合签署人。详情请参考我们的完整指南：[新加坡21岁以下租房指南](https://lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires)。
+如果你已满18岁，可以，你能自己签署标准的房间租赁协议。如果你是17岁，通常需要父母或监护人作为签约方或联合签署人。详情请参考我们的完整指南：[新加坡21岁以下租房指南](https://www.lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires)。
 
 **TP附近有哪些住宿类型？**
 主要是淡滨尼和勿洛蓄水池各处组屋的合租房间，另外附近较新的项目中也有价格较高的私人公寓房间。在这么靠东边的地方，专门的共居选择很有限。

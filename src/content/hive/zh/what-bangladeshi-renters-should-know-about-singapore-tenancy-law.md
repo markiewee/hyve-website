@@ -29,9 +29,9 @@ heroAlt: 大巴窑建屋发展局中心外的连廊与棕榈树
 
 ## 如果你持有就业准证（EP）、S 准证、学生准证或家属准证：适用标准规则
 
-并非所有在新加坡的孟加拉租客都持有工作准证。如果你是持就业准证（EP）、S 准证、学生准证，或以家属准证身份随配偶来新加坡，你的租房方式和其他人一样：等准证真正签发、拿到手之后才签约，而不是凭一封工作邀请函或原则批准信（IPA）。哪些准证符合资格、营运商如何核实，以及正规营运商会要求的七项证件，完整说明见 [外国人能在新加坡租房吗？准证与证件要求](https://lazybee.sg/blog/can-foreigners-rent-in-singapore)。
+并非所有在新加坡的孟加拉租客都持有工作准证。如果你是持就业准证（EP）、S 准证、学生准证，或以家属准证身份随配偶来新加坡，你的租房方式和其他人一样：等准证真正签发、拿到手之后才签约，而不是凭一封工作邀请函或原则批准信（IPA）。哪些准证符合资格、营运商如何核实，以及正规营运商会要求的七项证件，完整说明见 [外国人能在新加坡租房吗？准证与证件要求](https://www.lazybee.sg/blog/can-foreigners-rent-in-singapore)。
 
-如果你正在考虑准证类型应如何影响租期长短，尤其是把租期与准证剩余有效期匹配，而不是照单全收房东默认的 12 个月租期，相关比较见 [在新加坡以 EP、S 准证或学生准证租房](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)。
+如果你正在考虑准证类型应如何影响租期长短，尤其是把租期与准证剩余有效期匹配，而不是照单全收房东默认的 12 个月租期，相关比较见 [在新加坡以 EP、S 准证或学生准证租房](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)。
 
 | 你的准证 | 住房如何运作 |
 |---|---|
@@ -43,7 +43,7 @@ heroAlt: 大巴窑建屋发展局中心外的连廊与棕榈树
 
 ## 适用于任何私人租房的最短租期与住户人数规则
 
-一旦你以私人方式租房，无论是自行安排还是由雇主备案，适用的基本规则和其他任何租客都一样。市区重建局（URA）规定私人住宅的最短租期为连续三个月，且面积至少 90 平方米的私人单位，住户人数上限可放宽至 8 名非亲属住户，这项放宽措施截至 2026 年 1 月，已由组屋局（HDB）和市区重建局（URA）延长至 2028 年底。完整机制，包括什么构成违规、由谁承担责任，见 [新加坡共居合法吗？规则详解](https://lazybee.sg/blog/is-coliving-legal-in-singapore)。
+一旦你以私人方式租房，无论是自行安排还是由雇主备案，适用的基本规则和其他任何租客都一样。市区重建局（URA）规定私人住宅的最短租期为连续三个月，且面积至少 90 平方米的私人单位，住户人数上限可放宽至 8 名非亲属住户，这项放宽措施截至 2026 年 1 月，已由组屋局（HDB）和市区重建局（URA）延长至 2028 年底。完整机制，包括什么构成违规、由谁承担责任，见 [新加坡共居合法吗？规则详解](https://www.lazybee.sg/hive/zh/is-coliving-legal-in-singapore)。
 
 | 规则 | 具体规定 | 由谁制定 |
 |---|---|---|
@@ -58,17 +58,17 @@ heroAlt: 大巴窑建屋发展局中心外的连廊与棕榈树
 
 ## 许可协议还是租赁合约：你签的到底是什么
 
-如果你租的是一个房间而非整套单位，预期签的会是许可协议，而不是完整的租赁合约。这在新加坡的共居行业中是标准做法，本身并不是警讯。两者真正的法律差异，以及签约前值得仔细阅读的条款，见 [新加坡许可协议与租赁合约的区别](https://lazybee.sg/blog/licence-agreement-vs-tenancy-agreement-singapore)。
+如果你租的是一个房间而非整套单位，预期签的会是许可协议，而不是完整的租赁合约。这在新加坡的共居行业中是标准做法，本身并不是警讯。两者真正的法律差异，以及签约前值得仔细阅读的条款，见 [新加坡许可协议与租赁合约的区别](https://www.lazybee.sg/blog/licence-agreement-vs-tenancy-agreement-singapore)。
 
 ## 押金：标准是什么
 
-在新加坡，共居房间的押金常见标准是一个月租金，只要没有超出正常损耗的实际损坏，可全额退还。押金金额没有政府规定的数字，这是一项合约条款，因此金额和退还条件由你合约中的条款决定。押金依法可以扣除和不可以扣除的项目，以及能让退还变成走形式而非争议的入住照片，见 [新加坡共居押金：标准是什么](https://lazybee.sg/blog/security-deposit-coliving-singapore)。
+在新加坡，共居房间的押金常见标准是一个月租金，只要没有超出正常损耗的实际损坏，可全额退还。押金金额没有政府规定的数字，这是一项合约条款，因此金额和退还条件由你合约中的条款决定。押金依法可以扣除和不可以扣除的项目，以及能让退还变成走形式而非争议的入住照片，见 [新加坡共居押金：标准是什么](https://www.lazybee.sg/hive/zh/security-deposit-coliving-singapore)。
 
 ![人们穿过临街的办公楼大堂](/sketches/interior-work__office-lobby__people.jpg)
 
 ## 合约的印花税
 
-如果你的房间是以租约或租赁合约的形式记录，国内税务局（IRAS）会按租期总租金的 0.4% 征收印花税，须在签约后 14 天内缴纳。按惯例由租客支付，不过这一点可以协商，而且存在一个门槛，低于该门槛则完全不需缴税。完整税率和截止日期见 [在新加坡租房间需要缴印花税吗？](https://lazybee.sg/blog/stamp-duty-room-rental-singapore) 如果你还没有新加坡银行账户，国内税务局（IRAS）的电子印花（e-Stamping）平台接受信用卡支付，因此这不构成障碍。
+如果你的房间是以租约或租赁合约的形式记录，国内税务局（IRAS）会按租期总租金的 0.4% 征收印花税，须在签约后 14 天内缴纳。按惯例由租客支付，不过这一点可以协商，而且存在一个门槛，低于该门槛则完全不需缴税。完整税率和截止日期见 [在新加坡租房间需要缴印花税吗？](https://www.lazybee.sg/hive/zh/stamp-duty-room-rental-singapore) 如果你还没有新加坡银行账户，国内税务局（IRAS）的电子印花（e-Stamping）平台接受信用卡支付，因此这不构成障碍。
 
 ## 值得提前规划的实际要点
 
@@ -123,4 +123,4 @@ heroAlt: 大巴窑建屋发展局中心外的连廊与棕榈树
 
 ---
 
-资料来源：[人力部（MOM），雇主须在工作准证持有者入境前提供住宿证明](https://www.mom.gov.sg/newsroom/press-releases/2023/0911-employers-required-to-provide-proof-of-accommodation-before-their-wph-entry-into-singapore)；[人力部（MOM），住房（外籍劳工工作准证）](https://www.mom.gov.sg/passes-and-permits/work-permit-for-foreign-worker/housing)；[组屋局（HDB），资格条件与指南](https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-a-flat/eligibility)；孟加拉 BMET 数据转引自 [Deccan Herald](https://www.deccanherald.com/world/singapore-offers-foreign-worker-levy-rebate-to-companies-facing-labour-shortage-983806)；以及 Lazybee 自有文章 [外国人能在新加坡租房吗？](https://lazybee.sg/blog/can-foreigners-rent-in-singapore)、[新加坡共居合法吗？](https://lazybee.sg/blog/is-coliving-legal-in-singapore)、[许可协议与租赁合约的区别](https://lazybee.sg/blog/licence-agreement-vs-tenancy-agreement-singapore)、[新加坡共居押金标准](https://lazybee.sg/blog/security-deposit-coliving-singapore)、[在新加坡以 EP、S 准证或学生准证租房](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)，以及 [房间租赁印花税](https://lazybee.sg/blog/stamp-duty-room-rental-singapore)。
+资料来源：[人力部（MOM），雇主须在工作准证持有者入境前提供住宿证明](https://www.mom.gov.sg/newsroom/press-releases/2023/0911-employers-required-to-provide-proof-of-accommodation-before-their-wph-entry-into-singapore)；[人力部（MOM），住房（外籍劳工工作准证）](https://www.mom.gov.sg/passes-and-permits/work-permit-for-foreign-worker/housing)；[组屋局（HDB），资格条件与指南](https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-a-flat/eligibility)；孟加拉 BMET 数据转引自 [Deccan Herald](https://www.deccanherald.com/world/singapore-offers-foreign-worker-levy-rebate-to-companies-facing-labour-shortage-983806)；以及 Lazybee 自有文章 [外国人能在新加坡租房吗？](https://www.lazybee.sg/blog/can-foreigners-rent-in-singapore)、[新加坡共居合法吗？](https://www.lazybee.sg/hive/zh/is-coliving-legal-in-singapore)、[许可协议与租赁合约的区别](https://www.lazybee.sg/blog/licence-agreement-vs-tenancy-agreement-singapore)、[新加坡共居押金标准](https://www.lazybee.sg/hive/zh/security-deposit-coliving-singapore)、[在新加坡以 EP、S 准证或学生准证租房](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)，以及 [房间租赁印花税](https://www.lazybee.sg/hive/zh/stamp-duty-room-rental-singapore)。

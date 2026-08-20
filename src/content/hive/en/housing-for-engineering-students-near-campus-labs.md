@@ -24,7 +24,7 @@ NUS's Faculty of Engineering, now folded into CDE alongside the School of Design
 
 CDE, and the engineering departments within it, sit on the Kent Ridge campus, with a listed address of 9 Engineering Drive 1 ([NUS CDE](https://cde.nus.edu.sg/)). That places engineering teaching and lab space within the main Kent Ridge grounds, reachable the same way as the rest of campus: Kent Ridge MRT (CC24) on the Circle Line, with one-north and Buona Vista the next two stops out, all connected by NUS's free internal shuttle.
 
-For the fuller rundown of Kent Ridge's transport links, hall odds, and the neighbourhoods around campus, see our [guide to student housing near NUS](https://lazybee.sg/blog/student-housing-near-nus-a-co-living-guide). This piece stays focused on why engineering specifically raises the stakes on that commute, not on repeating the campus-wide basics.
+For the fuller rundown of Kent Ridge's transport links, hall odds, and the neighbourhoods around campus, see our [guide to student housing near NUS](https://www.lazybee.sg/blog/student-housing-near-nus-a-co-living-guide). This piece stays focused on why engineering specifically raises the stakes on that commute, not on repeating the campus-wide basics.
 
 
 ![A tree lined overpass on the NUS Kent Ridge campus](/sketches/loc-campus__nus-kent-ridge__overpass-trees.jpg)
@@ -33,7 +33,7 @@ For the fuller rundown of Kent Ridge's transport links, hall odds, and the neigh
 
 NTU's College of Engineering runs across five schools: Chemistry, Chemical Engineering and Biotechnology; Civil and Environmental Engineering; Electrical and Electronic Engineering; Mechanical and Aerospace Engineering; and Materials Science and Engineering ([Wikipedia](https://en.wikipedia.org/wiki/Nanyang_Technological_University)). All of it sits on NTU's main campus in Jurong West, the same campus covered by Pioneer and Boon Lay MRT and NTU's own shuttle network.
 
-For the transport breakdown, the shuttle system, and how Boon Lay, Pioneer, and Jurong East compare as places to live, see our [guide to student housing near NTU](https://lazybee.sg/blog/student-housing-near-ntu-a-co-living-guide). Again, the campus-commute basics are covered there; this piece is about why engineering students in particular feel the distance more.
+For the transport breakdown, the shuttle system, and how Boon Lay, Pioneer, and Jurong East compare as places to live, see our [guide to student housing near NTU](https://www.lazybee.sg/hive/student-housing-near-ntu-a-co-living-guide). Again, the campus-commute basics are covered there; this piece is about why engineering students in particular feel the distance more.
 
 | | NUS | NTU |
 |---|---|---|
@@ -60,7 +60,7 @@ Three things push engineering students toward late or irregular lab time in a wa
 | Equipment you cannot replicate at home | Testing rigs, fabrication tools, software licensed to lab machines, shared equipment booked across project teams. The work has to happen in a specific room |
 | Final year project crunch | Self-directed, needs sustained lab or workshop time on a schedule set by the project and your supervisor, not the timetable. After-hours access varies by department and semester, so check your own school |
 
-None of this is unique to engineering as a category of "odd hours," and the general playbook for living well on an irregular lab or clinical schedule, shift patterns, sleep, noise, food access, applies whether you're in engineering, architecture, or a clinical programme. That general guide is covered separately in our piece on [housing for students on odd-hour lab or clinical schedules](https://lazybee.sg/blog/housing-for-students-on-odd-hour-lab-or-clinical-schedules). What's specific to engineering is the reason the late nights happen in the first place: FYP crunch, project deadlines, and equipment you can only use on campus.
+None of this is unique to engineering as a category of "odd hours," and the general playbook for living well on an irregular lab or clinical schedule, shift patterns, sleep, noise, food access, applies whether you're in engineering, architecture, or a clinical programme. That general guide is covered separately in our piece on [housing for students on odd-hour lab or clinical schedules](https://www.lazybee.sg/hive/housing-for-students-on-odd-hour-lab-or-clinical-schedules). What's specific to engineering is the reason the late nights happen in the first place: FYP crunch, project deadlines, and equipment you can only use on campus.
 
 
 ![The NTU Learning Hub, the university's landmark stacked building](/sketches/loc-campus__ntu__learning-hub-landmark.jpg)

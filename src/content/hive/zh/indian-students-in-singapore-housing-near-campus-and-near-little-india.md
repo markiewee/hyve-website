@@ -62,9 +62,9 @@ Lazybee 在小印度里面没有房子，与其把话说圆，不如直说。三
 
 - **三个月的最短租期是法定底线，不是可选项。** 私宅出租，不管是组屋（HDB）、私人公寓还是有地住宅，在新加坡都不能低于连续三个月。这适用于每一家营运商，共居也一样。
 - **许可协议（licence agreement）针对的是合租住宅里的一个房间；租赁合约针对的是整个单位。** 要清楚自己签的是哪一种。
-- **承诺之前先确认你的准证类型。** 学生准证、家属准证（DP），或毕业后的工作准证，房东或营运商对文件的要求各有一点不同。我们的[就业准证、S 准证、学生准证租房指南](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)有完整说明。
-- **让租期对上你课程的实际长度**，而不是房东默认给的 12 个月。一个学期的交换生很少需要整整一年的承诺；我们的[新加坡国立大学与南洋理工大学学生住宿指南](https://lazybee.sg/blog/bukit-timah-clementi-student-housing)有更详细的说明。
-- **地铁车程短不等于总通勤时间短。** 步行时间和换乘和坐车本身一样重要；我们的[通勤时间指南](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore)讲了怎样在订下房源之前测出它真实的通勤时间。
+- **承诺之前先确认你的准证类型。** 学生准证、家属准证（DP），或毕业后的工作准证，房东或营运商对文件的要求各有一点不同。我们的[就业准证、S 准证、学生准证租房指南](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)有完整说明。
+- **让租期对上你课程的实际长度**，而不是房东默认给的 12 个月。一个学期的交换生很少需要整整一年的承诺；我们的[新加坡国立大学与南洋理工大学学生住宿指南](https://www.lazybee.sg/hive/zh/bukit-timah-clementi-student-housing)有更详细的说明。
+- **地铁车程短不等于总通勤时间短。** 步行时间和换乘和坐车本身一样重要；我们的[通勤时间指南](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)讲了怎样在订下房源之前测出它真实的通勤时间。
 
 ![南洋理工大学学习中心，校园里最具标志性的叠层建筑](/sketches/loc-campus__ntu__learning-hub-landmark.jpg)
 

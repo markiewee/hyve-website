@@ -24,13 +24,13 @@ It depends on why you're moving. There's no separate "Vietnam" pass category. Vi
 - **Work Permit**, for other approved work sectors, subject to source-country and quota rules.
 - **Student Pass**, for enrolment at an approved Singapore institution, including NUS, NTU, SMU, and the polytechnics.
 
-These figures move with MOM policy, so confirm the current rate on MOM's website before you rely on it for planning. For what each pass means for renting specifically, our guide on [renting on an EP vs S Pass vs Student Pass](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers the detail so we won't repeat it here.
+These figures move with MOM policy, so confirm the current rate on MOM's website before you rely on it for planning. For what each pass means for renting specifically, our guide on [renting on an EP vs S Pass vs Student Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers the detail so we won't repeat it here.
 
 ## Do Vietnamese Citizens Need a Visa to Enter Singapore?
 
 No, not for a short visit. Vietnamese passport holders get visa-free entry to Singapore for up to 30 days under the standard arrangement between the two countries. That's fine for a job interview, a viewing trip, or scoping out neighbourhoods.
 
-It is not a substitute for a work or student pass. You cannot sign a residential lease on a visa-free entry stamp, and no properly run operator will let you try. Our piece on [renting in Singapore from overseas](https://lazybee.sg/blog/renting-singapore-from-overseas) covers exactly what you can and can't lock in before your pass is actually issued, and [can foreigners rent in Singapore](https://lazybee.sg/blog/can-foreigners-rent-in-singapore) walks through the documents any legitimate operator will check once it is.
+It is not a substitute for a work or student pass. You cannot sign a residential lease on a visa-free entry stamp, and no properly run operator will let you try. Our piece on [renting in Singapore from overseas](https://www.lazybee.sg/hive/renting-singapore-from-overseas) covers exactly what you can and can't lock in before your pass is actually issued, and [can foreigners rent in Singapore](https://www.lazybee.sg/blog/can-foreigners-rent-in-singapore) walks through the documents any legitimate operator will check once it is.
 
 
 ![The ICA Building, where Singapore immigration passes are issued](/sketches/loc-civic__ica-building__government-exterior.jpg)
@@ -49,13 +49,13 @@ Budget for these categories in your first month:
 | Groceries, transport, daily spend | S$500-900/month for one person, lifestyle-dependent |
 | Bank account setup | Usually free, minimum initial deposit S$0-1,000 depending on the bank |
 
-For the full breakdown of what sits on top of rent itself, our guide to [the real cost of renting in Singapore in 2026](https://lazybee.sg/blog/cost-of-renting-singapore-2026-budget) and [first month moving costs](https://lazybee.sg/blog/first-month-moving-costs-singapore) go through this line by line. We don't quote a fixed room price here, since it moves with live availability. Current rooms and their full monthly figure are listed at [lazybee.sg](https://lazybee.sg).
+For the full breakdown of what sits on top of rent itself, our guide to [the real cost of renting in Singapore in 2026](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget) and [first month moving costs](https://www.lazybee.sg/blog/first-month-moving-costs-singapore) go through this line by line. We don't quote a fixed room price here, since it moves with live availability. Current rooms and their full monthly figure are listed at [lazybee.sg](https://lazybee.sg).
 
 ## Where Do Vietnamese Expats and Students Tend to Settle?
 
 There's no single "Vietnamese district" in Singapore, but Joo Chiat has become the closest thing to a hub. Vietnamese grocery stores like Viet Valuemart sit along Joo Chiat Road, and restaurants such as Long Phung and Pho 99 draw a steady crowd of homesick regulars.
 
-That said, most Vietnamese professionals and students end up choosing housing based on commute to work or campus, not proximity to a grocery store. Lazybee's three houses sit in Chiltern Park (Serangoon, near two MRT lines), Ivory Heights (by the Jurong East interchange), and Thomson Grove (near Lentor), which cover a useful spread if you're weighing commute against neighbourhood feel. Our [Chiltern Park, Ivory Heights, Thomson Grove guide](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) covers each in more detail.
+That said, most Vietnamese professionals and students end up choosing housing based on commute to work or campus, not proximity to a grocery store. Lazybee's three houses sit in Chiltern Park (Serangoon, near two MRT lines), Ivory Heights (by the Jurong East interchange), and Thomson Grove (near Lentor), which cover a useful spread if you're weighing commute against neighbourhood feel. Our [Chiltern Park, Ivory Heights, Thomson Grove guide](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) covers each in more detail.
 
 
 ![A fountain pen resting on a set of documents](/sketches/object__paperwork__fountain-pen-documents.jpg)
@@ -75,8 +75,8 @@ Once your pass is in hand, a few practical steps unlock the rest of your setup:
 1. **Open a bank account.** DBS, OCBC, and UOB all accept EP and S Pass holders, with your original pass card, passport, and proof of Singapore address. DBS and UOB generally need an in-branch visit; OCBC offers partial online opening. Minimum initial deposits run from S$0 (DBS Multiplier) to around S$1,000 (OCBC 360, UOB One).
 2. **Get a local SIM.** A Singapore number speeds up your bank account and lease paperwork alike.
 3. **Confirm your tax position back home.** Under the Vietnam-Singapore double tax agreement, a non-resident's Singapore salary isn't taxed again in Vietnam. If you remain a Vietnamese tax resident, Vietnam taxes worldwide income but credits tax already paid in Singapore. Check your specific position with a tax adviser rather than assuming either way.
-4. **Handle stamp duty on your lease**, if applicable, a fixed rate with a fixed deadline. Our [stamp duty on a room rental guide](https://lazybee.sg/blog/stamp-duty-room-rental-singapore) has the current rate and process.
-5. **Work through the moving-in checklist.** Our [relocation checklist for Singapore](https://lazybee.sg/blog/relocation-checklist-singapore) covers pass, bank, phone, and address registration in one sequence.
+4. **Handle stamp duty on your lease**, if applicable, a fixed rate with a fixed deadline. Our [stamp duty on a room rental guide](https://www.lazybee.sg/hive/stamp-duty-room-rental-singapore) has the current rate and process.
+5. **Work through the moving-in checklist.** Our [relocation checklist for Singapore](https://www.lazybee.sg/blog/relocation-checklist-singapore) covers pass, bank, phone, and address registration in one sequence.
 
 ## Sending Money Home
 
@@ -87,7 +87,7 @@ Once you're earning in Singapore dollars, sending money back to family in Vietna
 
 ## Booking a Room Before You Land
 
-You don't need to be in Singapore to secure a room. Lazybee's listings show real availability and the full monthly figure upfront on [lazybee.sg](https://lazybee.sg), and you can [book a viewing](https://book.lazybee.sg) once you're ready to see a room in person or arrange a remote walkthrough if you're still in Vietnam. For what to check before committing sight unseen, our guide on [viewing a room remotely](https://lazybee.sg/blog/viewing-a-room-remotely-singapore) is worth reading first.
+You don't need to be in Singapore to secure a room. Lazybee's listings show real availability and the full monthly figure upfront on [lazybee.sg](https://lazybee.sg), and you can [book a viewing](https://book.lazybee.sg) once you're ready to see a room in person or arrange a remote walkthrough if you're still in Vietnam. For what to check before committing sight unseen, our guide on [viewing a room remotely](https://www.lazybee.sg/hive/viewing-a-room-remotely-singapore) is worth reading first.
 
 ## Moving From Vietnam: Your Questions Answered
 

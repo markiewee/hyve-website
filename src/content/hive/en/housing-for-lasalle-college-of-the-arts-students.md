@@ -31,7 +31,7 @@ An all-in furnished room removes one real problem for a multi-year diploma or de
 
 ## LASALLE and NAFA: similar, but not the same campus
 
-LASALLE and NAFA are Singapore's two best-known arts institutions, and they get mixed up constantly, partly because in 2021 they merged administratively into the University of the Arts Singapore, which opened in 2024. The merger is administrative only. Each kept its own campus and identity. NAFA is on Bencoolen Street; LASALLE is on McNally Street, near Rochor MRT, a few stops apart on the same Downtown Line, so a room that works for one often works reasonably well for the other. If you're weighing NAFA instead, our [NAFA housing guide](https://lazybee.sg/blog/housing-for-nafa-students-in-singapore) covers that campus in the same detail.
+LASALLE and NAFA are Singapore's two best-known arts institutions, and they get mixed up constantly, partly because in 2021 they merged administratively into the University of the Arts Singapore, which opened in 2024. The merger is administrative only. Each kept its own campus and identity. NAFA is on Bencoolen Street; LASALLE is on McNally Street, near Rochor MRT, a few stops apart on the same Downtown Line, so a room that works for one often works reasonably well for the other. If you're weighing NAFA instead, our [NAFA housing guide](https://www.lazybee.sg/hive/housing-for-nafa-students-in-singapore) covers that campus in the same detail.
 
 ## The honest commute from Lazybee's three houses to LASALLE
 
@@ -62,7 +62,7 @@ Chiltern Park and Thomson Grove come out closest on paper, both landing in a sim
 
 None of these are a ten-minute walk to campus, and it would be misleading to pretend otherwise. What they offer instead is a private room, a real neighbourhood outside the front door, and a commute that's manageable once you've done it a few times, not miserable every day. Weigh that honestly against hunting purely for proximity, since proximity alone doesn't guarantee a room, a landlord, or a household you actually want to come home to.
 
-Arts programmes run on crit deadlines and rehearsal schedules, not a fixed nine-to-five. We didn't find published details on LASALLE's specific studio access hours, so we're not guessing at a policy here. For that angle, our [guide to housing for students working late studio hours](https://lazybee.sg/blog/housing-for-architecture-students-working-late-studio-hours) and [guide to housing for design and arts students in Singapore](https://lazybee.sg/blog/housing-for-design-and-arts-students-in-singapore) go deeper than this campus-specific guide does.
+Arts programmes run on crit deadlines and rehearsal schedules, not a fixed nine-to-five. We didn't find published details on LASALLE's specific studio access hours, so we're not guessing at a policy here. For that angle, our [guide to housing for students working late studio hours](https://www.lazybee.sg/hive/housing-for-architecture-students-working-late-studio-hours) and [guide to housing for design and arts students in Singapore](https://www.lazybee.sg/hive/housing-for-design-and-arts-students-in-singapore) go deeper than this campus-specific guide does.
 
 ## What day-to-day co-living looks like for an arts student
 
@@ -102,6 +102,6 @@ Live availability and room details for all three houses are on [lazybee.sg](http
 
 ## Next step
 
-If Chiltern Park or Thomson Grove's commute works for your schedule, the next step is booking a viewing through [lazybee.sg](https://lazybee.sg) to see the actual room and household in person. For a fuller look at all three houses side by side, our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) covers room mix and neighbourhood character beyond just the commute.
+If Chiltern Park or Thomson Grove's commute works for your schedule, the next step is booking a viewing through [lazybee.sg](https://lazybee.sg) to see the actual room and household in person. For a fuller look at all three houses side by side, our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) covers room mix and neighbourhood character beyond just the commute.
 
 Sources: [URA, Short-Term Accommodation guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/); [URA, Renting Property guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/).

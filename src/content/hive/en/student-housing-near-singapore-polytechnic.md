@@ -18,7 +18,7 @@ That's the short version. The rest of this covers what each area actually offers
 
 SP's main campus runs along Dover Road in the southwest of the island, in District 5. Dover MRT station (EW22) sits directly beside it, close enough that most students walk straight from the platform to class. That puts SP on the same East-West Line corridor as NUS's Kent Ridge campus, one stop up the line toward Buona Vista and one-north.
 
-Because the two campuses share a corridor, most of what applies to NUS housing also applies here. If you're weighing wider options along the same belt, our guide to [student housing in Bukit Timah and Clementi](https://lazybee.sg/blog/bukit-timah-clementi-student-housing) covers 11 areas along this exact stretch of the island in more depth.
+Because the two campuses share a corridor, most of what applies to NUS housing also applies here. If you're weighing wider options along the same belt, our guide to [student housing in Bukit Timah and Clementi](https://www.lazybee.sg/hive/bukit-timah-clementi-student-housing) covers 11 areas along this exact stretch of the island in more depth.
 
 ## Singapore's Polytechnics Don't Run Hall Systems Like Universities
 
@@ -53,7 +53,7 @@ Dover to Clementi or Buona Vista is one MRT stop each way, and the areas further
 
 Most polytechnic students in Singapore enter straight after their O-Levels, which typically puts them around 17 to 19 when they start a diploma, younger on average than a fresh NUS or NTU undergraduate entering after junior college or a longer path. That age gap is worth knowing before you start looking at housing, because it affects who can sign what.
 
-Singapore's age of contractual capacity for most agreements, including a standard room licence, is 18, not 21. An 18 or 19 year old polytechnic student can sign a co-living or rental agreement in their own name with no issue. Our [guide to under-21 renting in Singapore](https://lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires) covers this in full, including the one real exception (long land leases) that doesn't apply to a typical room rental.
+Singapore's age of contractual capacity for most agreements, including a standard room licence, is 18, not 21. An 18 or 19 year old polytechnic student can sign a co-living or rental agreement in their own name with no issue. Our [guide to under-21 renting in Singapore](https://www.lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires) covers this in full, including the one real exception (long land leases) that doesn't apply to a typical room rental.
 
 | Age when the agreement starts | Who signs |
 |---|---|
@@ -82,7 +82,7 @@ Whatever area or arrangement you land on, one rule applies across the entire pri
 
 ## Where Lazybee Fits
 
-Lazybee runs three co-living houses across Singapore, and the one that connects best to SP is Ivory Heights in Jurong East. It sits directly on the East-West Line, the same line Dover MRT is on, with no transfer needed to reach campus. Chiltern Park in Serangoon and Thomson Grove near Lentor are further out and involve at least one change to get to Dover, though both remain workable if you're weighing a wider set of options across the island. Full detail on all three houses, including neighbourhood and room mix, is in our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide).
+Lazybee runs three co-living houses across Singapore, and the one that connects best to SP is Ivory Heights in Jurong East. It sits directly on the East-West Line, the same line Dover MRT is on, with no transfer needed to reach campus. Chiltern Park in Serangoon and Thomson Grove near Lentor are further out and involve at least one change to get to Dover, though both remain workable if you're weighing a wider set of options across the island. Full detail on all three houses, including neighbourhood and room mix, is in our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide).
 
 Every room comes furnished with utilities and wifi already included, which matters if you're settling into your first diploma course and don't want to be sourcing a mattress and a router in the same week as orientation. Current availability and terms are always live on [lazybee.sg](https://lazybee.sg) rather than fixed in a guide like this one.
 
@@ -98,7 +98,7 @@ Not a large-scale hall system the way NUS or NTU do. SP is built as a commuter i
 Dover itself is closest, with Clementi and Buona Vista one MRT stop away offering more shopping and a wider range of housing stock. Commonwealth, Queenstown, and West Coast are further out and generally more affordable.
 
 **Can an 18 year old polytechnic student sign a rental agreement alone?**
-Yes. Singapore's age of contractual capacity for a standard room licence or lease under three years is 18, not 21. See our [under-21 renting guide](https://lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires) for the full legal position.
+Yes. Singapore's age of contractual capacity for a standard room licence or lease under three years is 18, not 21. See our [under-21 renting guide](https://www.lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires) for the full legal position.
 
 **What about a student who's still 17?**
 Someone under 18 doesn't have full contractual capacity on their own, so a parent or legal guardian is typically the named party or co-signatory on the agreement instead. Confirm the exact process with the specific operator.

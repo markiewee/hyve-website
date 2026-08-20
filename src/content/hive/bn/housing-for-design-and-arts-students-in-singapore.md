@@ -30,7 +30,7 @@ heroAlt: MRT স্টেশনের কনকোর্সে টিকিট �
 
 LASALLE এবং NAFA ২০২১ সালের মার্চে জোট বেঁধে University of the Arts Singapore গঠন করে, কিন্তু প্রতিটি নিজস্ব ক্যাম্পাস, প্রোগ্রাম এবং পরিচয় বজায় রাখে।
 
-আপনি যদি নির্দিষ্টভাবে LASALLE বা NAFA-তে পড়েন, আমরা প্রতিটির জন্য আলাদা অবস্থান ও যাতায়াত গাইড লিখেছি: [LASALLE College of the Arts শিক্ষার্থীদের জন্য আবাসন](https://lazybee.sg/blog/housing-for-lasalle-college-of-the-arts-students) এবং [সিঙ্গাপুরে NAFA শিক্ষার্থীদের জন্য আবাসন](https://lazybee.sg/blog/housing-for-nafa-students-in-singapore)। আপনি যদি নির্দিষ্টভাবে আর্কিটেকচার ডিপ্লোমা বা ডিগ্রি প্রোগ্রামে থাকেন, সেখানে স্টুডিও সংস্কৃতি আরও রাত পর্যন্ত চলে, এবং আমরা তা আলাদাভাবে আমাদের [আর্কিটেকচার শিক্ষার্থীদের আবাসন গাইডে](https://lazybee.sg/blog/housing-for-architecture-students-working-late-studio-hours) কভার করেছি।
+আপনি যদি নির্দিষ্টভাবে LASALLE বা NAFA-তে পড়েন, আমরা প্রতিটির জন্য আলাদা অবস্থান ও যাতায়াত গাইড লিখেছি: [LASALLE College of the Arts শিক্ষার্থীদের জন্য আবাসন](https://www.lazybee.sg/hive/bn/housing-for-lasalle-college-of-the-arts-students) এবং [সিঙ্গাপুরে NAFA শিক্ষার্থীদের জন্য আবাসন](https://www.lazybee.sg/hive/bn/housing-for-nafa-students-in-singapore)। আপনি যদি নির্দিষ্টভাবে আর্কিটেকচার ডিপ্লোমা বা ডিগ্রি প্রোগ্রামে থাকেন, সেখানে স্টুডিও সংস্কৃতি আরও রাত পর্যন্ত চলে, এবং আমরা তা আলাদাভাবে আমাদের [আর্কিটেকচার শিক্ষার্থীদের আবাসন গাইডে](https://www.lazybee.sg/hive/bn/housing-for-architecture-students-working-late-studio-hours) কভার করেছি।
 
 ## স্টুডিও-ভিত্তিক শিক্ষা কেন একটি রুম থেকে আপনার প্রয়োজনীয়তা বদলে দেয়
 

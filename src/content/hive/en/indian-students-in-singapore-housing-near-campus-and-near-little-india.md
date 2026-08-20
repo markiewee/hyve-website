@@ -65,9 +65,9 @@ A few Singapore rental basics apply regardless of nationality or which campus yo
 
 - **The three-month minimum stay is a legal floor, not optional.** Private rentals, HDB, condo, or landed, cannot legally run under three consecutive months in Singapore. It applies to every operator, co-living included.
 - **A licence agreement covers a room in a shared home; a tenancy agreement covers a whole unit.** Know which one you're signing.
-- **Confirm your pass type before you commit.** Student Pass, Dependant's Pass, or a work pass after graduation each have slightly different documentation expectations from a landlord or operator. Our [guide to renting on an EP, S Pass, or Student Pass](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers this in full.
-- **Match your lease length to your actual course length**, not the landlord's default 12-month offer. A one-semester exchange rarely needs a full year's commitment; our [student housing guide for NUS and NTU](https://lazybee.sg/blog/bukit-timah-clementi-student-housing) walks through this in more detail.
-- **A shorter MRT ride doesn't always mean a shorter total commute.** Walking time and transfers matter as much as the train itself; our [commute-time guide](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore) explains how to test a listing's real commute before you book it.
+- **Confirm your pass type before you commit.** Student Pass, Dependant's Pass, or a work pass after graduation each have slightly different documentation expectations from a landlord or operator. Our [guide to renting on an EP, S Pass, or Student Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers this in full.
+- **Match your lease length to your actual course length**, not the landlord's default 12-month offer. A one-semester exchange rarely needs a full year's commitment; our [student housing guide for NUS and NTU](https://www.lazybee.sg/hive/bukit-timah-clementi-student-housing) walks through this in more detail.
+- **A shorter MRT ride doesn't always mean a shorter total commute.** Walking time and transfers matter as much as the train itself; our [commute-time guide](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) explains how to test a listing's real commute before you book it.
 
 
 ![The NTU Learning Hub, the university's landmark stacked building](/sketches/loc-campus__ntu__learning-hub-landmark.jpg)

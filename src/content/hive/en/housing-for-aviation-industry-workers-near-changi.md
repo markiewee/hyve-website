@@ -39,7 +39,7 @@ Not evenly. Corporate, planning, and back-office roles at Changi Airport Group o
 
 ## Where Aviation Workers Near Changi Actually Live
 
-If your shifts genuinely demand a short commute, the towns that sit close to the airport are Tampines, Simei, Pasir Ris, and Loyang, all served by the East-West Line or a short bus ride from it. We covered this same corridor in detail in our [guide to student housing near SUTD](https://lazybee.sg/blog/student-housing-near-sutd-options-around-changi-and-upper-changi), since SUTD's campus sits on the same stretch of the island, and the price ranges we found researching that piece hold for anyone renting in the area: roughly S$600 to S$1,000 a month for an HDB common room, and S$1,200 to S$1,950 for a private room in a shared condo, depending on the building and how close to the MRT it sits.
+If your shifts genuinely demand a short commute, the towns that sit close to the airport are Tampines, Simei, Pasir Ris, and Loyang, all served by the East-West Line or a short bus ride from it. We covered this same corridor in detail in our [guide to student housing near SUTD](https://www.lazybee.sg/hive/student-housing-near-sutd-options-around-changi-and-upper-changi), since SUTD's campus sits on the same stretch of the island, and the price ranges we found researching that piece hold for anyone renting in the area: roughly S$600 to S$1,000 a month for an HDB common room, and S$1,200 to S$1,950 for a private room in a shared condo, depending on the building and how close to the MRT it sits.
 
 None of that is Lazybee inventory. We're naming it because it's the honest answer to where housing for aviation industry workers near Changi actually sits, even though it isn't us.
 
@@ -65,7 +65,7 @@ None of these gets you close enough for a reliable pre-dawn report time on publi
 
 There are real cases where one of our houses still works despite the distance. If you're in a corporate, planning, or office-hours role at SIA's head office or Changi Airport Group rather than a roster-driven shift, the commute is annoying but manageable, same as any other cross-island office job. If you drive or split a car with a housemate, the MRT's early cutoff stops being the constraint, and the drive times shrink closer to what the map distance suggests. And if community, price, or house quality matter more to you than shaving a rush-hour commute, especially on the days your roster gives you a later start, that trade can still be worth making with eyes open.
 
-What doesn't make sense is booking a Lazybee room while assuming it's "close enough to Changi" without checking. Run your actual report time against Google Maps first. Our [guide to all three houses](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) has the full detail on each neighbourhood if you want to weigh price, room type, and area against the commute honestly before booking a viewing.
+What doesn't make sense is booking a Lazybee room while assuming it's "close enough to Changi" without checking. Run your actual report time against Google Maps first. Our [guide to all three houses](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) has the full detail on each neighbourhood if you want to weigh price, room type, and area against the commute honestly before booking a viewing.
 
 Current room availability and pricing across Chiltern Park, Ivory Heights, and Thomson Grove is always live at [lazybee.sg](https://lazybee.sg).
 

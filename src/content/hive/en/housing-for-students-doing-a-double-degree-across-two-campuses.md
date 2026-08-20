@@ -18,7 +18,7 @@ That's the short version. The rest of this covers what a genuine double degree a
 
 A double degree is two separate degrees, usually awarded by the end of a longer programme, not one degree with a minor or a study trip bolted on. The clearest local example is NUS's Double Degree Programme in Law and Business Administration, where Law modules run out of NUS Law's Bukit Timah campus and the Business modules run out of NUS Business School at Kent Ridge. NUS Law also runs double degrees pairing Law with Economics and with Life Sciences, all of which carry the same structure: core law teaching stays at Bukit Timah, the second discipline sits with its own faculty at Kent Ridge.
 
-That's a genuinely different housing problem from a single exchange semester or a one-off elective at another school. If your split timetable is a one-off, our guide to [housing for students attending multiple campuses in one semester](https://lazybee.sg/blog/housing-for-students-attending-multiple-campuses-in-one-semester) covers that lighter version. A double degree is not that. You're not managing one unusual term. You're managing a multi-year pattern where the ratio of time at each campus changes by year, sometimes by semester, for as long as the double degree runs.
+That's a genuinely different housing problem from a single exchange semester or a one-off elective at another school. If your split timetable is a one-off, our guide to [housing for students attending multiple campuses in one semester](https://www.lazybee.sg/hive/housing-for-students-attending-multiple-campuses-in-one-semester) covers that lighter version. A double degree is not that. You're not managing one unusual term. You're managing a multi-year pattern where the ratio of time at each campus changes by year, sometimes by semester, for as long as the double degree runs.
 
 Some double degrees pair a Singapore campus with an overseas partner instead of a second local site; NTU's Nanyang Business School has run double degree partnerships with overseas universities including Waseda in Japan. Those usually work in blocks, a semester or a full year based abroad, rather than a weekly split between two Singapore addresses. That structure is a different housing question, what to do with your Singapore room while you're overseas, and it's not what this piece covers.
 
@@ -45,7 +45,7 @@ That's the core reason to plan differently here than for a short cross-campus st
 
 There are really only two strategies, and they trade off against each other.
 
-**Live centrally, accept a moderate commute to both.** Instead of optimising for whichever campus dominates this semester, pick a location that keeps both commutes inside a workable range for the whole degree. Neither trip is the shortest possible, but neither one becomes unworkable if your timetable balance shifts. We've written a full breakdown of that trade-off, including the actual commute-time math, in our [guide to living centrally versus near a single campus](https://lazybee.sg/blog/commute-comparison-living-centrally-vs-near-a-single-campus).
+**Live centrally, accept a moderate commute to both.** Instead of optimising for whichever campus dominates this semester, pick a location that keeps both commutes inside a workable range for the whole degree. Neither trip is the shortest possible, but neither one becomes unworkable if your timetable balance shifts. We've written a full breakdown of that trade-off, including the actual commute-time math, in our [guide to living centrally versus near a single campus](https://www.lazybee.sg/hive/commute-comparison-living-centrally-vs-near-a-single-campus).
 
 **Anchor near the campus you'll spend more years favouring, and accept the other commute is longer.** This works if your double degree's structure is lopsided by design, more years weighted toward one faculty than the other, and you can look at the actual module sequencing ahead of time rather than guessing. It's a bet on a known pattern, not a hedge against an unknown one.
 
@@ -88,7 +88,7 @@ A few things matter more for a multi-year, two-campus arrangement than they woul
 | What happens at lease renewal | You are planning for a programme that outlasts a single lease term |
 | Furnished and utilities-inclusive | Makes a location swap between years far less painful than moving furniture |
 
-For a full breakdown of what a real commute matrix looks like in minutes, not vague descriptions, our [commute time comparison across NUS, NTU, SMU and SIT](https://lazybee.sg/blog/commute-times-from-co-living-rooms-to-nus-ntu-smu-and-sit) covers actual transit routes from each of Lazybee's three houses.
+For a full breakdown of what a real commute matrix looks like in minutes, not vague descriptions, our [commute time comparison across NUS, NTU, SMU and SIT](https://www.lazybee.sg/hive/commute-times-from-co-living-rooms-to-nus-ntu-smu-and-sit) covers actual transit routes from each of Lazybee's three houses.
 
 ## Frequently Asked Questions
 
