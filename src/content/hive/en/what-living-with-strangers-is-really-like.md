@@ -99,7 +99,7 @@ You won't get full veto power over who you live with, and that's normal for shar
 | Ensuite or shared bathroom, and how many people share it? | The single biggest decision inside co-living |
 | Can I see the room and common areas before committing? | In person or over video. A straight yes is the answer you want |
 
-A straight answer to all of these, before you sign, tells you more about daily life than the listing photos do. For how different operators compare on this, [our comparison piece](https://lazybee.sg/blog/coliving-operators-singapore-compared) goes deeper, and it's worth checking [what's actually legal for shared housing in Singapore](https://lazybee.sg/blog/is-coliving-legal-in-singapore) before you commit anywhere.
+A straight answer to all of these, before you sign, tells you more about daily life than the listing photos do. For how different operators compare on this, [our comparison piece](https://www.lazybee.sg/hive/coliving-operators-singapore-compared) goes deeper, and it's worth checking [what's actually legal for shared housing in Singapore](https://www.lazybee.sg/hive/is-coliving-legal-in-singapore) before you commit anywhere.
 
 
 ![The common area at Chiltern Park, dining table beside the sofas](/sketches/interior__lazybee-cp__dining-sofa-common.jpg)

@@ -50,7 +50,7 @@ Kaplan 的基础文凭可能不到一年。文凭课程通常更长，通过合�
 
 学位由合作大学颁发，包括阿斯顿、伯明翰城市、莫纳什、莫道克、诺森比亚、都柏林大学学院和朴茨茅斯，而不是由 Kaplan 本身颁发。
 
-如果你人还没落地就想先在海外把房间安排好，我们的[从海外租新加坡房子](https://lazybee.sg/blog/renting-singapore-from-overseas)指南说明了哪些事抵达前就能实际办妥，哪些必须等你人到了才行。如果你持的是学生准证，[持就业准证、S 准证与学生准证租房的差别](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)会讲清楚房东通常会要求什么。
+如果你人还没落地就想先在海外把房间安排好，我们的[从海外租新加坡房子](https://www.lazybee.sg/hive/zh/renting-singapore-from-overseas)指南说明了哪些事抵达前就能实际办妥，哪些必须等你人到了才行。如果你持的是学生准证，[持就业准证、S 准证与学生准证租房的差别](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)会讲清楚房东通常会要求什么。
 
 ![新加坡国立大学肯特岗校区一条绿树成荫的人行天桥](/sketches/loc-campus__nus-kent-ridge__overpass-trees.jpg)
 
@@ -93,7 +93,7 @@ Kaplan 的基础文凭可能不到一年。文凭课程通常更长，通过合�
 
 Lazybee 在实龙岗的 Chiltern Park 经营一间共居房子，靠近环线的罗弄泉地铁站，正是那条直接经过百胜楼的线，而百胜楼离 Kaplan 的 Odeon 333 校区只有几步路。房间附家具，水电和无线网络都包含在内，如果你是第一次来新加坡，还没有本地银行账户，也没办法在第一天就自己开通网络，这一点很重要。
 
-想完整了解 Lazybee 在新加坡的三间房子，包括 Chiltern Park 所在的区域和房间实际包含什么，请看我们的[Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)。当前的房间供应情况和租约条款一律以 [lazybee.sg](https://lazybee.sg) 上的即时资讯为准，那是唯一能保证数字准确的地方。
+想完整了解 Lazybee 在新加坡的三间房子，包括 Chiltern Park 所在的区域和房间实际包含什么，请看我们的[Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)。当前的房间供应情况和租约条款一律以 [lazybee.sg](https://lazybee.sg) 上的即时资讯为准，那是唯一能保证数字准确的地方。
 
 ## 常见问题
 

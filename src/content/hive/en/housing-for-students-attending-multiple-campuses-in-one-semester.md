@@ -30,7 +30,7 @@ Polytechnic students see a version of this too. A semester with an internship, i
 | Polytechnic internship, attachment or Final Year Project | Hosted off the main campus, but with a day or two of classes still back on campus in the same week | One semester |
 | Full double degree at two universities | Two campuses as permanent features of student life | Multiple years, a different problem entirely |
 
-If any of this describes your semester, this guide is for you. If you're carrying two full degrees at two different universities for multiple years, the housing math is different and longer-term. See our [guide to housing for a double degree across two campuses](https://lazybee.sg/blog/housing-for-students-doing-a-double-degree-across-two-campuses) for that version instead.
+If any of this describes your semester, this guide is for you. If you're carrying two full degrees at two different universities for multiple years, the housing math is different and longer-term. See our [guide to housing for a double degree across two campuses](https://www.lazybee.sg/hive/housing-for-students-doing-a-double-degree-across-two-campuses) for that version instead.
 
 ## Why This Isn't the Same Problem as a Double Degree
 
@@ -55,7 +55,7 @@ The instinct is to pick a room near whichever campus feels like "home base," the
 
 The better approach is to treat both sites as real, and find a base that keeps the sum of both commutes reasonable rather than optimising one at the expense of the other. A location on a transport line that touches both sites, or sits roughly between them, beats a location that's excellent for one and brutal for the other.
 
-This is exactly the tradeoff our [commute comparison guide on living centrally versus near a single campus](https://lazybee.sg/blog/commute-comparison-living-centrally-vs-near-a-single-campus) walks through in more depth, and it applies directly here. A split-campus semester is a specific case of that same general question: is it worth trading proximity to one destination for a shorter combined trip across all your destinations?
+This is exactly the tradeoff our [commute comparison guide on living centrally versus near a single campus](https://www.lazybee.sg/hive/commute-comparison-living-centrally-vs-near-a-single-campus) walks through in more depth, and it applies directly here. A split-campus semester is a specific case of that same general question: is it worth trading proximity to one destination for a shorter combined trip across all your destinations?
 
 Before you commit to a room, map both sites and your actual weekly schedule, not just theoretical straight-line distance. A room that's a 15-minute walk from Site A but a 50-minute multi-transfer ride to Site B on your two lecture days there isn't actually convenient, even though it looks great on paper for Site A alone.
 

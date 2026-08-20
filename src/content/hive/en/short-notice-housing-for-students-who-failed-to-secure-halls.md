@@ -106,7 +106,7 @@ Co-living gets pitched for a lot of things it's only an okay fit for. This is on
 
 A room that's already furnished and already vacant removes the two slowest parts of any private tenancy: waiting for the landlord's schedule and fitting out an empty unit yourself. Lazybee's rooms across Chiltern Park, Ivory Heights, and Thomson Grove run on standardised licence agreements and show current availability directly on the listing, so you're not emailing to ask and waiting days for a reply. If a room is showing as available, it's available.
 
-For a student who just found out a hall balloting result didn't go their way with term starting soon, that difference, seeing real vacancy and signing on standard paperwork, is what actually turns a stressful two weeks into a solved problem. If you want to compare co-living against a serviced apartment or short hotel stay for pure speed, [our short-notice housing guide](https://lazybee.sg/blog/short-notice-housing-singapore) covers that side by side.
+For a student who just found out a hall balloting result didn't go their way with term starting soon, that difference, seeing real vacancy and signing on standard paperwork, is what actually turns a stressful two weeks into a solved problem. If you want to compare co-living against a serviced apartment or short hotel stay for pure speed, [our short-notice housing guide](https://www.lazybee.sg/hive/short-notice-housing-singapore) covers that side by side.
 
 
 ![The Singapore Management University campus in the middle of the city](/sketches/loc-campus__smu__city-block.jpg)
@@ -115,7 +115,7 @@ For a student who just found out a hall balloting result didn't go their way wit
 
 Check what's vacant right now rather than assuming nothing is. Availability on co-living listings turns over constantly, since rooms open and fill on a rolling basis through the year, not just at the start of term.
 
-If you're moving in on a Student Pass or still waiting on your in-principle approval, [our guide to renting on a Student Pass versus EP or S Pass](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through what documentation you'll actually need. And if you want to see what a Lazybee room and house actually looks like before reaching out, [the Chiltern Park, Ivory Heights, and Thomson Grove guide](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) covers all three properties. Current availability is always shown directly on [lazybee.sg](https://lazybee.sg), so you can see what's open before you message anyone.
+If you're moving in on a Student Pass or still waiting on your in-principle approval, [our guide to renting on a Student Pass versus EP or S Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through what documentation you'll actually need. And if you want to see what a Lazybee room and house actually looks like before reaching out, [the Chiltern Park, Ivory Heights, and Thomson Grove guide](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) covers all three properties. Current availability is always shown directly on [lazybee.sg](https://lazybee.sg), so you can see what's open before you message anyone.
 
 ## Questions Students Ask Right After a Failed Balloting Result
 

@@ -66,7 +66,7 @@ If evening access to Cuppage Plaza's community or Orchard's convenience matters 
 
 If your priority is the river, restaurants, and the general expat social scene around Robertson Quay, **Thomson Grove**'s position on the TEL, a line that continues on toward the river corridor, is the more useful of the three.
 
-If you're a student and your campus, rather than any of these community pockets, is the real anchor, our [guide to living by commute time to the CBD](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore) and the [full Chiltern Park, Ivory Heights, and Thomson Grove guide](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) cover campus-specific commute math in more depth than this piece can.
+If you're a student and your campus, rather than any of these community pockets, is the real anchor, our [guide to living by commute time to the CBD](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) and the [full Chiltern Park, Ivory Heights, and Thomson Grove guide](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) cover campus-specific commute math in more depth than this piece can.
 
 
 ![Commuters standing inside an MRT carriage](/sketches/loc-transit__mrt-train__interior-commuters.jpg)
@@ -77,7 +77,7 @@ If you're a student and your campus, rather than any of these community pockets,
 
 **A room that's already set up.** Arriving from Japan with limited luggage and no local network is a different move from arriving with a full household in tow. A furnished room with wifi and utilities already bundled removes a real source of first-week friction, before you've worked out where the nearest Meidi-Ya or Isetan is.
 
-**Matching your lease to your pass.** Singapore's private rental market has a hard floor of three months minimum, no exceptions, co-living included. Whether you're here on a Student Pass, an Employment Pass, or an S Pass, match your lease length to your pass validity rather than the landlord's default term. Our [guide to renting on an EP, S Pass, or Student Pass](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through this. For what an all-in monthly budget actually looks like once utilities, food, and moving-in costs are added to rent, our [2026 cost of renting breakdown](https://lazybee.sg/blog/cost-of-renting-singapore-2026-budget) covers that separately, so this guide won't repeat it here.
+**Matching your lease to your pass.** Singapore's private rental market has a hard floor of three months minimum, no exceptions, co-living included. Whether you're here on a Student Pass, an Employment Pass, or an S Pass, match your lease length to your pass validity rather than the landlord's default term. Our [guide to renting on an EP, S Pass, or Student Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through this. For what an all-in monthly budget actually looks like once utilities, food, and moving-in costs are added to rent, our [2026 cost of renting breakdown](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget) covers that separately, so this guide won't repeat it here.
 
 
 ![Ticket machines in an MRT station concourse](/sketches/loc-transit__mrt-concourse__ticket-machines.jpg)

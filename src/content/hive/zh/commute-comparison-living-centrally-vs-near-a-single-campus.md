@@ -61,9 +61,9 @@ heroAlt: 地铁站大堂里的售票机
 
 上面说的一切都假设只有一个校园，以及围绕它的正常一周。有两种情况会以自己的逻辑改变这套算法，值得单独处理，而不是在这里多加几段。
 
-如果你在同一个学期跨超过一个校园修课，这在跨校注册的学生里很常见，那么要算的不是校园 vs 其他所有地方，而是校园 A vs 校园 B vs 其他所有地方。我们的指南[同一学期跨多个校园上课的学生该怎么租房](https://lazybee.sg/blog/housing-for-students-attending-multiple-campuses-in-one-semester)详细讲了这个版本的取舍。
+如果你在同一个学期跨超过一个校园修课，这在跨校注册的学生里很常见，那么要算的不是校园 vs 其他所有地方，而是校园 A vs 校园 B vs 其他所有地方。我们的指南[同一学期跨多个校园上课的学生该怎么租房](https://www.lazybee.sg/hive/zh/housing-for-students-attending-multiple-campuses-in-one-semester)详细讲了这个版本的取舍。
 
-如果你在读双学位课程，整个学程中人要实际待在两所院校，那么这笔账要算的时间比一个学期长得多，值得用更长远的眼光来决定把自己安顿在哪里。这个部分在[跨两个校园读双学位的学生租房指南](https://lazybee.sg/blog/housing-for-students-doing-a-double-degree-across-two-campuses)里另外谈。
+如果你在读双学位课程，整个学程中人要实际待在两所院校，那么这笔账要算的时间比一个学期长得多，值得用更长远的眼光来决定把自己安顿在哪里。这个部分在[跨两个校园读双学位的学生租房指南](https://www.lazybee.sg/hive/zh/housing-for-students-doing-a-double-degree-across-two-campuses)里另外谈。
 
 ## 该怎么真正做决定
 
@@ -80,9 +80,9 @@ heroAlt: 地铁站大堂里的售票机
 
 ## 这给你留下什么
 
-这一切都不是要你避开紧邻校园的住处。它是要你在选它的时候，把自己放弃了什么算清楚，就像你在签一年期租约前会给任何其他取舍算价一样。想看这个比较的 Lazybee 版本，我们的[按到中央商务区通勤时间选住处](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore)指南，以及[从我们三间房子到新加坡国立大学、南洋理工大学、新加坡管理大学和新加坡理工大学的通勤矩阵](https://lazybee.sg/blog/commute-times-from-co-living-rooms-to-nus-ntu-smu-and-sit)，都用的是真实数字，而不是这里讲的一般框架。
+这一切都不是要你避开紧邻校园的住处。它是要你在选它的时候，把自己放弃了什么算清楚，就像你在签一年期租约前会给任何其他取舍算价一样。想看这个比较的 Lazybee 版本，我们的[按到中央商务区通勤时间选住处](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)指南，以及[从我们三间房子到新加坡国立大学、南洋理工大学、新加坡管理大学和新加坡理工大学的通勤矩阵](https://www.lazybee.sg/hive/zh/commute-times-from-co-living-rooms-to-nus-ntu-smu-and-sit)，都用的是真实数字，而不是这里讲的一般框架。
 
-如果你正在把一个市中心的房间和一个更靠近某个校园的选项放在一起权衡，我们的[Chiltern Park、Ivory Heights 和 Thomson Grove 指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)讲了每个片区日常实际是什么样子。三间房子的最新空房情况都在 [lazybee.sg](https://lazybee.sg) 上，每个房源都写明最近的地铁站和线路，你可以在预约看房之前先对照自己那份目的地清单查一遍。
+如果你正在把一个市中心的房间和一个更靠近某个校园的选项放在一起权衡，我们的[Chiltern Park、Ivory Heights 和 Thomson Grove 指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)讲了每个片区日常实际是什么样子。三间房子的最新空房情况都在 [lazybee.sg](https://lazybee.sg) 上，每个房源都写明最近的地铁站和线路，你可以在预约看房之前先对照自己那份目的地清单查一遍。
 
 ## 常见问题
 

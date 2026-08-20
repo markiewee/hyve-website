@@ -97,9 +97,9 @@ The other half of this is inside the house. If you're coming home at 3am two or 
 
 ## Which course are you on?
 
-The transport and household points above apply broadly, but each field has its own specific rhythm worth reading up on directly. If you're on a medical programme, our guide to [housing for medical students on clinical rotation schedules in Singapore](https://lazybee.sg/blog/housing-for-medical-students-on-clinical-rotation-schedules-in-singapore) goes into ward hours, hospital postings, and what changes rotation to rotation. Nursing students should see [housing for nursing students on clinical placement in Singapore](https://lazybee.sg/blog/housing-for-nursing-students-on-clinical-placement-in-singapore) for placement-specific detail.
+The transport and household points above apply broadly, but each field has its own specific rhythm worth reading up on directly. If you're on a medical programme, our guide to [housing for medical students on clinical rotation schedules in Singapore](https://www.lazybee.sg/hive/housing-for-medical-students-on-clinical-rotation-schedules-in-singapore) goes into ward hours, hospital postings, and what changes rotation to rotation. Nursing students should see [housing for nursing students on clinical placement in Singapore](https://www.lazybee.sg/hive/housing-for-nursing-students-on-clinical-placement-in-singapore) for placement-specific detail.
 
-Architecture students pulling studio all-nighters before a crit will find more depth in [housing for architecture students working late studio hours](https://lazybee.sg/blog/housing-for-architecture-students-working-late-studio-hours), and engineering students deep in lab work or an FYP crunch should read [housing for engineering students near campus labs](https://lazybee.sg/blog/housing-for-engineering-students-near-campus-labs).
+Architecture students pulling studio all-nighters before a crit will find more depth in [housing for architecture students working late studio hours](https://www.lazybee.sg/hive/housing-for-architecture-students-working-late-studio-hours), and engineering students deep in lab work or an FYP crunch should read [housing for engineering students near campus labs](https://www.lazybee.sg/hive/housing-for-engineering-students-near-campus-labs).
 
 
 ![Buses and destination boards at a Singapore bus interchange](/sketches/loc-transit__bus-interchange__bus-signage-boards.jpg)
@@ -114,7 +114,7 @@ None of Lazybee's three houses sit directly on campus, and that's not a downside
 | Ivory Heights, Jurong East | Near a major interchange with heavy foot traffic and lighting even late | A route that never feels deserted |
 | Thomson Grove, near Lentor | The quietest of the three | Fewer people around, weighed against the interchange access of the other two |
 
-Full detail on all three houses is in our [guide to Chiltern Park, Ivory Heights and Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide). Current room availability and pricing lives on [lazybee.sg](https://lazybee.sg), and it changes as people move in and out, so check there directly before deciding rather than relying on anything written here. If you want to see a room and walk its actual route to the nearest station before you commit, book a viewing through the site.
+Full detail on all three houses is in our [guide to Chiltern Park, Ivory Heights and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide). Current room availability and pricing lives on [lazybee.sg](https://lazybee.sg), and it changes as people move in and out, so check there directly before deciding rather than relying on anything written here. If you want to see a room and walk its actual route to the nearest station before you commit, book a viewing through the site.
 
 ## Frequently asked questions
 

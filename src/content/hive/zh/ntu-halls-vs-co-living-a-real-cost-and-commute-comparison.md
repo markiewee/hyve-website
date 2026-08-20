@@ -90,6 +90,6 @@ Lazybee 离南洋理工大学最近的房源是位于裕廊东的 Ivory Heights�
 
 有些学生会刻意采取折中做法：在价格最低、抽签又对自己有利的头两年，选择有保证的宿舍名额，等到第三年在读生抽签结果变得不确定、独立性开始比离校园近更重要时，再转向共居。
 
-Lazybee 在裕廊东经营 Ivory Heights，这是一栋位于东西线上的家具齐全共居房源，有穿梭巴士或公交车直达南洋理工大学，当前房间空缺情况列在 [lazybee.sg](https://lazybee.sg) 上，而不是逐个咨询后再谈。如果你的宿舍抽签结果不如意，或者已经过了两年保证期、不想再回到那个抽签池，这个选项值得看一看。想了解更多南洋理工大学日常往返的信息，可以看我们的[南洋理工大学附近学生住宿指南](https://lazybee.sg/blog/student-housing-near-ntu-a-co-living-guide)，里面更深入地介绍了文礼、先驱和裕廊东；想了解 Ivory Heights 的房间究竟是什么样子，可以看我们的[Lazybee 三栋房源指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)。
+Lazybee 在裕廊东经营 Ivory Heights，这是一栋位于东西线上的家具齐全共居房源，有穿梭巴士或公交车直达南洋理工大学，当前房间空缺情况列在 [lazybee.sg](https://lazybee.sg) 上，而不是逐个咨询后再谈。如果你的宿舍抽签结果不如意，或者已经过了两年保证期、不想再回到那个抽签池，这个选项值得看一看。想了解更多南洋理工大学日常往返的信息，可以看我们的[南洋理工大学附近学生住宿指南](https://www.lazybee.sg/hive/zh/student-housing-near-ntu-a-co-living-guide)，里面更深入地介绍了文礼、先驱和裕廊东；想了解 Ivory Heights 的房间究竟是什么样子，可以看我们的[Lazybee 三栋房源指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)。
 
 资料来源：[移民与关卡局（ICA），申请学生准证](https://www.ica.gov.sg/reside/STP/apply)；[市区重建局（URA），短期住宿指南](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/)；[市区重建局（URA），租赁物业指南](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/)；[国内税务局（IRAS），租赁物业印花税](https://www.iras.gov.sg/taxes/stamp-duty/for-property/renting-a-property)。

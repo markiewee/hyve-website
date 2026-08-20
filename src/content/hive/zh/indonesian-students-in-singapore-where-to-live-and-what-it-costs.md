@@ -75,7 +75,7 @@ PPI Singapura 是印尼学生总会的伞状组织，自 2006 年运作至今，
 
 ## 在这里生活究竟要花多少钱？
 
-新加坡的房间和租金成本不太会因国籍而变，变的是区域、房型，以及价格里包含了什么。租金区间、押金、水电和一份实际的月度预算，我们在 [2026 年新加坡租房成本指南](https://lazybee.sg/blog/cost-of-renting-singapore-2026-budget)里已经写全了，这些数字不论你是从雅加达、泗水还是别的地方来，都一样适用。
+新加坡的房间和租金成本不太会因国籍而变，变的是区域、房型，以及价格里包含了什么。租金区间、押金、水电和一份实际的月度预算，我们在 [2026 年新加坡租房成本指南](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget)里已经写全了，这些数字不论你是从雅加达、泗水还是别的地方来，都一样适用。
 
 从印尼搬过来时特有的，是货币这一块。押金加预付租金通常是两到三个月一次付清，搬家前要把一笔金额从印尼盾换成新元，意味着汇率波动是实际的规划变量，不是可以忽略的零头。留出汇率缓冲，并在汇率看起来合适时提早换、而不是拖到最后一刻，值得在交押金之前就做好，而不是之后。
 
@@ -104,13 +104,13 @@ PPI Singapura 是印尼学生总会的伞状组织，自 2006 年运作至今，
 不会。S$30 的申请费和 S$60 的签发费由移民与关卡局（ICA）设定，对所有需要学生准证的国籍都一样。
 
 **第一次从印尼搬过来，共居合适吗？**
-它省掉了首次租房者要处理的很多规划负担，因为水电、wifi 和家具通常打包成一个数字，而不是好几笔要从零开始设立的账单和押金。我们关于[共居租金究竟包含什么](https://lazybee.sg/blog/whats-included-in-coliving-rent-singapore)的指南，拆解了通常涵盖的项目。
+它省掉了首次租房者要处理的很多规划负担，因为水电、wifi 和家具通常打包成一个数字，而不是好几笔要从零开始设立的账单和押金。我们关于[共居租金究竟包含什么](https://www.lazybee.sg/hive/zh/whats-included-in-coliving-rent-singapore)的指南，拆解了通常涵盖的项目。
 
 **开学前应该提前多久订房？**
-比多数人计划的更早，尤其是八月入学那一波，整个租赁市场的需求会同时冲高。我们的[租房时间线指南](https://lazybee.sg/blog/how-far-ahead-book-housing-singapore)说明了你所在的入学季该什么时候开始找。
+比多数人计划的更早，尤其是八月入学那一波，整个租赁市场的需求会同时冲高。我们的[租房时间线指南](https://www.lazybee.sg/blog/how-far-ahead-book-housing-singapore)说明了你所在的入学季该什么时候开始找。
 
 ## 接下来看什么
 
-如果你已经确定新加坡哪一片区域适合你的校区和预算，Lazybee 三处房子（实龙岗的 Chiltern Park、裕廊东的 Ivory Heights、伦多附近的 Thomson Grove）的当前房源和真实条款，都列在 [lazybee.sg](https://lazybee.sg)。想更细看每处房子和它的街区，我们的[三处房子完整指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)是自然的下一篇。
+如果你已经确定新加坡哪一片区域适合你的校区和预算，Lazybee 三处房子（实龙岗的 Chiltern Park、裕廊东的 Ivory Heights、伦多附近的 Thomson Grove）的当前房源和真实条款，都列在 [lazybee.sg](https://lazybee.sg)。想更细看每处房子和它的街区，我们的[三处房子完整指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)是自然的下一篇。
 
 资料来源：[市区重建局（URA），短期住宿指引](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/)；[市区重建局（URA），房屋出租指引](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/)；[人力部（MOM），S 准证资格](https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility)；[移民与关卡局（ICA），申请学生准证](https://www.ica.gov.sg/reside/STP/apply)。

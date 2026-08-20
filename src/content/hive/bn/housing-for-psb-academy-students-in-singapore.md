@@ -103,6 +103,6 @@ Lazybee সিঙ্গাপুরে তিনটি co-living বাড়ি
 **একটি Lazybee রুমে আসলে কী কী অন্তর্ভুক্ত থাকে?**
 সাধারণত শেয়ার্ড হাউজে একটি প্রাইভেট, ফার্নিশড বেডরুম, যেখানে ইউটিলিটি ও ওয়াইফাই ভাড়ার সাথে অন্তর্ভুক্ত থাকে। ঠিক কী কী অন্তর্ভুক্ত তা রুম ভেদে ভিন্ন হয়, তাই ধরে না নিয়ে নির্দিষ্ট লিস্টিং যাচাই করুন।
 
-তিনটি বাড়ির বর্তমান রুম খালি থাকার তথ্য [lazybee.sg](https://lazybee.sg)-এ তালিকাভুক্ত আছে, প্রতিটি লিস্টিং-এ প্রকৃত মুভ-ইন তারিখ ও শর্তাবলিসহ, দরদাম করার মতো দাম নয়। যদি আপনি বাড়িগুলোর মধ্যে সিদ্ধান্ত নিতে না পারেন, তাহলে [Chiltern Park, Ivory Heights ও Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) নিয়ে আমাদের সম্পূর্ণ গাইডে প্রতিটি এলাকা আরও বিস্তারিতভাবে কভার করা হয়েছে।
+তিনটি বাড়ির বর্তমান রুম খালি থাকার তথ্য [lazybee.sg](https://lazybee.sg)-এ তালিকাভুক্ত আছে, প্রতিটি লিস্টিং-এ প্রকৃত মুভ-ইন তারিখ ও শর্তাবলিসহ, দরদাম করার মতো দাম নয়। যদি আপনি বাড়িগুলোর মধ্যে সিদ্ধান্ত নিতে না পারেন, তাহলে [Chiltern Park, Ivory Heights ও Thomson Grove](https://www.lazybee.sg/hive/bn/chiltern-park-ivory-heights-thomson-grove-guide) নিয়ে আমাদের সম্পূর্ণ গাইডে প্রতিটি এলাকা আরও বিস্তারিতভাবে কভার করা হয়েছে।
 
 সূত্র: [URA (নগর পুনর্নবীকরণ কর্তৃপক্ষ), স্বল্পমেয়াদী আবাসন নির্দেশিকা](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/); [ICA, Student's Pass-এর জন্য আবেদন](https://www.ica.gov.sg/reside/STP/apply)।

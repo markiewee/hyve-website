@@ -57,7 +57,7 @@ Lazybee runs three co-living houses across Singapore, and the right one depends 
 
 **If you're headed to the CBD or financial district for work**, Thomson Grove's direct Thomson-East Coast Line run into Marina Bay is the shortest single-line option of the three, and Ivory Heights isn't far behind on the East-West Line into Raffles Place. **If NTU is your campus**, Ivory Heights sits on the same line with no transfer. **If SMU is your campus**, its city-centre location means all three houses involve some travel, but Thomson Grove's line running straight into the city gives it a slight edge.
 
-Full detail on all three houses, room mix, and neighbourhood character is in our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide).
+Full detail on all three houses, room mix, and neighbourhood character is in our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide).
 
 ## What Matters Beyond the Commute
 
@@ -65,11 +65,11 @@ Full detail on all three houses, room mix, and neighbourhood character is in our
 
 **A room that's already set up.** Whether you're arriving with a suitcase for university or relocating for a job with a start date already fixed, a furnished room with wifi and utilities included cuts out one whole category of first-week admin before you've even worked out your commute in practice.
 
-**Verified housing before you commit.** Booking sight unseen from Hong Kong carries the same risks it does from anywhere: unrealistically low prices, deposit requests before a viewing, or listings copied from a real property. If you can't view in person, insist on a video walkthrough and check any agent's registration on the Council for Estate Agencies' website before sending money. Our guide on [viewing a room remotely](https://lazybee.sg/blog/viewing-a-room-remotely-singapore) covers this in more depth.
+**Verified housing before you commit.** Booking sight unseen from Hong Kong carries the same risks it does from anywhere: unrealistically low prices, deposit requests before a viewing, or listings copied from a real property. If you can't view in person, insist on a video walkthrough and check any agent's registration on the Council for Estate Agencies' website before sending money. Our guide on [viewing a room remotely](https://www.lazybee.sg/hive/viewing-a-room-remotely-singapore) covers this in more depth.
 
 ## Matching Your Lease to Your Pass
 
-Private residential property in Singapore can't be let for under three months, a floor that applies to every operator, co-living included. Past that floor, match your lease length to your Student Pass or Employment Pass validity rather than defaulting to a standard 12-month term, since both pass types typically renew on a schedule tied to your enrolment or your employment contract. Our guide on [renting on an EP, S Pass, or Student Pass](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through this in more detail.
+Private residential property in Singapore can't be let for under three months, a floor that applies to every operator, co-living included. Past that floor, match your lease length to your Student Pass or Employment Pass validity rather than defaulting to a standard 12-month term, since both pass types typically renew on a schedule tied to your enrolment or your employment contract. Our guide on [renting on an EP, S Pass, or Student Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through this in more detail.
 
 
 ![The NTU Learning Hub, the university's landmark stacked building](/sketches/loc-campus__ntu__learning-hub-landmark.jpg)

@@ -11,7 +11,7 @@ heroAlt: 地铁站大堂里的售票机
 
 如果你即将入读新加坡的院校，并且默认宿舍名额会自动落到手上，先停下来查一查学校的实际政策。这里多数学校根本不保证住宿。新加坡国立大学任何年级都不作保证。南洋理工大学只保证前两年，之后就要靠积分竞争。新加坡管理大学的几百张床位要面对一万两千多名学生，实际上等于没有保证。私立院校和理工学院大多一开始就没有校内住宿。几乎在所有情况下，安全的假设都是：你得自己安排房间。
 
-这篇文章是覆盖各类院校的整体地图。如果你想了解新加坡国立大学和南洋理工大学抽签的具体机制与中签概率，我们另有一篇[新加坡国立大学／南洋理工大学宿舍指南](https://lazybee.sg/blog/getting-into-nus-or-ntu-halls-what-happens-if-you-dont)。如果你读的正好是新加坡管理大学，我们的[新加坡管理大学无宿舍专题](https://lazybee.sg/blog/smus-no-halls-policy-where-smu-students-actually-live)详细讲了该校学生最后实际住在哪里。
+这篇文章是覆盖各类院校的整体地图。如果你想了解新加坡国立大学和南洋理工大学抽签的具体机制与中签概率，我们另有一篇[新加坡国立大学／南洋理工大学宿舍指南](https://www.lazybee.sg/hive/zh/getting-into-nus-or-ntu-halls-what-happens-if-you-dont)。如果你读的正好是新加坡管理大学，我们的[新加坡管理大学无宿舍专题](https://www.lazybee.sg/hive/zh/smus-no-halls-policy-where-smu-students-actually-live)详细讲了该校学生最后实际住在哪里。
 
 ## 为什么新加坡和「保证第一年住宿」的国家不一样
 
@@ -27,9 +27,9 @@ heroAlt: 地铁站大堂里的售票机
 
 **南洋理工大学**保证前两年的宿舍名额，与入学年份挂钩，这是真正的保证，而不是优先排序。第二年之后保证结束。从第三年起，南洋理工大学采用积分制，积分建立在你前一年累积的课外活动和宿舍事务参与上，所以前两年过得安静，恰好会在保证到期时让你积分单薄。
 
-两校的完整机制、积分档位和现实中签概率，都写在我们的[新加坡国立大学／南洋理工大学宿舍指南](https://lazybee.sg/blog/getting-into-nus-or-ntu-halls-what-happens-if-you-dont)里。
+两校的完整机制、积分档位和现实中签概率，都写在我们的[新加坡国立大学／南洋理工大学宿舍指南](https://www.lazybee.sg/hive/zh/getting-into-nus-or-ntu-halls-what-happens-if-you-dont)里。
 
-**新加坡管理大学**在任何实质意义上都没有宿舍体系。其主要住宿 Prinsep Street Residences 最多容纳 250 名学生，优先安排给研究型研究生。加上新加坡管理大学在少数合作楼宇租下的床位，总容量仍在 400 到 500 张左右，而学生人数超过一万两千人（[新加坡管理大学统计摘要，2025 年 9 月](https://www.smu.edu.sg/sites/default/files/smu/statistical_highlights_20250915.pdf)），对多数学生来说不是可以纳入计划的退路。关于新加坡管理大学学生实际住在哪里的完整内容，见我们的[新加坡管理大学住宿指南](https://lazybee.sg/blog/smus-no-halls-policy-where-smu-students-actually-live)。
+**新加坡管理大学**在任何实质意义上都没有宿舍体系。其主要住宿 Prinsep Street Residences 最多容纳 250 名学生，优先安排给研究型研究生。加上新加坡管理大学在少数合作楼宇租下的床位，总容量仍在 400 到 500 张左右，而学生人数超过一万两千人（[新加坡管理大学统计摘要，2025 年 9 月](https://www.smu.edu.sg/sites/default/files/smu/statistical_highlights_20250915.pdf)），对多数学生来说不是可以纳入计划的退路。关于新加坡管理大学学生实际住在哪里的完整内容，见我们的[新加坡管理大学住宿指南](https://www.lazybee.sg/hive/zh/smus-no-halls-policy-where-smu-students-actually-live)。
 
 | 院校 | 是否保证 | 名额实际如何分配 |
 |---|---|---|
@@ -69,7 +69,7 @@ heroAlt: 地铁站大堂里的售票机
 
 **开学前 4 到 6 周**，多数宿舍、住宿楼和积分制系统已经公布结果或接近公布。如果那时你已知道拿不到名额，找一间带家具的房间时间上仍然可行，只是可选区域会变窄。
 
-**最后两周之内**，你就进入了短通知的处境。仍然有解，但在压力下做出错误决定的余地变大了。如果你现在正处在这个窗口，我们的[短通知找房指南](https://lazybee.sg/blog/short-notice-housing-for-students-who-failed-to-secure-halls)讲了学生赶时间时常犯的错误，以及一份避坑清单。
+**最后两周之内**，你就进入了短通知的处境。仍然有解，但在压力下做出错误决定的余地变大了。如果你现在正处在这个窗口，我们的[短通知找房指南](https://www.lazybee.sg/hive/zh/short-notice-housing-for-students-who-failed-to-secure-halls)讲了学生赶时间时常犯的错误，以及一份避坑清单。
 
 | 距离开学 | 你的处境 | 该做什么 |
 |---|---|---|
@@ -105,7 +105,7 @@ Lazybee 在新加坡经营三处带家具的共居住宅：位于实龙岗、靠
 各校不同，一般不作保证。有些学校，例如新加坡管理发展学院，确实经营着规模不小的住宿楼，但即便如此，每一届的名额也有限。另一些几乎不提供或完全不提供机构住宿。直接问招生处，并拿到书面答复。
 
 **如果我不指望宿舍名额，应该提前多久开始找校外住宿？**
-大约在开学前 8 到 12 周开始，才有真正的选择空间。如果你已经进入最后两周，仍然有解，但需要动作够快，这一点我们的[短通知找房指南](https://lazybee.sg/blog/short-notice-housing-for-students-who-failed-to-secure-halls)有详细说明。
+大约在开学前 8 到 12 周开始，才有真正的选择空间。如果你已经进入最后两周，仍然有解，但需要动作够快，这一点我们的[短通知找房指南](https://www.lazybee.sg/hive/zh/short-notice-housing-for-students-who-failed-to-secure-halls)有详细说明。
 
 **共居比大学宿舍便宜还是贵？**
 视情况而定，但共居的价格通常更接近公开租赁市场，而不是有补贴的宿舍价格，预算时要按这个来算。共居给的是另一种东西：确定性，一间具体的、此刻显示为可租的房间，而不是一个还在等的结果。

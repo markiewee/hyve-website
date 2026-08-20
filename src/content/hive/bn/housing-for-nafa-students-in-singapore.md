@@ -94,6 +94,6 @@ Chiltern Park এবং Thomson Grove মোটামুটি কাছাক�
 
 ## পরবর্তী পদক্ষেপ
 
-যদি আপনার সময়সূচির সঙ্গে Chiltern Park বা Thomson Grove-এর যাতায়াত মানানসই হয়, পরবর্তী পদক্ষেপ হলো [lazybee.sg](https://lazybee.sg)-এর মাধ্যমে একটি পরিদর্শনের বুকিং করা, যাতে সরাসরি গিয়ে আসল রুম এবং পরিবার দেখতে পারেন। তিনটি হাউসকেই পাশাপাশি বিস্তারিতভাবে দেখতে চাইলে, আমাদের [Chiltern Park, Ivory Heights এবং Thomson Grove-এর গাইড](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)-এ শুধু যাতায়াত নয়, রুমের ধরন এবং পাড়ার বৈশিষ্ট্য নিয়েও আলোচনা করা হয়েছে।
+যদি আপনার সময়সূচির সঙ্গে Chiltern Park বা Thomson Grove-এর যাতায়াত মানানসই হয়, পরবর্তী পদক্ষেপ হলো [lazybee.sg](https://lazybee.sg)-এর মাধ্যমে একটি পরিদর্শনের বুকিং করা, যাতে সরাসরি গিয়ে আসল রুম এবং পরিবার দেখতে পারেন। তিনটি হাউসকেই পাশাপাশি বিস্তারিতভাবে দেখতে চাইলে, আমাদের [Chiltern Park, Ivory Heights এবং Thomson Grove-এর গাইড](https://www.lazybee.sg/hive/bn/chiltern-park-ivory-heights-thomson-grove-guide)-এ শুধু যাতায়াত নয়, রুমের ধরন এবং পাড়ার বৈশিষ্ট্য নিয়েও আলোচনা করা হয়েছে।
 
 সূত্র: [URA (Urban Redevelopment Authority), Short-Term Accommodation নির্দেশিকা](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/); [URA, Renting Property নির্দেশিকা](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/)।

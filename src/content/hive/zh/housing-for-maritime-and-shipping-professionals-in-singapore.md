@@ -39,7 +39,7 @@ heroAlt: 港务集团码头上堆叠集装箱的门式起重机
 
 大多数从海外来的岸基海事从业者持就业准证 (EP) 或 S 准证，和其他行业的技术与专业岗位属于同一类别。按人力部 (MOM) 目前的规定，就业准证的合格薪金起点为每月 $5,600，此外还要通过 COMPASS 计分框架，雇主也必须先在 MyCareersFuture 上刊登职位。S 准证针对中等技能岗位，薪金门槛较低。这些门槛会定期调整，所以请直接到人力部网站查看当前数字，不要依赖任何文章上的数字，包括本文。
 
-首次申请的就业准证有效期最长两年，续期最长三年，足以覆盖一段常规的岸基派驻，这一点和某些以项目为周期的工程合约不同，后者是工作本身决定真正的结束日期。如果你要比较的是建筑或基建工程合约而不是海事企业岗位，我们的[新加坡项目制工程师租房指南](https://lazybee.sg/blog/housing-for-engineers-on-project-based-contracts-in-singapore)讲的就是同一道选择题在轮班制、绑定工地那一端的版本。
+首次申请的就业准证有效期最长两年，续期最长三年，足以覆盖一段常规的岸基派驻，这一点和某些以项目为周期的工程合约不同，后者是工作本身决定真正的结束日期。如果你要比较的是建筑或基建工程合约而不是海事企业岗位，我们的[新加坡项目制工程师租房指南](https://www.lazybee.sg/hive/zh/housing-for-engineers-on-project-based-contracts-in-singapore)讲的就是同一道选择题在轮班制、绑定工地那一端的版本。
 
 ## 航运公司的办公室究竟设在哪里
 
@@ -94,6 +94,6 @@ Lazybee 在新加坡各地经营带家具的共居房间，包含无线网络和
 对大多数中央商业区的岗位来说，住在地铁能合理到达市中心核心区的范围内就够了。如果你的工作其实在更西边的码头或燃油加注设施现场，那就更重要，因为通勤确实更长，轨道交通的覆盖也更差。
 
 **这和项目制工程师的租房建议一样吗？**
-不一样。本文讲的是岸基的商务与运营类海事岗位，包括船舶管理、租船、码头运营等。如果你是按建筑或基建项目周期被聘用的工程师，请看我们的[项目制工程师租房指南](https://lazybee.sg/blog/housing-for-engineers-on-project-based-contracts-in-singapore)。
+不一样。本文讲的是岸基的商务与运营类海事岗位，包括船舶管理、租船、码头运营等。如果你是按建筑或基建项目周期被聘用的工程师，请看我们的[项目制工程师租房指南](https://www.lazybee.sg/hive/zh/housing-for-engineers-on-project-based-contracts-in-singapore)。
 
 资料来源：[市区重建局 (URA)，短期住宿指引](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/)；[市区重建局 (URA)，房产出租指引](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/)；[人力部 (MOM)，就业准证资格](https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility)；[人力部 (MOM)，S 准证资格](https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility)。

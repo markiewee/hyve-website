@@ -61,13 +61,13 @@ SMU没有郊区校园。它坐落在百胜／武吉士艺术与文化遗产街�
 
 ## 如何用实际通勤时间判断一个房间
 
-这里不重复算通勤时间的具体方法，完整的算法写在我们的[按地铁通勤时间选房指南](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore)里：怎么把两端的步行和等车时间都算进去，为什么直达线路往往比看起来更短、但要换乘的路线更划算，以及看房前可以照着核对的清单。这套逻辑用在通勤上班和通勤上学是一样的，只要把「CBD」换成「百胜」，方法照样成立。
+这里不重复算通勤时间的具体方法，完整的算法写在我们的[按地铁通勤时间选房指南](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)里：怎么把两端的步行和等车时间都算进去，为什么直达线路往往比看起来更短、但要换乘的路线更划算，以及看房前可以照着核对的清单。这套逻辑用在通勤上班和通勤上学是一样的，只要把「CBD」换成「百胜」，方法照样成立。
 
 ![列车正驶入地铁站台](/sketches/loc-transit__mrt-platform__train-arriving.jpg)
 
 ## 先选地铁线，再选社区
 
-如果租金比地段更重要，不妨按地铁线来找房，而不是按社区名字来找，因为一条线离市中心越远，租金通常越低，但车程依然是直达的。我们另一篇[哪条地铁线租金最便宜](https://lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore)的文章，逐站拆解了租金如何随地铁线变化。对SMU学生来说，同样的问题可以简化成：环线或市区线上，哪些站能不换车到百胜或百康宁，租金又是从哪一站开始真正降下来的。
+如果租金比地段更重要，不妨按地铁线来找房，而不是按社区名字来找，因为一条线离市中心越远，租金通常越低，但车程依然是直达的。我们另一篇[哪条地铁线租金最便宜](https://www.lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore)的文章，逐站拆解了租金如何随地铁线变化。对SMU学生来说，同样的问题可以简化成：环线或市区线上，哪些站能不换车到百胜或百康宁，租金又是从哪一站开始真正降下来的。
 
 ## 选SMU附近住处时常犯的错误
 
@@ -81,7 +81,7 @@ SMU没有郊区校园。它坐落在百胜／武吉士艺术与文化遗产街�
 
 Lazybee在新加坡运营三栋共居房源，其中Chiltern Park就在罗弄泉附近，这一站正好在环线上，也就是经过百胜、SMU所在地下方的那条线。对想要不换车、车程更短到达城市校区，又不想付中央区租金的学生来说，这个位置确实有实际价值，而不只是地图上凑巧近的一个点。
 
-房间都配好家具，水电网费包含在内，租期按学期或课程长度安排，而不是大多数私人出租要求的两年标准租约，如果你只在新加坡待完学位的一部分时间，这一点很关键。三栋房源的最新空房情况都列在[lazybee.sg](https://lazybee.sg)上，我们的[Chiltern Park、Ivory Heights与Thomson Grove指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)也介绍了每栋房子实际住起来是什么感觉。
+房间都配好家具，水电网费包含在内，租期按学期或课程长度安排，而不是大多数私人出租要求的两年标准租约，如果你只在新加坡待完学位的一部分时间，这一点很关键。三栋房源的最新空房情况都列在[lazybee.sg](https://lazybee.sg)上，我们的[Chiltern Park、Ivory Heights与Thomson Grove指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)也介绍了每栋房子实际住起来是什么感觉。
 
 ![地铁站大堂里的售票机](/sketches/loc-transit__mrt-concourse__ticket-machines.jpg)
 

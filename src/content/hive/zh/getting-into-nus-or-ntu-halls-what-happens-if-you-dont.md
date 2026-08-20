@@ -52,7 +52,7 @@ heroAlt: 新加坡国立大学校园里穿过树林的人行天桥
 
 在**新加坡国立大学**，没有对应的新生保证。第一年的机会取决于你大学前的课外活动记录，从二年级起，则取决于你是否在住宿录取计划下的提名团体里面。第一年过得再扎实，只要一直在课外活动之外，也真的可能让你在二年级失去宿舍位。
 
-两校都适用同一个诚实的基本事实：宿舍名额有限，多数届别的需求超过供给，两套制度都按规则（积分、提名、优先类别）配给，而不是按需要。新加坡管理大学处在这个模式的极端，学校管理的床位只有几百个，学生人数却有数万，所以校外住宿在那里是默认选项。我们的[给已经落空的学生的指南](https://lazybee.sg/blog/short-notice-housing-for-students-who-failed-to-secure-halls)更详细地讲了那场抢房。
+两校都适用同一个诚实的基本事实：宿舍名额有限，多数届别的需求超过供给，两套制度都按规则（积分、提名、优先类别）配给，而不是按需要。新加坡管理大学处在这个模式的极端，学校管理的床位只有几百个，学生人数却有数万，所以校外住宿在那里是默认选项。我们的[给已经落空的学生的指南](https://www.lazybee.sg/hive/zh/short-notice-housing-for-students-who-failed-to-secure-halls)更详细地讲了那场抢房。
 
 ![南洋理工大学学习中心，校园里最具标志性的叠层建筑](/sketches/loc-campus__ntu__learning-hub-landmark.jpg)
 
@@ -70,9 +70,9 @@ heroAlt: 新加坡国立大学校园里穿过树林的人行天桥
 
 先弄清楚你真正的限制条件：你愿意离校园多远、你实际的预算，以及万一你最后长期住在校外，你需要的是短期承诺还是更长的。新加坡私宅共居房间不论共居营运商是谁，标准最短租期都是三个月，把这一点算进你的决定里。
 
-诚实地比较你的选项。私人租房的看房和文件流程通常按房东自己的时间表走，很少配合得上学生被压缩的时间表。酒店能买到喘息空间，但不是真正的解决办法。带家具的共居房间可以直接入住，配套标准化合约，如果你需要在开学前安顿好，一般是最快的真实选项。如果你现在只剩最后两个星期，需要一步一步的版本，包括学生在压力下最常犯的错误和一份完整的入住前清单，[我们的短期通知找房指南](https://lazybee.sg/blog/short-notice-housing-for-students-who-failed-to-secure-halls)专门讲了这个。
+诚实地比较你的选项。私人租房的看房和文件流程通常按房东自己的时间表走，很少配合得上学生被压缩的时间表。酒店能买到喘息空间，但不是真正的解决办法。带家具的共居房间可以直接入住，配套标准化合约，如果你需要在开学前安顿好，一般是最快的真实选项。如果你现在只剩最后两个星期，需要一步一步的版本，包括学生在压力下最常犯的错误和一份完整的入住前清单，[我们的短期通知找房指南](https://www.lazybee.sg/hive/zh/short-notice-housing-for-students-who-failed-to-secure-halls)专门讲了这个。
 
-也值得把宿舍和共居放在一起就事论事地比较，而不只是把共居当退路。[我们的一年级宿舍与共居对比指南](https://lazybee.sg/blog/first-year-university-housing-halls-vs-co-living-in-singapore)列出了两边各自能得到什么、要放弃什么，即使宿舍本来就不是你的第一志愿，也用得上。
+也值得把宿舍和共居放在一起就事论事地比较，而不只是把共居当退路。[我们的一年级宿舍与共居对比指南](https://www.lazybee.sg/hive/zh/first-year-university-housing-halls-vs-co-living-in-singapore)列出了两边各自能得到什么、要放弃什么，即使宿舍本来就不是你的第一志愿，也用得上。
 
 ![位于市中心的新加坡管理大学校园](/sketches/loc-campus__smu__city-block.jpg)
 
@@ -95,6 +95,6 @@ Lazybee 在 Chiltern Park、Ivory Heights 和 Thomson Grove 经营带家具的�
 不应该。两所大学自己的指引指向同一个方向：立刻开始找校外住处，而不是把候补名单当成你的计划。南洋理工大学明确说候补的机会低、时间不定。
 
 **如果宿舍落空，我实际上多快能搬进校外住处？**
-如果你走共居这条路，找到一间真正空着而且带家具的房间，实际的时间大概是几天到一个星期左右。我们的[短期通知找房指南](https://lazybee.sg/blog/short-notice-housing-for-students-who-failed-to-secure-halls)有完整清单，教你在这种时间压力下搬家，又不至于在压力下犯下昂贵的错误。
+如果你走共居这条路，找到一间真正空着而且带家具的房间，实际的时间大概是几天到一个星期左右。我们的[短期通知找房指南](https://www.lazybee.sg/hive/zh/short-notice-housing-for-students-who-failed-to-secure-halls)有完整清单，教你在这种时间压力下搬家，又不至于在压力下犯下昂贵的错误。
 
 资料来源：[市区重建局（URA），短期住宿指引](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/)；[市区重建局（URA），出租房产指引](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/)。

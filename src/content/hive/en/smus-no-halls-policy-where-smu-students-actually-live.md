@@ -54,7 +54,7 @@ Recent 2026 guides for students moving to Singapore put the rough monthly bands 
 
 These are market-wide figures, not any single operator's listing, so treat them as a planning range rather than a quote.
 
-Because SMU sits in the city, students aren't locked into one corridor the way NUS students cluster around Clementi or NTU students cluster around Jurong. Anywhere on the Circle Line or Downtown Line reaching Bras Basah or Bencoolen works, which opens up neighbourhoods across the island rather than just the immediate area around campus. Our guide on [housing near NUS, NTU, and SMU](https://lazybee.sg/blog/chinese-students-in-singapore-where-to-live-near-nus-ntu-and-smu) breaks down commute times and areas in more depth if you're weighing a few campuses at once.
+Because SMU sits in the city, students aren't locked into one corridor the way NUS students cluster around Clementi or NTU students cluster around Jurong. Anywhere on the Circle Line or Downtown Line reaching Bras Basah or Bencoolen works, which opens up neighbourhoods across the island rather than just the immediate area around campus. Our guide on [housing near NUS, NTU, and SMU](https://www.lazybee.sg/hive/chinese-students-in-singapore-where-to-live-near-nus-ntu-and-smu) breaks down commute times and areas in more depth if you're weighing a few campuses at once.
 
 
 ![The NTU Learning Hub, the university's landmark stacked building](/sketches/loc-campus__ntu__learning-hub-landmark.jpg)
@@ -67,7 +67,7 @@ A few practical points follow directly from how thin PSR and the leased blocks a
 
 **Start the off-campus search well before term begins.** With no hall system as a fallback, the private market is the plan, not the backup plan. Leave weeks, not days, especially if you're arriving from overseas and want to view or video-call before signing anything.
 
-**Every private lease in Singapore has a three-month floor.** This applies across the board, co-living included, so factor that into how you time a lease against your Student Pass validity. Our guide on [renting on a Student Pass versus an EP or S Pass](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers how to match lease length to pass length properly.
+**Every private lease in Singapore has a three-month floor.** This applies across the board, co-living included, so factor that into how you time a lease against your Student Pass validity. Our guide on [renting on a Student Pass versus an EP or S Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers how to match lease length to pass length properly.
 
 **Furnished beats unfurnished for a first move.** Landing without a local network is stressful enough without also sourcing a mattress, a router, and a fridge in your first week. A room that's ready to move into removes one whole category of hassle.
 
@@ -84,7 +84,7 @@ Lazybee runs three co-living houses across Singapore, and two sit directly on tr
 | Thomson Grove, off Yio Chu Kang Road | Lentor, North-South Line | Into the city on one line |
 | Ivory Heights, Jurong East | Jurong East | Better suited if NTU or NUS is your main campus |
 
-Every room comes furnished with utilities and wifi already included, so there's nothing to source separately after you land. Full detail on each house, including room mix and what to check on a viewing, is in our [guide to all three Lazybee houses](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide). Current availability is always kept up to date on [lazybee.sg](https://lazybee.sg), since with a school that doesn't run its own halls, knowing what's actually open matters more than usual.
+Every room comes furnished with utilities and wifi already included, so there's nothing to source separately after you land. Full detail on each house, including room mix and what to check on a viewing, is in our [guide to all three Lazybee houses](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide). Current availability is always kept up to date on [lazybee.sg](https://lazybee.sg), since with a school that doesn't run its own halls, knowing what's actually open matters more than usual.
 
 ## Frequently Asked Questions
 

@@ -45,7 +45,7 @@ NYP 自己的课程页面告诉准学生，他们需要「完成临床班次（�
 
 这带来两个直接的住房后果。第一，在巴士班次较疏、你又不想半睡半醒站在月台等车的时段，你的通勤必须又短又可靠。第二，你的住处要让你能起床、吃东西、安静出门，不吵醒可能还在睡觉的室友，也不必在早上 5 点 45 分排共用浴室的队。
 
-如果你想要的是在非常规时段生活的完整做法，包括如何让睡眠、厨房使用和家里的作息适应轮班，我们另外写了一篇通用指南：见我们关于[非常规时段实验室或临床课表学生的住宿](https://lazybee.sg/blog/housing-for-students-on-odd-hour-lab-or-clinical-schedules)一文。本文聚焦护理专业特有的部分。
+如果你想要的是在非常规时段生活的完整做法，包括如何让睡眠、厨房使用和家里的作息适应轮班，我们另外写了一篇通用指南：见我们关于[非常规时段实验室或临床课表学生的住宿](https://www.lazybee.sg/hive/zh/housing-for-students-on-odd-hour-lab-or-clinical-schedules)一文。本文聚焦护理专业特有的部分。
 
 ## 为什么住得离校园近解决不了住宿问题
 
@@ -89,7 +89,7 @@ Lazybee 在新加坡经营三间共居房子，每一间靠近的地铁线组合
 | Chiltern Park，实龙岗 | 罗弄泉地铁站，另有东北线与环线的实龙岗换乘站 | 覆盖北部与东部的双线换乘 |
 | Thomson Grove | 汤申东海岸线的伦多地铁站，南北线的杨厝港也在可达范围内 | 轮转实习有两条线可用 |
 
-每一间都是配家具的独立房间，水电和无线网络已经包含在内，因此在实习安排之外不必再管一套账单事务。想了解每间房子和周边区域的完整情况，见我们的[Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)。如果你要对照的是医学系学生的轮转安排而不是护理的，我们的姊妹文章[医学系学生临床轮转课表的住宿](https://lazybee.sg/blog/housing-for-medical-students-on-clinical-rotation-schedules-in-singapore)讲的是那套不同的制度。当前的房间空置情况一律以 [lazybee.sg](https://lazybee.sg) 上的实时资料为准，因为实习安排和价格全年都在变动。
+每一间都是配家具的独立房间，水电和无线网络已经包含在内，因此在实习安排之外不必再管一套账单事务。想了解每间房子和周边区域的完整情况，见我们的[Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)。如果你要对照的是医学系学生的轮转安排而不是护理的，我们的姊妹文章[医学系学生临床轮转课表的住宿](https://www.lazybee.sg/hive/zh/housing-for-medical-students-on-clinical-rotation-schedules-in-singapore)讲的是那套不同的制度。当前的房间空置情况一律以 [lazybee.sg](https://lazybee.sg) 上的实时资料为准，因为实习安排和价格全年都在变动。
 
 ## 常见问题
 

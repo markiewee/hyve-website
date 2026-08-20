@@ -19,11 +19,11 @@ heroAlt: 新加坡国立大学校园里穿过树林的人行天桥
 
 南洋理工大学的位置更偏远，靠近裕廊西。先锋和文礼这两个东西线地铁站是最近的车站，免费校园巴士（179路、199路，以及Campus Rider）负责剩下进入校园的路程，因为纯步行距离确实相当长（[IAMCR](https://iamcr.org/singapore2025/getting-to-ntu)）。
 
-新加坡管理大学是个例外：校区紧凑，位于禧街艺术区（Bras Basah）维多利亚街81号。明古连（Bencoolen）地铁站（滨海市区线）就在学校旁边，秀路（Bras Basah）地铁站（环线）步行约3分钟可达，两者都通过地下通道与校园建筑相连（[Wikipedia](https://en.wikipedia.org/wiki/Bras_Basah_MRT_station)）。新加坡管理大学的学生基本上就住在中央商务区（CBD）内或紧邻其旁，所以我们关于[乘地铁通勤到中央商务区](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore)的指南对这里很实用，其姊妹篇[租金最便宜的地铁沿线](https://lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore)也说明了租金如何随着通往新加坡管理大学的同一条线路变化。
+新加坡管理大学是个例外：校区紧凑，位于禧街艺术区（Bras Basah）维多利亚街81号。明古连（Bencoolen）地铁站（滨海市区线）就在学校旁边，秀路（Bras Basah）地铁站（环线）步行约3分钟可达，两者都通过地下通道与校园建筑相连（[Wikipedia](https://en.wikipedia.org/wiki/Bras_Basah_MRT_station)）。新加坡管理大学的学生基本上就住在中央商务区（CBD）内或紧邻其旁，所以我们关于[乘地铁通勤到中央商务区](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)的指南对这里很实用，其姊妹篇[租金最便宜的地铁沿线](https://www.lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore)也说明了租金如何随着通往新加坡管理大学的同一条线路变化。
 
 ## 各校区周边的最佳区域
 
-**新加坡国立大学附近**：金文泰、多佛（Dover）、波那维斯达（Buona Vista）、女皇镇/联邦（Queenstown/Commonwealth）和锦茂（Ghim Moh）都距离服务肯特岗的环线车站一到两站，或从校门搭乘短程巴士即可到达。我们的[武吉知马与金文泰学生住宿指南](https://lazybee.sg/blog/bukit-timah-clementi-student-housing)对这一带有更深入的介绍，包括目前的租金区间和最短三个月租期的规定。
+**新加坡国立大学附近**：金文泰、多佛（Dover）、波那维斯达（Buona Vista）、女皇镇/联邦（Queenstown/Commonwealth）和锦茂（Ghim Moh）都距离服务肯特岗的环线车站一到两站，或从校门搭乘短程巴士即可到达。我们的[武吉知马与金文泰学生住宿指南](https://www.lazybee.sg/hive/zh/bukit-timah-clementi-student-housing)对这一带有更深入的介绍，包括目前的租金区间和最短三个月租期的规定。
 
 **南洋理工大学附近**：先锋和文礼直接与校区相邻。再深入一站的裕廊东则是用稍长一点的接驳车程，换来更大的市镇中心，以及前往新加坡国立大学或市区更方便的后续交通。
 
@@ -41,7 +41,7 @@ heroAlt: 新加坡国立大学校园里穿过树林的人行天桥
 | 裕廊东一带（南北线/东西线换乘站） | 需换乘一次，约30至40分钟 | 经波那维斯达换乘一次，约20至25分钟 | 直达，约10至15分钟 |
 | 杨厝港（Yio Chu Kang）/ 令特（Lentor）一带（南北线/汤申─东海岸线） | 南北线直达，约25至30分钟 | 需换乘一次，约40至50分钟 | 需换乘一次，约55至65分钟 |
 
-没有任何一个区域能同时靠近这三所大学，考虑到它们分布得有多分散，这是意料之中的。我们的[通勤到中央商务区指南](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore)对通勤背后的算法有比一张表格更深入的说明。实际的做法是先选离你自己校区最近的区域，再把另外两所学校当作偶尔才去的行程，而不是每天的限制条件。
+没有任何一个区域能同时靠近这三所大学，考虑到它们分布得有多分散，这是意料之中的。我们的[通勤到中央商务区指南](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)对通勤背后的算法有比一张表格更深入的说明。实际的做法是先选离你自己校区最近的区域，再把另外两所学校当作偶尔才去的行程，而不是每天的限制条件。
 
 ## 台湾留学生选择住宿时真正在意的事
 
@@ -55,17 +55,17 @@ heroAlt: 新加坡国立大学校园里穿过树林的人行天桥
 
 ## 语言与日常生活系统
 
-新加坡广泛使用华语，但当地书面中文默认使用简体字，而不是台湾使用的繁体字，新加坡式英语（Singlish）、福建话和其他方言也会影响日常口语，需要几周时间才能适应。这些都不是障碍，只是值得预先做好心理准备的调整。银行开户、SIM卡、交通储值，以及让租约配合学生准证的有效期，对每个国籍的人来说做法都一样，我们关于[以学生准证、就业准证或S准证租房](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)的指南对这部分有详细说明。
+新加坡广泛使用华语，但当地书面中文默认使用简体字，而不是台湾使用的繁体字，新加坡式英语（Singlish）、福建话和其他方言也会影响日常口语，需要几周时间才能适应。这些都不是障碍，只是值得预先做好心理准备的调整。银行开户、SIM卡、交通储值，以及让租约配合学生准证的有效期，对每个国籍的人来说做法都一样，我们关于[以学生准证、就业准证或S准证租房](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)的指南对这部分有详细说明。
 
 ## 在海外预订时如何避开租房诈骗
 
 大多数学生在抵达之前就安排好住宿，通常提前好几个月，而且全程在线上完成。这个时间差正是诈骗者瞄准的空档：定价低得不合理的房源、要求在看房之前先付押金，或是有人冒充真正的房东，盗用真实房源的照片行骗（[PropertyGuru](https://www.propertyguru.com.sg/property-guides/rental-scam-singapore-avoid-83154)）。
 
-做几项简单的检查就能大幅降低这类风险。如果在起飞前无法亲自看房，坚持要求视频通话实地查看。在拿到签好的合约之前，绝不要汇出押金。如果是透过中介，新加坡每一位持牌中介都在新加坡地产代理理事会（CEA）注册，可以在CEA网站上查证。我们关于[远程看房](https://lazybee.sg/blog/viewing-a-room-remotely-singapore)的指南，对任何未亲眼看房就预订的人有更详细的说明。
+做几项简单的检查就能大幅降低这类风险。如果在起飞前无法亲自看房，坚持要求视频通话实地查看。在拿到签好的合约之前，绝不要汇出押金。如果是透过中介，新加坡每一位持牌中介都在新加坡地产代理理事会（CEA）注册，可以在CEA网站上查证。我们关于[远程看房](https://www.lazybee.sg/hive/zh/viewing-a-room-remotely-singapore)的指南，对任何未亲眼看房就预订的人有更详细的说明。
 
 ## 让租约配合你的学生准证
 
-新加坡的私人租赁市场有一个固定的底线：租期不得少于三个月，这适用于所有营运商，共居也不例外（[Rently](https://www.rently.sg/blog/student-rentals-singapore-deposit-guarantor)）。除此之外，真正重要的期限是你的学生准证有效期，因为准证通常会随着入学状态每年续签一次。如果你的准证只剩九个月却签了十二个月的租约，就会造成一个与房间本身无关的错配。如果你也在规划搬家其余的预算，我们的[新加坡租房月度费用明细](https://lazybee.sg/blog/cost-of-renting-singapore-2026-budget)是值得参考的下一站。
+新加坡的私人租赁市场有一个固定的底线：租期不得少于三个月，这适用于所有营运商，共居也不例外（[Rently](https://www.rently.sg/blog/student-rentals-singapore-deposit-guarantor)）。除此之外，真正重要的期限是你的学生准证有效期，因为准证通常会随着入学状态每年续签一次。如果你的准证只剩九个月却签了十二个月的租约，就会造成一个与房间本身无关的错配。如果你也在规划搬家其余的预算，我们的[新加坡租房月度费用明细](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget)是值得参考的下一站。
 
 ![位于市中心的新加坡管理大学校园](/sketches/loc-campus__smu__city-block.jpg)
 
@@ -73,7 +73,7 @@ heroAlt: 新加坡国立大学校园里穿过树林的人行天桥
 
 Lazybee在新加坡各地经营三栋共居屋，所以哪一栋适合你取决于你要去的是哪个校区。Ivory Heights位于裕廊东，从地铁换乘站步行不远，是三栋房子中离南洋理工大学最近的，前往新加坡国立大学也只需一次可接受的换乘。Chiltern Park位于实龙岗，靠近罗弄泉地铁站，在环线上可直达新加坡管理大学，也通往新加坡国立大学方向。Thomson Grove位于杨厝港路附近，靠近令特地铁站，在南北线上可直达新加坡管理大学门口的政府大厦（City Hall）站。
 
-每个房间都配有家具，水电和wifi也已包含在内，落地之后不需要另外张罗。每栋房子的完整详情，包括周边环境、房型配置，以及看房时该检查什么，都收录在我们的[Lazybee三栋房子完整指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)中。目前的房间空置情况和价格始终以[lazybee.sg](https://lazybee.sg)上的信息为准，因为只有那里的数字会保持最新。
+每个房间都配有家具，水电和wifi也已包含在内，落地之后不需要另外张罗。每栋房子的完整详情，包括周边环境、房型配置，以及看房时该检查什么，都收录在我们的[Lazybee三栋房子完整指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)中。目前的房间空置情况和价格始终以[lazybee.sg](https://lazybee.sg)上的信息为准，因为只有那里的数字会保持最新。
 
 ## 常见问题
 

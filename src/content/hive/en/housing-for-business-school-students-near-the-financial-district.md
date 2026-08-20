@@ -67,14 +67,14 @@ Neither column is objectively right. A first or second-year NUS or NTU student w
 - **SMU students at any year:** the campus location does most of this work for you already. Focus on rent and room fit instead.
 - **Unsure which way an internship will go:** a location on a direct MRT line into the CBD keeps both options open. Lazybee's Ivory Heights sits on the North-South/East-West interchange at Jurong East, useful for NTU access and a direct line toward the city.
 
-For the actual minute-by-minute math on any specific area, the [general CBD commute guide](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore) breaks down real MRT times station by station. If you're past student life and asking this same question as a working analyst or associate, the [housing guide for finance and banking professionals](https://lazybee.sg/blog/housing-for-finance-and-banking-professionals-in-singapore) covers that version instead.
+For the actual minute-by-minute math on any specific area, the [general CBD commute guide](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) breaks down real MRT times station by station. If you're past student life and asking this same question as a working analyst or associate, the [housing guide for finance and banking professionals](https://www.lazybee.sg/hive/housing-for-finance-and-banking-professionals-in-singapore) covers that version instead.
 
 
 ![The Singapore Management University campus in the middle of the city](/sketches/loc-campus__smu__city-block.jpg)
 
 ## Where to Go From Here
 
-If you're deep-diving one school specifically, the full guides for [student housing near NUS](https://lazybee.sg/blog/student-housing-near-nus-a-co-living-guide), [student housing near NTU](https://lazybee.sg/blog/student-housing-near-ntu-a-co-living-guide), and [student housing near SMU](https://lazybee.sg/blog/student-housing-near-smu-living-in-the-city-campus) go deeper on hall odds, rent ranges, and neighbourhood options around each campus. Current room availability across Lazybee's houses, including Ivory Heights near the Jurong East interchange, is live on [lazybee.sg](https://lazybee.sg), so you can check what's actually open before booking a viewing.
+If you're deep-diving one school specifically, the full guides for [student housing near NUS](https://www.lazybee.sg/blog/student-housing-near-nus-a-co-living-guide), [student housing near NTU](https://www.lazybee.sg/hive/student-housing-near-ntu-a-co-living-guide), and [student housing near SMU](https://www.lazybee.sg/hive/student-housing-near-smu-living-in-the-city-campus) go deeper on hall odds, rent ranges, and neighbourhood options around each campus. Current room availability across Lazybee's houses, including Ivory Heights near the Jurong East interchange, is live on [lazybee.sg](https://lazybee.sg), so you can check what's actually open before booking a viewing.
 
 ## Frequently Asked Questions
 

@@ -34,7 +34,7 @@ For working professionals, it's an Employment Pass or S Pass, sponsored by your 
 
 A secondment letter, an offer letter, or an in-principle approval is not an issued pass. A properly run operator will not let you sign a lease on any of those alone.
 
-We've covered exactly which documents a legitimate operator checks in our guide on [whether foreigners can rent in Singapore](https://lazybee.sg/blog/can-foreigners-rent-in-singapore).
+We've covered exactly which documents a legitimate operator checks in our guide on [whether foreigners can rent in Singapore](https://www.lazybee.sg/blog/can-foreigners-rent-in-singapore).
 
 
 ![A fountain pen resting on a set of documents](/sketches/object__paperwork__fountain-pen-documents.jpg)
@@ -49,7 +49,7 @@ Book something short and flexible to land in, then commit to a longer lease once
 
 Rooms in Singapore's shared housing market run from about S$600 for a basic budget room up to S$2,500 for a private ensuite, with most standard common rooms landing between S$1,000 and S$1,600 a month. Co-living rooms, furnished and usually bundled with utilities and wifi, typically sit in the S$1,200 to S$2,500+ range.
 
-Add food, transport, and a local SIM, and a realistic all-in monthly budget for a newcomer renting a room lands somewhere between S$1,800 and S$2,800. For upfront cash, plan for a security deposit (one month's rent is standard) plus your first month's rent, so two months' rent in hand before you get the keys is the safe assumption. We've broken deposit terms down further in our guide to [security deposits in Singapore co-living](https://lazybee.sg/blog/security-deposit-coliving-singapore).
+Add food, transport, and a local SIM, and a realistic all-in monthly budget for a newcomer renting a room lands somewhere between S$1,800 and S$2,800. For upfront cash, plan for a security deposit (one month's rent is standard) plus your first month's rent, so two months' rent in hand before you get the keys is the safe assumption. We've broken deposit terms down further in our guide to [security deposits in Singapore co-living](https://www.lazybee.sg/hive/security-deposit-coliving-singapore).
 
 | Cost | Amount |
 |---|---|
@@ -60,7 +60,7 @@ Add food, transport, and a local SIM, and a realistic all-in monthly budget for 
 | All-in monthly with food, transport and a SIM | S$1,800 to S$2,800 |
 | Cash before you get the keys | Two months' rent: a one-month deposit plus your first month |
 
-An all-inclusive co-living room takes a lot of the guesswork out of a move from Japan, since one number covers rent, utilities, and wifi instead of separate bills in an unfamiliar currency and billing system. For a fuller breakdown of what a first month actually costs beyond rent, see our [first-month moving costs guide](https://lazybee.sg/blog/first-month-moving-costs-singapore).
+An all-inclusive co-living room takes a lot of the guesswork out of a move from Japan, since one number covers rent, utilities, and wifi instead of separate bills in an unfamiliar currency and billing system. For a fuller breakdown of what a first month actually costs beyond rent, see our [first-month moving costs guide](https://www.lazybee.sg/blog/first-month-moving-costs-singapore).
 
 ## Where Do Japanese Expats and Students Actually Live?
 
@@ -107,7 +107,7 @@ The most common one is locking into a long lease before the pass is actually iss
 - [ ] Have your passport and a local address ready for your bank account application the week you land
 - [ ] If you're on a company relocation package, confirm what the housing allowance actually covers before signing anything long-term
 
-For the legal side of what makes a co-living arrangement compliant in Singapore, including minimum stay and occupancy rules, see our guide on [whether co-living is legal in Singapore](https://lazybee.sg/blog/is-coliving-legal-in-singapore).
+For the legal side of what makes a co-living arrangement compliant in Singapore, including minimum stay and occupancy rules, see our guide on [whether co-living is legal in Singapore](https://www.lazybee.sg/hive/is-coliving-legal-in-singapore).
 
 ## Frequently Asked Questions
 

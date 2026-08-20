@@ -15,7 +15,7 @@ heroAlt: 午后光线下的滨海湾全景
 
 战略咨询三巨头麦肯锡、贝恩和 BCG 的新加坡办公室都设在中央商务区，四大会计师事务所德勤、安永、普华永道和毕马威的咨询部门也一样，它们在这里除了审计和税务之外，各自还有规模可观的顾问与战略业务。再加上精品咨询公司，以及埃森哲、科尔尼这类公司的东南亚区域中心，规律很清楚：新加坡的咨询工作紧密聚集在莱佛士坊、滨海湾、珊顿道和丹戎巴葛外围，也就是同时容纳了各家银行和雇用这些咨询公司的区域总部的那几平方公里。
 
-这个地理分布决定了你该住在哪里，不过按区域逐一计算通勤时间的部分我们已经另外写过，这里不重复。如果你想知道住在中央商务区那一带的实际地铁时间和租金取舍，我们的[按通勤时间选住处的指南](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore)一站一站讲了一遍。如果你比较的是一份长期的银行业工作，而不是按项目派驻的咨询任务，那么[金融与银行业从业者住房指南](https://lazybee.sg/blog/housing-for-finance-and-banking-professionals-in-singapore)更贴近你的情况，因为这两个职业虽然在同一个邮区，节奏却完全不同。
+这个地理分布决定了你该住在哪里，不过按区域逐一计算通勤时间的部分我们已经另外写过，这里不重复。如果你想知道住在中央商务区那一带的实际地铁时间和租金取舍，我们的[按通勤时间选住处的指南](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)一站一站讲了一遍。如果你比较的是一份长期的银行业工作，而不是按项目派驻的咨询任务，那么[金融与银行业从业者住房指南](https://www.lazybee.sg/hive/zh/housing-for-finance-and-banking-professionals-in-singapore)更贴近你的情况，因为这两个职业虽然在同一个邮区，节奏却完全不同。
 
 ## 管理咨询顾问一次派驻通常有多长
 
@@ -94,6 +94,6 @@ heroAlt: 午后光线下的滨海湾全景
 这是务实的选择，不是身份上的降级。很多用个人预算或做较短项目的顾问就是专门选共居，因为它带家具、含水电杂费，而且按 3 个月的住宿定价，不用付服务式公寓的溢价。
 
 **如果客户现场在项目中途换了，我该住在哪里？**
-住在中央商务区的大致范围内，而不是紧贴某一栋楼，能在你被调到同一区内另一个客户现场时留下更多余地。实际的通勤时间取舍可以看我们的[通勤时间指南](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore)，里面比较了附近各个区域。
+住在中央商务区的大致范围内，而不是紧贴某一栋楼，能在你被调到同一区内另一个客户现场时留下更多余地。实际的通勤时间取舍可以看我们的[通勤时间指南](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)，里面比较了附近各个区域。
 
 资料来源：[市区重建局（URA），短期住宿指引](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/)；[HDB，出租组屋：相关规定](https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-a-flat/regulations)。

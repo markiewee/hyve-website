@@ -107,6 +107,6 @@ Renting itself doesn't require one, but if you're studying full time as an inter
 **What's actually included in a Lazybee room?**
 Typically a private, furnished bedroom in a shared house, with utilities and wifi bundled into the rent. Exact inclusions vary by room, so check the specific listing rather than assuming.
 
-Current room availability for all three houses is listed at [lazybee.sg](https://lazybee.sg), with real move-in dates and terms on each listing rather than a price to negotiate down. If you're deciding between houses, our full guide to [Chiltern Park, Ivory Heights, and Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) covers each neighbourhood in more depth.
+Current room availability for all three houses is listed at [lazybee.sg](https://lazybee.sg), with real move-in dates and terms on each listing rather than a price to negotiate down. If you're deciding between houses, our full guide to [Chiltern Park, Ivory Heights, and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) covers each neighbourhood in more depth.
 
 Sources: [URA, Short-Term Accommodation guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/); [ICA, Apply for a Student's Pass](https://www.ica.gov.sg/reside/STP/apply).

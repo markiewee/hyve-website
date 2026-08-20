@@ -49,7 +49,7 @@ None of these is automatically the right call. A hotel buys you time to think wi
 5. **Your own network.** Colleagues, alumni groups, and coworking spaces often know of a room before it's listed anywhere public.
 6. **Local Facebook and community rental groups.** Slower to verify and more scam risk, but genuine listings do show up, especially for rooms opening mid-lease.
 
-If you want a fuller comparison of how co-living stacks up against a serviced apartment or a hotel beyond just speed, [our comparison piece](https://lazybee.sg/blog/coliving-vs-serviced-apartment-vs-hotel-singapore) goes into cost and fit in more depth.
+If you want a fuller comparison of how co-living stacks up against a serviced apartment or a hotel beyond just speed, [our comparison piece](https://www.lazybee.sg/blog/coliving-vs-serviced-apartment-vs-hotel-singapore) goes into cost and fit in more depth.
 
 
 ![Sofas arranged around a shared co-living living room](/sketches/interior__coliving-living-room__sofas.jpg)

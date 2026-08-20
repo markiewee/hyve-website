@@ -98,6 +98,6 @@ Live availability and room details for all three houses are on [lazybee.sg](http
 
 ## Next step
 
-If Chiltern Park or Thomson Grove's commute works for your schedule, the next step is booking a viewing through [lazybee.sg](https://lazybee.sg) to see the actual room and household in person. For a fuller look at all three houses side by side, our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) covers room mix and neighbourhood character beyond just the commute.
+If Chiltern Park or Thomson Grove's commute works for your schedule, the next step is booking a viewing through [lazybee.sg](https://lazybee.sg) to see the actual room and household in person. For a fuller look at all three houses side by side, our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) covers room mix and neighbourhood character beyond just the commute.
 
 Sources: [URA, Short-Term Accommodation guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/); [URA, Renting Property guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/).

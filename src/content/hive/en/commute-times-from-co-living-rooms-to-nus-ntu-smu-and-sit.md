@@ -16,7 +16,7 @@ No single co-living house is close to all four Singapore universities, since NUS
 
 Every figure here is a direct MRT ride time, plus a transfer where one is unavoidable, plus a standard allowance for the campus shuttle bus where the nearest station isn't actually on campus (NUS and NTU both need one, SMU and SIT don't). These are not door-to-lecture-hall stopwatch times. They don't include the walk from your room to the station, and they don't include waiting time on the shuttle bus, which varies by time of day.
 
-Treat every number as a floor, not a guarantee. Peak-hour crowding at a busy interchange like Jurong East or Outram Park adds real minutes that a straight-line map doesn't show. Before you commit to a room, run your actual route on Google Maps or Citymapper at a weekday 8am departure. Our [guide to picking a home by commute time](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore) covers exactly how to do that properly, including a checklist to test any listing before you book it.
+Treat every number as a floor, not a guarantee. Peak-hour crowding at a busy interchange like Jurong East or Outram Park adds real minutes that a straight-line map doesn't show. Before you commit to a room, run your actual route on Google Maps or Citymapper at a weekday 8am departure. Our [guide to picking a home by commute time](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) covers exactly how to do that properly, including a checklist to test any listing before you book it.
 
 ## The Commute Matrix
 
@@ -59,7 +59,7 @@ NUS and NTU are where Thomson Grove is less competitive. Both require crossing m
 - **SMU Bras Basah**: Chiltern Park, direct on the Circle Line with no transfer.
 - **SIT Punggol**: Chiltern Park, by a wide margin. Twelve minutes direct beats every other combination in this matrix.
 
-If your campus doesn't line up with the house that scores best on paper, that's a real tradeoff to weigh against rent, room type and the neighbourhood itself, not something to ignore. Our [guide to all three houses](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) covers what each neighbourhood is actually like day to day, room mix included, which matters just as much as the train ride.
+If your campus doesn't line up with the house that scores best on paper, that's a real tradeoff to weigh against rent, room type and the neighbourhood itself, not something to ignore. Our [guide to all three houses](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) covers what each neighbourhood is actually like day to day, room mix included, which matters just as much as the train ride.
 
 
 ![A train pulling into an MRT platform](/sketches/loc-transit__mrt-platform__train-arriving.jpg)

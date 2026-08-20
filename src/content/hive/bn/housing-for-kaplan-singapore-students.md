@@ -50,7 +50,7 @@ Kaplan-এর একটি ফাউন্ডেশন ডিপ্লোমা 
 
 ডিগ্রি প্রদান করে পার্টনার বিশ্ববিদ্যালয়গুলো, যার মধ্যে রয়েছে Aston, Birmingham City, Monash, Murdoch, Northumbria, University College Dublin এবং Portsmouth, Kaplan নিজে ডিগ্রি প্রদান করে না।
 
-আপনি যদি সিঙ্গাপুরে পৌঁছানোর আগেই বিদেশ থেকে রুমের ব্যবস্থা করতে চান, তাহলে আমাদের [বিদেশ থেকে সিঙ্গাপুরে ভাড়া নেওয়া](https://lazybee.sg/blog/renting-singapore-from-overseas) গাইডে দেখানো হয়েছে পৌঁছানোর আগে বাস্তবে কী কী ঠিক করা সম্ভব এবং কী কী সিঙ্গাপুরে পৌঁছানোর পরে করতে হবে। আর আপনি যদি নির্দিষ্টভাবে Student's Pass-এ থাকেন, তাহলে EP (Employment Pass, কর্ম পাস) বা S Pass (মধ্যম-দক্ষ কর্মীদের পাস)-এর তুলনায় [Student's Pass-এ ভাড়া নেওয়া](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) গাইডে বাড়িওয়ালারা সাধারণত কী কাগজপত্র চান তা বিস্তারিত বলা আছে।
+আপনি যদি সিঙ্গাপুরে পৌঁছানোর আগেই বিদেশ থেকে রুমের ব্যবস্থা করতে চান, তাহলে আমাদের [বিদেশ থেকে সিঙ্গাপুরে ভাড়া নেওয়া](https://www.lazybee.sg/hive/renting-singapore-from-overseas) গাইডে দেখানো হয়েছে পৌঁছানোর আগে বাস্তবে কী কী ঠিক করা সম্ভব এবং কী কী সিঙ্গাপুরে পৌঁছানোর পরে করতে হবে। আর আপনি যদি নির্দিষ্টভাবে Student's Pass-এ থাকেন, তাহলে EP (Employment Pass, কর্ম পাস) বা S Pass (মধ্যম-দক্ষ কর্মীদের পাস)-এর তুলনায় [Student's Pass-এ ভাড়া নেওয়া](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) গাইডে বাড়িওয়ালারা সাধারণত কী কাগজপত্র চান তা বিস্তারিত বলা আছে।
 
 ![NUS Kent Ridge ক্যাম্পাসে গাছে ঘেরা একটি ওভারপাস](/sketches/loc-campus__nus-kent-ridge__overpass-trees.jpg)
 
@@ -93,7 +93,7 @@ Serangoon এই দ্বিধা কীভাবে ভালোভাবে 
 
 Lazybee Serangoon-এর Chiltern Park-এ একটি কো-লিভিং হাউজ পরিচালনা করে, যা Circle Line-এর Lorong Chuan MRT-এর কাছে অবস্থিত, একই লাইন যা সরাসরি Bras Basah দিয়ে যায়, Kaplan-এর Odeon 333 ক্যাম্পাস থেকে হাঁটা দূরত্বে। রুমগুলো ফার্নিশড এবং তাতে ইউটিলিটি ও wifi অন্তর্ভুক্ত, যা গুরুত্বপূর্ণ যদি আপনি প্রথমবার সিঙ্গাপুরে আসেন, স্থানীয় ব্যাংক অ্যাকাউন্ট ছাড়া বা প্রথম দিনেই নিজের ইন্টারনেট সংযোগ ঠিক করার উপায় ছাড়া।
 
-সিঙ্গাপুর জুড়ে Lazybee-এর তিনটি হাউজ সম্পর্কে বিস্তারিত জানতে, যার মধ্যে Chiltern Park-এর এলাকা এবং একটি রুমে আসলে কী কী অন্তর্ভুক্ত থাকে তা রয়েছে, দেখুন আমাদের [Chiltern Park, Ivory Heights এবং Thomson Grove-এর গাইড](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)। বর্তমান রুম প্রাপ্যতা এবং লিজের শর্তাবলী সবসময় হালনাগাদ থাকে [lazybee.sg](https://lazybee.sg)-এ, কারণ এটাই একমাত্র জায়গা যেখানে সংখ্যাগুলো সঠিক থাকে।
+সিঙ্গাপুর জুড়ে Lazybee-এর তিনটি হাউজ সম্পর্কে বিস্তারিত জানতে, যার মধ্যে Chiltern Park-এর এলাকা এবং একটি রুমে আসলে কী কী অন্তর্ভুক্ত থাকে তা রয়েছে, দেখুন আমাদের [Chiltern Park, Ivory Heights এবং Thomson Grove-এর গাইড](https://www.lazybee.sg/hive/bn/chiltern-park-ivory-heights-thomson-grove-guide)। বর্তমান রুম প্রাপ্যতা এবং লিজের শর্তাবলী সবসময় হালনাগাদ থাকে [lazybee.sg](https://lazybee.sg)-এ, কারণ এটাই একমাত্র জায়গা যেখানে সংখ্যাগুলো সঠিক থাকে।
 
 ## প্রায়শই জিজ্ঞাসিত প্রশ্ন
 

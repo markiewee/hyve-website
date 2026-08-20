@@ -94,9 +94,9 @@ heroAlt: 地铁站大堂里的售票机
 
 ## 你读的是哪个科系
 
-上面关于交通和同住的要点适用面很广，但每个领域都有自己的节奏，值得直接读一读。如果你念的是医学课程，我们的[新加坡医学生临床轮训作息租房指南](https://lazybee.sg/blog/housing-for-medical-students-on-clinical-rotation-schedules-in-singapore)会谈到病房时间、医院实习安排，以及每一轮轮训之间会变什么。护理系学生请看[新加坡护理系学生临床实习租房指南](https://lazybee.sg/blog/housing-for-nursing-students-on-clinical-placement-in-singapore)，里面有实习相关的细节。
+上面关于交通和同住的要点适用面很广，但每个领域都有自己的节奏，值得直接读一读。如果你念的是医学课程，我们的[新加坡医学生临床轮训作息租房指南](https://www.lazybee.sg/hive/zh/housing-for-medical-students-on-clinical-rotation-schedules-in-singapore)会谈到病房时间、医院实习安排，以及每一轮轮训之间会变什么。护理系学生请看[新加坡护理系学生临床实习租房指南](https://www.lazybee.sg/hive/zh/housing-for-nursing-students-on-clinical-placement-in-singapore)，里面有实习相关的细节。
 
-评图前熬夜泡工作室的建筑系学生，可以在[建筑系学生工作室夜间作息租房指南](https://lazybee.sg/blog/housing-for-architecture-students-working-late-studio-hours)里找到更深入的内容；泡在实验室或赶毕业设计的工程系学生，应该读[工程系学生校园实验室附近租房指南](https://lazybee.sg/blog/housing-for-engineering-students-near-campus-labs)。
+评图前熬夜泡工作室的建筑系学生，可以在[建筑系学生工作室夜间作息租房指南](https://www.lazybee.sg/hive/zh/housing-for-architecture-students-working-late-studio-hours)里找到更深入的内容；泡在实验室或赶毕业设计的工程系学生，应该读[工程系学生校园实验室附近租房指南](https://www.lazybee.sg/hive/zh/housing-for-engineering-students-near-campus-labs)。
 
 ![新加坡巴士转换站的车辆与路线指示牌](/sketches/loc-transit__bus-interchange__bus-signage-boards.jpg)
 
@@ -110,7 +110,7 @@ Lazybee 的三间房子都不在校园里，而对这一群人来说，这恰恰
 | Ivory Heights，裕廊东 | 靠近大型换乘站，人流多、就算很晚灯光也足 | 一条永远不会感觉荒凉的路线 |
 | Thomson Grove，靠近 Lentor | 三者中最安静的 | 周围人少一点，需与另外两处的换乘站条件权衡 |
 
-三间房子的完整细节在我们的[Chiltern Park、Ivory Heights 和 Thomson Grove 指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)里。当前的房间空缺和价格放在 [lazybee.sg](https://lazybee.sg) 上，会随着人搬进搬出而变动，所以决定之前请直接到那里查，不要只依赖这里写的内容。如果你想在签约前先看房，并亲自走一遍到最近车站的实际路线，可以透过网站预约看房。
+三间房子的完整细节在我们的[Chiltern Park、Ivory Heights 和 Thomson Grove 指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)里。当前的房间空缺和价格放在 [lazybee.sg](https://lazybee.sg) 上，会随着人搬进搬出而变动，所以决定之前请直接到那里查，不要只依赖这里写的内容。如果你想在签约前先看房，并亲自走一遍到最近车站的实际路线，可以透过网站预约看房。
 
 ## 常见问题
 

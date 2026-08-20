@@ -96,7 +96,7 @@ Ask who else lives there, roughly what mix of local and international, working a
 
 None of these questions are unreasonable, and a landlord who's run this before will answer all eight without flinching. The ones worth walking away from are the ones who get vague, defensive, or rush you toward a signature. Slow answers you can work with. Evasive ones you can't.
 
-If you're weighing a few listings, Lazybee's rooms across [Chiltern Park, Ivory Heights, and Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) come with lease terms set up for student timelines, a documented deposit process, and all-inclusive rent with no guessing on what's covered. Our guide on [what's actually included in co-living rent](https://lazybee.sg/blog/whats-included-in-coliving-rent-singapore) breaks the inclusion list down further, and current room availability is always up to date at [lazybee.sg](https://lazybee.sg).
+If you're weighing a few listings, Lazybee's rooms across [Chiltern Park, Ivory Heights, and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) come with lease terms set up for student timelines, a documented deposit process, and all-inclusive rent with no guessing on what's covered. Our guide on [what's actually included in co-living rent](https://www.lazybee.sg/hive/whats-included-in-coliving-rent-singapore) breaks the inclusion list down further, and current room availability is always up to date at [lazybee.sg](https://lazybee.sg).
 
 ## FAQ
 

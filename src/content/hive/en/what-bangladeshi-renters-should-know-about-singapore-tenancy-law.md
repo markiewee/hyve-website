@@ -31,9 +31,9 @@ That leaves private residential housing (condos, apartments, landed property) as
 
 ## If You're on an EP, S Pass, Student Pass, or Dependant's Pass: Standard Rules Apply
 
-Not every Bangladeshi renter in Singapore is on a Work Permit. If you're here on an Employment Pass, S Pass, Student Pass, or as a Dependant's Pass holder joining a spouse, you rent the same way anyone else does: sign once your pass is actually issued and in hand, not on a job offer or an In-Principle Approval letter. The full breakdown of which passes qualify, how operators verify them, and the seven documents a legitimate operator will ask for is in [Can Foreigners Rent in Singapore? Passes and Documents](https://lazybee.sg/blog/can-foreigners-rent-in-singapore).
+Not every Bangladeshi renter in Singapore is on a Work Permit. If you're here on an Employment Pass, S Pass, Student Pass, or as a Dependant's Pass holder joining a spouse, you rent the same way anyone else does: sign once your pass is actually issued and in hand, not on a job offer or an In-Principle Approval letter. The full breakdown of which passes qualify, how operators verify them, and the seven documents a legitimate operator will ask for is in [Can Foreigners Rent in Singapore? Passes and Documents](https://www.lazybee.sg/blog/can-foreigners-rent-in-singapore).
 
-If you're specifically weighing how your pass type should shape your lease length, particularly matching lease term to your pass's remaining validity rather than a landlord's default 12-month offer, that comparison is covered in [Renting on an EP vs S Pass vs Student Pass in Singapore](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore).
+If you're specifically weighing how your pass type should shape your lease length, particularly matching lease term to your pass's remaining validity rather than a landlord's default 12-month offer, that comparison is covered in [Renting on an EP vs S Pass vs Student Pass in Singapore](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore).
 
 | Your pass | How housing works |
 |---|---|
@@ -46,7 +46,7 @@ If you're specifically weighing how your pass type should shape your lease lengt
 
 ## The Minimum Stay and Occupancy Rules That Apply to Any Private Rental
 
-Once you're renting privately, on your own arrangement or one your employer has documented, the same underlying rules apply as for any tenant. URA sets a minimum stay of three consecutive months for private residential property, plus an occupancy cap of up to eight unrelated occupants for private units of at least 90 square metres, a relaxation HDB and URA extended through the end of 2028 as of January 2026. Full mechanics, including what counts as a breach and who's liable, are in [Is Co-Living Legal in Singapore? The Rules, Explained](https://lazybee.sg/blog/is-coliving-legal-in-singapore).
+Once you're renting privately, on your own arrangement or one your employer has documented, the same underlying rules apply as for any tenant. URA sets a minimum stay of three consecutive months for private residential property, plus an occupancy cap of up to eight unrelated occupants for private units of at least 90 square metres, a relaxation HDB and URA extended through the end of 2028 as of January 2026. Full mechanics, including what counts as a breach and who's liable, are in [Is Co-Living Legal in Singapore? The Rules, Explained](https://www.lazybee.sg/hive/is-coliving-legal-in-singapore).
 
 | Rule | What applies | Set by |
 |---|---|---|
@@ -61,18 +61,18 @@ These apply to any private rental regardless of nationality. The one place natio
 
 ## Licence Agreement or Tenancy Agreement: What You're Actually Signing
 
-If you're renting a room rather than a whole unit, expect a licence agreement, not a full tenancy agreement. That's standard for co-living across Singapore and isn't a red flag by itself. The real legal difference, and the clause worth reading closely before you sign, is set out in [Licence Agreement vs Tenancy Agreement in Singapore](https://lazybee.sg/blog/licence-agreement-vs-tenancy-agreement-singapore).
+If you're renting a room rather than a whole unit, expect a licence agreement, not a full tenancy agreement. That's standard for co-living across Singapore and isn't a red flag by itself. The real legal difference, and the clause worth reading closely before you sign, is set out in [Licence Agreement vs Tenancy Agreement in Singapore](https://www.lazybee.sg/blog/licence-agreement-vs-tenancy-agreement-singapore).
 
 ## Security Deposit: What's Standard
 
-One month's rent is the norm for a co-living room deposit in Singapore, refundable in full barring real damage beyond fair wear and tear. There's no government-set figure, it's a contractual term, so it's the clause in your agreement that governs the amount and the conditions for getting it back. What a deposit can and can't legally be deducted for, and the move-in photos that turn a refund into a formality rather than a dispute, is covered in [Security Deposit Co-Living Singapore: What's Standard](https://lazybee.sg/blog/security-deposit-coliving-singapore).
+One month's rent is the norm for a co-living room deposit in Singapore, refundable in full barring real damage beyond fair wear and tear. There's no government-set figure, it's a contractual term, so it's the clause in your agreement that governs the amount and the conditions for getting it back. What a deposit can and can't legally be deducted for, and the move-in photos that turn a refund into a formality rather than a dispute, is covered in [Security Deposit Co-Living Singapore: What's Standard](https://www.lazybee.sg/hive/security-deposit-coliving-singapore).
 
 
 ![People crossing an office lobby at street level](/sketches/interior-work__office-lobby__people.jpg)
 
 ## Stamp Duty on Your Agreement
 
-If your room is documented under a lease or tenancy agreement, IRAS charges stamp duty at 0.4% of the total rent for the lease period, due within 14 days of signing. Tenant pays it by convention, though it's negotiable, and there's a floor below which no duty applies at all. The full rates and deadlines are in [Do I Pay Stamp Duty on a Room Rental in Singapore?](https://lazybee.sg/blog/stamp-duty-room-rental-singapore) If you don't have a Singapore bank account yet, IRAS's e-Stamping portal accepts card payment, so that isn't a blocker.
+If your room is documented under a lease or tenancy agreement, IRAS charges stamp duty at 0.4% of the total rent for the lease period, due within 14 days of signing. Tenant pays it by convention, though it's negotiable, and there's a floor below which no duty applies at all. The full rates and deadlines are in [Do I Pay Stamp Duty on a Room Rental in Singapore?](https://www.lazybee.sg/hive/stamp-duty-room-rental-singapore) If you don't have a Singapore bank account yet, IRAS's e-Stamping portal accepts card payment, so that isn't a blocker.
 
 ## Practical Points Worth Planning For
 
@@ -128,4 +128,4 @@ Yes. IRAS's e-Stamping portal accepts card payment, so a local bank account isn'
 
 ---
 
-Sources: [MOM, Employers Required to Provide Proof of Accommodation Before WPH Entry](https://www.mom.gov.sg/newsroom/press-releases/2023/0911-employers-required-to-provide-proof-of-accommodation-before-their-wph-entry-into-singapore); [MOM, Housing (Work Permit for Foreign Worker)](https://www.mom.gov.sg/passes-and-permits/work-permit-for-foreign-worker/housing); [HDB, Eligibility Conditions and Guidelines](https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-a-flat/eligibility); Bangladesh BMET figures via [Deccan Herald](https://www.deccanherald.com/world/singapore-offers-foreign-worker-levy-rebate-to-companies-facing-labour-shortage-983806); Lazybee's own [Can Foreigners Rent in Singapore?](https://lazybee.sg/blog/can-foreigners-rent-in-singapore), [Is Co-Living Legal in Singapore?](https://lazybee.sg/blog/is-coliving-legal-in-singapore), [Licence Agreement vs Tenancy Agreement](https://lazybee.sg/blog/licence-agreement-vs-tenancy-agreement-singapore), [Security Deposit Co-Living Singapore](https://lazybee.sg/blog/security-deposit-coliving-singapore), [Renting on an EP vs S Pass vs Student Pass](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore), and [Stamp Duty on a Room Rental](https://lazybee.sg/blog/stamp-duty-room-rental-singapore).
+Sources: [MOM, Employers Required to Provide Proof of Accommodation Before WPH Entry](https://www.mom.gov.sg/newsroom/press-releases/2023/0911-employers-required-to-provide-proof-of-accommodation-before-their-wph-entry-into-singapore); [MOM, Housing (Work Permit for Foreign Worker)](https://www.mom.gov.sg/passes-and-permits/work-permit-for-foreign-worker/housing); [HDB, Eligibility Conditions and Guidelines](https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-a-flat/eligibility); Bangladesh BMET figures via [Deccan Herald](https://www.deccanherald.com/world/singapore-offers-foreign-worker-levy-rebate-to-companies-facing-labour-shortage-983806); Lazybee's own [Can Foreigners Rent in Singapore?](https://www.lazybee.sg/blog/can-foreigners-rent-in-singapore), [Is Co-Living Legal in Singapore?](https://www.lazybee.sg/hive/is-coliving-legal-in-singapore), [Licence Agreement vs Tenancy Agreement](https://www.lazybee.sg/blog/licence-agreement-vs-tenancy-agreement-singapore), [Security Deposit Co-Living Singapore](https://www.lazybee.sg/hive/security-deposit-coliving-singapore), [Renting on an EP vs S Pass vs Student Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore), and [Stamp Duty on a Room Rental](https://www.lazybee.sg/hive/stamp-duty-room-rental-singapore).

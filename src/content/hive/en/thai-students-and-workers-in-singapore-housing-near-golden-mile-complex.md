@@ -53,7 +53,7 @@ Chiltern Park has the clear advantage here, since Serangoon and Lorong Chuan bot
 
 ## What About Work, Not Just Groceries?
 
-A good number of Thai nationals in Singapore aren't students at all, they're on work permits or S Passes in construction, marine, food and beverage, or domestic work, with the Beach Road area functioning as a social and logistical hub rather than a workplace itself. If that's your situation, the same commute logic applies in reverse: pick a home base that keeps a reasonable ride to both your job site and to Beach Road for weekends, rather than optimising only for one. Our [guide to renting on an EP, S Pass, or Work Permit in Singapore](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers what documentation different pass types need before a landlord or operator will sign you on.
+A good number of Thai nationals in Singapore aren't students at all, they're on work permits or S Passes in construction, marine, food and beverage, or domestic work, with the Beach Road area functioning as a social and logistical hub rather than a workplace itself. If that's your situation, the same commute logic applies in reverse: pick a home base that keeps a reasonable ride to both your job site and to Beach Road for weekends, rather than optimising only for one. Our [guide to renting on an EP, S Pass, or Work Permit in Singapore](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers what documentation different pass types need before a landlord or operator will sign you on.
 
 ## Where Lazybee's Houses Fit In
 
@@ -68,7 +68,7 @@ A few Singapore rental basics apply regardless of nationality or where you work,
 - **The three-month minimum stay is a legal floor, not a suggestion.** No private rental in Singapore, HDB, condo, or landed, can legally run shorter than three consecutive months. Co-living operators included.
 - **A licence agreement covers a room in a shared home; a tenancy agreement covers a whole unit.** Know which one you're being asked to sign.
 - **Confirm your pass type and documentation before you commit to a room.** Work Permit, S Pass, Employment Pass, or Student Pass each carry slightly different requirements for a landlord or operator, and asking upfront avoids a wasted viewing.
-- **Check what's actually included in the rent.** Utilities, wifi, and cleaning bundled into one monthly figure saves separate bill admin; our [guide to what's included in co-living rent](https://lazybee.sg/blog/whats-included-in-coliving-rent-singapore) breaks this down room by room.
+- **Check what's actually included in the rent.** Utilities, wifi, and cleaning bundled into one monthly figure saves separate bill admin; our [guide to what's included in co-living rent](https://www.lazybee.sg/hive/whats-included-in-coliving-rent-singapore) breaks this down room by room.
 - **Book directly through the operator's own booking site.** For Lazybee that's [book.lazybee.sg](https://lazybee.sg), which shows real, current room availability rather than a listing that may already be gone.
 
 

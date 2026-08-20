@@ -30,7 +30,7 @@ heroAlt: 地铁站大堂里的售票机
 
 拉萨尔与南艺在 2021 年 3 月结盟，组成新加坡艺术大学，但各自保留了校区、课程和身份。
 
-如果你正好在拉萨尔或南艺，我们为两校分别写了地点与通勤指南：[拉萨尔艺术学院学生租房指南](https://lazybee.sg/blog/housing-for-lasalle-college-of-the-arts-students)和[新加坡南洋艺术学院学生租房指南](https://lazybee.sg/blog/housing-for-nafa-students-in-singapore)。如果你读的是建筑文凭或学位，那里的工作室文化熬得更晚，我们在[建筑系学生熬夜赶工的租房指南](https://lazybee.sg/blog/housing-for-architecture-students-working-late-studio-hours)里另有说明。
+如果你正好在拉萨尔或南艺，我们为两校分别写了地点与通勤指南：[拉萨尔艺术学院学生租房指南](https://www.lazybee.sg/hive/zh/housing-for-lasalle-college-of-the-arts-students)和[新加坡南洋艺术学院学生租房指南](https://www.lazybee.sg/hive/zh/housing-for-nafa-students-in-singapore)。如果你读的是建筑文凭或学位，那里的工作室文化熬得更晚，我们在[建筑系学生熬夜赶工的租房指南](https://www.lazybee.sg/hive/zh/housing-for-architecture-students-working-late-studio-hours)里另有说明。
 
 ## 以工作室为主的学习，为什么会改变你对房间的要求
 

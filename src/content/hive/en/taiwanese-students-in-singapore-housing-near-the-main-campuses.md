@@ -20,11 +20,11 @@ NUS's main campus is Kent Ridge, at the southwestern tip of the island. The near
 
 NTU sits further out, near Jurong West. Pioneer and Boon Lay, both on the East-West Line, are the nearest MRT stations, and a free shuttle bus (services 179 and 199, plus the Campus Rider) covers the rest of the walk into campus, since it's a genuinely long one on foot ([IAMCR](https://iamcr.org/singapore2025/getting-to-ntu)).
 
-SMU is the outlier: a compact city campus at 81 Victoria Street in the Bras Basah arts district. Bencoolen MRT (Downtown Line) sits right beside the school, and Bras Basah MRT (Circle Line) is about a 3-minute walk away, both connected to campus buildings by an underground concourse ([Wikipedia](https://en.wikipedia.org/wiki/Bras_Basah_MRT_station)). SMU students essentially live inside or next to the CBD, so our guide on [commuting to the CBD by MRT](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore) is directly useful here, and its companion piece on the [cheapest MRT lines to live on](https://lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore) covers how rent moves along the same lines that reach SMU.
+SMU is the outlier: a compact city campus at 81 Victoria Street in the Bras Basah arts district. Bencoolen MRT (Downtown Line) sits right beside the school, and Bras Basah MRT (Circle Line) is about a 3-minute walk away, both connected to campus buildings by an underground concourse ([Wikipedia](https://en.wikipedia.org/wiki/Bras_Basah_MRT_station)). SMU students essentially live inside or next to the CBD, so our guide on [commuting to the CBD by MRT](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) is directly useful here, and its companion piece on the [cheapest MRT lines to live on](https://www.lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore) covers how rent moves along the same lines that reach SMU.
 
 ## Best Areas by Campus
 
-**Near NUS**: Clementi, Dover, Buona Vista, Queenstown/Commonwealth, and Ghim Moh all sit one or two stops from the Circle Line stations serving Kent Ridge, or a short bus ride from the gate. Our [Bukit Timah and Clementi student housing guide](https://lazybee.sg/blog/bukit-timah-clementi-student-housing) goes deeper on this belt, including current rental ranges and the three-month minimum stay rule.
+**Near NUS**: Clementi, Dover, Buona Vista, Queenstown/Commonwealth, and Ghim Moh all sit one or two stops from the Circle Line stations serving Kent Ridge, or a short bus ride from the gate. Our [Bukit Timah and Clementi student housing guide](https://www.lazybee.sg/hive/bukit-timah-clementi-student-housing) goes deeper on this belt, including current rental ranges and the three-month minimum stay rule.
 
 **Near NTU**: Pioneer and Boon Lay border campus directly. Jurong East, one interchange further in, trades a slightly longer shuttle connection for a bigger town centre and easier onward travel toward NUS or the city.
 
@@ -43,7 +43,7 @@ These are approximate MRT ride times, a starting point rather than a precise fig
 | Jurong East area (NSL/EWL interchange) | One change, roughly 30-40 min | One change via Buona Vista, roughly 20-25 min | Direct, roughly 10-15 min |
 | Yio Chu Kang / Lentor area (NSL / TEL) | Direct on NSL, roughly 25-30 min | One change, roughly 40-50 min | One change, roughly 55-65 min |
 
-No single area sits close to all three campuses, which is expected given how spread out they are. Our [commute-to-CBD guide](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore) covers the underlying commute math in more depth than one table can. The practical move is to pick the area closest to your own campus first, then treat the other two as occasional trips rather than a daily constraint.
+No single area sits close to all three campuses, which is expected given how spread out they are. Our [commute-to-CBD guide](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) covers the underlying commute math in more depth than one table can. The practical move is to pick the area closest to your own campus first, then treat the other two as occasional trips rather than a daily constraint.
 
 ## What Actually Matters to Taiwanese Students Choosing Housing
 
@@ -58,17 +58,17 @@ No single area sits close to all three campuses, which is expected given how spr
 
 ## Language and Everyday Systems
 
-Mandarin is widely spoken in Singapore, but written Chinese here defaults to simplified characters, not the traditional characters used in Taiwan, and Singlish, Hokkien, and other dialects shape everyday speech in ways that take a few weeks to tune into. None of this is a barrier, just an adjustment worth expecting. Banking, SIM cards, transport top-ups, and matching a lease to your Student Pass work the same way for every nationality, and our guide to [renting on a Student Pass vs EP vs S Pass](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers that part in detail.
+Mandarin is widely spoken in Singapore, but written Chinese here defaults to simplified characters, not the traditional characters used in Taiwan, and Singlish, Hokkien, and other dialects shape everyday speech in ways that take a few weeks to tune into. None of this is a barrier, just an adjustment worth expecting. Banking, SIM cards, transport top-ups, and matching a lease to your Student Pass work the same way for every nationality, and our guide to [renting on a Student Pass vs EP vs S Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers that part in detail.
 
 ## Avoiding Rental Scams When You're Booking From Overseas
 
 Most students arrange housing before they land, often months ahead and entirely online. That gap is exactly what scammers target: listings priced unrealistically low, requests for a deposit before any viewing, or someone impersonating a real landlord using photos lifted from a genuine listing ([PropertyGuru](https://www.propertyguru.com.sg/property-guides/rental-scam-singapore-avoid-83154)).
 
-A few checks cut most of that risk. Insist on a video call walkthrough if an in-person viewing isn't possible before you fly in. Never wire a deposit before you have a signed agreement in hand. If you're going through an agent, every licensed one in Singapore is registered with the Council for Estate Agencies, checkable on CEA's website. Our guide on [viewing a room remotely](https://lazybee.sg/blog/viewing-a-room-remotely-singapore) covers this in more depth for anyone booking sight unseen.
+A few checks cut most of that risk. Insist on a video call walkthrough if an in-person viewing isn't possible before you fly in. Never wire a deposit before you have a signed agreement in hand. If you're going through an agent, every licensed one in Singapore is registered with the Council for Estate Agencies, checkable on CEA's website. Our guide on [viewing a room remotely](https://www.lazybee.sg/hive/viewing-a-room-remotely-singapore) covers this in more depth for anyone booking sight unseen.
 
 ## Matching Your Lease to Your Student Pass
 
-Singapore's private rental market has one fixed floor: no lease under three months, which applies to every operator, co-living included ([Rently](https://www.rently.sg/blog/student-rentals-singapore-deposit-guarantor)). Beyond that, the term that actually matters is your Student Pass validity, since a pass typically renews annually alongside enrolment. Signing a twelve-month lease when your pass has nine months left creates a mismatch that has nothing to do with the room itself. If you're budgeting the rest of the move too, our [monthly cost breakdown for renting in Singapore](https://lazybee.sg/blog/cost-of-renting-singapore-2026-budget) is a useful next stop.
+Singapore's private rental market has one fixed floor: no lease under three months, which applies to every operator, co-living included ([Rently](https://www.rently.sg/blog/student-rentals-singapore-deposit-guarantor)). Beyond that, the term that actually matters is your Student Pass validity, since a pass typically renews annually alongside enrolment. Signing a twelve-month lease when your pass has nine months left creates a mismatch that has nothing to do with the room itself. If you're budgeting the rest of the move too, our [monthly cost breakdown for renting in Singapore](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget) is a useful next stop.
 
 
 ![The Singapore Management University campus in the middle of the city](/sketches/loc-campus__smu__city-block.jpg)
@@ -77,7 +77,7 @@ Singapore's private rental market has one fixed floor: no lease under three mont
 
 Lazybee runs three co-living houses across Singapore, so which one makes sense depends on which campus you're headed to. Ivory Heights sits in Jurong East, a short walk from the MRT interchange, closest of the three to NTU and within a manageable transfer of NUS. Chiltern Park sits in Serangoon near Lorong Chuan MRT, on the Circle Line that runs direct to SMU and toward NUS. Thomson Grove sits off Yio Chu Kang Road near Lentor MRT, on the North-South Line that runs direct to SMU's doorstep at City Hall.
 
-Every room comes furnished with utilities and wifi included, so there's nothing to source separately after landing. Full details on each house, including neighbourhood, room mix, and what to check on a viewing, are in our [guide to all three Lazybee houses](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide). Current room availability and pricing is always kept up to date on [lazybee.sg](https://lazybee.sg), since that's the only place the numbers stay current.
+Every room comes furnished with utilities and wifi included, so there's nothing to source separately after landing. Full details on each house, including neighbourhood, room mix, and what to check on a viewing, are in our [guide to all three Lazybee houses](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide). Current room availability and pricing is always kept up to date on [lazybee.sg](https://lazybee.sg), since that's the only place the numbers stay current.
 
 ## Frequently Asked Questions
 

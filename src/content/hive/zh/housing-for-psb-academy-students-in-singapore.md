@@ -103,6 +103,6 @@ Lazybee 在新加坡经营三间共居房子，每一间连接市中心的方式
 **Lazybee 的房间到底包含什么？**
 一般是合租房子里一间私人的、配好家具的卧室，水电和 wifi 包含在租金内。具体包含项目每间房不同，所以要看该房源的说明，不要靠假设。
 
-三间房子的最新房间空置情况都列在 [lazybee.sg](https://lazybee.sg)，每个房源上都写明真实的入住日期和条款，而不是一个等你砍价的价格。如果你在几间房子之间拿不定主意，我们关于 [Chiltern Park、Ivory Heights 和 Thomson Grove 的完整指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) 对每个区域有更深入的介绍。
+三间房子的最新房间空置情况都列在 [lazybee.sg](https://lazybee.sg)，每个房源上都写明真实的入住日期和条款，而不是一个等你砍价的价格。如果你在几间房子之间拿不定主意，我们关于 [Chiltern Park、Ivory Heights 和 Thomson Grove 的完整指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide) 对每个区域有更深入的介绍。
 
 资料来源：[市区重建局 (URA)，短期住宿指南](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/)；[移民与关卡局 (ICA)，申请学生准证](https://www.ica.gov.sg/reside/STP/apply)。

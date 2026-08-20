@@ -74,7 +74,7 @@ SIT 的榜鹅校区没有宿舍，旁边目前也没有专门的学生住宿楼�
 
 如果以上都不合适，而且榜鹅确实必须是步行可达，本文的如实结论是：能支撑这种偏好的供应，除了组屋出租以外几乎不存在。等 Habyt 的项目开业、周边社区再多几年时间发展出面向学生的房源，情况应该会有所改变。目前，请围绕实际存在的情况来规划，而不是围绕这个还没发展起来的新校区去想象。
 
-我们对三栋房源、房型以及各个片区日常生活实际情况的完整介绍，都在 [Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) 里。如果你考虑的是整体上哪条地铁线更合适，而不只是某一个校区，我们的 [最划算的地铁沿线居住指南](https://lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore) 有更深入的分析。三栋房源的房间都可以直接在 [book.lazybee.sg](https://book.lazybee.sg) 查询和预订。
+我们对三栋房源、房型以及各个片区日常生活实际情况的完整介绍，都在 [Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide) 里。如果你考虑的是整体上哪条地铁线更合适，而不只是某一个校区，我们的 [最划算的地铁沿线居住指南](https://www.lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore) 有更深入的分析。三栋房源的房间都可以直接在 [book.lazybee.sg](https://book.lazybee.sg) 查询和预订。
 
 ## 常见问题
 

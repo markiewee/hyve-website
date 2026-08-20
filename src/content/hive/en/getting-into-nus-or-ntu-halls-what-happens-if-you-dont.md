@@ -54,7 +54,7 @@ At **NTU**, freshman odds are structurally good, since it's a guarantee tied to 
 
 At **NUS**, there's no equivalent freshman guarantee. Odds depend on your pre-university CCA record in year one, and from year two, on whether you're inside a nominating group under RAS. A strong first year spent outside CCA involvement can genuinely cost you a hall place in year two.
 
-At both schools, the honest baseline holds: hall places are finite, demand exceeds supply most intakes, and both systems ration by rule (points, nomination, priority category) rather than by need. SMU sits at the extreme end of this pattern, with a few hundred university-managed beds against a student population in the tens of thousands, making off-campus housing the default there. Our [guide for students who've already missed out](https://lazybee.sg/blog/short-notice-housing-for-students-who-failed-to-secure-halls) covers that scramble in more detail.
+At both schools, the honest baseline holds: hall places are finite, demand exceeds supply most intakes, and both systems ration by rule (points, nomination, priority category) rather than by need. SMU sits at the extreme end of this pattern, with a few hundred university-managed beds against a student population in the tens of thousands, making off-campus housing the default there. Our [guide for students who've already missed out](https://www.lazybee.sg/hive/short-notice-housing-for-students-who-failed-to-secure-halls) covers that scramble in more detail.
 
 
 ![The NTU Learning Hub, the university's landmark stacked building](/sketches/loc-campus__ntu__learning-hub-landmark.jpg)
@@ -73,9 +73,9 @@ Don't burn your remaining weeks waiting on an uncertain waitlist or a second rou
 
 Work out your real constraints first: how far from campus you're willing to be, your actual budget, and whether you need a short commitment or something longer if you end up off-campus for good. Private residential co-living rooms in Singapore carry a standard three-month minimum stay regardless of operator, so factor that into your decision.
 
-Compare your options honestly. A private rental usually runs on a landlord's own schedule for viewings and paperwork, which rarely matches a student's compressed timeline. A hotel buys breathing room but isn't a real fix. A furnished co-living room, move-in ready with a standardised agreement, is generally the fastest genuine option if you need to be settled before term starts. If you're now inside the final two weeks and need the step-by-step version, including the exact mistakes students make under pressure and a full pre-move checklist, [our short-notice housing guide](https://lazybee.sg/blog/short-notice-housing-for-students-who-failed-to-secure-halls) walks through that specifically.
+Compare your options honestly. A private rental usually runs on a landlord's own schedule for viewings and paperwork, which rarely matches a student's compressed timeline. A hotel buys breathing room but isn't a real fix. A furnished co-living room, move-in ready with a standardised agreement, is generally the fastest genuine option if you need to be settled before term starts. If you're now inside the final two weeks and need the step-by-step version, including the exact mistakes students make under pressure and a full pre-move checklist, [our short-notice housing guide](https://www.lazybee.sg/hive/short-notice-housing-for-students-who-failed-to-secure-halls) walks through that specifically.
 
-It's also worth comparing halls against co-living on the merits, not just as a fallback. [Our first-year halls versus co-living guide](https://lazybee.sg/blog/first-year-university-housing-halls-vs-co-living-in-singapore) lays out what you actually gain and give up either way, which is useful even if halls weren't your first choice to begin with.
+It's also worth comparing halls against co-living on the merits, not just as a fallback. [Our first-year halls versus co-living guide](https://www.lazybee.sg/hive/first-year-university-housing-halls-vs-co-living-in-singapore) lays out what you actually gain and give up either way, which is useful even if halls weren't your first choice to begin with.
 
 
 ![The Singapore Management University campus in the middle of the city](/sketches/loc-campus__smu__city-block.jpg)
@@ -99,6 +99,6 @@ Not in the same form. NUS's senior pathway (RAS) runs on nomination by clubs and
 No. Both universities' own guidance points the same direction: start your off-campus search immediately, rather than treating a waitlist as your plan. NTU is explicit that waitlist odds are low and timing uncertain.
 
 **How fast can I actually move into off-campus housing if halls fall through?**
-If you go the co-living route with a room that's genuinely vacant and furnished, a realistic timeline is a few days to about a week. Our [short-notice housing guide](https://lazybee.sg/blog/short-notice-housing-for-students-who-failed-to-secure-halls) has the full checklist for moving on that kind of timeline without making an expensive mistake under pressure.
+If you go the co-living route with a room that's genuinely vacant and furnished, a realistic timeline is a few days to about a week. Our [short-notice housing guide](https://www.lazybee.sg/hive/short-notice-housing-for-students-who-failed-to-secure-halls) has the full checklist for moving on that kind of timeline without making an expensive mistake under pressure.
 
 Sources: [URA, Short-Term Accommodation guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/); [URA, Renting Property guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/).

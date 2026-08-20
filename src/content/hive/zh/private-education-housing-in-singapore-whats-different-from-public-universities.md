@@ -15,9 +15,9 @@ heroAlt: 地铁站大堂里的售票机
 
 大多数情况下没有。PSB Academy、Kaplan、NAFA、LASALLE、Curtin Singapore、James Cook University Singapore、INSEAD和ESSEC都不设学生宿舍楼。这些学校的学生从抵达新加坡的第一天起就要自行租房，无论是组屋（HDB）房间、私人公寓，还是配备家具的共居房间。
 
-MDIS是唯一值得一提的部分例外。它在Stirling Road校区设有一处小型校内宿舍，但名额有限，且以套餐形式定价，所以不少MDIS学生最终也会去看校外房源，原因可能是所在批次的宿舍已满，也可能是想要更大的自由度。详细内容见我们的[MDIS住宿指南](https://lazybee.sg/blog/housing-for-mdis-students-in-singapore)。
+MDIS是唯一值得一提的部分例外。它在Stirling Road校区设有一处小型校内宿舍，但名额有限，且以套餐形式定价，所以不少MDIS学生最终也会去看校外房源，原因可能是所在批次的宿舍已满，也可能是想要更大的自由度。详细内容见我们的[MDIS住宿指南](https://www.lazybee.sg/blog/housing-for-mdis-students-in-singapore)。
 
-这使得几乎所有新加坡私立学校学生，在结构上都和新加坡管理大学（SMU）的学生处境相同，尽管SMU本身是一所公立自治大学。SMU的校内床位大约只有400至500个，对应超过12,000名在校生，比例低到我们的[SMU住宿指南](https://lazybee.sg/blog/smus-no-halls-policy-where-smu-students-actually-live)将其称为实质上的「没有宿舍」。私立院校面对的是同样的现实，只是连SMU那一点点例外都没有。
+这使得几乎所有新加坡私立学校学生，在结构上都和新加坡管理大学（SMU）的学生处境相同，尽管SMU本身是一所公立自治大学。SMU的校内床位大约只有400至500个，对应超过12,000名在校生，比例低到我们的[SMU住宿指南](https://www.lazybee.sg/hive/zh/smus-no-halls-policy-where-smu-students-actually-live)将其称为实质上的「没有宿舍」。私立院校面对的是同样的现实，只是连SMU那一点点例外都没有。
 
 ## 校内住宿情况一览
 
@@ -28,7 +28,7 @@ MDIS是唯一值得一提的部分例外。它在Stirling Road校区设有一处
 | 新加坡管理大学（SMU） | 约400至500个床位（Prinsep Street Residences加上租赁合作床位） | 没有普遍保证，名额主要留给研究生和CIS交换生 |
 | 私立院校（PSB、Kaplan、NAFA、LASALLE、Curtin、JCU、INSEAD、ESSEC） | 无，MDIS为有限的部分例外 | 不适用，入学起私人租房是默认选项 |
 
-NUS和NTU的数据来自我们专门撰写的[NUS宿舍与共居对比](https://lazybee.sg/blog/nus-halls-vs-co-living-a-real-cost-and-commute-comparison)和[如何申请到NUS或NTU宿舍](https://lazybee.sg/blog/getting-into-nus-or-ntu-halls-what-happens-if-you-dont)两篇文章，如果你想了解这两所学校抽签机制的完整细节，可以进一步阅读。
+NUS和NTU的数据来自我们专门撰写的[NUS宿舍与共居对比](https://www.lazybee.sg/hive/zh/nus-halls-vs-co-living-a-real-cost-and-commute-comparison)和[如何申请到NUS或NTU宿舍](https://www.lazybee.sg/hive/zh/getting-into-nus-or-ntu-halls-what-happens-if-you-dont)两篇文章，如果你想了解这两所学校抽签机制的完整细节，可以进一步阅读。
 
 ![新加坡国立大学肯特岗校区一条绿树成荫的人行天桥](/sketches/loc-campus__nus-kent-ridge__overpass-trees.jpg)
 
@@ -75,7 +75,7 @@ PSB Academy的两个校区分别位于滨海广场（Marina Square）和位于Ha
 - **从一开始就为私人租房编列预算。** 没有宿舍价格可以依靠，哪怕是临时性的也没有，所以在确定入学批次之前，就要把住宿成本纳入学费与生活总预算。
 - **如果你需要学生准证，先确认学校的EduTrust认证状态。** 这首先是一个准证资格问题，但它决定了你能否合法凭该准证在新加坡学习和居住，所以在签署任何文件之前先查清楚。
 - **对大多数PEI来说，按地铁线路选房，而不是按离校门的距离选房。** 市中心校区意味着真正要筛选的条件是乘车时间和价格，而不是步行距离。
-- **查阅你所在院校的专门指南。** 这篇文章刻意保持通用性。如需了解某一所院校的具体细节，请参阅我们关于[PSB Academy](https://lazybee.sg/blog/housing-for-psb-academy-students-in-singapore)、[Kaplan](https://lazybee.sg/blog/housing-for-kaplan-singapore-students)、[MDIS](https://lazybee.sg/blog/housing-for-mdis-students-in-singapore)、[NAFA](https://lazybee.sg/blog/housing-for-nafa-students-in-singapore)、[James Cook University Singapore](https://lazybee.sg/blog/housing-near-james-cook-university-singapore)、[Curtin Singapore](https://lazybee.sg/blog/housing-near-curtin-singapore)、[INSEAD](https://lazybee.sg/blog/housing-for-insead-singapore-students-a-short-program-guide)以及[ESSEC](https://lazybee.sg/blog/housing-for-essec-asia-pacific-students-in-singapore)的指南。
+- **查阅你所在院校的专门指南。** 这篇文章刻意保持通用性。如需了解某一所院校的具体细节，请参阅我们关于[PSB Academy](https://www.lazybee.sg/hive/zh/housing-for-psb-academy-students-in-singapore)、[Kaplan](https://www.lazybee.sg/hive/zh/housing-for-kaplan-singapore-students)、[MDIS](https://www.lazybee.sg/blog/housing-for-mdis-students-in-singapore)、[NAFA](https://www.lazybee.sg/hive/zh/housing-for-nafa-students-in-singapore)、[James Cook University Singapore](https://www.lazybee.sg/hive/zh/housing-near-james-cook-university-singapore)、[Curtin Singapore](https://www.lazybee.sg/hive/zh/housing-near-curtin-singapore)、[INSEAD](https://www.lazybee.sg/hive/zh/housing-for-insead-singapore-students-a-short-program-guide)以及[ESSEC](https://www.lazybee.sg/hive/zh/housing-for-essec-asia-pacific-students-in-singapore)的指南。
 
 ## 常见问题
 

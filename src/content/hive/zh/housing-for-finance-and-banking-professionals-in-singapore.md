@@ -43,7 +43,7 @@ heroAlt: 午后光线下的滨海湾全景
 
 实际操作上，这对住房意味着两件事。第一，如果你是以金融岗位申请就业准证，你的薪金要越过一条其他申请人不必面对的线，所以要拿你的聘书去对照金融服务业那条线，而不是通用搬迁指南里引用的那条一般门槛。第二，正因为门槛更高，大多数在职的银行从业者拿到的薪水，本来就远高于这个行业分界线两侧的最低要求，这意味着对多数金融业受聘者来说，住房的约束不是负担得起与否，而是能不能找到一个够近的地方，让这份收入真的用得上，而不是把它本来要买回来的那些晚上又赔进去。
 
-如果你更广义地属于首次持有就业准证的人，而不是特指金融业，这个问题的通用版本，包括所需文件、时间线、哪些收入计入准证，可以看[首次持有就业准证者的完整住房指南](https://lazybee.sg/blog/first-time-employment-pass-holders-a-complete-housing-guide)。
+如果你更广义地属于首次持有就业准证的人，而不是特指金融业，这个问题的通用版本，包括所需文件、时间线、哪些收入计入准证，可以看[首次持有就业准证者的完整住房指南](https://www.lazybee.sg/hive/zh/first-time-employment-pass-holders-a-complete-housing-guide)。
 
 ## 为了中央商务区的通达性，实际该住哪里
 
@@ -65,9 +65,9 @@ heroAlt: 午后光线下的滨海湾全景
 
 ## 这和顾问或一般就业准证持有者的住房有什么不同？
 
-短期派驻新加坡的管理顾问，面对的是另一个问题：他们往往只待几周或几个月，不是在建立长期据点，租期的灵活度比安顿下来更重要。那部分单独写在[短期派驻新加坡的管理顾问住房指南](https://lazybee.sg/blog/housing-for-management-consultants-on-short-singapore-assignments)里。
+短期派驻新加坡的管理顾问，面对的是另一个问题：他们往往只待几周或几个月，不是在建立长期据点，租期的灵活度比安顿下来更重要。那部分单独写在[短期派驻新加坡的管理顾问住房指南](https://www.lazybee.sg/hive/zh/housing-for-management-consultants-on-short-singapore-assignments)里。
 
-金融业以外的一般就业准证持有者，面对的薪金门槛更低，工作日通常也更标准，所以本文的通勤算法不会那么尖锐地适用。如果你属于这种情况，从[首次持有就业准证者的住房指南](https://lazybee.sg/blog/first-time-employment-pass-holders-a-complete-housing-guide)开始看。
+金融业以外的一般就业准证持有者，面对的薪金门槛更低，工作日通常也更标准，所以本文的通勤算法不会那么尖锐地适用。如果你属于这种情况，从[首次持有就业准证者的住房指南](https://www.lazybee.sg/hive/zh/first-time-employment-pass-holders-a-complete-housing-guide)开始看。
 
 这篇文章是专门为长期扎根做事业的在职银行或金融从业者写的，不是为一个学期或一次短期派驻写的。对前者来说，长工时的行业文化和中央商务区的通勤，才是真正决定你该住哪里的两件事。
 

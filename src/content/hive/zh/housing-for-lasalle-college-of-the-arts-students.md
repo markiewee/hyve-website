@@ -29,7 +29,7 @@ heroAlt: 拉萨尔艺术学院麦纳利校区
 
 ## 拉萨尔与南艺：相似，但不是同一个校区
 
-拉萨尔和南洋艺术学院是新加坡最知名的两所艺术院校，两者常被混淆，部分原因是 2021 年双方在行政上合并为新加坡艺术大学，该校于 2024 年开学。这次合并只是行政层面的。两校各自保留了自己的校区和身份。南艺在明古连街，拉萨尔在麦纳里街，靠近梧槽地铁站，两地在同一条滨海市区线上相隔几站，所以适合其中一所的房间，往往对另一所也还算合适。如果你在考虑的是南艺，我们的[南艺学生住宿指南](https://lazybee.sg/blog/housing-for-nafa-students-in-singapore)以同样的细致程度介绍了那个校区。
+拉萨尔和南洋艺术学院是新加坡最知名的两所艺术院校，两者常被混淆，部分原因是 2021 年双方在行政上合并为新加坡艺术大学，该校于 2024 年开学。这次合并只是行政层面的。两校各自保留了自己的校区和身份。南艺在明古连街，拉萨尔在麦纳里街，靠近梧槽地铁站，两地在同一条滨海市区线上相隔几站，所以适合其中一所的房间，往往对另一所也还算合适。如果你在考虑的是南艺，我们的[南艺学生住宿指南](https://www.lazybee.sg/hive/zh/housing-for-nafa-students-in-singapore)以同样的细致程度介绍了那个校区。
 
 ## 从 Lazybee 三间房子到拉萨尔的真实通勤
 
@@ -59,7 +59,7 @@ Lazybee 经营三间共居房子：位于实龙岗的 Chiltern Park、位于裕�
 
 这几间房子都不是走十分钟就到校园，装作不是这样就是误导。它们能给的是一间独立房间、门外真实的社区生活，以及一段走过几次之后就变得可控、而不是每天都痛苦的通勤。把这一点和单纯追求距离放在一起诚实衡量，因为光是近，并不保证你能拿到房间、遇到合适的房东，或者拥有一个你真正愿意回去的家。
 
-艺术类课程跟着评图截止日和排练表走，不是固定的朝九晚五。我们没有找到拉萨尔关于工作室开放时间的公开说明，所以这里不作猜测。想了解这个角度，可以看我们的[熬夜赶工作室的学生住宿指南](https://lazybee.sg/blog/housing-for-architecture-students-working-late-studio-hours)和[新加坡设计与艺术生住宿指南](https://lazybee.sg/blog/housing-for-design-and-arts-students-in-singapore)，比这篇针对单一校区的指南讲得更深。
+艺术类课程跟着评图截止日和排练表走，不是固定的朝九晚五。我们没有找到拉萨尔关于工作室开放时间的公开说明，所以这里不作猜测。想了解这个角度，可以看我们的[熬夜赶工作室的学生住宿指南](https://www.lazybee.sg/hive/zh/housing-for-architecture-students-working-late-studio-hours)和[新加坡设计与艺术生住宿指南](https://www.lazybee.sg/hive/zh/housing-for-design-and-arts-students-in-singapore)，比这篇针对单一校区的指南讲得更深。
 
 ## 艺术生的共居日常是什么样
 
@@ -98,6 +98,6 @@ Chiltern Park 和 Thomson Grove 大致相当，都在 25 到 30 分钟左右，�
 
 ## 下一步
 
-如果 Chiltern Park 或 Thomson Grove 的通勤符合你的作息，下一步就是通过 [lazybee.sg](https://lazybee.sg) 预约看房，亲眼看看实际的房间和这个家。想把三间房子放在一起完整比较，可以看我们的 [Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)，里面讲的房型组合和社区氛围，比单纯的通勤时间更全面。
+如果 Chiltern Park 或 Thomson Grove 的通勤符合你的作息，下一步就是通过 [lazybee.sg](https://lazybee.sg) 预约看房，亲眼看看实际的房间和这个家。想把三间房子放在一起完整比较，可以看我们的 [Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)，里面讲的房型组合和社区氛围，比单纯的通勤时间更全面。
 
 资料来源：[市区重建局（URA）短期住宿准则](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/)；[市区重建局（URA）房屋出租准则](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/)。

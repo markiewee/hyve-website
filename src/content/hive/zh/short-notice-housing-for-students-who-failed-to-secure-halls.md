@@ -102,7 +102,7 @@ heroAlt: 列车正驶入地铁站台
 
 一间已经配备家具、已经空置的房间，省去了任何私人租赁中最耗时的两个环节：等房东的时间安排，以及自己张罗置办一个空房子。Lazybee在Chiltern Park、Ivory Heights和Thomson Grove的房间，统一采用标准化的租赁合约，并在房源页面上直接显示当前空房情况，你不用发邮件询问后再等上好几天才有回复。只要房源显示可预订，就是真的可以预订。
 
-对于刚得知宿舍抽签结果不理想、而开学又快到了的学生来说，能看到真实的空房情况、并使用标准化文件签约，这个差别正是把紧张的两周变成一个已解决问题的关键。如果你想单纯比较共居和服务式公寓、短期酒店在速度上的差异，可以参考[我们的紧急住宿指南](https://lazybee.sg/blog/short-notice-housing-singapore)，里面有并列比较。
+对于刚得知宿舍抽签结果不理想、而开学又快到了的学生来说，能看到真实的空房情况、并使用标准化文件签约，这个差别正是把紧张的两周变成一个已解决问题的关键。如果你想单纯比较共居和服务式公寓、短期酒店在速度上的差异，可以参考[我们的紧急住宿指南](https://www.lazybee.sg/hive/zh/short-notice-housing-singapore)，里面有并列比较。
 
 ![位于市中心的新加坡管理大学校园](/sketches/loc-campus__smu__city-block.jpg)
 
@@ -110,7 +110,7 @@ heroAlt: 列车正驶入地铁站台
 
 先去查现在有哪些空房，而不是想当然地以为没有。共居房源的空房情况一直在变动，因为房间是全年滚动式地开放和填满的，并不只是在开学时才有变化。
 
-如果你是持学生准证入住，或者还在等原则批准信，[我们关于持学生准证、就业准证（EP）或S准证租房区别的指南](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)会详细说明你实际需要哪些文件。另外，如果你想在联系之前先了解Lazybee的房间和房子实际是什么样子，[Chiltern Park、Ivory Heights和Thomson Grove导览](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)涵盖了这三处物业。当前空房情况一直直接显示在[lazybee.sg](https://lazybee.sg)上，你可以在联系任何人之前先看看有哪些空房。
+如果你是持学生准证入住，或者还在等原则批准信，[我们关于持学生准证、就业准证（EP）或S准证租房区别的指南](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)会详细说明你实际需要哪些文件。另外，如果你想在联系之前先了解Lazybee的房间和房子实际是什么样子，[Chiltern Park、Ivory Heights和Thomson Grove导览](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)涵盖了这三处物业。当前空房情况一直直接显示在[lazybee.sg](https://lazybee.sg)上，你可以在联系任何人之前先看看有哪些空房。
 
 ## 抽签落选后学生最常问的问题
 

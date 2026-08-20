@@ -71,9 +71,9 @@ A few things make a real difference for architecture students specifically:
 
 **Somewhere to leave a model without it being touched.** A private room solves this by default. A shared bedroom usually doesn't.
 
-**Housemates who aren't all on your exact schedule, but who also aren't going to complain about it.** Co-living with a working professional or two, rather than a tight flat-share where everyone's expected to sync up, tends to absorb an odd schedule better. See our piece on [what living with strangers is really like](https://lazybee.sg/blog/what-living-with-strangers-is-really-like) for a more general look at how that dynamic actually plays out.
+**Housemates who aren't all on your exact schedule, but who also aren't going to complain about it.** Co-living with a working professional or two, rather than a tight flat-share where everyone's expected to sync up, tends to absorb an odd schedule better. See our piece on [what living with strangers is really like](https://www.lazybee.sg/hive/what-living-with-strangers-is-really-like) for a more general look at how that dynamic actually plays out.
 
-**Flexibility if you don't get a hall place, or don't want one.** Halls put you in close quarters with the exact roommate-friction problem above. If a hall offer doesn't come through, our guide on [what happens if you don't get into NUS or NTU halls](https://lazybee.sg/blog/getting-into-nus-or-ntu-halls-what-happens-if-you-dont) covers the private-market alternative in more detail.
+**Flexibility if you don't get a hall place, or don't want one.** Halls put you in close quarters with the exact roommate-friction problem above. If a hall offer doesn't come through, our guide on [what happens if you don't get into NUS or NTU halls](https://www.lazybee.sg/hive/getting-into-nus-or-ntu-halls-what-happens-if-you-dont) covers the private-market alternative in more detail.
 
 | What to check | Why it matters for architecture specifically |
 |---|---|
@@ -90,7 +90,7 @@ A few things make a real difference for architecture students specifically:
 
 Lazybee rooms are private, furnished, and come with your own space to close the door on, whatever hour you're keeping. There's no shared bedroom to tiptoe around at 3am and no dining table someone else needs back by morning.
 
-For NUS architecture students at Kent Ridge, our general campus housing breakdown in the [NUS student housing guide](https://lazybee.sg/blog/student-housing-near-nus-a-co-living-guide) covers the neighbourhoods and commute options in more depth. If you're weighing a design programme elsewhere on the island, the [NTU student housing guide](https://lazybee.sg/blog/student-housing-near-ntu-a-co-living-guide) does the same for that campus corridor.
+For NUS architecture students at Kent Ridge, our general campus housing breakdown in the [NUS student housing guide](https://www.lazybee.sg/blog/student-housing-near-nus-a-co-living-guide) covers the neighbourhoods and commute options in more depth. If you're weighing a design programme elsewhere on the island, the [NTU student housing guide](https://www.lazybee.sg/hive/student-housing-near-ntu-a-co-living-guide) does the same for that campus corridor.
 
 If crit week is coming and your current living situation isn't holding up to it, current rooms are listed at [lazybee.sg](https://lazybee.sg), with the price and term shown upfront so you can move without a long negotiation eating into time you don't have.
 

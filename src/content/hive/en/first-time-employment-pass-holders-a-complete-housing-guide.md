@@ -29,7 +29,7 @@ The 2027 figures apply to new applications from that date, and to renewals expir
 
 Treat these as a snapshot, not a promise. MOM adjusts EP criteria periodically, so check [MOM's Employment Pass eligibility page](https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility) directly before you rely on a number for anything that matters, like negotiating a job offer or budgeting a lease.
 
-If you're coming in through a specific sector, tech, finance, engineering, or research, the salary floor is only part of the picture. Where you should actually live depends heavily on your industry's geography and hours. We've written separate guides for [finance and banking professionals](https://lazybee.sg/blog/housing-for-finance-and-banking-professionals-in-singapore) and [engineers on project-based contracts](https://lazybee.sg/blog/housing-for-engineers-on-project-based-contracts-in-singapore) that go deep on those specifics. This guide stays at the level that applies to every first-time EP holder, regardless of sector.
+If you're coming in through a specific sector, tech, finance, engineering, or research, the salary floor is only part of the picture. Where you should actually live depends heavily on your industry's geography and hours. We've written separate guides for [finance and banking professionals](https://www.lazybee.sg/hive/housing-for-finance-and-banking-professionals-in-singapore) and [engineers on project-based contracts](https://www.lazybee.sg/hive/housing-for-engineers-on-project-based-contracts-in-singapore) that go deep on those specifics. This guide stays at the level that applies to every first-time EP holder, regardless of sector.
 
 ## What Documents Do I Actually Need to Rent?
 
@@ -39,7 +39,7 @@ Three things, at minimum, before any landlord or co-living operator will let you
 2. **Your passport.** Used to cross-check your identity against the pass details, and standard practice for any lease involving a foreigner.
 3. **Proof of employment.** Usually your offer letter or employment contract, sometimes a recent payslip if you've already started. This confirms the job that the EP itself is tied to.
 
-A properly run operator will verify your pass is currently active using MOM's own "Check a Work Pass" service, not just eyeball the printed expiry date, since a pass can be cancelled before its printed expiry if your employment ends early. For the fuller breakdown of what foreigners need to rent in Singapore across every pass type, see our guide on [can foreigners rent in Singapore](https://lazybee.sg/blog/can-foreigners-rent-in-singapore).
+A properly run operator will verify your pass is currently active using MOM's own "Check a Work Pass" service, not just eyeball the printed expiry date, since a pass can be cancelled before its printed expiry if your employment ends early. For the fuller breakdown of what foreigners need to rent in Singapore across every pass type, see our guide on [can foreigners rent in Singapore](https://www.lazybee.sg/blog/can-foreigners-rent-in-singapore).
 
 | Document | Why it is needed | Accepted substitute |
 |---|---|---|
@@ -85,7 +85,7 @@ This is the question the salary threshold and the documents don't answer, and it
 - **Budget for the whole picture, not just headline rent.** Deposit (typically one to two months), utilities, and sometimes a small agent fee all sit on top of the number in the listing.
 - **Co-living is usually the fastest legitimate way in.** It bundles the three-month minimum, furnished rooms, and utilities into one line, without the twelve-month default that most standalone leases carry.
 
-If you want a fuller cost breakdown by area before you start looking, our [co-living cost by district guide](https://lazybee.sg/blog/coliving-cost-by-district-singapore) and [2026 rental budget breakdown](https://lazybee.sg/blog/cost-of-renting-singapore-2026-budget) cover that in detail. And if you're specifically weighing your pass type against how long a lease makes sense, our [EP vs S Pass vs Student Pass renting guide](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through how validity and renewal timelines should shape your lease length.
+If you want a fuller cost breakdown by area before you start looking, our [co-living cost by district guide](https://www.lazybee.sg/blog/coliving-cost-by-district-singapore) and [2026 rental budget breakdown](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget) cover that in detail. And if you're specifically weighing your pass type against how long a lease makes sense, our [EP vs S Pass vs Student Pass renting guide](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through how validity and renewal timelines should shape your lease length.
 
 
 ![Hands at a keyboard and mouse](/sketches/object__keyboard-mouse__hands-closeup.jpg)

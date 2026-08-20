@@ -31,7 +31,7 @@ This piece covers the category as a whole, what studio-based learning actually d
 
 LASALLE and NAFA formed an alliance in March 2021 to create the University of the Arts Singapore, but each kept its own campus, programmes and identity.
 
-If you're specifically at LASALLE or NAFA, we've written location and commute guides for each: [housing for LASALLE College of the Arts students](https://lazybee.sg/blog/housing-for-lasalle-college-of-the-arts-students) and [housing for NAFA students in Singapore](https://lazybee.sg/blog/housing-for-nafa-students-in-singapore). If you're in an architecture diploma or degree specifically, studio culture there runs even later, and we've covered that separately in our [architecture student housing guide](https://lazybee.sg/blog/housing-for-architecture-students-working-late-studio-hours).
+If you're specifically at LASALLE or NAFA, we've written location and commute guides for each: [housing for LASALLE College of the Arts students](https://www.lazybee.sg/hive/housing-for-lasalle-college-of-the-arts-students) and [housing for NAFA students in Singapore](https://www.lazybee.sg/hive/housing-for-nafa-students-in-singapore). If you're in an architecture diploma or degree specifically, studio culture there runs even later, and we've covered that separately in our [architecture student housing guide](https://www.lazybee.sg/hive/housing-for-architecture-students-working-late-studio-hours).
 
 ## Why studio-based learning changes what you need from a room
 

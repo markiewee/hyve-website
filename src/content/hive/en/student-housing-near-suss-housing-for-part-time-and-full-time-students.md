@@ -57,14 +57,14 @@ If you're a full-time undergraduate, a few things are worth prioritising when yo
 - **A furnished room with wifi and utilities bundled in**, since most full-time students aren't set up to buy and later dispose of furniture for a stay of a year or two.
 - **A household that's actually liveable around exam periods and coursework**, not one that's silent on function and awkward on rent negotiation.
 
-Our [guide to choosing where to live by commute time](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore) covers how to test a real commute against a real class schedule rather than guessing off a map, and our [first-year halls vs co-living guide](https://lazybee.sg/blog/first-year-university-housing-halls-vs-co-living-in-singapore) is worth a read if you're comparing a hall application against renting from the outset.
+Our [guide to choosing where to live by commute time](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) covers how to test a real commute against a real class schedule rather than guessing off a map, and our [first-year halls vs co-living guide](https://www.lazybee.sg/hive/first-year-university-housing-halls-vs-co-living-in-singapore) is worth a read if you're comparing a hall application against renting from the outset.
 
 
 ![The NTU Learning Hub, the university's landmark stacked building](/sketches/loc-campus__ntu__learning-hub-landmark.jpg)
 
 ## What Part-Time, Working-Adult SUSS Students Should Look For
 
-If you're one of SUSS's part-time students, working full-time and studying in the evenings or on weekends, the calculation is different enough that it deserves its own answer rather than a quick add-on here. We've covered that in detail in our guide to [housing for working adults studying part-time in Singapore](https://lazybee.sg/blog/mature-students-working-full-time-and-studying-part-time-housing-in-singapore), which walks through why a multi-year lease, a working-adult household, and a commute that works from both your office and your classroom matter more than raw proximity to any one campus. Read that guide for the full picture if this is your situation.
+If you're one of SUSS's part-time students, working full-time and studying in the evenings or on weekends, the calculation is different enough that it deserves its own answer rather than a quick add-on here. We've covered that in detail in our guide to [housing for working adults studying part-time in Singapore](https://www.lazybee.sg/hive/mature-students-working-full-time-and-studying-part-time-housing-in-singapore), which walks through why a multi-year lease, a working-adult household, and a commute that works from both your office and your classroom matter more than raw proximity to any one campus. Read that guide for the full picture if this is your situation.
 
 
 ![A student at a desk with a backpack and a phone](/sketches/people-student__student-portrait__backpack-desk-phone.jpg)
@@ -73,7 +73,7 @@ If you're one of SUSS's part-time students, working full-time and studying in th
 
 Lazybee runs three co-living houses across Singapore: Chiltern Park in Serangoon, Ivory Heights in Jurong East, and Thomson Grove near Lentor, off Yio Chu Kang Road. Each sits on an established MRT line, and each draws a mixed household of working professionals and students rather than a purely undergraduate crowd, which suits both kinds of SUSS student differently. Ivory Heights, in Jurong East, sits closer to the west side of the island where the Clementi campus is, useful for a full-time student weighing the commute, while all three houses work for a part-time student whose real constraint is a job location rather than a single campus gate.
 
-Every room comes furnished, with wifi and utilities bundled into the rent, and lease terms published on the listing itself rather than negotiated room by room. That tends to suit a SUSS student's situation better than chasing an individual private landlord, whether the constraint is a semester timetable or a multi-year part-time course run alongside a full-time job. Our [guide to all three houses](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) covers each one room by room.
+Every room comes furnished, with wifi and utilities bundled into the rent, and lease terms published on the listing itself rather than negotiated room by room. That tends to suit a SUSS student's situation better than chasing an individual private landlord, whether the constraint is a semester timetable or a multi-year part-time course run alongside a full-time job. Our [guide to all three houses](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) covers each one room by room.
 
 ## A Few Common Questions
 
@@ -87,7 +87,7 @@ No. SUSS doesn't run an on-campus hall or PGP-style residence system the way NUS
 No, not anymore. SUSS began as a part-time, working-adult-focused institution, but has run full-time undergraduate intakes since 2014 alongside its part-time programmes, so both types of student are on campus today.
 
 **Should a full-time and a part-time SUSS student live in the same kind of place?**
-Not necessarily. A full-time student is mostly optimising for proximity to campus and a student-friendly household, while a part-time student working full-time is optimising for a commute that works from both a job and a classroom, plus a longer, stable lease. See our [dedicated guide for working adults studying part-time](https://lazybee.sg/blog/mature-students-working-full-time-and-studying-part-time-housing-in-singapore) for that second case.
+Not necessarily. A full-time student is mostly optimising for proximity to campus and a student-friendly household, while a part-time student working full-time is optimising for a commute that works from both a job and a classroom, plus a longer, stable lease. See our [dedicated guide for working adults studying part-time](https://www.lazybee.sg/hive/mature-students-working-full-time-and-studying-part-time-housing-in-singapore) for that second case.
 
 **Is co-living a good fit for a SUSS student?**
 It tends to work well for both groups, since a furnished room with published lease terms removes the admin of landlord-hunting and furniture-buying that a first-time renter or a busy working adult usually doesn't have time for.

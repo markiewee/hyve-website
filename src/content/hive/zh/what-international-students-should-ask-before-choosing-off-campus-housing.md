@@ -92,7 +92,7 @@ heroAlt: 地铁站大堂里的售票机
 
 以上这些问题都不算无理取闹，经营过这类业务的房东，会毫不犹豫地把这八个问题都答清楚。真正值得你转身离开的，是那些含糊其辞、防备心重，或者催你赶紧签字的房东。回答慢一点没关系，回答躲躲闪闪就不行了。
 
-如果你正在权衡几个房源，Lazybee 在[Chiltern Park、Ivory Heights 和 Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)的房间，租期都是按学生时间表设置的，押金流程有记录可查，租金全包，无需猜测里面包含什么。我们的[共居租金实际包含什么](https://lazybee.sg/blog/whats-included-in-coliving-rent-singapore)指南进一步拆解了包含项目清单，最新的房间空置情况则一直更新在[lazybee.sg](https://lazybee.sg)。
+如果你正在权衡几个房源，Lazybee 在[Chiltern Park、Ivory Heights 和 Thomson Grove](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)的房间，租期都是按学生时间表设置的，押金流程有记录可查，租金全包，无需猜测里面包含什么。我们的[共居租金实际包含什么](https://www.lazybee.sg/hive/zh/whats-included-in-coliving-rent-singapore)指南进一步拆解了包含项目清单，最新的房间空置情况则一直更新在[lazybee.sg](https://lazybee.sg)。
 
 ## 常见问题
 

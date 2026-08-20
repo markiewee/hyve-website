@@ -16,7 +16,7 @@ This piece pulls together what we've already written on Singapore tenancy law an
 
 ## The Law Doesn't Change Based on Your Nationality
 
-Singapore's rental rules apply uniformly regardless of where you're from. The Urban Redevelopment Authority sets a three-month minimum stay for private residential property, HDB sets six months for flats, and there's an occupancy cap on how many unrelated people can share one unit. None of that shifts because you're Indian, Filipino, or Australian. We've laid out the full mechanics, including what actually counts as a breach and who's liable if a property gets flagged, in [Is Co-Living Legal in Singapore?](https://lazybee.sg/blog/is-coliving-legal-in-singapore)
+Singapore's rental rules apply uniformly regardless of where you're from. The Urban Redevelopment Authority sets a three-month minimum stay for private residential property, HDB sets six months for flats, and there's an occupancy cap on how many unrelated people can share one unit. None of that shifts because you're Indian, Filipino, or Australian. We've laid out the full mechanics, including what actually counts as a breach and who's liable if a property gets flagged, in [Is Co-Living Legal in Singapore?](https://www.lazybee.sg/hive/is-coliving-legal-in-singapore)
 
 The one place nationality does show up isn't in the law. It's in the numbers. Indian nationals are widely reported to be one of the largest groups of Employment Pass and S Pass holders in Singapore, concentrated in tech, banking, and engineering, with a significant presence among international students too. That means the friction points below aren't rare edge cases for a well-run operator.
 
@@ -35,9 +35,9 @@ None of this shifts based on nationality.
 
 A Student Pass, EP, or S Pass each let you rent, but only once the pass is actually issued and in hand. A job offer, an In-Principle Approval letter, or an admission letter isn't enough on its own, and a properly run operator won't let you sign against any of those. This catches out people who land on a visitor stamp expecting to sign a lease the same week their job or course starts.
 
-The full breakdown of which passes qualify and what documents a legitimate operator will ask for is in [Can Foreigners Rent in Singapore? Passes & Documents](https://lazybee.sg/blog/can-foreigners-rent-in-singapore). Short version: expect to show your passport, the actual pass card, proof of employment or enrolment, and a local contact number, and expect your pass checked against MOM's or ICA's own verification service before a room is confirmed.
+The full breakdown of which passes qualify and what documents a legitimate operator will ask for is in [Can Foreigners Rent in Singapore? Passes & Documents](https://www.lazybee.sg/blog/can-foreigners-rent-in-singapore). Short version: expect to show your passport, the actual pass card, proof of employment or enrolment, and a local contact number, and expect your pass checked against MOM's or ICA's own verification service before a room is confirmed.
 
-If you're specifically weighing an EP against an S Pass against a Student Pass, and how each one should shape how long a lease you commit to, we cover that comparison directly in [Renting on an EP vs S Pass vs Student Pass in Singapore](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore).
+If you're specifically weighing an EP against an S Pass against a Student Pass, and how each one should shape how long a lease you commit to, we cover that comparison directly in [Renting on an EP vs S Pass vs Student Pass in Singapore](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore).
 
 | What you hold | Lets you sign a lease |
 |---|---|
@@ -59,7 +59,7 @@ If your EP has nine months left and you sign a 12-month lease, you've created a 
 
 If you're renting a room rather than a whole unit, the contract in front of you is almost certainly a licence agreement, not a tenancy agreement. That's standard across co-living in Singapore, and it isn't a red flag by itself.
 
-The real difference, and the specific clauses that only show up in licence agreements, is set out in [Licence Agreement vs Tenancy Agreement in Singapore](https://lazybee.sg/blog/licence-agreement-vs-tenancy-agreement-singapore). Read that before you sign anything, particularly the section on whether the operator can move you to a different room during your stay.
+The real difference, and the specific clauses that only show up in licence agreements, is set out in [Licence Agreement vs Tenancy Agreement in Singapore](https://www.lazybee.sg/blog/licence-agreement-vs-tenancy-agreement-singapore). Read that before you sign anything, particularly the section on whether the operator can move you to a different room during your stay.
 
 
 ![The ICA Building, where Singapore immigration passes are issued](/sketches/loc-civic__ica-building__government-exterior.jpg)
@@ -68,7 +68,7 @@ The real difference, and the specific clauses that only show up in licence agree
 
 One month's rent is the norm for a co-living room deposit in Singapore, refundable in full unless there's real damage beyond fair wear and tear. There's no law setting that figure, so it's the clause in your agreement, not a government rule, that governs the amount and the return conditions.
 
-We've covered what a deposit can and can't legally be deducted for, and the move-in photos that make a refund automatic instead of a dispute, in [Security Deposit Co-Living Singapore: What's Standard](https://lazybee.sg/blog/security-deposit-coliving-singapore).
+We've covered what a deposit can and can't legally be deducted for, and the move-in photos that make a refund automatic instead of a dispute, in [Security Deposit Co-Living Singapore: What's Standard](https://www.lazybee.sg/hive/security-deposit-coliving-singapore).
 
 ## Practical Friction Points Indian Renters Should Plan For
 

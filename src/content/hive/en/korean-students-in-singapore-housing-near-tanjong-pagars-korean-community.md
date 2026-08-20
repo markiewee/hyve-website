@@ -33,7 +33,7 @@ For a Korean student, this means the area functions as more than a place to eat.
 
 ## How Far Is Tanjong Pagar From NUS, NTU, and SMU?
 
-Tanjong Pagar itself sits right at the edge of the CBD, and general commute patterns into and around the CBD are already covered in our [guide to living by commute time to the CBD](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore), so this section sticks to the specific distances that matter for this guide: how far Tanjong Pagar sits from each campus.
+Tanjong Pagar itself sits right at the edge of the CBD, and general commute patterns into and around the CBD are already covered in our [guide to living by commute time to the CBD](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore), so this section sticks to the specific distances that matter for this guide: how far Tanjong Pagar sits from each campus.
 
 **To SMU**, Tanjong Pagar is close. The subway ride to Singapore Management University, changing at City Hall, takes around 12 minutes, and a direct SBS Transit bus from Tanjong Pagar Exit C covers the same distance in a similar time ([Rome2Rio](https://www.rome2rio.com/s/Tanjong-Pagar-MRT-Station/Singapore-Management-University)). Since SMU's campus sits in the city itself, this is the shortest of the three commutes by a wide margin.
 
@@ -66,13 +66,13 @@ Lazybee runs three co-living houses across Singapore, and each one reaches Tanjo
 | Thomson Grove, near Lentor | Thomson-East Coast Line to Maxwell, then roughly 500 metres, about a 6-minute walk, to Tanjong Pagar MRT and the restaurant strip | Shortest last-mile walk of the three | An evening run to Amoy Street |
 | Chiltern Park, Serangoon | North East Line toward Outram Park, then one stop on the East-West Line | 25 to 30 minutes with one change | Routing flexibility, with two lines out of Serangoon |
 
-Full detail on all three houses, room mix, and neighbourhood, is in our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide).
+Full detail on all three houses, room mix, and neighbourhood, is in our [guide to Chiltern Park, Ivory Heights, and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide).
 
 ## Matching the House to Your Campus
 
 If NTU is your priority, Ivory Heights is the clear pick: it sits on the same East-West Line that runs to both Pioneer/Boon Lay and Tanjong Pagar, so campus and community both stay reachable without a transfer to Tanjong Pagar specifically.
 
-If NUS or SMU is your priority and you want to weigh commute against Tanjong Pagar access more evenly, Thomson Grove's short last-mile walk to Maxwell puts it closest to the Korean cluster itself, while Chiltern Park's dual-line access from Serangoon (Circle Line and North East Line) gives more routing flexibility if your daily commute changes across semesters. Neither NUS nor SMU sits directly on the same line as any of the three houses, so in both cases you're weighing a genuine trade-off rather than finding a house that does everything at once. Our [commute-to-CBD guide](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore) is the better read if you want to compare these routes against other parts of the island too.
+If NUS or SMU is your priority and you want to weigh commute against Tanjong Pagar access more evenly, Thomson Grove's short last-mile walk to Maxwell puts it closest to the Korean cluster itself, while Chiltern Park's dual-line access from Serangoon (Circle Line and North East Line) gives more routing flexibility if your daily commute changes across semesters. Neither NUS nor SMU sits directly on the same line as any of the three houses, so in both cases you're weighing a genuine trade-off rather than finding a house that does everything at once. Our [commute-to-CBD guide](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) is the better read if you want to compare these routes against other parts of the island too.
 
 
 ![A shaded walkway between the Tiong Bahru blocks](/sketches/loc-neighbourhood__tiong-bahru__walkway-trees.jpg)
@@ -83,11 +83,11 @@ If NUS or SMU is your priority and you want to weigh commute against Tanjong Pag
 
 **A room that's already set up.** Arriving from Korea with limited luggage and no local network is a different move from a local one. A furnished room with wifi and utilities already included removes a real source of first-week stress, before you've even worked out where the nearest Korean mart is.
 
-**Verified housing before you commit.** Booking sight unseen from overseas, whether through an agent, a listing site, or a WeChat-equivalent group chat, carries the same risks anywhere: unrealistically low prices, deposit requests before a viewing, or listings copied from a real property. If you can't view in person, insist on a video walkthrough and confirm any agent's registration on the Council for Estate Agencies' website before sending anything. Our guide on [viewing a room remotely](https://lazybee.sg/blog/viewing-a-room-remotely-singapore) covers this in more depth.
+**Verified housing before you commit.** Booking sight unseen from overseas, whether through an agent, a listing site, or a WeChat-equivalent group chat, carries the same risks anywhere: unrealistically low prices, deposit requests before a viewing, or listings copied from a real property. If you can't view in person, insist on a video walkthrough and confirm any agent's registration on the Council for Estate Agencies' website before sending anything. Our guide on [viewing a room remotely](https://www.lazybee.sg/hive/viewing-a-room-remotely-singapore) covers this in more depth.
 
 ## Matching Your Lease to Your Student Pass
 
-Singapore's private rental market has one hard floor: no lease under three months, and that applies to every operator, co-living included. Past that floor, match your lease length to your Student Pass validity, not the landlord's default 12-month term, since your pass typically renews annually alongside your enrolment. Our guide on [renting on a Student Pass vs EP vs S Pass](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through this in detail.
+Singapore's private rental market has one hard floor: no lease under three months, and that applies to every operator, co-living included. Past that floor, match your lease length to your Student Pass validity, not the landlord's default 12-month term, since your pass typically renews annually alongside your enrolment. Our guide on [renting on a Student Pass vs EP vs S Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through this in detail.
 
 
 ![Ticket machines in an MRT station concourse](/sketches/loc-transit__mrt-concourse__ticket-machines.jpg)

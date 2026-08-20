@@ -52,7 +52,7 @@ heroAlt: 位于市中心的新加坡管理大学校园
 
 这些是市场整体水平，并非某个营运商的具体房源报价，仅供参考，不作为报价。
 
-因为SMU位于市中心，学生不像NUS学生聚集在金文泰（Clementi）附近，或NTU学生聚集在裕廊（Jurong）附近那样，被限制在某一条走廊地带。只要在环线（Circle Line）或滨海市区线（Downtown Line）沿线，能到美芝路或明古连（Bencoolen）站的地方都可以，这让选择范围扩展到全岛各个社区，而不只是校园周边。如果你同时在权衡几所大学，可以参考我们的[NUS、NTU与SMU附近住宿指南](https://lazybee.sg/blog/chinese-students-in-singapore-where-to-live-near-nus-ntu-and-smu)，里面更详细拆解了通勤时间和各区域情况。
+因为SMU位于市中心，学生不像NUS学生聚集在金文泰（Clementi）附近，或NTU学生聚集在裕廊（Jurong）附近那样，被限制在某一条走廊地带。只要在环线（Circle Line）或滨海市区线（Downtown Line）沿线，能到美芝路或明古连（Bencoolen）站的地方都可以，这让选择范围扩展到全岛各个社区，而不只是校园周边。如果你同时在权衡几所大学，可以参考我们的[NUS、NTU与SMU附近住宿指南](https://www.lazybee.sg/hive/zh/chinese-students-in-singapore-where-to-live-near-nus-ntu-and-smu)，里面更详细拆解了通勤时间和各区域情况。
 
 ![南洋理工大学学习中心，校园里最具标志性的叠层建筑](/sketches/loc-campus__ntu__learning-hub-landmark.jpg)
 
@@ -64,7 +64,7 @@ PSR和租用楼盘床位如此稀少，由此直接引出几个实际要点：
 
 **开学前尽早开始校外找房。** 没有宿舍制度作为后备方案，私人租赁市场就是主要计划，不是备用计划。留出几周而不是几天的时间，尤其是如果你从海外过来，想在签约前先看房或视频看房的话。
 
-**新加坡所有私人租赁都有三个月的最短租期下限。** 这一点普遍适用，共居也不例外，所以要把这一点纳入考量，安排租期与学生准证有效期的配合。我们的[学生准证与EP、S准证租房对比指南](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)详细说明了如何让租期与准证有效期正确匹配。
+**新加坡所有私人租赁都有三个月的最短租期下限。** 这一点普遍适用，共居也不例外，所以要把这一点纳入考量，安排租期与学生准证有效期的配合。我们的[学生准证与EP、S准证租房对比指南](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)详细说明了如何让租期与准证有效期正确匹配。
 
 **第一次搬家，带家具的房间比空房更省心。** 初来乍到、还没有本地人脉网络已经够有压力了，第一周还要自己张罗床垫、路由器和冰箱，只会更麻烦。一间拎包入住的房间能直接省掉这一整类麻烦。
 
@@ -80,7 +80,7 @@ Lazybee在新加坡运营三栋共居房源，其中两栋直接位于能通到S
 | Thomson Grove，杨厝港路附近 | 凌顿站，南北线 | 一条线直达市区 |
 | Ivory Heights，裕廊东 | 裕廊东站 | 如果主校区是NTU或NUS会更合适 |
 
-每间房都配好家具，水电和wifi也都已包含在内，落地后不需要再自己张罗任何东西。每栋房源的详细信息，包括房型配置和看房时该检查什么，都在我们的[Lazybee三栋房源指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)里。[lazybee.sg](https://lazybee.sg)上的房源空置情况一直保持最新，毕竟对一所没有自己宿舍制度的学校来说，掌握真正的空房信息比平时更重要。
+每间房都配好家具，水电和wifi也都已包含在内，落地后不需要再自己张罗任何东西。每栋房源的详细信息，包括房型配置和看房时该检查什么，都在我们的[Lazybee三栋房源指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)里。[lazybee.sg](https://lazybee.sg)上的房源空置情况一直保持最新，毕竟对一所没有自己宿舍制度的学校来说，掌握真正的空房信息比平时更重要。
 
 ## 常见问题
 

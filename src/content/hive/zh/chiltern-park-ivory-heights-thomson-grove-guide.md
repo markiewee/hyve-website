@@ -87,6 +87,6 @@ Ivory Heights 和 Chiltern Park 都靠近地铁换乘站，各自可用两条线
 
 ## 下一步
 
-如果这三间之中有一间感觉合适，下一步就是通过 [lazybee.sg](https://lazybee.sg) 预约看房，亲自去看实际的房间和房子。还在比较预算？我们的[2026 年新加坡租房成本](https://lazybee.sg/blog/cost-of-renting-singapore-2026-budget)指南是搭配本文一起看的实用参考。
+如果这三间之中有一间感觉合适，下一步就是通过 [lazybee.sg](https://lazybee.sg) 预约看房，亲自去看实际的房间和房子。还在比较预算？我们的[2026 年新加坡租房成本](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget)指南是搭配本文一起看的实用参考。
 
 资料来源：[市区重建局（URA），短期住宿指南](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/)；[市区重建局（URA），房屋出租指南](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/)。

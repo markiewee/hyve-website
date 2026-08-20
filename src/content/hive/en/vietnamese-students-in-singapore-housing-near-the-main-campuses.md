@@ -30,7 +30,7 @@ There's a real, organised Vietnamese student presence across all three. The Viet
 
 ## Housing Near NUS and NTU
 
-If Kent Ridge or Bukit Timah is your campus, or Pioneer or Boon Lay is, the area-by-area breakdown has already been worked through in detail in our [guide to student housing in Bukit Timah and Clementi](https://lazybee.sg/blog/bukit-timah-clementi-student-housing), which covers eleven areas across both university belts, what each one costs relative to the others, and the minimum-stay rule that catches out students who sign a lease matched to their landlord's preference instead of their actual course length. Read that guide for the area-level detail. What follows here is specific to being a Vietnamese student rather than any other nationality doing the same commute.
+If Kent Ridge or Bukit Timah is your campus, or Pioneer or Boon Lay is, the area-by-area breakdown has already been worked through in detail in our [guide to student housing in Bukit Timah and Clementi](https://www.lazybee.sg/hive/bukit-timah-clementi-student-housing), which covers eleven areas across both university belts, what each one costs relative to the others, and the minimum-stay rule that catches out students who sign a lease matched to their landlord's preference instead of their actual course length. Read that guide for the area-level detail. What follows here is specific to being a Vietnamese student rather than any other nationality doing the same commute.
 
 
 ![A tree lined overpass on the NUS Kent Ridge campus](/sketches/loc-campus__nus-kent-ridge__overpass-trees.jpg)
@@ -39,13 +39,13 @@ If Kent Ridge or Bukit Timah is your campus, or Pioneer or Boon Lay is, the area
 
 SMU doesn't have a "student belt" around it the way NUS and NTU do, because it sits inside the city itself. Areas like Rochor, Selegie, Bugis, and the fringe of Little India all put you within a short walk or one MRT stop of campus. Slightly further out, Joo Chiat and Katong on the east side connect into town via the Thomson-East Coast Line, trading a few extra minutes on the train for a genuinely different, quieter neighbourhood at the end of the day.
 
-For the actual door-to-door numbers, whichever campus you're headed to, use our [guide to choosing where to live by commute time](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore) rather than guessing off a map. It walks through how to test a real commute against a real timetable, not just distance on paper.
+For the actual door-to-door numbers, whichever campus you're headed to, use our [guide to choosing where to live by commute time](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) rather than guessing off a map. It walks through how to test a real commute against a real timetable, not just distance on paper.
 
 ## Where to Find Vietnamese Food and Community
 
 This is the part generic housing guides skip, and it matters more than people expect in the first few months. A few reference points, so you know where to look:
 
-- **Joo Chiat and Katong**, on the east side of the island, is where you'll find Viet Valuemart, a dedicated Vietnamese grocery store on Joo Chiat Road, alongside Vietnamese restaurants like Long Phung and Banh Mi Saigon. It's also one of the areas covered in our [Joo Chiat and Katong renter's guide](https://lazybee.sg/blog/joo-chiat-katong-renters-guide), and it sits on a direct line into the SMU end of town.
+- **Joo Chiat and Katong**, on the east side of the island, is where you'll find Viet Valuemart, a dedicated Vietnamese grocery store on Joo Chiat Road, alongside Vietnamese restaurants like Long Phung and Banh Mi Saigon. It's also one of the areas covered in our [Joo Chiat and Katong renter's guide](https://www.lazybee.sg/hive/joo-chiat-katong-renters-guide), and it sits on a direct line into the SMU end of town.
 - **Golden Mile Complex on Beach Road** has a Vietnamese grocery section inside its Thai supermarket on the second floor, a useful stop if you're closer to the city centre than the east.
 - **Geylang** has its own cluster of Vietnamese eateries, including Gánh Xưa, for anyone based in that part of the island.
 - The **Vietnamese Embassy** is at 10 Leedon Park, near Farrer Road, for passport and consular matters, and it works with VNYA on community events through the year.
@@ -66,7 +66,7 @@ None of this should decide your entire housing search on its own, since commute 
 
 Vietnamese passport holders can enter Singapore visa-free for up to 30 days for a visit, but that exemption has nothing to do with studying here. Anyone enrolled at NUS, NTU, SMU, or another approved institution needs a Student's Pass, applied for through the university, separately from that visa-free entry allowance.
 
-Once you're here on a Student's Pass, the housing rules are the same ones that apply to every renter in Singapore, not something specific to your nationality: a minimum stay of three consecutive months on any private rental, room or whole unit, HDB or condo. We've written a full breakdown of how pass type and lease length interact in our [guide to renting on an EP, S Pass, or Student Pass](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore), which is worth reading before you sign anything, especially if your course runs for a single semester rather than a full year.
+Once you're here on a Student's Pass, the housing rules are the same ones that apply to every renter in Singapore, not something specific to your nationality: a minimum stay of three consecutive months on any private rental, room or whole unit, HDB or condo. We've written a full breakdown of how pass type and lease length interact in our [guide to renting on an EP, S Pass, or Student Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore), which is worth reading before you sign anything, especially if your course runs for a single semester rather than a full year.
 
 One thing worth flagging for scholarship holders specifically: ASEAN Undergraduate Scholarships, which many Vietnamese students at NUS, NTU, and SUTD are on, come with an annual accommodation allowance rather than a housing guarantee. Hall or PGP is common in year one if you apply early enough, but it isn't automatic every year, so it pays to have an off-campus or co-living option scoped out rather than assuming a hall place will always come through.
 
@@ -91,7 +91,7 @@ None of the three is automatically right for every student. What matters is pick
 
 ## Where Lazybee Fits In
 
-Lazybee runs three co-living houses in Singapore: Chiltern Park in Serangoon, Ivory Heights in Jurong East, and Thomson Grove near Lentor. Each is covered area by area, room mix included, in our [guide to all three houses](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide). Ivory Heights, sitting in Jurong East's transport hub, is the closest of the three to NTU's side of the island by MRT and shuttle. All three come furnished, with rent that bundles in utilities and wifi, and terms that are published on the listing itself rather than negotiated room by room, which tends to suit a semester-length exchange or a first year overseas better than chasing an individual landlord does.
+Lazybee runs three co-living houses in Singapore: Chiltern Park in Serangoon, Ivory Heights in Jurong East, and Thomson Grove near Lentor. Each is covered area by area, room mix included, in our [guide to all three houses](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide). Ivory Heights, sitting in Jurong East's transport hub, is the closest of the three to NTU's side of the island by MRT and shuttle. All three come furnished, with rent that bundles in utilities and wifi, and terms that are published on the listing itself rather than negotiated room by room, which tends to suit a semester-length exchange or a first year overseas better than chasing an individual landlord does.
 
 Room availability changes as tenants move in and out, so check current listings and exact terms at [lazybee.sg](https://lazybee.sg) rather than relying on anything written here, and cross-check the commute to your specific campus using the guide linked above before you commit.
 

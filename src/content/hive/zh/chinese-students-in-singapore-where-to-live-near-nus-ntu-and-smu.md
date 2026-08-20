@@ -19,11 +19,11 @@ heroAlt: 新加坡国立大学校园里穿过树林的人行天桥
 
 南洋理工大学位置更靠外，接近裕廊西。先驱和文礼都在东西线上，是最近的两个车站，免费穿梭巴士（179 路和 199 路，另加 Campus Rider）从两站把学生载进校园中心，因为走路距离本身很长（[IAMCR](https://iamcr.org/singapore2025/getting-to-ntu)）。
 
-新加坡管理大学是个例外：市区校园，地址在维多利亚街 81 号，位于百胜艺术区。明古连地铁站（滨海市区线）就在学校旁边，百胜地铁站（环线）步行约 3 分钟，两站都通过地下通道连接校园建筑（[维基百科](https://en.wikipedia.org/wiki/Bras_Basah_MRT_station)）。新管大学生等于住在中央商业区里面或紧邻它，所以我们那篇[按通勤时间选择新加坡住处的指南](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore)在这里直接派得上用场，配套的[最便宜地铁线沿线住宿](https://lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore)那篇，则谈到租金沿着同样通往新管大的线路是怎么变化的。
+新加坡管理大学是个例外：市区校园，地址在维多利亚街 81 号，位于百胜艺术区。明古连地铁站（滨海市区线）就在学校旁边，百胜地铁站（环线）步行约 3 分钟，两站都通过地下通道连接校园建筑（[维基百科](https://en.wikipedia.org/wiki/Bras_Basah_MRT_station)）。新管大学生等于住在中央商业区里面或紧邻它，所以我们那篇[按通勤时间选择新加坡住处的指南](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)在这里直接派得上用场，配套的[最便宜地铁线沿线住宿](https://www.lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore)那篇，则谈到租金沿着同样通往新管大的线路是怎么变化的。
 
 ## 按校园划分的最佳区域
 
-**国大附近**：金文泰、杜佛、波那维斯达、女皇镇／联邦，以及锦茂，全都离服务肯特岗的环线车站一两站，或者从校门口坐一小段巴士就到。我们的[武吉知马与金文泰学生住宿指南](https://lazybee.sg/blog/bukit-timah-clementi-student-housing)对这条带谈得更深，包括 2026 年的租金区间，以及适用于这里每一个私宅房源的三个月最短租期规定。
+**国大附近**：金文泰、杜佛、波那维斯达、女皇镇／联邦，以及锦茂，全都离服务肯特岗的环线车站一两站，或者从校门口坐一小段巴士就到。我们的[武吉知马与金文泰学生住宿指南](https://www.lazybee.sg/hive/zh/bukit-timah-clementi-student-housing)对这条带谈得更深，包括 2026 年的租金区间，以及适用于这里每一个私宅房源的三个月最短租期规定。
 
 **南大附近**：先驱和文礼是真正紧挨着校园的两个市镇。裕廊东再往里一个换乘站，用稍长一点的穿梭巴士接驳，换来大得多的市镇中心、更多餐饮选择，以及如果你同时也要往国大或市区跑时更方便的接续交通。
 
@@ -57,11 +57,11 @@ heroAlt: 新加坡国立大学校园里穿过树林的人行天桥
 
 多数中国学生在落地之前就安排好住处，常常提前好几个月，而且全程通过微信、电邮或租房平台完成。订房与入住之间的这段空档，正是骗子瞄准的地方：价格低得不合理的假房源、看房之前就要求付押金，有时还会有人用从真实房源复制来的照片，冒充真正的房东（[PropertyGuru](https://www.propertyguru.com.sg/property-guides/rental-scam-singapore-avoid-83154)）。
 
-几个检查动作可以挡掉大部分风险。如果没办法亲自看房，坚持要求视频通话实地走一遍。在拿到签署好的合约之前，绝不汇出押金。如果你通过中介，新加坡每一位持牌中介都在房地产代理理事会（CEA）注册，可以在 CEA 官网上查证。我们那篇[远程看房](https://lazybee.sg/blog/viewing-a-room-remotely-singapore)的指南，为完全没看过房就要订房的人把这件事讲得更细。
+几个检查动作可以挡掉大部分风险。如果没办法亲自看房，坚持要求视频通话实地走一遍。在拿到签署好的合约之前，绝不汇出押金。如果你通过中介，新加坡每一位持牌中介都在房地产代理理事会（CEA）注册，可以在 CEA 官网上查证。我们那篇[远程看房](https://www.lazybee.sg/hive/zh/viewing-a-room-remotely-singapore)的指南，为完全没看过房就要订房的人把这件事讲得更细。
 
 ## 让租期与学生准证对上
 
-新加坡的私人租赁市场有一条硬性规定：租期不得短于三个月，适用于每一家营运商，共居也包括在内。在这条底线之上，真正要紧的期限是你自己学生准证的有效期，因为学生准证通常随着学籍每年更新一次。准证只剩九个月却签了十二个月的租约，会制造一个和房间本身毫无关系的问题。我们那篇[持学生准证、就业准证与 S 准证租房](https://lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)的指南，说明了该怎么正确地把租期和准证期限对上。
+新加坡的私人租赁市场有一条硬性规定：租期不得短于三个月，适用于每一家营运商，共居也包括在内。在这条底线之上，真正要紧的期限是你自己学生准证的有效期，因为学生准证通常随着学籍每年更新一次。准证只剩九个月却签了十二个月的租约，会制造一个和房间本身毫无关系的问题。我们那篇[持学生准证、就业准证与 S 准证租房](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)的指南，说明了该怎么正确地把租期和准证期限对上。
 
 ![列车正驶入地铁站台](/sketches/loc-transit__mrt-platform__train-arriving.jpg)
 
@@ -69,7 +69,7 @@ heroAlt: 新加坡国立大学校园里穿过树林的人行天桥
 
 Lazybee 在新加坡经营三处共居物业，分别位于岛上不同区域，所以哪一处合适，取决于你要去哪个校园。Ivory Heights 位于裕廊东，距离地铁换乘站几步路，是三者中离南大最近的，到国大也在可接受的换乘范围内。Chiltern Park 位于实龙岗，靠近罗弄泉地铁站，在环线上，可直达新管大，往国大方向也顺。Thomson Grove 位于杨厝港路旁、靠近伦多地铁站，在南北线上，可直达政府大厦，也就是新管大门口。
 
-每个房间都配好家具，水电和无线网络都已包含，落地之后不用另外设置什么。每一处物业的完整细节，包括社区环境、房型组合，以及看房时该检查什么，都在我们的[三处 Lazybee 物业指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)里。当前的空房情况和价格永远以 [lazybee.sg](https://lazybee.sg) 为准，因为只有那里的数字会保持更新。
+每个房间都配好家具，水电和无线网络都已包含，落地之后不用另外设置什么。每一处物业的完整细节，包括社区环境、房型组合，以及看房时该检查什么，都在我们的[三处 Lazybee 物业指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)里。当前的空房情况和价格永远以 [lazybee.sg](https://lazybee.sg) 为准，因为只有那里的数字会保持更新。
 
 ## 常见问题
 

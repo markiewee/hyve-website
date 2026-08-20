@@ -46,7 +46,7 @@ That gap isn't small, and it isn't going away. A further increase is already sch
 
 Practically, this means two things for housing. First, if you're applying for an EP in a finance role, your salary has to clear a bar other EP applicants don't face, so check your offer against the financial services line specifically, not the general one you'll find quoted in generic relocation guides. Second, because the bar is higher, most working bankers on an EP are already earning well above the minimum on either side of the sector split, which means the housing constraint for most finance hires isn't affordability. It's finding something close enough to actually use the income on, rather than losing the evenings it was meant to buy back.
 
-If you're a first-time EP holder more broadly, not specifically in finance, the general version of this question, documents, timelines, what counts toward the pass, is covered in the [complete guide for first-time Employment Pass holders](https://lazybee.sg/blog/first-time-employment-pass-holders-a-complete-housing-guide).
+If you're a first-time EP holder more broadly, not specifically in finance, the general version of this question, documents, timelines, what counts toward the pass, is covered in the [complete guide for first-time Employment Pass holders](https://www.lazybee.sg/hive/first-time-employment-pass-holders-a-complete-housing-guide).
 
 ## Where to Actually Live for CBD Access
 
@@ -69,9 +69,9 @@ None of these is wrong. The right one depends on how much your actual role runs 
 
 ## How Is This Different From Housing for Consultants or General EP Holders?
 
-Management consultants on short Singapore assignments have a different problem: they're often here for weeks or a few months, not building a long-term base, and flexibility on lease length matters more than settling in. That's covered separately in the [housing guide for management consultants on short Singapore assignments](https://lazybee.sg/blog/housing-for-management-consultants-on-short-singapore-assignments).
+Management consultants on short Singapore assignments have a different problem: they're often here for weeks or a few months, not building a long-term base, and flexibility on lease length matters more than settling in. That's covered separately in the [housing guide for management consultants on short Singapore assignments](https://www.lazybee.sg/hive/housing-for-management-consultants-on-short-singapore-assignments).
 
-General Employment Pass holders, outside finance, face a lower salary bar and usually a more standard working day, so the commute math in this guide doesn't apply as sharply. Start with the [first-time Employment Pass holders' housing guide](https://lazybee.sg/blog/first-time-employment-pass-holders-a-complete-housing-guide) if that's your situation instead.
+General Employment Pass holders, outside finance, face a lower salary bar and usually a more standard working day, so the commute math in this guide doesn't apply as sharply. Start with the [first-time Employment Pass holders' housing guide](https://www.lazybee.sg/hive/first-time-employment-pass-holders-a-complete-housing-guide) if that's your situation instead.
 
 This piece is written specifically for the working banker or finance professional settling in for a career, not a semester or a short posting, where the long-hours culture and the CBD commute are the two things that actually decide where you should live.
 

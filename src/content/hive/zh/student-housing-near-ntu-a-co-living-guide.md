@@ -45,7 +45,7 @@ heroAlt: 南洋理工大学学习中心，校园里最具标志性的叠层建�
 
 **裕廊东。** 沿东西线再多一站，然后转乘先驱穿梭巴士或 179/199 号巴士。实际的门到门时间会更长，视接驳情况而定，通常要 30 到 40 分钟，因为多了一次换乘（[Rome2Rio](https://www.rome2rio.com/s/Jurong-East-MRT-Station/Nanyang-Technological-University)）。这是一个实实在在的取舍，不是捷径，但裕廊东同时也是重要的地铁换乘站（南北线与东西线在此交汇），如果你需要经常进城实习、打工，或只是想换换校园生活之外的环境，这一点就很重要。
 
-若想更全面地了解新加坡通勤时间与租金之间的取舍关系，可参考我们的[按通勤时间选择住处指南](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore)，其中的核心逻辑同样适用于这里，只是基准点换成了先驱站或文礼站，而不是中央商务区。
+若想更全面地了解新加坡通勤时间与租金之间的取舍关系，可参考我们的[按通勤时间选择住处指南](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)，其中的核心逻辑同样适用于这里，只是基准点换成了先驱站或文礼站，而不是中央商务区。
 
 ![列车正驶入地铁站台](/sketches/loc-transit__mrt-platform__train-arriving.jpg)
 
@@ -82,7 +82,7 @@ heroAlt: 南洋理工大学学习中心，校园里最具标志性的叠层建�
 
 Lazybee 在裕廊东的 Ivory Heights 运营一间共居房屋，从地铁换乘站步行即达，也可从先驱站和文礼站沿东西线直达。对希望拥有更完善市镇中心、进城更方便，并且家具、水电与无线网络都已备妥的南大学生来说，这是一个实实在在合适的落脚点，不需要在抵达后再自行另外张罗这些事。
 
-若想全面了解 Lazybee 在新加坡的三间房屋，包括周边环境以及房间实际包含的内容，请参阅我们的[Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide)。目前的房间空缺情况请以 [lazybee.sg](https://lazybee.sg) 为准，因为那是唯一保持数据最新的地方。
+若想全面了解 Lazybee 在新加坡的三间房屋，包括周边环境以及房间实际包含的内容，请参阅我们的[Chiltern Park、Ivory Heights 与 Thomson Grove 指南](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)。目前的房间空缺情况请以 [lazybee.sg](https://lazybee.sg) 为准，因为那是唯一保持数据最新的地方。
 
 ## 常见问题
 

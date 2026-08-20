@@ -64,9 +64,9 @@ The other exception is genuinely short stints, an exchange semester or a summer 
 
 Everything above assumes one campus and a normal week around it. Two situations change the math on their own terms and deserve their own treatment rather than a few extra paragraphs here.
 
-If you're taking modules across more than one campus in the same semester, a common setup for students cross-registering between universities, the calculation isn't campus vs everywhere else, it's campus A vs campus B vs everywhere else. Our guide on [housing for students attending multiple campuses in one semester](https://lazybee.sg/blog/housing-for-students-attending-multiple-campuses-in-one-semester) walks through that specific version of the tradeoff.
+If you're taking modules across more than one campus in the same semester, a common setup for students cross-registering between universities, the calculation isn't campus vs everywhere else, it's campus A vs campus B vs everywhere else. Our guide on [housing for students attending multiple campuses in one semester](https://www.lazybee.sg/hive/housing-for-students-attending-multiple-campuses-in-one-semester) walks through that specific version of the tradeoff.
 
-If you're in a double degree program that has you physically based at two institutions across the course, the calculus runs even longer than a single semester and deserves a longer-term view of where to anchor yourself. That's covered separately in [housing for students doing a double degree across two campuses](https://lazybee.sg/blog/housing-for-students-doing-a-double-degree-across-two-campuses).
+If you're in a double degree program that has you physically based at two institutions across the course, the calculus runs even longer than a single semester and deserves a longer-term view of where to anchor yourself. That's covered separately in [housing for students doing a double degree across two campuses](https://www.lazybee.sg/hive/housing-for-students-doing-a-double-degree-across-two-campuses).
 
 ## How to Actually Decide
 
@@ -84,9 +84,9 @@ Work through this before signing anything:
 
 ## Where This Leaves You
 
-None of this is about avoiding campus-adjacent housing. It's about pricing what you're giving up when you pick it, the same way you'd price any other tradeoff before committing to a year-long lease. For the Lazybee-specific version of this comparison, our guide to [where to live by commute time to the CBD](https://lazybee.sg/blog/where-to-live-by-commute-time-to-cbd-singapore) and the [commute matrix from our three houses to NUS, NTU, SMU and SIT](https://lazybee.sg/blog/commute-times-from-co-living-rooms-to-nus-ntu-smu-and-sit) both work through real numbers rather than the general framework covered here.
+None of this is about avoiding campus-adjacent housing. It's about pricing what you're giving up when you pick it, the same way you'd price any other tradeoff before committing to a year-long lease. For the Lazybee-specific version of this comparison, our guide to [where to live by commute time to the CBD](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) and the [commute matrix from our three houses to NUS, NTU, SMU and SIT](https://www.lazybee.sg/hive/commute-times-from-co-living-rooms-to-nus-ntu-smu-and-sit) both work through real numbers rather than the general framework covered here.
 
-If you're weighing a central room against something closer to one campus, our [guide to Chiltern Park, Ivory Heights and Thomson Grove](https://lazybee.sg/blog/chiltern-park-ivory-heights-thomson-grove-guide) covers what each neighbourhood is actually like day to day. Current availability across all three houses is on [lazybee.sg](https://lazybee.sg), where every listing states its nearest MRT station and line, so you can check your own specific list of destinations before booking a viewing.
+If you're weighing a central room against something closer to one campus, our [guide to Chiltern Park, Ivory Heights and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) covers what each neighbourhood is actually like day to day. Current availability across all three houses is on [lazybee.sg](https://lazybee.sg), where every listing states its nearest MRT station and line, so you can check your own specific list of destinations before booking a viewing.
 
 ## Frequently Asked Questions
 
