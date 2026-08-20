@@ -19,7 +19,7 @@ heroAlt: 新加坡国立大学校园里穿过树林的人行天桥
 
 南洋理工大学的位置更偏远，靠近裕廊西。先锋和文礼这两个东西线地铁站是最近的车站，免费校园巴士（179路、199路，以及Campus Rider）负责剩下进入校园的路程，因为纯步行距离确实相当长（[IAMCR](https://iamcr.org/singapore2025/getting-to-ntu)）。
 
-新加坡管理大学是个例外：校区紧凑，位于禧街艺术区（Bras Basah）维多利亚街81号。明古连（Bencoolen）地铁站（滨海市区线）就在学校旁边，秀路（Bras Basah）地铁站（环线）步行约3分钟可达，两者都通过地下通道与校园建筑相连（[Wikipedia](https://en.wikipedia.org/wiki/Bras_Basah_MRT_station)）。新加坡管理大学的学生基本上就住在中央商务区（CBD）内或紧邻其旁，所以我们关于[乘地铁通勤到中央商务区](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)的指南对这里很实用，其姊妹篇[租金最便宜的地铁沿线](https://www.lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore)也说明了租金如何随着通往新加坡管理大学的同一条线路变化。
+新加坡管理大学是个例外：校区紧凑，位于禧街艺术区（Bras Basah）维多利亚街81号。明古连（Bencoolen）地铁站（滨海市区线）就在学校旁边，秀路（Bras Basah）地铁站（环线）步行约3分钟可达，两者都通过地下通道与校园建筑相连（[Wikipedia](https://en.wikipedia.org/wiki/Bras_Basah_MRT_station)）。新加坡管理大学的学生基本上就住在中央商务区（CBD）内或紧邻其旁，所以我们关于[乘地铁通勤到中央商务区](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)的指南对这里很实用，其姊妹篇[租金最便宜的地铁沿线](https://www.lazybee.sg/hive/cheapest-mrt-lines-to-live-on-singapore)也说明了租金如何随着通往新加坡管理大学的同一条线路变化。
 
 ## 各校区周边的最佳区域
 
@@ -55,7 +55,7 @@ heroAlt: 新加坡国立大学校园里穿过树林的人行天桥
 
 ## 语言与日常生活系统
 
-新加坡广泛使用华语，但当地书面中文默认使用简体字，而不是台湾使用的繁体字，新加坡式英语（Singlish）、福建话和其他方言也会影响日常口语，需要几周时间才能适应。这些都不是障碍，只是值得预先做好心理准备的调整。银行开户、SIM卡、交通储值，以及让租约配合学生准证的有效期，对每个国籍的人来说做法都一样，我们关于[以学生准证、就业准证或S准证租房](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)的指南对这部分有详细说明。
+新加坡广泛使用华语，但当地书面中文默认使用简体字，而不是台湾使用的繁体字，新加坡式英语（Singlish）、福建话和其他方言也会影响日常口语，需要几周时间才能适应。这些都不是障碍，只是值得预先做好心理准备的调整。银行开户、SIM卡、交通储值，以及让租约配合学生准证的有效期，对每个国籍的人来说做法都一样，我们关于[以学生准证、就业准证或S准证租房](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore)的指南对这部分有详细说明。
 
 ## 在海外预订时如何避开租房诈骗
 
@@ -65,7 +65,7 @@ heroAlt: 新加坡国立大学校园里穿过树林的人行天桥
 
 ## 让租约配合你的学生准证
 
-新加坡的私人租赁市场有一个固定的底线：租期不得少于三个月，这适用于所有营运商，共居也不例外（[Rently](https://www.rently.sg/blog/student-rentals-singapore-deposit-guarantor)）。除此之外，真正重要的期限是你的学生准证有效期，因为准证通常会随着入学状态每年续签一次。如果你的准证只剩九个月却签了十二个月的租约，就会造成一个与房间本身无关的错配。如果你也在规划搬家其余的预算，我们的[新加坡租房月度费用明细](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget)是值得参考的下一站。
+新加坡的私人租赁市场有一个固定的底线：租期不得少于三个月，这适用于所有营运商，共居也不例外（[Rently](https://www.rently.sg/blog/student-rentals-singapore-deposit-guarantor)）。除此之外，真正重要的期限是你的学生准证有效期，因为准证通常会随着入学状态每年续签一次。如果你的准证只剩九个月却签了十二个月的租约，就会造成一个与房间本身无关的错配。如果你也在规划搬家其余的预算，我们的[新加坡租房月度费用明细](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget)是值得参考的下一站。
 
 ![位于市中心的新加坡管理大学校园](/sketches/loc-campus__smu__city-block.jpg)
 

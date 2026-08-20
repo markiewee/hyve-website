@@ -30,7 +30,7 @@ For a benchmark, LTA's most recent Household Travel Survey put the mean travel t
 
 Proximity to an MRT line that runs straight into the CBD still commands a rent premium in 2026, but it's a smaller premium than most renters assume, and it doesn't scale evenly with distance. A room two stops from Raffles Place isn't proportionally cheaper than one twelve stops away. What actually moves the price is whether the line is direct, how central the neighbourhood feels day to day, and how much the surrounding area has going on outside commute hours.
 
-That gap is where a lot of value sits. Areas one line-change or one extra ride's worth of distance out from the very centre often ask meaningfully less rent for a commute that's only five or ten minutes longer. If you're budgeting for a room, cross-reference against a full monthly [cost breakdown](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget) before deciding how much of your budget location alone is worth.
+That gap is where a lot of value sits. Areas one line-change or one extra ride's worth of distance out from the very centre often ask meaningfully less rent for a commute that's only five or ten minutes longer. If you're budgeting for a room, cross-reference against a full monthly [cost breakdown](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget) before deciding how much of your budget location alone is worth.
 
 
 ![A train pulling into an MRT platform](/sketches/loc-transit__mrt-platform__train-arriving.jpg)
@@ -104,7 +104,7 @@ Before you commit to any room or unit, run it against this list:
 
 ## Where to Go From Here
 
-Once you know your real commute window, it's worth comparing that against a full [monthly rental budget](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget) so you're weighing rent and commute together rather than one at a time. Current room listings on [lazybee.sg](https://lazybee.sg) show the nearest MRT station for each house, including Ivory Heights near Jurong East, so you can check the actual commute before you book a viewing rather than after.
+Once you know your real commute window, it's worth comparing that against a full [monthly rental budget](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget) so you're weighing rent and commute together rather than one at a time. Current room listings on [lazybee.sg](https://lazybee.sg) show the nearest MRT station for each house, including Ivory Heights near Jurong East, so you can check the actual commute before you book a viewing rather than after.
 
 ## Frequently Asked Questions
 

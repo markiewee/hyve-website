@@ -23,7 +23,7 @@ heroAlt: 地铁站大堂里的售票机
 
 CDE 以及其中的各个工程系，位于肯特岗校园，登记地址是 9 Engineering Drive 1（[NUS CDE](https://cde.nus.edu.sg/)）。也就是说工程系的教学和实验空间就在肯特岗主校区范围内，抵达方式和校园其他部分一样：环线上的肯特岗地铁站 (CC24)，往外两站是 one-north 和波那维斯达，全部由新加坡国立大学的免费校内巴士串联。
 
-关于肯特岗的交通连接、申请宿舍的机率，以及校园周边社区的完整说明，请看我们的[新加坡国立大学附近学生住宿指南](https://www.lazybee.sg/blog/student-housing-near-nus-a-co-living-guide)。本篇专注在为什么工程系特别会把通勤这件事的赌注抬高，而不是重复全校层面的基本资讯。
+关于肯特岗的交通连接、申请宿舍的机率，以及校园周边社区的完整说明，请看我们的[新加坡国立大学附近学生住宿指南](https://www.lazybee.sg/hive/student-housing-near-nus-a-co-living-guide)。本篇专注在为什么工程系特别会把通勤这件事的赌注抬高，而不是重复全校层面的基本资讯。
 
 ![新加坡国立大学肯特岗校区一条绿树成荫的人行天桥](/sketches/loc-campus__nus-kent-ridge__overpass-trees.jpg)
 

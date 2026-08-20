@@ -115,7 +115,7 @@ For a student who just found out a hall balloting result didn't go their way wit
 
 Check what's vacant right now rather than assuming nothing is. Availability on co-living listings turns over constantly, since rooms open and fill on a rolling basis through the year, not just at the start of term.
 
-If you're moving in on a Student Pass or still waiting on your in-principle approval, [our guide to renting on a Student Pass versus EP or S Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through what documentation you'll actually need. And if you want to see what a Lazybee room and house actually looks like before reaching out, [the Chiltern Park, Ivory Heights, and Thomson Grove guide](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) covers all three properties. Current availability is always shown directly on [lazybee.sg](https://lazybee.sg), so you can see what's open before you message anyone.
+If you're moving in on a Student Pass or still waiting on your in-principle approval, [our guide to renting on a Student Pass versus EP or S Pass](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore) walks through what documentation you'll actually need. And if you want to see what a Lazybee room and house actually looks like before reaching out, [the Chiltern Park, Ivory Heights, and Thomson Grove guide](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) covers all three properties. Current availability is always shown directly on [lazybee.sg](https://lazybee.sg), so you can see what's open before you message anyone.
 
 ## Questions Students Ask Right After a Failed Balloting Result
 

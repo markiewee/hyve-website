@@ -34,7 +34,7 @@ For working professionals, it's an Employment Pass or S Pass, sponsored by your 
 
 A secondment letter, an offer letter, or an in-principle approval is not an issued pass. A properly run operator will not let you sign a lease on any of those alone.
 
-We've covered exactly which documents a legitimate operator checks in our guide on [whether foreigners can rent in Singapore](https://www.lazybee.sg/blog/can-foreigners-rent-in-singapore).
+We've covered exactly which documents a legitimate operator checks in our guide on [whether foreigners can rent in Singapore](https://www.lazybee.sg/hive/can-foreigners-rent-in-singapore).
 
 
 ![A fountain pen resting on a set of documents](/sketches/object__paperwork__fountain-pen-documents.jpg)
@@ -60,7 +60,7 @@ Add food, transport, and a local SIM, and a realistic all-in monthly budget for 
 | All-in monthly with food, transport and a SIM | S$1,800 to S$2,800 |
 | Cash before you get the keys | Two months' rent: a one-month deposit plus your first month |
 
-An all-inclusive co-living room takes a lot of the guesswork out of a move from Japan, since one number covers rent, utilities, and wifi instead of separate bills in an unfamiliar currency and billing system. For a fuller breakdown of what a first month actually costs beyond rent, see our [first-month moving costs guide](https://www.lazybee.sg/blog/first-month-moving-costs-singapore).
+An all-inclusive co-living room takes a lot of the guesswork out of a move from Japan, since one number covers rent, utilities, and wifi instead of separate bills in an unfamiliar currency and billing system. For a fuller breakdown of what a first month actually costs beyond rent, see our [first-month moving costs guide](https://www.lazybee.sg/hive/first-month-moving-costs-singapore).
 
 ## Where Do Japanese Expats and Students Actually Live?
 

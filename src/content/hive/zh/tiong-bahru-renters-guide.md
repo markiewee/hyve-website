@@ -27,7 +27,7 @@ heroAlt: 中峇鲁楼群之间的树荫步道
 
 巴刹本身在2004年至2006年间重建，加装了电梯，装饰艺术细节也与周边组屋呼应，至今仍是日常生活的中心：楼下是湿巴刹，楼上有80多个熟食摊位，价格比附近的咖啡馆一条街给人的印象更贴近老新加坡的水平。对这一带来说，2026年更大的看点是更宏观的南部滨水城市总体规划（Greater Southern Waterfront），这是一项长期的重新开发计划，正在带动中央商务区以南整个中央区，包括中峇鲁在内的租房需求，尽管保留区本身并没有新的开发计划。
 
-2026年上半年，租金大致持平、略有上涨，走势与整个中央区外围（Rest of Central Region）的租赁市场一致。目前这一带的房源报价区间很宽，普通房间大约在S$650到S$1,350之间，视房间大小而定，整租一个单位的价格则要高出不少。如果你想拿全岛的预算来比较，我们的[2026年新加坡租房成本指南](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget)对租金之外每月要花的真实数字有更完整的拆解。
+2026年上半年，租金大致持平、略有上涨，走势与整个中央区外围（Rest of Central Region）的租赁市场一致。目前这一带的房源报价区间很宽，普通房间大约在S$650到S$1,350之间，视房间大小而定，整租一个单位的价格则要高出不少。如果你想拿全岛的预算来比较，我们的[2026年新加坡租房成本指南](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget)对租金之外每月要花的真实数字有更完整的拆解。
 
 ![小印度店屋前挂满节庆花环](/sketches/loc-neighbourhood__little-india__festive-garlands-shophouse.jpg)
 
@@ -122,6 +122,6 @@ Lazybee目前在中峇鲁本身没有运营的房源，但我们在新加坡中�
 
 ## 接下来该怎么做
 
-如果中峇鲁的溢价对你来说是划算的取舍，下一步就是安排看房，并且具体到哪一栋、哪条街，而不只是社区的名字。如果你还在和其他中央区选项做比较，我们关于[新加坡共居营运商](https://www.lazybee.sg/hive/zh/coliving-operators-singapore-compared)的指南，以及[2026年新加坡租房成本](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget)的拆解，都值得配合这篇一起看。想了解Lazybee在新加坡各地当前的房源情况，可以查看[lazybee.sg上的房源列表](https://lazybee.sg)，价格和包含项目都写得很清楚。
+如果中峇鲁的溢价对你来说是划算的取舍，下一步就是安排看房，并且具体到哪一栋、哪条街，而不只是社区的名字。如果你还在和其他中央区选项做比较，我们关于[新加坡共居营运商](https://www.lazybee.sg/hive/zh/coliving-operators-singapore-compared)的指南，以及[2026年新加坡租房成本](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget)的拆解，都值得配合这篇一起看。想了解Lazybee在新加坡各地当前的房源情况，可以查看[lazybee.sg上的房源列表](https://lazybee.sg)，价格和包含项目都写得很清楚。
 
 资料来源：[市区重建局（URA），短期住宿指南](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/)；[市区重建局（URA），房产出租指南](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/)；[建屋发展局（HDB），出租组屋：相关规定](https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-a-flat/regulations)。

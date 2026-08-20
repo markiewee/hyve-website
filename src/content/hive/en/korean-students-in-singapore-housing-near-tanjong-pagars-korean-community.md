@@ -87,7 +87,7 @@ If NUS or SMU is your priority and you want to weigh commute against Tanjong Pag
 
 ## Matching Your Lease to Your Student Pass
 
-Singapore's private rental market has one hard floor: no lease under three months, and that applies to every operator, co-living included. Past that floor, match your lease length to your Student Pass validity, not the landlord's default 12-month term, since your pass typically renews annually alongside your enrolment. Our guide on [renting on a Student Pass vs EP vs S Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through this in detail.
+Singapore's private rental market has one hard floor: no lease under three months, and that applies to every operator, co-living included. Past that floor, match your lease length to your Student Pass validity, not the landlord's default 12-month term, since your pass typically renews annually alongside your enrolment. Our guide on [renting on a Student Pass vs EP vs S Pass](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore) walks through this in detail.
 
 
 ![Ticket machines in an MRT station concourse](/sketches/loc-transit__mrt-concourse__ticket-machines.jpg)

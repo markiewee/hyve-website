@@ -70,7 +70,7 @@ Rather than re-deriving commute math here, the mechanics are covered properly in
 
 ## Picking a Line Before Picking a Neighbourhood
 
-If rent is the bigger constraint than location, it's worth searching by MRT line rather than by neighbourhood name, since a line's rent tends to drop the further it runs from the centre while the ride itself stays direct. Our piece on [which MRT lines run cheapest](https://www.lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore) breaks down how rent tracks the rail map station by station. For an SMU student, the version of that question is simply: which stations on the Circle Line or Downtown Line get you to Bras Basah or Bencoolen without a change, and how far out does the rent actually start to drop.
+If rent is the bigger constraint than location, it's worth searching by MRT line rather than by neighbourhood name, since a line's rent tends to drop the further it runs from the centre while the ride itself stays direct. Our piece on [which MRT lines run cheapest](https://www.lazybee.sg/hive/cheapest-mrt-lines-to-live-on-singapore) breaks down how rent tracks the rail map station by station. For an SMU student, the version of that question is simply: which stations on the Circle Line or Downtown Line get you to Bras Basah or Bencoolen without a change, and how far out does the rent actually start to drop.
 
 ## Mistakes to Avoid When Choosing Housing Near SMU
 

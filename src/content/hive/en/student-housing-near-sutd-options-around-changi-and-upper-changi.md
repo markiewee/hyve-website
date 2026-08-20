@@ -79,7 +79,7 @@ The Thomson-East Coast Line's fifth stage, adding Bedok South and Sungei Bedok s
 
 ## Booking Safely, Whichever Area You Choose
 
-Wherever you end up renting near SUTD, the same basics protect you. No private lease in Singapore can run under three months, co-living included. Match your lease length to your Student Pass validity rather than a landlord's default 12-month term, since a pass usually renews yearly with your enrolment ([our guide to renting on a Student Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers this). And if you're booking before you land, insist on a video walkthrough and never send a deposit before a signed agreement, a pattern covered in our [guide to viewing a room remotely](https://www.lazybee.sg/hive/viewing-a-room-remotely-singapore).
+Wherever you end up renting near SUTD, the same basics protect you. No private lease in Singapore can run under three months, co-living included. Match your lease length to your Student Pass validity rather than a landlord's default 12-month term, since a pass usually renews yearly with your enrolment ([our guide to renting on a Student Pass](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore) covers this). And if you're booking before you land, insist on a video walkthrough and never send a deposit before a signed agreement, a pattern covered in our [guide to viewing a room remotely](https://www.lazybee.sg/hive/viewing-a-room-remotely-singapore).
 
 ## Frequently Asked Questions
 

@@ -80,7 +80,7 @@ heroAlt: 列车正驶入地铁站台
 
 Lazybee 在 Chiltern Park、Ivory Heights 和 Thomson Grove 三处营运共居房间，这些地区都在NUS和NTU的可达范围内。房间自带家具，租金已包含水电、Wi-Fi和定期清洁，一步到位省去了上面大部分的前期准备事项。租期设计得比标准私人租赁更短、更灵活，如果你的学期或交换安排还无法提前一年确定，这一点尤为重要。
 
-如果宿舍抽签结果不如意，你正在权衡各种选择，我们关于[Chiltern Park、Ivory Heights 和 Thomson Grove](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)的指南介绍了每个地点实际的居住体验。在做出决定之前，想了解更完整的预算情况，可以参考[我们的2026年新加坡租房成本指南](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget)。
+如果宿舍抽签结果不如意，你正在权衡各种选择，我们关于[Chiltern Park、Ivory Heights 和 Thomson Grove](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)的指南介绍了每个地点实际的居住体验。在做出决定之前，想了解更完整的预算情况，可以参考[我们的2026年新加坡租房成本指南](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget)。
 
 房间空缺情况和当前价格显示在[lazybee.sg](https://lazybee.sg)网站上，而不是本文中，因为这些信息会随着房间租出而变化。如果觉得某间房合适，最好的下一步就是直接在网站上预约看房。
 

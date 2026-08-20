@@ -33,7 +33,7 @@ SMU的市区校园坐落在Bras Basah/Bugis一带，就在环线Bras Basah地铁
 
 ## NUS：确有走廊地带，但范围更窄
 
-NUS的主校区位于西南部Kent Ridge的高地上，通过环线的Kent Ridge、one-north、Buona Vista三个站与外界连接，校内还有免费穿梭巴士把这三个站和各个院系区块串联起来。和SMU不同，NUS有实质性的校内宿舍，但并非人人有保证。只有大一的国际本科生才有真正的优先权，而这份优先权在大一结束后就没有了（[完整介绍见此](https://www.lazybee.sg/blog/student-housing-near-nus-a-co-living-guide)）。
+NUS的主校区位于西南部Kent Ridge的高地上，通过环线的Kent Ridge、one-north、Buona Vista三个站与外界连接，校内还有免费穿梭巴士把这三个站和各个院系区块串联起来。和SMU不同，NUS有实质性的校内宿舍，但并非人人有保证。只有大一的国际本科生才有真正的优先权，而这份优先权在大一结束后就没有了（[完整介绍见此](https://www.lazybee.sg/hive/student-housing-near-nus-a-co-living-guide)）。
 
 校外方面，实际有用的区域是一条真正的走廊地带，而不是一条街，从Clementi、Dover，经Buona Vista、one-north、Pasir Panjang，一直延伸到West Coast。这比NTU的覆盖范围更广，而且是组屋（HDB）市镇和较新的私人公寓混合在一起，而不是单一风格的住房。
 
@@ -93,6 +93,6 @@ NUS。它沿环线有更宽的市镇走廊，包括Clementi、Dover、Buona Vist
 **共居能不能消除这三所大学之间的找房难度差异？**
 能缓和，但不能消除。明码标价、租期固定的房间，省去了让NTU这类范围较窄的市场显得更难的房东讨价还价环节，但它改变不了哪些街区实际上离哪个校园更近这个事实。
 
-到[lazybee.sg](https://lazybee.sg)比较三所校园附近目前的空房情况，或者阅读完整指南了解本篇对比没有涉及的街区细节：[NUS](https://www.lazybee.sg/blog/student-housing-near-nus-a-co-living-guide)、[NTU](https://www.lazybee.sg/hive/zh/student-housing-near-ntu-a-co-living-guide)、[SMU](https://www.lazybee.sg/hive/zh/student-housing-near-smu-living-in-the-city-campus)。
+到[lazybee.sg](https://lazybee.sg)比较三所校园附近目前的空房情况，或者阅读完整指南了解本篇对比没有涉及的街区细节：[NUS](https://www.lazybee.sg/hive/student-housing-near-nus-a-co-living-guide)、[NTU](https://www.lazybee.sg/hive/zh/student-housing-near-ntu-a-co-living-guide)、[SMU](https://www.lazybee.sg/hive/zh/student-housing-near-smu-living-in-the-city-campus)。
 
 资料来源：[HDB，出租组屋：相关规定](https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-a-flat/regulations)。

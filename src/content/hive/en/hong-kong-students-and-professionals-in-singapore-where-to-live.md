@@ -69,7 +69,7 @@ Full detail on all three houses, room mix, and neighbourhood character is in our
 
 ## Matching Your Lease to Your Pass
 
-Private residential property in Singapore can't be let for under three months, a floor that applies to every operator, co-living included. Past that floor, match your lease length to your Student Pass or Employment Pass validity rather than defaulting to a standard 12-month term, since both pass types typically renew on a schedule tied to your enrolment or your employment contract. Our guide on [renting on an EP, S Pass, or Student Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through this in more detail.
+Private residential property in Singapore can't be let for under three months, a floor that applies to every operator, co-living included. Past that floor, match your lease length to your Student Pass or Employment Pass validity rather than defaulting to a standard 12-month term, since both pass types typically renew on a schedule tied to your enrolment or your employment contract. Our guide on [renting on an EP, S Pass, or Student Pass](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore) walks through this in more detail.
 
 
 ![The NTU Learning Hub, the university's landmark stacked building](/sketches/loc-campus__ntu__learning-hub-landmark.jpg)

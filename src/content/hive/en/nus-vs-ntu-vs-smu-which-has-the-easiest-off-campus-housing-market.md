@@ -35,7 +35,7 @@ The tradeoff is rent. Central Area land is some of the priciest on the island, a
 
 ## NUS: A Real Corridor, But a Narrower One
 
-NUS's main campus sits on high ground at Kent Ridge, in the southwest, connected to the Circle Line at Kent Ridge, one-north, and Buona Vista, with a free internal shuttle linking all three to the different faculty clusters. Unlike SMU, there's meaningful on-campus housing, but it's not guaranteed. Only first-year international undergraduates get real priority, and that priority runs out after year one ([full breakdown here](https://www.lazybee.sg/blog/student-housing-near-nus-a-co-living-guide)).
+NUS's main campus sits on high ground at Kent Ridge, in the southwest, connected to the Circle Line at Kent Ridge, one-north, and Buona Vista, with a free internal shuttle linking all three to the different faculty clusters. Unlike SMU, there's meaningful on-campus housing, but it's not guaranteed. Only first-year international undergraduates get real priority, and that priority runs out after year one ([full breakdown here](https://www.lazybee.sg/hive/student-housing-near-nus-a-co-living-guide)).
 
 Off campus, the useful area is a real corridor, not a single street, running from Clementi and Dover through Buona Vista, one-north, Pasir Panjang, and West Coast. That's a wider net than NTU has, and it's a mix of HDB towns and newer condo clusters rather than one style of housing throughout.
 
@@ -97,6 +97,6 @@ NUS. It has a wider corridor of towns along the Circle Line, including Clementi,
 **Does co-living solve the difficulty differences between the three?**
 It softens them. A published room with a fixed price and term cuts out the landlord back-and-forth that makes a narrow market like NTU's feel harder, though it doesn't change which neighbourhoods are actually close to which campus.
 
-Compare current rooms near all three campuses at [lazybee.sg](https://lazybee.sg), or read the full guides for [NUS](https://www.lazybee.sg/blog/student-housing-near-nus-a-co-living-guide), [NTU](https://www.lazybee.sg/hive/student-housing-near-ntu-a-co-living-guide), and [SMU](https://www.lazybee.sg/hive/student-housing-near-smu-living-in-the-city-campus) for the neighbourhood-level detail this comparison doesn't cover.
+Compare current rooms near all three campuses at [lazybee.sg](https://lazybee.sg), or read the full guides for [NUS](https://www.lazybee.sg/hive/student-housing-near-nus-a-co-living-guide), [NTU](https://www.lazybee.sg/hive/student-housing-near-ntu-a-co-living-guide), and [SMU](https://www.lazybee.sg/hive/student-housing-near-smu-living-in-the-city-campus) for the neighbourhood-level detail this comparison doesn't cover.
 
 Sources: [HDB, Renting out a flat: regulations](https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-a-flat/regulations).

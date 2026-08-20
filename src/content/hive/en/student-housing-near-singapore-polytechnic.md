@@ -53,7 +53,7 @@ Dover to Clementi or Buona Vista is one MRT stop each way, and the areas further
 
 Most polytechnic students in Singapore enter straight after their O-Levels, which typically puts them around 17 to 19 when they start a diploma, younger on average than a fresh NUS or NTU undergraduate entering after junior college or a longer path. That age gap is worth knowing before you start looking at housing, because it affects who can sign what.
 
-Singapore's age of contractual capacity for most agreements, including a standard room licence, is 18, not 21. An 18 or 19 year old polytechnic student can sign a co-living or rental agreement in their own name with no issue. Our [guide to under-21 renting in Singapore](https://www.lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires) covers this in full, including the one real exception (long land leases) that doesn't apply to a typical room rental.
+Singapore's age of contractual capacity for most agreements, including a standard room licence, is 18, not 21. An 18 or 19 year old polytechnic student can sign a co-living or rental agreement in their own name with no issue. Our [guide to under-21 renting in Singapore](https://www.lazybee.sg/hive/under-21-renting-in-singapore-what-the-law-actually-requires) covers this in full, including the one real exception (long land leases) that doesn't apply to a typical room rental.
 
 | Age when the agreement starts | Who signs |
 |---|---|
@@ -98,7 +98,7 @@ Not a large-scale hall system the way NUS or NTU do. SP is built as a commuter i
 Dover itself is closest, with Clementi and Buona Vista one MRT stop away offering more shopping and a wider range of housing stock. Commonwealth, Queenstown, and West Coast are further out and generally more affordable.
 
 **Can an 18 year old polytechnic student sign a rental agreement alone?**
-Yes. Singapore's age of contractual capacity for a standard room licence or lease under three years is 18, not 21. See our [under-21 renting guide](https://www.lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires) for the full legal position.
+Yes. Singapore's age of contractual capacity for a standard room licence or lease under three years is 18, not 21. See our [under-21 renting guide](https://www.lazybee.sg/hive/under-21-renting-in-singapore-what-the-law-actually-requires) for the full legal position.
 
 **What about a student who's still 17?**
 Someone under 18 doesn't have full contractual capacity on their own, so a parent or legal guardian is typically the named party or co-signatory on the agreement instead. Confirm the exact process with the specific operator.

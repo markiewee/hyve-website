@@ -50,7 +50,7 @@ Kaplan-এর একটি ফাউন্ডেশন ডিপ্লোমা 
 
 ডিগ্রি প্রদান করে পার্টনার বিশ্ববিদ্যালয়গুলো, যার মধ্যে রয়েছে Aston, Birmingham City, Monash, Murdoch, Northumbria, University College Dublin এবং Portsmouth, Kaplan নিজে ডিগ্রি প্রদান করে না।
 
-আপনি যদি সিঙ্গাপুরে পৌঁছানোর আগেই বিদেশ থেকে রুমের ব্যবস্থা করতে চান, তাহলে আমাদের [বিদেশ থেকে সিঙ্গাপুরে ভাড়া নেওয়া](https://www.lazybee.sg/hive/renting-singapore-from-overseas) গাইডে দেখানো হয়েছে পৌঁছানোর আগে বাস্তবে কী কী ঠিক করা সম্ভব এবং কী কী সিঙ্গাপুরে পৌঁছানোর পরে করতে হবে। আর আপনি যদি নির্দিষ্টভাবে Student's Pass-এ থাকেন, তাহলে EP (Employment Pass, কর্ম পাস) বা S Pass (মধ্যম-দক্ষ কর্মীদের পাস)-এর তুলনায় [Student's Pass-এ ভাড়া নেওয়া](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) গাইডে বাড়িওয়ালারা সাধারণত কী কাগজপত্র চান তা বিস্তারিত বলা আছে।
+আপনি যদি সিঙ্গাপুরে পৌঁছানোর আগেই বিদেশ থেকে রুমের ব্যবস্থা করতে চান, তাহলে আমাদের [বিদেশ থেকে সিঙ্গাপুরে ভাড়া নেওয়া](https://www.lazybee.sg/hive/renting-singapore-from-overseas) গাইডে দেখানো হয়েছে পৌঁছানোর আগে বাস্তবে কী কী ঠিক করা সম্ভব এবং কী কী সিঙ্গাপুরে পৌঁছানোর পরে করতে হবে। আর আপনি যদি নির্দিষ্টভাবে Student's Pass-এ থাকেন, তাহলে EP (Employment Pass, কর্ম পাস) বা S Pass (মধ্যম-দক্ষ কর্মীদের পাস)-এর তুলনায় [Student's Pass-এ ভাড়া নেওয়া](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore) গাইডে বাড়িওয়ালারা সাধারণত কী কাগজপত্র চান তা বিস্তারিত বলা আছে।
 
 ![NUS Kent Ridge ক্যাম্পাসে গাছে ঘেরা একটি ওভারপাস](/sketches/loc-campus__nus-kent-ridge__overpass-trees.jpg)
 

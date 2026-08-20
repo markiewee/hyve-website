@@ -74,7 +74,7 @@ SUTD的规模比新加坡国立大学或南洋理工大学小得多，围绕它�
 
 ## 无论选哪个地区，安全订房的原则
 
-不管最终在SUTD附近哪个地方租房，同样的基本原则都能保护你。新加坡的私人租约不能低于三个月，共居也不例外。租期要配合你的学生准证有效期，而不是房东默认的12个月租期，因为准证通常会随你的学籍每年续签（这一点我们的[学生准证租房指南](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)有详细说明）。如果你是落地前就要订房，一定要坚持视频看房，绝不在签好合约之前先付押金，这个原则我们的[远程看房指南](https://www.lazybee.sg/hive/zh/viewing-a-room-remotely-singapore)也有讲到。
+不管最终在SUTD附近哪个地方租房，同样的基本原则都能保护你。新加坡的私人租约不能低于三个月，共居也不例外。租期要配合你的学生准证有效期，而不是房东默认的12个月租期，因为准证通常会随你的学籍每年续签（这一点我们的[学生准证租房指南](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore)有详细说明）。如果你是落地前就要订房，一定要坚持视频看房，绝不在签好合约之前先付押金，这个原则我们的[远程看房指南](https://www.lazybee.sg/hive/zh/viewing-a-room-remotely-singapore)也有讲到。
 
 ## 常见问题
 

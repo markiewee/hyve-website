@@ -70,7 +70,7 @@ heroAlt: 地铁站大堂里的售票机
 
 ## 接下来可以看什么
 
-如果你想深入了解某一所学校，[NUS 附近学生住宿](https://www.lazybee.sg/blog/student-housing-near-nus-a-co-living-guide)、[NTU 附近学生住宿](https://www.lazybee.sg/hive/zh/student-housing-near-ntu-a-co-living-guide)、[SMU 附近学生住宿](https://www.lazybee.sg/hive/zh/student-housing-near-smu-living-in-the-city-campus)这三篇完整指南，更深入地谈了宿舍抽中机率、租金区间，以及各校园周边的社区选择。Lazybee 各个房子的最新空房情况，包括裕廊东换乘站附近的 Ivory Heights，都实时显示在 [lazybee.sg](https://lazybee.sg) 上，你可以先看清楚实际有什么房间开放，再去预约看房。
+如果你想深入了解某一所学校，[NUS 附近学生住宿](https://www.lazybee.sg/hive/student-housing-near-nus-a-co-living-guide)、[NTU 附近学生住宿](https://www.lazybee.sg/hive/zh/student-housing-near-ntu-a-co-living-guide)、[SMU 附近学生住宿](https://www.lazybee.sg/hive/zh/student-housing-near-smu-living-in-the-city-campus)这三篇完整指南，更深入地谈了宿舍抽中机率、租金区间，以及各校园周边的社区选择。Lazybee 各个房子的最新空房情况，包括裕廊东换乘站附近的 Ivory Heights，都实时显示在 [lazybee.sg](https://lazybee.sg) 上，你可以先看清楚实际有什么房间开放，再去预约看房。
 
 ## 常见问题
 

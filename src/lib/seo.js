@@ -265,19 +265,6 @@ export function faqPageSchema(qas) {
   };
 }
 
-export function blogPostingSchema(post) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: post.title,
-    description: post.excerpt || '',
-    datePublished: post.publishedAt || post.date || undefined,
-    image: post.coverImage || `${BASE}/og-default.png`,
-    author: { '@type': 'Organization', name: BRAND },
-    publisher: { '@type': 'Organization', name: BRAND, logo: { '@type': 'ImageObject', url: `${BASE}/lazybee-logo.png` } },
-    mainEntityOfPage: `${BASE}/blog/${post.slug}`,
-  };
-}
 
 export function breadcrumbSchema(items) {
   return {

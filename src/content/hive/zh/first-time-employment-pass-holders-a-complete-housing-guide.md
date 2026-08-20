@@ -38,7 +38,7 @@ heroAlt: 午后光线下的滨海湾全景
 2. **你的护照。** 用来把你的身份和准证资料交叉核对，也是任何涉及外国人的租约的标准做法。
 3. **在职证明。** 通常是聘用信或雇佣合约，如果你已经入职，有时是一份近期薪资单。这确认了就业准证所挂钩的那份工作。
 
-运作规范的营运商会用人力部自己的「Check a Work Pass」查询服务确认你的准证目前有效，而不是只看卡上印的到期日，因为如果你提前离职，准证可以在印刷的到期日之前被取消。想看外国人在新加坡租房、涵盖每一种准证类型的更完整说明，可以读我们的[外国人可以在新加坡租房吗](https://www.lazybee.sg/blog/can-foreigners-rent-in-singapore)。
+运作规范的营运商会用人力部自己的「Check a Work Pass」查询服务确认你的准证目前有效，而不是只看卡上印的到期日，因为如果你提前离职，准证可以在印刷的到期日之前被取消。想看外国人在新加坡租房、涵盖每一种准证类型的更完整说明，可以读我们的[外国人可以在新加坡租房吗](https://www.lazybee.sg/hive/can-foreigners-rent-in-singapore)。
 
 | 文件 | 为什么需要 | 可接受的替代 |
 |---|---|---|
@@ -82,7 +82,7 @@ heroAlt: 午后光线下的滨海湾全景
 - **按整体来做预算，不是只看标价租金。** 押金（通常一到两个月）、水电费，有时还有一笔小额中介费，都要加在房源上写的那个数字之上。
 - **共居通常是最快的合法入门方式。** 它把三个月最短租期、带家具的房间和水电费打包成一行，而且没有多数独立租约那种十二个月的默认期限。
 
-如果你想在开始找房之前先看一份按片区分的完整成本拆解，我们的[新加坡共居各区成本指南](https://www.lazybee.sg/blog/coliving-cost-by-district-singapore)和[2026 年租房预算拆解](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget)讲得很详细。如果你特别想衡量自己的准证类型和多长的租期才合理，我们的[就业准证、S 准证、学生准证租房指南](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)会说明准证有效期和续期时间点应该如何决定你的租期长度。
+如果你想在开始找房之前先看一份按片区分的完整成本拆解，我们的[新加坡共居各区成本指南](https://www.lazybee.sg/hive/coliving-cost-by-district-singapore)和[2026 年租房预算拆解](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget)讲得很详细。如果你特别想衡量自己的准证类型和多长的租期才合理，我们的[就业准证、S 准证、学生准证租房指南](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore)会说明准证有效期和续期时间点应该如何决定你的租期长度。
 
 ![双手放在键盘和鼠标上](/sketches/object__keyboard-mouse__hands-closeup.jpg)
 

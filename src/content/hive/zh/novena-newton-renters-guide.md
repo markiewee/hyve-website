@@ -105,6 +105,6 @@ heroAlt: 诺维娜的玻璃商场临街面
 
 ## 接下来该怎么做
 
-如果诺维娜和纽顿看起来适合你，在最终决定前不妨也比较一下周边地区。看看[2026年新加坡各地区的实际租房成本](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget)，有助于判断城市边缘的价格相对其他选择是否划算。至于目前的房间空缺情况，[lazybee.sg上的房源](https://lazybee.sg)会直接显示哪些空着、包含哪些内容，不需要先询问。
+如果诺维娜和纽顿看起来适合你，在最终决定前不妨也比较一下周边地区。看看[2026年新加坡各地区的实际租房成本](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget)，有助于判断城市边缘的价格相对其他选择是否划算。至于目前的房间空缺情况，[lazybee.sg上的房源](https://lazybee.sg)会直接显示哪些空着、包含哪些内容，不需要先询问。
 
 资料来源：[市区重建局（URA），短期住宿指南](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/)；[市区重建局（URA），出租房产指南](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/)；[建屋发展局（HDB），出租组屋：相关规定](https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-a-flat/regulations)。

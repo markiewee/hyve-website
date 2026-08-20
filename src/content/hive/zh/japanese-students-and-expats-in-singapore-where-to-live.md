@@ -73,7 +73,7 @@ Lazybee 在新加坡各地经营三间共居房子，每一间与这些区域的
 
 **已经安置妥当的房间。** 从日本抵达，行李有限，也没有本地人脉，这和带着整个家当搬来是完全不同的情况。一间已经配好家具、包含 wifi 和水电网络的房间，能在你还没搞清楚最近的明治屋或伊势丹在哪之前，就先省掉入住第一周的真实麻烦。
 
-**让租期匹配你的准证。** 新加坡私人租房市场有一条硬性下限，最短三个月，没有例外，共居房子也不例外。无论你持的是学生准证、就业准证还是 S 准证，租期长度都应匹配你的准证有效期，而不是房东默认的租期。我们的[持 EP、S 准证或学生准证租房指南](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)详细讲解了这一点。至于把水电、餐食和搬家费用都算进租金之后，每月的实际预算大概是多少，我们的[2026 年新加坡租房成本预算细分](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget)单独讲过，这里就不重复了。
+**让租期匹配你的准证。** 新加坡私人租房市场有一条硬性下限，最短三个月，没有例外，共居房子也不例外。无论你持的是学生准证、就业准证还是 S 准证，租期长度都应匹配你的准证有效期，而不是房东默认的租期。我们的[持 EP、S 准证或学生准证租房指南](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore)详细讲解了这一点。至于把水电、餐食和搬家费用都算进租金之后，每月的实际预算大概是多少，我们的[2026 年新加坡租房成本预算细分](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget)单独讲过，这里就不重复了。
 
 ![地铁站大堂里的售票机](/sketches/loc-transit__mrt-concourse__ticket-machines.jpg)
 

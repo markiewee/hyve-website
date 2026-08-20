@@ -70,7 +70,7 @@ NUS Biz বা NTU NBS-এর কোনো শিক্ষার্থীর জ
 
 ## এরপর কী দেখবেন
 
-আপনি যদি নির্দিষ্ট কোনো একটি স্কুল নিয়ে গভীরভাবে জানতে চান, তাহলে [NUS-এর কাছে ছাত্র আবাসন](https://www.lazybee.sg/blog/student-housing-near-nus-a-co-living-guide), [NTU-এর কাছে ছাত্র আবাসন](https://www.lazybee.sg/hive/student-housing-near-ntu-a-co-living-guide), এবং [SMU-এর কাছে ছাত্র আবাসন](https://www.lazybee.sg/hive/student-housing-near-smu-living-in-the-city-campus)-এর পূর্ণাঙ্গ গাইডগুলোতে হল পাওয়ার সম্ভাবনা, ভাড়ার পরিসীমা, এবং প্রতিটি ক্যাম্পাসের আশেপাশের এলাকার বিকল্প নিয়ে বিস্তারিত আলোচনা আছে। Jurong East ইন্টারচেঞ্জের কাছে Ivory Heights সহ Lazybee-র সব বাড়ির বর্তমান রুম প্রাপ্যতা [lazybee.sg](https://lazybee.sg)-তে লাইভ দেখা যায়, তাই ভিউয়িং বুক করার আগে আসলে কী খালি আছে তা যাচাই করে নিতে পারেন।
+আপনি যদি নির্দিষ্ট কোনো একটি স্কুল নিয়ে গভীরভাবে জানতে চান, তাহলে [NUS-এর কাছে ছাত্র আবাসন](https://www.lazybee.sg/hive/student-housing-near-nus-a-co-living-guide), [NTU-এর কাছে ছাত্র আবাসন](https://www.lazybee.sg/hive/student-housing-near-ntu-a-co-living-guide), এবং [SMU-এর কাছে ছাত্র আবাসন](https://www.lazybee.sg/hive/student-housing-near-smu-living-in-the-city-campus)-এর পূর্ণাঙ্গ গাইডগুলোতে হল পাওয়ার সম্ভাবনা, ভাড়ার পরিসীমা, এবং প্রতিটি ক্যাম্পাসের আশেপাশের এলাকার বিকল্প নিয়ে বিস্তারিত আলোচনা আছে। Jurong East ইন্টারচেঞ্জের কাছে Ivory Heights সহ Lazybee-র সব বাড়ির বর্তমান রুম প্রাপ্যতা [lazybee.sg](https://lazybee.sg)-তে লাইভ দেখা যায়, তাই ভিউয়িং বুক করার আগে আসলে কী খালি আছে তা যাচাই করে নিতে পারেন।
 
 ## সচরাচর জিজ্ঞাসিত প্রশ্ন
 

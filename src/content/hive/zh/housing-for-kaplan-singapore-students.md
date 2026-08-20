@@ -50,7 +50,7 @@ Kaplan 的基础文凭可能不到一年。文凭课程通常更长，通过合�
 
 学位由合作大学颁发，包括阿斯顿、伯明翰城市、莫纳什、莫道克、诺森比亚、都柏林大学学院和朴茨茅斯，而不是由 Kaplan 本身颁发。
 
-如果你人还没落地就想先在海外把房间安排好，我们的[从海外租新加坡房子](https://www.lazybee.sg/hive/zh/renting-singapore-from-overseas)指南说明了哪些事抵达前就能实际办妥，哪些必须等你人到了才行。如果你持的是学生准证，[持就业准证、S 准证与学生准证租房的差别](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)会讲清楚房东通常会要求什么。
+如果你人还没落地就想先在海外把房间安排好，我们的[从海外租新加坡房子](https://www.lazybee.sg/hive/zh/renting-singapore-from-overseas)指南说明了哪些事抵达前就能实际办妥，哪些必须等你人到了才行。如果你持的是学生准证，[持就业准证、S 准证与学生准证租房的差别](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore)会讲清楚房东通常会要求什么。
 
 ![新加坡国立大学肯特岗校区一条绿树成荫的人行天桥](/sketches/loc-campus__nus-kent-ridge__overpass-trees.jpg)
 

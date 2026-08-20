@@ -99,6 +99,6 @@ heroAlt: 组屋楼与树木，下方是开敞的底层空间
 
 ## 接下来可以怎么做
 
-如果是BTO的等待期，让你在家里待得比自己想要的更久，不妨看看[共居和租一整套私人单位相比怎么样](https://www.lazybee.sg/blog/coliving-vs-serviced-apartment-vs-hotel-singapore)，以及[一份现实的月度预算](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget)实际上是什么样的。当前的房间空缺和价格可以在[Lazybee房源页面](https://lazybee.sg)查看，这样你就能用一个真实的数字，去对比你正在权衡的其他选项。
+如果是BTO的等待期，让你在家里待得比自己想要的更久，不妨看看[共居和租一整套私人单位相比怎么样](https://www.lazybee.sg/hive/coliving-vs-serviced-apartment-vs-hotel-singapore)，以及[一份现实的月度预算](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget)实际上是什么样的。当前的房间空缺和价格可以在[Lazybee房源页面](https://lazybee.sg)查看，这样你就能用一个真实的数字，去对比你正在权衡的其他选项。
 
 资料来源：[建屋发展局（HDB），出租组屋：相关规定](https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-a-flat/regulations)。

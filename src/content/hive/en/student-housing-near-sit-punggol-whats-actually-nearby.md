@@ -78,7 +78,7 @@ If you have some flexibility, either because your timetable isn't every day on c
 
 If none of that appeals and Punggol genuinely has to be within a short walk, this article's honest conclusion is that the supply to support that preference barely exists yet outside HDB rentals. That will likely change once Habyt's project opens and the surrounding estate has a few more years to build out student-facing stock. For now, plan around what's actually there, not what a campus this new hasn't grown into.
 
-Our full breakdown of all three houses, room types, and what each area is actually like day to day is in the [guide to Chiltern Park, Ivory Heights and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide). If you're weighing MRT lines generally rather than one specific campus, our [guide to the cheapest MRT lines to live on](https://www.lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore) covers that trade-off in more depth. Rooms across all three houses can be checked and booked directly at [book.lazybee.sg](https://book.lazybee.sg).
+Our full breakdown of all three houses, room types, and what each area is actually like day to day is in the [guide to Chiltern Park, Ivory Heights and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide). If you're weighing MRT lines generally rather than one specific campus, our [guide to the cheapest MRT lines to live on](https://www.lazybee.sg/hive/cheapest-mrt-lines-to-live-on-singapore) covers that trade-off in more depth. Rooms across all three houses can be checked and booked directly at [book.lazybee.sg](https://book.lazybee.sg).
 
 ## FAQ
 

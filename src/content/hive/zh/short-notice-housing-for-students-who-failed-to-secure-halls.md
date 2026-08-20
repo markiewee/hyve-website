@@ -110,7 +110,7 @@ heroAlt: 列车正驶入地铁站台
 
 先去查现在有哪些空房，而不是想当然地以为没有。共居房源的空房情况一直在变动，因为房间是全年滚动式地开放和填满的，并不只是在开学时才有变化。
 
-如果你是持学生准证入住，或者还在等原则批准信，[我们关于持学生准证、就业准证（EP）或S准证租房区别的指南](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)会详细说明你实际需要哪些文件。另外，如果你想在联系之前先了解Lazybee的房间和房子实际是什么样子，[Chiltern Park、Ivory Heights和Thomson Grove导览](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)涵盖了这三处物业。当前空房情况一直直接显示在[lazybee.sg](https://lazybee.sg)上，你可以在联系任何人之前先看看有哪些空房。
+如果你是持学生准证入住，或者还在等原则批准信，[我们关于持学生准证、就业准证（EP）或S准证租房区别的指南](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore)会详细说明你实际需要哪些文件。另外，如果你想在联系之前先了解Lazybee的房间和房子实际是什么样子，[Chiltern Park、Ivory Heights和Thomson Grove导览](https://www.lazybee.sg/hive/zh/chiltern-park-ivory-heights-thomson-grove-guide)涵盖了这三处物业。当前空房情况一直直接显示在[lazybee.sg](https://lazybee.sg)上，你可以在联系任何人之前先看看有哪些空房。
 
 ## 抽签落选后学生最常问的问题
 

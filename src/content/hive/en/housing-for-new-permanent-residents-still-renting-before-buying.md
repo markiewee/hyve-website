@@ -47,7 +47,7 @@ Three years is a floor, not a guarantee of speed. Even once eligible, you still 
 
 This is where the picture actually improves. Employment Pass and S Pass holders rent under conditions tied to their pass: landlords and agents typically want to see a pass with at least six months of remaining validity, and lease terms often get matched to that pass expiry date rather than a term the tenant would otherwise choose.
 
-None of that applies to a PR. You rent on the strength of your NRIC and PR documents, the same basic footing as a Singapore Citizen, with no pass validity to manage and no renewal countdown shaping your lease length. That's a meaningfully simpler process than the one you may have gone through as an EP or S Pass holder before your PR came through, and it's worth knowing that shift happened even if nothing else about your situation has changed. For a fuller comparison of what pass holders go through by contrast, see [renting on an EP, S Pass, or Student Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore).
+None of that applies to a PR. You rent on the strength of your NRIC and PR documents, the same basic footing as a Singapore Citizen, with no pass validity to manage and no renewal countdown shaping your lease length. That's a meaningfully simpler process than the one you may have gone through as an EP or S Pass holder before your PR came through, and it's worth knowing that shift happened even if nothing else about your situation has changed. For a fuller comparison of what pass holders go through by contrast, see [renting on an EP, S Pass, or Student Pass](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore).
 
 | | EP or S Pass holder | Permanent Resident |
 |---|---|---|
@@ -84,7 +84,7 @@ Because you're no longer tied to a pass validity date, you also have more freedo
 
 ## A Flexible Base While You Wait
 
-If you're a new PR working out how long you'll actually be renting before you buy, a flexible, bills-included room removes one variable from a stretch that already has enough moving parts. Lazybee runs furnished co-living rooms across Singapore with simple terms and no long lock-in, so you're not signing a lease that outlasts your plans. Browse current room availability and pricing at [lazybee.sg](https://lazybee.sg), or read more on [what renting in Singapore actually costs in 2026](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget) while you plan your budget.
+If you're a new PR working out how long you'll actually be renting before you buy, a flexible, bills-included room removes one variable from a stretch that already has enough moving parts. Lazybee runs furnished co-living rooms across Singapore with simple terms and no long lock-in, so you're not signing a lease that outlasts your plans. Browse current room availability and pricing at [lazybee.sg](https://lazybee.sg), or read more on [what renting in Singapore actually costs in 2026](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget) while you plan your budget.
 
 ## Frequently Asked Questions
 

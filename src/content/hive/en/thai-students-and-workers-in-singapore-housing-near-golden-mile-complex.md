@@ -53,7 +53,7 @@ Chiltern Park has the clear advantage here, since Serangoon and Lorong Chuan bot
 
 ## What About Work, Not Just Groceries?
 
-A good number of Thai nationals in Singapore aren't students at all, they're on work permits or S Passes in construction, marine, food and beverage, or domestic work, with the Beach Road area functioning as a social and logistical hub rather than a workplace itself. If that's your situation, the same commute logic applies in reverse: pick a home base that keeps a reasonable ride to both your job site and to Beach Road for weekends, rather than optimising only for one. Our [guide to renting on an EP, S Pass, or Work Permit in Singapore](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers what documentation different pass types need before a landlord or operator will sign you on.
+A good number of Thai nationals in Singapore aren't students at all, they're on work permits or S Passes in construction, marine, food and beverage, or domestic work, with the Beach Road area functioning as a social and logistical hub rather than a workplace itself. If that's your situation, the same commute logic applies in reverse: pick a home base that keeps a reasonable ride to both your job site and to Beach Road for weekends, rather than optimising only for one. Our [guide to renting on an EP, S Pass, or Work Permit in Singapore](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore) covers what documentation different pass types need before a landlord or operator will sign you on.
 
 ## Where Lazybee's Houses Fit In
 

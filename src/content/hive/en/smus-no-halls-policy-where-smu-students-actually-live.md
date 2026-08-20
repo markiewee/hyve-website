@@ -67,7 +67,7 @@ A few practical points follow directly from how thin PSR and the leased blocks a
 
 **Start the off-campus search well before term begins.** With no hall system as a fallback, the private market is the plan, not the backup plan. Leave weeks, not days, especially if you're arriving from overseas and want to view or video-call before signing anything.
 
-**Every private lease in Singapore has a three-month floor.** This applies across the board, co-living included, so factor that into how you time a lease against your Student Pass validity. Our guide on [renting on a Student Pass versus an EP or S Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers how to match lease length to pass length properly.
+**Every private lease in Singapore has a three-month floor.** This applies across the board, co-living included, so factor that into how you time a lease against your Student Pass validity. Our guide on [renting on a Student Pass versus an EP or S Pass](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore) covers how to match lease length to pass length properly.
 
 **Furnished beats unfurnished for a first move.** Landing without a local network is stressful enough without also sourcing a mattress, a router, and a fridge in your first week. A room that's ready to move into removes one whole category of hassle.
 

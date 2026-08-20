@@ -19,8 +19,6 @@ import StaffPinGate from './components/staff/StaffPinGate';
 import HiveIndexPage from './pages/hive/HiveIndexPage';
 import HiveArticlePage from './pages/hive/HiveArticlePage';
 import HiveTopicPage from './pages/hive/HiveTopicPage';
-import BlogPage from './components/BlogPage';
-import BlogPostPage from './components/BlogPostPage';
 
 // Auth
 import { AuthProvider } from './hooks/useAuth';
@@ -114,11 +112,6 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/locations" element={<Navigate to="/" replace />} />
-          {/* The SEO content bank: long-form housing guides, Supabase-backed
-              (cms_content, type='blog_post'). Separate from The Hive below,
-              which stays its own short-form operational-diary archive. */}
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/:slug" element={<BlogPostPage />} />
           {/* The Hive. Static segments first so /hive/page/2, /hive/topic/rules
               and the language roots can never be read as an article slug. React
               Router ranks static above dynamic anyway; the order is kept
