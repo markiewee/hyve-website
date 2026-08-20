@@ -103,6 +103,6 @@ It's usually cheaper than a whole unit, since you're not carrying full rent, a f
 
 ## Where to go from here
 
-If the BTO wait is the thing keeping you at home longer than you'd like, it's worth reading how [co-living compares to renting a private unit](https://www.lazybee.sg/blog/coliving-vs-serviced-apartment-vs-hotel-singapore) and what a [realistic monthly budget](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget) actually looks like. Current room availability and pricing are on the [Lazybee listings page](https://lazybee.sg), so you can compare a real number against whatever else you're weighing up.
+If the BTO wait is the thing keeping you at home longer than you'd like, it's worth reading how [co-living compares to renting a private unit](https://www.lazybee.sg/hive/coliving-vs-serviced-apartment-vs-hotel-singapore) and what a [realistic monthly budget](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget) actually looks like. Current room availability and pricing are on the [Lazybee listings page](https://lazybee.sg), so you can compare a real number against whatever else you're weighing up.
 
 Sources: [HDB, Renting out a flat: regulations](https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-a-flat/regulations).

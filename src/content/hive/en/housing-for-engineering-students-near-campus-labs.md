@@ -24,7 +24,7 @@ NUS's Faculty of Engineering, now folded into CDE alongside the School of Design
 
 CDE, and the engineering departments within it, sit on the Kent Ridge campus, with a listed address of 9 Engineering Drive 1 ([NUS CDE](https://cde.nus.edu.sg/)). That places engineering teaching and lab space within the main Kent Ridge grounds, reachable the same way as the rest of campus: Kent Ridge MRT (CC24) on the Circle Line, with one-north and Buona Vista the next two stops out, all connected by NUS's free internal shuttle.
 
-For the fuller rundown of Kent Ridge's transport links, hall odds, and the neighbourhoods around campus, see our [guide to student housing near NUS](https://www.lazybee.sg/blog/student-housing-near-nus-a-co-living-guide). This piece stays focused on why engineering specifically raises the stakes on that commute, not on repeating the campus-wide basics.
+For the fuller rundown of Kent Ridge's transport links, hall odds, and the neighbourhoods around campus, see our [guide to student housing near NUS](https://www.lazybee.sg/hive/student-housing-near-nus-a-co-living-guide). This piece stays focused on why engineering specifically raises the stakes on that commute, not on repeating the campus-wide basics.
 
 
 ![A tree lined overpass on the NUS Kent Ridge campus](/sketches/loc-campus__nus-kent-ridge__overpass-trees.jpg)

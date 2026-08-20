@@ -33,7 +33,7 @@ heroAlt: 国泰广场的转角
 
 调职函、录用信，或原则批准信（IPA），都不等同于正式签发的准证。正规经营的营运商不会仅凭这些文件就让你签租约。
 
-关于正规营运商具体会核查哪些文件，我们在[外国人可以在新加坡租房吗](https://www.lazybee.sg/blog/can-foreigners-rent-in-singapore)这篇指南中有详细说明。
+关于正规营运商具体会核查哪些文件，我们在[外国人可以在新加坡租房吗](https://www.lazybee.sg/hive/can-foreigners-rent-in-singapore)这篇指南中有详细说明。
 
 ![一支钢笔搁在一叠文件上](/sketches/object__paperwork__fountain-pen-documents.jpg)
 
@@ -58,7 +58,7 @@ heroAlt: 国泰广场的转角
 | 每月总预算（含餐饮、交通、SIM卡） | S$1,800至S$2,800 |
 | 拿钥匙前需备现金 | 两个月租金：一个月押金加首月租金 |
 
-一价全包的共居房间，能省去从日本搬来时的很多猜测，因为一个数字就涵盖了租金、水电和网络，而不必在不熟悉的货币和计费系统里面对一堆分开的账单。关于首月除租金外还有哪些实际支出，可参考我们的[首月搬家费用指南](https://www.lazybee.sg/blog/first-month-moving-costs-singapore)。
+一价全包的共居房间，能省去从日本搬来时的很多猜测，因为一个数字就涵盖了租金、水电和网络，而不必在不熟悉的货币和计费系统里面对一堆分开的账单。关于首月除租金外还有哪些实际支出，可参考我们的[首月搬家费用指南](https://www.lazybee.sg/hive/first-month-moving-costs-singapore)。
 
 ## 日本外派人士和留学生实际住在哪里？
 

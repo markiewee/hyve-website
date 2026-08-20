@@ -34,9 +34,9 @@ heroAlt: 大巴窑建屋发展局中心外的连廊与棕榈树
 
 学生准证、EP 或 S 准证都能让你租房，但前提是准证已经正式签发并拿在手上。一封录用信、一封原则批准信（IPA）或一封录取通知书，单凭本身是不够的，运营规范的营运商也不会让你凭这些文件签约。不少人持访客入境章抵达新加坡，指望在工作或课程开始的当周就签下租约，结果就在这里栽了跟头。
 
-哪些准证符合条件、正规营运商会要求哪些文件，完整说明见《外国人可以在新加坡租房吗？准证与文件》（[Can Foreigners Rent in Singapore? Passes & Documents](https://www.lazybee.sg/blog/can-foreigners-rent-in-singapore)）。简单来说：你需要出示护照、实体准证卡、就业或就读证明，以及一个本地联系电话，房间确认前，你的准证还会经人力部（MOM）或移民与关卡局（ICA）的核实系统查验。
+哪些准证符合条件、正规营运商会要求哪些文件，完整说明见《外国人可以在新加坡租房吗？准证与文件》（[Can Foreigners Rent in Singapore? Passes & Documents](https://www.lazybee.sg/hive/can-foreigners-rent-in-singapore)）。简单来说：你需要出示护照、实体准证卡、就业或就读证明，以及一个本地联系电话，房间确认前，你的准证还会经人力部（MOM）或移民与关卡局（ICA）的核实系统查验。
 
-如果你正在比较 EP、S 准证与学生准证之间的差别，以及每种准证应如何影响你愿意签下的租期长短，我们在《在新加坡以 EP、S 准证或学生准证租房的对比》（[Renting on an EP vs S Pass vs Student Pass in Singapore](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)）一文中直接做了对比。
+如果你正在比较 EP、S 准证与学生准证之间的差别，以及每种准证应如何影响你愿意签下的租期长短，我们在《在新加坡以 EP、S 准证或学生准证租房的对比》（[Renting on an EP vs S Pass vs Student Pass in Singapore](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore)）一文中直接做了对比。
 
 | 你手上持有的文件 | 是否能签租约 |
 |---|---|
@@ -57,7 +57,7 @@ heroAlt: 大巴窑建屋发展局中心外的连廊与棕榈树
 
 如果你租的是一个房间而不是整套单位，摆在你面前的合约几乎肯定是许可协议，而不是租赁合约。这是新加坡共居行业的标准做法，本身并不是警讯。
 
-两者真正的区别，以及只会出现在许可协议中的特定条款，我们在《新加坡的许可协议与租赁合约对比》（[Licence Agreement vs Tenancy Agreement in Singapore](https://www.lazybee.sg/blog/licence-agreement-vs-tenancy-agreement-singapore)）中做了说明。签署任何文件前先读一读这篇文章，尤其是关于营运商是否可以在你入住期间把你调到别的房间那一部分。
+两者真正的区别，以及只会出现在许可协议中的特定条款，我们在《新加坡的许可协议与租赁合约对比》（[Licence Agreement vs Tenancy Agreement in Singapore](https://www.lazybee.sg/hive/licence-agreement-vs-tenancy-agreement-singapore)）中做了说明。签署任何文件前先读一读这篇文章，尤其是关于营运商是否可以在你入住期间把你调到别的房间那一部分。
 
 ![移民与关卡局大楼，新加坡各类准证在此签发](/sketches/loc-civic__ica-building__government-exterior.jpg)
 

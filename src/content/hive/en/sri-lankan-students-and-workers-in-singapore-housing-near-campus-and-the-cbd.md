@@ -70,10 +70,10 @@ A handful of Singapore rental basics apply regardless of visa type or which camp
 
 - **Three months is the legal minimum stay for any private rental in Singapore**, HDB, condo, or landed. No operator, co-living included, can legally offer a shorter term.
 - **A licence agreement covers a room in a shared home; a tenancy agreement covers a whole unit.** Know which one you're signing before you pay a deposit.
-- **Match your pass type to what the operator or landlord expects.** Student Pass, Dependant's Pass, or a work pass each carry slightly different documentation requirements. Our [guide to renting on an EP, S Pass, or Student Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers this in full.
+- **Match your pass type to what the operator or landlord expects.** Student Pass, Dependant's Pass, or a work pass each carry slightly different documentation requirements. Our [guide to renting on an EP, S Pass, or Student Pass](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore) covers this in full.
 - **Match your lease length to your actual course or contract length**, not the landlord's default 12-month offer.
 - **A shorter MRT ride on the map doesn't always mean a shorter real commute.** Our [guide to choosing a home by commute time to the CBD](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) walks through how to test a listing's real commute before you book it, and our [NUS and NTU student housing guide](https://www.lazybee.sg/hive/bukit-timah-clementi-student-housing) covers the campus side in more depth.
-- **Budget for the full monthly cost, not just rent.** Our [2026 rental budget breakdown](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget) shows a realistic monthly total once utilities and wifi are included.
+- **Budget for the full monthly cost, not just rent.** Our [2026 rental budget breakdown](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget) shows a realistic monthly total once utilities and wifi are included.
 
 
 ![A shaded walkway between the Tiong Bahru blocks](/sketches/loc-neighbourhood__tiong-bahru__walkway-trees.jpg)

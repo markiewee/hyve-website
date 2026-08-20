@@ -52,7 +52,7 @@ Signing a room for a full year when your foundation diploma wraps in eight month
 
 Degrees are awarded by partner universities including Aston, Birmingham City, Monash, Murdoch, Northumbria, University College Dublin and Portsmouth, not by Kaplan itself.
 
-If you're arranging a room from overseas before you've even landed, our guide to [renting in Singapore from overseas](https://www.lazybee.sg/hive/renting-singapore-from-overseas) covers what you can realistically sort out before arrival and what has to wait until you're on the ground. And if you're here on a Student's Pass specifically, [renting on a Student's Pass versus an EP or S Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through what landlords typically ask for.
+If you're arranging a room from overseas before you've even landed, our guide to [renting in Singapore from overseas](https://www.lazybee.sg/hive/renting-singapore-from-overseas) covers what you can realistically sort out before arrival and what has to wait until you're on the ground. And if you're here on a Student's Pass specifically, [renting on a Student's Pass versus an EP or S Pass](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore) walks through what landlords typically ask for.
 
 
 ![A tree lined overpass on the NUS Kent Ridge campus](/sketches/loc-campus__nus-kent-ridge__overpass-trees.jpg)

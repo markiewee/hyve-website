@@ -78,7 +78,7 @@ Every non-Singaporean studying here for more than 30 days needs a Student's Pass
 
 ## What Does It Actually Cost to Live Here?
 
-Room and rent costs in Singapore don't move much by nationality, they move by area, room type, and what's bundled into the price. A full, current breakdown of rent bands, deposits, utilities, and a realistic monthly budget is already covered in our [cost of renting in Singapore 2026 guide](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget), and the same numbers apply whether you're arriving from Jakarta, Surabaya, or anywhere else.
+Room and rent costs in Singapore don't move much by nationality, they move by area, room type, and what's bundled into the price. A full, current breakdown of rent bands, deposits, utilities, and a realistic monthly budget is already covered in our [cost of renting in Singapore 2026 guide](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget), and the same numbers apply whether you're arriving from Jakarta, Surabaya, or anywhere else.
 
 What's specific to planning a move from Indonesia is the currency side of it. Deposit plus advance rent is usually two to three months paid upfront, and converting a lump sum from IDR to SGD ahead of a move means exchange rate movement is a real planning variable, not a rounding error. Building in a currency buffer, and moving that lump sum earlier rather than at the last minute if the rate looks favourable, is worth doing before deposit day rather than after.
 
@@ -111,7 +111,7 @@ No. The S$30 application fee and S$60 issuance fee are the same for every nation
 It removes a lot of the planning load a first-time renter faces, since utilities, wifi, and furnishing are usually bundled into one number instead of several separate bills and deposits to set up from scratch. Our guide on [what's actually included in co-living rent](https://www.lazybee.sg/hive/whats-included-in-coliving-rent-singapore) breaks down what that typically covers.
 
 **How far in advance should I book a room before the semester starts?**
-Earlier than most people plan for, particularly around the August intake when demand across the whole rental market peaks at once. Our [housing timeline guide](https://www.lazybee.sg/blog/how-far-ahead-book-housing-singapore) covers when to start looking for your specific intake.
+Earlier than most people plan for, particularly around the August intake when demand across the whole rental market peaks at once. Our [housing timeline guide](https://www.lazybee.sg/hive/how-far-ahead-book-housing-singapore) covers when to start looking for your specific intake.
 
 ## Where to Go From Here
 

@@ -86,7 +86,7 @@ heroAlt: 地铁站大堂里的售票机
 
 Lazybee 的房间是独立房间，附家具，你有自己的空间，不管几点都能把门关上。没有共用卧房要你凌晨三点踮着脚走路，也没有餐桌要在早上之前还给别人。
 
-对肯特岗的新加坡国立大学建筑系学生，我们的[新加坡国立大学学生住宿指南](https://www.lazybee.sg/blog/student-housing-near-nus-a-co-living-guide)更深入地讲了周边区域和通勤选择。如果你在考虑岛上其他校区的设计科系，[南洋理工大学学生住宿指南](https://www.lazybee.sg/hive/zh/student-housing-near-ntu-a-co-living-guide)对那条校园走廊做了同样的整理。
+对肯特岗的新加坡国立大学建筑系学生，我们的[新加坡国立大学学生住宿指南](https://www.lazybee.sg/hive/student-housing-near-nus-a-co-living-guide)更深入地讲了周边区域和通勤选择。如果你在考虑岛上其他校区的设计科系，[南洋理工大学学生住宿指南](https://www.lazybee.sg/hive/zh/student-housing-near-ntu-a-co-living-guide)对那条校园走廊做了同样的整理。
 
 如果评图周就快到了，而你现在的居住安排撑不住，目前可租的房间都列在 [lazybee.sg](https://lazybee.sg)，价格和租期都直接写清楚，让你不必把本来就不够用的时间花在长时间议价上。
 

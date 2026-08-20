@@ -20,7 +20,7 @@ NUS's main campus is Kent Ridge, at the southwestern end of the island. The near
 
 NTU sits further out, near Jurong West. Pioneer and Boon Lay, both on the East-West Line, are the two nearest stations, and a free shuttle bus (services 179 and 199, plus the Campus Rider) runs students from both into the middle of campus, since the walk itself is long ([IAMCR](https://iamcr.org/singapore2025/getting-to-ntu)).
 
-SMU is the outlier: a city campus at 81 Victoria Street in the Bras Basah arts district. Bencoolen MRT (Downtown Line) sits right by the school, and Bras Basah MRT (Circle Line) is about a 3-minute walk away, both linked to campus buildings by an underground concourse ([Wikipedia](https://en.wikipedia.org/wiki/Bras_Basah_MRT_station)). SMU students effectively live inside or right next to the CBD, so our guide on [commuting to the CBD by MRT](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) is directly useful here, and its companion piece on the [cheapest MRT lines to live on](https://www.lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore) covers how rent moves along the same lines that reach SMU.
+SMU is the outlier: a city campus at 81 Victoria Street in the Bras Basah arts district. Bencoolen MRT (Downtown Line) sits right by the school, and Bras Basah MRT (Circle Line) is about a 3-minute walk away, both linked to campus buildings by an underground concourse ([Wikipedia](https://en.wikipedia.org/wiki/Bras_Basah_MRT_station)). SMU students effectively live inside or right next to the CBD, so our guide on [commuting to the CBD by MRT](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) is directly useful here, and its companion piece on the [cheapest MRT lines to live on](https://www.lazybee.sg/hive/cheapest-mrt-lines-to-live-on-singapore) covers how rent moves along the same lines that reach SMU.
 
 ## Best Areas by Campus
 
@@ -64,7 +64,7 @@ A few checks cut most of that risk. Insist on a video call walkthrough if you ca
 
 ## Matching Your Lease to Your Student Pass
 
-Singapore's private rental market has one fixed rule: no lease under three months, which applies to every operator, co-living included. Beyond that floor, the term that actually matters is your own Student Pass validity, since a Student Pass typically renews annually alongside your enrolment. Signing a twelve-month lease when your pass has nine months left creates a problem that has nothing to do with the room. Our guide to [renting on a Student Pass vs EP vs S Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) walks through how to match lease length to pass length properly.
+Singapore's private rental market has one fixed rule: no lease under three months, which applies to every operator, co-living included. Beyond that floor, the term that actually matters is your own Student Pass validity, since a Student Pass typically renews annually alongside your enrolment. Signing a twelve-month lease when your pass has nine months left creates a problem that has nothing to do with the room. Our guide to [renting on a Student Pass vs EP vs S Pass](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore) walks through how to match lease length to pass length properly.
 
 
 ![A train pulling into an MRT platform](/sketches/loc-transit__mrt-platform__train-arriving.jpg)

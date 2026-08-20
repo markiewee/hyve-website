@@ -39,7 +39,7 @@ URA's Short-Term Accommodation guidelines put it directly: it is illegal for bot
 
 ## The Occupancy Cap Is Something You Have to Actively Register For
 
-Every co-living owner needs to know two numbers. The default cap on unrelated occupants in a private residential unit is six. For units of at least 90 square metres, owners can register for a temporary cap of eight, a relaxation HDB and URA extended to 31 December 2028 in their January 2026 joint announcement. (We've written up [the full 2026 occupancy cap timeline](https://www.lazybee.sg/blog/singapore-occupancy-cap-2026) separately.)
+Every co-living owner needs to know two numbers. The default cap on unrelated occupants in a private residential unit is six. For units of at least 90 square metres, owners can register for a temporary cap of eight, a relaxation HDB and URA extended to 31 December 2028 in their January 2026 joint announcement. (We've written up [the full 2026 occupancy cap timeline](https://www.lazybee.sg/hive/singapore-occupancy-cap-2026) separately.)
 
 What owners specifically need to do, that guides written for tenants don't cover: the higher eight-person cap isn't automatic. URA requires the owner to register the property online via Singpass or Corppass, pay a S$20 fee, and meet the eligibility criteria before it applies. Skip that step and your unit is still capped at six, no matter how large it is or what your operator tells prospective tenants.
 

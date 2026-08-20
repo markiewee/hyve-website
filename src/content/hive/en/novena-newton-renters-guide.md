@@ -109,6 +109,6 @@ Novena wins on MRT connectivity and a real interchange nearby. Balestier offers 
 
 ## Where to go from here
 
-If Novena and Newton look like a fit, compare against neighbouring areas before locking in a decision. A look at [what renting actually costs across Singapore in 2026](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget) is a useful sanity check on whether a city-fringe price is good value against the alternatives. For current room availability, the [listings on lazybee.sg](https://lazybee.sg) show what's open and what's included without needing to enquire first.
+If Novena and Newton look like a fit, compare against neighbouring areas before locking in a decision. A look at [what renting actually costs across Singapore in 2026](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget) is a useful sanity check on whether a city-fringe price is good value against the alternatives. For current room availability, the [listings on lazybee.sg](https://lazybee.sg) show what's open and what's included without needing to enquire first.
 
 Sources: [URA, Short-Term Accommodation guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/); [URA, Renting Property guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/); [HDB, Renting out a flat: regulations](https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-a-flat/regulations).

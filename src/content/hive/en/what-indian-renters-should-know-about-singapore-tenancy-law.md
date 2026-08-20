@@ -35,9 +35,9 @@ None of this shifts based on nationality.
 
 A Student Pass, EP, or S Pass each let you rent, but only once the pass is actually issued and in hand. A job offer, an In-Principle Approval letter, or an admission letter isn't enough on its own, and a properly run operator won't let you sign against any of those. This catches out people who land on a visitor stamp expecting to sign a lease the same week their job or course starts.
 
-The full breakdown of which passes qualify and what documents a legitimate operator will ask for is in [Can Foreigners Rent in Singapore? Passes & Documents](https://www.lazybee.sg/blog/can-foreigners-rent-in-singapore). Short version: expect to show your passport, the actual pass card, proof of employment or enrolment, and a local contact number, and expect your pass checked against MOM's or ICA's own verification service before a room is confirmed.
+The full breakdown of which passes qualify and what documents a legitimate operator will ask for is in [Can Foreigners Rent in Singapore? Passes & Documents](https://www.lazybee.sg/hive/can-foreigners-rent-in-singapore). Short version: expect to show your passport, the actual pass card, proof of employment or enrolment, and a local contact number, and expect your pass checked against MOM's or ICA's own verification service before a room is confirmed.
 
-If you're specifically weighing an EP against an S Pass against a Student Pass, and how each one should shape how long a lease you commit to, we cover that comparison directly in [Renting on an EP vs S Pass vs Student Pass in Singapore](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore).
+If you're specifically weighing an EP against an S Pass against a Student Pass, and how each one should shape how long a lease you commit to, we cover that comparison directly in [Renting on an EP vs S Pass vs Student Pass in Singapore](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore).
 
 | What you hold | Lets you sign a lease |
 |---|---|
@@ -59,7 +59,7 @@ If your EP has nine months left and you sign a 12-month lease, you've created a 
 
 If you're renting a room rather than a whole unit, the contract in front of you is almost certainly a licence agreement, not a tenancy agreement. That's standard across co-living in Singapore, and it isn't a red flag by itself.
 
-The real difference, and the specific clauses that only show up in licence agreements, is set out in [Licence Agreement vs Tenancy Agreement in Singapore](https://www.lazybee.sg/blog/licence-agreement-vs-tenancy-agreement-singapore). Read that before you sign anything, particularly the section on whether the operator can move you to a different room during your stay.
+The real difference, and the specific clauses that only show up in licence agreements, is set out in [Licence Agreement vs Tenancy Agreement in Singapore](https://www.lazybee.sg/hive/licence-agreement-vs-tenancy-agreement-singapore). Read that before you sign anything, particularly the section on whether the operator can move you to a different room during your stay.
 
 
 ![The ICA Building, where Singapore immigration passes are issued](/sketches/loc-civic__ica-building__government-exterior.jpg)

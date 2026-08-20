@@ -24,13 +24,13 @@ It depends on why you're moving. There's no separate "Vietnam" pass category. Vi
 - **Work Permit**, for other approved work sectors, subject to source-country and quota rules.
 - **Student Pass**, for enrolment at an approved Singapore institution, including NUS, NTU, SMU, and the polytechnics.
 
-These figures move with MOM policy, so confirm the current rate on MOM's website before you rely on it for planning. For what each pass means for renting specifically, our guide on [renting on an EP vs S Pass vs Student Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers the detail so we won't repeat it here.
+These figures move with MOM policy, so confirm the current rate on MOM's website before you rely on it for planning. For what each pass means for renting specifically, our guide on [renting on an EP vs S Pass vs Student Pass](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore) covers the detail so we won't repeat it here.
 
 ## Do Vietnamese Citizens Need a Visa to Enter Singapore?
 
 No, not for a short visit. Vietnamese passport holders get visa-free entry to Singapore for up to 30 days under the standard arrangement between the two countries. That's fine for a job interview, a viewing trip, or scoping out neighbourhoods.
 
-It is not a substitute for a work or student pass. You cannot sign a residential lease on a visa-free entry stamp, and no properly run operator will let you try. Our piece on [renting in Singapore from overseas](https://www.lazybee.sg/hive/renting-singapore-from-overseas) covers exactly what you can and can't lock in before your pass is actually issued, and [can foreigners rent in Singapore](https://www.lazybee.sg/blog/can-foreigners-rent-in-singapore) walks through the documents any legitimate operator will check once it is.
+It is not a substitute for a work or student pass. You cannot sign a residential lease on a visa-free entry stamp, and no properly run operator will let you try. Our piece on [renting in Singapore from overseas](https://www.lazybee.sg/hive/renting-singapore-from-overseas) covers exactly what you can and can't lock in before your pass is actually issued, and [can foreigners rent in Singapore](https://www.lazybee.sg/hive/can-foreigners-rent-in-singapore) walks through the documents any legitimate operator will check once it is.
 
 
 ![The ICA Building, where Singapore immigration passes are issued](/sketches/loc-civic__ica-building__government-exterior.jpg)
@@ -49,7 +49,7 @@ Budget for these categories in your first month:
 | Groceries, transport, daily spend | S$500-900/month for one person, lifestyle-dependent |
 | Bank account setup | Usually free, minimum initial deposit S$0-1,000 depending on the bank |
 
-For the full breakdown of what sits on top of rent itself, our guide to [the real cost of renting in Singapore in 2026](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget) and [first month moving costs](https://www.lazybee.sg/blog/first-month-moving-costs-singapore) go through this line by line. We don't quote a fixed room price here, since it moves with live availability. Current rooms and their full monthly figure are listed at [lazybee.sg](https://lazybee.sg).
+For the full breakdown of what sits on top of rent itself, our guide to [the real cost of renting in Singapore in 2026](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget) and [first month moving costs](https://www.lazybee.sg/hive/first-month-moving-costs-singapore) go through this line by line. We don't quote a fixed room price here, since it moves with live availability. Current rooms and their full monthly figure are listed at [lazybee.sg](https://lazybee.sg).
 
 ## Where Do Vietnamese Expats and Students Tend to Settle?
 
@@ -76,7 +76,7 @@ Once your pass is in hand, a few practical steps unlock the rest of your setup:
 2. **Get a local SIM.** A Singapore number speeds up your bank account and lease paperwork alike.
 3. **Confirm your tax position back home.** Under the Vietnam-Singapore double tax agreement, a non-resident's Singapore salary isn't taxed again in Vietnam. If you remain a Vietnamese tax resident, Vietnam taxes worldwide income but credits tax already paid in Singapore. Check your specific position with a tax adviser rather than assuming either way.
 4. **Handle stamp duty on your lease**, if applicable, a fixed rate with a fixed deadline. Our [stamp duty on a room rental guide](https://www.lazybee.sg/hive/stamp-duty-room-rental-singapore) has the current rate and process.
-5. **Work through the moving-in checklist.** Our [relocation checklist for Singapore](https://www.lazybee.sg/blog/relocation-checklist-singapore) covers pass, bank, phone, and address registration in one sequence.
+5. **Work through the moving-in checklist.** Our [relocation checklist for Singapore](https://www.lazybee.sg/hive/relocation-checklist-singapore) covers pass, bank, phone, and address registration in one sequence.
 
 ## Sending Money Home
 

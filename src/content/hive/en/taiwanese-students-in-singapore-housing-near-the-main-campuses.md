@@ -20,7 +20,7 @@ NUS's main campus is Kent Ridge, at the southwestern tip of the island. The near
 
 NTU sits further out, near Jurong West. Pioneer and Boon Lay, both on the East-West Line, are the nearest MRT stations, and a free shuttle bus (services 179 and 199, plus the Campus Rider) covers the rest of the walk into campus, since it's a genuinely long one on foot ([IAMCR](https://iamcr.org/singapore2025/getting-to-ntu)).
 
-SMU is the outlier: a compact city campus at 81 Victoria Street in the Bras Basah arts district. Bencoolen MRT (Downtown Line) sits right beside the school, and Bras Basah MRT (Circle Line) is about a 3-minute walk away, both connected to campus buildings by an underground concourse ([Wikipedia](https://en.wikipedia.org/wiki/Bras_Basah_MRT_station)). SMU students essentially live inside or next to the CBD, so our guide on [commuting to the CBD by MRT](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) is directly useful here, and its companion piece on the [cheapest MRT lines to live on](https://www.lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore) covers how rent moves along the same lines that reach SMU.
+SMU is the outlier: a compact city campus at 81 Victoria Street in the Bras Basah arts district. Bencoolen MRT (Downtown Line) sits right beside the school, and Bras Basah MRT (Circle Line) is about a 3-minute walk away, both connected to campus buildings by an underground concourse ([Wikipedia](https://en.wikipedia.org/wiki/Bras_Basah_MRT_station)). SMU students essentially live inside or next to the CBD, so our guide on [commuting to the CBD by MRT](https://www.lazybee.sg/hive/where-to-live-by-commute-time-to-cbd-singapore) is directly useful here, and its companion piece on the [cheapest MRT lines to live on](https://www.lazybee.sg/hive/cheapest-mrt-lines-to-live-on-singapore) covers how rent moves along the same lines that reach SMU.
 
 ## Best Areas by Campus
 
@@ -58,7 +58,7 @@ No single area sits close to all three campuses, which is expected given how spr
 
 ## Language and Everyday Systems
 
-Mandarin is widely spoken in Singapore, but written Chinese here defaults to simplified characters, not the traditional characters used in Taiwan, and Singlish, Hokkien, and other dialects shape everyday speech in ways that take a few weeks to tune into. None of this is a barrier, just an adjustment worth expecting. Banking, SIM cards, transport top-ups, and matching a lease to your Student Pass work the same way for every nationality, and our guide to [renting on a Student Pass vs EP vs S Pass](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore) covers that part in detail.
+Mandarin is widely spoken in Singapore, but written Chinese here defaults to simplified characters, not the traditional characters used in Taiwan, and Singlish, Hokkien, and other dialects shape everyday speech in ways that take a few weeks to tune into. None of this is a barrier, just an adjustment worth expecting. Banking, SIM cards, transport top-ups, and matching a lease to your Student Pass work the same way for every nationality, and our guide to [renting on a Student Pass vs EP vs S Pass](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore) covers that part in detail.
 
 ## Avoiding Rental Scams When You're Booking From Overseas
 
@@ -68,7 +68,7 @@ A few checks cut most of that risk. Insist on a video call walkthrough if an in-
 
 ## Matching Your Lease to Your Student Pass
 
-Singapore's private rental market has one fixed floor: no lease under three months, which applies to every operator, co-living included ([Rently](https://www.rently.sg/blog/student-rentals-singapore-deposit-guarantor)). Beyond that, the term that actually matters is your Student Pass validity, since a pass typically renews annually alongside enrolment. Signing a twelve-month lease when your pass has nine months left creates a mismatch that has nothing to do with the room itself. If you're budgeting the rest of the move too, our [monthly cost breakdown for renting in Singapore](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget) is a useful next stop.
+Singapore's private rental market has one fixed floor: no lease under three months, which applies to every operator, co-living included ([Rently](https://www.rently.sg/blog/student-rentals-singapore-deposit-guarantor)). Beyond that, the term that actually matters is your Student Pass validity, since a pass typically renews annually alongside enrolment. Signing a twelve-month lease when your pass has nine months left creates a mismatch that has nothing to do with the room itself. If you're budgeting the rest of the move too, our [monthly cost breakdown for renting in Singapore](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget) is a useful next stop.
 
 
 ![The Singapore Management University campus in the middle of the city](/sketches/loc-campus__smu__city-block.jpg)

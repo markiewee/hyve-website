@@ -83,7 +83,7 @@ The other shift is admin. Hall handled Wi-Fi setup, utility billing, and basic m
 
 Lazybee runs co-living rooms across Chiltern Park, Ivory Heights, and Thomson Grove, in neighbourhoods within reach of NUS and NTU. Rooms come furnished, with utilities, Wi-Fi, and regular cleaning already in the rate, which removes most of the setup list above in one step. Lease terms are built to be shorter and more flexible than a standard private tenancy, which matters if your semester or exchange schedule isn't fixed a year out.
 
-If you're weighing your options after a hall ballot didn't go your way, our guide to [Chiltern Park, Ivory Heights, and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) covers what each location is actually like to live in. For a fuller budget picture before you commit, [our 2026 cost of renting guide](https://www.lazybee.sg/blog/cost-of-renting-singapore-2026-budget) is a useful companion read.
+If you're weighing your options after a hall ballot didn't go your way, our guide to [Chiltern Park, Ivory Heights, and Thomson Grove](https://www.lazybee.sg/hive/chiltern-park-ivory-heights-thomson-grove-guide) covers what each location is actually like to live in. For a fuller budget picture before you commit, [our 2026 cost of renting guide](https://www.lazybee.sg/hive/cost-of-renting-singapore-2026-budget) is a useful companion read.
 
 Room availability and current pricing live on [lazybee.sg](https://lazybee.sg), not in this article, since that changes as rooms fill. The best next step if a room looks like a fit is booking a viewing directly on the site.
 

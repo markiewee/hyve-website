@@ -34,7 +34,7 @@ Singapore's polytechnics generally don't run student hostels the way NUS, NTU, o
 
 Most NYP students are 17 to 19 years old, having entered straight after the O-levels, with a smaller number of older students on diploma-conversion or part-time tracks. That age band matters for two practical reasons. First, most 17-year-olds are still living at home and commuting, since NYP draws heavily from students already based in Singapore. Second, the students who do need to rent, whether they're from outside Singapore, coming off a family move, or simply want independence while studying, are often signing their first housing agreement while still under 21, sometimes under 18.
 
-We've written a full breakdown of what Singapore law actually requires at each age for renting, since it's more permissive than most people assume: see [our guide to under-21 renting in Singapore](https://www.lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires). The short version is that 18 is the legal age to sign a standard room licence in your own name, and under 18 typically means a parent or guardian is the named signatory instead. We won't re-derive that here, since it's covered properly in that piece.
+We've written a full breakdown of what Singapore law actually requires at each age for renting, since it's more permissive than most people assume: see [our guide to under-21 renting in Singapore](https://www.lazybee.sg/hive/under-21-renting-in-singapore-what-the-law-actually-requires). The short version is that 18 is the legal age to sign a standard room licence in your own name, and under 18 typically means a parent or guardian is the named signatory instead. We won't re-derive that here, since it's covered properly in that piece.
 
 ## Areas Within Reach of NYP
 
@@ -83,7 +83,7 @@ Not for most local students. NYP doesn't run halls of residence the way universi
 Anywhere on or near the North-South Line between Yishun and Bishan gives a direct, no-transfer ride to Yio Chu Kang. Ang Mo Kio, Yio Chu Kang itself, Serangoon Gardens, Bishan, and the Lentor area are all realistic options depending on budget and how much of a town centre you want nearby.
 
 **Can a 17- or 18-year-old NYP student rent a room on their own?**
-An 18-year-old can sign a standard room licence in their own name under Singapore law. Someone still 17 typically needs a parent or legal guardian as the named signatory. See [our full breakdown of under-21 renting in Singapore](https://www.lazybee.sg/blog/under-21-renting-in-singapore-what-the-law-actually-requires) for the details.
+An 18-year-old can sign a standard room licence in their own name under Singapore law. Someone still 17 typically needs a parent or legal guardian as the named signatory. See [our full breakdown of under-21 renting in Singapore](https://www.lazybee.sg/hive/under-21-renting-in-singapore-what-the-law-actually-requires) for the details.
 
 If you're an NYP student weighing your options, browse current rooms at [lazybee.sg](https://lazybee.sg) or book a viewing at Thomson Grove to see the commute for yourself before deciding.
 

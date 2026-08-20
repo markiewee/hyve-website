@@ -19,7 +19,7 @@ heroAlt: 新加坡国立大学校园里穿过树林的人行天桥
 
 南洋理工大学位置更靠外，接近裕廊西。先驱和文礼都在东西线上，是最近的两个车站，免费穿梭巴士（179 路和 199 路，另加 Campus Rider）从两站把学生载进校园中心，因为走路距离本身很长（[IAMCR](https://iamcr.org/singapore2025/getting-to-ntu)）。
 
-新加坡管理大学是个例外：市区校园，地址在维多利亚街 81 号，位于百胜艺术区。明古连地铁站（滨海市区线）就在学校旁边，百胜地铁站（环线）步行约 3 分钟，两站都通过地下通道连接校园建筑（[维基百科](https://en.wikipedia.org/wiki/Bras_Basah_MRT_station)）。新管大学生等于住在中央商业区里面或紧邻它，所以我们那篇[按通勤时间选择新加坡住处的指南](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)在这里直接派得上用场，配套的[最便宜地铁线沿线住宿](https://www.lazybee.sg/blog/cheapest-mrt-lines-to-live-on-singapore)那篇，则谈到租金沿着同样通往新管大的线路是怎么变化的。
+新加坡管理大学是个例外：市区校园，地址在维多利亚街 81 号，位于百胜艺术区。明古连地铁站（滨海市区线）就在学校旁边，百胜地铁站（环线）步行约 3 分钟，两站都通过地下通道连接校园建筑（[维基百科](https://en.wikipedia.org/wiki/Bras_Basah_MRT_station)）。新管大学生等于住在中央商业区里面或紧邻它，所以我们那篇[按通勤时间选择新加坡住处的指南](https://www.lazybee.sg/hive/zh/where-to-live-by-commute-time-to-cbd-singapore)在这里直接派得上用场，配套的[最便宜地铁线沿线住宿](https://www.lazybee.sg/hive/cheapest-mrt-lines-to-live-on-singapore)那篇，则谈到租金沿着同样通往新管大的线路是怎么变化的。
 
 ## 按校园划分的最佳区域
 
@@ -61,7 +61,7 @@ heroAlt: 新加坡国立大学校园里穿过树林的人行天桥
 
 ## 让租期与学生准证对上
 
-新加坡的私人租赁市场有一条硬性规定：租期不得短于三个月，适用于每一家营运商，共居也包括在内。在这条底线之上，真正要紧的期限是你自己学生准证的有效期，因为学生准证通常随着学籍每年更新一次。准证只剩九个月却签了十二个月的租约，会制造一个和房间本身毫无关系的问题。我们那篇[持学生准证、就业准证与 S 准证租房](https://www.lazybee.sg/blog/renting-on-ep-s-pass-student-pass-singapore)的指南，说明了该怎么正确地把租期和准证期限对上。
+新加坡的私人租赁市场有一条硬性规定：租期不得短于三个月，适用于每一家营运商，共居也包括在内。在这条底线之上，真正要紧的期限是你自己学生准证的有效期，因为学生准证通常随着学籍每年更新一次。准证只剩九个月却签了十二个月的租约，会制造一个和房间本身毫无关系的问题。我们那篇[持学生准证、就业准证与 S 准证租房](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore)的指南，说明了该怎么正确地把租期和准证期限对上。
 
 ![列车正驶入地铁站台](/sketches/loc-transit__mrt-platform__train-arriving.jpg)
 

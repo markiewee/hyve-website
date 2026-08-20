@@ -74,7 +74,7 @@ For the actual minute-by-minute math on any specific area, the [general CBD comm
 
 ## Where to Go From Here
 
-If you're deep-diving one school specifically, the full guides for [student housing near NUS](https://www.lazybee.sg/blog/student-housing-near-nus-a-co-living-guide), [student housing near NTU](https://www.lazybee.sg/hive/student-housing-near-ntu-a-co-living-guide), and [student housing near SMU](https://www.lazybee.sg/hive/student-housing-near-smu-living-in-the-city-campus) go deeper on hall odds, rent ranges, and neighbourhood options around each campus. Current room availability across Lazybee's houses, including Ivory Heights near the Jurong East interchange, is live on [lazybee.sg](https://lazybee.sg), so you can check what's actually open before booking a viewing.
+If you're deep-diving one school specifically, the full guides for [student housing near NUS](https://www.lazybee.sg/hive/student-housing-near-nus-a-co-living-guide), [student housing near NTU](https://www.lazybee.sg/hive/student-housing-near-ntu-a-co-living-guide), and [student housing near SMU](https://www.lazybee.sg/hive/student-housing-near-smu-living-in-the-city-campus) go deeper on hall odds, rent ranges, and neighbourhood options around each campus. Current room availability across Lazybee's houses, including Ivory Heights near the Jurong East interchange, is live on [lazybee.sg](https://lazybee.sg), so you can check what's actually open before booking a viewing.
 
 ## Frequently Asked Questions
 
