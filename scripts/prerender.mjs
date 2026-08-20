@@ -165,6 +165,16 @@ const appShell = shell
   .replace(/<\/head>/i, '    <meta name="robots" content="noindex,nofollow" />\n  </head>');
 writeFileSync(APP_SHELL, appShell);
 
+/* The same shell again under the name Vercel reserves for a miss. Without this,
+   an unknown URL has to be caught by a rewrite, and a rewrite can only answer
+   200. That is what let /blog serve 206 posts as live-but-noindex for months:
+   a wrong URL looked alive to Vercel and dead to Google, and nothing alerted.
+   With a 404.html present, vercel.json only has to name the routes that really
+   need the SPA (the portal, the staff desk, the review pages while they have no
+   testimonials), and everything else falls through to a real 404 carrying the
+   app's own "Page not found" screen, because React Router's path="*" renders it. */
+writeFileSync(join(DIST, '404.html'), appShell);
+
 const results = [];
 let helmetWorked = false;
 const failures = [];

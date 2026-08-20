@@ -69,6 +69,21 @@
       "source": "/blog",
       "destination": "/hive",
       "statusCode": 301
+    },
+    {
+      "source": "/about",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/locations",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/residents",
+      "destination": "/",
+      "statusCode": 301
     }
   ],
   "rewrites": [
@@ -117,7 +132,23 @@
       "destination": "/cookie-policy/index.html"
     },
     {
-      "source": "/((?!api/|pitchv1).*)",
+      "source": "/portal",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/portal/:path*",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/staff",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/reviews",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/zh/reviews",
       "destination": "/app.html"
     }
   ],
