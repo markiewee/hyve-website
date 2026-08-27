@@ -31,7 +31,9 @@ async function sendEmail(to: string, subject: string, html: string) {
       reply_to: "hello@lazybee.sg",
       to: [to],
       // Silent copy of every outbound notification to the ops inbox.
-      bcc: ["admin@lazybee.sg"],
+      // Mark is the owner of record, Jane works the queue. No automated mail
+      // goes to admin@lazybee.sg: that mailbox is for humans writing in.
+      bcc: ["mark@meetmillia.com", "jane@meetmillia.com"],
       subject,
       html,
     }),
@@ -910,7 +912,7 @@ const LEAD_EVENTS = new Set(["LEAD_STILL_INTERESTED"]);
  */
 const HELD_EVENTS = new Set(["INVOICE_FINAL_NOTICE"]);
 
-const ADMIN_EMAIL = Deno.env.get("LAZYBEE_ADMIN_EMAIL") || "admin@lazybee.sg";
+const ADMIN_EMAIL = Deno.env.get("LAZYBEE_ADMIN_EMAIL") || "mark@meetmillia.com";
 
 /** Prepended to a held email so the ops inbox knows what it is looking at. */
 function heldBanner(wouldSendTo: string, who: string): string {

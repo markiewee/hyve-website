@@ -17,7 +17,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const PORTAL_URL = process.env.PORTAL_BASE_URL || "https://lazybee.sg";
 
 const PROOF_BUCKET = "deposit_proofs";
-const ADMIN_EMAILS = (process.env.RESERVE_NOTIFY_TO || "admin@hyve.sg,mark@meetmillia.com")
+const ADMIN_EMAILS = (process.env.RESERVE_NOTIFY_TO || "mark@meetmillia.com,jane@meetmillia.com")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);

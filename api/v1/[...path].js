@@ -220,7 +220,8 @@ async function sendAdminEmail({ subject, text }) {
       headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         from: "Lazybee Co-living <hello@lazybee.sg>",
-        to: ["admin@lazybee.sg"],
+        to: ["mark@meetmillia.com"],
+        cc: ["jane@meetmillia.com"],
         subject,
         text,
       }),
