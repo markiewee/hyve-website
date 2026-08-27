@@ -8,7 +8,7 @@
 // Supported events:
 //   - viewing-confirmation       → prospect (with .ics + cancel link)
 //   - viewing-captain-notify     → captain
-//   - viewing-admin-notify       → admin@lazybee.sg / mark@meetmillia.com
+//   - viewing-admin-notify       → mark@meetmillia.com / cc jane@meetmillia.com
 //   - viewing-reminder-24h       → prospect + cc admin (door code, captain, mailbox, parking — evening before)
 //   - viewing-cancelled          → prospect + captain + admin
 //
@@ -38,8 +38,8 @@ import {
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") || "";
 const SENDER = "Lazybee Co-living <hello@lazybee.sg>";
-const ADMIN_EMAIL = Deno.env.get("LAZYBEE_ADMIN_EMAIL") || "admin@lazybee.sg";
-const ADMIN_CC = Deno.env.get("LAZYBEE_ADMIN_CC") || "mark@meetmillia.com";
+const ADMIN_EMAIL = Deno.env.get("LAZYBEE_ADMIN_EMAIL") || "mark@meetmillia.com";
+const ADMIN_CC = Deno.env.get("LAZYBEE_ADMIN_CC") || "jane@meetmillia.com";
 const PUBLIC_SITE_URL = Deno.env.get("PUBLIC_SITE_URL") || "https://lazybee.sg";
 
 // Beeper Local API for WhatsApp on off-horizon reminders.

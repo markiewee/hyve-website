@@ -1160,7 +1160,7 @@ async function handleCron(req, res) {
 // report failure honestly and let the form offer a WhatsApp fallback. Never
 // return 200 for a send we did not make.
 
-const OWNER_NOTIFY_TO = (process.env.RESERVE_NOTIFY_TO || "admin@hyve.sg,mark@meetmillia.com")
+const OWNER_NOTIFY_TO = (process.env.RESERVE_NOTIFY_TO || "mark@meetmillia.com,jane@meetmillia.com")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);
