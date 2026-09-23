@@ -23,7 +23,7 @@ That's the core of it. Most of what gets written about co-living and the law is 
 | Default cap on unrelated occupants | 6 | 6 |
 | Higher cap available | 8, for units of at least 90 sqm, extended to 31 December 2028 | Not available on the same basis |
 | How the higher cap is obtained | The owner registers online via Singpass or Corppass, pays a S$20 fee, and meets the eligibility criteria. It is not automatic | Not applicable |
-| Extra layer on top | MCST by-laws, which can be stricter but never looser than the statute | HDB's own rules |
+| Extra layer on top | MCST by-laws on how the building is used; they bind tenants but can't restrict leasing | HDB's own rules |
 | Who carries the liability | The owner, regardless of who manages the unit day to day | The owner |
 
 ## Minimum Stay Is Your Compliance Problem, Not Just the Tenant's
@@ -72,11 +72,11 @@ What that actually costs, by severity:
 
 If your unit sits in a strata development, your MCST is a second layer of rules on top of URA's, and it's worth knowing where that layer's authority stops.
 
-Under the Building Maintenance and Strata Management Act, every strata development runs on a set of Model By-Laws that apply automatically, covering things like nuisance to neighbours and use of common property. Beyond that baseline, the management corporation can pass additional by-laws by ordinary resolution at an AGM, and it's common for these to set a house minimum stay stricter than URA's, six months instead of three, for example, or require owners to notify the MC before a new tenancy starts.
+Under the [Building (Strata Management) Act 2004](https://sso.agc.gov.sg/Act/BSMA2004?ProvIds=pr32-), every strata development runs on a set of prescribed by-laws that apply automatically, covering things like nuisance to neighbours and use of common property. On top of that, the management corporation can make its own by-laws, but only by special resolution, to control how the development and its common property are used: security, pets, parking, restricted facilities and so on. Those by-laws bind your tenants as well as you.
 
-What an MCST cannot do is override the statute. A by-law can require more than the legal minimum stay; it cannot legalise less than it. And a by-law that goes too far, an outright rental ban with no reasonable basis, for instance, can be challenged as unreasonable before the Strata Titles Boards. MCSTs also can't just impose a fine on the spot for a by-law breach; enforcement runs through the Strata Titles Boards or the courts, which can order compliance.
+What an MCST cannot do is control whether you lease at all. Section 32(9)(a) of the Act says no by-law can prohibit or restrict the lease of a unit, so a by-law setting its own minimum stay or banning rentals has no legal effect. It also cannot make legal anything URA prohibits: URA's three-month minimum applies whatever the house rules say. MCSTs also can't just impose a fine on the spot for a by-law breach; enforcement runs through the Strata Titles Boards or the courts, which can order compliance.
 
-**In plain English:** check your MCST's house rules separately from URA's rules, not as a substitute for them. The stricter of the two applies. If your development requires six months and URA only requires three, your tenants need six.
+**In plain English:** URA sets the minimum stay, and your MCST cannot raise or lower it. What the MCST can do is set rules on how the building is used, and your tenants have to follow those. Read both, because breaking either one causes trouble.
 
 ## The Myth: "The Operator Signed the Lease, So I'm Not Liable"
 
@@ -93,10 +93,10 @@ The practical fix isn't complicated, it's just a step owners frequently skip. Be
 
 ## A Short Checklist for Owners Running or Leasing Out a Co-Living Unit
 
-- Confirm every occupant's agreement states the correct minimum stay: three months private, six months HDB, or whatever's stricter under your MCST's by-laws.
+- Confirm every occupant's agreement states the correct minimum stay: three months private, six months HDB.
 - If your unit is 90 sqm or larger and you want the eight-person cap, confirm you've actually registered with URA via Singpass or Corppass, not just assumed the floor area qualifies you.
 - Check headcount against the cap periodically, not just at move-in, since rooms turn over.
-- Check your MCST's additional by-laws separately from URA's rules and apply whichever is stricter.
+- Read your MCST's by-laws alongside URA's rules and make sure tenants follow both. The by-laws cover how the building is used, not whether you can lease.
 - If you've master-leased to an operator, ask for evidence of how they track minimum stay and occupancy, not just a clause in the contract saying they will.
 - Keep a basic paper trail, signed agreements and dated correspondence, showing you checked. That record is the practical difference between an oversight and a pattern URA's enforcement team can build a case around.
 
@@ -105,7 +105,7 @@ The practical fix isn't complicated, it's just a step owners frequently skip. Be
 | Every occupant's agreement states the correct minimum stay | At every signing | The signed agreements themselves |
 | URA registration filed, if you want the eight-person cap | Once, before you rely on it | The Singpass or Corppass registration record |
 | Headcount against the cap | Periodically, not just at move-in | A dated occupancy record |
-| MCST by-laws checked separately, stricter rule applied | At least annually, and after any AGM | The current by-laws alongside your tenancy terms |
+| MCST by-laws read and passed on to tenants | At least annually, and after any general meeting | The current by-laws alongside your tenancy terms |
 | Operator's evidence of how they track stay length and occupancy | Before signing, then periodically | Their actual records, not just the clause in the contract |
 | A basic paper trail of all of the above | Ongoing | Signed agreements and dated correspondence |
 
@@ -120,11 +120,11 @@ Yes. URA's due diligence standard applies to the owner regardless of who manages
 Yes, if your unit is at least 90 square metres and you want the temporary eight-person cap rather than the standard six. Registration is via Singpass or Corppass, with a S$20 fee, and it isn't automatic.
 
 **Can my MCST ban co-living rentals outright?**
-An MCST can pass additional by-laws through an AGM, including a stricter minimum stay than URA requires, but a by-law can't legalise something shorter than the statutory minimum, and an outright ban with no reasonable basis can be challenged before the Strata Titles Boards.
+No. Under section 32(9)(a) of the Building (Strata Management) Act 2004, no by-law can prohibit or restrict the lease of a unit, so an MCST can't ban rentals or set its own minimum stay. It can, by special resolution, make by-laws on how the building and common property are used, and those bind your tenants.
 
 **If I hire a compliant operator, do I still need to check anything myself?**
 Yes, periodically. A compliant operator on paper and a compliant operator in practice aren't guaranteed to be the same thing, and the legal exposure if they diverge still sits with you as the owner.
 
 If you're weighing whether your unit is a fit for co-living, or want a second read on how a lease arrangement is structured before you sign anything, [Lazybee works with condo and landed owners across Singapore](https://lazybee.sg) on exactly that question.
 
-Sources: [URA, Short-Term Accommodation guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/); [URA, Renting Property guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/); [URA, Temporary Occupancy Cap FAQs](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/temp-faqs/); [URA, PR26-03, Extension of temporary relaxation of occupancy cap](https://www.ura.gov.sg/news/media/pr26-03/); [URA, PR25-35, Four companies and two individuals face 340 charges](https://www.ura.gov.sg/news/media/pr25-35/); [URA, PR25-47, Six individuals fined over one million](https://www.ura.gov.sg/Corporate/Media-Room/Media-Releases/pr25-47); [Building Maintenance and Strata Management Act, Singapore Statutes Online](https://sso.agc.gov.sg/Act-Rev/30C/Published/20211231?DocDate=20080731).
+Sources: [URA, Short-Term Accommodation guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/short-term-accommodation/); [URA, Renting Property guidelines](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/); [URA, Temporary Occupancy Cap FAQs](https://www.ura.gov.sg/guidelines/property-and-business-owners/property/renting-property/temp-faqs/); [URA, PR26-03, Extension of temporary relaxation of occupancy cap](https://www.ura.gov.sg/news/media/pr26-03/); [URA, PR25-35, Four companies and two individuals face 340 charges](https://www.ura.gov.sg/news/media/pr25-35/); [URA, PR25-47, Six individuals fined over one million](https://www.ura.gov.sg/Corporate/Media-Room/Media-Releases/pr25-47); [Building (Strata Management) Act 2004, s32, Singapore Statutes Online](https://sso.agc.gov.sg/Act/BSMA2004?ProvIds=pr32-).
