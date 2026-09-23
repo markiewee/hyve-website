@@ -1,6 +1,7 @@
 // src/data/lazybeeRooms.js
 //
 // Real Lazybee inventory, pulled live from hyve-iot (diiilqpfmlxjwiaeophb) on 2026-08-09.
+// next dates for CP-MR, CP-PR1, IH-PR1 and IH-STD1 re-chained from tenant_profiles on 2026-09-23.
 // Lettable rooms only: kitchens, toilets, yards and common areas are excluded.
 // Ported verbatim from design-preview/rooms.js. Data, not JSX: the comb, the homes
 // strip and the portal statement all read from here, so a fresh pull is one file.
@@ -62,7 +63,7 @@ export const ROOMS = [
     "home": "CP",
     "type": "Master room",
     "price": 2200,
-    "next": "2026-08-09",
+    "next": "2026-12-21",
     "sqm": 45,
     "bed": "Queen bed",
     "occ": 2,
@@ -89,7 +90,7 @@ export const ROOMS = [
     "home": "CP",
     "type": "Premium room",
     "price": 1500,
-    "next": "2026-08-12",
+    "next": "2026-12-20",
     "sqm": 9,
     "bed": "Super single",
     "occ": 1,
@@ -207,7 +208,7 @@ export const ROOMS = [
     "home": "IH",
     "type": "Premium room",
     "price": 1500,
-    "next": "2026-09-19",
+    "next": "2027-09-26",
     "sqm": 20,
     "bed": "Queen bed",
     "occ": 2,
@@ -275,7 +276,7 @@ export const ROOMS = [
     "home": "IH",
     "type": "Standard room",
     "price": 1000,
-    "next": "2026-10-01",
+    "next": "2027-01-02",
     "sqm": 30,
     "bed": "Super single",
     "occ": 1,
