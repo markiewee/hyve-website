@@ -6,6 +6,7 @@ import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { needsBackImage, passLabel } from "../../lib/idDocuments";
+import { useSignedDocUrl } from "../../hooks/useSignedDocUrl";
 
 const RESIDENCY_OPTIONS = [
   { value: "SINGAPOREAN", label: "Singaporean / PR" },
@@ -92,8 +93,14 @@ export default function IdScanForm({ onboarding, advanceStep }) {
   const needsExpiry = isForeigner;
   const [frontFile, setFrontFile] = useState(null);
   const [backFile, setBackFile] = useState(null);
-  const [frontPreview, setFrontPreview] = useState(td.id_front_url || null);
-  const [backPreview, setBackPreview] = useState(td.id_back_url || null);
+  // Previews hold a local object url for a newly picked photo. What is already
+  // on file is a private bucket object, so it is signed when it renders.
+  const [frontPreview, setFrontPreview] = useState(null);
+  const [backPreview, setBackPreview] = useState(null);
+  const storedFront = useSignedDocUrl(td.id_front_url).url;
+  const storedBack = useSignedDocUrl(td.id_back_url).url;
+  const storedPass = useSignedDocUrl(td.pass_url).url;
+  const storedPassBack = useSignedDocUrl(td.pass_back_url).url;
   const [scanning, setScanning] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -104,10 +111,10 @@ export default function IdScanForm({ onboarding, advanceStep }) {
   const [passExpiry, setPassExpiry] = useState(td.pass_expiry || "");
   const passInputRef = useRef(null);
   const [passFile, setPassFile] = useState(null);
-  const [passPreview, setPassPreview] = useState(td.pass_url || null);
+  const [passPreview, setPassPreview] = useState(null);
   const passBackInputRef = useRef(null);
   const [passBackFile, setPassBackFile] = useState(null);
-  const [passBackPreview, setPassBackPreview] = useState(td.pass_back_url || null);
+  const [passBackPreview, setPassBackPreview] = useState(null);
 
   // Which of these documents is a card with two sides. Rules live in
   // src/lib/idDocuments.js so the onboarding step and the pass-renewal page
@@ -173,13 +180,9 @@ export default function IdScanForm({ onboarding, advanceStep }) {
 
     if (uploadError) throw uploadError;
 
-    const { data, error: signedUrlError } = await supabase.storage
-      .from("tenant-documents")
-      .createSignedUrl(path, 3600);
-
-    if (signedUrlError) throw signedUrlError;
-
-    return data.signedUrl;
+    // Store the bare object path. A signed url stops working after an hour
+    // and a public url never works on this private bucket.
+    return path;
   }
 
   // Check if pass is expiring within 3 months
@@ -216,7 +219,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
       setError("ID number is required.");
       return;
     }
-    if (!frontFile && !frontPreview) {
+    if (!frontFile && !td.id_front_url) {
       setError("Please upload a photo of the front of your ID.");
       return;
     }
@@ -232,7 +235,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
       setError("Pass expiry date is required.");
       return;
     }
-    if (isForeigner && !passFile && !passPreview) {
+    if (isForeigner && !passFile && !td.pass_url) {
       setError(
         passNeedsBack
           ? `Please upload a photo of the front of your ${passLabel(passType)}.`
@@ -240,7 +243,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
       );
       return;
     }
-    if (isForeigner && passNeedsBack && !passBackFile && !passBackPreview) {
+    if (isForeigner && passNeedsBack && !passBackFile && !td.pass_back_url) {
       setError(`Please upload a photo of the back of your ${passLabel(passType)}. Both sides are required.`);
       return;
     }
@@ -419,9 +422,9 @@ export default function IdScanForm({ onboarding, advanceStep }) {
             className="hidden"
             onChange={handleFrontPhoto}
           />
-          {frontPreview && (
+          {(frontPreview || storedFront) && (
             <img
-              src={frontPreview}
+              src={frontPreview || storedFront}
               alt="ID front"
               className="h-16 w-24 object-cover rounded border border-border"
             />
@@ -451,9 +454,9 @@ export default function IdScanForm({ onboarding, advanceStep }) {
               className="hidden"
               onChange={handleBackPhoto}
             />
-            {backPreview && (
+            {(backPreview || storedBack) && (
               <img
-                src={backPreview}
+                src={backPreview || storedBack}
                 alt="ID back"
                 className="h-16 w-24 object-cover rounded border border-border"
               />
@@ -568,7 +571,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
               </Button>
               <input ref={passInputRef} type="file" accept="image/*" className="hidden"
                 onChange={(e) => { const f = e.target.files?.[0]; if (f) { setPassFile(f); setPassPreview(URL.createObjectURL(f)); } }} />
-              {passPreview && <img src={passPreview} alt="Pass front" className="h-16 w-24 object-cover rounded border border-border" />}
+              {(passPreview || storedPass) && <img src={passPreview || storedPass} alt="Pass front" className="h-16 w-24 object-cover rounded border border-border" />}
             </div>
           </div>
 
@@ -586,7 +589,7 @@ export default function IdScanForm({ onboarding, advanceStep }) {
                 </Button>
                 <input ref={passBackInputRef} type="file" accept="image/*" className="hidden"
                   onChange={(e) => { const f = e.target.files?.[0]; if (f) { setPassBackFile(f); setPassBackPreview(URL.createObjectURL(f)); } }} />
-                {passBackPreview && <img src={passBackPreview} alt="Pass back" className="h-16 w-24 object-cover rounded border border-border" />}
+                {(passBackPreview || storedPassBack) && <img src={passBackPreview || storedPassBack} alt="Pass back" className="h-16 w-24 object-cover rounded border border-border" />}
               </div>
             </div>
           )}

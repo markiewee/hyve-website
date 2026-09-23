@@ -12,30 +12,20 @@ import { notifyMember } from "../../lib/notify";
 import { confirm } from "../../lib/confirm";
 import { PORTAL_HOST } from "../../lib/portal";
 import { needsBackImage, storagePathFrom } from "../../lib/idDocuments";
+import { useSignedDocUrl } from "../../hooks/useSignedDocUrl";
 
 function DepositProofImage({ url }) {
-  const [signedUrl, setSignedUrl] = useState(null);
+  // Signed from the stored path on every render. Older rows hold a public
+  // url, which the private bucket rejects, so there is no "open directly"
+  // fallback: it only ever led to a 400.
+  const { url: signedUrl, failed } = useSignedDocUrl(url);
   const [imgError, setImgError] = useState(false);
-
-  useEffect(() => {
-    // Extract the storage path from the public URL
-    const match = url?.match(/tenant-documents\/(.+)$/);
-    if (match) {
-      supabase.storage
-        .from("tenant-documents")
-        .createSignedUrl(match[1], 3600)
-        .then(({ data, error }) => {
-          if (data?.signedUrl) setSignedUrl(data.signedUrl);
-          else setImgError(true);
-        });
-    }
-  }, [url]);
 
   return (
     <div className="space-y-3">
-      {imgError ? (
+      {failed || imgError ? (
         <div className="p-4 bg-amber-500/10 border border-amber-500/25 rounded-lg">
-          <p className="text-sm text-amber-300">Unable to load deposit proof image. <a href={url} target="_blank" rel="noopener noreferrer" className="underline font-semibold">Try opening directly</a></p>
+          <p className="text-sm text-amber-300">Unable to load the deposit proof image. Ask the tenant to upload it again.</p>
         </div>
       ) : signedUrl ? (
         <a href={signedUrl} target="_blank" rel="noopener noreferrer">
@@ -313,13 +303,10 @@ export default function AdminOnboardingDetailPage() {
       return;
     }
 
-    const { data: urlData } = supabase.storage
-      .from("tenant-documents")
-      .getPublicUrl(path);
-
+    // Bare path: the bucket is private and every reader signs from the path.
     const { error: updateError } = await supabase
       .from("onboarding_progress")
-      .update({ ta_document_url: urlData.publicUrl, updated_at: new Date().toISOString() })
+      .update({ ta_document_url: path, updated_at: new Date().toISOString() })
       .eq("id", id);
 
     if (updateError) {
@@ -522,13 +509,7 @@ export default function AdminOnboardingDetailPage() {
   async function getDocumentViewUrl(doc) {
     if (!doc.file_url) return null;
 
-    // If it's already a full URL, extract the storage path
-    let path = doc.file_url;
-    const urlParts = doc.file_url.split("/tenant-documents/");
-    if (urlParts.length >= 2) {
-      path = urlParts[1];
-    }
-    // Otherwise treat file_url as a direct storage path
+    const path = storagePathFrom(doc.file_url);
 
     const { data, error } = await supabase.storage
       .from("tenant-documents")
@@ -536,13 +517,17 @@ export default function AdminOnboardingDetailPage() {
 
     if (error) {
       console.error("Failed to get signed URL:", error);
-      return doc.file_url;
+      return null;
     }
     return data.signedUrl;
   }
 
   async function handleViewDocument(doc) {
     const url = await getDocumentViewUrl(doc);
+    if (!url) {
+      setMessage({ type: "error", text: "Could not open that document. The file may be missing from storage." });
+      return;
+    }
     window.open(url, "_blank", "noopener,noreferrer");
   }
 
@@ -1122,7 +1107,6 @@ export default function AdminOnboardingDetailPage() {
                     const path = `tenants/${tpId}/uploads/admin-${Date.now()}.${ext}`;
                     const { error: upErr } = await supabase.storage.from("tenant-documents").upload(path, file, { upsert: false });
                     if (upErr) throw upErr;
-                    const { data: urlData } = supabase.storage.from("tenant-documents").getPublicUrl(path);
                     const docType = adminDocTypeRef.current?.value || "OTHER";
                     const docTitle = adminDocTitleRef.current?.value || docType.replace(/_/g, " ");
                     await supabase.from("tenant_documents").insert({
@@ -1131,7 +1115,7 @@ export default function AdminOnboardingDetailPage() {
                       doc_type: docType,
                       title: docTitle,
                       status: "UPLOADED",
-                      file_url: urlData.publicUrl,
+                      file_url: path,
                     });
                     setMessage({ type: "success", text: "Document uploaded." });
                     adminDocFileRef.current.value = "";

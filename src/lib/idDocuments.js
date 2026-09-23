@@ -141,18 +141,44 @@ export function passStatus(details, now = new Date()) {
   return { state: "VALID", blocking: false, daysLeft, type, expiry };
 }
 
+/** The private bucket every tenant document lives in. */
+export const TENANT_DOCS_BUCKET = "tenant-documents";
+
 /**
  * Turn whatever is stored in a *_url column into a bucket object path.
  *
- * Every document on file was written as a bucket-public url and the
- * tenant-documents bucket is private, so those urls answer 400 on their own.
- * Nothing is actually broken, because every consumer re-signs from the path,
- * but that derivation was copied inline at each call site and is now here.
+ * Older rows hold a bucket-public url (which answers 400, because the bucket
+ * is private) or a signed url whose token died an hour after upload. New rows
+ * hold the bare path. All three shapes resolve to the same object path here,
+ * and the caller signs a fresh url from it at render time.
  */
 export function storagePathFrom(value) {
   if (!value) return null;
-  const marker = "/tenant-documents/";
-  const raw = value.includes(marker) ? value.split(marker)[1] : value;
+  const marker = `/${TENANT_DOCS_BUCKET}/`;
+  let raw = value.includes(marker) ? value.split(marker)[1] : value;
+  if (raw.startsWith(`${TENANT_DOCS_BUCKET}/`)) raw = raw.slice(TENANT_DOCS_BUCKET.length + 1);
   const path = raw.split("?")[0];
   return path || null;
+}
+
+/**
+ * Sign a short-lived url for a stored tenant document.
+ *
+ * Takes the supabase client as an argument so the tests can hand it a fake.
+ * Returns null when there is nothing on file or the object cannot be signed,
+ * never the stored value itself: a raw stored url cannot open a private
+ * object, so offering it as a fallback only hands the admin a 400.
+ */
+export async function signTenantDoc(client, value, expiresIn = 3600) {
+  const path = storagePathFrom(value);
+  if (!path) return null;
+  try {
+    const { data, error } = await client.storage
+      .from(TENANT_DOCS_BUCKET)
+      .createSignedUrl(path, expiresIn);
+    if (error) return null;
+    return data?.signedUrl ?? null;
+  } catch {
+    return null;
+  }
 }

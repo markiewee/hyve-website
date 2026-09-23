@@ -14,6 +14,8 @@ import {
   passLabel,
   passStatus,
   storagePathFrom,
+  signTenantDoc,
+  TENANT_DOCS_BUCKET,
   EXPIRING_SOON_DAYS,
 } from "./idDocuments.js";
 
@@ -160,6 +162,73 @@ test("a bare path is already a path", () => {
 test("nothing in gives nothing out", () => {
   assert.equal(storagePathFrom(null), null);
   assert.equal(storagePathFrom(""), null);
+});
+
+test("the url an object path was stored under before, with no leading slash", () => {
+  assert.equal(
+    storagePathFrom("tenant-documents/tenants/abc/uploads/lease-4.pdf"),
+    "tenants/abc/uploads/lease-4.pdf"
+  );
+});
+
+test("a url with no public or sign segment still resolves", () => {
+  assert.equal(
+    storagePathFrom(
+      "https://x.supabase.co/storage/v1/object/tenant-documents/tenants/abc/uploads/passport.pdf"
+    ),
+    "tenants/abc/uploads/passport.pdf"
+  );
+});
+
+/* ── signing on render ────────────────────────────────────────────── */
+
+function fakeClient(result) {
+  const calls = [];
+  return {
+    calls,
+    storage: {
+      from(bucket) {
+        return {
+          async createSignedUrl(path, expiresIn) {
+            calls.push({ bucket, path, expiresIn });
+            if (result instanceof Error) throw result;
+            return result;
+          },
+        };
+      },
+    },
+  };
+}
+
+test("an old public url is signed from its path, in the private bucket", async () => {
+  const client = fakeClient({ data: { signedUrl: "https://signed/abc" }, error: null });
+  const url = await signTenantDoc(
+    client,
+    "https://x.supabase.co/storage/v1/object/public/tenant-documents/tenants/abc/deposit-proof-1.jpg"
+  );
+  assert.equal(url, "https://signed/abc");
+  assert.deepEqual(client.calls, [
+    { bucket: TENANT_DOCS_BUCKET, path: "tenants/abc/deposit-proof-1.jpg", expiresIn: 3600 },
+  ]);
+});
+
+test("a bare path is signed as is", async () => {
+  const client = fakeClient({ data: { signedUrl: "https://signed/def" }, error: null });
+  assert.equal(await signTenantDoc(client, "tenants/abc/id-front-2.jpg", 60), "https://signed/def");
+  assert.deepEqual(client.calls[0], { bucket: "tenant-documents", path: "tenants/abc/id-front-2.jpg", expiresIn: 60 });
+});
+
+test("a failed sign gives null, never the stored url", async () => {
+  const stored = "https://x.supabase.co/storage/v1/object/public/tenant-documents/tenants/abc/pass-3.jpg";
+  assert.equal(await signTenantDoc(fakeClient({ data: null, error: { message: "Object not found" } }), stored), null);
+  assert.equal(await signTenantDoc(fakeClient(new Error("network")), stored), null);
+});
+
+test("nothing on file makes no storage call", async () => {
+  const client = fakeClient({ data: { signedUrl: "x" }, error: null });
+  assert.equal(await signTenantDoc(client, null), null);
+  assert.equal(await signTenantDoc(client, ""), null);
+  assert.equal(client.calls.length, 0);
 });
 
 /* ── IPA: a promise of a pass, not a pass ─────────────────────────── */

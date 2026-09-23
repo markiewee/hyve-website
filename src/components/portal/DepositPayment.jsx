@@ -75,15 +75,13 @@ export default function DepositPayment({ onboarding, advanceStep, refetch }) {
 
       if (uploadError) throw uploadError;
 
-      const { data: urlData } = supabase.storage
-        .from("tenant-documents")
-        .getPublicUrl(path);
-
       // Update onboarding record
       const { error: updateError } = await supabase
         .from("onboarding_progress")
         .update({
-          deposit_proof_url: urlData.publicUrl,
+          // The bucket is private, so a public url would answer 400. Store
+          // the bare path and let the admin page sign it when it renders.
+          deposit_proof_url: path,
           deposit_method: "BANK_TRANSFER",
           updated_at: new Date().toISOString(),
         })
