@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { HOMES, ROOMS, HOME_HERO, roomsForHome, isLet } from '../../data/lazybeeRooms';
+import { HOMES, HOME_HERO, isLet } from '../../data/lazybeeRooms';
+import { useRoomAvailability } from '../../lib/useRoomAvailability';
 import { ZEROS, TRIAL_KEEPS, POSTS } from '../../data/ownerPage';
 import { ARTICLES } from '../../lib/hiveContent';
 import { useLanguage } from '../../i18n/LanguageContext';
@@ -8,15 +9,16 @@ import { vocabKey } from '../../i18n/roomVocab';
 /** The green band: three numbers, one of them counted off the live room data. */
 export function GreenBand() {
   const { t } = useLanguage();
-  const let_ = ROOMS.filter((r) => isLet(r)).length;
+  const rooms = useRoomAvailability();
+  const let_ = rooms.filter((r) => isLet(r)).length;
   return (
     <div className="band">
       <div
         className="wrap grid g3"
         style={{ paddingTop: 'clamp(30px,4vw,56px)', paddingBottom: 'clamp(30px,4vw,56px)' }}
       >
-        <div className="rv"><div className="n">{ROOMS.length}</div><div className="l">{t('owner.band.cells')}</div></div>
-        <div className="rv"><div className="n">{let_} / {ROOMS.length}</div><div className="l">{t('owner.band.let')}</div></div>
+        <div className="rv"><div className="n">{rooms.length}</div><div className="l">{t('owner.band.cells')}</div></div>
+        <div className="rv"><div className="n">{let_} / {rooms.length}</div><div className="l">{t('owner.band.let')}</div></div>
         <div className="rv"><div className="n">S$0</div><div className="l">{t('owner.band.spend')}</div></div>
       </div>
     </div>
@@ -81,10 +83,11 @@ export function TrialSection() {
 /** The three homes, photographed, with a bar per cell and how many are let. */
 export function HomesStrip() {
   const { t } = useLanguage();
+  const rooms = useRoomAvailability();
   return (
     <section className="homes" id="homes">
       {HOMES.map((h) => {
-        const rs = roomsForHome(h.code);
+        const rs = rooms.filter((r) => r.home === h.code);
         const filled = rs.filter((r) => isLet(r)).length;
         const open = rs.length - filled;
         return (
