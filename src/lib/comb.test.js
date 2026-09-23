@@ -10,7 +10,7 @@ import { buildComb } from "./comb.js";
 import { HOMES, ROOMS, roomsForHome, isLet } from "../data/lazybeeRooms.js";
 import { ISLAND } from "../data/singaporeIsland.js";
 
-const comb = () => buildComb(ISLAND, HOMES, roomsForHome, (r) => isLet(r, new Date("2026-08-09")));
+const comb = (on = "2026-08-09") => buildComb(ISLAND, HOMES, roomsForHome, (r) => isLet(r, new Date(on)));
 
 test("every lettable room gets exactly one cell", () => {
   const c = comb();
@@ -59,11 +59,11 @@ test("the island is tiled, not empty, and stays a sensible shape", () => {
 });
 
 test("let and open are read off the room data, not guessed", () => {
-  const c = comb();
+  const c = comb("2026-12-21");
   const byCode = Object.fromEntries(c.homes.flatMap((h) => h.cells).map((cell) => [cell.code, cell]));
-  // CP-MR frees up on 2026-08-09, so on that date it is open
+  // CP-MR frees up on 2026-12-21, so on that date it is open
   assert.equal(byCode["CP-MR"].state, "open");
-  // CP-PR1 runs to 2026-08-12
-  assert.equal(byCode["CP-PR1"].state, "let");
-  assert.match(byCode["CP-PR1"].title, /^CP-PR1, Premium room, let$/);
+  // IH-PR1 is let to 2027-09-26
+  assert.equal(byCode["IH-PR1"].state, "let");
+  assert.match(byCode["IH-PR1"].title, /^IH-PR1, Premium room, let$/);
 });
