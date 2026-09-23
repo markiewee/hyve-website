@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { HOMES, ROOMS, HOME_HERO, roomsForHome, isLet } from '../../data/lazybeeRooms';
+import { HOMES, HOME_HERO, isLet } from '../../data/lazybeeRooms';
+import { useRoomAvailability } from '../../lib/useRoomAvailability';
 import { ISLAND } from '../../data/singaporeIsland';
 import { buildComb } from '../../lib/comb';
 import { bookingUrl } from '../../lib/booking';
@@ -112,15 +113,21 @@ function CellCard({ room, shot, onShot }) {
 
 export default function CombSection() {
   const { t } = useLanguage();
-  const comb = useMemo(() => buildComb(ISLAND, HOMES, roomsForHome, (r) => isLet(r)), []);
-  const firstOpen = useMemo(() => ROOMS.find((r) => !isLet(r)) || ROOMS[0], []);
-  const [code, setCode] = useState(firstOpen.code);
+  const rooms = useRoomAvailability();
+  const comb = useMemo(
+    () => buildComb(ISLAND, HOMES, (h) => rooms.filter((r) => r.home === h), (r) => isLet(r)),
+    [rooms],
+  );
+  const firstOpen = useMemo(() => rooms.find((r) => !isLet(r)) || rooms[0], [rooms]);
+  const [code, setCode] = useState(null);
   const [shot, setShot] = useState(0);
 
-  const room = ROOMS.find((r) => r.code === code) || firstOpen;
+  // Until a cell is picked, follow the first open room, so the card moves with
+  // the live dates when they land instead of sticking to the static guess.
+  const room = rooms.find((r) => r.code === code) || firstOpen;
 
   const select = (next) => {
-    if (next === code) return;
+    if (next === room.code) return;
     setCode(next);
     setShot(0);
     track(EVENTS.COMB_CELL_OPENED, { room: next, home: next.split('-')[0] });
@@ -158,7 +165,7 @@ export default function CombSection() {
                     className="cell"
                     points={cell.points}
                     data-state={cell.state}
-                    data-sel={cell.code === code ? '1' : '0'}
+                    data-sel={cell.code === room.code ? '1' : '0'}
                     tabIndex={0}
                     role="button"
                     aria-label={cell.title}
