@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { supabase } from "../../lib/supabase";
+import { signTenantDoc } from "../../lib/idDocuments";
+import { toast } from "sonner";
 
 const DOC_TYPE_LABELS = {
   LICENCE_AGREEMENT: "Licence Agreement",
@@ -29,20 +31,11 @@ const STATUS_STYLE = {
 
 async function openSignedUrl(fileUrl) {
   if (!fileUrl) return;
-  // Extract bucket and path from the Supabase storage URL
-  const match = fileUrl.match(/\/storage\/v1\/object\/public\/([^/]+)\/(.+)/);
-  if (match) {
-    const [, bucket, path] = match;
-    const { data, error } = await supabase.storage
-      .from(bucket)
-      .createSignedUrl(path, 300); // 5 min expiry
-    if (!error && data?.signedUrl) {
-      window.open(data.signedUrl, "_blank", "noopener,noreferrer");
-      return;
-    }
-  }
-  // Fallback: open raw URL
-  window.open(fileUrl, "_blank", "noopener,noreferrer");
+  // file_url is a bare path on newer rows and an old public url on older
+  // ones. Both resolve to the same object in the private bucket.
+  const url = await signTenantDoc(supabase, fileUrl, 300); // 5 min expiry
+  if (url) window.open(url, "_blank", "noopener,noreferrer");
+  else toast.error("Could not open that document. Please contact us.");
 }
 
 export default function DocumentsList({ documents }) {

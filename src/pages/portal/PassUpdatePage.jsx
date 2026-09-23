@@ -88,11 +88,8 @@ export default function PassUpdatePage() {
       .from("tenant-documents")
       .upload(path, compressed, { contentType: "image/jpeg", upsert: true });
     if (uploadError) throw uploadError;
-    const { data, error: signErr } = await supabase.storage
-      .from("tenant-documents")
-      .createSignedUrl(path, 3600);
-    if (signErr) throw signErr;
-    return data.signedUrl;
+    // Store the bare object path; readers sign a fresh url when they render.
+    return path;
   }
 
   async function handleSubmit(e) {
