@@ -19,7 +19,7 @@ Singapore's general cost of living for a single person, excluding rent, runs rou
 
 For a Filipino national, the number shifts a little. Remittances home are a real recurring cost a generic figure skips, though a Filipino-food habit doesn't push costs up as sharply as some other cuisines, since rice, pork, chicken, and vegetables are already cheap staples here.
 
-Filipinos make up one of Singapore's largest foreign communities, roughly 200,000 people, working across healthcare, IT, hospitality, professional services, construction, marine, and domestic work. The rental and remittance math below applies mainly to professionals, healthcare workers, and other pass holders who rent their own place. Foreign domestic workers on a Work Permit are required by MOM regulations to live at their employer's registered address, so this guide isn't primarily aimed at that group.
+Filipinos make up one of Singapore's largest foreign communities, working across healthcare, IT, hospitality, professional services, construction, marine, and domestic work. The rental and remittance math below applies mainly to professionals, healthcare workers, and other pass holders who rent their own place. Foreign domestic workers on a Work Permit are required by MOM regulations to live at their employer's registered address, so this guide isn't primarily aimed at that group.
 
 ## Rent: the single biggest line item
 
@@ -47,11 +47,11 @@ A related question that comes up constantly for anyone on a work pass is what do
 
 For most Filipino nationals living in Singapore, sending money home is a genuine recurring cost that a generic cost-of-living guide skips entirely. The good news is the SGD to PHP corridor is a reasonably efficient one, since so much remittance volume runs through it.
 
-Digital-first providers like Wise and Instarem generally offer rates close to the mid-market exchange rate with low fees, and World Bank remittance-price data puts an all-in cost for this corridor at under 1% for these providers, compared with 3% to 5% typically charged by a traditional bank wire. Budget the fee and exchange-rate spread separately from the transfer amount itself, since a bank wire can cost several times more for the same amount sent.
+Digital-first providers like Wise and Instarem generally offer rates close to the mid-market exchange rate with low fees, and usually cost less all-in than a traditional bank wire, which adds a wider exchange-rate margin on top of its fee. Budget the fee and exchange-rate spread separately from the transfer amount itself, since a bank wire can cost several times more for the same amount sent.
 
 ## Flights and staying connected to family
 
-Round-trip flights between Singapore and Manila are frequent, direct, and take about four hours, making trips home genuinely manageable. Off-peak round trips typically run roughly S$150 to S$280, with fares rising well above S$400 during Christmas and Holy Week. Budgeting one or two trips home a year, plus an occasional emergency fare, is a realistic line item most cost-of-living guides skip entirely.
+Round-trip flights between Singapore and Manila are frequent, direct, and take about four hours, making trips home genuinely manageable. Fares vary by booking window and season and climb sharply around Christmas and Holy Week, so check live prices before committing to dates. Budgeting one or two trips home a year, plus an occasional emergency fare, is a realistic line item most cost-of-living guides skip entirely.
 
 ## Where Filipino professionals and workers tend to live
 
@@ -88,7 +88,7 @@ For a single professional renting a room, roughly S$2,500 to S$4,000 a month all
 Core ingredients like rice, pork, chicken, and vegetables are already cheap staples in Singapore. Specific imported Filipino items cost more than at home, but a monthly grocery top-up from a store like Pinoy Ave typically runs S$100 to S$250.
 
 **What's the cheapest way to send money from Singapore to the Philippines?**
-Digital-first remittance apps like Wise and Instarem generally beat traditional bank wire transfers on both fee and exchange-rate spread for the SGD-PHP corridor, with World Bank data putting the all-in cost under 1% for these providers. Compare live quotes before choosing, since rates shift.
+Digital-first remittance apps like Wise and Instarem generally beat traditional bank wire transfers on both fee and exchange-rate spread for the SGD-PHP corridor. Compare live quotes before choosing, since rates shift.
 
 **Do I need an Employment Pass or S Pass to rent in Singapore?**
 You need a valid pass to rent legally as a foreigner, and most landlords and co-living operators will ask to see it as part of document checks. The specifics by pass type are covered in [can foreigners rent in Singapore](https://www.lazybee.sg/hive/can-foreigners-rent-in-singapore).

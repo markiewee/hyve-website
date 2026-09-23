@@ -47,13 +47,13 @@ A separate but common question is what documents are actually needed to sign a l
 
 Sending money home is a genuine recurring cost that generic cost-of-living guides skip entirely. The SGD to BDT corridor has a wide range of providers, and the gap between the cheapest and most expensive option is large enough to matter every single month.
 
-Digital-first providers like Wise typically price close to the mid-market exchange rate with a transparent, low flat fee, often working out to under 1% of the transfer for a typical monthly remittance. Traditional bank wire transfers and some cash-pickup counters carry a much wider margin on the exchange rate, which is where most of the real cost hides rather than in the visible fee.
+Digital-first providers like Wise typically price close to the mid-market exchange rate with a transparent, low fee, usually well below what a bank wire costs for the same transfer. Traditional bank wire transfers and some cash-pickup counters carry a much wider margin on the exchange rate, which is where most of the real cost hides rather than in the visible fee.
 
 Desker Road and the Little India area have a dense cluster of remittance counters that Bangladeshi workers use on Sundays, their common rest day, alongside digital apps that let you send from your phone without queueing.
 
 ## Flights and staying connected to family
 
-Round-trip flights between Singapore and Dhaka are frequent, with prices commonly ranging from roughly S$220 to S$460 depending on airline, season, and how far ahead you book. Fares tend to be cheapest outside major holiday periods, so book six to eight weeks ahead where possible around Eid.
+Round-trip flights between Singapore and Dhaka are frequent, with prices varying a lot by airline, season, and how far ahead you book, so check live fares for your dates. Fares tend to be cheapest outside major holiday periods, so book well ahead around Eid.
 
 Budgeting one or two trips home a year, plus an occasional emergency fare, is a realistic line item most generic Singapore cost-of-living guides leave out.
 

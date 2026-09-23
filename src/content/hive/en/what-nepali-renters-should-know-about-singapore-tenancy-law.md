@@ -59,7 +59,7 @@ A few things aren't strictly tenancy law but tend to matter in the first weeks a
 
 **Bank account.** Most Singapore banks will open an account for Employment Pass, S Pass, or Student Pass holders once the pass is issued, some even before you land. A local account ready makes rent payment and deposit refunds smoother than routing everything through a Nepali account.
 
-**Consular support if you need it.** Nepal does not maintain a resident embassy in Singapore; the Embassy of Nepal in Bangkok is the mission accredited to Singapore for major consular matters, alongside an Honorary Consulate in Singapore for routine services such as document authentication.
+**Consular support if you need it.** Nepal does not maintain a resident embassy in Singapore; the Embassy of Nepal in Bangkok is the mission accredited to Singapore for consular matters, and Nepal also has an Honorary Consul in Singapore.
 
 **Remittance and salary timing.** If part of your plan is sending money home, factor rent due dates against your salary and remittance schedule before you commit to a lease.
 

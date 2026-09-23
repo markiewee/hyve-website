@@ -15,7 +15,7 @@ The rest of this piece breaks down where those numbers come from, plus the costs
 
 ## How much more expensive is Singapore than Taipei?
 
-Cost-of-living comparison sites put Singapore anywhere from roughly 120% to 200% more expensive than Taipei or Taiwan overall, depending on the source. Rent is the biggest driver. Taipei rents run roughly 40% to 50% below Singapore's for a comparable unit.
+Cost-of-living comparison sites consistently put Singapore well above Taipei overall, though the size of the gap varies widely by source. Rent is the biggest driver. Taipei rents run roughly 40% to 50% below Singapore's for a comparable unit.
 
 Day-to-day costs narrow that gap considerably. Hawker food, public transport, and mobile data in Singapore sit closer to Taipei prices than the headline comparison suggests. Housing is where the real jump happens, not groceries or getting around.
 
@@ -49,7 +49,7 @@ Setting this up on arrival, alongside opening a local bank account, is worth doi
 
 This catches a lot of Taiwanese nationals out, since domestic Taiwan transfer apps don't cover Singapore the way they cover local transfers. Bank wires from Singapore to Taiwan typically carry a flat fee plus an exchange rate margin, and the combined cost usually runs well above a dedicated transfer service.
 
-Digital transfer providers are meaningfully cheaper. As of early August 2026, Wise quoted a fee of roughly S$3.75 to S$7 to send S$1,000 to a Taiwan bank account at the mid-market rate. The mid-market rate has sat roughly between 24.5 and 25.3 New Taiwan dollars per Singapore dollar through mid-2026, so check the rate on the day rather than budgeting off a fixed number.
+Digital transfer providers are meaningfully cheaper. Services like Wise convert at the mid-market rate and show one upfront fee that varies with the amount and payment method. Fees and the SGD to TWD rate both move, so check a live quote on the day you send rather than budgeting off a fixed number.
 
 ## Employment Pass and other pass costs
 
@@ -57,13 +57,13 @@ Pass eligibility and fees apply the same way regardless of nationality; there's 
 
 ## Flights home and visiting during Lunar New Year
 
-One-way flights between Singapore and Taipei start from around US$85 to US$120 (roughly S$115 to S$160) on budget carriers like Scoot, for a nonstop journey of about 4.5 hours. Fares around Lunar New Year and other major holiday windows run higher than off-peak dates, so booking a few months ahead pays off. Budgeting one or two trips home a year, even at the higher end, is a manageable line item next to rent.
+Budget carriers like Scoot fly nonstop between Singapore and Taipei in about 4.5 hours, and fares move constantly, so check live prices for your dates. Fares around Lunar New Year and other major holiday windows run higher than off-peak dates, so booking a few months ahead pays off. Budgeting one or two trips home a year, even at the higher end, is a manageable line item next to rent.
 
 ## If you're bringing family: school costs are the real budget swing
 
 For a single professional, school fees don't apply and the numbers above hold. For a family moving with a child, tuition is the single biggest additional cost. Singapore doesn't have a dedicated Taiwan-curriculum school the way it does for some other nationalities, so most Taiwanese families choose a bilingual Mandarin-English international school instead, such as HWA International School, Dulwich College, or another school with a strong Mandarin track.
 
-International school fees in Singapore generally run S$20,000 to S$40,000 a year at primary level and S$25,000 to S$50,000 at secondary level, plus a one-time application fee of S$500 to S$2,000. Extras like bus transport, uniforms, and activities can add another 10% to 30% on top of base tuition, easily doubling a family's total monthly spend on its own.
+International school fees in Singapore vary widely by school and level and are revised every year, and most schools add a one-time application fee. Extras like bus transport, uniforms, and activities add to base tuition, and fees alone can easily double a family's total monthly spend. Confirm current figures directly with the school before budgeting.
 
 ## What does the cost of living in Singapore for a Taiwanese national look like by scenario?
 

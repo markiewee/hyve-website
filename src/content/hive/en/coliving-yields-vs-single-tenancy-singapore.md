@@ -17,7 +17,7 @@ This piece walks through both sides properly: what drives the higher co-living n
 
 Start with gross, since that's the number most guides quote and it's the easiest to check.
 
-**Single tenancy (whole unit, one lease):** Singapore private condos average around 3% to 3.06% gross yield as of mid-2026, with a spread of roughly 2.0% to 2.5% in prime central districts up to 3.5% to 4.5% in higher-yielding areas like Geylang, Serangoon, or one-north.
+**Single tenancy (whole unit, one lease):** Singapore apartments averaged a 3.06% gross yield in Q2 2026 according to Global Property Guide, with area averages in a fairly tight band from about 2.7% in East Coast and Marine Parade to about 3.3% in Hougang, Punggol, and Sengkang. Smaller units generally yield more than large ones.
 
 **Co-living (room by room):** Industry sources put achievable gross yields at 6% to 10% for well-run units, and some cite 20% to 40% higher gross revenue than the same unit let as a single tenancy. Treat the top of that range with some skepticism, since a lot of it comes from proptech and operator marketing content rather than audited portfolio data. The mechanism behind it is real, though: renting a 3-bedroom condo room by room can pull in more total monthly rent than renting it to one household, because three or four individual tenants each paying $1,200 to $2,000 add up to more than one family paying $4,000 to $4,500 for the whole place.
 

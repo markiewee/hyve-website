@@ -59,7 +59,7 @@ Bank wires from Singapore to China typically carry a transfer fee of S$10 to S$5
 
 Pass eligibility and fees apply the same way regardless of nationality, there's no separate fee schedule for Chinese applicants. As of 2026, the standard Employment Pass costs S$105 for the application and a further S$225 if approved, so budget roughly S$330 total per pass, on top of whatever an employment agent charges if one's involved. Minimum qualifying salary for an EP starts around S$5,600 a month in most sectors, higher in financial services and for older applicants.
 
-One thing that specifically applies to some China-issued degrees is a degree authentication step during the application, which can add processing time.. Build in extra lead time for this rather than assuming a fast turnaround.
+One thing that specifically applies to China-issued qualifications is verification. MOM accepts a verification report from China's Center for Student Services and Development (CSSD) as proof, and getting that report can add processing time. Build in extra lead time for this rather than assuming a fast turnaround.
 
 ## Flights home and visiting during holidays
 

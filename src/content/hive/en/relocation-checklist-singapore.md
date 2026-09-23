@@ -61,7 +61,7 @@ Once housing is settled, the rest falls into a fairly predictable order across t
 
 ## Relocation Admin in 2026
 
-Most of this sequence now runs through online portals rather than physical queues. MOM's pass services, ICA's e-Services for address updates, and most major banks' account applications can all be started or in some cases completed digitally. That doesn't mean instant. Processing windows vary by bank, by pass type, and by how complete your documents are, so treat any specific timeframe you read online as a guide rather than a guarantee, and check current processing times directly with the relevant agency or bank if a deadline matters to you. exact current processing windows with MOM, ICA, or your chosen bank before relying on a specific number of days.
+Most of this sequence now runs through online portals rather than physical queues. MOM's pass services, ICA's e-Services for address updates, and most major banks' account applications can all be started or in some cases completed digitally. That doesn't mean instant. Processing windows vary by bank, by pass type, and by how complete your documents are, so treat any specific timeframe you read online as a guide rather than a guarantee, and check current processing times directly with MOM, ICA, or your chosen bank if a deadline matters to you.
 
 ## The 14 Tasks for Your First Two Weeks
 

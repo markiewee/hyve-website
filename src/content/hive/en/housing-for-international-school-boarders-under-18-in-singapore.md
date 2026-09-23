@@ -27,7 +27,7 @@ In practice this means any housing arrangement for a boarder has to be signed by
 
 ## What Do International Schools Actually Require?
 
-Every international school sets its own guardianship policy, and the details vary by school, so treat the specifics below as illustrative rather than universal. the exact policy with the student's own school before relying on it.
+Every international school sets its own guardianship policy, and the details vary by school, so treat the specifics below as illustrative rather than universal. Check the exact policy with the student's own school before relying on it.
 
 The pattern that repeats across the schools we checked:
 
@@ -79,7 +79,7 @@ For the adults in the picture (a working parent relocating ahead of the family, 
 No. Singapore's contractual age is 18 under the Civil Law Act, so a 17-year-old cannot be the named signatory on any tenancy or licence agreement.
 
 **Does every international school require a guardian for under-18 boarders?**
-Schools that admit students without a parent in Singapore generally do require one, though the exact age threshold and vetting process differs by school. Always directly with the school in question.
+Schools that admit students without a parent in Singapore generally do require one, though the exact age threshold and vetting process differs by school. Always check directly with the school in question.
 
 **Is a local sponsor for the Student's Pass the same as a school guardian?**
 No. The local sponsor is an ICA immigration requirement tied to the pass application. The guardian is a separate approval from the school covering where and with whom the student actually lives.

@@ -100,7 +100,7 @@ No. Only private units of at least 90 sqm qualify. Smaller units stay capped at 
 Yes. HDB flat owners need approval before the tenancy starts. Private owners register with URA. Size alone isn't enough.
 
 **Will the cap go back to 6 after 2028?**
- Unknown. HDB and URA say they'll keep monitoring the rental market and review extending further, so no decision has been made for after 31 December 2028.
+Unknown. HDB and URA say they'll keep monitoring the rental market and review extending further, so no decision has been made for after 31 December 2028.
 
 **Does the cap count family members?**
 No. It only applies to unrelated occupants, people not part of the same family unit. Families have never been capped this way.

@@ -40,7 +40,7 @@ That leaves your partner with a narrower set of realistic paths if they want to 
 - **Their own work pass** (Employment Pass, S Pass, or similar), if they have a job offer here. Once they hold that pass, they may then be able to sponsor you or vice versa depending on income and relationship status, but that's a separate track from the student route.
 - **Repeat Social Visit Pass entries**, if they're not relocating permanently and are visiting for shorter, out overlapping stretches. This isn't a long-term living arrangement and comes with its own limits on how often you can re-enter this way.
 
-**The relationship doesn't need to be marriage.** LTVP eligibility does extend to common-law partners in some tracks, notably common-law spouses of Employment Pass or S Pass holders, but the bar for what counts as "common-law spouse" is specific (recognised relationships under home-country law, or documented long-term cohabitation, not just a relationship label) and it still requires the sponsor to hold a qualifying pass.
+**The relationship doesn't need to be marriage.** LTVP eligibility does extend to common-law partners in some tracks, notably common-law spouses of Employment Pass or S Pass holders, but the bar for what counts as "common-law spouse" is specific (the relationship must be recognised under the laws of the couple's home country, shown by a common-law marriage certificate, an affidavit from both partners notarised in the home country, or a letter from the home country's embassy, not just a relationship label) and it still requires the sponsor to hold a qualifying pass and earn at least S$6,000 a month.
 
 ### So what does a student couple actually do?
 

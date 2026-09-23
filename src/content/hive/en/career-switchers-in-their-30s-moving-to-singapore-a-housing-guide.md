@@ -35,9 +35,9 @@ At the same time, you're not looking for the loudest, most social living situati
 
 For a career switcher weighing "how much do I want to commit before I know this job works out," co-living solves a real problem: you get privacy and stability without matching a 12-month lease to a job you've been in for three weeks.
 
-## The legal minimum you need to know: three months
+## The legal minimum you need to know: three months, six for HDB
 
-Under URA rules, all occupants of a private residential property must stay a minimum of three consecutive months. This applies across HDB flats and private condos, and it's the reason you'll rarely find a legitimate month-to-month room in Singapore below that threshold. If a listing offers anything shorter, that's a red flag, not a bonus.
+Under URA rules, private residential property can't be rented out for stays of less than three consecutive months. HDB is stricter: the minimum rental period for each tenant of an HDB flat or bedroom is six months. Those minimums are the reason you'll rarely find a legitimate month-to-month room in Singapore. If a listing offers anything shorter, that's a red flag, not a bonus.
 
 There's also a cap on how many unrelated people can share a private residential unit. Units under 90 square metres are capped at six unrelated occupants; units of 90 square metres or more can house up to eight, under a temporary relaxation that URA has extended to 31 December 2028. This is mostly relevant if you're comparing a small HDB room-share against a larger co-living apartment. It affects how many housemates you'll actually have, not whether the arrangement is legal.
 

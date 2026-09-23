@@ -47,13 +47,13 @@ A separate but common question is what documents are actually needed to sign a l
 
 Sending money home is a genuine recurring cost that generic cost-of-living guides skip entirely. The SGD to NPR corridor has a wide range of providers, and the gap between the cheapest and most expensive option is large enough to matter every month.
 
-Digital-first providers like Wise price close to the mid-market exchange rate, which recently sat around 110 to 113 NPR per SGD, with a transparent, upfront fee rather than a hidden margin buried in the rate. Traditional bank wire transfers and some cash-pickup counters carry a much wider spread on the exchange rate, which is where most of the real cost hides.
+Digital-first providers like Wise price close to the mid-market exchange rate, with a transparent, upfront fee rather than a hidden margin buried in the rate. Traditional bank wire transfers and some cash-pickup counters carry a much wider spread on the exchange rate, which is where most of the real cost hides.
 
 Little India has remittance counters that Nepali workers use on their common rest day, alongside apps that let you send from your phone without queueing.
 
 ## Flights and staying connected to family
 
-Round-trip flights between Singapore and Kathmandu vary widely by source and season, with fare trackers showing figures from roughly S$220 up to S$500 or more depending on airline, booking lead time, and whether it's a direct or connecting route.
+Round-trip flights between Singapore and Kathmandu vary widely by airline, season, booking lead time, and whether it's a direct or connecting route, so check live prices for your dates and book ahead of Dashain and Tihar, when demand rises.
 
 Budgeting one or two trips home a year, plus an occasional emergency fare, is a line item most generic Singapore cost-of-living guides leave out.
 

@@ -31,7 +31,7 @@ Local students, exchange students past their first semester, and postgraduates a
 
 ## What a Hall Place Actually Costs
 
-On-campus housing is still the cheapest lawful option when you can get it. NUS hall rooms start from roughly S$494 a month for the 2026-27 academic year, and Prince George's Park Residences is billed weekly instead, from around S$145 to S$240 a week depending on room type, across an 18-week first semester and a 17-week second one.
+On-campus housing is still the cheapest lawful option when you can get it. For students starting in the 2026-27 academic year, NUS hall rooms start from S$114 a week (roughly S$494 a month) for a non-air-conditioned double, and Prince George's Park Residences single rooms run from S$178 to S$294 a week depending on room type. Both are billed across an 18-week first semester and a 17-week second one, and returning students pay the rate set for their own intake year.
 
 Application windows matter more than the rate itself. NUS hall applications for the August intake typically open in February and close by April, well before most offer letters land in May. Miss that window, or simply don't get offered a place, and the private market becomes the default plan, not a backup one.
 

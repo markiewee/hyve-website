@@ -15,7 +15,7 @@ The rest of this piece breaks down where those numbers come from, plus the costs
 
 ## How much more expensive is Singapore than Seoul?
 
-Cost-of-living comparison data puts Seoul at roughly 58% to 61% cheaper than Singapore overall, once housing, groceries, and daily spending are weighed together. Average one-bedroom rent comparisons show Seoul sitting well under half of Singapore's, which is the single biggest driver of the gap.
+Cost-of-living comparison data consistently puts Seoul well below Singapore overall once housing, groceries, and daily spending are weighed together, though the exact gap varies by source and month. Average one-bedroom rent comparisons show Seoul sitting well under half of Singapore's, which is the single biggest driver of the gap.
 
 Day-to-day costs narrow that gap a lot. Hawker food, public transport, and mobile data in Singapore land closer to Seoul prices than the headline "expensive country" reputation suggests. Housing is where the real jump happens, not groceries or getting around.
 
@@ -49,19 +49,19 @@ Setting this up on arrival, alongside opening a local bank account, is worth doi
 
 This is a cost line that catches a lot of Korean nationals out, since Korea's own transfer apps don't cover Singapore the way they cover domestic transfers. Bank wires from Singapore to Korea typically carry a fee, plus an exchange rate margin, that together push the total cost well above what a dedicated transfer service charges.
 
-Digital transfer providers are meaningfully cheaper. As of early August 2026, Wise quoted a fee of roughly S$7 to send S$1,000 to a Korean bank account at the mid-market rate, versus a reported average of around 8.8% of the transfer amount through traditional banks. The mid-market SGD to KRW rate has sat roughly between 1,100 and 1,175 won per Singapore dollar through mid-2026, so check the rate on the day rather than budgeting off a fixed number.
+Digital transfer providers are meaningfully cheaper. Services like Wise convert at the mid-market rate and show one upfront fee, while traditional banks tend to add a wire fee on top of an exchange rate margin. Fees and the SGD to KRW rate both move, so check a live quote on the day you send rather than budgeting off a fixed number.
 
 ## Employment Pass and other pass costs
 
-Pass eligibility and fees apply the same way regardless of nationality; there's no separate fee schedule for Korean applicants. As of 2026, the standard Employment Pass costs S$105 for the application and a further S$225 if approved, so budget roughly S$330 total per pass, on top of whatever an employment agent or corporate services firm charges if one's involved. Minimum qualifying salary for an EP starts around S$5,600 a month in most sectors, higher in financial services and for older applicants. Most nationalities, Korean passport holders included, don't face the additional Multiple Journey Visa surcharge that applies to some countries, but confirm this with your employer's HR or immigration agent before assuming either way.
+Pass eligibility and fees apply the same way regardless of nationality; there's no separate fee schedule for Korean applicants. As of 2026, the standard Employment Pass costs S$105 for the application and a further S$225 if approved, so budget roughly S$330 total per pass, on top of whatever an employment agent or corporate services firm charges if one's involved. Minimum qualifying salary for an EP starts around S$5,600 a month in most sectors, higher in financial services and for older applicants. MOM charges an extra S$30 for a Multiple Journey Visa where one applies, which is for nationalities that need a visa to enter Singapore. South Korea isn't on ICA's visa-required list, so Korean passport holders normally don't pay it, but confirm with your employer's HR or immigration agent before assuming either way.
 
 ## Flights home and visiting during holidays
 
-One-way flights from Singapore to Seoul Incheon start from around S$179 on a good fare, with round trips from roughly S$268 on carriers like T'way Air. Round-trip fares around Chuseok or Lunar New Year cost more than off-peak dates, so booking a few months ahead for major holiday windows pays off. Budgeting one or two trips home a year, even at the higher end, is a manageable line item next to rent.
+Flights from Singapore to Seoul Incheon run on both full-service and low-cost carriers like T'way Air, and fares move constantly, so check live prices for your dates. Round-trip fares around Chuseok or Lunar New Year cost more than off-peak dates, so booking a few months ahead for major holiday windows pays off. Budgeting one or two trips home a year, even at the higher end, is a manageable line item next to rent.
 
 ## If you're bringing family: school costs are the real budget swing
 
-For a single professional, school fees don't apply and the numbers above hold. For a family moving with a child, school tuition is the single biggest additional cost. The Singapore Korean International School charges roughly S$13,400 a year for kindergarten, rising to around S$25,000 a year for high school, with an average annual fee across levels of roughly S$18,000. That's on top of a one-time registration or application fee and extras like school bus transport and uniforms.
+For a single professional, school fees don't apply and the numbers above hold. For a family moving with a child, school tuition is the single biggest additional cost. The Singapore Korean International School's published fees work out to roughly S$13,800 a year for kindergarten, rising to around S$25,800 a year for high school, including GST, billed per semester. That's on top of a one-time admission fee of S$3,270 including GST and extras like school bus transport and uniforms. Fees are revised periodically, so confirm the current schedule with the school before budgeting.
 
 Broader international schools in Singapore run a similar or wider range, so price this out early and separately from the household budget. It can easily double a family's total monthly spend on its own.
 

@@ -15,7 +15,7 @@ If you're single and under 35 in Singapore, you cannot buy an HDB flat on your o
 
 The Single Singapore Citizen Scheme lets one unmarried, divorced, or widowed Singapore Citizen buy a resale flat solo once they turn 35. The Joint Singles Scheme lets up to four singles buy together, though the CPF Housing Grant for Singles caps out at two applicants on that purchase.
 
-On the resale market, eligible singles can buy almost any flat type except 3-generation flats, with no restriction on size beyond the usual Ethnic Integration Policy and SPR quota checks. On the new-flat side, singles are limited to 2-Room Flexi BTO units, and there's an income ceiling of $7,000 for that eligibility. Resale purchases carry no income ceiling. Eligible first-timer singles can also tap combined housing grants, reported up to $115,000, though grant quantums are revised periodically, so check HDB's site for the exact current figure before you plan around it.
+On the resale market, eligible singles can buy almost any flat type except 3-generation flats, with no restriction on size beyond the usual Ethnic Integration Policy and SPR quota checks. On the new-flat side, singles are limited to 2-Room Flexi BTO units, and there's an income ceiling of $7,000 for that eligibility. Resale purchases carry no income ceiling. Eligible first-timer singles buying a resale flat can also tap combined housing grants of up to $115,000 (an Enhanced CPF Housing Grant of up to $60,000, a CPF Housing Grant of up to $40,000 and a Proximity Housing Grant of up to $15,000), though grant quantums are revised periodically, so check HDB's site for the exact current figure before you plan around it.
 
 ## Why Can't You Buy Until 35?
 

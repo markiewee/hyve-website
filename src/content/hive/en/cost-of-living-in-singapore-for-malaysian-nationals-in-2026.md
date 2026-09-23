@@ -37,9 +37,9 @@ These are Singapore-wide market ranges, not a quote for any specific plan or pro
 
 ## Is it cheaper to base yourself in JB and commute in?
 
-Some Malaysians choose to live in Johor Bahru and cross the Causeway daily rather than rent in Singapore at all. Housing in JB is genuinely cheaper, roughly RM1,500 to RM3,000 a month for a decent rental compared to the SGD equivalent of a Singapore room or unit. But the commute has its own cost and time tax.
+Some Malaysians choose to live in Johor Bahru and cross the Causeway daily rather than rent in Singapore at all. Housing in JB is genuinely cheaper than a comparable Singapore room or unit, though JB rents move with the market, so check current listings rather than relying on a fixed range. But the commute has its own cost and time tax.
 
-A public bus across the Causeway costs from around S$1.20 to S$2.50 one-way, so a daily round trip adds roughly S$50 to S$100 a month in fares, before counting immigration queues at peak hours, which regularly run past 45 minutes each way. The new RTS Link, opening at the end of 2026, is expected to cost roughly S$5 to S$7 per one-way trip and cut the crossing to around 15 to 20 minutes door to door, but that's a future date, not something to plan around yet.
+A public bus across the Causeway costs from around S$1.20 to S$2.50 one-way, so a daily round trip adds roughly S$50 to S$100 a month in fares, before counting immigration queues at peak hours, which regularly run past 45 minutes each way. The new RTS Link, which LTA targets to start passenger service at the end of 2026, will cut the train ride between Bukit Chagar and Woodlands North to about five minutes, but as of August 2026 its fare and exact opening date had not been announced, so it's not something to plan around yet.
 
 JB living saves on rent but costs time and adds a daily transport bill, plus the unpredictability of a bad Causeway day. Living in Singapore costs more in rent but removes the commute entirely, which for shift workers or irregular hours is often worth more than the rent difference.
 
@@ -48,10 +48,10 @@ JB living saves on rent but costs time and adds a daily transport bill, plus the
 Malaysians working in Singapore go through the same Ministry of Manpower pass system as any other foreign national, there's no blanket exemption from needing a pass. Which one applies depends on your role and salary:
 
 - **Employment Pass**, for professionals and managers, requires a qualifying salary of at least S$5,600 a month (S$6,200 in financial services) as of 2026, alongside acceptable qualifications.
-- **S Pass**, for mid-skilled roles, requires a minimum qualifying salary of S$3,300 a month (S$3,800 in financial services), rising with age up to S$4,800 at 45 and above for renewals from September 2026.
+- **S Pass**, for mid-skilled roles, requires a minimum qualifying salary of S$3,300 a month (S$3,800 in financial services), rising with age up to S$4,800 at 45 and above. MOM raises the floor to S$3,600 (S$4,000 in financial services) for new applications from 1 January 2027 and for renewals of passes expiring from 1 January 2028.
 - **Work Permit**, for skilled and semi-skilled roles in specific approved sectors, has no fixed minimum salary but is tightly tied to sector quotas and employer-paid levies.
 
-One genuine difference for Malaysians specifically: employers hiring a Malaysian on a Work Permit are exempt from the S$5,000 security bond otherwise required for most other source countries, and Malaysians are permitted to hold a Work Permit up to age 58.
+One genuine difference for Malaysians specifically: employers hiring a Malaysian on a Work Permit are exempt from the S$5,000 security bond MOM requires for every non-Malaysian Work Permit holder. The age limits are now the same for all nationalities, with new Work Permit applications accepted up to age 62 and holders able to keep working until 64.
 
 ## Sending money home and comparing what you'd earn in Malaysia
 

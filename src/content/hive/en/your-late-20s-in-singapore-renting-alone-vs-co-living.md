@@ -88,7 +88,7 @@ Co-living is cheaper on the all-in monthly number in almost every comparison, an
 Yes. Master bedroom and ensuite rooms exist within co-living specifically for this, usually with your own bathroom and more space, at a price still below a comparable solo unit.
 
 **Do I need a guarantor or long credit history to rent alone in Singapore?**
-Not typically as a tenant with a stable income and valid pass or citizenship status, though landlords increasingly ask for proof of income and some request a local guarantor for shorter income histories.
+Not typically as a tenant with a stable income and valid pass or citizenship status, though some landlords ask for proof of income, and some request a local guarantor for shorter income histories.
 
 **Is co-living only for people just arrived in Singapore?**
 No. Co-living tenant bases in 2026 include long-term residents, PRs, and citizens at every income level who value the flexibility, not just newcomers still finding their feet.

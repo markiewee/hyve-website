@@ -19,7 +19,7 @@ No. Indonesian passport holders can enter Singapore visa-free for social or busi
 
 ## Which Pass Do You Actually Need?
 
-**Student Pass.** If you're enrolled full-time at an approved Singapore institution, your school applies for your Student Pass through ICA's SOLAR system, usually before your course starts. The pass fee is S$90 and processing typically runs 4 to 8 weeks, so this needs starting well before you fly, not on arrival.
+**Student Pass.** If you're enrolled full-time at an approved Singapore institution, your school applies for your Student Pass through ICA's SOLAR system, usually before your course starts. ICA charges a non-refundable S$45 processing fee, plus a S$60 issuance fee once approved. Processing takes up to a week for universities and polytechnics (two weeks if you need a visa) and up to a month for most private schools, so this needs starting well before you fly, not on arrival.
 
 **Employment Pass (EP).** For professional, managerial, and executive roles. As of 2026 the minimum qualifying salary is S$5,600 a month (S$6,200 in financial services), rising further from January 2027. EPs are usually issued for up to two years on first grant, with renewals up to three.
 

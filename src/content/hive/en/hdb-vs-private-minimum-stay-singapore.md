@@ -68,7 +68,7 @@ A few conditions worth having in plain English, since HDB's own wording is dense
 
 **Application fee of $9 per bedroom, or $18 for a whole flat**, paid to HDB as part of getting approval before any tenant moves in.
 
-**Breach consequences range up to a S$50,000 fine or compulsory acquisition of the flat**, under the graduated penalty framework HDB has used since a 2015 amendment. the exact fine for any specific case, since HDB sets it at its own discretion rather than a fixed figure per offence.
+**Breach consequences range up to a S$50,000 fine or compulsory acquisition of the flat**, under the graduated penalty framework HDB has used since a 2015 amendment. Check the exact fine for any specific case, since HDB sets it at its own discretion rather than a fixed figure per offence.
 
 ## HDB Rental Compliance: A Checklist for Flat Owners
 
@@ -120,6 +120,6 @@ Whole-flat rental requires the owner to have met MOP (5 years, or 3 for older no
 No. It applies to flats of 4 rooms or larger. Smaller flats fall under the standard, lower cap.
 
 **What's the penalty for illegal HDB subletting?**
-Fines up to S$50,000 or compulsory acquisition of the flat for serious or repeat breaches, under HDB's graduated penalty framework. the specific fine for any individual case, since HDB applies this range at its own discretion.
+Fines up to S$50,000 or compulsory acquisition of the flat for serious or repeat breaches, under HDB's graduated penalty framework. Check the specific fine for any individual case, since HDB applies this range at its own discretion.
 
 Figures here that come from government schedules, MOM salary thresholds, ICA and HDB requirements, URA rules, fees and fares, are reviewed on their own timetables and move. Check the current number at the source before you rely on it.

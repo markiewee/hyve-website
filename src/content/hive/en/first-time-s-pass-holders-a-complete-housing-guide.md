@@ -23,7 +23,7 @@ That "mid-skilled" tier matters for housing in one way: your employer's S Pass h
 
 As of 1 September 2025, the minimum qualifying salary for an S Pass is **S$3,300 a month** for most sectors, rising with age up to **S$4,800** at 45 and above. In financial services, the bar is higher: **S$3,800** at entry level, scaling to **S$5,650** at 45 and above.
 
-A further increase is already scheduled: from 1 January 2027, the general minimum rises to **S$3,600** (financial services to **S$4,000**), with the same age-scaled ceilings. these figures directly against MOM's S Pass eligibility page before quoting them to a tenant, since salary thresholds move and this article won't catch a change made after publication.
+A further increase is already scheduled: from 1 January 2027 for new applications, the general minimum rises to **S$3,600**, scaling to **S$5,100** at 45 and above, and financial services rises to **S$4,000**, with its ceiling staying at **S$5,650**. Renewals move to the new figures for passes expiring from 1 January 2028. Check these figures directly against MOM's S Pass eligibility page before quoting them to a tenant, since salary thresholds move and this article won't catch a change made after publication.
 
 Practically, this puts most S Pass holders' take-home pay below what most Employment Pass holders earn. That's not a judgment, it's the reason S Pass renters tend to shop harder for value, look more seriously at co-living and shared rooms, and budget rent as a fixed percentage of salary rather than "whatever's available."
 
@@ -51,7 +51,7 @@ Co-living operators tend to be the most pass-agnostic option here. The room, not
 
 ## The 3-month minimum lease rule, explained
 
-Private residential property in Singapore, whole unit or single room, generally can't be let out for less than three consecutive months. This is a longstanding rule from the Urban Redevelopment Authority (URA), aimed at stopping private homes being run as unlicensed short-term accommodation. current wording and any exceptions directly with URA before treating this as legal advice.
+Private residential property in Singapore, whole unit or single room, generally can't be let out for less than three consecutive months. This is a longstanding rule from the Urban Redevelopment Authority (URA), aimed at stopping private homes being run as unlicensed short-term accommodation. Check the current wording and any exceptions directly with URA before treating this as legal advice.
 
 The practical upshot: don't expect a legitimate month-to-month room in a condo or HDB flat. A listing offering anything shorter than three months on private residential property is a signal to ask more questions, not fewer. Reputable co-living operators build lease terms around this rule as standard, making a first lease with an operator the path of least friction if you're not sure yet how long you'll stay in a given job or part of Singapore.
 
@@ -88,7 +88,7 @@ Yes, most landlords and co-living operators will accept the IPA letter to start 
 Not legally. Both can rent freely with no special permission. In practice, some landlords apply slightly more scrutiny to S Pass applications because the pass is tied to an employer quota, but this varies by landlord and industry, and co-living operators are generally least affected by it.
 
 **What's the minimum lease length in Singapore?**
-Private residential property generally can't be leased for less than three consecutive months under URA rules. current specifics with URA for your exact situation.
+Private residential property generally can't be leased for less than three consecutive months under URA rules. Check current specifics with URA for your exact situation.
 
 **Do I need a guarantor to rent as a first-time S Pass holder?**
 Not usually, but some private landlords may ask for one, or a larger deposit, if you don't yet have a local bank statement or credit history.

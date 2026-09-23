@@ -25,7 +25,7 @@ Once you're eligible to rent, the rules don't shift based on where you're from. 
 
 ## Which Pass Actually Lets You Sign, and Matching Lease Length to It
 
-Filipino professionals in Singapore commonly hold Employment Passes or S Passes in fields like nursing, IT, and engineering. Whichever pass you hold, it has to be issued and in your hand, not just approved in principle, before you sign anything.
+Filipino professionals in Singapore commonly hold Employment Passes or S Passes in fields like nursing and IT. Whichever pass you hold, it has to be issued and in your hand, not just approved in principle, before you sign anything.
 
 Because pass renewals move on their own timeline, match your lease length to your pass validity rather than the landlord's default term. If your pass has nine months left and you're offered a standard 12-month lease, raise that before you sign. The EP-versus-S-Pass-versus-Student-Pass comparison, and how each should shape your lease term, is in [Renting on an EP vs S Pass vs Student Pass in Singapore](https://www.lazybee.sg/hive/renting-on-ep-s-pass-student-pass-singapore).
 

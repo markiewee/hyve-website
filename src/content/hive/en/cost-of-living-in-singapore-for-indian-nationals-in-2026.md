@@ -37,7 +37,7 @@ Eating out doesn't have to be expensive either. A hawker meal, including South I
 
 ## Work passes: what they mean for the budget, not just the paperwork
 
-Most Indian nationals moving to Singapore for work arrive on an Employment Pass or S Pass, and the pass type affects the budget indirectly through the minimum salary tied to it. As of this year, the Employment Pass requires a minimum qualifying monthly salary of roughly S$5,600 for general sectors, and the S Pass requires roughly S$3,300, both rising with age and experience.
+Most Indian nationals moving to Singapore for work arrive on an Employment Pass or S Pass, and the pass type affects the budget indirectly through the minimum salary tied to it. As of this year, the Employment Pass requires a minimum qualifying monthly salary of roughly S$5,600 for general sectors, and the S Pass requires roughly S$3,300, both rising with age.
 
 These are minimums set by the Ministry of Manpower, not typical offer levels, so most incoming professionals land above the floor. Someone earning well above the EP minimum has far more budget room than someone closer to the S Pass minimum.
 
@@ -49,7 +49,7 @@ For most Indian nationals living in Singapore, sending money home is a genuine r
 
 Digital-first providers like Wise and Instarem consistently offer rates close to the mid-market exchange rate, with fees running a fraction of what traditional bank wire transfers charge. Bank transfers from a Singapore bank directly to an Indian account are simple but usually carry a wider margin on the exchange rate than a dedicated remittance app.
 
-Budget the remittance itself as whatever amount you choose to send, but budget the fee and exchange-rate spread separately: a well-chosen provider keeps that cost under 1% of the transfer, while a bank wire or a poorly chosen provider can quietly cost several times that.
+Budget the remittance itself as whatever amount you choose to send, but budget the fee and exchange-rate spread separately: a well-chosen digital provider usually keeps that cost low, while a bank wire or a poorly chosen provider can quietly cost much more.
 
 ## Flights and staying connected to family
 

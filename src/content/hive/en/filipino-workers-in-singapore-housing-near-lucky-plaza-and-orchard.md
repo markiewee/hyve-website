@@ -25,7 +25,7 @@ Worth knowing: Lucky Plaza is a gathering point and a place to run errands, not 
 
 ## Who Actually Makes Up "Filipino Workers in Singapore"?
 
-It's a mistake to picture one type of worker here. Estimates put the number of Filipinos working in Singapore at around 200,000, and that figure spans several distinct groups.
+It's a mistake to picture one type of worker here. The Philippine Embassy in Singapore puts the number of Filipinos working and living here at more than 200,000, and that figure spans several distinct groups.
 
 - **Domestic and caregiving workers.** A large share, with estimates in the tens of thousands, work as helpers or caregivers, often living in their employer's home rather than renting independently.
 - **Healthcare professionals.** Filipino nurses have worked in Singapore's public hospitals for years, and Singapore has been actively looking to recruit more Filipino health and allied health workers as the sector grows.

@@ -15,7 +15,7 @@ The rest of this piece breaks down where those numbers come from, plus the speci
 
 ## How much more expensive is Singapore than Tokyo?
 
-Estimates for the overall gap vary a lot by source, from Singapore being roughly 15% cheaper than Tokyo on one index to as much as 69% to 85% more expensive on others. What's consistent is the driver: rent. Numbeo's city-centre one-bedroom comparison puts Tokyo at roughly US$1,360 a month against Singapore's roughly US$2,700, close to double.
+Estimates for the overall gap vary a lot by source and index. Numbeo currently puts Singapore at roughly 80% more expensive than Tokyo excluding rent, and roughly double once rent is included. What's consistent is the driver: rent. Numbeo's city-centre one-bedroom comparison puts Tokyo at roughly US$1,260 a month against Singapore's roughly US$3,000, more than double.
 
 Day-to-day costs narrow that gap. Hawker food, public transport, and mobile data in Singapore land much closer to Tokyo prices than the rent comparison suggests. Housing is where the real jump happens, not groceries or getting around.
 
@@ -45,7 +45,7 @@ A local SIM matters from week one, both for practical reasons (banking OTPs, del
 
 This is a cost line that catches people out, since Japan's domestic transfer apps don't reach Singapore. Bank wires between the two typically carry a flat fee plus an exchange rate margin, and the combined cost usually runs above what a dedicated transfer service charges.
 
-Digital providers are meaningfully cheaper. Wise, for example, charges a small fixed fee plus a variable fee of roughly 0.41% to 0.45% of the transfer amount at the mid-market rate for JPY to SGD transfers. As of early August 2026, the mid-market rate sat at roughly 1 SGD to 123 JPY. The yen has stayed on the weaker side against most major currencies for an extended stretch, worth factoring in if deciding whether to hold savings in JPY or convert early.
+Digital providers are meaningfully cheaper. Wise, for example, charges a small fixed fee plus a small percentage of the transfer amount at the mid-market rate for JPY to SGD transfers, so check the live quote before sending. As of early August 2026, the mid-market rate sat at roughly 1 SGD to 123 JPY. The yen has stayed on the weaker side against most major currencies for an extended stretch, worth factoring in if deciding whether to hold savings in JPY or convert early.
 
 ## Employment Pass and other pass costs
 
@@ -53,13 +53,13 @@ Pass eligibility and fees apply the same way regardless of nationality; there's 
 
 ## Flights home and visiting during holidays
 
-One-way flights from Singapore to Tokyo Narita start from around S$184 to S$200 on a good fare, with Haneda routes typically running higher, from roughly S$300 upward depending on the airline and how far ahead you book. Fares around Golden Week, Obon, or year-end holidays cost more, so booking a few months ahead for major holiday windows pays off.
+One-way fares from Singapore to Tokyo vary widely by airline, airport (Narita or Haneda), and how far ahead you book, so check live prices for your dates. Fares around Golden Week, Obon, or year-end holidays cost more, so booking a few months ahead for major holiday windows pays off.
 
 ## If you're bringing family: school costs are the real budget swing
 
 For a single professional, school fees don't apply. For a family moving with a child, school choice is the biggest additional cost and swings the total more than any other line.
 
-The Japanese School Singapore, with campuses at Changi and West Coast, charges annual tuition of roughly S$6,660 to S$7,500 for 2026/27, noticeably lower than many other international school options in Singapore. On top of tuition, expect one-time enrolment costs: an entrance fee (from roughly S$1,090 for JA membership holders up to around S$3,924 without corporate membership), a facility surcharge of around S$2,725, and a personal donation, typically S$3,000 plus GST, if there's no corporate donor behind the enrolment. These land as one-off costs at enrolment, not monthly ones.
+The Japanese School Singapore, with primary campuses at Clementi and Changi and a secondary campus on West Coast Road, charges 2026 tuition of S$675.80 a month for primary and S$752.10 for secondary (S$1,057.30 for the secondary Global Class), plus a facility fee of S$141.70 a month, noticeably lower than many other international school options in Singapore. On top of tuition, expect one-time enrolment costs: an entrance fee (from roughly S$1,090 for JA membership holders up to around S$3,924 without corporate membership), a building surcharge of S$2,725, and a personal donation, typically S$3,000 plus GST, if there's no corporate donor behind the enrolment. These land as one-off costs at enrolment, not monthly ones.
 
 Broader international schools in Singapore run at meaningfully higher price points, so anyone weighing a non-Japanese-curriculum option should price that out separately.
 
@@ -92,7 +92,7 @@ A room is significantly cheaper and easier for a first move, since it usually do
 Dedicated transfer services like Wise are typically cheaper than a bank wire, since banks bundle in a wider exchange rate margin on top of a flat fee. Compare live quotes before sending, since fees and rates shift often.
 
 **How much does The Japanese School Singapore cost?**
-Annual tuition runs roughly S$6,660 to S$7,500 for 2026/27, plus one-time enrolment costs (entrance fee, facility surcharge, and a donation where there's no corporate sponsor) that add several thousand dollars separately from the annual tuition. Confirm current figures directly with the school.
+2026 tuition is S$675.80 a month for primary and S$752.10 for secondary (S$1,057.30 for the Global Class), plus a S$141.70 monthly facility fee and one-time enrolment costs (entrance fee, building surcharge, and a donation where there's no corporate sponsor) that add several thousand dollars separately from the annual tuition. Confirm current figures directly with the school.
 
 ## Where to go from here
 

@@ -15,11 +15,11 @@ This piece breaks that number down by category, looks at how it shifts depending
 
 ## How far does a Singapore budget go compared to Jakarta?
 
-Singapore is consistently ranked one of the most expensive cities in the world, and the gap with Jakarta is real. Cost-of-living comparison sites put Singapore at roughly double to triple Jakarta's cost across the board once you account for rent, transport, and eating out ([Numbeo](https://www.numbeo.com/cost-of-living/compare_cities.jsp?country1=Indonesia&city1=Jakarta&country2=Singapore&city2=Singapore), [Expatistan](https://www.expatistan.com/cost-of-living/comparison/jakarta/singapore)). The exact multiple you'll see quoted varies a lot by source and methodology, so treat any single "X% more expensive" headline figure as a rough signal rather than a precise number **** against your own spending pattern.
+Singapore is consistently ranked one of the most expensive cities in the world, and the gap with Jakarta is real. Cost-of-living comparison sites put Singapore at roughly three to four times Jakarta's cost across the board once you account for rent, transport, and eating out ([Numbeo](https://www.numbeo.com/cost-of-living/compare_cities.jsp?country1=Indonesia&city1=Jakarta&country2=Singapore&city2=Singapore), [Expatistan](https://www.expatistan.com/cost-of-living/comparison/jakarta/singapore)). The exact multiple you'll see quoted varies a lot by source and methodology, so treat any single "X% more expensive" headline figure as a rough signal rather than a precise number, and check it against your own spending pattern.
 
 What that means in practice: your Jakarta budget doesn't translate one-to-one. Rent is the biggest swing factor, since Jakarta rent for a comparable standard of living is a fraction of Singapore's. Food and transport gaps are smaller, especially if you eat at hawker centres and use public transport rather than eating out often or taking private cars.
 
-At current exchange rates, 1 SGD converts to roughly IDR 14,000, though this moves week to week ****. That single number is worth keeping in your head, since every SGD figure in this article is roughly ×14,000 in rupiah terms.
+At current exchange rates, 1 SGD converts to roughly IDR 14,000, though this moves week to week. That single number is worth keeping in your head, since every SGD figure in this article is roughly ×14,000 in rupiah terms.
 
 ## Which visa pathway are you moving on?
 
@@ -65,7 +65,7 @@ Remittance is a real recurring cost for many Indonesians working in Singapore, a
 
 Banks and traditional money changers typically charge noticeably more than digital-first providers once you account for the exchange rate margin, not just the stated fee. Licensed digital remittance services such as Wise, InstaRem, and Remitly are consistently cited as cheaper for SGD to IDR transfers, and the World Bank's own remittance price tracker is a useful independent check on what a fair rate looks like for the corridor ([World Bank Remittance Prices](https://remittanceprices.worldbank.org/corridor/Singapore/Indonesia)).
 
-A few practical rules: only use a provider licensed by the Monetary Authority of Singapore, compare the total amount that lands in Indonesia rather than just the advertised fee, and larger, less frequent transfers are usually cheaper per rupiah than lots of small ones ****.
+A few practical rules: only use a provider licensed by the Monetary Authority of Singapore, compare the total amount that lands in Indonesia rather than just the advertised fee, and larger, less frequent transfers are usually cheaper per rupiah than lots of small ones.
 
 ## Other costs to budget for
 
