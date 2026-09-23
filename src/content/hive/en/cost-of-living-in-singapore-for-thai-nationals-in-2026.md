@@ -9,7 +9,7 @@ hero: /sketches/loc-neighbourhood__golden-mile__tower-greenery.jpg
 heroAlt: The Golden Mile tower and its greenery, illustrating cost of living in singapore for thai nationals in 2026
 ---
 
-For a Thai national moving to Singapore in 2026, a realistic all-in monthly budget lands between S$1,800 and S$3,000 for someone renting a room, or S$3,200 and S$5,000 for someone renting a whole unit alone. That covers rent, food, transport, phone and wifi, and everyday spending. On top of the monthly number, you'll need landing cash for deposits, advance rent, and pass costs before your first Singapore paycheck clears, and it helps to plan around a baht that has weakened against the Singapore dollar over the past year.
+For a Thai national moving to Singapore in 2026, a realistic all-in monthly budget lands between S$1,800 and S$3,000 for someone renting a room, or S$3,200 and S$5,000 for someone renting a whole unit alone. That covers rent, food, transport, phone and wifi, and everyday spending. On top of the monthly number, you'll need landing cash for deposits, advance rent, and pass costs before your first Singapore paycheck clears, and it helps to plan around a baht to Singapore dollar rate that moves week to week.
 
 This piece breaks down what that budget actually looks like, the visa and pass routes that apply to Thai citizens specifically, and what's different about moving here from Thailand compared with moving from elsewhere in the region.
 
@@ -39,7 +39,7 @@ Whichever route applies to you, confirm your exact pass status with ICA or MOM b
 
 ## What's different about the money side, coming from Thailand?
 
-**The baht has weakened against the Singapore dollar.** Through 2026, THB/SGD has traded roughly between 0.0382 and 0.0414, meaning one Singapore dollar buys around 24 to 26 baht, with the rate down close to 6% over the year.. That cuts two ways: your baht savings stretch less on arrival, but a Singapore-dollar salary converts to noticeably more baht when you send money home. Use a real transfer service such as Wise or a bank wire rather than converting cash informally, and check the live rate before moving anything meaningful.
+**Watch the baht to Singapore dollar rate.** It moves week to week, and any shift cuts two ways. When the baht is weaker, your baht savings stretch less on arrival, but a Singapore-dollar salary converts to more baht when you send money home. Use a real transfer service such as Wise or a bank wire rather than converting cash informally, and check the live rate before moving anything meaningful.
 
 **There's a tax treaty covering the move.** Singapore and Thailand have had a double taxation agreement in force since January 2017, covering employment income among other categories, so income already taxed in one country generally isn't taxed again on the same amount in the other. Non-residents (broadly, under 183 days in Singapore in the year) pay a flat 15% on employment income or the resident progressive rate, whichever is higher; past 183 days you move onto the progressive scale instead, usually lower. Confirm your exact residency status with IRAS once you know your dates, since the threshold is exact and easy to miscount if you arrive mid-year.
 

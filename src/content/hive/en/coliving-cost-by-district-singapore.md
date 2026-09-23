@@ -76,7 +76,7 @@ Before agreeing to any co-living quote, run it against three checks:
 2. **Confirm what's included.** Utilities, wifi, cleaning, and community events are often bundled into the headline price at bigger operators, but not always fully. Ask what's capped and what's billed separately before comparing two numbers directly.
 3. **Ask what the shared-bathroom equivalent costs.** If you're being quoted an ensuite price, ask for the shared-bathroom rate in the same building. The gap tells you whether the ensuite premium is reasonable for that operator or inflated.
 
-None of the figures above are fixed. Operators adjust pricing by season, by building, and by promotion, and a couple of the ranges here are estimates built from public listings rather than confirmed rate cards, so treat them as a band to check against, not a quote to hold anyone to. the exact current rate directly with any operator before signing.
+None of the figures above are fixed. Operators adjust pricing by season, by building, and by promotion, and a couple of the ranges here are estimates built from public listings rather than confirmed rate cards, so treat them as a band to check against, not a quote to hold anyone to. Confirm the exact current rate directly with any operator before signing.
 
 ## The honest tradeoff
 

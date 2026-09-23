@@ -35,7 +35,7 @@ Whichever pass you're on, match your lease to how long the pass has left, not to
 
 ## Can I Bring My Family Over?
 
-If you're on an EP earning at least S$6,000 a month in fixed salary, you can sponsor a spouse and unmarried children under 21 on a Dependant's Pass. Parents or other extended family generally need a Long-Term Visit Pass instead, which carries a higher salary bar of S$12,000 a month. S Pass holders generally cannot sponsor dependants. If you're moving solo first and bringing family later, a co-living room is a reasonable way to get settled before you commit to a bigger family-sized unit.
+If you're on an EP earning at least S$6,000 a month in fixed salary, you can sponsor a spouse and unmarried children under 21 on a Dependant's Pass. Parents need a Long-Term Visit Pass instead, which carries a higher bar of S$12,000 a month in fixed salary. S Pass holders can sponsor family on the same terms, as long as they meet the same S$6,000 salary bar. If you're moving solo first and bringing family later, a co-living room is a reasonable way to get settled before you commit to a bigger family-sized unit.
 
 ## What Does a Room Actually Cost in Singapore?
 
@@ -105,4 +105,4 @@ Looking for a furnished room with the paperwork done properly and no guarantor c
 
 Figures here that come from government schedules, MOM salary thresholds, ICA and HDB requirements, URA rules, fees and fares, are reviewed on their own timetables and move. Check the current number at the source before you rely on it.
 
-Sources: [MOM, Employment Pass eligibility and salary](https://www.mom.gov.sg/passes-and-permits/employment-pass); [MOM, S Pass eligibility and salary](https://www.mom.gov.sg/passes-and-permits/s-pass); [MOM, Dependant's Pass eligibility](https://www.mom.gov.sg/passes-and-permits/dependants-pass); [Statista, Singapore Indian resident population](https://www.statista.com/statistics/625049/singapore-indian-population-by-age-group/); [Figment, Co-Living Cost Singapore 2026 Price Guide](https://www.figment.live/journal/co-living-cost-singapore-price-guide/).
+Sources: [MOM, Employment Pass eligibility and salary](https://www.mom.gov.sg/passes-and-permits/employment-pass); [MOM, S Pass eligibility and salary](https://www.mom.gov.sg/passes-and-permits/s-pass); [MOM, Dependant's Pass eligibility](https://www.mom.gov.sg/passes-and-permits/dependants-pass); [Statista, Singapore Indian resident population](https://www.statista.com/statistics/625049/singapore-indian-population-by-age-group/); [Figment, Co-Living Cost Singapore 2026 Price Guide](https://www.figment.live/journal/co-living-cost-singapore-price-guide/); [MOM, Long-Term Visit Pass eligibility](https://www.mom.gov.sg/passes-and-permits/long-term-visit-pass/eligibility).

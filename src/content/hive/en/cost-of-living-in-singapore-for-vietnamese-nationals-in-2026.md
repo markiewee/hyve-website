@@ -29,7 +29,7 @@ For the detailed line-by-line breakdown of what makes up a Singapore rental budg
 
 This is where a Vietnam-to-Singapore move genuinely differs from a move from, say, Malaysia or India, and it's worth getting right before you plan around a specific budget.
 
-**Short visits.** Vietnamese passport holders can enter Singapore visa-free for short stays under the standard Association of Southeast Asian Nations arrangement, but confirm your specific stay length and purpose at ICA before booking anything, since visa-free entry for tourism or a viewing trip is not the same as permission to work.
+**Short visits.** Vietnamese citizens holding ordinary passports do not need a visa to visit Singapore for stays of up to 30 days, but confirm your specific stay length and purpose at ICA before booking anything, since visa-free entry for tourism or a viewing trip is not the same as permission to work.
 
 **Working here.** For employment, the pass depends on the role and salary, not nationality. As of 2026, the Employment Pass requires a minimum fixed monthly salary of S$5,600 (S$6,200 in financial services), rising with age, plus a passing score on the COMPASS points framework. The S Pass, for mid-skilled roles, requires a minimum salary of S$3,300, benchmarked upward by age and sector. Vietnam is also not one of the listed Work Permit source countries for construction, marine, process, or manufacturing, so most Vietnamese professionals here are on an S Pass or Employment Pass rather than the lower-tier Work Permit.
 

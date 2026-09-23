@@ -23,7 +23,7 @@ That's what "speculative" meant in practice. Not that the returns were fake, but
 
 The shift shows up in four places, and none of them are marketing spin.
 
-**Institutional capital is now in the room.** JLL puts cumulative co-living investment volume in Singapore at over S$1.4 billion since 2022, with capital moving from family offices toward private equity and institutional allocators.. In the same survey, roughly 80% of the more than 30 domestic and international investors polled said they had already invested in Singapore co-living or were actively looking to.
+**Institutional capital is now in the room.** JLL puts co-living investment volume in Singapore at over S$1.4 billion between 2022 and August 2025, with private equity and institutional capital active alongside owner-operators and high-net-worth buyers. In JLL's earlier 2023 survey, roughly 80% of the more than 30 domestic and international investors polled said they had invested in Singapore co-living or were interested in investing.
 
 **Consolidation replaced fragmentation.** A crowded field of small operators is not what institutional money wants to underwrite, since it means unclear operating standards and higher platform risk. The market has been consolidating instead: Habyt absorbed Hmlet in 2022, and Cove acquired Casa Mia Co-Living in late 2025. Fewer, larger, better-capitalised operators is a maturity signal on its own. (If you want the deal-by-deal detail on who bought whom, that's its own piece; the point here is just that consolidation is what mature, capital-attractive sectors do, not a sign of trouble.)
 
@@ -56,7 +56,7 @@ This isn't unique to co-living. It's the same arc student housing and build-to-r
 
 None of this means the "stable asset class" framing should be taken at face value, and a genuinely contrarian read has to poke at its own thesis too.
 
-Start with the survey itself. JLL's 2025 sentiment data comes from just over 30 domestic and international investors. That's a useful directional signal, not a statistically bulletproof one. A sample that size can shift meaningfully if two or three big family offices change their stated strategy between survey rounds, and "sentiment" is, by definition, self-reported rather than audited.
+Start with the survey itself. JLL's inaugural 2023 survey polled just over 30 domestic and international investors, and its 2025 release doesn't publish a sample size at all. That's a useful directional signal, not a statistically bulletproof one. A sample that size can shift meaningfully if two or three big family offices change their stated strategy between survey rounds, and "sentiment" is, by definition, self-reported rather than audited.
 
 The public listings are a genuine maturity signal, but it's still a market of one dominant name. Coliwoo is the SGX mainboard listing that gets cited every time someone wants to point at "the sector going public." One company with a market debut is a precedent, not yet a liquid, diversified public market the way REITs are for office or retail. If Coliwoo's share price wobbles hard in its first two or three years, that single data point will get relitigated in every future "is co-living mature" argument, fairly or not.
 
@@ -68,7 +68,7 @@ None of that reverses the core finding. The capital flows, the return targets, a
 
 If you're weighing entering the space now versus five years ago, be clear-eyed about what you're actually buying.
 
-**What you get now that you didn't get in 2020:** a track record. Occupancy bands, GOP margins, and cap rate ranges (industry estimates put stabilised co-living cap rates around 3.5 to 5.0%, with 5-year hold IRR targets commonly in the 8 to 12% range) that didn't exist before. Fewer operator-failure landmines, since the weak players have mostly been absorbed or exited. A public listing you can actually benchmark against if you want a liquid proxy for sector sentiment.
+**What you get now that you didn't get in 2020:** a track record. Occupancy bands and GOP margins (JLL puts co-living occupancy at 85 to 95% and gross operating profit margins at 55 to 70%) that didn't exist before. Fewer operator-failure landmines, since the weak players have mostly been absorbed or exited. A public listing you can actually benchmark against if you want a liquid proxy for sector sentiment.
 
 **What you give up:** the asymmetric upside that comes from being early into a mispriced format. The investors who backed co-living platforms or bought conversion-ready assets in 2019 to 2021 were underwriting genuine uncertainty, and the ones who got the operator and the location right were rewarded for it. That specific trade isn't available at the same odds anymore, because the market has already done the work of figuring out what these assets are worth.
 

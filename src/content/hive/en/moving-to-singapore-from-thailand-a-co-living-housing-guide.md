@@ -27,7 +27,7 @@ Thai nationals moving to Singapore mostly land on one of three passes, and each 
 
 **Employment Pass (EP).** For professionals, managers, and executives. The qualifying salary floor for new EP applications and renewals from 1 January 2026 is S$5,600 a month for most sectors, and S$6,200 a month for financial services, rising progressively with age up to S$11,800 at 45 and above in financial services. Beyond salary, EP applicants also need at least 40 points on the COMPASS framework unless their fixed salary clears S$22,500 a month, in which case COMPASS is skipped entirely.
 
-**S Pass.** For mid-skilled roles. The qualifying salary from 1 September 2026 is S$3,300 a month for general sectors and S$3,800 for financial services, also rising with age, so a candidate in their mid-30s typically needs closer to S$4,800 to qualify.
+**S Pass.** For mid-skilled roles. The current qualifying salary is S$3,300 a month for general sectors and S$3,800 for financial services, also rising with age, so a 35-year-old needs at least S$4,118 in general sectors and anyone 45 or older needs S$4,800. The floor rises to S$3,600 (S$4,000 in financial services) for new applications from 1 January 2027.
 
 **Student Pass.** Thai students have a long-standing presence at NUS, NTU, SMU, and Singapore's polytechnics, often in business, engineering, and hospitality-adjacent programmes given Thailand's own tourism economy. A Student Pass renews alongside your enrolment, typically annually, so treat it as a shorter runway than an EP when picking a lease length.
 
@@ -35,7 +35,7 @@ Whichever pass you're on, match your lease term to how long the pass actually ha
 
 ## Can I Bring My Family Over?
 
-If you're on an EP earning a fixed monthly salary of at least S$6,000, you can sponsor a spouse and unmarried children under 21 on a Dependant's Pass. Parents or other extended family generally need a Long-Term Visit Pass instead, which carries a higher salary bar around S$12,000 a month. S Pass holders generally cannot sponsor dependants. If you're moving solo first and bringing family later, a co-living room is a sensible way to get settled before committing to a larger family-sized unit.
+If you're on an EP earning a fixed monthly salary of at least S$6,000, you can sponsor a spouse and unmarried children under 21 on a Dependant's Pass. Parents need a Long-Term Visit Pass instead, which carries a higher bar of S$12,000 a month in fixed salary. S Pass holders can sponsor family on the same terms, as long as they meet the same S$6,000 salary bar. If you're moving solo first and bringing family later, a co-living room is a sensible way to get settled before committing to a larger family-sized unit.
 
 ## What Does a Room Actually Cost in Singapore?
 

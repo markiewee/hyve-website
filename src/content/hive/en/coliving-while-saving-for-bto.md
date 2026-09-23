@@ -25,9 +25,9 @@ This is where all-inclusive pricing quietly helps. When utilities, wifi, and cle
 
 A few facts worth knowing if you're planning around a BTO or resale purchase in the next few years.
 
-BTO waiting times currently run three to five years from application to key collection, with HDB's newer Shorter Waiting Time flats coming in closer to three years in some estates. Resale flat prices grew quickly through 2023 and 2024, but growth has slowed noticeably through 2025 into 2026, with the resale price index roughly flat to slightly down in the first half of the year.
+BTO waiting times normally run three to four years, with HDB's Shorter Waiting Time flats coming in at two to three years. Resale flat prices grew quickly through 2023 and 2024, but growth has slowed noticeably through 2025 into 2026, with the resale price index roughly flat to slightly down in the first half of the year.
 
-Banks and HDB both cap what you can borrow against income. The Mortgage Servicing Ratio limits home loan repayments to 30% of gross monthly income for HDB and EC loans, and the Total Debt Servicing Ratio caps all debt repayments at 55% of gross income for bank loans. Downpayments are typically 20% for an HDB loan, payable via CPF, versus 25% for a bank loan with at least 5% required in cash.
+Banks and HDB both cap what you can borrow against income. The Mortgage Servicing Ratio limits housing loan repayments to 30% of gross monthly income when buying an HDB flat, and the Total Debt Servicing Ratio caps all debt repayments at 55% of gross income for bank loans. The downpayment is 25% of the price either way: with an HDB loan it can all come from CPF, while a bank loan needs at least 5% in cash.
 
 None of this tells you exactly what your flat will cost. It tells you that the runway is measured in years, not months, and that a steady savings habit matters more than any single lucky month.
 

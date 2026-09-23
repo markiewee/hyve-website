@@ -36,13 +36,13 @@ To be eligible, you generally need:
 - Current, active registration and a practising licence in your home country
 - Relevant clinical experience within the past five years
 
-Once your employer submits your documents, SNB runs its own assessment, including a licensure exam and a competency assessment, and may place you on a period of provisional or supervised registration before you're fully registered. Your employer's HR team drives this process, so they're your best source for where you personally stand in the timeline.
+Once your employer submits your documents, SNB runs its own assessment, which can include the SNB Licensure Examination and a competency assessment, and may place you on provisional registration or enrolment before you're fully registered. Your employer's HR team drives this process, so they're your best source for where you personally stand in the timeline.
 
 The practical upshot for housing: your move is tied to a confirmed job and, usually, a start date already set by your employer. That's a real deadline to search against, different from a student's rolling clinical rotation calendar.
 
 ## Where Do Singapore's Foreign Nurses Come From?
 
-Singapore has been actively recruiting overseas nurses for years to keep up with hospital demand, and coverage of the government's recruitment push has repeatedly named the Philippines, Malaysia, Myanmar, India, and China as the main source countries for foreign nurses here. MOH has publicly reported recruiting around 5,600 nurses in 2023, ahead of an original target of 4,000.
+Singapore has been actively recruiting overseas nurses for years to keep up with hospital demand, and coverage of the government's recruitment push has repeatedly named the Philippines, Malaysia, Myanmar, India, and China as the main source countries for foreign nurses here. Health Minister Ong Ye Kung said in February 2024 that Singapore recruited 5,600 nurses across public and private healthcare in 2023, beating a target of 4,000.
 
 If you're arriving from one of these countries, you're joining an established pipeline. Your hospital's HR and international recruitment team have almost certainly onboarded nurses from your country before, so lean on them for anything pass or paperwork related rather than guessing.
 
@@ -82,7 +82,7 @@ This is worth raising directly with any operator or landlord before you sign, no
 | Typical nursing role | Staff nurse | Senior nurse, nurse manager, advanced practice |
 | Minimum qualifying salary | From $3,300/month | Age-banded, roughly $5,600 to $10,700/month |
 | Extra assessment | None beyond salary threshold | COMPASS points-based assessment (40+ points needed, unless exempt) |
-| Can sponsor a Dependant's Pass | Only above a higher personal income threshold | Yes, subject to eligibility |
+| Can sponsor a Dependant's Pass | Only if earning a fixed monthly salary of at least $6,000 | Only if earning a fixed monthly salary of at least $6,000 |
 
 Neither pass changes your SNB registration requirement. Both routes still need you registered and licensed with SNB before you can practise, regardless of which pass funds your stay.
 
@@ -122,4 +122,4 @@ Underrating the need for daytime quiet. Rotating shifts mean regularly sleeping 
 
 Figures here that come from government schedules, MOM salary thresholds, ICA and HDB requirements, URA rules, fees and fares, are reviewed on their own timetables and move. Check the current number at the source before you rely on it.
 
-Sources: [Singapore Nursing Board, Foreign-Trained Nurses/Midwives Registration](https://www.snb.gov.sg/for-professionals/becoming-a-nurse-or-midwife/apply-for-registration-enrolment/foreign-trained-nurses-midwives/); [MOM, S Pass Eligibility](https://www.mom.gov.sg/passes-and-permits/s-pass); [MOM, Employment Pass Eligibility](https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility); [MOM, Work Permit for Foreign Worker, Non-Traditional Sources Occupation List](https://www.mom.gov.sg/passes-and-permits/work-permit-for-foreign-worker/sector-specific-rules/non-traditional-sources-occupation-list); The Straits Times, coverage of Singapore's 2023 foreign nurse recruitment drive.
+Sources: [Singapore Nursing Board, Foreign-Trained Nurses/Midwives Registration](https://www.snb.gov.sg/for-professionals/becoming-a-nurse-or-midwife/apply-for-registration-enrolment/foreign-trained-nurses-midwives/); [MOM, S Pass Eligibility](https://www.mom.gov.sg/passes-and-permits/s-pass); [MOM, Employment Pass Eligibility](https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility); [MOM, Dependant's Pass Eligibility](https://www.mom.gov.sg/passes-and-permits/dependants-pass/eligibility); [MOM, Work Permit for Foreign Worker, Non-Traditional Sources Occupation List](https://www.mom.gov.sg/passes-and-permits/work-permit-for-foreign-worker/sector-specific-rules/non-traditional-sources-occupation-list); The Straits Times, coverage of Singapore's 2023 foreign nurse recruitment drive.

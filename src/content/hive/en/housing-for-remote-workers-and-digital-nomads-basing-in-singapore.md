@@ -23,7 +23,7 @@ In practice, three groups get lumped under "remote workers in Singapore," and th
 
 **1. Employment Pass or S Pass holders with a real Singapore job.** They're sponsored by an actual Singapore employer, and their role happens to allow remote or hybrid work, either because their manager is overseas, their team is distributed, or their company just runs flexibly. This is fully legal and, by far, the most common setup behind the phrase "remote worker in Singapore."
 
-**2. Dependant's Pass or Long-Term Visit Pass holders working under a Letter of Consent (LOC).** Spouses (and some other family members) of EP or S Pass holders can apply through MOM for an LOC, which permits work for one named Singapore employer. It is not a general permission to freelance or take remote assignments from anywhere.
+**2. Dependant's Pass or Long-Term Visit Pass holders with their own work authorisation.** A Dependant's Pass holder who wants a job needs the employer to apply for an Employment Pass, S Pass or DP-Work Permit, and can only get a Letter of Consent (LOC) to set up or run their own business. An LOC for employment is for LTVP and LTVP+ holders who are the spouse or unmarried child of a Singaporean or PR. None of these is a general permission to freelance or take remote assignments from anywhere.
 
 **3. People entering repeatedly on tourist or social visit passes.** This group is the one most guides gloss over, and it's the one worth being blunt about.
 
@@ -37,9 +37,9 @@ In day-to-day practice, a laptop worker quietly answering emails from a co-livin
 
 ## What About a Dependant's Pass or LTVP, Can I Work Remotely on That?
 
-Only within the scope of the Letter of Consent, and an LOC is tied to a specific, named Singapore employer, not a blanket right to work. It's issued to cover local employment for that dependant, not freelance or remote work for a company outside Singapore.
+Only within the scope of the work authorisation they actually hold, whether that is an EP, S Pass, DP-Work Permit or LOC. None of these is a blanket right to work, and none is issued to cover freelance or remote work for a company outside Singapore.
 
-If a DP or LTVP holder is doing genuine remote work for a foreign company with no LOC and no local employer involved, that sits in the same unclear territory as the tourist case above. It's not automatically covered just because the person holds a long-term pass for another reason (usually as a spouse or child). If this is your situation, it's worth checking directly with MOM rather than assuming a family-based pass extends to cover it. `` MOM's current LOC eligibility criteria and processing details directly with MOM before relying on specifics, since these move.
+If a DP or LTVP holder is doing genuine remote work for a foreign company with no LOC and no local employer involved, that sits in the same unclear territory as the tourist case above. It's not automatically covered just because the person holds a long-term pass for another reason (usually as a spouse or child). If this is your situation, it's worth checking directly with MOM rather than assuming a family-based pass extends to cover it. Note that MOM now splits these two passes. An LOC for employment is for ICA-issued LTVP and LTVP+ holders who are the spouse or unmarried child of a Singaporean or PR. A Dependant's Pass holder who wants a job needs the employer to apply for an Employment Pass, S Pass or DP-Work Permit, and can only get an LOC to set up or run their own business.
 
 For the general mechanics of renting once you do hold a valid pass, lease length versus pass validity, what documents landlords ask for, how EP, S Pass, and Student Pass differ for renting purposes, see our [full guide to renting on an EP, S Pass, or Student Pass](/blog/renting-on-ep-s-pass-student-pass-singapore). This article deliberately doesn't repeat that ground.
 
@@ -70,7 +70,7 @@ No. Singapore has no dedicated digital nomad or remote worker visa. Every long-t
 No. A tourist or social visit pass does not permit any work in Singapore, including remote work for an employer based overseas. Repeated short entries used to sustain ongoing remote work can also draw immigration scrutiny.
 
 **Can a Dependant's Pass or Long-Term Visit Pass holder work remotely?**
-Only through a Letter of Consent (LOC) tied to a specific, named Singapore employer. An LOC does not cover freelance or remote work for a company outside Singapore.
+Only with their own work authorisation. A Dependant's Pass holder needs an EP, S Pass or DP-Work Permit for a job, or an LOC to run their own business. An LOC for employment is for LTVP and LTVP+ holders married to, or the child of, a Singaporean or PR. None of these covers freelance or remote work for a company outside Singapore.
 
 **If I have an Employment Pass or S Pass, can my Singapore employer let me work remotely or hybrid?**
 Yes. That's a matter between you and your employer, not an immigration restriction. Your pass is tied to that employer, not to a fixed number of office days.

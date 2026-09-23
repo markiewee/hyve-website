@@ -17,7 +17,7 @@ That's the short answer. The rest of this covers what the commute actually looks
 
 RP's campus sits in the Woodlands planning area, close to the Causeway and about as far north as Singapore's MRT network reaches. It's a 20-hectare site, RP's home since 2006 after relocating from an earlier campus in Tanglin.
 
-Woodlands MRT (NS9/TE2) is the nearest station, roughly a kilometre away, walkable in 15 to 20 minutes but most students don't do it on foot every day. Woodlands North (TE1) sits nearby too. From either, feeder bus 169 runs the route to campus year-round, and bus 902, a short peak-hour service RP's own site lists as running 8:15am to 9:50am on school days, exists specifically to move students from Woodlands Interchange to Woodlands Avenue 9 in under ten minutes. current bus timings and fares with SMRT or the RP transport page before relying on them for a first day of term, since feeder schedules shift term to term.
+Woodlands MRT (NS9/TE2) is the nearest station, roughly a kilometre away, walkable in 15 to 20 minutes but most students don't do it on foot every day. Woodlands North (TE1) sits nearby too. RP's own site lists buses 169 and 902 from Woodlands Interchange to Woodlands Avenue 9. Bus 902 is a morning service, running 8.15am to 9.50am Monday to Friday, excluding public holidays, study breaks and vacations. Check current routes and timings on RP's Getting to RP page or with SMRT before your first day of term, since schedules shift term to term.
 
 ## Singapore's Polytechnics Don't Run Hall Systems Like Universities
 
@@ -41,7 +41,7 @@ Most polytechnic students in Singapore enter straight after their O-Levels, whic
 
 Singapore's age of contractual capacity for most agreements, including a standard room licence, is 18, not 21. An 18 or 19 year old polytechnic student can sign a co-living or rental agreement in their own name with no issue. Our [guide to under-21 renting in Singapore](https://www.lazybee.sg/hive/under-21-renting-in-singapore-what-the-law-actually-requires) covers this in full, including the one real exception, long land leases, that doesn't apply to a typical room rental.
 
-Where it changes is for the smaller group of students who are still 17 when they start, or who need housing arranged before turning 18. Someone under 18 doesn't have full contractual capacity on their own, and in practice a parent or legal guardian is usually the named party or co-signatory on the agreement rather than the student themselves. If this applies to you or your child, treat it as its own question rather than assuming the general 18-plus rules apply, since the two situations are handled differently. the exact documentation any individual operator requires for an under-18 occupant directly with them.
+Where it changes is for the smaller group of students who are still 17 when they start, or who need housing arranged before turning 18. Someone under 18 doesn't have full contractual capacity on their own, and in practice a parent or legal guardian is usually the named party or co-signatory on the agreement rather than the student themselves. If this applies to you or your child, treat it as its own question rather than assuming the general 18-plus rules apply, since the two situations are handled differently. Confirm the exact documentation any individual operator requires for an under-18 occupant directly with them.
 
 ## The 3 Month Minimum Stay Rule
 

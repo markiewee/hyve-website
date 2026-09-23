@@ -31,7 +31,7 @@ The full breakdown of what rent actually costs across room types, whole units, a
 
 Cooking with Sri Lankan staples in Singapore, coconut milk, curry leaves, Ceylon spices, roasted curry powder, costs more than sourcing the same ingredients at home, but it's manageable once you know where to shop. A monthly grocery habit built around these staples typically runs S$150 to S$300 a month for a single person cooking regularly.
 
-Little India and Race Course Road carry some of the most concentrated South Indian and Sri Lankan food in the city, including the Michelin-starred Sri Lankan restaurant Kotuwa and newer spots like Podi & Poriyal. Smaller Sri Lankan grocery outfits also operate for staples that aren't stocked in a regular supermarket; check current stock and prices directly since a small-format grocery scene shifts store to store.
+Little India, around Serangoon Road and Race Course Road, carries some of the most concentrated South Indian food in the city, including newer spots like Podi & Poriyal on Serangoon Road. For Sri Lankan cooking specifically, Kotuwa, which is listed in the MICHELIN Guide, sits at New Bahru on Kim Yam Road. Smaller Sri Lankan grocery outfits also operate for staples that aren't stocked in a regular supermarket; check current stock and prices directly since a small-format grocery scene shifts store to store.
 
 Eating out doesn't have to be expensive. A hawker meal runs S$5 to S$10, and Little India's food centres carry a strong South Asian hawker selection. Mixing hawker meals with home cooking, a realistic monthly food budget is S$350 to S$600 for someone cooking often, or S$650 to S$950 for someone eating out more.
 
@@ -45,15 +45,15 @@ A separate but common question is what documents are actually needed to sign a l
 
 ## Sending money back to Sri Lanka: remittance costs
 
-Sending money home is a genuine recurring cost that generic cost-of-living guides skip entirely. As of mid-2026, one Singapore dollar buys roughly LKR 255 to 260, and the rupee has moved against the dollar over the year, so treat any specific rate as a snapshot rather than a fixed number.
+Sending money home is a genuine recurring cost that generic cost-of-living guides skip entirely. The SGD to LKR rate moves daily, so check a live rate before budgeting a transfer rather than working off a fixed number.
 
-Digital-first providers like Wise typically price close to the mid-market rate with a transparent, disclosed fee, and multiple comparison sites place Wise as the cheapest widely available option on the Singapore-to-Sri Lanka corridor as of 2026. Traditional bank wire transfers commonly carry a 5% to 8% markup on the exchange rate plus a flat wire fee, which is where most of the real cost hides.
+Digital-first providers like Wise typically price close to the mid-market rate with a transparent, disclosed fee. Traditional bank wire transfers usually add a markup on the exchange rate plus a flat wire fee, which is where most of the real cost hides. Fees and rates vary by transfer size, so compare live quotes from two or three providers before committing.
 
 Budget the remittance cost, the fee and spread rather than the transfer amount itself, as its own line item.
 
 ## Flights and staying connected to family
 
-Round-trip flights between Singapore and Colombo take roughly 3 hours 45 minutes direct, with Singapore Airlines and SriLankan Airlines both flying the route, plus one-stop options via Malaysia AirAsia and Batik Air. Prices commonly range from roughly S$400 to S$650 round trip depending on season and booking lead time, with June typically cheaper and December running higher.
+Round-trip flights between Singapore and Colombo take roughly 3 hours 45 minutes direct, with Singapore Airlines and SriLankan Airlines both flying the route, plus one-stop options via Malaysia AirAsia and Batik Air. Fares move with season and booking lead time, with the December holidays typically running higher, so check live prices for your travel dates before budgeting.
 
 Budgeting one or two trips home a year, plus an occasional emergency fare, is a line item most generic cost-of-living guides leave out.
 

@@ -53,7 +53,7 @@ Private residential property, which is what most co-living rooms in Singapore si
 
 Someone under 18 doesn't have full contractual capacity, and an ordinary lease or licence signed by them isn't automatically enforceable against them the way it would be for an adult. The one long-standing exception is contracts for "necessaries," goods and services suited to a person's actual needs, which under general contract law can include lodging alongside food, clothing, and education. Even then, the terms have to be fair and reasonable for the minor, not just any contract labelled "necessary."
 
-In practice, this rarely gets tested in court over a room rental. What actually happens is procedural: an operator renting to someone under 18 will typically want a parent or legal guardian as the named party or co-signatory, rather than relying on the necessaries doctrine to hold up on its own. If you're arranging housing for someone under 18, expect to be the one whose signature the operator actually needs. the specific documentation any individual operator requires for an under-18 occupant directly with them, since this is handled as a matter of practice, not a uniform statutory checklist.
+In practice, this rarely gets tested in court over a room rental. What actually happens is procedural: an operator renting to someone under 18 will typically want a parent or legal guardian as the named party or co-signatory, rather than relying on the necessaries doctrine to hold up on its own. If you're arranging housing for someone under 18, expect to be the one whose signature the operator actually needs. Confirm the specific documentation any individual operator requires for an under-18 occupant directly with them, since this is handled as a matter of practice, not a uniform statutory checklist.
 
 ## Guarantors and Parental Consent: What's Law and What's Just Practice
 
@@ -85,7 +85,7 @@ Not generally. Twenty-one is Singapore's conventional age of majority and it's s
 No, not as a legal requirement. Singapore law doesn't mandate guarantors for private rentals at any age. Some operators ask younger or first-time tenants for a larger deposit or proof of a parent's income instead, as a risk practice rather than a legal condition.
 
 **Can someone under 18 rent a room in Singapore?**
-Not with full contractual capacity of their own. In practice, a parent or legal guardian is typically the named party or co-signatory on the agreement. the exact process with the specific operator, since this is handled procedurally rather than under one uniform rule.
+Not with full contractual capacity of their own. In practice, a parent or legal guardian is typically the named party or co-signatory on the agreement. Confirm the exact process with the specific operator, since this is handled procedurally rather than under one uniform rule.
 
 **Does the 21-year age rule for HDB apply to co-living rooms too?**
 No. HDB's 21-year minimum applies to subletting an HDB flat or room specifically. Private residential co-living, which is where most co-living operators including Lazybee operate, doesn't carry that same statutory age floor.

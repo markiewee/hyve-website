@@ -80,7 +80,7 @@ Ask directly: can you relocate me to a different room during my stay, and under 
 
 ## Licence and Tenancy in Singapore Law, Distinguished
 
-Under Singapore law, the distinction between a licence and a tenancy sits on the same exclusive possession test used across most common law jurisdictions. A tenancy transfers an interest in land and gives the tenant the right to exclude even the landlord for the duration of the term. A licence is personal permission to occupy, and the grantor keeps a broader right of control and access. Courts look past whatever a contract calls itself and ask what it actually grants, so a document titled "licence" that in substance hands over exclusive possession could still be treated as a tenancy, and the reverse can happen too. If you're ever genuinely unsure which one you've signed, that's a question for a property lawyer, not a guess, since the practical rights involved are real. any specific statutory reference or case precedent with a qualified Singapore lawyer before relying on it for a dispute.
+Under Singapore law, the distinction between a licence and a tenancy sits on the same exclusive possession test used across most common law jurisdictions. A tenancy transfers an interest in land and gives the tenant the right to exclude even the landlord for the duration of the term. A licence is personal permission to occupy, and the grantor keeps a broader right of control and access. Courts look past whatever a contract calls itself and ask what it actually grants, so a document titled "licence" that in substance hands over exclusive possession could still be treated as a tenancy, and the reverse can happen too. If you're ever genuinely unsure which one you've signed, that's a question for a property lawyer, not a guess, since the practical rights involved are real. Check any specific statutory reference or case precedent with a qualified Singapore lawyer before relying on it for a dispute.
 
 ## Frequently Asked Questions
 
@@ -91,7 +91,7 @@ Yes. A licence agreement is a contract like any other. Both sides are bound by i
 Only if the agreement gives them that right. Check the specific clause before signing rather than assuming either way.
 
 **Does a licence agreement need to be stamped like a tenancy agreement?**
-Stamping requirements depend on how the specific agreement is structured. the exact requirement for your contract with IRAS or a property lawyer rather than assuming either way.
+Stamping requirements depend on how the specific agreement is structured. IRAS says a licence agreement may not be liable to stamp duty if it is intended only as a licence and does not act as a lease. If you're unsure which one you have, get independent legal advice or submit the document to IRAS for adjudication rather than assuming either way.
 
 **Do I get my deposit back the same way under a licence as under a tenancy?**
 Deposit return depends entirely on what the agreement states, not on whether it's labelled a licence or a tenancy. Read the return conditions and timeline before you sign.

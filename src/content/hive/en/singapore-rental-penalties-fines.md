@@ -74,8 +74,8 @@ This is one reason our own room leases at Lazybee are built around stays of thre
 - **Court fine:** up to S$200,000 per charge, applied to recalcitrant offenders or those operating across multiple properties, confirmed in URA's August 2025 enforcement release ([URA, pr25-35](https://www.ura.gov.sg/news/media/pr25-35/)).
 - **Charges accumulate per count.** URA's 2025 case involved 340 charges spread across six parties, up to 90 counts each, illustrating how fast the total climbs once a case goes to prosecution.
 - **Legal basis:** the Planning Act, enforced by URA against private residential property used for stays under three consecutive months.
-- Any further daily continuing offence penalty beyond the per charge fine is ``, since we could not confirm a specific figure against a primary URA source in this review.
-- HDB flats sit under a separate statute for unauthorised subletting, with its own fine structure, `` for exact HDB figures, since that falls outside URA's Planning Act track covered here.
+- **Continuing offences:** on top of the per charge fine, the Planning Act allows a further fine of up to S$10,000 for every day the offence continues after conviction, and repeat offenders also face up to 12 months' imprisonment ([Planning Act 1998, section 12](https://sso.agc.gov.sg/Act/PA1998?ProvIds=pr12-)).
+- HDB flats sit under a separate regime for unauthorised renting out, outside URA's Planning Act track. Depending on the severity, HDB may issue a written warning, impose a financial penalty of up to S$50,000, or compulsorily acquire the flat ([MND written answer, September 2022](https://www.mnd.gov.sg/newsroom/parliament-matters/q-as/view/written-answer-by-ministry-of-national-development-on-unauthorised-renting-out-of-hdb-flat)).
 
 ## FAQ: Fines and Liability, Owner Questions Answered Straight
 

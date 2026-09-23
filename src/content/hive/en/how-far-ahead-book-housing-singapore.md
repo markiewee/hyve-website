@@ -31,7 +31,7 @@ That's not a case for overspending on time either. Locking in a room eight month
 
 ## Market Timing in 2026
 
-Two things shape the timing conversation this year. Singapore's rental market has cooled from its 2022 to 2023 peak, so the "book anything you see or lose it forever" panic of that period doesn't really apply anymore. And work pass processing has gotten more variable: a clean Employment Pass application can clear in a few weeks, but one flagged for additional documents can add several weeks on top.
+Two things shape the timing conversation this year. Singapore's private rental market has gone flat since its 2022 to 2023 surge. URA's rental index rose 29.7% in 2022 and 8.7% in 2023, then fell 1.9% in 2024 and rose 1.9% in 2025, so the "book anything you see or lose it forever" panic of that period doesn't really apply anymore. And work pass timing still varies: MOM says an online Employment Pass application is processed or given an update within 10 business days, but it can take longer if MOM asks for more information or documents.
 
 The practical takeaway is the same either way. Don't wait for total certainty on your pass or start date before you begin looking. Search in parallel with the pass process, and time the booking itself to your confirmed arrival window once that's known.
 

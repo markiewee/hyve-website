@@ -19,7 +19,7 @@ MDIS's main campus is at 501 Stirling Road, Singapore 148951, sitting in the Que
 
 Being on the East-West Line matters for anyone planning a commute, since it's a single, direct line running from Jurong in the west through to Tampines in the east, with no transfer needed to reach most of the island's main hubs.
 
-**One thing worth knowing if you're planning further ahead:** MDIS announced in February 2025 that its Singapore campus will relocate to 190 Changi Road, targeted for the first half of 2027 ([Wikipedia](https://en.wikipedia.org/wiki/Management_Development_Institute_of_Singapore)). If your course runs past that date, factor the move into any longer-term housing decision. `` the exact relocation date and transport links closer to the time, since neither has been finalised in public MDIS materials as of this writing.
+**One thing worth knowing if you're planning further ahead:** MDIS announced on 12 March 2025 that its Singapore campus will relocate to 190 Changi Road, with the move scheduled to be completed by the first quarter of 2027 ([MDIS](https://www.mdis.edu.sg/storage/1/folder/landingpages/mdis%20singapore%20campus%20relocation%20to%20190%20changi%20road.pdf)). If your course runs past that date, factor the move into any longer-term housing decision. Check the exact move date and transport links closer to the time, since MDIS's announcement gives only a target quarter.
 
 ## Who Studies at MDIS?
 
@@ -71,7 +71,7 @@ For a full look at Lazybee's three houses, including what's nearby and what a ro
 501 Stirling Road, Singapore 148951, in the Queenstown area. Queenstown MRT station (Exit D) is the nearest stop, connected to campus by a free weekday shuttle bus.
 
 **Is MDIS moving to a new campus?**
-Yes. MDIS announced in February 2025 that it plans to relocate to 190 Changi Road, targeted for the first half of 2027. Details on the new site's transport links haven't been finalised in public materials yet.
+Yes. MDIS announced on 12 March 2025 that it is relocating to 190 Changi Road, with the move scheduled to be completed by the first quarter of 2027. Check the exact move date and transport links with MDIS closer to the time.
 
 **Does MDIS have its own student housing?**
 Yes, MDIS Residences @ Stirling, a 15-storey residence next to campus with 782 rooms and roughly 1,700 beds. It's a strong option for a first semester but places are limited per intake.

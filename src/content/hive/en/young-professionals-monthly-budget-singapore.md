@@ -19,7 +19,7 @@ That's the gap this piece fills: not what a landlord quotes, but what a full mon
 
 Most budgets fail for one reason: they only price the obvious stuff, rent and maybe food. Everything else gets guessed at, or forgotten until the bill shows up.
 
-A realistic month has three tiers. The big fixed cost is rent, usually 40 to 55% of a young professional's take-home pay here. The mid-size recurring costs, food, transport, utilities, phone and wifi, together tend to run S$900 to S$1,600 a month depending on habits. The smallest but easiest to miss tier is the stuff that isn't monthly at all: insurance renewals, flights home, device upgrades. More on that below, because it's the one that quietly wrecks people's numbers.
+A realistic month has three tiers. The big fixed cost is rent, the largest single line for most young professionals here. The mid-size recurring costs, food, transport, utilities, phone and wifi, together tend to run S$900 to S$1,600 a month depending on habits. The smallest but easiest to miss tier is the stuff that isn't monthly at all: insurance renewals, flights home, device upgrades. More on that below, because it's the one that quietly wrecks people's numbers.
 
 
 
@@ -44,7 +44,7 @@ This is the list most budgets are missing pieces of. Run through it once and you
 7. **Household basics.** Toiletries, laundry, cleaning supplies. Easy to underbudget; realistically S$50 to S$100 a month.
 8. **Subscriptions.** Streaming, cloud storage, apps. Most people are paying more here than they think; worth an actual audit rather than a guess.
 9. **Fitness.** Government-run gyms start around S$15 to S$30 a month off-peak; mid-range chains run S$70 to S$150; boutique studios go well past that.
-10. **Insurance.** Basic personal accident or health top-up cover starts around S$100 a month, with more comprehensive plans running S$250 to S$600.
+10. **Insurance.** Personal accident and health top-up premiums vary widely by age, insurer, and level of cover, so price the policies you actually hold rather than guessing.
 11. **Social and discretionary spending.** Dinners out, drinks, weekend plans. This is the line item most people lowball, and the one worth being honest with yourself about.
 12. **A sinking fund for annual costs.** Not a monthly bill at all, but the one line that stops the other eleven from being accurate. See the next section.
 

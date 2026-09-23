@@ -36,7 +36,7 @@ That's a private equity firm backing an operator, and the operator then pulling 
 
 ### Mitsubishi Estate buying Habyt's Asia Pacific business
 
-In April 2026, Habyt sold its entire Asia Pacific operation, roughly 1,000 to 1,061 units across Singapore and Hong Kong, to Mitsubishi Estate, transacted through Mitsubishi's Hmlet Japan entity ([Habyt press release](https://www.habyt.com/press/habyt-sells-asia-pacific-operations-mitsubishi-estate-flexible-living-strategy)). The purchase price wasn't disclosed publicly; reporting describes it only as "several billion yen."
+In April 2026, Habyt sold its entire Asia Pacific operation, roughly 1,000 to 1,061 units across Singapore and Hong Kong, to Mitsubishi Estate, transacted through FL Japan Holdings, the Mitsubishi Estate subsidiary that also owns Hmlet Japan ([Habyt press release](https://habyt.com/press-posts/habyt-sells-asia-pacific-operations-mitsubishi-estate-flexible-living-strategy)). The purchase price wasn't disclosed publicly; reporting describes it only as "several billion yen."
 
 This folded into a combined 2,927-unit portfolio across Hmlet Japan, Blueground Japan and the acquired Habyt APAC business, with Mitsubishi Estate stating a target of 35,000 units and ¥10 billion in operating profit by 2035. Habyt itself said the sale let it refocus on an asset-light strategy in Europe.
 
@@ -63,7 +63,7 @@ CapitaLand runs the largest and longest-standing institutional footprint in Sing
 | Weave Living + SLB Development / 32RE | Singapore co-living JV | Project-level joint venture | S$150 million equity, up to S$359 million planned | Jun 2020 |
 | Weave Living + BlackRock | Citadines Mount Sophia (from CLAS) | Asset acquisition JV | S$148 million | Feb 2024 |
 | Weave Living + BlackRock + Lian Beng | 12 Shan Road | Asset acquisition JV | Over S$100 million | May 2025 |
-| Mitsubishi Estate (via Hmlet Japan) | Habyt Asia Pacific (SG + HK, ~1,000 units) | Outright platform acquisition | Undisclosed, reported in billions of yen | Apr 2026 |
+| Mitsubishi Estate (via FL Japan Holdings) | Habyt Asia Pacific (SG + HK, ~1,000 units) | Outright platform acquisition | Undisclosed, reported in billions of yen | Apr 2026 |
 | CapitaLand Ascott Trust (REIT) | Coliwoo Midtown, 212 keys | Direct asset acquisition | S$134 million at 4.1% EBITDA yield | Aug 2026 (targeted Q4 completion) |
 | CapitaLand Investment | CLARA II fund | Institutional fund vehicle | Over US$650 million at final close | Established Feb 2024, closed Nov 2025 |
 

@@ -25,13 +25,13 @@ If you're new to the city, here's what each option actually is before we get int
 
 ## What Each Option Costs in 2026
 
-These are general ranges, not quotes, since actual prices move by neighbourhood, building age, and season.
+No fixed numbers here, since actual prices move by neighbourhood, building age, and season. Get a live quote for anything you're seriously comparing.
 
-**Co-living rooms** generally run from around S$1,000 at the low end up to S$2,500 or more for a central, ensuite room, all-inclusive of utilities, wifi, and common-area cleaning. Lazybee's own current listings, with pricing shown upfront rather than gated behind an enquiry form, are at [lazybee.sg](https://lazybee.sg).
+**Co-living rooms** are usually priced as one all-inclusive monthly rent covering utilities, wifi, and common-area cleaning, with central, ensuite rooms at the top of the range. Lazybee's own current listings, with pricing shown upfront rather than gated behind an enquiry form, are at [lazybee.sg](https://lazybee.sg).
 
-**Serviced apartments** span a wide range, roughly S$3,000 to S$6,000 or more a month for a one-bedroom unit in a mainstream serviced residence, with premium branded buildings going well past that. Studio-style units can come in lower.
+**Serviced apartments** span a wide range, from studio-style units at the lower end to one-bedroom units in mainstream serviced residences, with premium branded buildings well above that. Check a live quote for the building and dates you want.
 
-**Extended-stay hotels** are usually priced per night even when booked for months, and a budget room can still add up to somewhere in the region of S$1,600 to S$2,600 a month once multiplied out, sometimes more. A proper aparthotel with a kitchenette usually costs more than a basic room booked long-term.
+**Extended-stay hotels** are usually priced per night even when booked for months, and even a budget room adds up quickly once the nightly rate is multiplied out over a month. A proper aparthotel with a kitchenette usually costs more than a basic room booked long-term.
 
 The pattern that holds: co-living is generally the cheapest way to get a private room with real amenities included, a hotel is usually the most expensive per square foot for the least space, and a serviced apartment sits in between on price but gives you the most private square footage of the three.
 

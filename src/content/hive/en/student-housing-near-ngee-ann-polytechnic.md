@@ -23,7 +23,7 @@ That geography trips a lot of people up, since "Clementi Road" reads like it sho
 
 Beauty World station (DT5) on the Downtown Line is the closest, roughly a 14-minute walk from campus. Sixth Avenue (DT7) and King Albert Park (DT6), both also on the Downtown Line, sit within a similar reach and are worth checking depending on exactly where you're coming from.
 
-Clementi MRT (EW23) is closer on a straight-line map but the actual walk is about 2.7 kilometres, more of a 35-minute trek than something you'd do daily. For most students, Clementi MRT means a bus connection, not a walk, with feeder services running in from surrounding estates including Clementi, Bukit Batok, and Bukit Panjang. current bus routes and numbers with NP's own transport page before your first commute, since routes get adjusted from time to time.
+Clementi MRT (EW23) is closer on a straight-line map but the actual walk is about 2.7 kilometres, more of a 35-minute trek than something you'd do daily. For most students, Clementi MRT means a bus connection, not a walk. NP's own directions page lists buses 52, 154 and 184 from Clementi MRT, with 61 from Beauty World and 74 from Dover. Check that page before your first commute, since routes get adjusted from time to time.
 
 ## Does Ngee Ann Polytechnic Have On-Campus Housing?
 

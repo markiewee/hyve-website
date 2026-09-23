@@ -17,7 +17,7 @@ This is the part most rental guides skip. They'll tell you what documents a land
 
 Legally, no pass type blocks you from renting private property. Any foreigner holding a valid long-term pass, Employment Pass, S Pass, Student Pass or Dependant's Pass, can rent a condo, apartment or landed house in Singapore. The Urban Redevelopment Authority (URA) sets one rule that applies to everyone regardless of pass: the minimum stay on private residential property is three consecutive months. Anything shorter counts as short-term accommodation, which is not allowed outside licensed hotels and serviced apartments.
 
-HDB flats work differently. Renting a whole HDB flat or a room in one requires the landlord to hold HDB approval to sublet to non-citizens, and the minimum tenancy is six months. Some sources note HDB also expects your pass to have at least six months of validity left at the point you apply, so this is worth confirming directly with your landlord or agent if you're going the HDB route on a pass nearing renewal.
+HDB flats work differently. Whether it's a whole HDB flat or a room in one, the flat owner has to apply to HDB and get approval for your tenancy before it starts, and the minimum rental period is six months per tenant. Once you've moved in, the owner also has to tell HDB within 7 days if the tenancy is ended or renewed, or if the tenant details change ([HDB, renting out bedrooms](https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-bedrooms/application-process)). HDB also requires your pass to have at least six months of validity left at the date the flat owner applies, so check this with your landlord or agent if you're going the HDB route on a pass nearing renewal.
 
 So the pass type itself doesn't close doors on private rental. What it does is set a ceiling on how far out you can safely commit.
 
@@ -64,7 +64,7 @@ A Student Pass is a valid long-term pass under Singapore law, and holders 18 and
 
 ## Pass and Housing Rules in 2026
 
-Two things are worth knowing this year. First, EP and S Pass minimum qualifying salaries were adjusted for 2026, with further increases already scheduled for 2027 and 2028. Second, the temporary relaxation to HDB and private residential occupancy caps has been extended, which matters if you're weighing a shared room against a whole unit. Confirm the current cap with HDB or URA before you commit to a room count.
+Two things are worth knowing this year. First, the current EP and S Pass minimum qualifying salaries (S$5,600 and S$3,300) now apply to renewals as well as new applications, and MOM has announced the next step up, to S$6,000 for the EP and S$3,600 for the S Pass, for new applications from 1 January 2027 and renewals from 1 January 2028. Second, the temporary relaxation to HDB and private residential occupancy caps has been extended, which matters if you're weighing a shared room against a whole unit. Confirm the current cap with HDB or URA before you commit to a room count.
 
 Neither change affects your eligibility to rent by pass type. Both affect how much room you have to negotiate lease length and household size.
 
