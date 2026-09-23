@@ -36,7 +36,7 @@ That's a private equity firm backing an operator, and the operator then pulling 
 
 ### Mitsubishi Estate buying Habyt's Asia Pacific business
 
-In April 2026, Habyt sold its entire Asia Pacific operation, roughly 1,000 to 1,061 units across Singapore and Hong Kong, to Mitsubishi Estate, transacted through FL Japan Holdings, the Mitsubishi Estate subsidiary that also owns Hmlet Japan ([Habyt press release](https://www.habyt.com/press/habyt-sells-asia-pacific-operations-mitsubishi-estate-flexible-living-strategy)). The purchase price wasn't disclosed publicly; reporting describes it only as "several billion yen."
+In April 2026, Habyt sold its entire Asia Pacific operation, roughly 1,000 to 1,061 units across Singapore and Hong Kong, to Mitsubishi Estate, transacted through FL Japan Holdings, the Mitsubishi Estate subsidiary that also owns Hmlet Japan ([Habyt press release](https://habyt.com/press-posts/habyt-sells-asia-pacific-operations-mitsubishi-estate-flexible-living-strategy)). The purchase price wasn't disclosed publicly; reporting describes it only as "several billion yen."
 
 This folded into a combined 2,927-unit portfolio across Hmlet Japan, Blueground Japan and the acquired Habyt APAC business, with Mitsubishi Estate stating a target of 35,000 units and ¥10 billion in operating profit by 2035. Habyt itself said the sale let it refocus on an asset-light strategy in Europe.
 

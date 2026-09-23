@@ -19,7 +19,7 @@ Singapore's general cost of living for a single person, excluding rent, runs rou
 
 For a Filipino national, the number shifts a little. Remittances home are a real recurring cost a generic figure skips, though a Filipino-food habit doesn't push costs up as sharply as some other cuisines, since rice, pork, chicken, and vegetables are already cheap staples here.
 
-Filipinos make up one of Singapore's largest foreign communities, working across healthcare, IT, hospitality, professional services, construction, marine, and domestic work. The rental and remittance math below applies mainly to professionals, healthcare workers, and other pass holders who rent their own place. Foreign domestic workers on a Work Permit are required by MOM regulations to live at their employer's registered address, so this guide isn't primarily aimed at that group.
+Filipinos make up one of Singapore's largest foreign communities, more than 200,000 people according to the [Philippine Embassy in Singapore](https://www.philippine-embassy.org.sg/philippine-embassys-national-day-greeting-for-singapore/), working across healthcare, IT, hospitality, professional services, construction, marine, and domestic work. The rental and remittance math below applies mainly to professionals, healthcare workers, and other pass holders who rent their own place. Foreign domestic workers on a Work Permit are required by MOM regulations to live at their employer's registered address, so this guide isn't primarily aimed at that group.
 
 ## Rent: the single biggest line item
 

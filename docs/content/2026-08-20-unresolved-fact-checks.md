@@ -2,7 +2,7 @@
 
 The 197 `[VERIFY...]` flags stripped from the 86 migrated articles on 20 Aug 2026 were each checked against a source on 23 Sep 2026 (branch fix/hive-fact-check-pass).
 
-Kept 98, corrected 60, cut 39. None remain unresolved.
+Kept 98, corrected 61, cut 38. None remain unresolved. (F036 moved from cut to corrected on the 23 Sep follow-up.)
 
 Kept means the claim matched the source as written. Corrected means the text now says what the source says. Cut means no reliable source supports the specific figure or claim, so it was removed or generalised.
 
@@ -69,10 +69,10 @@ Kept means the claim matched the source as written. Corrected means the text now
 
 ## convert-condo-to-coliving-singapore
 
-- F026 corrected: Some MCSTs restrict the number of registered occupants per unit, require prior notification of tenants, or have house rules aimed at ... short-term or high-turnover letting. BMSMA s32(3),(6),(9)(a): by-laws regulate use/enjoyment and bind lessees/occupiers but cannot prohibit or restrict a lease of a lot; occupant-cap and tenant-notification claims unsourced, removed. Text of Act read from a reproduced copy (SSO blocks fetch). Source: https://avalonasset.com.sg/wp-content/uploads/2022/07/Building-Maintenance-Strata-Management-Act.pdf
+- F026 corrected: Some MCSTs restrict the number of registered occupants per unit, require prior notification of tenants, or have house rules aimed at ... short-term or high-turnover letting. BMSMA s32(3),(6),(9)(a): by-laws regulate use/enjoyment and bind lessees/occupiers but cannot prohibit or restrict a lease of a lot; occupant-cap and tenant-notification claims unsourced, removed. Re-verified 23 Sep 2026 against SSO, where the Act is now titled Building (Strata Management) Act 2004: s32(3) use/enjoyment, s32(6) binds lessees and occupiers, s32(9)(a) no by-law can prohibit or restrict a lease; Act name in article updated. Source: https://sso.agc.gov.sg/Act/BSMA2004?ProvIds=pr32-
 - F027 cut: A light furnishing job on an existing layout can run in the low tens of thousands. No reliable source for a conversion cost range; kept the relative statement only.
 - F028 kept: If payback stretches past 3 to 4 years ... that's a signal. Author's rule-of-thumb advice, not a factual claim; sentence already tells reader to run their own numbers.
-- F029 corrected: Legal compliance with URA doesn't automatically override a valid MCST by-law restricting occupancy or subletting. BMSMA s32(9)(a): no by-law can prohibit or restrict a transfer, lease or other dealing of a lot, so 'by-law restricting subletting' was wrong. Source: https://avalonasset.com.sg/wp-content/uploads/2022/07/Building-Maintenance-Strata-Management-Act.pdf
+- F029 corrected: Legal compliance with URA doesn't automatically override a valid MCST by-law restricting occupancy or subletting. BMSMA s32(9)(a): no by-law can prohibit or restrict a transfer, lease or other dealing of a lot, so 'by-law restricting subletting' was wrong. Re-verified on SSO 23 Sep 2026. Source: https://sso.agc.gov.sg/Act/BSMA2004?ProvIds=pr32-
 - F030 kept: Furnishing an existing layout runs materially less than adding partitions or a second bathroom. No specific figure; general claim is common sense and tells reader to get quotes.
 
 ## cost-of-living-in-singapore-for-bangladeshi-nationals-in-2026
@@ -88,7 +88,7 @@ Kept means the claim matched the source as written. Corrected means the text now
 
 ## cost-of-living-in-singapore-for-filipino-nationals-in-2026
 
-- F036 cut: roughly 200,000 people. Only sources are Wikipedia / a 2013 CFO estimate; Philippine Embassy site gives no count.
+- F036 corrected: roughly 200,000 people. Restored 23 Sep 2026 as "more than 200,000 ... according to the Philippine Embassy in Singapore", matching F087. Embassy press release PR-101-2023 (9 Aug 2023): "more than 200,000 Filipinos living and working in the city-state". Source: https://www.philippine-embassy.org.sg/philippine-embassys-national-day-greeting-for-singapore/
 - F037 kept: EP S$5,600, rising to S$6,000 from January 2027; S Pass S$3,300, both rising with age. MOM EP page: S$5,600 now, S$6,000 from 1 Jan 2027; S Pass page: S$3,300. Source: https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility
 - F038 cut: World Bank remittance-price data puts an all-in cost ... under 1% ... compared with 3% to 5% ... bank wire. World Bank corridor page blocked (403/Cloudflare), could not confirm figures; volatile fee data. Source: https://remittanceprices.worldbank.org/corridor/Singapore/Philippines
 - F039 cut: Off-peak round trips typically run roughly S$150 to S$280, ... well above S$400 during Christmas and Holy Week. Airfares volatile; no reliable source.
@@ -184,7 +184,7 @@ Kept means the claim matched the source as written. Corrected means the text now
 
 ## filipino-workers-in-singapore-housing-near-lucky-plaza-and-orchard
 
-- F087 corrected: Estimates put the number of Filipinos working in Singapore at around 200,000. Philippine Embassy statement July 2025: 'more than 200,000 Filipinos working and living in Singapore'; rest of list is general, left as is Source: https://indiplomacy.com/2025/07/23/celebrating-six-decades-of-singapores-independence-and-55-years-of-enduring-philippines-singapore-ties/
+- F087 corrected: Estimates put the number of Filipinos working in Singapore at around 200,000. Philippine Embassy statement July 2025: 'more than 200,000 Filipinos working and living in Singapore'; rest of list is general, left as is; 23 Sep 2026 link added to the embassy's own release PR-101-2023 (9 Aug 2023), same figure. Source: https://www.philippine-embassy.org.sg/philippine-embassys-national-day-greeting-for-singapore/
 
 ## first-month-moving-costs-singapore
 
@@ -277,7 +277,7 @@ Kept means the claim matched the source as written. Corrected means the text now
 ## institutional-money-coliving-singapore
 
 - F125 kept: 12 Shan Road acquired for over S$100 million, May 2025. EdgeProp 26 May 2025: over S$100m, freehold, Weave Suites Novena, 2026. Mingtiandi's 77m is US$77.4m, the USD conversion of the same S$100m. Source: https://www.edgeprop.sg/property-news/weave-living-blackrock-and-lian-beng-group-acquire-shan-road-property-100-mil
-- F126 corrected: price undisclosed, 'several billion yen'; transacted through Hmlet Japan. Mitsubishi Estate release 30 Apr 2026: acquisition of Habyt Pte Ltd executed through FL Japan Holdings; 1,061 units; no price. EdgeProp reports 'several billion yen'. Habyt press link in article returns 404 to fetch, left as is. Source: https://www.mec.co.jp/news/mec260430_flexibleliving/260430ENG.pdf
+- F126 corrected: price undisclosed, 'several billion yen'; transacted through Hmlet Japan. Mitsubishi Estate release 30 Apr 2026: acquisition of Habyt Pte Ltd executed through FL Japan Holdings; 1,061 units; no price. EdgeProp reports 'several billion yen'. Habyt press link 404d; replaced 23 Sep 2026 with the live URL habyt.com/press-posts/habyt-sells-asia-pacific-operations-mitsubishi-estate-flexible-living-strategy (dated 27 Apr 2026, about 1,000 SG and HK units). Source: https://www.mec.co.jp/news/mec260430_flexibleliving/260430ENG.pdf
 - F127 kept: table: Over S$100 million, May 2025. Same as F125. Source: https://www.edgeprop.sg/property-news/weave-living-blackrock-and-lian-beng-group-acquire-shan-road-property-100-mil
 - F128 corrected: table: Mitsubishi Estate (via Hmlet Japan), undisclosed, billions of yen, ~1,000 units, Apr 2026. Mitsubishi Estate release names FLJ as acquirer; price not disclosed; EdgeProp: 'several billion yen', 829 SG + 232 HK units. Source: https://www.mec.co.jp/news/mec260430_flexibleliving/260430ENG.pdf
 
@@ -460,3 +460,8 @@ Kept means the claim matched the source as written. Corrected means the text now
 ## your-late-20s-in-singapore-renting-alone-vs-co-living
 
 - F197 cut: landlords increasingly ask for proof of income and some request a local guarantor. The trend claim 'increasingly' has no source and was removed. What remains is a general statement of landlord practice, which no law sets.
+
+## Follow-up, 23 Sep 2026
+
+- renting-on-ep-s-pass-student-pass-singapore (unflagged): "requires the landlord to hold HDB approval to sublet to non-citizens" rewritten. HDB's bedroom pages say the owner must get HDB's approval for the tenancy before it starts (not a standing non-citizen permit), minimum 6 months per tenant, and must notify HDB within 7 days of a termination, renewal or change of tenant details. Source: https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-bedrooms/application-process
+- coliving-consolidation-singapore-2026: dead link to Habyt's 2022 merger announcement (404 on both /press/ and /press-posts/) removed from Sources; the merger is still sourced by the TTG Asia link in the same list.
