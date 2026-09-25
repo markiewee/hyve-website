@@ -39,6 +39,9 @@ import {
 } from "../../src/lib/viewingClustering.js";
 import { verifyLeadToken } from "../../src/lib/leadCloseToken.js";
 
+import crypto from "crypto";
+import { validateDeskBooking, tenancyEnd, deskQuote } from "../../src/lib/deskBooking.js";
+
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
   process.env.IOT_SUPABASE_SERVICE_ROLE_KEY
@@ -1335,6 +1338,96 @@ async function handleLeadClose(req, res) {
     .send(leadClosePage("Done, you're off the list.", "We won't email you about this room again. All the best with the search."));
 }
 
+// ── Desk booking: a room desk PIN books a room and gets an onboarding link ──
+// Spec 2026-09-25-staff-desk-booking-link-design.md. Instant link, no
+// approval; the room is only committed when the deposit lands. Never blocks
+// on overlap (Rule 17).
+async function handleDeskBook(req, res) {
+  if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
+  const v = validateDeskBooking(req.body);
+  if (!v.ok) return res.status(422).json({ error: "validation_failed", fields: v.errors });
+  const b = v.value;
+
+  const { data: pinRow } = await supabase
+    .from("staff_pins").select("pin, label, channel_id, enabled").eq("pin", b.pin).maybeSingle();
+  if (!pinRow || !pinRow.enabled) return res.status(401).json({ error: "bad_pin" });
+
+  // No channel on the PIN (Mark, captains) books as direct.
+  const chanQuery = supabase.from("listing_channels")
+    .select("id, slug, name, commission_months, commission_pct, fee_fixed, gross_up");
+  const { data: channel } = pinRow.channel_id
+    ? await chanQuery.eq("id", pinRow.channel_id).maybeSingle()
+    : await chanQuery.eq("slug", "direct").maybeSingle();
+  if (!channel) return res.status(500).json({ error: "no_channel" });
+
+  const { data: room } = await supabase
+    .from("rooms").select("id, unit_code, name, property_id, price_monthly, deposit_months, min_stay_months, property:properties(name)")
+    .eq("id", b.room_id).maybeSingle();
+  if (!room) return res.status(422).json({ error: "validation_failed", fields: ["room_id"] });
+
+  // The ladder the room card showed the consultant, so the student pays what
+  // they were quoted. Internal PINs (direct) price at the published ladder.
+  const q = deskQuote(room.price_monthly, pinRow.channel_id ? channel : null, b.months, room.deposit_months);
+  const deposit = q.deposit;
+
+  const invite_token = crypto.randomBytes(32).toString("hex");
+  const invite_expires_at = new Date(Date.now() + 7 * 24 * 3600 * 1000).toISOString();
+  const { data: profile, error: pErr } = await supabase.from("tenant_profiles").insert({
+    room_id: room.id, property_id: room.property_id, role: "TENANT",
+    invite_token, invite_expires_at, is_active: true,
+    monthly_rent: q?.monthly ?? null, lease_months: b.months,
+    notes: `Desk booking by ${pinRow.label} via ${channel.name}`,
+  }).select("id").single();
+  if (pErr) {
+    console.error("[desk-book] profile", pErr);
+    return res.status(500).json({ error: "could_not_create" });
+  }
+
+  await supabase.from("tenant_details").insert({
+    tenant_profile_id: profile.id, full_name: b.student.name, email: b.student.email,
+    phone: b.student.phone, nationality: b.student.nationality,
+  });
+  await supabase.from("onboarding_progress").insert({
+    tenant_profile_id: profile.id, room_id: room.id,
+    current_step: "PERSONAL_DETAILS", status: "ONBOARDING",
+    tenancy_start_date: b.move_in, tenancy_end_date: tenancyEnd(b.move_in, b.months),
+    licence_period: `${b.months} months`, deposit_amount: deposit,
+  });
+  const { data: cal } = await supabase.from("room_calendar").insert({
+    room_id: room.id, starts_on: b.move_in, ends_on: tenancyEnd(b.move_in, b.months),
+    kind: "ENQUIRY", source: channel.slug, status: "ACTIVE", blocks: false,
+    auto_created: true, notes: `Desk booking, ${b.student.name}`,
+  }).select("id").single();
+  const { data: br, error: brErr } = await supabase.from("booking_requests").insert({
+    channel_id: channel.id, room_id: room.id, move_in: b.move_in, duration_months: b.months,
+    applicant_name: b.student.name, applicant_email: b.student.email,
+    applicant_phone: b.student.phone, applicant_nationality: b.student.nationality,
+    calendar_id: cal?.id ?? null, source: "desk", staff_pin: b.pin,
+    tenant_profile_id: profile.id, quoted_monthly: q?.monthly ?? null, quoted_deposit: deposit,
+  }).select("id").single();
+  if (brErr) console.error("[desk-book] booking_requests", brErr);
+
+  const invite_url = `https://lazybee.sg/portal/signup?token=${invite_token}`;
+  try {
+    await sendOwnerEmail(
+      OWNER_NOTIFY_TO,
+      `Desk booking: ${room.unit_code}, ${b.student.name}, via ${channel.name}`,
+      `<p><b>${ownerEsc(pinRow.label)}</b> booked <b>${ownerEsc(room.unit_code)}</b> for ` +
+        `${ownerEsc(b.student.name)} &lt;${ownerEsc(b.student.email)}&gt; ${ownerEsc(b.student.phone ?? "")}.</p>` +
+        `<p>Move-in ${b.move_in}, ${b.months} months, ` +
+        `S$${q?.monthly ?? "?"}/mo, deposit S$${deposit ?? "?"}.</p>` +
+        `<p>The student has an onboarding link valid 7 days. Cancel from Admin, Onboarding if needed.</p>`,
+    );
+  } catch (e) {
+    console.error("[desk-book] email", e);
+  }
+
+  return res.status(201).json({
+    id: br?.id ?? null, invite_url, expires_at: invite_expires_at,
+    monthly: q?.monthly ?? null, deposit,
+  });
+}
+
 export default async function handler(req, res) {
   // CORS headers (vercel.json also sets these but be explicit)
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -1395,6 +1488,8 @@ export default async function handler(req, res) {
         return await handleAuthCallback(req, res);
       case "cron":
         return await handleCron(req, res);
+      case "desk-book":
+        return await handleDeskBook(req, res);
       default:
         return res.status(404).json({ error: `Unknown route: /api/booking/${route}` });
     }

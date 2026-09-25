@@ -18,7 +18,7 @@ import { localised, localisedList } from '../../lib/localisedText';
 import { nationalityKey, genderKey } from '../../i18n/nationalityVocab';
 import { vocabKey } from '../../i18n/roomVocab';
 
-export default function PropertyPanel({ property, today, channel }) {
+export default function PropertyPanel({ property, today, channel, pin }) {
   const { t, lang } = useLanguage();
   const rooms = (property.rooms || []).filter(isLettable);
   const openNow = rooms.filter(
@@ -175,7 +175,7 @@ export default function PropertyPanel({ property, today, channel }) {
       <div style={{ marginTop: 'var(--s7)' }}>
         <div className="label">{t('staff.prop.roomsCount', { n: rooms.length })}</div>
         <div className="rooms">
-          {rooms.map((r) => <RoomCard key={r.id} room={r} today={today} channel={channel} />)}
+          {rooms.map((r) => <RoomCard key={r.id} room={r} today={today} channel={channel} pin={pin} />)}
         </div>
       </div>
     </>

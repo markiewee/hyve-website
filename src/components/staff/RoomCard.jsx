@@ -13,7 +13,9 @@
 // description through its _zh column.
 
 import { availabilityStatus, priceLadder, quotedOf, formatDate, daysUntil } from '../../lib/staffRooms';
+import { useState } from 'react';
 import Caret from './Caret';
+import BookRoomForm from './BookRoomForm';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { vocabKey, roomDisplayName } from '../../i18n/roomVocab';
 import { localised } from '../../lib/localisedText';
@@ -50,7 +52,8 @@ function TagRow({ label, list, t }) {
   );
 }
 
-export default function RoomCard({ room, property, today, channel }) {
+export default function RoomCard({ room, property, today, channel, pin }) {
+  const [booking, setBooking] = useState(false);
   const { t, lang } = useLanguage();
   const status = availabilityStatus(room, today);
   // Both stamped by the desk once the channel behind the PIN is known. The
@@ -193,6 +196,13 @@ export default function RoomCard({ room, property, today, channel }) {
             {t('staff.room.tour3d')}
           </a>
         )}
+        {pin && (booking ? (
+          <BookRoomForm room={room} pin={pin} onClose={() => setBooking(false)} />
+        ) : (
+          <button type="button" className="btn btn-sm" style={{ marginTop: 'var(--s5)' }} onClick={() => setBooking(true)}>
+            {t('staff.book.open')}
+          </button>
+        ))}
       </div>
     </details>
   );

@@ -1158,6 +1158,47 @@
         "title": "Price by lease length",
         "body": "Twelve months is the anchor and the price we push. Shorter costs more per month, longer costs less. Quote from the ladder rather than negotiating your own number."
       }
+    },
+    "book": {
+      "open": "Book this room",
+      "title": "Book {unit} for a student",
+      "name": "Student's full name",
+      "email": "Student's email",
+      "phone": "Phone (WhatsApp)",
+      "nationality": "Nationality",
+      "moveIn": "Move-in date",
+      "months": "Months",
+      "submit": "Get the student's link",
+      "working": "Creating link...",
+      "cancel": "Cancel",
+      "fix": "Check the fields marked in red.",
+      "failed": "That didn't go through. Try again, or message us on WhatsApp +65 8069 5410.",
+      "doneTitle": "Link ready for {name}",
+      "doneBody": "Send this to the student. They sign up, upload their passport and pass, sign the agreement and pay the deposit. The room is theirs once the deposit is in.",
+      "price": "S${monthly} a month, deposit S${deposit}.",
+      "copy": "Copy link",
+      "copied": "Copied",
+      "whatsapp": "Share on WhatsApp",
+      "close": "Done",
+      "expires": "The link works for 7 days. Track it under My bookings.",
+      "shareText": "Hi! Here's your Lazybee link for room {unit}. Sign up and finish the steps to secure the room: {url}"
+    },
+    "mine": {
+      "tab": "My bookings",
+      "roomsTab": "Rooms",
+      "none": "No bookings from this login yet.",
+      "months": "{n} months",
+      "copyLink": "Copy link",
+      "stage": {
+        "linkSent": "Link sent",
+        "signedUp": "Signed up",
+        "details": "Details in",
+        "id": "ID and pass in",
+        "agreement": "Agreement signed",
+        "deposit": "Deposit paid",
+        "expired": "Link expired",
+        "cancelled": "Cancelled"
+      }
     }
   }
 }

@@ -1158,6 +1158,47 @@
         "title": "按租期定价",
         "body": "12 个月是基准价，也是我们主推的租期。租期越短月租越高，越长越低。请直接按这个价格表报价，不要自行议价。"
       }
+    },
+    "book": {
+      "open": "预订此房间",
+      "title": "为学生预订 {unit}",
+      "name": "学生全名",
+      "email": "学生邮箱",
+      "phone": "电话（WhatsApp）",
+      "nationality": "国籍",
+      "moveIn": "入住日期",
+      "months": "租期（月）",
+      "submit": "生成学生链接",
+      "working": "正在生成链接...",
+      "cancel": "取消",
+      "fix": "请检查红色标记的栏位。",
+      "failed": "提交失败，请重试，或通过 WhatsApp +65 8069 5410 联系我们。",
+      "doneTitle": "{name} 的链接已生成",
+      "doneBody": "请把链接发给学生。学生注册、上传护照和准证、签署协议并支付押金。押金到账后房间即归该学生。",
+      "price": "月租 S${monthly}，押金 S${deposit}。",
+      "copy": "复制链接",
+      "copied": "已复制",
+      "whatsapp": "通过 WhatsApp 分享",
+      "close": "完成",
+      "expires": "链接 7 天内有效，可在「我的预订」查看进度。",
+      "shareText": "你好！这是你在 Lazybee {unit} 房间的链接，注册并完成步骤即可锁定房间：{url}"
+    },
+    "mine": {
+      "tab": "我的预订",
+      "roomsTab": "房间",
+      "none": "此账号还没有预订。",
+      "months": "{n} 个月",
+      "copyLink": "复制链接",
+      "stage": {
+        "linkSent": "已发送链接",
+        "signedUp": "已注册",
+        "details": "已填资料",
+        "id": "已上传证件",
+        "agreement": "已签协议",
+        "deposit": "已付押金",
+        "expired": "链接已过期",
+        "cancelled": "已取消"
+      }
     }
   }
 }
