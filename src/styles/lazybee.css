@@ -899,3 +899,11 @@
    wrong for a two word greeting, so the cap is lifted here only. */
 .lzb .greet{margin-top:var(--s6);margin-bottom:var(--s6)}
 .lzb .greet .h1{max-width:none}
+
+/* Desk booking form, spec 2026-09-25-staff-desk-booking-link */
+.bookform { margin-top: var(--s5); padding: var(--s5); border: 1px solid var(--line); border-radius: var(--r); display: grid; gap: var(--s4); }
+.bookform .field { display: grid; gap: var(--s2); }
+.bookform .field.bad .input { border-color: var(--bad); }
+.bookform-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
+.bookform-actions { display: flex; flex-wrap: wrap; gap: var(--s3); }
+@media (max-width: 560px) { .bookform-row { grid-template-columns: 1fr; } }
