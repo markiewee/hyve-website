@@ -40,8 +40,7 @@ import {
 import { verifyLeadToken } from "../../src/lib/leadCloseToken.js";
 
 import crypto from "crypto";
-import { validateDeskBooking, tenancyEnd } from "../../src/lib/deskBooking.js";
-import { quoteFor } from "../../src/lib/partnerNotify.js";
+import { validateDeskBooking, tenancyEnd, deskQuote } from "../../src/lib/deskBooking.js";
 
 const supabase = createClient(
   process.env.VITE_IOT_SUPABASE_URL,
@@ -1366,8 +1365,10 @@ async function handleDeskBook(req, res) {
     .eq("id", b.room_id).maybeSingle();
   if (!room) return res.status(422).json({ error: "validation_failed", fields: ["room_id"] });
 
-  const q = quoteFor(room, channel, b.months);
-  const deposit = q?.deposit ?? q?.monthly ?? null;
+  // The ladder the room card showed the consultant, so the student pays what
+  // they were quoted. Internal PINs (direct) price at the published ladder.
+  const q = deskQuote(room.price_monthly, pinRow.channel_id ? channel : null, b.months, room.deposit_months);
+  const deposit = q.deposit;
 
   const invite_token = crypto.randomBytes(32).toString("hex");
   const invite_expires_at = new Date(Date.now() + 7 * 24 * 3600 * 1000).toISOString();

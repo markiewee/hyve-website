@@ -55,6 +55,9 @@ export default function BookRoomForm({ room, pin, onClose }) {
       <div className="bookform done">
         <div className="h3">{t('staff.book.doneTitle', { name: f.name })}</div>
         <p className="small">{t('staff.book.doneBody')}</p>
+        {result.monthly != null && (
+          <p className="small"><b>{t('staff.book.price', { monthly: result.monthly.toLocaleString('en-SG'), deposit: (result.deposit ?? result.monthly).toLocaleString('en-SG') })}</b></p>
+        )}
         <input className="input" readOnly value={result.invite_url} onFocus={(e) => e.target.select()} />
         <div className="bookform-actions">
           <button type="button" className="btn btn-sm" onClick={copy}>{copied ? t('staff.book.copied') : t('staff.book.copy')}</button>

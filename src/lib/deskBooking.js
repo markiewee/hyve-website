@@ -3,6 +3,9 @@
 // The room desk booking form, checked the same way in the browser and on the
 // server. Pure: no supabase, no fetch. Spec 2026-09-25-staff-desk-booking-link.
 
+import { priceLadder } from "./staffRooms.js";
+import { quotedPrice } from "../../supabase/functions/_shared/channelPricing.js";
+
 export const MIN_MONTHS = 3; // the legal minimum at all three properties
 export const MAX_MONTHS = 36; // quoteFor clamps to 36, so we stop there too
 
@@ -72,4 +75,22 @@ export function deskStage(row, now = new Date()) {
   if (row.signed_up) return "signedUp";
   if (row.invite_expires_at && new Date(row.invite_expires_at) < now) return "expired";
   return "linkSent";
+}
+
+/**
+ * What a desk booking charges, per month, and its deposit.
+ *
+ * The same ladder the room card shows the consultant (+100 at 3 months, +50 at
+ * 6, base at 12, -50 at 24), so the student is charged what they were quoted.
+ * The Partner API's quoteFor prices every lease at the flat base, which is why
+ * it is not used here. A stay between rungs takes the rung at or below it (9
+ * months is the 6-month price). The channel uplift is applied at the actual
+ * lease length, the way quotedLadder does it for each rung.
+ */
+export function deskQuote(basePrice, channel, months, depositMonths) {
+  const ladder = priceLadder(basePrice);
+  const rung = ladder.filter((r) => r.months <= months).pop() ?? ladder[0];
+  const monthly = channel ? quotedPrice(rung.price, channel, months) : rung.price;
+  const deposit = Math.round(Number(depositMonths ?? 1) * monthly);
+  return { monthly, deposit };
 }

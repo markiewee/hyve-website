@@ -1,7 +1,7 @@
 // src/lib/deskBooking.test.js
 import test from "node:test";
 import assert from "node:assert/strict";
-import { validateDeskBooking, tenancyEnd, deskStage } from "./deskBooking.js";
+import { validateDeskBooking, tenancyEnd, deskStage, deskQuote } from "./deskBooking.js";
 
 const today = new Date("2026-09-25T00:00:00+08:00");
 const good = {
@@ -46,4 +46,18 @@ test("stage is the furthest step reached", () => {
   assert.equal(deskStage({ signed_up: true }, now), "signedUp");
   assert.equal(deskStage({ signed_up: false, invite_expires_at: "2026-09-30T00:00:00Z" }, now), "linkSent");
   assert.equal(deskStage({ signed_up: false, invite_expires_at: "2026-09-20T00:00:00Z" }, now), "expired");
+});
+
+test("desk quote uses the room card's lease-length ladder", () => {
+  // No channel: the published ladder, +100 at 3, +50 at 6, base at 12, -50 at 24.
+  assert.deepEqual(deskQuote(2200, null, 3, 1), { monthly: 2300, deposit: 2300 });
+  assert.deepEqual(deskQuote(2200, null, 6, 1), { monthly: 2250, deposit: 2250 });
+  assert.deepEqual(deskQuote(2200, null, 9, 1), { monthly: 2250, deposit: 2250 });
+  assert.deepEqual(deskQuote(2200, null, 12, 1), { monthly: 2200, deposit: 2200 });
+  assert.deepEqual(deskQuote(2200, null, 30, 1), { monthly: 2150, deposit: 2150 });
+  // No deposit_months on the room: one month.
+  assert.deepEqual(deskQuote(1000, null, 12, null), { monthly: 1000, deposit: 1000 });
+  // A channel billed in months grosses the rung up, never below the rung.
+  const fiona = { commission_months: 1, commission_pct: null, fee_fixed: null, gross_up: true };
+  assert.ok(deskQuote(1000, fiona, 6, 1).monthly >= 1050);
 });
