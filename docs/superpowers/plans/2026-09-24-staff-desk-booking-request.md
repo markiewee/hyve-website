@@ -1,5 +1,7 @@
 # Staff Desk Booking Request Implementation Plan
 
+> **Superseded 25 Sep 2026** by `2026-09-25-staff-desk-booking-link.md` (instant link instead of enquiry-then-approve).
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** A partner consultant signed into lazybee.sg/staff with their desk PIN can request a room for a student straight from the room card, and the request lands exactly where a Partner API booking request lands.
