@@ -907,3 +907,6 @@
 .bookform-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
 .bookform-actions { display: flex; flex-wrap: wrap; gap: var(--s3); }
 @media (max-width: 560px) { .bookform-row { grid-template-columns: 1fr; } }
+.mybookings { display: grid; gap: var(--s3); }
+.mybooking { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: var(--s4); padding: var(--s4) var(--s5); border: 1px solid var(--line); border-radius: var(--r); }
+@media (max-width: 560px) { .mybooking { grid-template-columns: 1fr; } }

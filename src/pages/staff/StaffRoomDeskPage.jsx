@@ -33,6 +33,7 @@ import {
 } from '../../lib/staffRooms';
 import { readPin, STORAGE_KEY } from '../../lib/staffPin';
 import StaffTutorial from '../../components/staff/StaffTutorial';
+import MyBookings from '../../components/staff/MyBookings';
 import {
   greetingKey,
   tourSeen,
@@ -53,6 +54,8 @@ export default function StaffRoomDeskPage() {
   const [name, setName] = useState(null);
   const [channel, setChannel] = useState(null);
   const [tour, setTour] = useState(false);
+  const [pin, setPin] = useState(null);
+  const [tab, setTab] = useState('rooms');
 
   // The tour, on this browser's first visit to the desk. Read in an effect for
   // the same reason the unlock is: the prerender step runs this in Node, where
@@ -87,6 +90,7 @@ export default function StaffRoomDeskPage() {
       let pin = null;
       try {
         pin = readPin(window.localStorage.getItem(STORAGE_KEY), Date.now());
+        setPin(pin);
       } catch {
         /* storage disabled. No roster, everything else still renders. */
       }
@@ -206,6 +210,20 @@ export default function StaffRoomDeskPage() {
           <p className="body" style={{ marginTop: 'var(--s4)' }}>{t('staff.greet.welcome')}</p>
         </div>
 
+        {pin && (
+          <div className="stafftabs" style={{ marginTop: 'var(--s6)' }}>
+            <button type="button" className={`chip${tab === 'rooms' ? ' on' : ''}`} aria-pressed={tab === 'rooms'} onClick={() => setTab('rooms')}>
+              {t('staff.mine.roomsTab')}
+            </button>
+            <button type="button" className={`chip${tab === 'mine' ? ' on' : ''}`} aria-pressed={tab === 'mine'} onClick={() => setTab('mine')}>
+              {t('staff.mine.tab')}
+            </button>
+          </div>
+        )}
+        {tab === 'mine' && pin && <section className="sec-sm"><MyBookings pin={pin} /></section>}
+
+        {tab === 'rooms' && (
+          <>
         <section className="sec-sm">
           <RoomSearch
             search={search}
@@ -225,7 +243,7 @@ export default function StaffRoomDeskPage() {
             hits.length > 0 ? (
               <div className="rooms">
                 {hits.map(({ room, property }) => (
-                  <RoomCard key={room.id} room={room} property={property} today={today} channel={channel} />
+                  <RoomCard key={room.id} room={room} property={property} today={today} channel={channel} pin={pin} />
                 ))}
               </div>
             ) : (
@@ -251,9 +269,11 @@ export default function StaffRoomDeskPage() {
                   </button>
                 ))}
               </div>
-              {shown && <PropertyPanel property={shown} today={today} channel={channel} />}
+              {shown && <PropertyPanel property={shown} today={today} channel={channel} pin={pin} />}
             </section>
           ))}
+          </>
+        )}
 
         <StaffReference />
       </main>
